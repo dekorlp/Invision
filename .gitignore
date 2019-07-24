@@ -27,7 +27,6 @@
 *.lib
 
 # Executables
-*.exe
 *.out
 *.app
 
@@ -52,11 +51,14 @@ build/solutions/xcode4
 build/solutions/gcc
 build/solutions/codeblocks
 
-!build/premake/premake5.exe
-
 #lib folder
-lib/win32
-!lib/win32/pullLibraries.bash
+lib/win32/boost_1_66_0
+lib/win32/boost
+
 
 #bin Debug folder
 bin/Debug
+bin/Release
+
+#vs
+.vs

@@ -1,0 +1,11 @@
+Platform: Windows
+
+ Create Project:
+  1. start Invision/build/solutions/update-solutions.bat
+  2. Open Project: Invision/build/solutions/ vs2013 - vs2015
+
+ To compile tests, (boost unit test libs are needed):
+  1. Go in libs/win32/boost_1_66_0
+  2. start: bootstrap.bat
+  3. start: b2.exe toolset=msvc-14.0 => for Microsoft Visual Studio 2015
+  4. start: bjam.exe toolset=msvc-14.0
