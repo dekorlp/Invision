@@ -30,3 +30,33 @@
 *.exe
 *.out
 *.app
+
+#custom files (Visual Studio)
+*.exp
+*.ilk
+*.idb
+*.pdb
+
+# excluded directories
+#build folder
+build/solutions/vs2005
+build/solutions/vs2008
+build/solutions/vs2010
+build/solutions/vs2012
+build/solutions/vs2013
+build/solutions/vs2015
+build/solutions/vs2017
+build/solutions/vs2019
+build/solutions/xcode3
+build/solutions/xcode4
+build/solutions/gcc
+build/solutions/codeblocks
+
+!build/premake/premake5.exe
+
+#lib folder
+lib/win32
+!lib/win32/pullLibraries.bash
+
+#bin Debug folder
+bin/Debug
