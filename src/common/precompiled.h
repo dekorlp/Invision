@@ -12,6 +12,7 @@
 #include <map>
 #include <iostream>
 #include <string>
+#include <fstream>
 
 // windows platform
 #ifdef WIN_32
@@ -21,5 +22,3 @@
 #endif
 
 #include "common.h"
-
-

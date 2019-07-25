@@ -51,6 +51,9 @@ build/solutions/xcode4
 build/solutions/gcc
 build/solutions/codeblocks
 
+#log folder
+Logs/
+
 #lib folder
 lib/win32/boost_1_66_0
 lib/win32/boost

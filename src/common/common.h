@@ -26,5 +26,6 @@
 #include "DateTime.h"
 #include "TimeSpan.h"
 #include "StopWatch.h"
+#include "Log.h"
 
 #endif //COMMON_H

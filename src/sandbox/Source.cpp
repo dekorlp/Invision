@@ -1,10 +1,11 @@
 ﻿#include "lowlevel.h"
 #include "inMath.h"
+#include "Log.h"
 #include <iostream>
 
 using namespace std;
 
-int main()
+void testVector()
 {
 	Vector3 vec1(1, 4, 2);
 	//Vector3 vec2(4, 3, 1);
@@ -13,8 +14,10 @@ int main()
 	//Vector3 res = vec2 - vec1;
 	//res = vec2 + vec1;
 	bool b = vec1 == vec2;
+}
 
-
+void testAllocators()
+{
 	std::cout << "INT: " << sizeof(int) << std::endl;
 	std::cout << "CHAR: " << sizeof(char) << std::endl;
 	std::cout << "CHAR*: " << sizeof(char*) << std::endl;
@@ -40,6 +43,23 @@ int main()
 	int *test5 = (int*)Loca.allocate(sizeof(int), __LINE__, __FILE__);
 	*test5 = 18;
 	std::cout << *test5;
+
+}
+
+void testLog()
+{
+	Log log("../../../logs/log.txt");
+	log.RawText(std::string("HalloWelt").append("RAW"));
+	log.Info(std::string("HalloWelt").append("INFO"));
+	log.Error(std::string("HalloWelt").append("ERROR"));
+	log.Warning(std::string("HalloWelt").append("WARNING"));
+}
+
+int main()
+{
+	//testVector();
+	//testAllocators();
+	testLog();
 	
 	return 0;
 }
