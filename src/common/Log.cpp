@@ -1,5 +1,7 @@
 #include "precompiled.h"
 
+Log* Log::m_pThis = NULL;
+
 Log::Log(std::string filename)
 {
 	this->filename = filename;
@@ -67,6 +69,14 @@ void Log::Warning(std::string message)
 	{
 		throw invisionCoreException(std::string("Cannot access File " + this->filename).c_str());
 	}
+}
+
+Log* Log::GetLogger() {
+	return m_pThis;
+}
+
+void Log::SetLogger(Log* log) {
+	Log::m_pThis = log;
 }
 
 Log::~Log()

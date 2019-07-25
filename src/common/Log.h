@@ -13,6 +13,8 @@
 #ifndef LOG_H
 #define LOG_H
 
+
+
 class HAL_API Log
 {
 	public:
@@ -22,9 +24,21 @@ class HAL_API Log
 		void Info(std::string message);
 		void Error(std::string message);
 		void Warning(std::string message);
+
+		static Log* GetLogger();
+		static void SetLogger(Log* log);
+		static Log* m_pThis;
+		
 	private:
 		std::ofstream stream;
 		std::string filename;
+
+		
 };
+
+#define INVISION_LOG_RAWTEXT(...) Log::GetLogger()->RawText(__VA_ARGS__);
+#define INVISION_LOG_ERROR(...) Log::GetLogger()->Error(__VA_ARGS__);
+#define INVISION_LOG_WARNING(...) Log::GetLogger()->Warning(__VA_ARGS__);
+#define INVISION_LOG_INFO(...) Log::GetLogger()->Info(__VA_ARGS__);
 
 #endif // LOG_H

@@ -53,6 +53,9 @@ void testLog()
 	log.Info(std::string("HalloWelt").append("INFO"));
 	log.Error(std::string("HalloWelt").append("ERROR"));
 	log.Warning(std::string("HalloWelt").append("WARNING"));
+	//Log::m_pThis = &log;
+	Log::SetLogger(&log);
+	INVISION_LOG_INFO(std::string("HalloWelt").append("INFO"));
 }
 
 int main()
