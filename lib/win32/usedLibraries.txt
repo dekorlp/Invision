@@ -1,0 +1,11 @@
+Note: Your repository folder should have the following structure
+- your repository folder
+     - Invision
+       -lib
+         -win32
+           - boost_1_66_0
+
+---------------------------
+used third Party sdks/apis
+---------------------------
+- boost_1_66_0
