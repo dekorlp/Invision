@@ -1,13 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:	  PointerUtil
-// Purpose:	  offers Pointer operation components
-// Author:	  Dennis Koehler
-// Created:	  2015-06-12
-// Copyright: Copyright (c) 2015, Nano Game Foundation
-//			  This unpublished source code is proprietary to Nano Game Foundation.
-//			  The source code herein is considered trade secrets and confidential.
-//			  Reproduction or distribution, in part or complete, is prohibited except by permission of Nano Game Foundation. 
-//			  All rights reserved.
+// Copyright by Riko Ophorst
+// Github: https://github.com/RikoOphorst
 /////////////////////////////////////////////////////////////////////////////
 
 #ifndef POINTERUTIL_H

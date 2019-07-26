@@ -1,6 +1,7 @@
 ﻿#include "lowlevel.h"
 #include "inMath.h"
 #include "Log.h"
+#include "allocator\MemoryBlock.h"
 #include <iostream>
 
 using namespace std;
@@ -58,11 +59,25 @@ void testLog()
 	INVISION_LOG_INFO(std::string("HalloWelt").append("INFO"));
 }
 
+void testAllocators2x()
+{
+	//1024 * 1024
+	//void* arena = ::operator new (1);
+	uint32 length = 1024;
+	void* arena = malloc(length);
+	Log log("../../../logs/AllocationLog.txt");
+	Log::SetLogger(&log);
+	MemoryBlock memBlock;
+	int* test6 = (int*)memBlock.CreateMemoryBlock(arena, sizeof(int), length, __LINE__, __FILE__, INVISION_USE_HEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	*test6 = 11244;
+}
+
 int main()
 {
 	//testVector();
 	//testAllocators();
-	testLog();
+	//testLog();
+	testAllocators2x();
 	
 	return 0;
 }
