@@ -1,9 +1,6 @@
 #include "precompiled.h"
 #include "MemoryBlock.h"
 #include "../../common/Log.h"
-#include "../PointerUtil.h"
-
-
 
 
 
@@ -19,17 +16,15 @@ void* MemoryBlock::CreateMemoryBlock(
 {
 	void* currentPosition = position;
 
-	
-
 	WriteToLog("Memory Block Start: ", position);
-	WriteToLog("Allocation Site: ", size);
+	WriteToLog("Allocation Size: ", size);
 	if (boundsChecking == INVISION_STANDARD_BOUNDS_CHECKING)
 	{
 		// FRONT Boundary
 		unsigned int *bound = (unsigned int*)currentPosition;
 		*bound = 0xFAFFB;
 		WriteToLog("    Front Boundary: ", currentPosition);
-		currentPosition = Add(currentPosition, sizeof(unsigned int*));
+		currentPosition = Add(currentPosition, FRONT_SIZE);
 	}
 
 	SHeader* PtrHeader;
@@ -39,7 +34,7 @@ void* MemoryBlock::CreateMemoryBlock(
 		SHeader tempHeader;
 		tempHeader.frontOffset = position;
 
-		unsigned int adjustment = ForwardAlignmentWithHeader(currentPosition, 4, sizeof(SHeader));
+		unsigned int adjustment = ForwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SHeader));
 		PtrHeader = (SHeader*) Add(currentPosition, adjustment);
 
 		*PtrHeader = tempHeader;
@@ -56,7 +51,7 @@ void* MemoryBlock::CreateMemoryBlock(
 		tempTrackingStruct.filenumber = filenumber;
 		tempTrackingStruct.filename = filename;
 
-		unsigned int adjustment = ForwardAlignmentWithHeader(currentPosition, 4, sizeof(SMemoryTracking));
+		unsigned int adjustment = ForwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SMemoryTracking));
 		SMemoryTracking* PtrHeader = (SMemoryTracking*)Add(currentPosition, adjustment);
 		*PtrHeader = tempTrackingStruct;
 		currentPosition = (void*)PtrHeader;
@@ -64,7 +59,7 @@ void* MemoryBlock::CreateMemoryBlock(
 		currentPosition = Add(currentPosition, sizeof(SMemoryTracking));
 	}
 
-	unsigned int adjustmentSize = ForwardAlignment(currentPosition, 4);
+	unsigned int adjustmentSize = ForwardAlignment(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT);
 	void* p = (void*)Add(currentPosition, adjustmentSize);
 
 	//int* p1 = (int*)p;
@@ -73,23 +68,26 @@ void* MemoryBlock::CreateMemoryBlock(
 	if (boundsChecking == INVISION_STANDARD_BOUNDS_CHECKING)
 	{
 		//BACK Boundary
-		unsigned int adjustmentSize = ForwardAlignment(currentPosition, 4);
+		unsigned int adjustmentSize = ForwardAlignment(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT);
 		currentPosition = Add(currentPosition, adjustmentSize);
 		unsigned int *bound = (unsigned int*)currentPosition;
 		*bound = 0xFAFFB;
 		WriteToLog("    Back Boundary: ", currentPosition);
-		currentPosition = Add(currentPosition, sizeof(unsigned int*));
+		currentPosition = Add(currentPosition, BACK_SIZE);
 	}
-	WriteToLog("Memory Block End:", currentPosition);
+	
 	
 	// this could be a possible assignment
 	//*p1 = 255425;
 
 	// set position of header structure
-	
-
-	((SHeader*)PtrHeader)->size = reinterpret_cast<int32>(currentPosition) - reinterpret_cast<int32>(position);
+	uint32 memBlockSize = (reinterpret_cast<uint32>(currentPosition) - reinterpret_cast<uint32>(position));
+	((SHeader*)PtrHeader)->size = memBlockSize;
 	((SHeader*)PtrHeader)->backOffset = currentPosition;
+
+	WriteToLog("Block Size: ", memBlockSize);
+	WriteToLog("Memory Block End:", currentPosition);
+
 	return p;
 }
 
