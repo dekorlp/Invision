@@ -116,7 +116,9 @@ SHeader* MemoryBlock::GetHeader(void* memoryBlock,
 {
 	void* currentPosition = memoryBlock;
 	unsigned int adjustment = BackwardAlignment(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT);
-	currentPosition  = (SHeader*)Subtract(currentPosition, adjustment + sizeof(SHeader));
+	currentPosition  = Subtract(currentPosition, adjustment);
+	unsigned int sHeaderAdjustment = ForwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SHeader));
+	currentPosition = (SHeader*)Subtract(currentPosition, sHeaderAdjustment);
 
 #ifdef _DEBUG
 	std::stringstream ss;
