@@ -42,7 +42,8 @@ void* MemoryBlock::CreateMemoryBlock(
 	{
 		// USE HEADER for Memory Tracking
 
-		unsigned int adjustment = ForwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SMemoryTracking));
+		unsigned int adjustment = ForwardAlignment(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT);
+		//unsigned int adjustment = ForwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SMemoryTracking));
 		SMemoryTracking* PtrHeader = (SMemoryTracking*)Add(currentPosition, adjustment);
 		*PtrHeader = tempTrackingStruct;
 		((SMemoryTracking*)PtrHeader)->filename = filename;
@@ -59,7 +60,8 @@ void* MemoryBlock::CreateMemoryBlock(
 	if (header == INVISION_USE_HEADER)
 	{
 		// USE HEADER with size, front offset, back offset
-		unsigned int adjustment = ForwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SHeader));
+		unsigned int adjustment = ForwardAlignment(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT);
+		//unsigned int adjustment = ForwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SHeader));
 		PtrHeader = (SHeader*)Add(currentPosition, adjustment);
 		*PtrHeader = tempHeader;
 		((SHeader*)PtrHeader)->frontOffset = position;
