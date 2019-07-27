@@ -58,6 +58,11 @@ class HAL_API MemoryBlock
 			UseHeader header = INVISION_USE_NO_HEADER,
 			MemoryTracking memTracking = INVISION_DEFAULT_MEMORY_TRACKING,
 			BoundsChecking boundsChecking = INVISION_NO_BOUNDS_CHECKING);
+
+		SHeader* GetHeader(void* memoryBlock, 
+			UseHeader header,
+			MemoryTracking memTracking,
+			BoundsChecking boundsChecking);
 	private:
 		uint8 ForwardAlignment(void* address, uint8 alignment);
 		uint8 BackwardAlignment(void* address, uint8 alignment);

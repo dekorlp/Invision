@@ -109,6 +109,27 @@ void* MemoryBlock::CreateMemoryBlock(
 	return p;
 }
 
+SHeader* MemoryBlock::GetHeader(void* memoryBlock, 
+	UseHeader header,
+	MemoryTracking memTracking,
+	BoundsChecking boundsChecking)
+{
+	void* currentPosition = memoryBlock;
+	unsigned int adjustment = BackwardAlignment(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT);
+	currentPosition  = (SHeader*)Subtract(currentPosition, adjustment + sizeof(SHeader));
+
+#ifdef _DEBUG
+	std::stringstream ss;
+	ss << std::endl << "Call Method: GetHeader( memoryBlock = " << currentPosition << ", header =" << header << ", memTracking = " << memTracking << ", boundsChecking = " << boundsChecking << ")";
+	INVISION_LOG_RAWTEXT(ss.str());
+	WriteToLog("Front Offset: ", ((SHeader*)currentPosition)->frontOffset);
+	WriteToLog("Back Offset: ", ((SHeader*)currentPosition)->backOffset);
+	WriteToLog("Size: ", ((SHeader*)currentPosition)->size);
+#endif
+
+	return (SHeader*)currentPosition;
+}
+
 void MemoryBlock::WriteToLog(std::string initMessage, void* address)
 {
 	std::stringstream ss;

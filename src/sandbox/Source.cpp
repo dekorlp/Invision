@@ -70,6 +70,7 @@ void testAllocators2x()
 	MemoryBlock memBlock;
 	int* test6 = (int*)memBlock.CreateMemoryBlock(arena, sizeof(int), length, __LINE__, __FILE__, INVISION_USE_HEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
 	*test6 = 11244;
+	SHeader *header = memBlock.GetHeader(test6, INVISION_USE_HEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
 }
 
 int main()
