@@ -24,6 +24,9 @@ void* MemoryBlock::CreateMemoryBlock(
 	if (boundsChecking == INVISION_STANDARD_BOUNDS_CHECKING)
 	{
 		// FRONT Boundary
+		unsigned int adjustment = ForwardAlignment(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT);
+		currentPosition = Add(currentPosition, adjustment);
+
 		unsigned int *bound = (unsigned int*)currentPosition;
 		*bound = 0xFAFFB;
 
@@ -38,13 +41,12 @@ void* MemoryBlock::CreateMemoryBlock(
 	if (memTracking == INVISION_ADVANCED_MEMORY_TRACKING)
 	{
 		// USE HEADER for Memory Tracking
-		SMemoryTracking tempTrackingStruct;
-		tempTrackingStruct.filenumber = filenumber;
-		tempTrackingStruct.filename = filename;
 
 		unsigned int adjustment = ForwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SMemoryTracking));
 		SMemoryTracking* PtrHeader = (SMemoryTracking*)Add(currentPosition, adjustment);
 		*PtrHeader = tempTrackingStruct;
+		((SMemoryTracking*)PtrHeader)->filename = filename;
+		((SMemoryTracking*)PtrHeader)->filenumber = filenumber;
 		currentPosition = (void*)PtrHeader;
 #ifdef _DEBUG
 		WriteToLog("    TrackingHeader: ", PtrHeader);
@@ -57,13 +59,10 @@ void* MemoryBlock::CreateMemoryBlock(
 	if (header == INVISION_USE_HEADER)
 	{
 		// USE HEADER with size, front offset, back offset
-		SHeader tempHeader;
-		tempHeader.frontOffset = position;
-
 		unsigned int adjustment = ForwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SHeader));
 		PtrHeader = (SHeader*)Add(currentPosition, adjustment);
-
 		*PtrHeader = tempHeader;
+		((SHeader*)PtrHeader)->frontOffset = position;
 		currentPosition = (void*)PtrHeader;
 
 #ifdef _DEBUG

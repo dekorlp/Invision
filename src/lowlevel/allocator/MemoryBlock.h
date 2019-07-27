@@ -37,15 +37,15 @@ enum UseHeader
 struct SMemoryTracking
 {
 	int filenumber;
-	char *filename;
-};
+	void* filename;
+} tempTrackingStruct;
 
 struct SHeader
 {
 	unsigned int size;
 	void* frontOffset;
 	void* backOffset;
-};
+} tempHeader;
 
 class HAL_API MemoryBlock
 {
