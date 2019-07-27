@@ -128,7 +128,7 @@ void MemoryBlock::WriteToLog(std::string initMessage, uint32 number)
 uint8 MemoryBlock::ForwardAlignment(void* address, uint8 alignment)
 {
 	// faster than adjustment = alignment - (address % alignment);
-	uint8 adjustment = alignment - (reinterpret_cast<unsigned int>(address) & static_cast<unsigned int>(alignment - 1));
+	uint8 adjustment = alignment - (reinterpret_cast<size_t>(address) & static_cast<size_t>(alignment - 1));
 
 	if (adjustment == alignment)
 		return 0;
@@ -140,7 +140,7 @@ uint8 MemoryBlock::ForwardAlignment(void* address, uint8 alignment)
 uint8 MemoryBlock::BackwardAlignment(void* address, uint8 alignment)
 {
 	// faster than adjustment = address % alignment;
-	uint8 adjustment = reinterpret_cast<unsigned int>(address) & static_cast<unsigned int>(alignment - 1);
+	uint8 adjustment = reinterpret_cast<size_t>(address) & static_cast<size_t>(alignment - 1);
 
 	if (adjustment == alignment)
 		return 0;
@@ -191,11 +191,11 @@ uint8 MemoryBlock::BackwardAlignmentWithHeader(void* address, uint8 alignment, u
 // add an address and an value to create a new address
 void* MemoryBlock::Add(void* address, uint32 toAdd)
 {
-	return (void*)(reinterpret_cast<unsigned int>(address) + toAdd);
+	return (void*)(reinterpret_cast<size_t>(address) + toAdd);
 }
 
 // subtract a value of an address to create a new address
 void* MemoryBlock::Subtract(void* address, uint32 toSubtract)
 {
-	return (void*)(reinterpret_cast<unsigned int>(address) - toSubtract);
+	return (void*)(reinterpret_cast<size_t>(address) - toSubtract);
 }
