@@ -68,9 +68,9 @@ void testAllocators2x()
 	Log log("../../../logs/AllocationLog.txt");
 	Log::SetLogger(&log);
 	MemoryBlock memBlock;
-
+	
 	void* top;
-
+	
 	int* test6 = (int*)memBlock.CreateMemoryBlock(arena, &top, sizeof(int), __LINE__, __FILE__, INVISION_USE_HEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
 	*test6 = 0x2BEC;
 	SHeader *header = memBlock.GetHeader(test6);

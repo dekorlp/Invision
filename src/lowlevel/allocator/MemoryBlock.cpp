@@ -110,8 +110,12 @@ void* MemoryBlock::CreateMemoryBlock(
 
 	// set position of header structure
 	uint32 memBlockSize = (reinterpret_cast<uint32>(currentPosition) - reinterpret_cast<uint32>(position));
-	((SHeader*)PtrHeader)->size = memBlockSize;
-	((SHeader*)PtrHeader)->backOffset = currentPosition;
+
+	if (header == INVISION_USE_HEADER)
+	{
+		((SHeader*)PtrHeader)->size = memBlockSize;
+		((SHeader*)PtrHeader)->backOffset = currentPosition;
+	}
 	*endposition = currentPosition;
 
 #ifdef _DEBUG
