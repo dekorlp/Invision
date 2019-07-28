@@ -29,7 +29,7 @@ enum UseHeader
 	INVISION_USE_HEADER = 1 
 };
 
-#define INVISION_MEM_ALLOCATION_ALLIGNMENT 4
+#define INVISION_MEM_ALLOCATION_ALLIGNMENT sizeof(char*)
 
 #ifndef MEMORYBLOCK_H
 #define MEMORYBLOCK_H
@@ -76,6 +76,8 @@ class HAL_API MemoryBlock
 
 		void* Add(void* address, uint32 toAdd);
 		void* Subtract(void* address, uint32 toSubtract);
+
+		bool isPowerOfTwo(uint32 number);
 
 		// Bound checking size
 		unsigned int FRONT_SIZE = 4;

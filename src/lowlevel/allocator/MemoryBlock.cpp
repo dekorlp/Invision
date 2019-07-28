@@ -184,7 +184,8 @@ bool MemoryBlock::CheckBoundaries(void* memoryBlock,  uint32 payloudSize, UseHea
 		pCurrentFront = Subtract(pCurrentFront, sTrackingAdjustment);
 	}
 
-	unsigned int * FrontBoundary = (unsigned int*)Subtract(pCurrentFront, FRONT_SIZE);
+	unsigned int sFrontBoundAdjustment = BackwardAlignmentWithHeader(pCurrentFront, INVISION_MEM_ALLOCATION_ALLIGNMENT, FRONT_SIZE);
+	unsigned int *FrontBoundary = (unsigned int*)Subtract(pCurrentFront, sFrontBoundAdjustment);
 
 	// Get Front Boundary
 	pCurrentBack = Add(pCurrentBack, payloudSize);
@@ -247,6 +248,14 @@ void MemoryBlock::WriteToLog(std::string initMessage, uint32 number)
 // apply a forward alignment to the address
 uint8 MemoryBlock::ForwardAlignment(void* address, uint8 alignment)
 {
+#ifdef _DEBUG
+	if (!isPowerOfTwo(alignment))
+	{
+		INVISION_LOG_WARNING("Allignment is not a power of two");
+		throw invisionCoreMemoryHasWrongAlignment("Alignment has not a Power of Two!");
+	}
+#endif
+
 	// faster than adjustment = alignment - (address % alignment);
 	uint8 adjustment = alignment - (reinterpret_cast<size_t>(address) & static_cast<size_t>(alignment - 1));
 
@@ -259,6 +268,14 @@ uint8 MemoryBlock::ForwardAlignment(void* address, uint8 alignment)
 // apply a backward alignment to the address
 uint8 MemoryBlock::BackwardAlignment(void* address, uint8 alignment)
 {
+#ifdef _DEBUG
+	if (!isPowerOfTwo(alignment))
+	{
+		INVISION_LOG_WARNING("Allignment is not a power of two");
+		throw invisionCoreMemoryHasWrongAlignment("Alignment has not a Power of Two!");
+	}
+#endif
+
 	// faster than adjustment = address % alignment;
 	uint8 adjustment = reinterpret_cast<size_t>(address) & static_cast<size_t>(alignment - 1);
 
@@ -271,6 +288,14 @@ uint8 MemoryBlock::BackwardAlignment(void* address, uint8 alignment)
 // apply a forward alignment including header to the address
 uint8 MemoryBlock::ForwardAlignmentWithHeader(void* address, uint8 alignment, uint8 headersize)
 {
+#ifdef _DEBUG
+	if (!isPowerOfTwo(alignment))
+	{
+		INVISION_LOG_WARNING("Allignment is not a power of two");
+		throw invisionCoreMemoryHasWrongAlignment("Alignment has not a Power of Two!");
+	}
+#endif
+
 	uint8 adjustment = ForwardAlignment(address, alignment);
 
 	uint8 size = headersize;
@@ -291,6 +316,15 @@ uint8 MemoryBlock::ForwardAlignmentWithHeader(void* address, uint8 alignment, ui
 // apply a backward alignment including header to the address
 uint8 MemoryBlock::BackwardAlignmentWithHeader(void* address, uint8 alignment, uint8 headersize)
 {
+
+#ifdef _DEBUG
+	if (!isPowerOfTwo(alignment))
+	{
+		INVISION_LOG_WARNING("Allignment is not a power of two");
+		throw invisionCoreMemoryHasWrongAlignment("Alignment has not a Power of Two!");
+	}
+#endif
+
 	uint8 adjustment = BackwardAlignment(address, alignment);
 
 	uint8 size = headersize;
@@ -318,4 +352,9 @@ void* MemoryBlock::Add(void* address, uint32 toAdd)
 void* MemoryBlock::Subtract(void* address, uint32 toSubtract)
 {
 	return (void*)(reinterpret_cast<size_t>(address) - toSubtract);
+}
+
+bool MemoryBlock::isPowerOfTwo(uint32 number)
+{
+	return (number & (number - 1)) == 0;
 }

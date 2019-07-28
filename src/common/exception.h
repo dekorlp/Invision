@@ -164,4 +164,27 @@ public:
 	}
 };
 
+class invisionCoreMemoryHasWrongAlignment : protected invisionException
+{
+public:
+	invisionCoreMemoryHasWrongAlignment();
+	invisionCoreMemoryHasWrongAlignment(const char* message)
+	{
+		mMessage = message;
+	}
+
+	invisionCoreMemoryHasWrongAlignment(const char* message, const char* helpLink)
+	{
+		mMessage = message;
+		mHelpLink = helpLink;
+	}
+
+	invisionCoreMemoryHasWrongAlignment(const char* message, const char* helpLink, const char* source)
+	{
+		mMessage = message;
+		mHelpLink = helpLink;
+		mSource = source;
+	}
+};
+
 #endif // EXCEPTION_H
