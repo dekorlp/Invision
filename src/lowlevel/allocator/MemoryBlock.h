@@ -63,6 +63,11 @@ class HAL_API MemoryBlock
 			UseHeader header,
 			MemoryTracking memTracking,
 			BoundsChecking boundsChecking);
+
+		SMemoryTracking* GetTrackingHeader(void* memoryBlock,
+			UseHeader header,
+			MemoryTracking memTracking,
+			BoundsChecking boundsChecking);
 	private:
 		uint8 ForwardAlignment(void* address, uint8 alignment);
 		uint8 BackwardAlignment(void* address, uint8 alignment);
