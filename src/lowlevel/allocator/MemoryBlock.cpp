@@ -111,10 +111,7 @@ void* MemoryBlock::CreateMemoryBlock(
 	return p;
 }
 
-SHeader* MemoryBlock::GetHeader(void* memoryBlock, 
-	UseHeader header,
-	MemoryTracking memTracking,
-	BoundsChecking boundsChecking)
+SHeader* MemoryBlock::GetHeader(void* memoryBlock)
 {
 	void* currentPosition = memoryBlock;
 	unsigned int adjustment = BackwardAlignment(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT);
@@ -124,7 +121,7 @@ SHeader* MemoryBlock::GetHeader(void* memoryBlock,
 
 #ifdef _DEBUG
 	std::stringstream ss;
-	ss << std::endl << "Call Method: GetHeader( memoryBlock = 0x" << currentPosition << ", header = " << header << ", memTracking = " << memTracking << ", boundsChecking = " << boundsChecking << ")";
+	ss << std::endl << "Call Method: GetHeader( memoryBlock = 0x" << memoryBlock << ")";
 	INVISION_LOG_RAWTEXT(ss.str());
 	WriteToLog("Front Offset: ", ((SHeader*)currentPosition)->frontOffset);
 	WriteToLog("Back Offset: ", ((SHeader*)currentPosition)->backOffset);
@@ -134,10 +131,7 @@ SHeader* MemoryBlock::GetHeader(void* memoryBlock,
 	return (SHeader*)currentPosition;
 }
 
-SMemoryTracking* MemoryBlock::GetTrackingHeader(void* memoryBlock,
-	UseHeader header,
-	MemoryTracking memTracking,
-	BoundsChecking boundsChecking)
+SMemoryTracking* MemoryBlock::GetTrackingHeader(void* memoryBlock, UseHeader header)
 {
 	void* currentPosition = memoryBlock;
 	unsigned int adjustment = BackwardAlignment(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT);
@@ -155,7 +149,7 @@ SMemoryTracking* MemoryBlock::GetTrackingHeader(void* memoryBlock,
 
 #ifdef _DEBUG
 	std::stringstream ss;
-	ss << std::endl << "Call Method: GetMemoryTracking( memoryBlock = 0x" << currentPosition << ", header = " << header << ", memTracking = " << memTracking << ", boundsChecking = " << boundsChecking << ")";
+	ss << std::endl << "Call Method: GetMemoryTracking( memoryBlock = 0x" << memoryBlock << ", header = " << header << ")";
 	INVISION_LOG_RAWTEXT(ss.str());
 	
 	std::stringstream ssFilename;
