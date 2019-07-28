@@ -72,7 +72,7 @@ void testAllocators2x()
 	*test6 = 11244;
 	SHeader *header = memBlock.GetHeader(test6);
 	SMemoryTracking* tracking = memBlock.GetTrackingHeader(test6, INVISION_USE_HEADER);
-	bool isBoundaries = memBlock.CheckBoundaries(test6, sizeof(long long int), INVISION_USE_HEADER, INVISION_ADVANCED_MEMORY_TRACKING);
+	bool isBoundaries = memBlock.CheckBoundaries(test6, sizeof(int), INVISION_USE_HEADER, INVISION_ADVANCED_MEMORY_TRACKING);
 }
 
 int main()
