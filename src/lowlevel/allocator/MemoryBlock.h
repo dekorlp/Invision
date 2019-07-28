@@ -36,7 +36,7 @@ enum UseHeader
 
 struct SMemoryTracking
 {
-	int filenumber;
+	int lineOfFile;
 	void* filename;
 } tempTrackingStruct;
 
@@ -53,7 +53,7 @@ class HAL_API MemoryBlock
 		void* CreateMemoryBlock(void* position,
 			void** endposition,
 			uint32 size,
-			uint32 filenumber,
+			uint32 lineOfFile,
 			char* filename,
 			UseHeader header = INVISION_USE_NO_HEADER,
 			MemoryTracking memTracking = INVISION_DEFAULT_MEMORY_TRACKING,

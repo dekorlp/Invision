@@ -8,12 +8,21 @@ void* MemoryBlock::CreateMemoryBlock(
 	void* position,
 	void** endposition,
 	uint32 size, 
-	uint32 filenumber,
+	uint32 lineOfFile,
 	char* filename, 
 	UseHeader header,
 	MemoryTracking memTracking, 
 	BoundsChecking boundsChecking)
 {
+#ifdef _DEBUG
+	std::stringstream ss;
+	ss << std::endl << "Call Method: CreateMemoryBlock(position = 0x" << position
+		<< ", ..." << ")";
+	INVISION_LOG_RAWTEXT(ss.str());
+#endif
+
+
+
 	void* currentPosition = position;
 
 #ifdef _DEBUG
@@ -47,7 +56,7 @@ void* MemoryBlock::CreateMemoryBlock(
 		SMemoryTracking* PtrHeader = (SMemoryTracking*)Add(currentPosition, adjustment);
 		*PtrHeader = tempTrackingStruct;
 		((SMemoryTracking*)PtrHeader)->filename = filename;
-		((SMemoryTracking*)PtrHeader)->filenumber = filenumber;
+		((SMemoryTracking*)PtrHeader)->lineOfFile = lineOfFile;
 		currentPosition = (void*)PtrHeader;
 #ifdef _DEBUG
 		WriteToLog("    TrackingHeader: ", PtrHeader);
@@ -158,7 +167,7 @@ SMemoryTracking* MemoryBlock::GetTrackingHeader(void* memoryBlock, UseHeader hea
 	ssFilename << "Filename: " << (char*)((SMemoryTracking*)currentPosition)->filename;
 
 	INVISION_LOG_RAWTEXT(ssFilename.str());
-	WriteToLog("Filenumber: ", ((SMemoryTracking*)currentPosition)->filenumber);
+	WriteToLog("Line: ", ((SMemoryTracking*)currentPosition)->lineOfFile);
 #endif
 
 	return (SMemoryTracking*)currentPosition;
