@@ -116,7 +116,7 @@ SHeader* MemoryBlock::GetHeader(void* memoryBlock)
 	void* currentPosition = memoryBlock;
 	unsigned int adjustment = BackwardAlignment(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT);
 	currentPosition  = Subtract(currentPosition, adjustment);
-	unsigned int sHeaderAdjustment = ForwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SHeader));
+	unsigned int sHeaderAdjustment = BackwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SHeader));
 	currentPosition = Subtract(currentPosition, sHeaderAdjustment);
 
 #ifdef _DEBUG
@@ -139,12 +139,12 @@ SMemoryTracking* MemoryBlock::GetTrackingHeader(void* memoryBlock, UseHeader hea
 
 	if (header == INVISION_USE_HEADER)
 	{
-		unsigned int sHeaderAdjustment = ForwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SHeader));
+		unsigned int sHeaderAdjustment = BackwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SHeader));
 		currentPosition = Subtract(currentPosition, sHeaderAdjustment);
 	}
 	
 
-	unsigned int sTrackingAdjustment = ForwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SMemoryTracking));
+	unsigned int sTrackingAdjustment = BackwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SMemoryTracking));
 	currentPosition = Subtract(currentPosition, sTrackingAdjustment);
 
 #ifdef _DEBUG
@@ -160,6 +160,69 @@ SMemoryTracking* MemoryBlock::GetTrackingHeader(void* memoryBlock, UseHeader hea
 #endif
 
 	return (SMemoryTracking*)currentPosition;
+}
+
+bool MemoryBlock::CheckBoundaries(void* memoryBlock,  uint32 payloudSize, UseHeader header, MemoryTracking memTracking)
+{
+	void* pCurrentFront = memoryBlock;
+	void* pCurrentBack = memoryBlock;
+
+	// Get Back Boundary
+	unsigned int adjustment = BackwardAlignment(pCurrentFront, INVISION_MEM_ALLOCATION_ALLIGNMENT);
+	pCurrentFront = Subtract(pCurrentFront, adjustment);
+
+	if (header == INVISION_USE_HEADER)
+	{
+		unsigned int sHeaderAdjustment = BackwardAlignmentWithHeader(pCurrentFront, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SHeader));
+		pCurrentFront = Subtract(pCurrentFront, sHeaderAdjustment);
+	}
+
+	if (memTracking == INVISION_ADVANCED_MEMORY_TRACKING)
+	{
+		unsigned int sTrackingAdjustment = BackwardAlignmentWithHeader(pCurrentFront, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SMemoryTracking));
+		pCurrentFront = Subtract(pCurrentFront, sTrackingAdjustment);
+	}
+
+	unsigned int * FrontBoundary = (unsigned int*)Subtract(pCurrentFront, FRONT_SIZE);
+
+	// Get Front Boundary
+	pCurrentBack = Add(pCurrentBack, payloudSize);
+	unsigned int adjustmentSize = ForwardAlignment(pCurrentBack, INVISION_MEM_ALLOCATION_ALLIGNMENT);
+	unsigned int *BackBoundary = (unsigned int*)Add(pCurrentBack, adjustmentSize);
+
+#ifdef _DEBUG
+	INVISION_LOG_RAWTEXT("");
+	if (*FrontBoundary == 0xFAFFB)
+	{
+		INVISION_LOG_RAWTEXT("Front Boundary: DETECTED");
+	}
+	else
+	{
+		//INVISION_LOG_RAWTEXT("Front Boundary: NOT DETECTED");
+		INVISION_LOG_ERROR("Front Boundary : NOT DETECTED");
+	}
+
+	if (*BackBoundary == 0xFAFFB)
+	{
+		INVISION_LOG_RAWTEXT("Back Boundary: DETECTED");
+	}
+	else
+	{
+		INVISION_LOG_ERROR("Back Boundary : NOT DETECTED");
+	}
+#endif
+
+	if (*FrontBoundary == 0xFAFFB && *BackBoundary == 0xFAFFB)
+	{
+		return true;
+	}
+
+#ifdef _DEBUG
+	INVISION_LOG_ERROR("EXCEPTION OCCURED: Memory is corrupted!");
+	throw invisionCoreOutOfMemory("Memory is corrupted!");
+#endif 
+
+	return false;
 }
 
 void MemoryBlock::WriteToLog(std::string initMessage, void* address)
