@@ -77,6 +77,7 @@ void* MemoryBlock::CreateMemoryBlock(
 
 	unsigned int adjustmentSize = ForwardAlignment(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT);
 	void* p = (void*)Add(currentPosition, adjustmentSize);
+	WriteToLog("    Payload Address: ", currentPosition);
 
 	//int* p1 = (int*)p;
 	currentPosition = (void*)Add(p, size);
@@ -121,7 +122,7 @@ SHeader* MemoryBlock::GetHeader(void* memoryBlock)
 
 #ifdef _DEBUG
 	std::stringstream ss;
-	ss << std::endl << "Call Method: GetHeader( memoryBlock = 0x" << memoryBlock << ")";
+	ss << std::endl << "Call Method: GetHeader(memoryBlock = 0x" << memoryBlock << ")";
 	INVISION_LOG_RAWTEXT(ss.str());
 	WriteToLog("Front Offset: ", ((SHeader*)currentPosition)->frontOffset);
 	WriteToLog("Back Offset: ", ((SHeader*)currentPosition)->backOffset);
@@ -149,7 +150,7 @@ SMemoryTracking* MemoryBlock::GetTrackingHeader(void* memoryBlock, UseHeader hea
 
 #ifdef _DEBUG
 	std::stringstream ss;
-	ss << std::endl << "Call Method: GetMemoryTracking( memoryBlock = 0x" << memoryBlock << ", header = " << header << ")";
+	ss << std::endl << "Call Method: GetMemoryTracking(memoryBlock = 0x" << memoryBlock << ", header = " << header << ")";
 	INVISION_LOG_RAWTEXT(ss.str());
 	
 	std::stringstream ssFilename;
@@ -191,7 +192,11 @@ bool MemoryBlock::CheckBoundaries(void* memoryBlock,  uint32 payloudSize, UseHea
 	unsigned int *BackBoundary = (unsigned int*)Add(pCurrentBack, adjustmentSize);
 
 #ifdef _DEBUG
-	INVISION_LOG_RAWTEXT("");
+
+	std::stringstream ss;
+	ss << std::endl << "Call Method: CheckBoundaries(memoryBlock = 0x" << memoryBlock << ", payloadSize = " << payloudSize <<", header = " << header << ", memTracking = " << memTracking << ")";
+	INVISION_LOG_RAWTEXT(ss.str());
+
 	if (*FrontBoundary == 0xFAFFB)
 	{
 		INVISION_LOG_RAWTEXT("Front Boundary: DETECTED");
