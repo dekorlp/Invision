@@ -51,8 +51,8 @@ class HAL_API MemoryBlock
 {
 	public:
 		void* CreateMemoryBlock(void* position,
+			void** endposition,
 			uint32 size,
-			uint32 allocSize,
 			uint32 filenumber,
 			char* filename,
 			UseHeader header = INVISION_USE_NO_HEADER,

@@ -68,7 +68,10 @@ void testAllocators2x()
 	Log log("../../../logs/AllocationLog.txt");
 	Log::SetLogger(&log);
 	MemoryBlock memBlock;
-	int* test6 = (int*)memBlock.CreateMemoryBlock(arena, sizeof(int), length, __LINE__, __FILE__, INVISION_USE_HEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+
+	void* top;
+
+	int* test6 = (int*)memBlock.CreateMemoryBlock(arena, &top, sizeof(int), __LINE__, __FILE__, INVISION_USE_HEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
 	*test6 = 0x2BEC;
 	SHeader *header = memBlock.GetHeader(test6);
 	SMemoryTracking* tracking = memBlock.GetTrackingHeader(test6, INVISION_USE_HEADER);

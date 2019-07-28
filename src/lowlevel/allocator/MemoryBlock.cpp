@@ -5,9 +5,9 @@
 
 
 void* MemoryBlock::CreateMemoryBlock(
-	void* position, 
-	uint32 size,
-	uint32 allocSize, 
+	void* position,
+	void** endposition,
+	uint32 size, 
 	uint32 filenumber,
 	char* filename, 
 	UseHeader header,
@@ -103,6 +103,7 @@ void* MemoryBlock::CreateMemoryBlock(
 	uint32 memBlockSize = (reinterpret_cast<uint32>(currentPosition) - reinterpret_cast<uint32>(position));
 	((SHeader*)PtrHeader)->size = memBlockSize;
 	((SHeader*)PtrHeader)->backOffset = currentPosition;
+	*endposition = currentPosition;
 
 #ifdef _DEBUG
 	WriteToLog("Block Size: ", memBlockSize);
