@@ -76,6 +76,12 @@ void testAllocators2x()
 	SHeader *header = memBlock.GetHeader(test6);
 	SMemoryTracking* tracking = memBlock.GetTrackingHeader(test6, INVISION_USE_HEADER);
 	bool isBoundaries = memBlock.CheckBoundaries(test6, sizeof(int), INVISION_USE_HEADER, INVISION_ADVANCED_MEMORY_TRACKING);
+
+	// Ausgabe Top
+	stringstream ss;
+	ss << "Top: " << top << std::endl;
+	INVISION_LOG_RAWTEXT(ss.str());
+
 }
 
 int main()
