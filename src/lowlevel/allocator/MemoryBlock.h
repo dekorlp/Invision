@@ -11,6 +11,11 @@
 /////////////////////////////////////////////////////////////////////////////
 
 
+
+
+#ifndef MEMORYBLOCK_H
+#define MEMORYBLOCK_H
+
 enum MemoryTracking
 {
 	INVISION_DEFAULT_MEMORY_TRACKING = 0,
@@ -32,26 +37,23 @@ enum UseHeader
 
 #define INVISION_MEM_ALLOCATION_ALLIGNMENT sizeof(char*)
 
-#ifndef MEMORYBLOCK_H
-#define MEMORYBLOCK_H
-
 struct SMemoryTracking
 {
 	int lineOfFile;
 	void* filename;
-} tempTrackingStruct;
+};
 
 struct SHeaderStack
 {
 	unsigned int size;
 	void* frontOffset;
 	void* backOffset;
-} tempHeaderStack;
+};
 
 struct SHeaderPool
 {
 	void* next;
-}tempHeaderPool;
+};
 
 class HAL_API MemoryBlock
 {
@@ -76,6 +78,10 @@ class HAL_API MemoryBlock
 
 		bool CheckBoundaries(void* memoryBlock, uint32 payloudSize, UseHeader header, MemoryTracking memTracking);
 	private:
+		SMemoryTracking tempTrackingStruct;
+		SHeaderStack tempHeaderStack;
+		SHeaderPool tempHeaderPool;
+
 		uint8 ForwardAlignment(void* address, uint8 alignment);
 		uint8 BackwardAlignment(void* address, uint8 alignment);
 
