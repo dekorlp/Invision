@@ -65,22 +65,40 @@ void* MemoryBlock::CreateMemoryBlock(
 		currentPosition = Add(currentPosition, sizeof(SMemoryTracking));
 	}
 
-	SHeader* PtrHeader;
-	if (header == INVISION_USE_HEADER)
+	SHeaderStack* PtrHeaderStack; // used for StackAllocator
+	if (header == INVISION_USE_STACKHEADER)
 	{
 		// USE HEADER with size, front offset, back offset
 		unsigned int adjustment = ForwardAlignment(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT);
 		//unsigned int adjustment = ForwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SHeader));
-		PtrHeader = (SHeader*)Add(currentPosition, adjustment);
-		*PtrHeader = tempHeader;
-		((SHeader*)PtrHeader)->frontOffset = position;
-		currentPosition = (void*)PtrHeader;
+		PtrHeaderStack = (SHeaderStack*)Add(currentPosition, adjustment);
+		*PtrHeaderStack = tempHeaderStack;
+		((SHeaderStack*)PtrHeaderStack)->frontOffset = position;
+		currentPosition = (void*)PtrHeaderStack;
 
 #ifdef _DEBUG
-		WriteToLog("    Header(MemClass): ", PtrHeader);
+		WriteToLog("    StackHeader: ", PtrHeaderStack);
 #endif
 
-		currentPosition = Add(currentPosition, sizeof(SHeader));
+		currentPosition = Add(currentPosition, sizeof(SHeaderStack));
+
+	}
+	else if (header == INVISION_USE_POOLHEADER)
+	{
+		SHeaderPool* PtrHeaderPool; // used for Pool Allocator
+
+		// USE HEADER with pointer to next
+		unsigned int adjustment = ForwardAlignment(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT);
+		PtrHeaderPool = (SHeaderPool*)Add(currentPosition, adjustment);
+		*PtrHeaderPool = tempHeaderPool;
+		((SHeaderPool*)PtrHeaderPool)->next = 0x00000;
+		currentPosition = (void*)PtrHeaderPool;
+
+#ifdef _DEBUG
+		WriteToLog("    PoolHeader: ", PtrHeaderPool);
+#endif
+
+		currentPosition = Add(currentPosition, sizeof(SHeaderPool));
 
 	}
 
@@ -111,10 +129,10 @@ void* MemoryBlock::CreateMemoryBlock(
 	// set position of header structure
 	uint32 memBlockSize = (reinterpret_cast<uint32>(currentPosition) - reinterpret_cast<uint32>(position));
 
-	if (header == INVISION_USE_HEADER)
+	if (header == INVISION_USE_STACKHEADER)
 	{
-		((SHeader*)PtrHeader)->size = memBlockSize;
-		((SHeader*)PtrHeader)->backOffset = currentPosition;
+		((SHeaderStack*)PtrHeaderStack)->size = memBlockSize;
+		((SHeaderStack*)PtrHeaderStack)->backOffset = currentPosition;
 	}
 	*endposition = currentPosition;
 
@@ -126,24 +144,53 @@ void* MemoryBlock::CreateMemoryBlock(
 	return p;
 }
 
-SHeader* MemoryBlock::GetHeader(void* memoryBlock)
+SHeaderStack* MemoryBlock::GetStackHeader(void* memoryBlock)
 {
 	void* currentPosition = memoryBlock;
 	unsigned int adjustment = BackwardAlignment(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT);
 	currentPosition  = Subtract(currentPosition, adjustment);
-	unsigned int sHeaderAdjustment = BackwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SHeader));
+	unsigned int sHeaderAdjustment = BackwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SHeaderStack));
 	currentPosition = Subtract(currentPosition, sHeaderAdjustment);
 
 #ifdef _DEBUG
 	std::stringstream ss;
-	ss << std::endl << "Call Method: GetHeader(memoryBlock = 0x" << memoryBlock << ")";
+	ss << std::endl << "Call Method: GetStackHeader(memoryBlock = 0x" << memoryBlock << ")";
 	INVISION_LOG_RAWTEXT(ss.str());
-	WriteToLog("Front Offset: ", ((SHeader*)currentPosition)->frontOffset);
-	WriteToLog("Back Offset: ", ((SHeader*)currentPosition)->backOffset);
-	WriteToLog("Size: ", ((SHeader*)currentPosition)->size);
+	WriteToLog("Front Offset: ", ((SHeaderStack*)currentPosition)->frontOffset);
+	WriteToLog("Back Offset: ", ((SHeaderStack*)currentPosition)->backOffset);
+	WriteToLog("Size: ", ((SHeaderStack*)currentPosition)->size);
 #endif
 
-	return (SHeader*)currentPosition;
+	return (SHeaderStack*)currentPosition;
+}
+
+SHeaderPool* MemoryBlock::GetPoolHeader(void* memoryBlock)
+{
+	void* currentPosition = memoryBlock;
+	unsigned int adjustment = BackwardAlignment(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT);
+	currentPosition = Subtract(currentPosition, adjustment);
+	unsigned int sHeaderAdjustment = BackwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SHeaderPool));
+	currentPosition = Subtract(currentPosition, sHeaderAdjustment);
+
+#ifdef _DEBUG
+	std::stringstream ss;
+	ss << std::endl << "Call Method: GetPoolHeader(memoryBlock = 0x" << memoryBlock << ")";
+	INVISION_LOG_RAWTEXT(ss.str());
+	WriteToLog("Pointer to next Object: ", ((SHeaderPool*)currentPosition)->next);
+#endif
+
+	return (SHeaderPool*)currentPosition;
+}
+
+void MemoryBlock::SetPoolHeader(void* memoryBlock, size_t next)
+{
+	void* currentPosition = memoryBlock;
+	unsigned int adjustment = BackwardAlignment(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT);
+	currentPosition = Subtract(currentPosition, adjustment);
+	unsigned int sHeaderAdjustment = BackwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SHeaderPool));
+	currentPosition = Subtract(currentPosition, sHeaderAdjustment);
+
+	((SHeaderPool*)currentPosition)->next = (void*)next;
 }
 
 SMemoryTracking* MemoryBlock::GetTrackingHeader(void* memoryBlock, UseHeader header)
@@ -152,12 +199,16 @@ SMemoryTracking* MemoryBlock::GetTrackingHeader(void* memoryBlock, UseHeader hea
 	unsigned int adjustment = BackwardAlignment(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT);
 	currentPosition = Subtract(currentPosition, adjustment);
 
-	if (header == INVISION_USE_HEADER)
+	if (header == INVISION_USE_STACKHEADER)
 	{
-		unsigned int sHeaderAdjustment = BackwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SHeader));
+		unsigned int sHeaderAdjustment = BackwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SHeaderStack));
 		currentPosition = Subtract(currentPosition, sHeaderAdjustment);
 	}
-	
+	else if (header == INVISION_USE_POOLHEADER)
+	{
+		unsigned int sHeaderAdjustment = BackwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SHeaderPool));
+		currentPosition = Subtract(currentPosition, sHeaderAdjustment);
+	}
 
 	unsigned int sTrackingAdjustment = BackwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SMemoryTracking));
 	currentPosition = Subtract(currentPosition, sTrackingAdjustment);
@@ -186,11 +237,17 @@ bool MemoryBlock::CheckBoundaries(void* memoryBlock,  uint32 payloudSize, UseHea
 	unsigned int adjustment = BackwardAlignment(pCurrentFront, INVISION_MEM_ALLOCATION_ALLIGNMENT);
 	pCurrentFront = Subtract(pCurrentFront, adjustment);
 
-	if (header == INVISION_USE_HEADER)
+	if (header == INVISION_USE_STACKHEADER)
 	{
-		unsigned int sHeaderAdjustment = BackwardAlignmentWithHeader(pCurrentFront, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SHeader));
+		unsigned int sHeaderAdjustment = BackwardAlignmentWithHeader(pCurrentFront, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SHeaderStack));
 		pCurrentFront = Subtract(pCurrentFront, sHeaderAdjustment);
 	}
+	else if (header == INVISION_USE_POOLHEADER)
+	{
+		unsigned int sHeaderAdjustment = BackwardAlignmentWithHeader(pCurrentFront, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SHeaderPool));
+		pCurrentFront = Subtract(pCurrentFront, sHeaderAdjustment);
+	}
+
 
 	if (memTracking == INVISION_ADVANCED_MEMORY_TRACKING)
 	{

@@ -26,7 +26,8 @@ enum BoundsChecking
 enum UseHeader
 {
 	INVISION_USE_NO_HEADER = 0,
-	INVISION_USE_HEADER = 1 
+	INVISION_USE_STACKHEADER = 1,
+	INVISION_USE_POOLHEADER = 2
 };
 
 #define INVISION_MEM_ALLOCATION_ALLIGNMENT sizeof(char*)
@@ -40,12 +41,17 @@ struct SMemoryTracking
 	void* filename;
 } tempTrackingStruct;
 
-struct SHeader
+struct SHeaderStack
 {
 	unsigned int size;
 	void* frontOffset;
 	void* backOffset;
-} tempHeader;
+} tempHeaderStack;
+
+struct SHeaderPool
+{
+	void* next;
+}tempHeaderPool;
 
 class HAL_API MemoryBlock
 {
@@ -59,7 +65,9 @@ class HAL_API MemoryBlock
 			MemoryTracking memTracking = INVISION_DEFAULT_MEMORY_TRACKING,
 			BoundsChecking boundsChecking = INVISION_NO_BOUNDS_CHECKING);
 
-		SHeader* GetHeader(void* memoryBlock);
+		SHeaderStack* GetStackHeader(void* memoryBlock);
+		SHeaderPool* GetPoolHeader(void* memoryBlock);
+		void SetPoolHeader(void* memoryBlock, size_t next);
 
 		SMemoryTracking* GetTrackingHeader(void* memoryBlock, UseHeader header);
 

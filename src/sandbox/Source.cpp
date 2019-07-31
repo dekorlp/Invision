@@ -59,7 +59,7 @@ void testLog()
 	INVISION_LOG_INFO(std::string("HalloWelt").append("INFO"));
 }
 
-void testAllocators2x()
+void testAllocatorsStack()
 {
 	//1024 * 1024
 	//void* arena = ::operator new (1);
@@ -71,11 +71,11 @@ void testAllocators2x()
 	
 	void* top;
 	
-	int* test6 = (int*)memBlock.CreateMemoryBlock(arena, &top, sizeof(int), __LINE__, __FILE__, INVISION_USE_HEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	int* test6 = (int*)memBlock.CreateMemoryBlock(arena, &top, sizeof(int), __LINE__, __FILE__, INVISION_USE_STACKHEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
 	*test6 = 0x2BEC;
-	SHeader *header = memBlock.GetHeader(test6);
-	SMemoryTracking* tracking = memBlock.GetTrackingHeader(test6, INVISION_USE_HEADER);
-	bool isBoundaries = memBlock.CheckBoundaries(test6, sizeof(int), INVISION_USE_HEADER, INVISION_ADVANCED_MEMORY_TRACKING);
+	SHeaderStack *header = memBlock.GetStackHeader(test6);
+	SMemoryTracking* tracking = memBlock.GetTrackingHeader(test6, INVISION_USE_STACKHEADER);
+	bool isBoundaries = memBlock.CheckBoundaries(test6, sizeof(int), INVISION_USE_STACKHEADER, INVISION_ADVANCED_MEMORY_TRACKING);
 
 	// Ausgabe Top
 	stringstream ss;
@@ -84,12 +84,43 @@ void testAllocators2x()
 
 }
 
+void testAllocatorPool()
+{
+	//1024 * 1024
+	//void* arena = ::operator new (1);
+	uint32 length = 1024;
+	void* arena = malloc(length);
+	Log log("../../../logs/AllocationLog.txt");
+	Log::SetLogger(&log);
+	MemoryBlock memBlock;
+
+	void* top;
+
+	int* test6 = (int*)memBlock.CreateMemoryBlock(arena, &top, sizeof(int), __LINE__, __FILE__, INVISION_USE_POOLHEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	*test6 = 0x2BEC;
+
+	INVISION_LOG_RAWTEXT("----------Before SetPoolHeader()--------");
+	SHeaderPool *header1 = memBlock.GetPoolHeader(test6);
+	memBlock.SetPoolHeader(test6, 0xFFFFFFFF);
+	INVISION_LOG_RAWTEXT("----------After SetPoolHeader()-------");
+	SHeaderPool *header2 = memBlock.GetPoolHeader(test6);
+	SMemoryTracking* tracking = memBlock.GetTrackingHeader(test6, INVISION_USE_POOLHEADER);
+	bool isBoundaries = memBlock.CheckBoundaries(test6, sizeof(int), INVISION_USE_POOLHEADER, INVISION_ADVANCED_MEMORY_TRACKING);
+
+	// Ausgabe Top
+	stringstream ss;
+	ss << "Top: " << top << std::endl;
+	INVISION_LOG_RAWTEXT(ss.str());
+}
+
 int main()
 {
 	//testVector();
 	//testAllocators();
 	//testLog();
-	testAllocators2x();
+
+	testAllocatorsStack();
+	//testAllocatorPool();
 	
 	return 0;
 }
