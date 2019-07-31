@@ -2,6 +2,7 @@
 #include "inMath.h"
 #include "Log.h"
 #include "allocator\MemoryBlock.h"
+#include "allocator\LinearAllocator.h"
 #include <iostream>
 
 using namespace std;
@@ -17,7 +18,7 @@ void testVector()
 	bool b = vec1 == vec2;
 }
 
-void testAllocators()
+/*void testAllocators()
 {
 	std::cout << "INT: " << sizeof(int) << std::endl;
 	std::cout << "CHAR: " << sizeof(char) << std::endl;
@@ -45,7 +46,7 @@ void testAllocators()
 	*test5 = 18;
 	std::cout << *test5;
 
-}
+}*/
 
 void testLog()
 {
@@ -124,6 +125,24 @@ void testAllocatorPool()
 	INVISION_LOG_RAWTEXT(ss.str());
 }
 
+void testLinearAllocator()
+{
+	Log log("../../../logs/AllocationLog.txt");
+	Log::SetLogger(&log);
+
+	LinearAllocator alloc;
+	alloc.init(1024);
+	uint32* LinA1 = (uint32*) alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	*LinA1 = 44;
+	uint32* LinA2 = (uint32*) alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	*LinA2 = 125;
+	uint32* LinA3 = (uint32*) alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	*LinA3 = 128;
+	alloc.clear();
+	uint32* LinA4 = (uint32*)alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	*LinA1 = 1028;
+}
+
 int main()
 {
 	//testVector();
@@ -131,7 +150,8 @@ int main()
 	//testLog();
 
 	//testAllocatorsStack();
-	testAllocatorPool();
+	//testAllocatorPool();
+	testLinearAllocator();
 	
 	return 0;
 }

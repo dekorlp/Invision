@@ -18,12 +18,22 @@
 class HAL_API LinearAllocator
 {
 	public:
+		void init(uint32 size);
 		void* Allocate(uint32 blocksize, uint32 line, char* file, MemoryTracking memTracking,
 			BoundsChecking boundsChecking);
+
+		uint32 getCountOfChunks();
+		void* getArena();
+		uint32 getUsedMemory();
+		uint32 getTotalMemory();
+
+		void clear();
 	private:
 		void* arena; // start address
 		void* currentOffset; // boundary between used and free memory
 		uint32 size; // size of allocated Memory
+		uint32 usedMemory;
+		uint32 numChunks; 
 
 };
 

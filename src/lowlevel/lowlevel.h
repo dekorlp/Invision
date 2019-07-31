@@ -25,14 +25,14 @@
 #include "PlatformHardDisk.h"
 #include "InStringA.h"
 #include "InStringW.h"
-#include "Allocator.h"
-#include "LinearAllocator.h"
-#include "StackAllocator.h"
-#include "FreeListAllocator.h"
-#include "StandardBoundsChecking.h"
-#include "NoBoundsChecking.h"
-#include "DefaultMemoryTracking.h"
-#include "AdvancedMemoryTracking.h"
+//#include "Allocator.h"
+//#include "LinearAllocator.h"
+//#include "StackAllocator.h"
+//#include "FreeListAllocator.h"
+//#include "StandardBoundsChecking.h"
+//#include "NoBoundsChecking.h"
+//#include "DefaultMemoryTracking.h"
+//#include "AdvancedMemoryTracking.h"
 
 
 
