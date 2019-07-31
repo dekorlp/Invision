@@ -88,6 +88,15 @@ uint32 LinearAllocator::getTotalMemory()
 
 void LinearAllocator::clear()
 {
+	MemoryBlock mem;
+
+#ifdef _DEBUG
+	INVISION_LOG_RAWTEXT("");
+	INVISION_LOG_RAWTEXT("LinearAllocator::Clear()");
+	mem.WriteToLog("UsedMemory: ", (uint32)0);
+	mem.WriteToLog("numChunks: ", (uint32)0);
+#endif
+
 	currentOffset = arena;
 	usedMemory = 0;
 	numChunks = 0;
