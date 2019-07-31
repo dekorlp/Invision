@@ -77,6 +77,9 @@ class HAL_API MemoryBlock
 		SMemoryTracking* GetTrackingHeader(void* memoryBlock, UseHeader header);
 
 		bool CheckBoundaries(void* memoryBlock, uint32 payloudSize, UseHeader header, MemoryTracking memTracking);
+
+		void WriteToLog(std::string initMessage, void* address);
+		void WriteToLog(std::string initMessage, uint32 number);
 	private:
 		SMemoryTracking tempTrackingStruct;
 		SHeaderStack tempHeaderStack;
@@ -88,8 +91,7 @@ class HAL_API MemoryBlock
 		uint8 ForwardAlignmentWithHeader(void* address, uint8 alignment, uint8 header);
 		uint8 BackwardAlignmentWithHeader(void* address, uint8 alignment, uint8 header);
 
-		void WriteToLog(std::string initMessage, void* address);
-		void WriteToLog(std::string initMessage, uint32 number);
+		
 
 		void* Add(void* address, uint32 toAdd);
 		void* Subtract(void* address, uint32 toSubtract);

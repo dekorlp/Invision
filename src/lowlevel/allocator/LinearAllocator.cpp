@@ -4,19 +4,41 @@
 
 void LinearAllocator::init(uint32 size)
 {
+	MemoryBlock mem;
+
+#ifdef _DEBUG
+	std::stringstream ss;
+	ss << "LinearAllocator::init(size = " << size << ")";
+	INVISION_LOG_RAWTEXT(ss.str());
+	ss.clear();
+	ss << "arena: " << arena;
+#endif
+
+	
 	arena = operator new (size);
 	currentOffset = arena;
 	this->size = size;
 	usedMemory = 0;
 	numChunks = 0;
+
+#ifdef _DEBUG
+	mem.WriteToLog("Arena: ", arena);
+	mem.WriteToLog("Size: ", size);
+#endif
 }
 
 void* LinearAllocator::Allocate(uint32 blocksize, uint32 line, char* file, MemoryTracking memTracking,
 	BoundsChecking boundsChecking)
 {
-	
-
 	MemoryBlock mem;
+
+#ifdef _DEBUG
+	std::stringstream ss;
+	ss << std::endl << "LinearAllocator::Allocate(blocksize = " << blocksize << ", ... " << ")";
+	INVISION_LOG_RAWTEXT(ss.str());
+#endif
+
+
 
 	uint32 calcultedSize = mem.CalculateSize(currentOffset, blocksize, INVISION_USE_NO_HEADER, memTracking, boundsChecking);
 
@@ -31,6 +53,13 @@ void* LinearAllocator::Allocate(uint32 blocksize, uint32 line, char* file, Memor
 
 	usedMemory += calcultedSize;
 	numChunks++;
+	
+
+#ifdef _DEBUG
+	mem.WriteToLog("usedMemory: ", usedMemory);
+	mem.WriteToLog("Size Of Chunk: ", calcultedSize);
+	mem.WriteToLog("numChunks: ", numChunks);
+#endif
 
 	void* p = mem.CreateMemoryBlock(currentOffset, &currentOffset, blocksize, line, file, INVISION_USE_NO_HEADER, memTracking, boundsChecking);
 	mem.CheckBoundaries(p, blocksize, INVISION_USE_NO_HEADER, memTracking);
