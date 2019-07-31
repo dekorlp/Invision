@@ -68,6 +68,9 @@ class HAL_API MemoryBlock
 		SHeaderStack* GetStackHeader(void* memoryBlock);
 		SHeaderPool* GetPoolHeader(void* memoryBlock);
 		void SetPoolHeader(void* memoryBlock, size_t next);
+		uint32 CalculateSize(void* position, uint32 size, UseHeader header = INVISION_USE_NO_HEADER,
+			MemoryTracking memTracking = INVISION_DEFAULT_MEMORY_TRACKING,
+			BoundsChecking boundsChecking = INVISION_NO_BOUNDS_CHECKING);
 
 		SMemoryTracking* GetTrackingHeader(void* memoryBlock, UseHeader header);
 

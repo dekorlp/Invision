@@ -193,6 +193,47 @@ void MemoryBlock::SetPoolHeader(void* memoryBlock, size_t next)
 	((SHeaderPool*)currentPosition)->next = (void*)next;
 }
 
+uint32 MemoryBlock::CalculateSize(void* position, uint32 size, UseHeader header,
+	MemoryTracking memTracking,
+	BoundsChecking boundsChecking)
+{
+	uint32 calcSize = 0;
+
+	if (boundsChecking == INVISION_STANDARD_BOUNDS_CHECKING)
+	{
+		calcSize = ForwardAlignment(position, INVISION_MEM_ALLOCATION_ALLIGNMENT);
+		calcSize += FRONT_SIZE;
+	}
+
+	if (memTracking == INVISION_ADVANCED_MEMORY_TRACKING)
+	{
+		calcSize += ForwardAlignment((void*)calcSize, INVISION_MEM_ALLOCATION_ALLIGNMENT);
+		calcSize += sizeof(SMemoryTracking);
+	}
+
+	if (header == INVISION_USE_STACKHEADER)
+	{
+		calcSize += ForwardAlignment((void*)calcSize, INVISION_MEM_ALLOCATION_ALLIGNMENT);
+		calcSize += sizeof(SHeaderStack);
+	}
+	else if (header == INVISION_USE_POOLHEADER)
+	{
+		calcSize += ForwardAlignment((void*)calcSize, INVISION_MEM_ALLOCATION_ALLIGNMENT);
+		calcSize += sizeof(SHeaderPool);
+	}
+
+	calcSize += ForwardAlignment((void*)calcSize, INVISION_MEM_ALLOCATION_ALLIGNMENT);
+	calcSize += size;
+
+	if (boundsChecking == INVISION_STANDARD_BOUNDS_CHECKING)
+	{
+		calcSize += ForwardAlignment(position, INVISION_MEM_ALLOCATION_ALLIGNMENT);
+		calcSize += BACK_SIZE;
+	}
+
+	return calcSize;
+}
+
 SMemoryTracking* MemoryBlock::GetTrackingHeader(void* memoryBlock, UseHeader header)
 {
 	void* currentPosition = memoryBlock;
