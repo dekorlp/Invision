@@ -455,18 +455,18 @@ uint8 MemoryBlock::BackwardAlignmentWithHeader(void* address, uint8 alignment, u
 }
 
 // add an address and an value to create a new address
-void* MemoryBlock::Add(void* address, uint32 toAdd)
+void* MemoryBlock::Add(void* address, size_t toAdd)
 {
 	return (void*)(reinterpret_cast<size_t>(address) + toAdd);
 }
 
 // subtract a value of an address to create a new address
-void* MemoryBlock::Subtract(void* address, uint32 toSubtract)
+void* MemoryBlock::Subtract(void* address, size_t toSubtract)
 {
 	return (void*)(reinterpret_cast<size_t>(address) - toSubtract);
 }
 
-bool MemoryBlock::isPowerOfTwo(uint32 number)
+bool MemoryBlock::isPowerOfTwo(size_t number)
 {
 	return (number & (number - 1)) == 0;
 }

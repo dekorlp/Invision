@@ -93,10 +93,10 @@ class HAL_API MemoryBlock
 
 		
 
-		void* Add(void* address, uint32 toAdd);
-		void* Subtract(void* address, uint32 toSubtract);
+		void* Add(void* address, size_t toAdd);
+		void* Subtract(void* address, size_t toSubtract);
 
-		bool isPowerOfTwo(uint32 number);
+		bool isPowerOfTwo(size_t number);
 
 		// Bound checking size
 		unsigned int FRONT_SIZE = 4;
