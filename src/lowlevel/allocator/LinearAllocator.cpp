@@ -40,7 +40,7 @@ void* LinearAllocator::Allocate(size_t blocksize, uint32 line, char* file, Memor
 
 
 
-	uint32 calcultedSize = mem.CalculateSize(currentOffset, blocksize, INVISION_USE_NO_HEADER, memTracking, boundsChecking);
+	size_t calcultedSize = mem.CalculateSize(currentOffset, blocksize, INVISION_USE_NO_HEADER, memTracking, boundsChecking);
 
 	if (usedMemory + calcultedSize > size)
 	{
