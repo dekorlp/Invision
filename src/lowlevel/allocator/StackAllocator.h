@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:	  LinearAllocator
-// Purpose:	  allocator subComponent allocator who allows Linear Allocation
+// Name:	  StackAllocator
+// Purpose:	  allocator subComponent allocator who allows Stack based Allocation
 // Author:	  Dennis Koehler
 // Created:	  2016-09-24
 // Copyright: Copyright (c) 2016, Nano Game Foundation
