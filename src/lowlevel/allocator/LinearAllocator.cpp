@@ -76,12 +76,12 @@ void* LinearAllocator::getArena()
 	return arena;
 }
 
-uint32 LinearAllocator::getUsedMemory()
+size_t LinearAllocator::getUsedMemory()
 {
 	return usedMemory;
 }
 
-uint32 LinearAllocator::getTotalMemory()
+size_t LinearAllocator::getTotalMemory()
 {
 	return size;
 }
@@ -93,8 +93,8 @@ void LinearAllocator::clear()
 #ifdef _DEBUG
 	INVISION_LOG_RAWTEXT("");
 	INVISION_LOG_RAWTEXT("LinearAllocator::Clear()");
-	mem.WriteToLog("UsedMemory: ", (uint32)0);
-	mem.WriteToLog("numChunks: ", (uint32)0);
+	mem.WriteToLog("UsedMemory: ", (size_t)0);
+	mem.WriteToLog("numChunks: ", (size_t)0);
 #endif
 
 	currentOffset = arena;

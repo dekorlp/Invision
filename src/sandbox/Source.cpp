@@ -130,6 +130,7 @@ void testLinearAllocator()
 	Log log("../../../logs/AllocationLog.txt");
 	Log::SetLogger(&log);
 
+
 	LinearAllocator alloc;
 	alloc.init(1024);
 	uint32* LinA1 = (uint32*) alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);

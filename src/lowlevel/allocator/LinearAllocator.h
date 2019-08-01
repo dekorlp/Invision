@@ -24,15 +24,15 @@ class HAL_API LinearAllocator
 
 		uint32 getCountOfChunks();
 		void* getArena();
-		uint32 getUsedMemory();
-		uint32 getTotalMemory();
+		size_t getUsedMemory();
+		size_t getTotalMemory();
 
 		void clear();
 	private:
 		void* arena; // start address
 		void* currentOffset; // boundary between used and free memory
-		uint32 size; // size of allocated Memory
-		uint32 usedMemory;
+		size_t size; // size of allocated Memory
+		size_t usedMemory;
 		uint32 numChunks; 
 
 };
