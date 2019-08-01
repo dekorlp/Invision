@@ -3,6 +3,7 @@
 #include "Log.h"
 #include "allocator\MemoryBlock.h"
 #include "allocator\LinearAllocator.h"
+#include "allocator\StackAllocator.h"
 #include <iostream>
 
 using namespace std;
@@ -132,17 +133,41 @@ void testLinearAllocator()
 
 
 	LinearAllocator alloc;
-	alloc.init(1024);
+	alloc.Init(1024);
 	uint32* LinA1 = (uint32*) alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
 	*LinA1 = 44;
 	uint32* LinA2 = (uint32*) alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
 	*LinA2 = 125;
 	uint32* LinA3 = (uint32*) alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
 	*LinA3 = 128;
-	alloc.clear();
+	alloc.Clear();
 	uint32* LinA4 = (uint32*)alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
 	*LinA1 = 1028;
 }
+
+void testStackAllocator()
+{
+	Log log("../../../logs/AllocationLog.txt");
+	Log::SetLogger(&log);
+
+	StackAllocator alloc;
+	alloc.Init(1024);
+	uint32* LinA1 = (uint32*)alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	*LinA1 = 44;
+	uint32* LinA2 = (uint32*)alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	*LinA2 = 125;
+	uint32* LinA3 = (uint32*)alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	*LinA3 = 128;
+	alloc.Deallocate(LinA2);
+	uint32* LinA4 = (uint32*)alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	*LinA4 = 1028;
+	uint32* LinA5 = (uint32*)alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	*LinA5 = 2048;
+	alloc.Clear();
+	uint32* LinA6 = (uint32*)alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	*LinA6 = 4096;
+}
+
 
 int main()
 {
@@ -152,7 +177,8 @@ int main()
 
 	//testAllocatorsStack();
 	//testAllocatorPool();
-	testLinearAllocator();
+	//testLinearAllocator();
+	testStackAllocator();
 	
 	return 0;
 }

@@ -1,20 +1,20 @@
 #include "precompiled.h"
 #include "MemoryBlock.h"
-#include "LinearAllocator.h"
+#include "StackAllocator.h"
 
-void LinearAllocator::Init(size_t size)
+void StackAllocator::Init(size_t size)
 {
 	MemoryBlock mem;
 
 #ifdef _DEBUG
 	std::stringstream ss;
-	ss << "LinearAllocator::init(size = " << size << ")";
+	ss << "StackAllocator::init(size = " << size << ")";
 	INVISION_LOG_RAWTEXT(ss.str());
 	ss.clear();
 	ss << "arena: " << arena;
 #endif
 
-	
+
 	arena = operator new (size);
 	currentOffset = arena;
 	this->size = size;
@@ -27,20 +27,20 @@ void LinearAllocator::Init(size_t size)
 #endif
 }
 
-void* LinearAllocator::Allocate(size_t blocksize, uint32 line, char* file, MemoryTracking memTracking,
+void* StackAllocator::Allocate(size_t blocksize, uint32 line, char* file, MemoryTracking memTracking,
 	BoundsChecking boundsChecking)
 {
 	MemoryBlock mem;
 
 #ifdef _DEBUG
 	std::stringstream ss;
-	ss << std::endl << "LinearAllocator::Allocate(blocksize = " << blocksize << ", ... " << ")";
+	ss << std::endl << "StackAllocator::Allocate(blocksize = " << blocksize << ", ... " << ")";
 	INVISION_LOG_RAWTEXT(ss.str());
 #endif
 
 
 
-	size_t calcultedSize = mem.CalculateSize(currentOffset, blocksize, INVISION_USE_NO_HEADER, memTracking, boundsChecking);
+	size_t calcultedSize = mem.CalculateSize(currentOffset, blocksize, INVISION_USE_STACKHEADER, memTracking, boundsChecking);
 
 	if (usedMemory + calcultedSize > size)
 	{
@@ -53,7 +53,7 @@ void* LinearAllocator::Allocate(size_t blocksize, uint32 line, char* file, Memor
 
 	usedMemory += calcultedSize;
 	numChunks++;
-	
+
 
 #ifdef _DEBUG
 	mem.WriteToLog("usedMemory: ", usedMemory);
@@ -61,43 +61,64 @@ void* LinearAllocator::Allocate(size_t blocksize, uint32 line, char* file, Memor
 	mem.WriteToLog("numChunks: ", numChunks);
 #endif
 
-	void* p = mem.CreateMemoryBlock(currentOffset, &currentOffset, blocksize, line, file, INVISION_USE_NO_HEADER, memTracking, boundsChecking);
+	void* p = mem.CreateMemoryBlock(currentOffset, &currentOffset, blocksize, line, file, INVISION_USE_STACKHEADER, memTracking, boundsChecking);
 
 	if (boundsChecking == INVISION_STANDARD_BOUNDS_CHECKING)
 	{
-		mem.CheckBoundaries(p, blocksize, INVISION_USE_NO_HEADER, memTracking);
+		mem.CheckBoundaries(p, blocksize, INVISION_USE_STACKHEADER, memTracking);
 	}
 
 	return p;
 }
 
-uint32 LinearAllocator::GetCountOfChunks()
+void StackAllocator::Deallocate(void* block)
+{
+#ifdef _DEBUG
+	std::stringstream ss;
+	ss << "StackAllocator::init(block = " << block << ")";
+	INVISION_LOG_RAWTEXT(ss.str());
+	ss.clear();
+	ss << "arena: " << arena;
+#endif
+
+	MemoryBlock mem;
+
+	SHeaderStack *stackheader = mem.GetStackHeader(block);
+	currentOffset = stackheader->frontOffset;
+
+#ifdef _DEBUG
+	mem.WriteToLog("currentOffset: ", currentOffset);
+#endif
+
+}
+
+uint32 StackAllocator::GetCountOfChunks()
 {
 	return numChunks;
 }
 
-void* LinearAllocator::GetArena()
+void* StackAllocator::GetArena()
 {
 	return arena;
 }
 
-size_t LinearAllocator::GetUsedMemory()
+size_t StackAllocator::GetUsedMemory()
 {
 	return usedMemory;
 }
 
-size_t LinearAllocator::GetTotalMemory()
+size_t StackAllocator::GetTotalMemory()
 {
 	return size;
 }
 
-void LinearAllocator::Clear()
+void StackAllocator::Clear()
 {
 	MemoryBlock mem;
 
 #ifdef _DEBUG
 	INVISION_LOG_RAWTEXT("");
-	INVISION_LOG_RAWTEXT("LinearAllocator::Clear()");
+	INVISION_LOG_RAWTEXT("StackAllocator::Clear()");
 	mem.WriteToLog("UsedMemory: ", (size_t)0);
 	mem.WriteToLog("numChunks: ", (size_t)0);
 #endif
