@@ -18,8 +18,8 @@
 class HAL_API LinearAllocator
 {
 	public:
-		void init(uint32 size);
-		void* Allocate(uint32 blocksize, uint32 line, char* file, MemoryTracking memTracking,
+		void init(size_t size);
+		void* Allocate(size_t blocksize, uint32 line, char* file, MemoryTracking memTracking,
 			BoundsChecking boundsChecking);
 
 		uint32 getCountOfChunks();

@@ -60,7 +60,7 @@ class HAL_API MemoryBlock
 	public:
 		void* CreateMemoryBlock(void* position,
 			void** endposition,
-			uint32 size,
+			size_t size,
 			uint32 lineOfFile,
 			char* filename,
 			UseHeader header = INVISION_USE_NO_HEADER,
@@ -70,16 +70,16 @@ class HAL_API MemoryBlock
 		SHeaderStack* GetStackHeader(void* memoryBlock);
 		SHeaderPool* GetPoolHeader(void* memoryBlock);
 		void SetPoolHeader(void* memoryBlock, size_t next);
-		uint32 CalculateSize(void* position, uint32 size, UseHeader header = INVISION_USE_NO_HEADER,
+		uint32 CalculateSize(void* position, size_t size, UseHeader header = INVISION_USE_NO_HEADER,
 			MemoryTracking memTracking = INVISION_DEFAULT_MEMORY_TRACKING,
 			BoundsChecking boundsChecking = INVISION_NO_BOUNDS_CHECKING);
 
 		SMemoryTracking* GetTrackingHeader(void* memoryBlock, UseHeader header);
 
-		bool CheckBoundaries(void* memoryBlock, uint32 payloudSize, UseHeader header, MemoryTracking memTracking);
+		bool CheckBoundaries(void* memoryBlock, size_t payloudSize, UseHeader header, MemoryTracking memTracking);
 
 		void WriteToLog(std::string initMessage, void* address);
-		void WriteToLog(std::string initMessage, uint32 number);
+		void WriteToLog(std::string initMessage, size_t number);
 	private:
 		SMemoryTracking tempTrackingStruct;
 		SHeaderStack tempHeaderStack;

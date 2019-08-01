@@ -7,7 +7,7 @@
 void* MemoryBlock::CreateMemoryBlock(
 	void* position,
 	void** endposition,
-	uint32 size, 
+	size_t size,
 	uint32 lineOfFile,
 	char* filename, 
 	UseHeader header,
@@ -193,7 +193,7 @@ void MemoryBlock::SetPoolHeader(void* memoryBlock, size_t next)
 	((SHeaderPool*)currentPosition)->next = (void*)next;
 }
 
-uint32 MemoryBlock::CalculateSize(void* position, uint32 size, UseHeader header,
+uint32 MemoryBlock::CalculateSize(void* position, size_t size, UseHeader header,
 	MemoryTracking memTracking,
 	BoundsChecking boundsChecking)
 {
@@ -269,7 +269,7 @@ SMemoryTracking* MemoryBlock::GetTrackingHeader(void* memoryBlock, UseHeader hea
 	return (SMemoryTracking*)currentPosition;
 }
 
-bool MemoryBlock::CheckBoundaries(void* memoryBlock,  uint32 payloudSize, UseHeader header, MemoryTracking memTracking)
+bool MemoryBlock::CheckBoundaries(void* memoryBlock,  size_t payloudSize, UseHeader header, MemoryTracking memTracking)
 {
 	void* pCurrentFront = memoryBlock;
 	void* pCurrentBack = memoryBlock;
@@ -350,7 +350,7 @@ void MemoryBlock::WriteToLog(std::string initMessage, void* address)
 	INVISION_LOG_RAWTEXT(ss.str());
 }
 
-void MemoryBlock::WriteToLog(std::string initMessage, uint32 number)
+void MemoryBlock::WriteToLog(std::string initMessage, size_t number)
 {
 	std::stringstream ss;
 	ss << initMessage  << number;

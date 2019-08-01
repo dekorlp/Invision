@@ -2,7 +2,7 @@
 #include "MemoryBlock.h"
 #include "LinearAllocator.h"
 
-void LinearAllocator::init(uint32 size)
+void LinearAllocator::init(size_t size)
 {
 	MemoryBlock mem;
 
@@ -27,7 +27,7 @@ void LinearAllocator::init(uint32 size)
 #endif
 }
 
-void* LinearAllocator::Allocate(uint32 blocksize, uint32 line, char* file, MemoryTracking memTracking,
+void* LinearAllocator::Allocate(size_t blocksize, uint32 line, char* file, MemoryTracking memTracking,
 	BoundsChecking boundsChecking)
 {
 	MemoryBlock mem;
