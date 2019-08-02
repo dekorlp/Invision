@@ -215,7 +215,6 @@ size_t MemoryBlock::CalculateSize(void* position, size_t size, UseHeader header,
 		currentPosition = Add(currentPosition, adjustment + sizeof(SMemoryTracking));
 	}
 
-	SHeaderStack* PtrHeaderStack; // used for StackAllocator
 	if (header == INVISION_USE_STACKHEADER)
 	{
 		// USE HEADER with size, front offset, back offset
