@@ -73,10 +73,13 @@ void PoolAllocator::CreateFreeList(void* position, size_t blocksize, uint32 line
 			mem.WriteToLog("Start: ", position);
 #endif
 			currentPayloadPosition = CreateFreeListBlock(position, &previousOffset, blocksize, line, file, memTracking, boundsChecking);
+
+			freelist = currentPayloadPosition;
+
 #ifdef _DEBUG
+			mem.WriteToLog("FreeList->start: ", freelist);
 			mem.WriteToLog("End: ", previousOffset);
 #endif
-			freelist = currentPayloadPosition;
 		}
 		else
 		{
