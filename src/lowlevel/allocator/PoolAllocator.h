@@ -18,9 +18,8 @@
 class HAL_API PoolAllocator
 {
 public:
-	void Init(size_t size, size_t chunksize);
-	void* Allocate(uint32 line, char* file,
-		BoundsChecking boundsChecking);
+	void Init(size_t size, size_t chunksize, BoundsChecking boundsChecking = INVISION_NO_BOUNDS_CHECKING);
+	void* Allocate();
 
 	void Deallocate(void* block);
 
@@ -32,16 +31,18 @@ public:
 	void Clear();
 private:
 	void* arena; // start address
-	//void* currentOffset; // boundary between used and free memory
 	size_t size; // size of allocated Memory
 	size_t chunkSize; // size of each chunk
 	size_t usedMemory;
 	uint32 numChunks;
+
+	BoundsChecking boundsChecking;
+
 	void* freelist;
 
-	void CreateFreeList(void* position, size_t blocksize, uint32 line, char* file, MemoryTracking memTracking,
+	void CreateFreeList(void* position, size_t blocksize, MemoryTracking memTracking,
 		BoundsChecking boundsChecking);
-	void* CreateFreeListBlock(void* position, void** newPosition, size_t blocksize, uint32 line, char* file, MemoryTracking memTracking,
+	void* CreateFreeListBlock(void* position, void** newPosition, size_t blocksize, MemoryTracking memTracking,
 		BoundsChecking boundsChecking);
 
 };

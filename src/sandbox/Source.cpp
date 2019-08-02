@@ -175,21 +175,25 @@ void testPoolAllocator()
 	Log::SetLogger(&log);
 
 	PoolAllocator alloc;
-	alloc.Init(192, 32);
-	uint32* Pol1 = (uint32*) alloc.Allocate(__LINE__, __FILE__,  INVISION_STANDARD_BOUNDS_CHECKING);
+	alloc.Init(192, sizeof(int));
+	uint32* Pol1 = (uint32*) alloc.Allocate();
 	*Pol1 = 1024;
-	uint32* Pol2 = (uint32*)alloc.Allocate(__LINE__, __FILE__, INVISION_STANDARD_BOUNDS_CHECKING);
+	uint32* Pol2 = (uint32*)alloc.Allocate();
 	*Pol2 = 2048;
-	uint32* Pol3 = (uint32*)alloc.Allocate(__LINE__, __FILE__, INVISION_STANDARD_BOUNDS_CHECKING);
+	uint32* Pol3 = (uint32*)alloc.Allocate();
 	*Pol3 = 3000;
-	uint32* Pol4 = (uint32*)alloc.Allocate(__LINE__, __FILE__, INVISION_STANDARD_BOUNDS_CHECKING);
+	uint32* Pol4 = (uint32*)alloc.Allocate();
 	*Pol4 = 4000;
-	uint32* Pol5 = (uint32*)alloc.Allocate(__LINE__, __FILE__, INVISION_STANDARD_BOUNDS_CHECKING);
+	uint32* Pol5 = (uint32*)alloc.Allocate();
 	*Pol5 = 5000;
-	uint32* Pol6 = (uint32*)alloc.Allocate(__LINE__, __FILE__, INVISION_STANDARD_BOUNDS_CHECKING);
+	uint32* Pol6 = (uint32*)alloc.Allocate();
 	*Pol6 = 7000;
-	//uint32* Pol7 = (uint32*)alloc.Allocate(__LINE__, __FILE__, INVISION_STANDARD_BOUNDS_CHECKING);
-	//*Pol7 = 8000;
+	alloc.Deallocate(Pol2);
+	alloc.Deallocate(Pol3);
+	uint32* Pol7 = (uint32*)alloc.Allocate();
+	*Pol7 = 8000;
+	uint32* Pol8 = (uint32*)alloc.Allocate();
+	*Pol8 = 9000;
 }
 
 

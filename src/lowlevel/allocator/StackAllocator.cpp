@@ -90,6 +90,8 @@ void StackAllocator::Deallocate(void* block)
 	mem.WriteToLog("currentOffset: ", currentOffset);
 #endif
 
+	numChunks--;
+
 }
 
 uint32 StackAllocator::GetCountOfChunks()

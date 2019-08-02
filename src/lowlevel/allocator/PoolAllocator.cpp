@@ -2,7 +2,7 @@
 #include "MemoryBlock.h"
 #include "PoolAllocator.h"
 
-void PoolAllocator::Init(size_t size, size_t chunksize)
+void PoolAllocator::Init(size_t size, size_t chunksize, BoundsChecking boundsChecking)
 {
 	MemoryBlock mem;
 
@@ -20,22 +20,23 @@ void PoolAllocator::Init(size_t size, size_t chunksize)
 	this->size = size;
 	usedMemory = 0;
 	numChunks = 0;
-	this->chunkSize = chunkSize;
+	this->chunkSize = chunksize;
 	freelist = nullptr;
+
+	this->boundsChecking = boundsChecking;
 
 #ifdef _DEBUG
 	mem.WriteToLog("Arena: ", arena);
 	mem.WriteToLog("Size: ", size);
 #endif
 
-	//CreateFreeList(arena, chunksize, __LINE__, __FILE__ ,INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
-	CreateFreeList(arena, sizeof(int), __LINE__, __FILE__, INVISION_DEFAULT_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	CreateFreeList(arena, chunksize, INVISION_DEFAULT_MEMORY_TRACKING, this->boundsChecking);
 
 }
 
 
 
-void PoolAllocator::CreateFreeList(void* position, size_t blocksize, uint32 line, char* file, MemoryTracking memTracking,
+void PoolAllocator::CreateFreeList(void* position, size_t blocksize, MemoryTracking memTracking,
 	BoundsChecking boundsChecking)
 {
 #ifdef _DEBUG
@@ -72,7 +73,7 @@ void PoolAllocator::CreateFreeList(void* position, size_t blocksize, uint32 line
 
 			mem.WriteToLog("Start: ", position);
 #endif
-			currentPayloadPosition = CreateFreeListBlock(position, &previousOffset, blocksize, line, file, memTracking, boundsChecking);
+			currentPayloadPosition = CreateFreeListBlock(position, &previousOffset, blocksize, memTracking, boundsChecking);
 
 			freelist = currentPayloadPosition;
 
@@ -91,7 +92,7 @@ void PoolAllocator::CreateFreeList(void* position, size_t blocksize, uint32 line
 
 			void* payload = currentPayloadPosition;
 			// allocate chunks after top
-			currentPayloadPosition = CreateFreeListBlock(previousOffset, &previousOffset, blocksize, line, file, memTracking, boundsChecking);
+			currentPayloadPosition = CreateFreeListBlock(previousOffset, &previousOffset, blocksize, memTracking, boundsChecking);
 			mem.SetPoolHeader(payload, currentPayloadPosition); 
 #ifdef _DEBUG
 			mem.WriteToLog("previous->next: ", ((SHeaderPool*)mem.GetPoolHeader(payload))->next);
@@ -102,7 +103,7 @@ void PoolAllocator::CreateFreeList(void* position, size_t blocksize, uint32 line
 	}
 }
 
-void* PoolAllocator::CreateFreeListBlock(void* position, void** newPosition, size_t blocksize, uint32 line, char* file, MemoryTracking memTracking,
+void* PoolAllocator::CreateFreeListBlock(void* position, void** newPosition, size_t blocksize, MemoryTracking memTracking,
 	BoundsChecking boundsChecking)
 {
 	MemoryBlock mem;
@@ -138,7 +139,7 @@ void* PoolAllocator::CreateFreeListBlock(void* position, void** newPosition, siz
 
 	void* top;
 
-	void* p = mem.CreateMemoryBlock(position, &top, blocksize, line, file, INVISION_USE_POOLHEADER, memTracking, boundsChecking);
+	void* p = mem.CreateMemoryBlock(position, &top, blocksize, __LINE__, __FILE__, INVISION_USE_POOLHEADER, memTracking, boundsChecking);
 
 	if (boundsChecking == INVISION_STANDARD_BOUNDS_CHECKING)
 	{
@@ -151,9 +152,15 @@ void* PoolAllocator::CreateFreeListBlock(void* position, void** newPosition, siz
 }
 
 
-void* PoolAllocator::Allocate(uint32 line, char* file,
-	BoundsChecking boundsChecking)
+void* PoolAllocator::Allocate()
 {
+
+#ifdef _DEBUG
+	std::stringstream ss;
+	ss << "PoolAllocator::Allocatate(...)";
+	INVISION_LOG_RAWTEXT(ss.str());
+#endif
+
 	MemoryBlock mem;
 
 	if (this->freelist == nullptr)
@@ -166,11 +173,22 @@ void* PoolAllocator::Allocate(uint32 line, char* file,
 
 		return nullptr;
 	}
+
 	
 	void* toAllocate = this->freelist;
 	this->freelist = mem.GetPoolHeader(this->freelist)->next;
 
+#ifdef _DEBUG
+	mem.WriteToLog("used Block for allocation: ", toAllocate);
+#endif
 
+	numChunks++;
+
+	// Check Bounds, when boundsChecking is activated
+	if (this->boundsChecking == INVISION_STANDARD_BOUNDS_CHECKING)
+	{
+		mem.CheckBoundaries(toAllocate, chunkSize, INVISION_USE_POOLHEADER, INVISION_DEFAULT_MEMORY_TRACKING);
+	}
 
 	return toAllocate;
 }
@@ -178,7 +196,30 @@ void* PoolAllocator::Allocate(uint32 line, char* file,
 
 void PoolAllocator::Deallocate(void* block)
 {
+#ifdef _DEBUG
+	std::stringstream ss;
+	ss << "PoolAllocator::Deallocate(block = " << block <<")";
+	INVISION_LOG_RAWTEXT(ss.str());
+#endif
 
+	MemoryBlock mem;
+
+
+#ifdef _DEBUG
+	mem.WriteToLog("deallocated Block: ", block);
+#endif
+
+	if (freelist == nullptr)
+	{
+		freelist = block;
+	}
+	else
+	{
+		mem.SetPoolHeader(block, freelist);
+		freelist = block;
+	}
+
+	numChunks--;
 }
 
 
@@ -204,6 +245,12 @@ size_t PoolAllocator::GetTotalMemory()
 
 void PoolAllocator::Clear()
 {
+#ifdef _DEBUG
+	std::stringstream ss;
+	ss << "PoolAllocator::Clear()";
+	INVISION_LOG_RAWTEXT(ss.str());
+#endif
+
 	MemoryBlock mem;
 
 #ifdef _DEBUG
@@ -216,4 +263,7 @@ void PoolAllocator::Clear()
 	//currentOffset = arena;
 	usedMemory = 0;
 	numChunks = 0;
+
+	freelist == nullptr;
+	CreateFreeList(arena, this->chunkSize, INVISION_DEFAULT_MEMORY_TRACKING, this->boundsChecking);
 }
