@@ -114,6 +114,8 @@ void testLinearAllocator()
 	alloc.Clear();
 	uint32* LinA4 = (uint32*)alloc.Allocate(sizeof(int));
 	*LinA1 = 1028;
+
+	alloc.Destroy();
 }
 
 void testStackAllocator()
@@ -137,6 +139,8 @@ void testStackAllocator()
 	alloc.Clear();
 	uint32* LinA6 = (uint32*)alloc.Allocate(sizeof(int));
 	*LinA6 = 4096;
+
+	alloc.Destroy();
 }
 
 void testPoolAllocator()
@@ -164,6 +168,8 @@ void testPoolAllocator()
 	*Pol7 = 8000;
 	uint32* Pol8 = (uint32*)alloc.Allocate();
 	*Pol8 = 9000;
+
+	alloc.Destroy();
 }
 
 
