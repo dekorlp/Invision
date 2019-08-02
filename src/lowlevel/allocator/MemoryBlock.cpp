@@ -91,7 +91,7 @@ void* MemoryBlock::CreateMemoryBlock(
 		unsigned int adjustment = ForwardAlignment(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT);
 		PtrHeaderPool = (SHeaderPool*)Add(currentPosition, adjustment);
 		*PtrHeaderPool = tempHeaderPool;
-		((SHeaderPool*)PtrHeaderPool)->next = 0x00000;
+		((SHeaderPool*)PtrHeaderPool)->next = (void*)0xFBFB;
 		currentPosition = (void*)PtrHeaderPool;
 
 #ifdef _DEBUG
@@ -182,7 +182,7 @@ SHeaderPool* MemoryBlock::GetPoolHeader(void* memoryBlock)
 	return (SHeaderPool*)currentPosition;
 }
 
-void MemoryBlock::SetPoolHeader(void* memoryBlock, size_t next)
+void MemoryBlock::SetPoolHeader(void* memoryBlock, void* next)
 {
 	void* currentPosition = memoryBlock;
 	unsigned int adjustment = BackwardAlignment(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT);
@@ -190,7 +190,7 @@ void MemoryBlock::SetPoolHeader(void* memoryBlock, size_t next)
 	unsigned int sHeaderAdjustment = BackwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SHeaderPool));
 	currentPosition = Subtract(currentPosition, sHeaderAdjustment);
 
-	((SHeaderPool*)currentPosition)->next = (void*)next;
+	((SHeaderPool*)currentPosition)->next = next;
 }
 
 size_t MemoryBlock::CalculateSize(void* position, size_t size, UseHeader header,

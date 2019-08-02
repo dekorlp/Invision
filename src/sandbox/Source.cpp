@@ -4,6 +4,7 @@
 #include "allocator\MemoryBlock.h"
 #include "allocator\LinearAllocator.h"
 #include "allocator\StackAllocator.h"
+#include "allocator\PoolAllocator.h"
 #include <iostream>
 
 using namespace std;
@@ -108,7 +109,7 @@ void testAllocatorPool()
 
 	INVISION_LOG_RAWTEXT("----------Before SetPoolHeader()--------");
 	SHeaderPool *header1 = memBlock.GetPoolHeader(test6);
-	memBlock.SetPoolHeader(test6, 0xFFFFFFFF);
+	memBlock.SetPoolHeader(test6, (void*)0xFFFFFFFF);
 	INVISION_LOG_RAWTEXT("----------After SetPoolHeader()-------");
 	SHeaderPool *header2 = memBlock.GetPoolHeader(test6);
 	SMemoryTracking* tracking = memBlock.GetTrackingHeader(test6, INVISION_USE_POOLHEADER);
@@ -168,6 +169,15 @@ void testStackAllocator()
 	*LinA6 = 4096;
 }
 
+void testPoolAllocator()
+{
+	Log log("../../../logs/AllocationLog.txt");
+	Log::SetLogger(&log);
+
+	PoolAllocator alloc;
+	alloc.Init(192, 32);
+}
+
 
 int main()
 {
@@ -178,7 +188,8 @@ int main()
 	//testAllocatorsStack();
 	//testAllocatorPool();
 	//testLinearAllocator();
-	testStackAllocator();
+	//testStackAllocator();
+	testPoolAllocator();
 	
 	return 0;
 }
