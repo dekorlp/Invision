@@ -135,14 +135,14 @@ void testLinearAllocator()
 
 	LinearAllocator alloc;
 	alloc.Init(1024);
-	uint32* LinA1 = (uint32*) alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	uint32* LinA1 = (uint32*) alloc.Allocate(sizeof(int));
 	*LinA1 = 44;
-	uint32* LinA2 = (uint32*) alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	uint32* LinA2 = (uint32*) alloc.Allocate(sizeof(int));
 	*LinA2 = 125;
-	uint32* LinA3 = (uint32*) alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	uint32* LinA3 = (uint32*) alloc.Allocate(sizeof(int));
 	*LinA3 = 128;
 	alloc.Clear();
-	uint32* LinA4 = (uint32*)alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	uint32* LinA4 = (uint32*)alloc.Allocate(sizeof(int));
 	*LinA1 = 1028;
 }
 
@@ -153,19 +153,19 @@ void testStackAllocator()
 
 	StackAllocator alloc;
 	alloc.Init(1024);
-	uint32* LinA1 = (uint32*)alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	uint32* LinA1 = (uint32*)alloc.Allocate(sizeof(int));
 	*LinA1 = 44;
-	uint32* LinA2 = (uint32*)alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	uint32* LinA2 = (uint32*)alloc.Allocate(sizeof(int));
 	*LinA2 = 125;
-	uint32* LinA3 = (uint32*)alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	uint32* LinA3 = (uint32*)alloc.Allocate(sizeof(int));
 	*LinA3 = 128;
 	alloc.Deallocate(LinA2);
-	uint32* LinA4 = (uint32*)alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	uint32* LinA4 = (uint32*)alloc.Allocate(sizeof(int));
 	*LinA4 = 1028;
-	uint32* LinA5 = (uint32*)alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	uint32* LinA5 = (uint32*)alloc.Allocate(sizeof(int));
 	*LinA5 = 2048;
 	alloc.Clear();
-	uint32* LinA6 = (uint32*)alloc.Allocate(sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	uint32* LinA6 = (uint32*)alloc.Allocate(sizeof(int));
 	*LinA6 = 4096;
 }
 
