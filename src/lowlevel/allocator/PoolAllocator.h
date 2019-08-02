@@ -19,7 +19,7 @@ class HAL_API PoolAllocator
 {
 public:
 	void Init(size_t size, size_t chunksize);
-	void* Allocate(size_t blocksize, uint32 line, char* file, MemoryTracking memTracking,
+	void* Allocate(uint32 line, char* file,
 		BoundsChecking boundsChecking);
 
 	void Deallocate(void* block);

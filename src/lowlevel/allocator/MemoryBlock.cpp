@@ -91,7 +91,7 @@ void* MemoryBlock::CreateMemoryBlock(
 		unsigned int adjustment = ForwardAlignment(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT);
 		PtrHeaderPool = (SHeaderPool*)Add(currentPosition, adjustment);
 		*PtrHeaderPool = tempHeaderPool;
-		((SHeaderPool*)PtrHeaderPool)->next = (void*)0xFBFB;
+		((SHeaderPool*)PtrHeaderPool)->next = nullptr;
 		currentPosition = (void*)PtrHeaderPool;
 
 #ifdef _DEBUG

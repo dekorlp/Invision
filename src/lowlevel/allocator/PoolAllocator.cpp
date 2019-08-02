@@ -29,7 +29,7 @@ void PoolAllocator::Init(size_t size, size_t chunksize)
 #endif
 
 	//CreateFreeList(arena, chunksize, __LINE__, __FILE__ ,INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
-	CreateFreeList(arena, sizeof(int), __LINE__, __FILE__, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	CreateFreeList(arena, sizeof(int), __LINE__, __FILE__, INVISION_DEFAULT_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
 
 }
 
@@ -151,13 +151,28 @@ void* PoolAllocator::CreateFreeListBlock(void* position, void** newPosition, siz
 }
 
 
-void* PoolAllocator::Allocate(size_t blocksize, uint32 line, char* file, MemoryTracking memTracking,
+void* PoolAllocator::Allocate(uint32 line, char* file,
 	BoundsChecking boundsChecking)
 {
+	MemoryBlock mem;
+
+	if (this->freelist == nullptr)
+	{
+		//freelist is out of memory
+#ifdef _DEBUG
+		INVISION_LOG_RAWTEXT("There is not enough additional memory available!");
+		throw invisionCoreOutOfMemory("There is not enough additional memory available!");
+#endif
+
+		return nullptr;
+	}
+	
+	void* toAllocate = this->freelist;
+	this->freelist = mem.GetPoolHeader(this->freelist)->next;
 
 
 
-	return nullptr;
+	return toAllocate;
 }
 
 

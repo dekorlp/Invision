@@ -176,6 +176,20 @@ void testPoolAllocator()
 
 	PoolAllocator alloc;
 	alloc.Init(192, 32);
+	uint32* Pol1 = (uint32*) alloc.Allocate(__LINE__, __FILE__,  INVISION_STANDARD_BOUNDS_CHECKING);
+	*Pol1 = 1024;
+	uint32* Pol2 = (uint32*)alloc.Allocate(__LINE__, __FILE__, INVISION_STANDARD_BOUNDS_CHECKING);
+	*Pol2 = 2048;
+	uint32* Pol3 = (uint32*)alloc.Allocate(__LINE__, __FILE__, INVISION_STANDARD_BOUNDS_CHECKING);
+	*Pol3 = 3000;
+	uint32* Pol4 = (uint32*)alloc.Allocate(__LINE__, __FILE__, INVISION_STANDARD_BOUNDS_CHECKING);
+	*Pol4 = 4000;
+	uint32* Pol5 = (uint32*)alloc.Allocate(__LINE__, __FILE__, INVISION_STANDARD_BOUNDS_CHECKING);
+	*Pol5 = 5000;
+	uint32* Pol6 = (uint32*)alloc.Allocate(__LINE__, __FILE__, INVISION_STANDARD_BOUNDS_CHECKING);
+	*Pol6 = 7000;
+	//uint32* Pol7 = (uint32*)alloc.Allocate(__LINE__, __FILE__, INVISION_STANDARD_BOUNDS_CHECKING);
+	//*Pol7 = 8000;
 }
 
 
