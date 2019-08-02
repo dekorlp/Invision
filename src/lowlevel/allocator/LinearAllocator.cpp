@@ -106,3 +106,9 @@ void LinearAllocator::Clear()
 	usedMemory = 0;
 	numChunks = 0;
 }
+
+void LinearAllocator::Destroy()
+{
+	delete arena;
+	arena = nullptr;
+}

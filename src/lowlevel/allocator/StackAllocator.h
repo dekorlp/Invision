@@ -29,6 +29,7 @@ public:
 	size_t GetTotalMemory();
 
 	void Clear();
+	void Destroy();
 private:
 	void* arena; // start address
 	void* currentOffset; // boundary between used and free memory

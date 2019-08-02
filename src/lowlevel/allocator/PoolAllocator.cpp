@@ -267,3 +267,9 @@ void PoolAllocator::Clear()
 	freelist = nullptr;
 	CreateFreeList(arena, this->chunkSize, INVISION_DEFAULT_MEMORY_TRACKING, this->boundsChecking);
 }
+
+void PoolAllocator::Destroy()
+{
+	delete arena;
+	arena = nullptr;
+}

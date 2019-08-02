@@ -29,6 +29,7 @@ public:
 	size_t GetTotalMemory();
 
 	void Clear();
+	void Destroy();
 private:
 	void* arena; // start address
 	size_t size; // size of allocated Memory

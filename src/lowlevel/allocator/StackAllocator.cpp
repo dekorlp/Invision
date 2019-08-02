@@ -129,3 +129,9 @@ void StackAllocator::Clear()
 	usedMemory = 0;
 	numChunks = 0;
 }
+
+void StackAllocator::Destroy()
+{
+	delete arena;
+	arena = nullptr;
+}
