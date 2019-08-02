@@ -129,7 +129,7 @@ void testAllocatorPool()
 
 void testLinearAllocator()
 {
-	Log log("../../../logs/AllocationLog.txt");
+	Log log("../../../logs/LinearAllocationLog.txt");
 	Log::SetLogger(&log);
 
 
@@ -148,7 +148,7 @@ void testLinearAllocator()
 
 void testStackAllocator()
 {
-	Log log("../../../logs/AllocationLog.txt");
+	Log log("../../../logs/StackAllocationLog.txt");
 	Log::SetLogger(&log);
 
 	StackAllocator alloc;
@@ -171,7 +171,7 @@ void testStackAllocator()
 
 void testPoolAllocator()
 {
-	Log log("../../../logs/AllocationLog.txt");
+	Log log("../../../logs/PoolAllocationLog.txt");
 	Log::SetLogger(&log);
 
 	PoolAllocator alloc;
@@ -205,8 +205,8 @@ int main()
 
 	//testAllocatorsStack();
 	//testAllocatorPool();
-	//testLinearAllocator();
-	//testStackAllocator();
+	testLinearAllocator();
+	testStackAllocator();
 	testPoolAllocator();
 	
 	return 0;
