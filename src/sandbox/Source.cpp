@@ -113,7 +113,7 @@ void testLinearAllocator()
 	*LinA3 = 128;
 	alloc.Clear();
 	uint32* LinA4 = (uint32*)alloc.Allocate(sizeof(int));
-	*LinA1 = 1028;
+	*LinA4 = 1028;
 
 	alloc.Destroy();
 }
