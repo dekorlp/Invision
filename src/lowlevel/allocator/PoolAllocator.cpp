@@ -264,6 +264,6 @@ void PoolAllocator::Clear()
 	usedMemory = 0;
 	numChunks = 0;
 
-	freelist == nullptr;
+	freelist = nullptr;
 	CreateFreeList(arena, this->chunkSize, INVISION_DEFAULT_MEMORY_TRACKING, this->boundsChecking);
 }

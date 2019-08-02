@@ -20,36 +20,6 @@ void testVector()
 	bool b = vec1 == vec2;
 }
 
-/*void testAllocators()
-{
-	std::cout << "INT: " << sizeof(int) << std::endl;
-	std::cout << "CHAR: " << sizeof(char) << std::endl;
-	std::cout << "CHAR*: " << sizeof(char*) << std::endl;
-	std::cout << "SIZE_T: " << sizeof(size_t) << std::endl;
-	std::cout << "UNSIGNED INT: " << sizeof(unsigned int) << std::endl;
-
-	typedef Allocator<StackAllocator, StandardBoundsChecking, AdvancedMemoryTracking> TestAllocator;
-
-	//TestAllocator Loca(1024*1024); // 1MB
-	TestAllocator Loca(sizeof(int), 4);
-	int *test = (int*)Loca.allocate(sizeof(int), __LINE__, __FILE__);
-	*test = 2147483647;
-	int *test1 = (int*)Loca.allocate(sizeof(int), __LINE__, __FILE__);
-	*test1 = 14;
-	int *test2 = (int*)Loca.allocate(sizeof(int), __LINE__, __FILE__);
-	*test2 = 15;
-	int *test3 = (int*)Loca.allocate(sizeof(int), __LINE__, __FILE__);
-	*test3 = 16;
-	Loca.deallocate(test3, __LINE__, __FILE__);
-	Loca.deallocate(test2, __LINE__, __FILE__);
-	int *test4 = (int*)Loca.allocate(sizeof(int), __LINE__, __FILE__);
-	*test4 = 17;
-	int *test5 = (int*)Loca.allocate(sizeof(int), __LINE__, __FILE__);
-	*test5 = 18;
-	std::cout << *test5;
-
-}*/
-
 void testLog()
 {
 	Log log("../../../logs/log.txt");
@@ -62,7 +32,7 @@ void testLog()
 	INVISION_LOG_INFO(std::string("HalloWelt").append("INFO"));
 }
 
-void testAllocatorsStack()
+void testAllocatorBlockStack()
 {
 	//1024 * 1024
 	//void* arena = ::operator new (1);
@@ -92,7 +62,7 @@ void testAllocatorsStack()
 
 }
 
-void testAllocatorPool()
+void testAllocatorBlockPool()
 {
 	//1024 * 1024
 	//void* arena = ::operator new (1);
@@ -203,8 +173,8 @@ int main()
 	//testAllocators();
 	//testLog();
 
-	//testAllocatorsStack();
-	//testAllocatorPool();
+	//testAllocatorBlockStack();
+	//testAllocatorBlockPool();
 	testLinearAllocator();
 	testStackAllocator();
 	testPoolAllocator();
