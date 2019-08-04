@@ -56,7 +56,7 @@ Quaternion Quaternion::normalize() const
 Vector3 Quaternion::rotate( Vector3 &axis, float angle) const
 {
 	axis = Vector3::Normalize(axis);
-	angle = angle * PI / 180; // convert deg/grad -> rad/bogenmaﬂ
+	angle = angle * PI_F / 180; // convert deg/grad -> rad/bogenmaﬂ
 
 	float c = cosf(angle / 2);
 	float s = sinf(angle / 2);
