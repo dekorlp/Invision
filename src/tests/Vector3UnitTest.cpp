@@ -13,15 +13,6 @@ BOOST_AUTO_TEST_CASE(Vector3CorrectAdditionVectorsTest) // +
 	BOOST_CHECK(res == correctVec);
 }
 
-/*BOOST_AUTO_TEST_CASE(Vector3IncorrectAdditionVectorsTest) // +
-{
-	Vector3 vec1(1, 4, 2);
-	Vector3 vec2(4, 3, 1);
-	Vector3 correctVec(8, 7, 3);
-	Vector3 res = vec1 + vec2;
-	BOOST_CHECK(res != correctVec);
-}*/
-
 BOOST_AUTO_TEST_CASE(Vector3CalculateCrossProductTest) // *
 {
 	Vector3 vec1(2, 8, 4);
