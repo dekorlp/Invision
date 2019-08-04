@@ -198,7 +198,7 @@ BOOST_AUTO_TEST_CASE(MatrixVektorRotationTest)
 	Vector3 axis(0.0, 0.0, -1.0);
 	Matrix mat = Matrix::RotateAxis(axis, 60.0);
 	Vector3 res = mat * position;
-	Vector3 correctVector(-1.73205078, 1.00000000, 6.00000000);
+	Vector3 correctVector(-1.73205078f, 1.00000000f, 6.00000000f);
 	BOOST_CHECK(res == correctVector);
 }
 
@@ -207,7 +207,7 @@ BOOST_AUTO_TEST_CASE(MatrixVektorRotationTest2)
 	Vector3 position(0.0, 2.0, 6.0);
 	Matrix mat = Matrix::RotateZ(-60.0);
 	Vector3 res = mat * position;
-	Vector3 correctVector(-1.73205078, 1.00000000, 6.00000000);
+	Vector3 correctVector(-1.73205078f, 1.00000000f, 6.00000000f);
 	BOOST_CHECK(res == correctVector);
 }
 

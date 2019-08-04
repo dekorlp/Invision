@@ -14,7 +14,7 @@ BOOST_AUTO_TEST_SUITE(QuaternionUnitTest);
 		Quaternion quat(position, 0);
 		Vector3 res = quat.rotate(axis, 60);
 
-		Vector3 correctVector(-1.73205078, 1.00000000, 6.00000000);
+		Vector3 correctVector(-1.73205078f, 1.00000000f, 6.00000000f);
 		BOOST_CHECK(res == correctVector);
 	}
 

@@ -136,7 +136,6 @@ Matrix Matrix::operator/(float const& rhs)
 
 Matrix Matrix::operator+=(Matrix const& rhs) const
 {
-	float out[16];
 	__m128 row0 = _mm_loadu_ps((const float*)(a + 0));
 	__m128 row1 = _mm_loadu_ps((const float*)(a + 4));
 	__m128 row2 = _mm_loadu_ps((const float*)(a + 8));
@@ -157,7 +156,6 @@ Matrix Matrix::operator+=(Matrix const& rhs) const
 
 Matrix Matrix::operator-=(Matrix const& rhs) const
 {
-	float out[16];
 	__m128 row0 = _mm_loadu_ps((const float*)(a + 0));
 	__m128 row1 = _mm_loadu_ps((const float*)(a + 4));
 	__m128 row2 = _mm_loadu_ps((const float*)(a + 8));
@@ -242,8 +240,8 @@ Matrix Matrix::Translate(const Vector3& v)
 
 Matrix Matrix::RotateX(const float f)
 {
-	float cos = cosf(f * PI / 180);
-	float sin = sinf(f * PI / 180);
+	float cos = cosf(f * PI_F / 180);
+	float sin = sinf(f * PI_F / 180);
 	return { 1.0f, 0.0f, 0.0f, 0.0f,
 			0.0f, cos, sin, 0.0f,
 			0.0f, -sin, cos, 0.0f,
@@ -253,8 +251,8 @@ Matrix Matrix::RotateX(const float f)
 
 Matrix Matrix::RotateY(const float f)
 {
-	float cos = cosf(f * PI / 180);
-	float sin = sinf(f * PI / 180);
+	float cos = cosf(f * PI_F / 180);
+	float sin = sinf(f * PI_F / 180);
 	return { cos, 0.0f, -sin, 0.0f,
 			0.0f, 1.0f, 0.0f, 0.0f,
 			sin, 0.0f, cos, 0.0f,
@@ -264,8 +262,8 @@ Matrix Matrix::RotateY(const float f)
 
 Matrix Matrix::RotateZ(const float f)
 {
-	float cos = cosf(f * PI / 180);
-	float sin = sinf(f * PI / 180);
+	float cos = cosf(f * PI_F / 180);
+	float sin = sinf(f * PI_F / 180);
 	return { cos, sin, 0.0f, 0.0f,
 			-sin, cos, 0.0f, 0.0f,
 			0.0f, 0.0f, 1.0f, 0.0f,
@@ -285,7 +283,7 @@ Matrix Matrix::RotateXYZ(const Vector3 &v)
 
 Matrix Matrix::RotateAxis(const Vector3 &v, const float f)
 {
-	const float fSin = sinf(-f * PI / 180), fCos = cosf(-f * PI / 180);
+	const float fSin = sinf(-f * PI_F / 180), fCos = cosf(-f * PI_F / 180);
 	const float fOneMinusCos = 1.0f - fCos;
 
 	const Vector3 vAxis = Vector3::Normalize(v);
@@ -335,7 +333,7 @@ Matrix Matrix::Camera(const Vector3 &vPos, const Vector3 &vLookAt, const Vector3
 
 Matrix Matrix::Perspective(const float &anglef, const float aspect, const float &nearf,const  float &farf)
 {
-	const float scale = 1.0f / tanf(anglef * 0.5 );
+	const float scale = 1.0f / tanf(anglef * 0.5f );
 	float nf = 1.0f / (nearf - farf);
 
 	return { scale / aspect, 0.0f, 0.0f, 0.0f,

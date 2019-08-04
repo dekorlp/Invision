@@ -62,7 +62,7 @@ bool InStringW::operator == (InStringW rValue)
 
 uint32 InStringW::Length()
 {
-	return rBaseString->GetLength();
+	return (uint32)rBaseString->GetLength();
 }
 
 InStringW InStringW::substring(uint32 pos, uint32 len)

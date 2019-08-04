@@ -23,7 +23,7 @@ class InBaseString // HAL_API doesn't work
 private:
 	uint32 mCRCID = 0;
 	boost::shared_array<U> mText;
-	uint32 mLength = 0;
+	size_t mLength = 0;
 	uint32 mRefCount = 0;
 
 public:
@@ -53,7 +53,7 @@ public:
 
 	}
 
-	InBaseString(T text, uint32 length, uint32 CRCID)
+	InBaseString(T text, size_t length, uint32 CRCID)
 	{
 		mLength = length;
 		mCRCID = CRCID;
@@ -98,7 +98,7 @@ public:
 		mRefCount--;
 	}
 
-	uint32 GetLength()
+	size_t GetLength()
 	{
 		return mLength;
 	}
@@ -141,8 +141,8 @@ public:
 
 	InBaseString trim(U chars[], uint32 arrSize)
 	{
-		uint32 realStringBegin = 0;
-		uint32 realStringEnd = 0;
+		size_t realStringBegin = 0;
+		size_t realStringEnd = 0;
 
 		boost::shared_array<U> origText(new U[this->mLength]);
 		origText = mText;
@@ -182,7 +182,7 @@ public:
 		}
 
 		// iterate from array back side
-		for (uint32 i = inStrlen(origText.get()) - 1; i > 0; i--)
+		for (size_t i = inStrlen(origText.get()) - 1; i > 0; i--)
 		//for (uint32 i = (mLength * sizeof(U)) - 1; i > 0; i--)
 		{
 			countOfArr = 0;
@@ -335,7 +335,7 @@ public:
 		//boost::shared_array<U> origText(new U[this->mLength + (sizeof(newValue) * sizeof(U) - sizeof(oldValue) * sizeof(U)) * countOfOldValues + 1]);
 		uint32 k = 0; // old text's iterator
 
-		for (uint32 i = 0; i < inStrlen(mText.get()); i++)
+		for (size_t i = 0; i < inStrlen(mText.get()); i++)
 		//for (uint32 i = 0; i < mLength * sizeof(U); i++)
 		{
 			if (mText.get()[i] == oldValue[0])
@@ -489,7 +489,7 @@ public:
 		}
 
 		uint32 Index = -1;
-		uint32 found = inStrlen(value)-1;
+		size_t found = inStrlen(value)-1;
 		//uint32 found = sizeof(value) * sizeof(U) - 1;
 		for (uint32 i = Startindex; i > 0; i--)
 		{
@@ -505,7 +505,7 @@ public:
 			}
 			else
 			{
-				uint32 found = inStrlen(value);
+				size_t found = inStrlen(value);
 				//uint32 found = sizeof(value) * sizeof(U);
 				Index = -1;
 			}
@@ -549,7 +549,7 @@ public:
 
 		bool bEndsWith = false;
 		uint32 countOfval = 0;
-		for (uint32 i = inStrlen(mText.get()) - inStrlen(value); i < inStrlen(mText.get()); i++)
+		for (size_t i = inStrlen(mText.get()) - inStrlen(value); i < inStrlen(mText.get()); i++)
 		//for (uint32 i = mLength * sizeof(U) - sizeof(value) * sizeof(U); i < mLength * sizeof(U); i++)
 		{
 			if (mText.get()[i] == value[countOfval])
@@ -646,7 +646,7 @@ public:
 			
 		}
 
-		uint32 textCounter = inStrlen(mText.get());
+		size_t textCounter = inStrlen(mText.get());
 		//uint32 textCounter = mLength * sizeof(U);
 		for (uint32 i = 0; i < totalWidth; i++)
 		{
@@ -679,7 +679,7 @@ public:
 		}
 
 
-		for (uint32 i = mLength; i < mLength + inStrlen(value); i++)
+		for (size_t i = mLength; i < mLength + inStrlen(value); i++)
 		{
 			origText[i] = value[i - mLength];
 		}

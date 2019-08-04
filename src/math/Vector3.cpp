@@ -77,7 +77,7 @@ Vector3 operator/(const Vector3& lhs, const float& rhs)
 
 bool Vector3::operator==( Vector3 const& rhs) const
 {
-	float compareTolerance = 0.0005;
+	float compareTolerance = 0.0005f;
 
 
 	return x >= rhs.x - compareTolerance && x <= rhs.x + compareTolerance
