@@ -14,6 +14,11 @@ void* MemoryBlock::CreateMemoryBlock(
 	MemoryTracking memTracking, 
 	BoundsChecking boundsChecking)
 {
+	SMemoryTracking tempTrackingStruct = {};
+	SHeaderStack tempHeaderStack = {};
+	SHeaderPool tempHeaderPool = {};
+
+
 #ifdef _DEBUG
 	std::stringstream ss;
 	ss << std::endl << "Call Method: CreateMemoryBlock(position = 0x" << position

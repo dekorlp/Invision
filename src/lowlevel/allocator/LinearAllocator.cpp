@@ -4,7 +4,6 @@
 
 void LinearAllocator::Init(size_t size)
 {
-	MemoryBlock mem;
 
 #ifdef _DEBUG
 	std::stringstream ss;
@@ -22,15 +21,15 @@ void LinearAllocator::Init(size_t size)
 	numChunks = 0;
 
 #ifdef _DEBUG
-	mem.WriteToLog("Arena: ", arena);
-	mem.WriteToLog("Size: ", size);
+	MemoryBlock::WriteToLog("Arena: ", arena);
+	MemoryBlock::WriteToLog("Size: ", size);
 #endif
 }
 
 void* LinearAllocator::Allocate(size_t blocksize, uint32 line, char* file, MemoryTracking memTracking,
 	BoundsChecking boundsChecking)
 {
-	MemoryBlock mem;
+	
 
 #ifdef _DEBUG
 	std::stringstream ss;
@@ -40,7 +39,7 @@ void* LinearAllocator::Allocate(size_t blocksize, uint32 line, char* file, Memor
 
 
 
-	size_t calcultedSize = mem.CalculateSize(currentOffset, blocksize, INVISION_USE_NO_HEADER, memTracking, boundsChecking);
+	size_t calcultedSize = MemoryBlock::CalculateSize(currentOffset, blocksize, INVISION_USE_NO_HEADER, memTracking, boundsChecking);
 
 	if (usedMemory + calcultedSize > size)
 	{
@@ -56,16 +55,16 @@ void* LinearAllocator::Allocate(size_t blocksize, uint32 line, char* file, Memor
 	
 
 #ifdef _DEBUG
-	mem.WriteToLog("usedMemory: ", usedMemory);
-	mem.WriteToLog("Size Of Chunk: ", calcultedSize);
-	mem.WriteToLog("numChunks: ", numChunks);
+	MemoryBlock::WriteToLog("usedMemory: ", usedMemory);
+	MemoryBlock::WriteToLog("Size Of Chunk: ", calcultedSize);
+	MemoryBlock::WriteToLog("numChunks: ", numChunks);
 #endif
 
-	void* p = mem.CreateMemoryBlock(currentOffset, &currentOffset, blocksize, line, file, INVISION_USE_NO_HEADER, memTracking, boundsChecking);
+	void* p = MemoryBlock::CreateMemoryBlock(currentOffset, &currentOffset, blocksize, line, file, INVISION_USE_NO_HEADER, memTracking, boundsChecking);
 
 	if (boundsChecking == INVISION_STANDARD_BOUNDS_CHECKING)
 	{
-		mem.CheckBoundaries(p, blocksize, INVISION_USE_NO_HEADER, memTracking);
+		MemoryBlock::CheckBoundaries(p, blocksize, INVISION_USE_NO_HEADER, memTracking);
 	}
 
 	return p;
@@ -93,13 +92,12 @@ size_t LinearAllocator::GetTotalMemory()
 
 void LinearAllocator::Clear()
 {
-	MemoryBlock mem;
 
 #ifdef _DEBUG
 	INVISION_LOG_RAWTEXT("");
 	INVISION_LOG_RAWTEXT("LinearAllocator::Clear()");
-	mem.WriteToLog("UsedMemory: ", (size_t)0);
-	mem.WriteToLog("numChunks: ", (size_t)0);
+	MemoryBlock::WriteToLog("UsedMemory: ", (size_t)0);
+	MemoryBlock::WriteToLog("numChunks: ", (size_t)0);
 #endif
 
 	currentOffset = arena;

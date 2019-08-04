@@ -58,7 +58,7 @@ struct SHeaderPool
 class HAL_API MemoryBlock
 {
 	public:
-		void* CreateMemoryBlock(void* position,
+		static void* CreateMemoryBlock(void* position,
 			void** endposition,
 			size_t size,
 			uint32 lineOfFile,
@@ -67,40 +67,38 @@ class HAL_API MemoryBlock
 			MemoryTracking memTracking = INVISION_DEFAULT_MEMORY_TRACKING,
 			BoundsChecking boundsChecking = INVISION_NO_BOUNDS_CHECKING);
 
-		SHeaderStack* GetStackHeader(void* memoryBlock);
-		SHeaderPool* GetPoolHeader(void* memoryBlock);
-		void SetPoolHeader(void* memoryBlock, void* next);
-		size_t CalculateSize(void* position, size_t size, UseHeader header = INVISION_USE_NO_HEADER,
+		static SHeaderStack* GetStackHeader(void* memoryBlock);
+		static SHeaderPool* GetPoolHeader(void* memoryBlock);
+		static void SetPoolHeader(void* memoryBlock, void* next);
+		static size_t CalculateSize(void* position, size_t size, UseHeader header = INVISION_USE_NO_HEADER,
 			MemoryTracking memTracking = INVISION_DEFAULT_MEMORY_TRACKING,
 			BoundsChecking boundsChecking = INVISION_NO_BOUNDS_CHECKING);
 
-		SMemoryTracking* GetTrackingHeader(void* memoryBlock, UseHeader header);
+		static SMemoryTracking* GetTrackingHeader(void* memoryBlock, UseHeader header);
 
-		bool CheckBoundaries(void* memoryBlock, size_t payloudSize, UseHeader header, MemoryTracking memTracking);
+		static bool CheckBoundaries(void* memoryBlock, size_t payloudSize, UseHeader header, MemoryTracking memTracking);
 
-		void WriteToLog(std::string initMessage, void* address);
-		void WriteToLog(std::string initMessage, size_t number);
+		static void WriteToLog(std::string initMessage, void* address);
+		static void WriteToLog(std::string initMessage, size_t number);
 	private:
-		SMemoryTracking tempTrackingStruct;
-		SHeaderStack tempHeaderStack;
-		SHeaderPool tempHeaderPool;
+		
 
-		uint8 ForwardAlignment(void* address, uint8 alignment);
-		uint8 BackwardAlignment(void* address, uint8 alignment);
+		static uint8 ForwardAlignment(void* address, uint8 alignment);
+		static uint8 BackwardAlignment(void* address, uint8 alignment);
 
-		uint8 ForwardAlignmentWithHeader(void* address, uint8 alignment, uint8 header);
-		uint8 BackwardAlignmentWithHeader(void* address, uint8 alignment, uint8 header);
+		static uint8 ForwardAlignmentWithHeader(void* address, uint8 alignment, uint8 header);
+		static uint8 BackwardAlignmentWithHeader(void* address, uint8 alignment, uint8 header);
 
 		
 
-		void* Add(void* address, size_t toAdd);
-		void* Subtract(void* address, size_t toSubtract);
+		static void* Add(void* address, size_t toAdd);
+		static void* Subtract(void* address, size_t toSubtract);
 
-		bool isPowerOfTwo(size_t number);
+		static bool isPowerOfTwo(size_t number);
 
 		// Bound checking size
-		unsigned int FRONT_SIZE = 4;
-		unsigned int BACK_SIZE = 4;
+		static const unsigned int FRONT_SIZE = 4;
+		static const unsigned int BACK_SIZE = 4;
 };
 
 #endif // MEMORYBLOCK_H

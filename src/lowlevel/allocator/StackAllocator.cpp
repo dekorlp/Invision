@@ -4,7 +4,6 @@
 
 void StackAllocator::Init(size_t size)
 {
-	MemoryBlock mem;
 
 #ifdef _DEBUG
 	std::stringstream ss;
@@ -22,15 +21,14 @@ void StackAllocator::Init(size_t size)
 	numChunks = 0;
 
 #ifdef _DEBUG
-	mem.WriteToLog("Arena: ", arena);
-	mem.WriteToLog("Size: ", size);
+	MemoryBlock::WriteToLog("Arena: ", arena);
+	MemoryBlock::WriteToLog("Size: ", size);
 #endif
 }
 
 void* StackAllocator::Allocate(size_t blocksize, uint32 line, char* file, MemoryTracking memTracking,
 	BoundsChecking boundsChecking)
 {
-	MemoryBlock mem;
 
 #ifdef _DEBUG
 	std::stringstream ss;
@@ -40,7 +38,7 @@ void* StackAllocator::Allocate(size_t blocksize, uint32 line, char* file, Memory
 
 
 
-	size_t calcultedSize = mem.CalculateSize(currentOffset, blocksize, INVISION_USE_STACKHEADER, memTracking, boundsChecking);
+	size_t calcultedSize = MemoryBlock::CalculateSize(currentOffset, blocksize, INVISION_USE_STACKHEADER, memTracking, boundsChecking);
 
 	if (usedMemory + calcultedSize > size)
 	{
@@ -56,16 +54,16 @@ void* StackAllocator::Allocate(size_t blocksize, uint32 line, char* file, Memory
 
 
 #ifdef _DEBUG
-	mem.WriteToLog("usedMemory: ", usedMemory);
-	mem.WriteToLog("Size Of Chunk: ", calcultedSize);
-	mem.WriteToLog("numChunks: ", numChunks);
+	MemoryBlock::WriteToLog("usedMemory: ", usedMemory);
+	MemoryBlock::WriteToLog("Size Of Chunk: ", calcultedSize);
+	MemoryBlock::WriteToLog("numChunks: ", numChunks);
 #endif
 
-	void* p = mem.CreateMemoryBlock(currentOffset, &currentOffset, blocksize, line, file, INVISION_USE_STACKHEADER, memTracking, boundsChecking);
+	void* p = MemoryBlock::CreateMemoryBlock(currentOffset, &currentOffset, blocksize, line, file, INVISION_USE_STACKHEADER, memTracking, boundsChecking);
 
 	if (boundsChecking == INVISION_STANDARD_BOUNDS_CHECKING)
 	{
-		mem.CheckBoundaries(p, blocksize, INVISION_USE_STACKHEADER, memTracking);
+		MemoryBlock::CheckBoundaries(p, blocksize, INVISION_USE_STACKHEADER, memTracking);
 	}
 
 	return p;
@@ -81,13 +79,11 @@ void StackAllocator::Deallocate(void* block)
 	ss << "arena: " << arena;
 #endif
 
-	MemoryBlock mem;
-
-	SHeaderStack *stackheader = mem.GetStackHeader(block);
+	SHeaderStack *stackheader = MemoryBlock::GetStackHeader(block);
 	currentOffset = stackheader->frontOffset;
 
 #ifdef _DEBUG
-	mem.WriteToLog("currentOffset: ", currentOffset);
+	MemoryBlock::WriteToLog("currentOffset: ", currentOffset);
 #endif
 
 	numChunks--;
@@ -116,13 +112,12 @@ size_t StackAllocator::GetTotalMemory()
 
 void StackAllocator::Clear()
 {
-	MemoryBlock mem;
 
 #ifdef _DEBUG
 	INVISION_LOG_RAWTEXT("");
 	INVISION_LOG_RAWTEXT("StackAllocator::Clear()");
-	mem.WriteToLog("UsedMemory: ", (size_t)0);
-	mem.WriteToLog("numChunks: ", (size_t)0);
+	MemoryBlock::WriteToLog("UsedMemory: ", (size_t)0);
+	MemoryBlock::WriteToLog("numChunks: ", (size_t)0);
 #endif
 
 	currentOffset = arena;
