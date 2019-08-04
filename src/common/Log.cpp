@@ -1,8 +1,14 @@
 #include "precompiled.h"
 
 Log* Log::m_pThis = NULL;
+bool Log::isSet = false;
 
 Log::Log(std::string filename)
+{
+	Open(filename);
+}
+
+void Log::Open(std::string filename)
 {
 	this->filename = filename;
 	struct stat info;
@@ -10,7 +16,7 @@ Log::Log(std::string filename)
 	const char* dirPath = "../../../Logs";
 
 	// create dir Logs if there is no Logs directory
-	if(stat(dirPath, &info) != 0) mkdir("../../../Logs");
+	if (stat(dirPath, &info) != 0) mkdir("../../../Logs");
 
 	// create log and replace new content
 	stream.open(filename, std::ios::out | std::ios::trunc);
@@ -25,6 +31,11 @@ Log::Log(std::string filename)
 
 void Log::RawText(std::string message)
 {
+	if (Log::isSet == false)
+	{
+		throw invisionCoreMemoryNoLogObject("No Log Object assigned. Use SetLogger() to set a Log Object first!");
+	}
+
 	if (stream.is_open())
 	{
 		stream << message << std::endl;
@@ -37,6 +48,11 @@ void Log::RawText(std::string message)
 
 void Log::Info(std::string message)
 {
+	if (Log::isSet == false)
+	{
+		throw invisionCoreMemoryNoLogObject("No Log Object assigned. Use SetLogger() to set a Log Object first!");
+	}
+
 	if (stream.is_open())
 	{
 		stream << "INFO: " << message << std::endl;
@@ -49,6 +65,11 @@ void Log::Info(std::string message)
 
 void Log::Error(std::string message)
 {
+	if (Log::isSet == false)
+	{
+		throw invisionCoreMemoryNoLogObject("No Log Object assigned. Use SetLogger() to set a Log Object first!");
+	}
+
 	if (stream.is_open())
 	{
 		stream << "Error: " << message << std::endl;
@@ -61,6 +82,11 @@ void Log::Error(std::string message)
 
 void Log::Warning(std::string message)
 {
+	if (Log::isSet == false)
+	{
+		throw invisionCoreMemoryNoLogObject("No Log Object assigned. Use SetLogger() to set a Log Object first!");
+	}
+
 	if (stream.is_open())
 	{
 		stream << "Warning: " << message << std::endl;
@@ -73,6 +99,11 @@ void Log::Warning(std::string message)
 
 void Log::WriteToLog(std::string initMessage, void* address)
 {
+	if (Log::isSet == false)
+	{
+		throw invisionCoreMemoryNoLogObject("No Log Object assigned. Use SetLogger() to set a Log Object first!");
+	}
+
 	std::stringstream ss;
 	ss << initMessage << "0x" << std::hex << address;
 	INVISION_LOG_RAWTEXT(ss.str());
@@ -80,6 +111,11 @@ void Log::WriteToLog(std::string initMessage, void* address)
 
 void Log::WriteToLog(std::string initMessage, size_t number)
 {
+	if (Log::isSet == false)
+	{
+		throw invisionCoreMemoryNoLogObject("No Log Object assigned. Use SetLogger() to set a Log Object first!");
+	}
+
 	std::stringstream ss;
 	ss << initMessage << number;
 	INVISION_LOG_RAWTEXT(ss.str());
@@ -91,10 +127,18 @@ Log* Log::GetLogger() {
 
 void Log::SetLogger(Log* log) {
 	Log::m_pThis = log;
+	Log::isSet = true;
+}
+
+void Log::Close()
+{
+	stream.flush();
+	stream.close();
+	Log::m_pThis = NULL;
+	Log::isSet = false;
 }
 
 Log::~Log()
 {
-	stream.flush();
-	stream.close();
+	Close();
 }

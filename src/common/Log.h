@@ -13,23 +13,24 @@
 #ifndef LOG_H
 #define LOG_H
 
-
-
-class HAL_API Log
+class  Log
 {
 	public:
-		Log(std::string filename);
-		~Log();
-		void RawText(std::string message);
-		void Info(std::string message);
-		void Error(std::string message);
-		void Warning(std::string message);
-		void WriteToLog(std::string initMessage, void* address);
-		void WriteToLog(std::string initMessage, size_t number);
+		HAL_API Log(std::string filename);
+		HAL_API void Open(std::string filename);
+		HAL_API void RawText(std::string message);
+		HAL_API void Info(std::string message);
+		HAL_API void Error(std::string message);
+		HAL_API void Warning(std::string message);
+		HAL_API void WriteToLog(std::string initMessage, void* address);
+		HAL_API void WriteToLog(std::string initMessage, size_t number);
+		HAL_API void Close();
+		HAL_API ~Log();
 
-		static Log* GetLogger();
-		static void SetLogger(Log* log);
-		static Log* m_pThis;
+		HAL_API static Log* GetLogger();
+		HAL_API static void SetLogger(Log* log);
+		HAL_API static Log* m_pThis;
+		HAL_API static bool isSet;
 		
 	private:
 		std::ofstream stream;

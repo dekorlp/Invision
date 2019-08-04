@@ -187,4 +187,27 @@ public:
 	}
 };
 
+class invisionCoreMemoryNoLogObject : protected invisionException
+{
+public:
+	invisionCoreMemoryNoLogObject();
+	invisionCoreMemoryNoLogObject(const char* message)
+	{
+		mMessage = message;
+	}
+
+	invisionCoreMemoryNoLogObject(const char* message, const char* helpLink)
+	{
+		mMessage = message;
+		mHelpLink = helpLink;
+	}
+
+	invisionCoreMemoryNoLogObject(const char* message, const char* helpLink, const char* source)
+	{
+		mMessage = message;
+		mHelpLink = helpLink;
+		mSource = source;
+	}
+};
+
 #endif // EXCEPTION_H
