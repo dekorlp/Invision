@@ -2,7 +2,7 @@
 #include "InStringA.h"
 
 
-std::map<uint32, InBaseString<const tChar*, tChar>> InStringA::mBaseTable;
+std::map<size_t, InBaseString<const tChar*, tChar>> InStringA::mBaseTable;
 
 InStringA::InStringA()
 {
@@ -18,7 +18,7 @@ InStringA::InStringA(const tChar* text)
 
 
 	InBaseString<const tChar*, tChar> baseString(text, strlen(text), CRC::getCRC32(text));
-	uint32 id = baseString.GetCRCID();
+	size_t id = baseString.GetCRCID();
 
 	if (mBaseTable.find(id) == mBaseTable.end())
 	{
@@ -57,22 +57,22 @@ bool InStringA::operator == (InStringA rValue)
 	return rBaseString->operator==(rValue.rBaseString->GetCRCID());
 }
 
-uint32 InStringA::Length()
+size_t InStringA::Length()
 {
-	return (uint32)rBaseString->GetLength();
+	return (size_t)rBaseString->GetLength();
 }
 
-InStringA InStringA::substring(uint32 pos, uint32 len)
+InStringA InStringA::substring(size_t pos, size_t len)
 {
 	return InStringA(rBaseString->substring(pos, len)); 
 }
 
-const char& InStringA::At(uint32 index)
+const char& InStringA::At(size_t index)
 {
 	return rBaseString->GetContent()[index];
 }
 
-const char& InStringA::operator[](uint32 index)
+const char& InStringA::operator[](size_t index)
 {
 	return rBaseString->GetContent()[index];
 }
@@ -84,19 +84,19 @@ InStringA InStringA::trim()
 	return InStringA(baseString);
 }
 
-InStringA InStringA::trim(tChar chars[], uint32 arrSize)
+InStringA InStringA::trim(tChar chars[], size_t arrSize)
 {
 	InBaseString<const tChar*, tChar> baseString = rBaseString->trim(chars, arrSize);
 	return InStringA(baseString);
 }
 
-std::vector<InStringA> InStringA::Split(tChar chars[], uint32 arrSize)
+std::vector<InStringA> InStringA::Split(tChar chars[], size_t arrSize)
 {
 	std::vector<InBaseString<const tChar*, tChar>> splitedInBaseStrings = rBaseString->split(chars, arrSize);
 
 	std::vector<InStringA> SplitedStrings;
 	
-	for (uint32 i = 0; i < splitedInBaseStrings.size(); i++)
+	for (size_t i = 0; i < splitedInBaseStrings.size(); i++)
 	{
 		SplitedStrings.push_back(InStringA(splitedInBaseStrings[i]));
 	}
@@ -117,62 +117,62 @@ InStringA InStringA::replace(const tChar* oldValue, const tChar* newValue)
 	return InStringA(baseString);
 }
 
-InStringA InStringA::remove(uint32 startIndex)
+InStringA InStringA::remove(size_t startIndex)
 {
 	InBaseString<const tChar*, tChar> baseString = rBaseString->remove(startIndex, this->Length() - startIndex);
 	return InStringA(baseString);
 }
 
-InStringA InStringA::remove(uint32 startIndex, uint32 count)
+InStringA InStringA::remove(size_t startIndex, size_t count)
 {
 	InBaseString<const tChar*, tChar> baseString = rBaseString->remove(startIndex, count);
 	return InStringA(baseString);
 }
 
-int32 InStringA::indexOf(tChar value)
+size_t InStringA::indexOf(tChar value)
 {
-	uint32 index = rBaseString->indexOf(value, 0);
+	size_t index = rBaseString->indexOf(value, 0);
 	return index;
 }
-int32 InStringA::indexOf(tChar value, uint32 startIndex)
+size_t InStringA::indexOf(tChar value, size_t startIndex)
 {
-	uint32 index = rBaseString->indexOf(value, startIndex);
-	return index;
-}
-
-int32 InStringA::indexOf(const tChar* value)
-{
-	uint32 index = rBaseString->indexOf(value, 0);
+	size_t index = rBaseString->indexOf(value, startIndex);
 	return index;
 }
 
-int32 InStringA::indexOf(const tChar* value, uint32 startIndex)
+size_t InStringA::indexOf(const tChar* value)
 {
-	uint32 index = rBaseString->indexOf(value, startIndex);
+	size_t index = rBaseString->indexOf(value, 0);
 	return index;
 }
 
-int32 InStringA::LastIndexOf(tChar value)
+size_t InStringA::indexOf(const tChar* value, size_t startIndex)
 {
-	uint32 index = rBaseString->lastIndexOf(value, this->Length());
+	size_t index = rBaseString->indexOf(value, startIndex);
 	return index;
 }
 
-int32 InStringA::LastIndexOf(tChar value, uint32 startIndex)
+size_t InStringA::LastIndexOf(tChar value)
 {
-	uint32 index = rBaseString->lastIndexOf(value, startIndex);
+	size_t index = rBaseString->lastIndexOf(value, this->Length());
 	return index;
 }
 
-int32 InStringA::LastIndexOf(const tChar* value)
+size_t InStringA::LastIndexOf(tChar value, size_t startIndex)
 {
-	uint32 index = rBaseString->lastIndexOf(value, this->Length());
+	size_t index = rBaseString->lastIndexOf(value, startIndex);
 	return index;
 }
 
-int32 InStringA::LastIndexOf(const tChar* value, uint32 startIndex)
+size_t InStringA::LastIndexOf(const tChar* value)
 {
-	uint32 index = rBaseString->lastIndexOf(value, startIndex);
+	size_t index = rBaseString->lastIndexOf(value, this->Length());
+	return index;
+}
+
+size_t InStringA::LastIndexOf(const tChar* value, size_t startIndex)
+{
+	size_t index = rBaseString->lastIndexOf(value, startIndex);
 	return (index);
 }
 
@@ -188,32 +188,32 @@ bool InStringA::startsWith(const tChar* value)
 	return bEndsWith;
 }
 
-InStringA InStringA::padLeft(uint32 totalWidth)
+InStringA InStringA::padLeft(size_t totalWidth)
 {
 	InBaseString<const tChar*, tChar> baseString = rBaseString->padLeft(totalWidth, ' ');
 	return InStringA(baseString);
 }
 
-InStringA InStringA::padLeft(uint32 totalWidth, tChar paddingChar)
+InStringA InStringA::padLeft(size_t totalWidth, tChar paddingChar)
 {
 	InBaseString<const tChar*, tChar> baseString = rBaseString->padLeft(totalWidth, paddingChar);
 	return InStringA(baseString);
 }
 
 
-InStringA InStringA::padRight(uint32 totalWidth)
+InStringA InStringA::padRight(size_t totalWidth)
 {
 	InBaseString<const tChar*, tChar> baseString = rBaseString->padRight(totalWidth, ' ');
 	return InStringA(baseString);
 }
 
-InStringA InStringA::padRight(uint32 totalWidth, tChar paddingChar)
+InStringA InStringA::padRight(size_t totalWidth, tChar paddingChar)
 {
 	InBaseString<const tChar*, tChar> baseString = rBaseString->padRight(totalWidth, paddingChar);
 	return InStringA(baseString);
 }
 
-InStringA InStringA::insert(uint32 startIndex, const tChar* value)
+InStringA InStringA::insert(size_t startIndex, const tChar* value)
 {
 	InBaseString<const tChar*, tChar> baseString = rBaseString->insert(startIndex, value);
 	return InStringA(baseString);

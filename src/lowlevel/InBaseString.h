@@ -21,10 +21,10 @@ template <typename T, typename U>
 class InBaseString // HAL_API doesn't work
 {
 private:
-	uint32 mCRCID = 0;
+	size_t mCRCID = 0;
 	boost::shared_array<U> mText;
 	size_t mLength = 0;
-	uint32 mRefCount = 0;
+	size_t mRefCount = 0;
 
 public:
 	InBaseString()
@@ -53,7 +53,7 @@ public:
 
 	}
 
-	InBaseString(T text, size_t length, uint32 CRCID)
+	InBaseString(T text, size_t length, size_t CRCID)
 	{
 		mLength = length;
 		mCRCID = CRCID;
@@ -75,7 +75,7 @@ public:
 		addRef();
 	}
 
-	uint32 GetCRCID()
+	size_t GetCRCID()
 	{
 		return mCRCID;
 	}
@@ -103,7 +103,7 @@ public:
 		return mLength;
 	}
 		
-	bool operator==(uint32 rValue)
+	bool operator==(size_t rValue)
 	{
 		bool equal = false;
 		if (mCRCID == rValue)
@@ -113,11 +113,11 @@ public:
 		return equal;
 	}
 
-	InBaseString substring(uint32 pos, uint32 len)
+	InBaseString substring(size_t pos, size_t len)
 	{
 		if (pos + len > this->GetLength())
 		{
-			throw invisionCoreArgumentOutOfRangeException("Argument 'uint32 pos and uint32 len' is out of Range");
+			throw invisionCoreArgumentOutOfRangeException("Argument 'size_t pos and size_t len' is out of Range");
 		}
 
 		if (pos < 0 || len < 0)
@@ -127,7 +127,7 @@ public:
 
 		boost::shared_array<U> tmp(new U[len + 1]);
 
-		for (uint32 i = pos; i < pos + len; i++)
+		for (size_t i = pos; i < pos + len; i++)
 		{
 			tmp[i - pos] = mText[i];
 		}
@@ -139,7 +139,7 @@ public:
 		return tmpstr;
 	}
 
-	InBaseString trim(U chars[], uint32 arrSize)
+	InBaseString trim(U chars[], size_t arrSize)
 	{
 		size_t realStringBegin = 0;
 		size_t realStringEnd = 0;
@@ -148,11 +148,11 @@ public:
 		origText = mText;
 
 		bool isLoopBreaked = false;
-		uint32 countOfArr = 0;
+		size_t countOfArr = 0;
 
 		// iterate from array front side
-		for (uint32 i = 0; i < inStrlen(origText.get()); i++)
-		//for (uint32 i = 0; i < mLength * sizeof(U); i++)
+		for (size_t i = 0; i < inStrlen(origText.get()); i++)
+		//for (size_t i = 0; i < mLength * sizeof(U); i++)
 		{
 			countOfArr = 0;
 			if (isLoopBreaked == true)
@@ -161,7 +161,7 @@ public:
 				break;
 			}
 
-			for (uint32 j = 0; j < arrSize; j++)
+			for (size_t j = 0; j < arrSize; j++)
 			{
 				if (origText[i] == chars[j])
 				{
@@ -183,7 +183,7 @@ public:
 
 		// iterate from array back side
 		for (size_t i = inStrlen(origText.get()) - 1; i > 0; i--)
-		//for (uint32 i = (mLength * sizeof(U)) - 1; i > 0; i--)
+		//for (size_t i = (mLength * sizeof(U)) - 1; i > 0; i--)
 		{
 			countOfArr = 0;
 			if (isLoopBreaked == true)
@@ -192,7 +192,7 @@ public:
 				break;
 			}
 
-			for (uint32 j = 0; j < arrSize; j++)
+			for (size_t j = 0; j < arrSize; j++)
 			{
 				if (origText[i] == chars[j])
 				{
@@ -214,7 +214,7 @@ public:
 
 		realStringEnd = realStringEnd-realStringBegin + 1;
 		boost::shared_array<U> tmp(new U[realStringEnd]);
-		for (uint32 j = 0; j < realStringEnd; j++)
+		for (size_t j = 0; j < realStringEnd; j++)
 		{
 			tmp[j] = origText[j+realStringBegin];
 		}
@@ -224,15 +224,15 @@ public:
 		return tmpstr;
 	}
 
-	std::vector<InBaseString<T, U>> split(U chars[], uint32 arrSize)
+	std::vector<InBaseString<T, U>> split(U chars[], size_t arrSize)
 	{
 		std::vector<InBaseString<T,U>> splitedStrings;
-		std::vector<uint32> splitedStringIndizes;
+		std::vector<size_t> splitedStringIndizes;
 		
-		for (uint32 i = 0; i < inStrlen(mText.get()); i++)
-		//for (uint32 i = 0; i < (mLength * sizeof(U)); i++)
+		for (size_t i = 0; i < inStrlen(mText.get()); i++)
+		//for (size_t i = 0; i < (mLength * sizeof(U)); i++)
 		{
-			for (uint32 j = 0; j < arrSize; j++)
+			for (size_t j = 0; j < arrSize; j++)
 			{
 				if (mText[i] == chars[j])
 				{
@@ -243,10 +243,10 @@ public:
 		}
 
 		static U tmp[MAX_SZ];
-		uint32 splitedStringIndex = 0;
-		uint32 origTextCursor = 0;
-		for (uint32 i = 0; i < inStrlen(mText.get()); i++)
-		//for (uint32 i = 0; i < (mLength * sizeof(U)); i++)
+		size_t splitedStringIndex = 0;
+		size_t origTextCursor = 0;
+		for (size_t i = 0; i < inStrlen(mText.get()); i++)
+		//for (size_t i = 0; i < (mLength * sizeof(U)); i++)
 		{
 			if (i != splitedStringIndizes[splitedStringIndex])
 			{
@@ -269,9 +269,9 @@ public:
 	bool contains(T value)
 	{
 		bool containsValue = false;
-		uint32 countOfEqualChars = 0;
-		for (uint32 i = 0; i < inStrlen(mText.get()); i++)
-		//for (uint32 i = 0; i < mLength * sizeof(U); i++)
+		size_t countOfEqualChars = 0;
+		for (size_t i = 0; i < inStrlen(mText.get()); i++)
+		//for (size_t i = 0; i < mLength * sizeof(U); i++)
 		{
 			if (mText[i] == value[countOfEqualChars] && countOfEqualChars != inStrlen(value))
 			//if (mText[i] == value[countOfEqualChars] && countOfEqualChars != (sizeof(value) * sizeof(U)))
@@ -308,11 +308,11 @@ public:
 			throw invisionCoreArgumentException("Argument 'oldValue' is empty");
 		}
 
-		uint32 inCounter = 0;		
-		uint32 countOfOldValues = 0;
+		size_t inCounter = 0;		
+		size_t countOfOldValues = 0;
 
-		for (uint32 i = 0; i < inStrlen(mText.get()); i++)
-		//for (uint32 i = 0; i < (mLength * sizeof(U)); i++)
+		for (size_t i = 0; i < inStrlen(mText.get()); i++)
+		//for (size_t i = 0; i < (mLength * sizeof(U)); i++)
 		{
 			if ((mText[i] == oldValue[inCounter]) && (inCounter != inStrlen(oldValue)))
 			//if ((mText[i] == oldValue[inCounter]) && (inCounter != sizeof(oldValue) * sizeof(U)))
@@ -333,15 +333,15 @@ public:
 
 		boost::shared_array<U> origText(new U[this->mLength + (inStrlen(newValue) - inStrlen(oldValue)) * countOfOldValues +1]);
 		//boost::shared_array<U> origText(new U[this->mLength + (sizeof(newValue) * sizeof(U) - sizeof(oldValue) * sizeof(U)) * countOfOldValues + 1]);
-		uint32 k = 0; // old text's iterator
+		size_t k = 0; // old text's iterator
 
 		for (size_t i = 0; i < inStrlen(mText.get()); i++)
-		//for (uint32 i = 0; i < mLength * sizeof(U); i++)
+		//for (size_t i = 0; i < mLength * sizeof(U); i++)
 		{
 			if (mText.get()[i] == oldValue[0])
 			{
-				for (uint32 j = 0; j < inStrlen(oldValue); j++)
-				//for (uint32 j = 0; j < sizeof(oldValue) * sizeof(U); j++)
+				for (size_t j = 0; j < inStrlen(oldValue); j++)
+				//for (size_t j = 0; j < sizeof(oldValue) * sizeof(U); j++)
 				{
 
 					if (mText.get()[i + j] != oldValue[j])
@@ -353,8 +353,8 @@ public:
 					if (j+1 == inStrlen(oldValue))
 					//if (j + 1 == sizeof(oldValue) * sizeof(U))
 					{
-						for (uint32 m = 0; m < inStrlen(newValue); m++)
-						//for (uint32 m = 0; m < sizeof(newValue) * sizeof(U); m++)
+						for (size_t m = 0; m < inStrlen(newValue); m++)
+						//for (size_t m = 0; m < sizeof(newValue) * sizeof(U); m++)
 						{
 							origText.get()[k] = newValue[m];
 							k++;
@@ -377,11 +377,11 @@ public:
 		return replacedString;
 	}
 	
-	InBaseString remove(uint32 startIndex, uint32 count)
+	InBaseString remove(size_t startIndex, size_t count)
 	{
 		if (startIndex + count > this->GetLength())
 		{
-			throw invisionCoreArgumentOutOfRangeException("Argument 'uint32 pos and uint32 len' is out of Range");
+			throw invisionCoreArgumentOutOfRangeException("Argument 'size_t pos and size_t len' is out of Range");
 		}
 
 		if (startIndex < 0 || count < 0)
@@ -390,10 +390,10 @@ public:
 		}
 
 		boost::shared_array<U> origText(new U[this->mLength - count + 1]);
-		uint32 newTextCounter = 0;
+		size_t newTextCounter = 0;
 
-		for (uint32 i = 0; i < inStrlen(mText.get());i++)
-		//for (uint32 i = 0; i < mLength * sizeof(U); i++)
+		for (size_t i = 0; i < inStrlen(mText.get());i++)
+		//for (size_t i = 0; i < mLength * sizeof(U); i++)
 		{
 			if (i < startIndex || i >= (startIndex + count))
 			{
@@ -408,7 +408,7 @@ public:
 		return changedString;
 	}
 
-	int32 indexOf(T value, uint32 Startindex)
+	size_t indexOf(T value, size_t Startindex)
 	{
 		if (value == NULL)
 		{
@@ -420,10 +420,10 @@ public:
 			throw invisionCoreArgumentOutOfRangeException("Argument 'startIndex' is out of Range");
 		}
 
-		uint32 Index = -1;
-		uint32 found = 0;
-		for (uint32 i = Startindex; i < inStrlen(mText.get()); i++)
-		//for (uint32 i = Startindex; i < mLength * sizeof(U); i++)
+		size_t Index = -1;
+		size_t found = 0;
+		for (size_t i = Startindex; i < inStrlen(mText.get()); i++)
+		//for (size_t i = Startindex; i < mLength * sizeof(U); i++)
 		{
 			if (mText.get()[i] == value[found])
 			{
@@ -450,7 +450,7 @@ public:
 		return Index;
 	}
 
-	int32 indexOf(U value, uint32 startIndex)
+	size_t indexOf(U value, size_t startIndex)
 	{
 		if (value == NULL)
 		{
@@ -462,9 +462,9 @@ public:
 			throw invisionCoreArgumentOutOfRangeException("Argument 'startIndex' is out of Range");
 		}
 
-		uint32 Index = -1;
-		for (uint32 i = startIndex; i < inStrlen(mText.get()); i++)
-		//for (uint32 i = startIndex; i < mLength * sizeof(U); i++)
+		size_t Index = -1;
+		for (size_t i = startIndex; i < inStrlen(mText.get()); i++)
+		//for (size_t i = startIndex; i < mLength * sizeof(U); i++)
 		{
 			if (mText.get()[i] == value)
 			{
@@ -476,7 +476,7 @@ public:
 		return Index;
 	}
 
-	int32 lastIndexOf(T value, uint32 Startindex)
+	size_t lastIndexOf(T value, size_t Startindex)
 	{
 		if (value == NULL)
 		{
@@ -488,10 +488,10 @@ public:
 			throw invisionCoreArgumentOutOfRangeException("Argument 'startIndex' is out of Range");
 		}
 
-		uint32 Index = -1;
+		size_t Index = -1;
 		size_t found = inStrlen(value)-1;
-		//uint32 found = sizeof(value) * sizeof(U) - 1;
-		for (uint32 i = Startindex; i > 0; i--)
+		//size_t found = sizeof(value) * sizeof(U) - 1;
+		for (size_t i = Startindex; i > 0; i--)
 		{
 			if (mText.get()[i] == value[found])
 			{
@@ -506,7 +506,7 @@ public:
 			else
 			{
 				size_t found = inStrlen(value);
-				//uint32 found = sizeof(value) * sizeof(U);
+				//size_t found = sizeof(value) * sizeof(U);
 				Index = -1;
 			}
 
@@ -515,7 +515,7 @@ public:
 		return Index;
 	}
 
-	int32 lastIndexOf(U value, uint32 startIndex)
+	size_t lastIndexOf(U value, size_t startIndex)
 	{
 		if (value == NULL)
 		{
@@ -527,8 +527,8 @@ public:
 			throw invisionCoreArgumentOutOfRangeException("Argument 'startIndex' is out of Range");
 		}
 
-		uint32 Index = -1;
-		for (uint32 i = startIndex; i > 0; i--)
+		size_t Index = -1;
+		for (size_t i = startIndex; i > 0; i--)
 		{
 			if (mText.get()[i] == value)
 			{
@@ -548,9 +548,9 @@ public:
 		}
 
 		bool bEndsWith = false;
-		uint32 countOfval = 0;
+		size_t countOfval = 0;
 		for (size_t i = inStrlen(mText.get()) - inStrlen(value); i < inStrlen(mText.get()); i++)
-		//for (uint32 i = mLength * sizeof(U) - sizeof(value) * sizeof(U); i < mLength * sizeof(U); i++)
+		//for (size_t i = mLength * sizeof(U) - sizeof(value) * sizeof(U); i < mLength * sizeof(U); i++)
 		{
 			if (mText.get()[i] == value[countOfval])
 			{
@@ -574,10 +574,10 @@ public:
 		}
 
 		bool bEndsWith = false;
-		uint32 countOfval = 0;
+		size_t countOfval = 0;
 
-		for (uint32 i = 0; i < inStrlen(value); i++)
-		//for (uint32 i = 0; i < sizeof(value) * sizeof(U); i++)
+		for (size_t i = 0; i < inStrlen(value); i++)
+		//for (size_t i = 0; i < sizeof(value) * sizeof(U); i++)
 		{
 			if (mText.get()[i] == value[countOfval])
 			{
@@ -594,7 +594,7 @@ public:
 		return bEndsWith;
 	}
 
-	InBaseString padLeft(uint32 totalWidth, U paddingChar)
+	InBaseString padLeft(size_t totalWidth, U paddingChar)
 	{
 		if (paddingChar == NULL)
 		{
@@ -608,13 +608,13 @@ public:
 
 		boost::shared_array<U> origText(new U[this->mLength + totalWidth + 1]);
 
-		for (uint32 i = 0; i < totalWidth; i++)
+		for (size_t i = 0; i < totalWidth; i++)
 		{
 			origText[i] = paddingChar;
 		}
 
-		uint32 textCounter = totalWidth;
-		for (uint32 i = 0; i < this->mLength; i++)
+		size_t textCounter = totalWidth;
+		for (size_t i = 0; i < this->mLength; i++)
 		{
 			origText[textCounter] = mText.get()[i];
 			textCounter++;
@@ -626,7 +626,7 @@ public:
 		return padedString;
 	}
 
-	InBaseString padRight(uint32 totalWidth, U paddingChar)
+	InBaseString padRight(size_t totalWidth, U paddingChar)
 	{
 		if (paddingChar == NULL)
 		{
@@ -640,15 +640,15 @@ public:
 
 		boost::shared_array<U> origText(new U[this->mLength + totalWidth + 1]);
 		
-		for (uint32 i = 0; i < this->mLength; i++)
+		for (size_t i = 0; i < this->mLength; i++)
 		{
 			origText[i] = mText.get()[i];
 			
 		}
 
 		size_t textCounter = inStrlen(mText.get());
-		//uint32 textCounter = mLength * sizeof(U);
-		for (uint32 i = 0; i < totalWidth; i++)
+		//size_t textCounter = mLength * sizeof(U);
+		for (size_t i = 0; i < totalWidth; i++)
 		{
 			origText[textCounter] = paddingChar;
 			textCounter++;
@@ -660,7 +660,7 @@ public:
 		return padedString;
 	}
 
-	InBaseString insert(uint32 startIndex, T value)
+	InBaseString insert(size_t startIndex, T value)
 	{
 		if (value == NULL)
 		{
@@ -669,11 +669,11 @@ public:
 
 		if (startIndex < 0 || startIndex > this->mLength)
 		{
-			throw invisionCoreArgumentOutOfRangeException("Argument 'uint32 startIndex' is out of Range");
+			throw invisionCoreArgumentOutOfRangeException("Argument 'size_t startIndex' is out of Range");
 		}
 
 		boost::shared_array<U> origText(new U[this->mLength + inStrlen(value) + 1]);
-		for (uint32 i = 0; i < this->mLength; i++)
+		for (size_t i = 0; i < this->mLength; i++)
 		{
 			origText[i] = this->mText[i];
 		}
@@ -696,8 +696,8 @@ public:
 #pragma warning( disable : 4244 ) // turn off 'warning C4244: '=' : conversion from 'wint_t' to 'char', possible loss of data'
 		boost::shared_array<U> origText(new U[this->mLength + 1]);
 
-		for (uint32 i = 0; i < inStrlen(mText.get()); i++)
-		//for (uint32 i = 0; i < mLength * sizeof(U); i++)
+		for (size_t i = 0; i < inStrlen(mText.get()); i++)
+		//for (size_t i = 0; i < mLength * sizeof(U); i++)
 		{
 			if (isWideChar)
 			{
@@ -722,8 +722,8 @@ public:
 #pragma warning( disable : 4244 ) // turn off 'warning C4244: '=' : conversion from 'wint_t' to 'char', possible loss of data'
 		boost::shared_array<U> origText(new U[this->mLength + 1]);
 
-		for (uint32 i = 0; i < inStrlen(mText.get()); i++)
-		//for (uint32 i = 0; i < mLength * sizeof(U); i++)
+		for (size_t i = 0; i < inStrlen(mText.get()); i++)
+		//for (size_t i = 0; i < mLength * sizeof(U); i++)
 		{	
 			if (isWideChar)
 			{

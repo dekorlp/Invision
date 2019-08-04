@@ -19,7 +19,7 @@
 class InStringA
 {
 private:
-	static std::map<uint32, InBaseString<const tChar*, tChar>> mBaseTable;
+	static std::map<size_t, InBaseString<const tChar*, tChar>> mBaseTable;
 	InBaseString<const tChar*, tChar> *rBaseString;
 	//InBaseString<const char*, char> TestString;
 public:
@@ -30,32 +30,32 @@ public:
 	HAL_API const tChar* toString();
 	HAL_API bool operator == (const tChar* rValue);
 	HAL_API bool operator == (InStringA rValue);
-	HAL_API uint32 Length();
-	HAL_API InStringA substring(uint32 pos, uint32 len);
-	HAL_API const char& At(uint32 index);
-	HAL_API const char& operator[](uint32 index);
+	HAL_API size_t Length();
+	HAL_API InStringA substring(size_t pos, size_t len);
+	HAL_API const char& At(size_t index);
+	HAL_API const char& operator[](size_t index);
 	HAL_API InStringA trim();
-	HAL_API InStringA trim(tChar chars[], uint32 arrSize);
-	HAL_API std::vector<InStringA> Split(tChar chars[], uint32 arrSize);
+	HAL_API InStringA trim(tChar chars[], size_t arrSize);
+	HAL_API std::vector<InStringA> Split(tChar chars[], size_t arrSize);
 	HAL_API bool contains(const tChar* value);
 	HAL_API InStringA replace(const tChar* oldValue, const tChar* newValue);
-	HAL_API InStringA remove(uint32 startIndex);
-	HAL_API InStringA remove(uint32 startIndex, uint32 count);
-	HAL_API int32 indexOf(tChar value);
-	HAL_API int32 indexOf(tChar value, uint32 startIndex);
-	HAL_API int32 indexOf(const tChar* value);
-	HAL_API int32 indexOf(const tChar* value, uint32 startIndex);
-	HAL_API int32 LastIndexOf(tChar value);
-	HAL_API int32 LastIndexOf(tChar value, uint32 startIndex);
-	HAL_API int32 LastIndexOf(const tChar* value);
-	HAL_API int32 LastIndexOf(const tChar* value, uint32 startIndex);
+	HAL_API InStringA remove(size_t startIndex);
+	HAL_API InStringA remove(size_t startIndex, size_t count);
+	HAL_API size_t indexOf(tChar value);
+	HAL_API size_t indexOf(tChar value, size_t startIndex);
+	HAL_API size_t indexOf(const tChar* value);
+	HAL_API size_t indexOf(const tChar* value, size_t startIndex);
+	HAL_API size_t LastIndexOf(tChar value);
+	HAL_API size_t LastIndexOf(tChar value, size_t startIndex);
+	HAL_API size_t LastIndexOf(const tChar* value);
+	HAL_API size_t LastIndexOf(const tChar* value, size_t startIndex);
 	HAL_API bool endsWith(const tChar* value);
 	HAL_API bool startsWith(const tChar* value);
-	HAL_API InStringA padLeft(uint32 totalWidth);
-	HAL_API InStringA padLeft(uint32 totalWidth, tChar paddingChar);
-	HAL_API InStringA padRight(uint32 totalWidth);
-	HAL_API InStringA padRight(uint32 totalWidth, tChar paddingChar);
-	HAL_API InStringA insert(uint32 startIndex, const tChar* value);
+	HAL_API InStringA padLeft(size_t totalWidth);
+	HAL_API InStringA padLeft(size_t totalWidth, tChar paddingChar);
+	HAL_API InStringA padRight(size_t totalWidth);
+	HAL_API InStringA padRight(size_t totalWidth, tChar paddingChar);
+	HAL_API InStringA insert(size_t startIndex, const tChar* value);
 	HAL_API InStringA toUpper();
 	HAL_API InStringA toLower();
 };
