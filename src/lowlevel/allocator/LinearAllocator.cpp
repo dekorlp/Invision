@@ -2,6 +2,20 @@
 #include "MemoryBlock.h"
 #include "LinearAllocator.h"
 
+LinearAllocator::LinearAllocator()
+{
+	arena = nullptr;
+	currentOffset = 0;
+	size = 0;
+	usedMemory = 0;
+	numChunks = 0;
+}
+
+LinearAllocator::LinearAllocator(size_t size)
+{
+	Init(size);
+}
+
 void LinearAllocator::Init(size_t size)
 {
 
@@ -109,4 +123,9 @@ void LinearAllocator::Destroy()
 {
 	delete arena;
 	arena = nullptr;
+}
+
+LinearAllocator::~LinearAllocator()
+{
+	Destroy();
 }

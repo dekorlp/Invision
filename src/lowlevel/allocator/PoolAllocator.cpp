@@ -2,6 +2,21 @@
 #include "MemoryBlock.h"
 #include "PoolAllocator.h"
 
+PoolAllocator::PoolAllocator()
+{
+	arena = nullptr;
+	size = 0;
+	usedMemory = 0;
+	numChunks = 0;
+	chunkSize = 0;
+	freelist = nullptr;
+}
+
+PoolAllocator::PoolAllocator(size_t size, size_t chunksize, BoundsChecking boundsChecking)
+{
+	Init(size, chunksize, boundsChecking);
+}
+
 void PoolAllocator::Init(size_t size, size_t chunksize, BoundsChecking boundsChecking)
 {
 
@@ -263,4 +278,9 @@ void PoolAllocator::Destroy()
 {
 	delete arena;
 	arena = nullptr;
+}
+
+PoolAllocator::~PoolAllocator()
+{
+	Destroy();
 }

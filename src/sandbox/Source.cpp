@@ -40,16 +40,15 @@ void testAllocatorBlockStack()
 	void* arena = malloc(length);
 	Log log("../../../logs/AllocationLog.txt");
 	Log::SetLogger(&log);
-	MemoryBlock memBlock;
 	
 	void* top;
 	
-	int* test6 = (int*)memBlock.CreateMemoryBlock(arena, &top, sizeof(int), __LINE__, __FILE__, INVISION_USE_STACKHEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	int* test6 = (int*)MemoryBlock::CreateMemoryBlock(arena, &top, sizeof(int), __LINE__, __FILE__, INVISION_USE_STACKHEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
 	*test6 = 0x2BEC;
-	SHeaderStack *header = memBlock.GetStackHeader(test6);
-	SMemoryTracking* tracking = memBlock.GetTrackingHeader(test6, INVISION_USE_STACKHEADER);
-	bool isBoundaries = memBlock.CheckBoundaries(test6, sizeof(int), INVISION_USE_STACKHEADER, INVISION_ADVANCED_MEMORY_TRACKING);
-	uint32 size = memBlock.CalculateSize(arena, sizeof(int), INVISION_USE_STACKHEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	SHeaderStack *header = MemoryBlock::GetStackHeader(test6);
+	SMemoryTracking* tracking = MemoryBlock::GetTrackingHeader(test6, INVISION_USE_STACKHEADER);
+	bool isBoundaries = MemoryBlock::CheckBoundaries(test6, sizeof(int), INVISION_USE_STACKHEADER, INVISION_ADVANCED_MEMORY_TRACKING);
+	uint32 size = MemoryBlock::CalculateSize(arena, sizeof(int), INVISION_USE_STACKHEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
 	// Ausgabe Size
 	stringstream ss1;
 	ss1 << "calculateSize(): " << size << std::endl;
@@ -70,21 +69,20 @@ void testAllocatorBlockPool()
 	void* arena = malloc(length);
 	Log log("../../../logs/AllocationLog.txt");
 	Log::SetLogger(&log);
-	MemoryBlock memBlock;
 
 	void* top;
 
-	int* test6 = (int*)memBlock.CreateMemoryBlock(arena, &top, sizeof(int), __LINE__, __FILE__, INVISION_USE_POOLHEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	int* test6 = (int*)MemoryBlock::CreateMemoryBlock(arena, &top, sizeof(int), __LINE__, __FILE__, INVISION_USE_POOLHEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
 	*test6 = 0x2BEC;
 
 	INVISION_LOG_RAWTEXT("----------Before SetPoolHeader()--------");
-	SHeaderPool *header1 = memBlock.GetPoolHeader(test6);
-	memBlock.SetPoolHeader(test6, (void*)0xFFFFFFFF);
+	SHeaderPool *header1 = MemoryBlock::GetPoolHeader(test6);
+	//memBlock.SetPoolHeader(test6, (void*)0xFFFFFFFF);
 	INVISION_LOG_RAWTEXT("----------After SetPoolHeader()-------");
-	SHeaderPool *header2 = memBlock.GetPoolHeader(test6);
-	SMemoryTracking* tracking = memBlock.GetTrackingHeader(test6, INVISION_USE_POOLHEADER);
-	bool isBoundaries = memBlock.CheckBoundaries(test6, sizeof(int), INVISION_USE_POOLHEADER, INVISION_ADVANCED_MEMORY_TRACKING);
-	uint32 size = memBlock.CalculateSize(arena, sizeof(int), INVISION_USE_POOLHEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	SHeaderPool *header2 = MemoryBlock::GetPoolHeader(test6);
+	SMemoryTracking* tracking = MemoryBlock::GetTrackingHeader(test6, INVISION_USE_POOLHEADER);
+	bool isBoundaries = MemoryBlock::CheckBoundaries(test6, sizeof(int), INVISION_USE_POOLHEADER, INVISION_ADVANCED_MEMORY_TRACKING);
+	uint32 size = MemoryBlock::CalculateSize(arena, sizeof(int), INVISION_USE_POOLHEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
 
 	// Ausgabe Size
 	stringstream ss1;

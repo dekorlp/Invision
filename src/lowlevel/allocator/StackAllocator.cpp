@@ -2,6 +2,20 @@
 #include "MemoryBlock.h"
 #include "StackAllocator.h"
 
+StackAllocator::StackAllocator()
+{
+	arena = nullptr;
+	currentOffset = 0;
+	size = 0;
+	usedMemory = 0;
+	numChunks = 0;
+}
+
+StackAllocator::StackAllocator(size_t size)
+{
+	Init(size);
+}
+
 void StackAllocator::Init(size_t size)
 {
 
@@ -129,4 +143,9 @@ void StackAllocator::Destroy()
 {
 	delete arena;
 	arena = nullptr;
+}
+
+StackAllocator::~StackAllocator()
+{
+	Destroy();
 }
