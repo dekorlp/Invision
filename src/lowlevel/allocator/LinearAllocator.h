@@ -20,6 +20,12 @@ class HAL_API LinearAllocator
 	public:
 		explicit LinearAllocator();
 		explicit LinearAllocator(size_t size);
+
+		LinearAllocator(LinearAllocator&&) = delete;
+		LinearAllocator& operator==(LinearAllocator&&) = delete;
+		LinearAllocator(const LinearAllocator&) = delete;
+		LinearAllocator& operator=(const LinearAllocator&) = delete;
+
 		void Init(size_t size);
 		void* Allocate(size_t blocksize, uint32 line = 0, char* file = "", MemoryTracking memTracking = INVISION_DEFAULT_MEMORY_TRACKING,
 			BoundsChecking boundsChecking = INVISION_NO_BOUNDS_CHECKING);

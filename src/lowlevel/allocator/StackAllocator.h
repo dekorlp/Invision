@@ -20,6 +20,12 @@ class HAL_API StackAllocator
 public:
 	explicit StackAllocator();
 	explicit StackAllocator(size_t size);
+
+	StackAllocator(StackAllocator&&) = delete;
+	StackAllocator& operator==(StackAllocator&&) = delete;
+	StackAllocator(const StackAllocator&) = delete;
+	StackAllocator& operator=(const StackAllocator&) = delete;
+
 	void Init(size_t size);
 	void* Allocate(size_t blocksize, uint32 line = 0, char* file = "", MemoryTracking memTracking = INVISION_DEFAULT_MEMORY_TRACKING,
 		BoundsChecking boundsChecking = INVISION_NO_BOUNDS_CHECKING);

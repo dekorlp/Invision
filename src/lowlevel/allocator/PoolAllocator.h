@@ -20,6 +20,12 @@ class HAL_API PoolAllocator
 public:
 	explicit PoolAllocator();
 	explicit PoolAllocator(size_t size, size_t chunksize, BoundsChecking boundsChecking = INVISION_NO_BOUNDS_CHECKING);
+
+	PoolAllocator(PoolAllocator&&) = delete;
+	PoolAllocator& operator==(PoolAllocator&&) = delete;
+	PoolAllocator(const PoolAllocator&) = delete;
+	PoolAllocator& operator=(const PoolAllocator&) = delete;
+
 	void Init(size_t size, size_t chunksize, BoundsChecking boundsChecking = INVISION_NO_BOUNDS_CHECKING);
 	void* Allocate();
 
