@@ -35,8 +35,8 @@ void StackAllocator::Init(size_t size)
 	numChunks = 0;
 
 #ifdef _DEBUG
-	MemoryBlock::WriteToLog("Arena: ", arena);
-	MemoryBlock::WriteToLog("Size: ", size);
+	Log::GetLogger()->WriteToLog("Arena: ", arena);
+	Log::GetLogger()->WriteToLog("Size: ", size);
 #endif
 }
 
@@ -68,9 +68,9 @@ void* StackAllocator::Allocate(size_t blocksize, uint32 line, char* file, Memory
 
 
 #ifdef _DEBUG
-	MemoryBlock::WriteToLog("usedMemory: ", usedMemory);
-	MemoryBlock::WriteToLog("Size Of Chunk: ", calcultedSize);
-	MemoryBlock::WriteToLog("numChunks: ", numChunks);
+	Log::GetLogger()->WriteToLog("usedMemory: ", usedMemory);
+	Log::GetLogger()->WriteToLog("Size Of Chunk: ", calcultedSize);
+	Log::GetLogger()->WriteToLog("numChunks: ", numChunks);
 #endif
 
 	void* p = MemoryBlock::CreateMemoryBlock(currentOffset, &currentOffset, blocksize, line, file, INVISION_USE_STACKHEADER, memTracking, boundsChecking);
@@ -97,7 +97,7 @@ void StackAllocator::Deallocate(void* block)
 	currentOffset = stackheader->frontOffset;
 
 #ifdef _DEBUG
-	MemoryBlock::WriteToLog("currentOffset: ", currentOffset);
+	Log::GetLogger()->WriteToLog("currentOffset: ", currentOffset);
 #endif
 
 	numChunks--;
@@ -130,8 +130,8 @@ void StackAllocator::Clear()
 #ifdef _DEBUG
 	INVISION_LOG_RAWTEXT("");
 	INVISION_LOG_RAWTEXT("StackAllocator::Clear()");
-	MemoryBlock::WriteToLog("UsedMemory: ", (size_t)0);
-	MemoryBlock::WriteToLog("numChunks: ", (size_t)0);
+	Log::GetLogger()->WriteToLog("UsedMemory: ", (size_t)0);
+	Log::GetLogger()->WriteToLog("numChunks: ", (size_t)0);
 #endif
 
 	currentOffset = arena;

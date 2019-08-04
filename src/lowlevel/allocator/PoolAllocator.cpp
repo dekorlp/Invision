@@ -40,8 +40,8 @@ void PoolAllocator::Init(size_t size, size_t chunksize, BoundsChecking boundsChe
 	this->boundsChecking = boundsChecking;
 
 #ifdef _DEBUG
-	MemoryBlock::WriteToLog("Arena: ", arena);
-	MemoryBlock::WriteToLog("Size: ", size);
+	Log::GetLogger()->WriteToLog("Arena: ", arena);
+	Log::GetLogger()->WriteToLog("Size: ", size);
 #endif
 
 	CreateFreeList(arena, chunksize, INVISION_DEFAULT_MEMORY_TRACKING, this->boundsChecking);
@@ -81,25 +81,25 @@ void PoolAllocator::CreateFreeList(void* position, size_t blocksize, MemoryTrack
 		{
 			// allocate top chunk
 #ifdef _DEBUG
-			MemoryBlock::WriteToLog("Pool Block: ", count);
+			Log::GetLogger()->WriteToLog("Pool Block: ", count);
 
-			MemoryBlock::WriteToLog("Start: ", position);
+			Log::GetLogger()->WriteToLog("Start: ", position);
 #endif
 			currentPayloadPosition = CreateFreeListBlock(position, &previousOffset, blocksize, memTracking, boundsChecking);
 
 			freelist = currentPayloadPosition;
 
 #ifdef _DEBUG
-			MemoryBlock::WriteToLog("FreeList->start: ", freelist);
-			MemoryBlock::WriteToLog("End: ", previousOffset);
+			Log::GetLogger()->WriteToLog("FreeList->start: ", freelist);
+			Log::GetLogger()->WriteToLog("End: ", previousOffset);
 #endif
 		}
 		else
 		{
 #ifdef _DEBUG
-			MemoryBlock::WriteToLog("Pool Block: ", count);
+			Log::GetLogger()->WriteToLog("Pool Block: ", count);
 
-			MemoryBlock::WriteToLog("Start: ", previousOffset);
+			Log::GetLogger()->WriteToLog("Start: ", previousOffset);
 #endif
 
 			void* payload = currentPayloadPosition;
@@ -107,8 +107,8 @@ void PoolAllocator::CreateFreeList(void* position, size_t blocksize, MemoryTrack
 			currentPayloadPosition = CreateFreeListBlock(previousOffset, &previousOffset, blocksize, memTracking, boundsChecking);
 			MemoryBlock::SetPoolHeader(payload, currentPayloadPosition);
 #ifdef _DEBUG
-			MemoryBlock::WriteToLog("previous->next: ", ((SHeaderPool*)MemoryBlock::GetPoolHeader(payload))->next);
-			MemoryBlock::WriteToLog("End: ", previousOffset);
+			Log::GetLogger()->WriteToLog("previous->next: ", ((SHeaderPool*)MemoryBlock::GetPoolHeader(payload))->next);
+			Log::GetLogger()->WriteToLog("End: ", previousOffset);
 #endif
 
 		}
@@ -143,9 +143,9 @@ void* PoolAllocator::CreateFreeListBlock(void* position, void** newPosition, siz
 
 
 #ifdef _DEBUG
-	MemoryBlock::WriteToLog("usedMemory: ", usedMemory);
-	MemoryBlock::WriteToLog("Size Of Chunk: ", calcultedSize);
-	MemoryBlock::WriteToLog("numChunks: ", numChunks);
+	Log::GetLogger()->WriteToLog("usedMemory: ", usedMemory);
+	Log::GetLogger()->WriteToLog("Size Of Chunk: ", calcultedSize);
+	Log::GetLogger()->WriteToLog("numChunks: ", numChunks);
 #endif
 
 	void* top;
@@ -189,7 +189,7 @@ void* PoolAllocator::Allocate()
 	this->freelist = MemoryBlock::GetPoolHeader(this->freelist)->next;
 
 #ifdef _DEBUG
-	MemoryBlock::WriteToLog("used Block for allocation: ", toAllocate);
+	Log::GetLogger()->WriteToLog("used Block for allocation: ", toAllocate);
 #endif
 
 	numChunks++;
@@ -214,7 +214,7 @@ void PoolAllocator::Deallocate(void* block)
 
 
 #ifdef _DEBUG
-	MemoryBlock::WriteToLog("deallocated Block: ", block);
+	Log::GetLogger()->WriteToLog("deallocated Block: ", block);
 #endif
 
 	if (freelist == nullptr)
@@ -262,8 +262,8 @@ void PoolAllocator::Clear()
 #ifdef _DEBUG
 	INVISION_LOG_RAWTEXT("");
 	INVISION_LOG_RAWTEXT("LinearAllocator::Clear()");
-	MemoryBlock::WriteToLog("UsedMemory: ", (size_t)0);
-	MemoryBlock::WriteToLog("numChunks: ", (size_t)0);
+	Log::GetLogger()->WriteToLog("UsedMemory: ", (size_t)0);
+	Log::GetLogger()->WriteToLog("numChunks: ", (size_t)0);
 #endif
 
 	//currentOffset = arena;

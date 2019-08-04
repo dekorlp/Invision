@@ -31,8 +31,8 @@ void* MemoryBlock::CreateMemoryBlock(
 	void* currentPosition = position;
 
 #ifdef _DEBUG
-	WriteToLog("Memory Block Start: ", position);
-	WriteToLog("Allocation Size: ", size);
+	Log::GetLogger()->WriteToLog("Memory Block Start: ", position);
+	Log::GetLogger()->WriteToLog("Allocation Size: ", size);
 #endif
 
 	if (boundsChecking == INVISION_STANDARD_BOUNDS_CHECKING)
@@ -45,7 +45,7 @@ void* MemoryBlock::CreateMemoryBlock(
 		*bound = 0xFAFFB;
 
 #ifdef _DEBUG
-		WriteToLog("    Front Boundary: ", currentPosition);
+		Log::GetLogger()->WriteToLog("    Front Boundary: ", currentPosition);
 #endif
 		currentPosition = Add(currentPosition, FRONT_SIZE);
 
@@ -64,7 +64,7 @@ void* MemoryBlock::CreateMemoryBlock(
 		((SMemoryTracking*)PtrHeader)->lineOfFile = lineOfFile;
 		currentPosition = (void*)PtrHeader;
 #ifdef _DEBUG
-		WriteToLog("    TrackingHeader: ", PtrHeader);
+		Log::GetLogger()->WriteToLog("    TrackingHeader: ", PtrHeader);
 #endif
 
 		currentPosition = Add(currentPosition, sizeof(SMemoryTracking));
@@ -82,7 +82,7 @@ void* MemoryBlock::CreateMemoryBlock(
 		currentPosition = (void*)PtrHeaderStack;
 
 #ifdef _DEBUG
-		WriteToLog("    StackHeader: ", PtrHeaderStack);
+		Log::GetLogger()->WriteToLog("    StackHeader: ", PtrHeaderStack);
 #endif
 
 		currentPosition = Add(currentPosition, sizeof(SHeaderStack));
@@ -100,7 +100,7 @@ void* MemoryBlock::CreateMemoryBlock(
 		currentPosition = (void*)PtrHeaderPool;
 
 #ifdef _DEBUG
-		WriteToLog("    PoolHeader: ", PtrHeaderPool);
+		Log::GetLogger()->WriteToLog("    PoolHeader: ", PtrHeaderPool);
 #endif
 
 		currentPosition = Add(currentPosition, sizeof(SHeaderPool));
@@ -109,7 +109,7 @@ void* MemoryBlock::CreateMemoryBlock(
 
 	unsigned int adjustmentSize = ForwardAlignment(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT);
 	void* p = (void*)Add(currentPosition, adjustmentSize);
-	WriteToLog("    Payload Address: ", currentPosition);
+	Log::GetLogger()->WriteToLog("    Payload Address: ", currentPosition);
 
 	//int* p1 = (int*)p;
 	currentPosition = (void*)Add(p, size);
@@ -122,7 +122,7 @@ void* MemoryBlock::CreateMemoryBlock(
 		unsigned int *bound = (unsigned int*)currentPosition;
 		*bound = 0xFAFFB;
 #ifdef _DEBUG
-		WriteToLog("    Back Boundary: ", currentPosition);
+		Log::GetLogger()->WriteToLog("    Back Boundary: ", currentPosition);
 #endif
 		currentPosition = Add(currentPosition, BACK_SIZE);
 	}
@@ -142,8 +142,8 @@ void* MemoryBlock::CreateMemoryBlock(
 	*endposition = currentPosition;
 
 #ifdef _DEBUG
-	WriteToLog("Block Size: ", memBlockSize);
-	WriteToLog("Memory Block End:", currentPosition);
+	Log::GetLogger()->WriteToLog("Block Size: ", memBlockSize);
+	Log::GetLogger()->WriteToLog("Memory Block End:", currentPosition);
 #endif
 
 	return p;
@@ -161,9 +161,9 @@ SHeaderStack* MemoryBlock::GetStackHeader(void* memoryBlock)
 	std::stringstream ss;
 	ss << std::endl << "Call Method: GetStackHeader(memoryBlock = 0x" << memoryBlock << ")";
 	INVISION_LOG_RAWTEXT(ss.str());
-	WriteToLog("Front Offset: ", ((SHeaderStack*)currentPosition)->frontOffset);
-	WriteToLog("Back Offset: ", ((SHeaderStack*)currentPosition)->backOffset);
-	WriteToLog("Size: ", ((SHeaderStack*)currentPosition)->size);
+	Log::GetLogger()->WriteToLog("Front Offset: ", ((SHeaderStack*)currentPosition)->frontOffset);
+	Log::GetLogger()->WriteToLog("Back Offset: ", ((SHeaderStack*)currentPosition)->backOffset);
+	Log::GetLogger()->WriteToLog("Size: ", ((SHeaderStack*)currentPosition)->size);
 #endif
 
 	return (SHeaderStack*)currentPosition;
@@ -181,7 +181,7 @@ SHeaderPool* MemoryBlock::GetPoolHeader(void* memoryBlock)
 	std::stringstream ss;
 	ss << std::endl << "Call Method: GetPoolHeader(memoryBlock = 0x" << memoryBlock << ")";
 	INVISION_LOG_RAWTEXT(ss.str());
-	WriteToLog("Pointer to next Object: ", ((SHeaderPool*)currentPosition)->next);
+	Log::GetLogger()->WriteToLog("Pointer to next Object: ", ((SHeaderPool*)currentPosition)->next);
 #endif
 
 	return (SHeaderPool*)currentPosition;
@@ -278,7 +278,7 @@ SMemoryTracking* MemoryBlock::GetTrackingHeader(void* memoryBlock, UseHeader hea
 	ssFilename << "Filename: " << (char*)((SMemoryTracking*)currentPosition)->filename;
 
 	INVISION_LOG_RAWTEXT(ssFilename.str());
-	WriteToLog("Line: ", ((SMemoryTracking*)currentPosition)->lineOfFile);
+	Log::GetLogger()->WriteToLog("Line: ", ((SMemoryTracking*)currentPosition)->lineOfFile);
 #endif
 
 	return (SMemoryTracking*)currentPosition;
@@ -356,20 +356,6 @@ bool MemoryBlock::CheckBoundaries(void* memoryBlock,  size_t payloudSize, UseHea
 #endif 
 
 	return false;
-}
-
-void MemoryBlock::WriteToLog(std::string initMessage, void* address)
-{
-	std::stringstream ss;
-	ss << initMessage << "0x" << std::hex << address;
-	INVISION_LOG_RAWTEXT(ss.str());
-}
-
-void MemoryBlock::WriteToLog(std::string initMessage, size_t number)
-{
-	std::stringstream ss;
-	ss << initMessage  << number;
-	INVISION_LOG_RAWTEXT(ss.str());
 }
 
 // apply a forward alignment to the address

@@ -77,9 +77,6 @@ class HAL_API MemoryBlock
 		static SMemoryTracking* GetTrackingHeader(void* memoryBlock, UseHeader header);
 
 		static bool CheckBoundaries(void* memoryBlock, size_t payloudSize, UseHeader header, MemoryTracking memTracking);
-
-		static void WriteToLog(std::string initMessage, void* address);
-		static void WriteToLog(std::string initMessage, size_t number);
 	private:
 		
 

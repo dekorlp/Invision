@@ -71,6 +71,20 @@ void Log::Warning(std::string message)
 	}
 }
 
+void Log::WriteToLog(std::string initMessage, void* address)
+{
+	std::stringstream ss;
+	ss << initMessage << "0x" << std::hex << address;
+	INVISION_LOG_RAWTEXT(ss.str());
+}
+
+void Log::WriteToLog(std::string initMessage, size_t number)
+{
+	std::stringstream ss;
+	ss << initMessage << number;
+	INVISION_LOG_RAWTEXT(ss.str());
+}
+
 Log* Log::GetLogger() {
 	return m_pThis;
 }

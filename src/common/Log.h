@@ -24,6 +24,8 @@ class HAL_API Log
 		void Info(std::string message);
 		void Error(std::string message);
 		void Warning(std::string message);
+		void WriteToLog(std::string initMessage, void* address);
+		void WriteToLog(std::string initMessage, size_t number);
 
 		static Log* GetLogger();
 		static void SetLogger(Log* log);

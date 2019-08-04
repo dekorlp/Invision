@@ -35,8 +35,8 @@ void LinearAllocator::Init(size_t size)
 	numChunks = 0;
 
 #ifdef _DEBUG
-	MemoryBlock::WriteToLog("Arena: ", arena);
-	MemoryBlock::WriteToLog("Size: ", size);
+	Log::GetLogger()->WriteToLog("Arena: ", arena);
+	Log::GetLogger()->WriteToLog("Size: ", size);
 #endif
 }
 
@@ -69,9 +69,9 @@ void* LinearAllocator::Allocate(size_t blocksize, uint32 line, char* file, Memor
 	
 
 #ifdef _DEBUG
-	MemoryBlock::WriteToLog("usedMemory: ", usedMemory);
-	MemoryBlock::WriteToLog("Size Of Chunk: ", calcultedSize);
-	MemoryBlock::WriteToLog("numChunks: ", numChunks);
+	Log::GetLogger()->WriteToLog("usedMemory: ", usedMemory);
+	Log::GetLogger()->WriteToLog("Size Of Chunk: ", calcultedSize);
+	Log::GetLogger()->WriteToLog("numChunks: ", numChunks);
 #endif
 
 	void* p = MemoryBlock::CreateMemoryBlock(currentOffset, &currentOffset, blocksize, line, file, INVISION_USE_NO_HEADER, memTracking, boundsChecking);
@@ -110,8 +110,8 @@ void LinearAllocator::Clear()
 #ifdef _DEBUG
 	INVISION_LOG_RAWTEXT("");
 	INVISION_LOG_RAWTEXT("LinearAllocator::Clear()");
-	MemoryBlock::WriteToLog("UsedMemory: ", (size_t)0);
-	MemoryBlock::WriteToLog("numChunks: ", (size_t)0);
+	Log::GetLogger()->WriteToLog("UsedMemory: ", (size_t)0);
+	Log::GetLogger()->WriteToLog("numChunks: ", (size_t)0);
 #endif
 
 	currentOffset = arena;
