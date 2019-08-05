@@ -5,9 +5,17 @@
 #include "allocator\LinearAllocator.h"
 #include "allocator\StackAllocator.h"
 #include "allocator\PoolAllocator.h"
+#include "PlatformCPUID.h"
 #include <iostream>
 
 using namespace std;
+
+void testCPUInfo()
+{
+	PlatformCPU platformCpu;
+
+	const char* name = platformCpu.GetCpuName();
+}
 
 void testVector()
 {
@@ -173,12 +181,26 @@ void testPoolAllocator()
 
 int main()
 {
+	
+
+	//CPUID cpuid(0x80000004);
+
+	//std::string vendor;
+	//vendor += std::string((const char *)&cpuid.EBX(), 4);
+	//vendor += std::string((const char *)&cpuid.EDX(), 4);
+	//vendor += std::string((const char *)&cpuid.ECX(), 4);
+
+	//cout << "CPU vendor = " << vendor << endl;
+
+
+
 	//testVector();
 	//testAllocators();
 	//testLog();
 
 	//testAllocatorBlockStack();
 	//testAllocatorBlockPool();
+	testCPUInfo();
 	testLinearAllocator();
 	testStackAllocator();
 	testPoolAllocator();

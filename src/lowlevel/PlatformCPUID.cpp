@@ -1,10 +1,9 @@
 #include "precompiled.h"
 #include "PlatformCPUID.h"
-
+#include "platform\CpuId.h"
 
 	PlatformCPU::PlatformCPU()
 	{
-		SetCpuSupport();
 		SetMaxFunctions();
 		SetCPUVendor();
 		SetCPUName();
@@ -13,153 +12,63 @@
 		
 	}
 
-	void PlatformCPU::SetCpuSupport()
-	{
-		uint32 CPUIsSupported = false;
-
-#ifndef _WIN64
-		__asm
-		{
-			pushfd
-				pop eax
-				mov ebx, eax
-				xor eax, (1 << 21)
-				push eax
-				popfd
-				pushfd
-				pop eax
-				xor eax, ebx
-				mov CPUIsSupported, eax
-		}
-#endif //_WIN64
-		if (CPUIsSupported != 0)
-		{
-			CpuIdSupport = CPUID_IS_AVAILABLE;
-		}
-		else
-		{
-			CpuIdSupport = CPUID_IS_NOT_AVAILABLE;
-		}
-	}
-
-	CPUIDSUPPORT PlatformCPU::IsCPUIDSupported()
-	{
-		return CpuIdSupport;
-	}
 
 	void PlatformCPU::SetMaxFunctions()
 	{
-		if (IsCPUIDSupported() == CPUID_IS_NOT_AVAILABLE)
-		{
-			return;
-		}
 
 		uint32 CPUInfo[4] = { 0, 0, 0, 0 };
 		uint32 _highestFunction = 0;
-		uint32 _highestAdvancedFunction = 0;
-#ifndef _WIN64
-		__asm
-		{
-			mov eax, 0x0000000
-				cpuid
-				mov CPUInfo[0], eax
-				mov CPUInfo[4], ebx
-				mov CPUInfo[8], edx
-				mov CPUInfo[12], ecx
-				mov _highestFunction, eax
-		};
-#endif //_WIN64
+
+
+		CPUID cpuid(0x0000000);
+		memcpy(CPUInfo, &cpuid.EAX(), 4);
+		memcpy(CPUInfo+1, &cpuid.EBX(), 4);
+		memcpy(CPUInfo+2, &cpuid.EDX(), 4);
+		memcpy(CPUInfo+3, &cpuid.ECX(), 4);
+		_highestFunction = CPUInfo[0];
 		HighestFunction = _highestFunction;
-#ifndef _WIN64
-		__asm
-		{
-			mov eax, 0x80000000
-				cpuid
-				mov _highestAdvancedFunction, eax
-		};
-#endif //_WIN64
-		HighestAdvancedFunction = _highestAdvancedFunction;
+
+		CPUID cpuid1(0x80000000);
+		memcpy(&HighestAdvancedFunction, &cpuid1.EAX(), sizeof(HighestAdvancedFunction));
+
 	}
 
 	void PlatformCPU::SetCPUVendor()
 	{
-		if (IsCPUIDSupported() == CPUID_IS_NOT_AVAILABLE)
-		{
-			return;
-		}
+		char vendor[12];
 
-		uint32 CPUInfo[4];
-#ifndef _WIN64
-		__asm
-		{
-			mov eax, 0x0000000
-				cpuid
-				mov CPUInfo[0], ebx
-				mov CPUInfo[4], edx
-				mov CPUInfo[8], ecx
-		}
-#endif //_WIN64
+		CPUID cpuid(0x00000000);
+		strncpy(vendor, (char*)&cpuid.EBX(), 4);
+		strncpy(vendor + 4, (char*)&cpuid.EDX(), 4);
+		strncpy(vendor + 8, (char*)&cpuid.ECX(), 4);
 
-		uint32 charpos = 0;
-		VendorAlias = (char*)malloc(sizeof(CPUInfo));
-
-		for (uint32 i = 0; i < (sizeof(CPUInfo)-sizeof(uint32)) / sizeof(uint32); i++)
-		{
-			for (uint32 j = 0; j < sizeof(uint32); j++)
-			{
-				VendorAlias[charpos] = char((CPUInfo[i] >> j * 8) & 0xFF);
-				charpos++;
-			}
-		}
-		VendorAlias[charpos] = char('\0');
+		VendorAlias = (char*)malloc(strlen(vendor)+1);
+		strcpy(VendorAlias, vendor);
+		VendorAlias[12] = '\0';
 	}
 
 	void PlatformCPU::SetCPUName()
 	{
-		if (IsCPUIDSupported() == CPUID_IS_NOT_AVAILABLE)
-		{
-			return;
-		}
+		char name[48];
 
-		uint32 cpuName[12];
-#ifndef _WIN64
-		__asm
-		{
-			mov eax, 0x80000002
-				cpuid
-				mov cpuName[0], eax
-				mov cpuName[4], ebx
-				mov cpuName[8], ecx
-				mov cpuName[12], edx
+		CPUID cpuid(0x80000002);
+		strncpy(name, (char*)&cpuid.EAX(), 4);
+		strncpy(name +4, (char*)&cpuid.EBX(), 4);
+		strncpy(name +8, (char*)&cpuid.ECX(), 4);
+		strncpy(name +12, (char*)&cpuid.EDX(), 4);
+		CPUID cpuid1(0x80000003);
+		strncpy(name +16, (char*)&cpuid1.EAX(), 4);
+		strncpy(name +20, (char*)&cpuid1.EBX(), 4);
+		strncpy(name +24, (char*)&cpuid1.ECX(), 4);
+		strncpy(name +28, (char*)&cpuid1.EDX(), 4);
+		CPUID cpuid2(0x80000004);
+		strncpy(name +32, (char*)&cpuid2.EAX(), 4);
+		strncpy(name +36, (char*)&cpuid2.EBX(), 4);
+		strncpy(name +40, (char*)&cpuid2.ECX(), 4);
+		strncpy(name +44, (char*)&cpuid2.EDX(), 4);
 
-				mov eax, 0x80000003
-				cpuid
-				mov cpuName[16], eax
-				mov cpuName[20], ebx
-				mov cpuName[24], ecx
-				mov cpuName[28], edx
-
-				mov eax, 0x80000004
-				cpuid
-				mov cpuName[32], eax
-				mov cpuName[36], ebx
-				mov cpuName[40], ecx
-				mov cpuName[44], edx
-		};
-#endif //_WIN64
-
-		uint32 charpos = 0;
-		CpuName = (char*)malloc(sizeof(cpuName));
-		for (uint32 i = 0; i < sizeof(cpuName) / sizeof(uint32); i++)
-		{
-			for (uint32 j = 0; j < sizeof(uint32); j++)
-			{
-				CpuName[charpos] = char((cpuName[i] >> j * 8) & 0xFF);
-				charpos++;
-			}
-		}
-		CpuName[charpos] = char('\0');
-
+		CpuName = (char*)malloc(strlen(name)+1);
+		strcpy(CpuName, name);
 	}
 
 
@@ -170,22 +79,12 @@
 		uint32 CPUECX = 0;
 		uint32 CPUEDX = 0;
 
-		if (IsCPUIDSupported() == CPUID_IS_NOT_AVAILABLE)
-		{
-			return false;
-		}
+		CPUID cpuid(0x00000001);
+		memcpy(&CPUEAX, &cpuid.EAX(), sizeof(CPUEAX));
+		memcpy(&CPUEBX, &cpuid.EBX(), sizeof(CPUEBX));
+		memcpy(&CPUECX, &cpuid.ECX(), sizeof(CPUECX));
+		memcpy(&CPUEDX, &cpuid.EDX(), sizeof(CPUEDX));
 
-#ifndef _WIN64
-		__asm
-		{
-			mov eax, 0x00000001
-				cpuid
-				mov CPUEAX, eax
-				mov CPUEBX, ebx
-				mov CPUECX, ecx
-				mov CPUEDX, edx
-		};
-#endif //_WIN64
 
 		CpuInformation.CpuName = CpuName;
 		
@@ -290,17 +189,12 @@
 
 		if (CpuInformation.CpuVendor == AMD &&GetHighestAdvancedFunction() >= 0x80000001)
 		{
-#ifndef _WIN64
-			__asm
-			{
-				mov eax, 0x80000001
-					cpuid
-					mov CPUEAX, eax
-					mov CPUEBX, ebx
-					mov CPUECX, ecx
-					mov CPUEDX, edx
-			};
-#endif //_WIN64
+
+			CPUID cpuid1(0x80000001);
+			memcpy(&CPUEAX, &cpuid1.EAX(), sizeof(CPUEAX));
+			memcpy(&CPUEBX, &cpuid1.EBX(), sizeof(CPUEBX));
+			memcpy(&CPUECX, &cpuid1.ECX(), sizeof(CPUECX));
+			memcpy(&CPUEDX, &cpuid1.EDX(), sizeof(CPUEDX));
 
 			CpuInformation.Amd.SYSCALL = (CPUEDX >> 11) & 0x1;
 			CpuInformation.Amd.XD = (CPUEDX >> 20) & 0x1;
@@ -346,4 +240,10 @@
 	CPUINFORMATION PlatformCPU::GetCPUInformation()
 	{
 		return CpuInformation;
+	}
+
+	PlatformCPU::~PlatformCPU()
+	{
+		free(CpuName);
+		free(VendorAlias);
 	}

@@ -13,12 +13,7 @@
 #ifndef PLATFORMCPUID_H
 #define PLATFORMCPUID_H
 
-	 enum HAL_API CPUIDSUPPORT {
-		CPUID_IS_AVAILABLE = 1,
-		CPUID_IS_NOT_AVAILABLE = 0
-	};
-
-	enum HAL_API CPUVENDOR {
+enum HAL_API CPUVENDOR {
 		UNKNOWNCPUVENDOR = 0,
 		AMD = 1,
 		INTEL = 2,
@@ -101,14 +96,12 @@
 	class HAL_API PlatformCPU
 	{
 	private:
-		CPUIDSUPPORT CpuIdSupport;
 		CPUINFORMATION CpuInformation;
 		uint32 HighestFunction = 0;
 		uint32 HighestAdvancedFunction = 0;
 		char *VendorAlias;
 		char *CpuName;
 
-		void  SetCpuSupport();
 		void  SetMaxFunctions();
 		void  SetCPUVendor();
 		void  SetCPUName();
@@ -118,15 +111,12 @@
 		PlatformCPU();
 		const char*  GetCPUVendor();
 		const char*  GetCpuName();
-		CPUIDSUPPORT IsCPUIDSupported();
 		uint32 GetHighestFunction();
 		uint32 GetHighestAdvancedFunction();
 		
 		CPUINFORMATION GetCPUInformation();
 
-
-		
-
+		~PlatformCPU();
 	};
 
 #endif //PLATFORMCPUID_H

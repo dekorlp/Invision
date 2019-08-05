@@ -58,23 +58,14 @@ void PlatformCPUFrequency::Sleep(unsigned int mseconds)
 
 real PlatformCPUFrequency::EstimateCpuSpeed()
 {
-	if (CpuPlatform.IsCPUIDSupported() == CPUID_IS_AVAILABLE)
+	PlatformCPUFrequency CpuFreq;
+	CpuFreq.StartTimingCPU();
+
+	do
 	{
+		CpuFreq.UpdateCPUTime();
+		Sleep(0);
 
-		PlatformCPUFrequency CpuFreq;
-		CpuFreq.StartTimingCPU();
-
-		do
-		{
-			CpuFreq.UpdateCPUTime();
-			Sleep(0);
-
-		} while (CpuFreq.GetMilliseconds() < 1000);
-		return ((float)CpuFreq.GetTicks()) / ((float)CpuFreq.GetMilliseconds()) / 1000000.0f;
-	}
-	else
-	{
-		return 0;
-	}
-
+	} while (CpuFreq.GetMilliseconds() < 1000);
+	return ((float)CpuFreq.GetTicks()) / ((float)CpuFreq.GetMilliseconds()) / 1000000.0f;
 }
