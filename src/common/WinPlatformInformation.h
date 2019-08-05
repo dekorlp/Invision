@@ -10,6 +10,8 @@
 //			  All rights reserved.
 /////////////////////////////////////////////////////////////////////////////
 
+#ifdef _WIN32
+
 #ifndef WINPLATFORMINFORMATION_H
 #define WINPLATFORMINFORMATION_H
 
@@ -51,3 +53,5 @@ private:
 };
 
 #endif //WINPLATFORMINFORMATION_H
+
+#endif

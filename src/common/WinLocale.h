@@ -10,6 +10,7 @@
 //			  All rights reserved.
 /////////////////////////////////////////////////////////////////////////////
 
+#ifdef _WIN32
 #ifndef WINLOCALE_H
 #define WINLOCALE_H
 
@@ -28,3 +29,4 @@ public:
 };
 
 #endif // WINLOCALE_H
+#endif

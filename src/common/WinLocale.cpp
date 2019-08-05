@@ -1,5 +1,7 @@
 #include "precompiled.h"
 
+#ifdef _WIN32
+
 uint32 WinLocale::IdentifyCID()
 {
 	// ISO Standard 3166 code (DE, US, etc)
@@ -48,3 +50,4 @@ const char* WinLocale::IdentifyLanguage(uint32 langId)
 	GetLocaleInfo(langId, LOCALE_SISO639LANGNAME, language, sizeof(language));
 	return language;
 }
+#endif

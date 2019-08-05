@@ -1,5 +1,7 @@
 #include "precompiled.h"
 
+#ifdef _WIN32
+
 WinPlatformInformation::WinPlatformInformation()
 {
 	ZeroMemory(&memStatus, sizeof(MEMORYSTATUSEX));
@@ -196,3 +198,5 @@ void WinPlatformInformation::IdentifyWindowsVersion()
 
 	WindowsVersion = WinVer;
 }
+
+#endif
