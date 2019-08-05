@@ -15,10 +15,13 @@
 
 #include "PlatformCPUID.h"
 
-
 class HAL_API PlatformCPUFrequency
 {
 private:
+#ifdef _WIN32
+	DWORD ReadCPUSpeedFromRegistry();
+#elif
+
 	PlatformCPU CpuPlatform;
 	int32 Milliseconds;
 	int32 Milliseconds0;
@@ -27,10 +30,10 @@ private:
 
 	void StartTimingCPU();
 	void UpdateCPUTime();
-	int32 CalcCPUSpeed();
 	int32 GetMilliseconds();
 	int64 GetTicks();
 	void Sleep(unsigned int mseconds);
+#endif
 
 public:
 	real EstimateCpuSpeed();

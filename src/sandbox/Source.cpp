@@ -6,6 +6,7 @@
 #include "allocator\StackAllocator.h"
 #include "allocator\PoolAllocator.h"
 #include "PlatformCPUID.h"
+#include "PlatformCPUFrequency.h"
 #include <iostream>
 
 using namespace std;
@@ -13,10 +14,12 @@ using namespace std;
 void testCPUInfo()
 {
 	PlatformCPU platformCpu;
+	PlatformCPUFrequency cpufreq;
 
 	const char* name = platformCpu.GetCpuName();
 	std::cout << "Name: " << name << std::endl;
 	std::cout << "Count V-Cores: " << platformCpu.GetLogicalCpuCores() << std::endl;
+	std::cout << "Frequency: " << cpufreq.EstimateCpuSpeed() << std::endl;
 }
 
 void testVector()
