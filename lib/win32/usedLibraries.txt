@@ -9,3 +9,4 @@ Note: Your repository folder should have the following structure
 used third Party sdks/apis
 ---------------------------
 - boost_1_66_0 (https://dl.bintray.com/boostorg/release/1.66.0/source/)
+- Vulkan 1.1.70.1

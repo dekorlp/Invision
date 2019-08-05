@@ -10,3 +10,19 @@ Platform: Windows
   2. start: bootstrap.bat
   3. start: b2.exe toolset=msvc-14.0 => for Microsoft Visual Studio 2015
   4. start: bjam.exe toolset=msvc-14.0
+
+NEW VERSION:
+ Create Project:
+  1. start Invision/build/solutions/update-solutions.bat
+  2. Open Project: Invision/build/solutions/ vs2013 - vs2015
+  3. Run Bat /lib/win32/loadLibraries.bat
+
+
+ To compile tests, (boost unit test libs are needed):
+  1. Go in libs/win32/boost
+  2. start: bootstrap.bat
+  3. start: b2.exe toolset=msvc-14.0 => for Microsoft Visual Studio 2015
+
+ To compile WxWidget GUI:
+  1. Open /lib/wxWidgets/build/msw/wx_vc12.sln
+  2. Compile solution for both release and debug
