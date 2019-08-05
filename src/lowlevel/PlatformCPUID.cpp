@@ -242,6 +242,11 @@
 		return CpuInformation;
 	}
 
+	uint32 PlatformCPU::GetLogicalCpuCores()
+	{
+		return std::thread::hardware_concurrency();
+	}
+
 	PlatformCPU::~PlatformCPU()
 	{
 		free(CpuName);

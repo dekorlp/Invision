@@ -15,6 +15,8 @@ void testCPUInfo()
 	PlatformCPU platformCpu;
 
 	const char* name = platformCpu.GetCpuName();
+	std::cout << "Name: " << name << std::endl;
+	std::cout << "Count V-Cores: " << platformCpu.GetLogicalCpuCores() << std::endl;
 }
 
 void testVector()

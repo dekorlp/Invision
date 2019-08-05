@@ -5,6 +5,7 @@
 
 /* third party libs */
 #include <time.h>
+#include <thread>
 #include <sstream>
 #include <vector>
 #include <boost\crc.hpp>

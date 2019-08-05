@@ -113,6 +113,7 @@ enum HAL_API CPUVENDOR {
 		const char*  GetCpuName();
 		uint32 GetHighestFunction();
 		uint32 GetHighestAdvancedFunction();
+		uint32 GetLogicalCpuCores();
 		
 		CPUINFORMATION GetCPUInformation();
 
