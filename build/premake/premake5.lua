@@ -41,7 +41,7 @@ project "Invision"
 	
 	includedirs
 	{
-		libpath .. "boost_1_66_0/"
+		libpath .. "boost/"
 	}
 	
 	filter "configurations:Debug"
@@ -83,7 +83,7 @@ project "Sandbox"
 		srcroot .. "/math/",
 		
 		-- third party libraries
-		libpath .. "boost_1_66_0/"
+		libpath .. "boost/"
 	}
 		
 	links { "Invision" }
@@ -126,12 +126,12 @@ project "UnitTests"
 		srcroot .. "/math/",
 		
 		-- third party libraries
-		libpath .. "boost_1_66_0/"
+		libpath .. "boost/"
 	}
 		
 	libdirs
 	{
-		libpath .. "boost_1_66_0/stage/lib/"
+		libpath .. "boost/stage/lib/"
 	}
 		
 	links { "Invision" }

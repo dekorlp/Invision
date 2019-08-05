@@ -1,12 +1,4 @@
-Note: Your repository folder should have the following structure
-- your repository folder
-     - Invision
-       -lib
-         -win32
-           - boost_1_66_0
-
 ---------------------------
 used third Party sdks/apis
 ---------------------------
-- boost_1_66_0 (https://dl.bintray.com/boostorg/release/1.66.0/source/)
-- Vulkan 1.1.70.1
+- Vulkan 1.1.70.1 header and library files
