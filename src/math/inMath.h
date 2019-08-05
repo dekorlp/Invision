@@ -32,12 +32,8 @@
 
 
 
-#pragma warning(push)
-#pragma warning(disable:4799)
+
 #include "Simd_Config.h"
-#pragma warning(pop)
-
-
 #include "sse_mathfun.h"
 #include "Vector2.h"
 #include "Vector3.h"
