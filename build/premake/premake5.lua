@@ -38,7 +38,7 @@ project "Invision"
 			"HAL_EXPORTS",
 			"_WINDLL"
 		}
-		
+	filter {}
 	
 	includedirs
 	{
@@ -96,6 +96,8 @@ project "Sandbox"
 	filter "system:Windows"
 		libpath = libroot .. "win32/"
 		disablewarnings {}
+	
+	filter {}
 	
 	includedirs
 	{
@@ -165,6 +167,8 @@ project "UnitTests"
 	filter "system:Windows"
 		libpath = libroot .. "win32/"
 		disablewarnings {}
+	
+	filter {}
 	
 	includedirs
 	{
