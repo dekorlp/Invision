@@ -41,7 +41,8 @@ project "Invision"
 	
 	includedirs
 	{
-		libpath .. "boost/"
+		libpath .. "boost/",
+		libpath .. "wxWidgets/include/"
 	}
 	
 	filter "configurations:Debug"
@@ -56,8 +57,18 @@ project "Invision"
 	filter "platforms:x86"
 		architecture "x86"
 		
+		libdirs
+		{
+			libpath .. "wxWidgets/vc_lib/"
+		}
+		
 	filter "platforms:x64"
 		architecture "x86_64"
+			
+		libdirs
+		{
+			libpath .. "wxWidgets/vc_x64_lib/"
+		}
 		
 project "Sandbox"
 	kind "ConsoleApp"
@@ -83,7 +94,8 @@ project "Sandbox"
 		srcroot .. "/math/",
 		
 		-- third party libraries
-		libpath .. "boost/"
+		libpath .. "boost/",
+		libpath .. "wxWidgets/include/"
 	}
 		
 	links { "Invision" }
@@ -99,8 +111,18 @@ project "Sandbox"
 	filter "platforms:x86"
 		architecture "x86"
 		
+		libdirs
+		{
+			libpath .. "wxWidgets/vc_lib/"
+		}
+		
 	filter "platforms:x64"
 		architecture "x86_64"
+		
+		libdirs
+		{
+			libpath .. "wxWidgets/vc_x64_lib/"
+		}
 		
 project "UnitTests"
 	kind "ConsoleApp"
@@ -126,7 +148,8 @@ project "UnitTests"
 		srcroot .. "/math/",
 		
 		-- third party libraries
-		libpath .. "boost/"
+		libpath .. "boost/",
+		libpath .. "wxWidgets/include/"
 	}
 		
 	libdirs

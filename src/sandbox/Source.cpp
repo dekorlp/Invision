@@ -9,6 +9,8 @@
 #include "PlatformCPUFrequency.h"
 #include <iostream>
 
+
+
 using namespace std;
 
 void testCPUInfo()
@@ -186,7 +188,6 @@ void testPoolAllocator()
 
 int main()
 {
-	
 
 	//CPUID cpuid(0x80000004);
 
