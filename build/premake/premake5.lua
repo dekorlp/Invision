@@ -117,10 +117,7 @@ project "Sandbox"
 	}
 		
 	links { "Invision" }
-	links { "wxbase31ud.lib" } -- necessary for WXWIDGET
-	links { "wxmsw31ud_core.lib" } -- necessary for WXWIDGET
-	links { "wxpngd.lib" } -- necessary for WXWIDGET
-	links { "wxzlibd.lib" } -- necessary for WXWIDGET
+	
 	
 		if (wxwidgetOption == "dll") then 
 			defines { "WXUSINGDLL" } -- necessary for WXWIDGET (DLL)
@@ -131,9 +128,19 @@ project "Sandbox"
 		defines { "DEBUG" }
 		flags { "Symbols" }
 		
+		links { "wxbase31ud.lib" } -- necessary for WXWIDGET
+		links { "wxmsw31ud_core.lib" } -- necessary for WXWIDGET
+		links { "wxpngd.lib" } -- necessary for WXWIDGET
+		links { "wxzlibd.lib" } -- necessary for WXWIDGET
+		
 	filter "configurations:Release"
 		defines { "NDEBUG" }
 		optimize "On"
+		
+		links { "wxbase31u.lib" } -- necessary for WXWIDGET
+		links { "wxmsw31u_core.lib" } -- necessary for WXWIDGET
+		links { "wxpng.lib" } -- necessary for WXWIDGET
+		links { "wxzlib.lib" } -- necessary for WXWIDGET
 		
 	filter "platforms:x86"
 		architecture "x86"
