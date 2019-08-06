@@ -5,13 +5,6 @@ srcroot = rootdir .. "/src/"
 libroot = rootdir .. "/lib/"
 wxwidgetOption = "lib" -- options {dll, lib}
 
-
-
-if (wxwidgetOption == "dll") then 
-	defines { "WXUSINGDLL" }
-end
-
-
 workspace "Invision"
 	configurations { "Debug" , "Release" }
 	platforms { "x86" , "x64" }
@@ -119,6 +112,7 @@ project "Sandbox"
 	links { "Invision" }
 		
 		if (wxwidgetOption == "dll") then 
+			defines { "WXUSINGDLL" }
 			links { "wxbase31u.lib" }
 		end
 		
