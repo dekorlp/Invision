@@ -185,6 +185,12 @@ void testPoolAllocator()
 	alloc.Destroy();
 }
 
+/*#include "wx\wx.h"
+
+class Canvas : public wxFrame
+{
+
+};*/
 
 int main()
 {

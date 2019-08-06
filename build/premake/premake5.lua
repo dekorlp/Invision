@@ -3,6 +3,14 @@
 rootdir = "../.."
 srcroot = rootdir .. "/src/"
 libroot = rootdir .. "/lib/"
+wxwidgetOption = "lib" -- options {dll, lib}
+
+
+
+if (wxwidgetOption == "dll") then 
+	defines { "WXUSINGDLL" }
+end
+
 
 workspace "Invision"
 	configurations { "Debug" , "Release" }
@@ -59,7 +67,12 @@ project "Invision"
 		
 		libdirs
 		{
-			libpath .. "wxWidgets/vc_lib/"
+			libpath .. "wxWidgets/lib/vc_".. wxwidgetOption .."/"
+		}
+		
+		includedirs
+		{
+			libpath .. "wxWidgets/lib/vc_" .. wxwidgetOption .."/mswu/"
 		}
 		
 	filter "platforms:x64"
@@ -67,7 +80,12 @@ project "Invision"
 			
 		libdirs
 		{
-			libpath .. "wxWidgets/vc_x64_lib/"
+			libpath .. "wxWidgets/lib/vc_x64_".. wxwidgetOption .."/"
+		}
+		
+		includedirs
+		{
+			libpath .. "wxWidgets/lib/vc_x64_".. wxwidgetOption .."/mswu/"
 		}
 		
 project "Sandbox"
@@ -100,6 +118,10 @@ project "Sandbox"
 		
 	links { "Invision" }
 		
+		if (wxwidgetOption == "dll") then 
+			links { "wxbase31u.lib" }
+		end
+		
 	filter "configurations:Debug"
 		defines { "DEBUG" }
 		flags { "Symbols" }
@@ -113,7 +135,12 @@ project "Sandbox"
 		
 		libdirs
 		{
-			libpath .. "wxWidgets/vc_lib/"
+			libpath .. "wxWidgets/lib/vc_" .. wxwidgetOption .."/"
+		}
+		
+		includedirs
+		{
+			libpath .. "wxWidgets/lib/vc_" .. wxwidgetOption .."/mswu/"
 		}
 		
 	filter "platforms:x64"
@@ -121,7 +148,12 @@ project "Sandbox"
 		
 		libdirs
 		{
-			libpath .. "wxWidgets/vc_x64_lib/"
+			libpath .. "wxWidgets/lib/vc_x64_".. wxwidgetOption .."/"
+		}
+		
+		includedirs
+		{
+			libpath .. "wxWidgets/lib/vc_x64_" .. wxwidgetOption .."/mswu/"
 		}
 		
 project "UnitTests"
@@ -148,8 +180,7 @@ project "UnitTests"
 		srcroot .. "/math/",
 		
 		-- third party libraries
-		libpath .. "boost/",
-		libpath .. "wxWidgets/include/"
+		libpath .. "boost/"
 	}
 		
 	libdirs
