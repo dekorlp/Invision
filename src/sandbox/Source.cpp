@@ -7,6 +7,7 @@
 #include "allocator\PoolAllocator.h"
 #include "PlatformCPUID.h"
 #include "PlatformCPUFrequency.h"
+#include "VulkanCanvas.h"
 #include <iostream>
 
 
@@ -185,15 +186,10 @@ void testPoolAllocator()
 	alloc.Destroy();
 }
 
-/*#include "wx\wx.h"
-
-class Canvas : public wxFrame
-{
-
-};*/
-
 int main()
 {
+
+	VulkanCanvas vkCanvas;
 
 	//CPUID cpuid(0x80000004);
 

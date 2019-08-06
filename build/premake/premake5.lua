@@ -96,6 +96,11 @@ project "Sandbox"
 	filter "system:Windows"
 		libpath = libroot .. "win32/"
 		disablewarnings {}
+		
+		links { "comctl32.lib" } -- necessary for WXWIDGET
+		links { "rpcrt4.lib" } -- necessary for WXWIDGET
+		defines { "UNICODE" } -- necessary for WXWIDGET
+		defines { "_UNICODE" } -- necessary for WXWIDGET
 	
 	filter {}
 	
@@ -112,10 +117,14 @@ project "Sandbox"
 	}
 		
 	links { "Invision" }
-		
+	links { "wxbase31ud.lib" } -- necessary for WXWIDGET
+	links { "wxmsw31ud_core.lib" } -- necessary for WXWIDGET
+	links { "wxpngd.lib" } -- necessary for WXWIDGET
+	links { "wxzlibd.lib" } -- necessary for WXWIDGET
+	
 		if (wxwidgetOption == "dll") then 
-			defines { "WXUSINGDLL" }
-			links { "wxbase31u.lib" }
+			defines { "WXUSINGDLL" } -- necessary for WXWIDGET (DLL)
+			
 		end
 		
 	filter "configurations:Debug"
