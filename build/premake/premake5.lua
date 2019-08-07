@@ -1,15 +1,142 @@
 -- premake5.lua
 
+function AddWXWidgetStaticLibrary(libpath)
+
+	wxwidgetOption = "lib"
+
+	--links { "comctl32.lib" } -- necessary for WXWIDGET
+	--links { "rpcrt4.lib" } -- necessary for WXWIDGET
+	--defines { "UNICODE" } -- necessary for WXWIDGET
+	--defines { "_UNICODE" } -- necessary for WXWIDGET
+
+	includedirs{
+		libpath .. "wxWidgets/include/"
+	}
+
+	filter "system:Windows"
+		links { "comctl32.lib" } -- necessary for WXWIDGET
+	    links { "rpcrt4.lib" } -- necessary for WXWIDGET
+		defines { "UNICODE" } -- necessary for WXWIDGET
+		defines { "_UNICODE" } -- necessary for WXWIDGET
+	filter "configurations:Debug"
+		links { "wxbase31ud.lib" } -- necessary for WXWIDGET
+		links { "wxmsw31ud_core.lib" } -- necessary for WXWIDGET
+		links { "wxpngd.lib" } -- necessary for WXWIDGET
+		links { "wxzlibd.lib" } -- necessary for WXWIDGET
+	filter "configurations:Release"
+		links { "wxbase31u.lib" } -- necessary for WXWIDGET
+		links { "wxmsw31u_core.lib" } -- necessary for WXWIDGET
+		links { "wxpng.lib" } -- necessary for WXWIDGET
+		links { "wxzlib.lib" } -- necessary for WXWIDGET
+	filter "platforms:x86"
+		libdirs
+		{
+			libpath .. "wxWidgets/lib/vc_".. wxwidgetOption .."/"
+		}
+		
+		includedirs
+		{
+			libpath .. "wxWidgets/lib/vc_" .. wxwidgetOption .."/mswu/"
+		}
+		
+	
+	filter "platforms:x64"
+		libdirs
+		{
+			libpath .. "wxWidgets/lib/vc_x64_".. wxwidgetOption .."/"
+		}
+		
+		includedirs
+		{
+			libpath .. "wxWidgets/lib/vc_x64_".. wxwidgetOption .."/mswu/"
+		}
+	
+	filter {}
+	
+end
+
+function AddWXWidgetDynamicLibrary(libpath)
+
+	wxwidgetOption = "dll"
+
+	--links { "comctl32.lib" } -- necessary for WXWIDGET
+	--links { "rpcrt4.lib" } -- necessary for WXWIDGET
+	--defines { "UNICODE" } -- necessary for WXWIDGET
+	--defines { "_UNICODE" } -- necessary for WXWIDGET
+
+	defines { "WXUSINGDLL" } -- necessary for WXWIDGET (DLL)
+	
+	includedirs{
+		libpath .. "wxWidgets/include/"
+	}
+
+	filter "system:Windows"
+		links { "comctl32.lib" } -- necessary for WXWIDGET
+	    links { "rpcrt4.lib" } -- necessary for WXWIDGET
+		defines { "UNICODE" } -- necessary for WXWIDGET
+		defines { "_UNICODE" } -- necessary for WXWIDGET
+	filter "configurations:Debug"
+		links { "wxbase31ud.lib" } -- necessary for WXWIDGET
+		links { "wxmsw31ud_core.lib" } -- necessary for WXWIDGET
+		links { "wxpngd.lib" } -- necessary for WXWIDGET
+		links { "wxzlibd.lib" } -- necessary for WXWIDGET
+	filter "configurations:Release"
+		links { "wxbase31u.lib" } -- necessary for WXWIDGET
+		links { "wxmsw31u_core.lib" } -- necessary for WXWIDGET
+		links { "wxpng.lib" } -- necessary for WXWIDGET
+		links { "wxzlib.lib" } -- necessary for WXWIDGET
+	filter "platforms:x86"
+		libdirs
+		{
+			libpath .. "wxWidgets/lib/vc_".. wxwidgetOption .."/"
+		}
+		
+		includedirs
+		{
+			libpath .. "wxWidgets/lib/vc_" .. wxwidgetOption .."/mswu/"
+		}
+		
+	
+	filter "platforms:x64"
+		libdirs
+		{
+			libpath .. "wxWidgets/lib/vc_x64_".. wxwidgetOption .."/"
+		}
+		
+		includedirs
+		{
+			libpath .. "wxWidgets/lib/vc_x64_".. wxwidgetOption .."/mswu/"
+		}
+	
+	filter {}
+
+end
+
+function AddBoostLibrary(libpath)
+	includedirs
+	{
+		libpath .. "boost/",
+	}
+	
+	libdirs
+	{
+		libpath .. "boost/stage/lib/"
+	}
+
+end
+
 rootdir = "../.."
 srcroot = rootdir .. "/src/"
 libroot = rootdir .. "/lib/"
-wxwidgetOption = "lib" -- options {dll, lib}
 
 workspace "Invision"
 	configurations { "Debug" , "Release" }
 	platforms { "x86" , "x64" }
 	location (rootdir .. "/build/solutions/".._ACTION)
 	
+	filter "system:Windows"
+		libpath = libroot .. "win32/"
+	filter { }
 project "Invision"
 	kind "SharedLib"
 	language "C++"
@@ -28,10 +155,7 @@ project "Invision"
 		srcroot .. "math/**.cpp"
 	}	
 	
-	filter "system:Windows"
-		libpath = libroot .. "win32/"
-		disablewarnings {}
-		
+	filter "system:Windows"	
 		defines 
 		{
 			"CORE_EXPORTS",
@@ -40,11 +164,7 @@ project "Invision"
 		}
 	filter {}
 	
-	includedirs
-	{
-		libpath .. "boost/",
-		libpath .. "wxWidgets/include/"
-	}
+	AddBoostLibrary(libpath)
 	
 	filter "configurations:Debug"
 		defines { "DEBUG" }
@@ -58,28 +178,8 @@ project "Invision"
 	filter "platforms:x86"
 		architecture "x86"
 		
-		libdirs
-		{
-			libpath .. "wxWidgets/lib/vc_".. wxwidgetOption .."/"
-		}
-		
-		includedirs
-		{
-			libpath .. "wxWidgets/lib/vc_" .. wxwidgetOption .."/mswu/"
-		}
-		
 	filter "platforms:x64"
 		architecture "x86_64"
-			
-		libdirs
-		{
-			libpath .. "wxWidgets/lib/vc_x64_".. wxwidgetOption .."/"
-		}
-		
-		includedirs
-		{
-			libpath .. "wxWidgets/lib/vc_x64_".. wxwidgetOption .."/mswu/"
-		}
 		
 project "Sandbox"
 	kind "ConsoleApp"
@@ -93,15 +193,9 @@ project "Sandbox"
 		srcroot .. "sandbox/**.cpp"
 	}
 	
-	filter "system:Windows"
-		libpath = libroot .. "win32/"
-		disablewarnings {}
+	filter "system:Windows"		
 		
-		links { "comctl32.lib" } -- necessary for WXWIDGET
-		links { "rpcrt4.lib" } -- necessary for WXWIDGET
-		defines { "UNICODE" } -- necessary for WXWIDGET
-		defines { "_UNICODE" } -- necessary for WXWIDGET
-	
+		
 	filter {}
 	
 	includedirs
@@ -110,63 +204,27 @@ project "Sandbox"
 		srcroot .. "/common/",
 		srcroot .. "/lowlevel/",
 		srcroot .. "/math/",
-		
-		-- third party libraries
-		libpath .. "boost/",
-		libpath .. "wxWidgets/include/"
 	}
-		
+	
 	links { "Invision" }
 	
-	
-		if (wxwidgetOption == "dll") then 
-			defines { "WXUSINGDLL" } -- necessary for WXWIDGET (DLL)
-			
-		end
+	AddWXWidgetStaticLibrary(libpath)
+	AddBoostLibrary(libpath)
 		
 	filter "configurations:Debug"
 		defines { "DEBUG" }
 		flags { "Symbols" }
 		
-		links { "wxbase31ud.lib" } -- necessary for WXWIDGET
-		links { "wxmsw31ud_core.lib" } -- necessary for WXWIDGET
-		links { "wxpngd.lib" } -- necessary for WXWIDGET
-		links { "wxzlibd.lib" } -- necessary for WXWIDGET
-		
 	filter "configurations:Release"
 		defines { "NDEBUG" }
 		optimize "On"
-		
-		links { "wxbase31u.lib" } -- necessary for WXWIDGET
-		links { "wxmsw31u_core.lib" } -- necessary for WXWIDGET
-		links { "wxpng.lib" } -- necessary for WXWIDGET
-		links { "wxzlib.lib" } -- necessary for WXWIDGET
+
 		
 	filter "platforms:x86"
-		architecture "x86"
-		
-		libdirs
-		{
-			libpath .. "wxWidgets/lib/vc_" .. wxwidgetOption .."/"
-		}
-		
-		includedirs
-		{
-			libpath .. "wxWidgets/lib/vc_" .. wxwidgetOption .."/mswu/"
-		}
+		architecture "x86"	
 		
 	filter "platforms:x64"
 		architecture "x86_64"
-		
-		libdirs
-		{
-			libpath .. "wxWidgets/lib/vc_x64_".. wxwidgetOption .."/"
-		}
-		
-		includedirs
-		{
-			libpath .. "wxWidgets/lib/vc_x64_" .. wxwidgetOption .."/mswu/"
-		}
 		
 project "UnitTests"
 	kind "ConsoleApp"
@@ -180,10 +238,6 @@ project "UnitTests"
 		srcroot .. "tests/**.cpp"
 	}
 	
-	filter "system:Windows"
-		libpath = libroot .. "win32/"
-		disablewarnings {}
-	
 	filter {}
 	
 	includedirs
@@ -192,17 +246,11 @@ project "UnitTests"
 		srcroot .. "/common/",
 		srcroot .. "/lowlevel/",
 		srcroot .. "/math/",
-		
-		-- third party libraries
-		libpath .. "boost/"
-	}
-		
-	libdirs
-	{
-		libpath .. "boost/stage/lib/"
 	}
 		
 	links { "Invision" }
+	
+	AddBoostLibrary(libpath)
 		
 	filter "configurations:Debug"
 		defines { "DEBUG" }
