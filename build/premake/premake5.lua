@@ -181,7 +181,7 @@ project "Invision"
 	filter "platforms:x64"
 		architecture "x86_64"
 		
-project "SandboxClient"
+project "SandboxConsole"
 	kind "ConsoleApp"
 	language "C++"
 	targetdir (rootdir.."/bin/%{cfg.buildcfg}")
@@ -189,8 +189,8 @@ project "SandboxClient"
 	
 	files
 	{
-		srcroot .. "tools/sandboxClient/**.h",
-		srcroot .. "tools/sandboxClient/**.cpp"
+		srcroot .. "tools/sandboxConsole/**.h",
+		srcroot .. "tools/sandboxConsole/**.cpp"
 	}
 	
 	filter "system:Windows"		
