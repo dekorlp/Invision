@@ -38,12 +38,12 @@
 		char vendor[12];
 
 		CPUID cpuid(0x00000000);
-		strncpy(vendor, (char*)&cpuid.EBX(), 4);
-		strncpy(vendor + 4, (char*)&cpuid.EDX(), 4);
-		strncpy(vendor + 8, (char*)&cpuid.ECX(), 4);
+		memcpy_s(vendor, 4, &cpuid.EBX(), 4);
+		memcpy_s(vendor + 4, 4, &cpuid.EDX(), 4);
+		memcpy_s(vendor + 8, 4, &cpuid.ECX(), 4);
 
 		VendorAlias = (char*)malloc(strlen(vendor)+1);
-		strcpy(VendorAlias, vendor);
+		strcpy_s(VendorAlias, strlen(vendor) + 1, vendor);
 		VendorAlias[12] = '\0';
 	}
 
@@ -52,23 +52,23 @@
 		char name[48];
 
 		CPUID cpuid(0x80000002);
-		strncpy(name, (char*)&cpuid.EAX(), 4);
-		strncpy(name +4, (char*)&cpuid.EBX(), 4);
-		strncpy(name +8, (char*)&cpuid.ECX(), 4);
-		strncpy(name +12, (char*)&cpuid.EDX(), 4);
+		memcpy_s(name, 4, &cpuid.EAX(), 4);
+		memcpy_s(name +4, 4, &cpuid.EBX(), 4);
+		memcpy_s(name +8, 4, &cpuid.ECX(), 4);
+		memcpy_s(name +12, 4, &cpuid.EDX(), 4);
 		CPUID cpuid1(0x80000003);
-		strncpy(name +16, (char*)&cpuid1.EAX(), 4);
-		strncpy(name +20, (char*)&cpuid1.EBX(), 4);
-		strncpy(name +24, (char*)&cpuid1.ECX(), 4);
-		strncpy(name +28, (char*)&cpuid1.EDX(), 4);
+		memcpy_s(name +16, 4, &cpuid1.EAX(), 4);
+		memcpy_s(name +20, 4, &cpuid1.EBX(), 4);
+		memcpy_s(name +24, 4, &cpuid1.ECX(), 4);
+		memcpy_s(name +28, 4, &cpuid1.EDX(), 4);
 		CPUID cpuid2(0x80000004);
-		strncpy(name +32, (char*)&cpuid2.EAX(), 4);
-		strncpy(name +36, (char*)&cpuid2.EBX(), 4);
-		strncpy(name +40, (char*)&cpuid2.ECX(), 4);
-		strncpy(name +44, (char*)&cpuid2.EDX(), 4);
+		memcpy_s(name +32, 4, &cpuid2.EAX(), 4);
+		memcpy_s(name +36, 4, &cpuid2.EBX(), 4);
+		memcpy_s(name +40, 4, &cpuid2.ECX(), 4);
+		memcpy_s(name +44, 4, &cpuid2.EDX(), 4);
 
 		CpuName = (char*)malloc(strlen(name)+1);
-		strcpy(CpuName, name);
+		strcpy_s(CpuName, strlen(name) + 1,name);
 	}
 
 
