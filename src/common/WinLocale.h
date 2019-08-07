@@ -14,7 +14,7 @@
 #ifndef WINLOCALE_H
 #define WINLOCALE_H
 
-class HAL_API WinLocale
+class INVISION_API WinLocale
 {
 public:
 	uint32 IdentifyCID();

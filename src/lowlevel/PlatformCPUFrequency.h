@@ -15,7 +15,7 @@
 
 #include "PlatformCPUID.h"
 
-class HAL_API PlatformCPUFrequency
+class INVISION_API PlatformCPUFrequency
 {
 private:
 #ifdef _WIN32

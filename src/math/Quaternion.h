@@ -4,7 +4,7 @@
 /**
 * \brief Matrix
 */
-class CORE_API Quaternion
+class INVISION_API Quaternion
 {
 private:
 	Vector3 v;

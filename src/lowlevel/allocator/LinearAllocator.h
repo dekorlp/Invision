@@ -15,7 +15,7 @@
 #define LINEARALLOCATOR_H
 
 
-class HAL_API LinearAllocator
+class INVISION_API LinearAllocator
 {
 	public:
 		explicit LinearAllocator();

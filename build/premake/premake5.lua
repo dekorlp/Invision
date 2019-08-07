@@ -153,6 +153,7 @@ project "Invision"
 		srcroot .. "lowlevel/**.cpp",
 		srcroot .. "math/**.h",
 		srcroot .. "math/**.cpp",
+		srcroot .. "**.h"
 	}	
 	
 	includedirs {
@@ -164,8 +165,7 @@ project "Invision"
 	filter "system:Windows"	
 		defines 
 		{
-			"CORE_EXPORTS",
-			"HAL_EXPORTS",
+			"INVISION_EXPORTS",
 			"_WINDLL"
 		}
 	filter {}
@@ -210,6 +210,7 @@ project "SandboxWindow"
 		srcroot .. "common/",
 		srcroot .. "lowlevel/",
 		srcroot .. "math/",
+		srcroot
 	}
 	
 	links { "Invision" }
@@ -254,6 +255,7 @@ project "SandboxConsole"
 		srcroot .. "common/",
 		srcroot .. "lowlevel/",
 		srcroot .. "math/",
+		srcroot
 	}
 	
 	links { "Invision" }
@@ -295,7 +297,7 @@ project "UnitTests"
 		srcroot .. "common/",
 		srcroot .. "lowlevel/",
 		srcroot .. "math/",
-		srcroot .. "mathnew/",
+		srcroot
 	}
 		
 	links { "Invision" }

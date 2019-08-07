@@ -13,10 +13,12 @@
 #ifndef LOWLEVEL_H
 #define LOWLEVEL_H
 
-#ifdef HAL_EXPORTS
-#define HAL_API __declspec(dllexport) 
+#include "precompiled.h"
+
+#ifdef INVISION_EXPORTS
+#define INVISION_API __declspec(dllexport) 
 #else
-#define HAL_API __declspec(dllimport) 
+#define INVISION_API __declspec(dllimport) 
 #endif
 
 #include "PlatformCPUID.h"

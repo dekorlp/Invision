@@ -13,7 +13,7 @@
 #ifndef TIMESPAN_H
 #define TIMESPAN_H
 
-class HAL_API TimeSpan
+class INVISION_API TimeSpan
 {
 public:
 	TimeSpan();

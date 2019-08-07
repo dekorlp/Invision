@@ -10,7 +10,7 @@ typedef unsigned __int32  uint32_t;
 #include <stdint.h>
 #endif
 
-class HAL_API CPUID {
+class INVISION_API CPUID {
 	uint32_t regs[4];
 
 public:

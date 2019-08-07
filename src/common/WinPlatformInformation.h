@@ -26,7 +26,7 @@ typedef enum WINPLATFORM_PROCESSOR_ARCHITECTURE
 	WINPLATFORM_PROCESSOR_ARCHITECTURE_UNKNOWN = 0xffff
 } ProcessorArchitecture;
 
-class HAL_API WinPlatformInformation
+class INVISION_API WinPlatformInformation
 {
 public:
 	WinPlatformInformation();

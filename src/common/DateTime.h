@@ -57,7 +57,7 @@ struct LocalDateTimeTable
 	bool isLeapYear;
 };
 
-class HAL_API DateTime
+class INVISION_API DateTime
 {
 public:
 	DateTime();

@@ -13,7 +13,7 @@
 #ifndef CRC_H
 #define CRC_H
 
-class HAL_API CRC
+class INVISION_API CRC
 {
 	public:
 		static uint32 getCRC32(const char* data)

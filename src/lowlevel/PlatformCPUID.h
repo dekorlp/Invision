@@ -13,7 +13,7 @@
 #ifndef PLATFORMCPUID_H
 #define PLATFORMCPUID_H
 
-enum HAL_API CPUVENDOR {
+enum INVISION_API CPUVENDOR {
 		UNKNOWNCPUVENDOR = 0,
 		AMD = 1,
 		INTEL = 2,
@@ -27,7 +27,7 @@ enum HAL_API CPUVENDOR {
 		NATIONAL_SEMICONDUCTOR = 10
 	};
 
-	struct HAL_API CPUINFORMATION
+	struct INVISION_API CPUINFORMATION
 	{
 		char* Vendor;
 		char* CpuName;
@@ -93,7 +93,7 @@ enum HAL_API CPUVENDOR {
 
 	typedef CPUINFORMATION CpuInformation;
 
-	class HAL_API PlatformCPU
+	class INVISION_API PlatformCPU
 	{
 	private:
 		CPUINFORMATION CpuInformation;

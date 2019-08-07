@@ -55,7 +55,7 @@ struct SHeaderPool
 	void* next;
 };
 
-class HAL_API MemoryBlock
+class INVISION_API MemoryBlock
 {
 	public:
 		static void* CreateMemoryBlock(void* position,

@@ -13,7 +13,7 @@
 #ifndef PLATFORMHARDDISC_H
 #define PLATFORMHARDDISC_H
 
-class HAL_API PlatformHardDisk
+class INVISION_API PlatformHardDisk
 {
 private:
 

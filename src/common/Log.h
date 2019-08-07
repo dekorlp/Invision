@@ -16,21 +16,21 @@
 class  Log
 {
 	public:
-		HAL_API Log(std::string filename);
-		HAL_API void Open(std::string filename);
-		HAL_API void RawText(std::string message);
-		HAL_API void Info(std::string message);
-		HAL_API void Error(std::string message);
-		HAL_API void Warning(std::string message);
-		HAL_API void WriteToLog(std::string initMessage, void* address);
-		HAL_API void WriteToLog(std::string initMessage, size_t number);
-		HAL_API void Close();
-		HAL_API ~Log();
+		INVISION_API Log(std::string filename);
+		INVISION_API void Open(std::string filename);
+		INVISION_API void RawText(std::string message);
+		INVISION_API void Info(std::string message);
+		INVISION_API void Error(std::string message);
+		INVISION_API void Warning(std::string message);
+		INVISION_API void WriteToLog(std::string initMessage, void* address);
+		INVISION_API void WriteToLog(std::string initMessage, size_t number);
+		INVISION_API void Close();
+		INVISION_API ~Log();
 
-		HAL_API static Log* GetLogger();
-		HAL_API static void SetLogger(Log* log);
-		HAL_API static Log* m_pThis;
-		HAL_API static bool isSet;
+		INVISION_API static Log* GetLogger();
+		INVISION_API static void SetLogger(Log* log);
+		INVISION_API static Log* m_pThis;
+		INVISION_API static bool isSet;
 		
 	private:
 		std::ofstream stream;

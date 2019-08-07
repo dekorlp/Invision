@@ -13,10 +13,12 @@
 #ifndef INMATH_H
 #define INMATH_H
 
-#ifdef CORE_EXPORTS
-#define CORE_API __declspec(dllexport) 
+#include "precompiled.h"
+
+#ifdef INVISION_EXPORTS
+#define INVISION_API __declspec(dllexport) 
 #else
-#define CORE_API __declspec(dllimport) 
+#define INVISION_API __declspec(dllimport) 
 #endif
 
 #define SSE_INSTR_SET 5

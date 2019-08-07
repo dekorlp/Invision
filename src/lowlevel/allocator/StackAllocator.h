@@ -15,7 +15,7 @@
 #define STACKALLOCATOR_H
 
 
-class HAL_API StackAllocator
+class INVISION_API StackAllocator
 {
 public:
 	explicit StackAllocator();

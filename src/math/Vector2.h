@@ -15,7 +15,7 @@
 /**
 * \brief two dimensional vector
 */
-_MM_ALIGN16 class CORE_API Vector2
+_MM_ALIGN16 class INVISION_API Vector2
 {
 private:
 	float x, y;

@@ -15,7 +15,7 @@
 /**
  * \brief three dimensional vector
  */
-_MM_ALIGN16 class CORE_API Vector3
+_MM_ALIGN16 class INVISION_API Vector3
 {
 private:
 	float x, y, z;

@@ -14,7 +14,7 @@
 /**
  * \brief Matrix
  */
-_MM_ALIGN16 class CORE_API Matrix
+_MM_ALIGN16 class INVISION_API Matrix
 {
 private:
 	union

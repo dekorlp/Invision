@@ -1,4 +1,5 @@
-﻿#include "common.h"
+﻿#include "InCommon.h"
+#include "inMath.h"
 
 #include <iostream>
 

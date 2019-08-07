@@ -13,7 +13,7 @@
 #ifndef STOPWATCH_H
 #define STOPWATCH_H
 
-class HAL_API StopWatch
+class INVISION_API StopWatch
 {
 public:
 	StopWatch();

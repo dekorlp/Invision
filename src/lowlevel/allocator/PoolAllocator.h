@@ -15,7 +15,7 @@
 #define POOLALLOCATOR_H
 
 
-class HAL_API PoolAllocator
+class INVISION_API PoolAllocator
 {
 public:
 	explicit PoolAllocator();
