@@ -153,7 +153,9 @@ project "Invision"
 		srcroot .. "lowlevel/**.cpp",
 		srcroot .. "math/**.h",
 		srcroot .. "math/**.cpp",
-		srcroot .. "**.h"
+		srcroot .. "InCommon.h",
+		srcroot .. "InMath.h",
+		srcroot .. "Invision.h"
 	}	
 	
 	includedirs {
