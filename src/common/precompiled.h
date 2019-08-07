@@ -1,4 +1,10 @@
 
+#ifdef INVISION_EXPORTS
+#define INVISION_API __declspec(dllexport) 
+#else
+#define INVISION_API __declspec(dllimport) 
+#endif
+
 // is needed for define WIN_32
 #include "BaseTypes.h"
 #include "exception.h"
@@ -22,7 +28,4 @@
 #include <direct.h>
 #endif
 
-
-#include "common.h"
-#include "inMath.h"
-#include "lowlevel.h"
+#include "log.h"

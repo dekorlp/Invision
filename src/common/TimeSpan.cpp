@@ -1,4 +1,5 @@
 #include "precompiled.h"
+#include "TimeSpan.h"
 
 TimeSpan::TimeSpan()
 {

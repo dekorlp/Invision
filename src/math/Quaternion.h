@@ -1,6 +1,11 @@
 #ifndef QUATERNION_H
 #define QUATERNION_H
 
+#include "Vector3.h"
+
+#include "math_config.h"
+
+
 /**
 * \brief Matrix
 */

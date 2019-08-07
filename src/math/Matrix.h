@@ -11,6 +11,9 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
+#include "math_config.h"
+#include "Vector3.h"
+
 /**
  * \brief Matrix
  */

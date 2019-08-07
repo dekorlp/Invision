@@ -1,4 +1,6 @@
 #include "precompiled.h"
+#include "StopWatch.h"
+
 
 StopWatch::StopWatch()
 {

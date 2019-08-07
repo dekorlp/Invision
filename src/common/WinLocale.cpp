@@ -1,4 +1,5 @@
 #include "precompiled.h"
+#include "WinLocale.h"
 
 #ifdef _WIN32
 

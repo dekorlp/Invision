@@ -1,6 +1,6 @@
 #pragma once
 
-#include "precompiled.h"
+#include "common\precompiled.h"
 
 #include "math\inMath.h"
 

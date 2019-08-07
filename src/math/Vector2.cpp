@@ -1,4 +1,8 @@
 #include "precompiled.h"
+#include "Vector2.h"
+#include "math_config.h"
+#include "Simd_Config.h"
+#include "sse_mathfun.h"
 
 Vector2::Vector2(float x, float y)
 {

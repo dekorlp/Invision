@@ -1,4 +1,5 @@
 #include "precompiled.h"
+#include "Log.h"
 
 Log* Log::m_pThis = NULL;
 bool Log::isSet = false;

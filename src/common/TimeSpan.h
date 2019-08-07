@@ -13,6 +13,8 @@
 #ifndef TIMESPAN_H
 #define TIMESPAN_H
 
+#include "DateTime.h"
+
 class INVISION_API TimeSpan
 {
 public:

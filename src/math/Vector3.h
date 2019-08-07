@@ -15,7 +15,7 @@
 /**
  * \brief three dimensional vector
  */
-_MM_ALIGN16 class INVISION_API Vector3
+_MM_ALIGN16 class INVISION_API  Vector3
 {
 private:
 	float x, y, z;
@@ -93,7 +93,7 @@ public:
 	*/
 	Vector3 operator*(const float & scalar);
 
-	friend const Vector3 operator*(const Vector3& lhs, const float& rhs);
+	 friend const Vector3 operator*(const Vector3& lhs, const float& rhs);
 
 	/**
 	* \brief divides the vector with a scale
@@ -107,7 +107,7 @@ public:
 	* \param scalar a float value
 	* \return the result of the divided vector with a scale
 	*/
-	friend Vector3 operator/(const Vector3& lhs, const float& rhs);
+	 friend Vector3 operator/(const Vector3& lhs, const float& rhs);
 
 	/**
 	* \brief calculates the dot product of a vector
@@ -139,14 +139,14 @@ public:
 	* \brief returns X coordinate
 	* \return float
 	*/
-	float getX() const;
+	 float getX() const;
 
 	/**
 	 * \brief normalizes a vector
 	 * \param v a vector object
 	 * \return a normalized vector
 	 */
-	static Vector3 Normalize(const Vector3& v);
+	 static Vector3 Normalize(const Vector3& v);
 	
 
 

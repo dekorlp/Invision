@@ -1,5 +1,7 @@
 #include "precompiled.h"
 
+#include "DateTime.h"
+
 // TODO test components with testplan !!!
 DateTime::DateTime()
 {

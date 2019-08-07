@@ -1,4 +1,5 @@
 #include "precompiled.h"
+#include "Quaternion.h"
 
 Quaternion::Quaternion()
 {

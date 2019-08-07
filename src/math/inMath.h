@@ -13,26 +13,6 @@
 #ifndef INMATH_H
 #define INMATH_H
 
-#include "precompiled.h"
-
-#ifdef INVISION_EXPORTS
-#define INVISION_API __declspec(dllexport) 
-#else
-#define INVISION_API __declspec(dllimport) 
-#endif
-
-#define SSE_INSTR_SET 5
-
-#ifdef _WIN64
-#define USE_SSE2
-#endif //_WIN64
-
-#define PI 3.14159265358979323846264
-#define PI_F 3.14159265358979f
-
-
-#include "Simd_Config.h"
-#include "sse_mathfun.h"
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Matrix.h"

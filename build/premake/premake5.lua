@@ -207,9 +207,6 @@ project "SandboxWindow"
 	includedirs
 	{
 		-- Invision libraries
-		srcroot .. "common/",
-		srcroot .. "lowlevel/",
-		srcroot .. "math/",
 		srcroot
 	}
 	
@@ -252,9 +249,6 @@ project "SandboxConsole"
 	includedirs
 	{
 		-- Invision libraries
-		srcroot .. "common/",
-		srcroot .. "lowlevel/",
-		srcroot .. "math/",
 		srcroot
 	}
 	
@@ -294,9 +288,6 @@ project "UnitTests"
 	includedirs
 	{
 		-- Invision libraries
-		srcroot .. "common/",
-		srcroot .. "lowlevel/",
-		srcroot .. "math/",
 		srcroot
 	}
 		

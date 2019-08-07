@@ -1,4 +1,5 @@
 #include "precompiled.h"
+#include "WinPlatformInformation.h"
 
 #ifdef _WIN32
 

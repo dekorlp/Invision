@@ -13,6 +13,8 @@
 #ifndef STOPWATCH_H
 #define STOPWATCH_H
 
+#include "TimeSpan.h"
+
 class INVISION_API StopWatch
 {
 public:

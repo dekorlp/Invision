@@ -15,7 +15,7 @@
 /**
 * \brief two dimensional vector
 */
-_MM_ALIGN16 class INVISION_API Vector2
+_MM_ALIGN16 class Vector2
 {
 private:
 	float x, y;
@@ -25,14 +25,14 @@ public:
 	/**
 	* \brief Initialize a two dimensional Vector
 	*/
-	Vector2() : x(0), y(0), vec(_mm_setzero_ps()) {}
+	INVISION_API Vector2() : x(0), y(0), vec(_mm_setzero_ps()) {}
 
 	/**
 	* \brief Initialize a two dimensional Vector
 	* \param x X Coordinate
 	* \param y Y Coordinate
 	*/
-	Vector2(float x, float y);
+	INVISION_API Vector2(float x, float y);
 
 
 	/**
@@ -40,35 +40,35 @@ public:
 	* \param rhs A Vector object
 	* \return A added Vector object
 	*/
-	Vector2 operator+ (const Vector2 &rhs) const;
+	INVISION_API Vector2 operator+ (const Vector2 &rhs) const;
 
 	/**
 	* \brief Subtracts a Vector to another Vector
 	* \param rhs A Vector object
 	* \return A subtracted Vector object
 	*/
-	Vector2 operator- (const Vector2 &rhs) const;
+	INVISION_API Vector2 operator- (const Vector2 &rhs) const;
 
 	/**
 	* \brief Adds a Vector
 	* \param lhs A Vector object
 	* \return A added Vector object
 	*/
-	Vector2 operator+= (const Vector2 &lhs);
+	INVISION_API Vector2 operator+= (const Vector2 &lhs);
 
 	/**
 	* \brief Subtracts a Vector
 	* \param lhs A Vector object
 	* \return A Subtracted Vector object
 	*/
-	Vector2 operator-= (const Vector2 &lhs);
+	INVISION_API Vector2 operator-= (const Vector2 &lhs);
 
 	/**
 	* \brief checks Vectors, whether they are equal
 	* \param rhs A Vector object
 	* \return true, if both vectors are the same and false, if both vectors are not the same
 	*/
-	bool operator==(Vector2 const& rhs) const;
+	INVISION_API bool operator==(Vector2 const& rhs) const;
 
 
 	/**
@@ -76,34 +76,34 @@ public:
 	* \param rhs A vector object
 	* \return the result of the vector product calculation
 	*/
-	float cross(const Vector2 &rhs) const;
+	INVISION_API float cross(const Vector2 &rhs) const;
 
 	/**
 	* \brief multiplies the vector with a scale
 	* \param scalar a float value
 	* \return the result of the multiplied vector with a scale
 	*/
-	Vector2 operator*(const float & scalar);
+	INVISION_API Vector2 operator*(const float & scalar);
 
 	/**
 	* \brief divides the vector with a scale
 	* \param scalar a float value
 	* \return the result of the divided vector with a scale
 	*/
-	Vector2 operator/(const float & scalar);
+	INVISION_API Vector2 operator/(const float & scalar);
 
 	/**
 	* \brief calculates the dot product of a vector
 	* \param rhs a Vector object
 	* \return the result of the dot product
 	*/
-	float dot(const Vector2 &rhs) const;
+	INVISION_API float dot(const Vector2 &rhs) const;
 
 	/**
 	* \brief calculates the length of a vector
 	* \return the length of the vector
 	*/
-	float length() const;
+	INVISION_API float length() const;
 
 
 
