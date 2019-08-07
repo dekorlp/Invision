@@ -40,4 +40,7 @@
 	#include <xmmintrin.h>             // SSE
 
 	#endif // SIMD_CONFIG_H
+
+
+
 #endif

@@ -13,6 +13,8 @@
 #ifndef CRC_H
 #define CRC_H
 
+
+
 class INVISION_API CRC
 {
 	public:
@@ -21,7 +23,6 @@ class INVISION_API CRC
 			boost::crc_32_type result;
 			result.process_bytes(data, strlen(data));
 			return result.checksum();
-			return 0;
 		}
 
 		static uint32 getCRC32(const wchar_t* data)
@@ -29,9 +30,10 @@ class INVISION_API CRC
 			boost::crc_32_type result;
 			result.process_bytes(data, wcslen(data));
 			return result.checksum();
-			return 0;
 		}
 };
+
+
 
 
 #endif //CRC_H
