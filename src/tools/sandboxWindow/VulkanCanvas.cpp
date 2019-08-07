@@ -12,7 +12,7 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 
 	Bind(wxEVT_PAINT, &VulkanCanvas::OnPaint, this);
 	Bind(wxEVT_SIZE, &VulkanCanvas::OnResize, this);
-	HWND hwnd = this->GetHandle(); // get window handle
+	WXHWND hwnd = this->GetHandle(); // get window handle
 }
 
 VulkanCanvas::~VulkanCanvas() noexcept
