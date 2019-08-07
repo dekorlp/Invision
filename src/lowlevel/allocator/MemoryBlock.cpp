@@ -1,6 +1,6 @@
 #include "precompiled.h"
 #include "MemoryBlock.h"
-#include "../../common/Log.h"
+#include "Log.h"
 
 
 
