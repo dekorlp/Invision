@@ -1,5 +1,4 @@
 #include "precompiled.h"
-#include "inMath.h"
 
 Vector3::Vector3(float x, float y, float z)
 {

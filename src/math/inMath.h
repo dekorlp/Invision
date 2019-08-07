@@ -13,8 +13,6 @@
 #ifndef INMATH_H
 #define INMATH_H
 
-#include "precompiled.h"
-
 #ifdef CORE_EXPORTS
 #define CORE_API __declspec(dllexport) 
 #else
@@ -29,8 +27,6 @@
 
 #define PI 3.14159265358979323846264
 #define PI_F 3.14159265358979f
-
-
 
 
 #include "Simd_Config.h"

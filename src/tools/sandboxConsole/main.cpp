@@ -1,11 +1,5 @@
-﻿#include "inMath.h"
-#include "Log.h"
-#include "allocator\MemoryBlock.h"
-#include "allocator\LinearAllocator.h"
-#include "allocator\StackAllocator.h"
-#include "allocator\PoolAllocator.h"
-#include "PlatformCPUID.h"
-#include "PlatformCPUFrequency.h"
+﻿#include "common.h"
+
 #include <iostream>
 
 

@@ -1,5 +1,4 @@
 #include "precompiled.h"
-#include "inMath.h"
 
 Vector2::Vector2(float x, float y)
 {

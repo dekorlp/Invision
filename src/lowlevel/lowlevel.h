@@ -13,8 +13,6 @@
 #ifndef LOWLEVEL_H
 #define LOWLEVEL_H
 
-#include "precompiled.h"
-
 #ifdef HAL_EXPORTS
 #define HAL_API __declspec(dllexport) 
 #else
@@ -26,6 +24,10 @@
 #include "PlatformHardDisk.h"
 #include "InStringA.h"
 #include "InStringW.h"
+#include "allocator\MemoryBlock.h"
+#include "allocator\LinearAllocator.h"
+#include "allocator\PoolAllocator.h"
+#include "allocator\StackAllocator.h"
 
 
 #endif //LOWLEVEL_H
