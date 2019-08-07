@@ -207,8 +207,8 @@ int DateTime::getTimeZone()
 	int dt;
 
 	time(&now);
-	l = *localtime(&now);
-	g = *gmtime(&now);
+	localtime_s(&l, &now);
+	gmtime_s(&g, &now);
 
 	dt = (int)difftime(now, mktime(&g));
 	dt = dt / 3600;
@@ -232,12 +232,17 @@ LocalDateTimeTable DateTime::GetLocalTime(tm *timestamp)
 
 LocalDateTimeTable DateTime::getDateTimeTable()
 {
-	LocalDateTimeTable dateTimeTable = GetLocalTime(localtime(&timestamp));
+	struct tm tmTimestamp, tmTemp;
+	localtime_s(&tmTimestamp, &timestamp);
+
+	LocalDateTimeTable dateTimeTable = GetLocalTime(&tmTimestamp);
 	int8 zone = getTimeZone();
 
 	DateTime *tempDateTime = new DateTime(dateTimeTable.year, dateTimeTable.month, dateTimeTable.dayOfMonth, dateTimeTable.hour, dateTimeTable.minute, dateTimeTable.second);
 	int64 tempTimestamp = tempDateTime->getTimestamp();
-	dateTimeTable = tempDateTime->GetLocalTime(localtime(&tempTimestamp));
+
+	localtime_s(&tmTemp, &tempTimestamp);
+	dateTimeTable = tempDateTime->GetLocalTime(&tmTemp);
 	delete tempDateTime;
 
 	return dateTimeTable;
@@ -245,7 +250,10 @@ LocalDateTimeTable DateTime::getDateTimeTable()
 
 LocalDateTimeTable DateTime::getDateTimeTable(UTC utc)
 {
-	LocalDateTimeTable dateTimeTable = GetLocalTime(gmtime(&timestamp));
+	struct tm tmTempLocaltime, tmGmTime;
+	gmtime_s(&tmGmTime, &timestamp);
+
+	LocalDateTimeTable dateTimeTable = GetLocalTime(&tmGmTime);
 	int8 zone = static_cast<UTC>(utc);
 	DateTime *tempDateTime = new DateTime(dateTimeTable.year, dateTimeTable.month, dateTimeTable.dayOfMonth, dateTimeTable.hour, dateTimeTable.minute, dateTimeTable.second);
 	if (zone > 0)
@@ -257,7 +265,9 @@ LocalDateTimeTable DateTime::getDateTimeTable(UTC utc)
 		tempDateTime->subHours(zone);
 	}
 	int64 tempTimestamp = tempDateTime->getTimestamp();
-	dateTimeTable = tempDateTime->GetLocalTime(localtime(&tempTimestamp));
+
+	localtime_s(&tmTempLocaltime, &tempTimestamp);
+	dateTimeTable = tempDateTime->GetLocalTime(&tmTempLocaltime);
 	delete tempDateTime;
 
 	return dateTimeTable;
