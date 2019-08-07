@@ -17,7 +17,11 @@ void Log::Open(std::string filename)
 	const char* dirPath = "../../../Logs";
 	
 	// create dir Logs if there is no Logs directory
-	if (stat(dirPath, &info) != 0) boost::filesystem::create_directory("../../../Logs");
+#ifdef _WIN32
+	if (stat(dirPath, &info) != 0) _mkdir("../../../Logs");
+#else
+	if (stat(dirPath, &info) != 0) mkdir("../../../Logs");
+#endif
 
 	// create log and replace new content
 	stream.open(filename, std::ios::out | std::ios::trunc);

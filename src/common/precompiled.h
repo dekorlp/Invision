@@ -22,7 +22,6 @@
 #ifdef WIN_32
 #pragma warning(default: 4800)
 #endif
-#include <boost\filesystem.hpp>
 
 #include <boost\shared_array.hpp>
 #include <map>
