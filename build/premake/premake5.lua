@@ -180,7 +180,52 @@ project "Invision"
 		
 	filter "platforms:x64"
 		architecture "x86_64"
+	
+project "SandboxWindow"
+	kind "WindowedApp"
+	flags { "WinMain" }
+	language "C++"
+	targetdir (rootdir.."/bin/%{cfg.buildcfg}")
+	--cppdialect "C++17"
+	
+	files
+	{
+		srcroot .. "tools/sandboxWindow/**.h",
+		srcroot .. "tools/sandboxWindow/**.cpp"
+	}
+	
+	filter "system:Windows"		
 		
+	filter {}
+	
+	includedirs
+	{
+		-- Invision libraries
+		srcroot .. "/common/",
+		srcroot .. "/lowlevel/",
+		srcroot .. "/math/",
+	}
+	
+	links { "Invision" }
+	
+	AddWXWidgetStaticLibrary(libpath)
+	AddBoostLibrary(libpath)
+		
+	filter "configurations:Debug"
+		defines { "DEBUG" }
+		flags { "Symbols" }
+		
+	filter "configurations:Release"
+		defines { "NDEBUG" }
+		optimize "On"
+
+		
+	filter "platforms:x86"
+		architecture "x86"	
+		
+	filter "platforms:x64"
+		architecture "x86_64"
+	
 project "SandboxConsole"
 	kind "ConsoleApp"
 	language "C++"
@@ -207,7 +252,6 @@ project "SandboxConsole"
 	
 	links { "Invision" }
 	
-	AddWXWidgetStaticLibrary(libpath)
 	AddBoostLibrary(libpath)
 		
 	filter "configurations:Debug"
