@@ -103,6 +103,7 @@ function AddWXWidgetDynamicLibrary(libpath)
 			libpath .. "wxWidgets/lib/vc_x64_".. wxwidgetOption .."/"
 		}
 		
+		
 		includedirs
 		{
 			libpath .. "wxWidgets/lib/vc_x64_".. wxwidgetOption .."/mswu/"
@@ -110,6 +111,27 @@ function AddWXWidgetDynamicLibrary(libpath)
 	
 	filter {}
 
+end
+
+function AddVulkanLibrary(libpath)
+	includedirs{
+		libpath .. "vulkan/include/"
+	}
+	
+	filter "platforms:x86"
+		libdirs
+		{
+			libpath .. "vulkan/Lib32/" -- x32 bit variant
+		}
+		links { "vulkan-1.lib" }
+		
+	filter "platforms:x64"
+		libdirs
+		{
+			libpath .. "vulkan/Lib/" -- x64 bit variant
+		}
+		links { "vulkan-1.lib" }
+	filter {}
 end
 
 function AddBoostLibrary(libpath)
@@ -173,6 +195,7 @@ project "Invision"
 	filter {}
 	
 	AddBoostLibrary(libpath)
+	AddVulkanLibrary(libpath)
 	
 	filter "configurations:Debug"
 		defines { "DEBUG" }
@@ -216,6 +239,7 @@ project "SandboxWindow"
 	
 	AddWXWidgetStaticLibrary(libpath)
 	AddBoostLibrary(libpath)
+	AddVulkanLibrary(libpath)
 		
 	filter "configurations:Debug"
 		defines { "DEBUG" }

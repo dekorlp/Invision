@@ -22,7 +22,8 @@
 #endif
 #endif
 
-using namespace std;
+#include <vulkan\vulkan.h>
+
 
 class VulkanApp : public wxApp
 {
