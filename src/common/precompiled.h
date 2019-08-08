@@ -9,12 +9,23 @@
 #include "BaseTypes.h"
 #include "exception.h"
 
-/* third party libs */
+/* standard library */
+#include <iostream>
 #include <time.h>
+#include <map>
 #include <thread>
 #include <sstream>
 #include <vector>
+#include <string>
+#include <vector>
+#include <set>
+#include <fstream>
+#include <sstream>
+#define NOMINMAX
+#include <algorithm>
 
+
+// boost shared library
 #ifdef WIN_32
 #pragma warning(disable: 4800) // disable warning 4800: 'unsigned int':forcing value to bool 'true' or 'false' (performance warning)
 #endif
@@ -22,14 +33,11 @@
 #ifdef WIN_32
 #pragma warning(default: 4800)
 #endif
-
 #include <boost\shared_array.hpp>
-#include <map>
-#include <iostream>
-#include <string>
-#include <fstream>
 
-// windows platform
+
+
+// windows platform libraries
 #ifdef WIN_32
 #include <Windows.h>
 #include <VersionHelpers.h>
@@ -37,3 +45,4 @@
 #endif
 
 #include "log.h"
+

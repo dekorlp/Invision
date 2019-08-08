@@ -23,6 +23,7 @@
 #endif
 
 #include <vulkan\vulkan.h>
+#include "InCommon.h"
 
 
 class VulkanApp : public wxApp
@@ -30,7 +31,8 @@ class VulkanApp : public wxApp
 	public:
 		VulkanApp()
 		{
-			
+			Log log("../../../logs/log.txt");
+			Log::SetLogger(&log);
 		}
 		~VulkanApp()
 		{
@@ -50,6 +52,7 @@ class VulkanApp : public wxApp
 				ss << err.what();
 				// TODO OutputDebug Replace with own MessageBox
 				//wxMessageBox( ss.str(), "Info");
+				INVISION_LOG_ERROR(ss.str());
 				return false;
 			}
 

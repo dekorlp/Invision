@@ -175,6 +175,8 @@ project "Invision"
 		srcroot .. "lowlevel/**.cpp",
 		srcroot .. "math/**.h",
 		srcroot .. "math/**.cpp",
+		srcroot .. "renderer/**.h",
+		srcroot .. "renderer/**.cpp",
 		srcroot .. "InCommon.h",
 		srcroot .. "InMath.h",
 		srcroot .. "Invision.h"
@@ -183,7 +185,8 @@ project "Invision"
 	includedirs {
 		srcroot .. "common/",
 		srcroot .. "lowlevel/",
-		srcroot .. "math"
+		srcroot .. "math",
+		srcroot .. "renderer"
 	}
 	
 	filter "system:Windows"	
