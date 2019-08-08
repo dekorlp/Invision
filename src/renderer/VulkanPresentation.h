@@ -47,13 +47,13 @@ private:
 	VkPresentModeKHR ChooseSwapPresentMode(
 		const std::vector<VkPresentModeKHR>& availablePresentModes) const noexcept;
 
-	QueueFamilyIndices FindQueueFamilies(const VkPhysicalDevice& device) const;
+	SQueueFamilyIndices FindQueueFamilies(const VkPhysicalDevice& device) const;
 
 public:
 	CVulkanPresentation();
-	void CreateSwapChain(VkPhysicalDevice physicalDevice, VulkanLogicalDevice logicalDevice, VkSurfaceKHR surface, VulkanSwapchain* swapChain, const int width, const int height);
-	void CreateImageViews(VulkanLogicalDevice logicalDevice, VulkanSwapchain* swapChain);
-	void CleanupPresentation(VulkanLogicalDevice logicalDevice);
+	void CreateSwapChain(VkPhysicalDevice physicalDevice, SVulkanLogicalDevice logicalDevice, VkSurfaceKHR surface, SVulkanSwapchain* swapChain, const int width, const int height);
+	void CreateImageViews(SVulkanLogicalDevice logicalDevice, SVulkanSwapchain* swapChain);
+	void CleanupPresentation(SVulkanLogicalDevice logicalDevice);
 };
 
 #endif // VULKANPRESENTATION

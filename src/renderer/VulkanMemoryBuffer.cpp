@@ -1,25 +1,8 @@
-/* Copyright (C) 2019 Wildfire Games.
-* This file is part of 0 A.D.
-*
-* 0 A.D. is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 2 of the License, or
-* (at your option) any later version.
-*
-* 0 A.D. is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with 0 A.D.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
 #include "precompiled.h"
 
 #include "VulkanMemoryBuffer.h"
 
-uint32_t CVulkanMemoryBuffer::findMemoryType(VkPhysicalDevice physicalDevice, uint32_t typeFilter, VkMemoryPropertyFlags properties) {
+uint32_t VulkanMemoryBuffer::findMemoryType(VkPhysicalDevice physicalDevice, uint32_t typeFilter, VkMemoryPropertyFlags properties) {
 	VkPhysicalDeviceMemoryProperties memProperties;
 	vkGetPhysicalDeviceMemoryProperties(physicalDevice, &memProperties);
 
@@ -29,10 +12,10 @@ uint32_t CVulkanMemoryBuffer::findMemoryType(VkPhysicalDevice physicalDevice, ui
 		}
 	}
 
-	throw CVulkanException("Failed to find suitable memory type!");
+	throw VulkanException("Failed to find suitable memory type!");
 }
 
-	void CVulkanMemoryBuffer::createVertexBuffer(VkPhysicalDevice physicalDevice, VulkanLogicalDevice logicalDevice, std::vector<ShaderPipeline> *shaderPipeline)
+	void VulkanMemoryBuffer::createVertexBuffer(VkPhysicalDevice physicalDevice, SVulkanLogicalDevice logicalDevice, std::vector<ShaderPipeline> *shaderPipeline)
 	{
 		for (unsigned int i = 0; i < shaderPipeline->size(); i++)
 		{
@@ -47,7 +30,7 @@ uint32_t CVulkanMemoryBuffer::findMemoryType(VkPhysicalDevice physicalDevice, ui
 				VkResult result = vkCreateBuffer(logicalDevice.m_logicalDevice, &bufferInfo, nullptr, &(shaderPipeline->at(i).meshData.VertexBuffer));
 				if (result != VK_SUCCESS)
 				{
-					throw CVulkanException(result, "Failed to create a Vertex Buffer:");
+					throw VulkanException(result, "Failed to create a Vertex Buffer:");
 				}
 
 				VkMemoryRequirements memRequirements;
@@ -62,7 +45,7 @@ uint32_t CVulkanMemoryBuffer::findMemoryType(VkPhysicalDevice physicalDevice, ui
 				VkResult result2 = vkAllocateMemory(logicalDevice.m_logicalDevice, &allocInfo, nullptr, &(shaderPipeline->at(i).meshData.vertexBufferMemory));
 				if (result2 != VK_SUCCESS)
 				{
-					throw CVulkanException(result, "failed to allocate vertex buffer memory!");
+					throw VulkanException(result, "failed to allocate vertex buffer memory!");
 				}
 
 				vkBindBufferMemory(logicalDevice.m_logicalDevice, shaderPipeline->at(i).meshData.VertexBuffer, shaderPipeline->at(i).meshData.vertexBufferMemory, 0);
@@ -76,7 +59,7 @@ uint32_t CVulkanMemoryBuffer::findMemoryType(VkPhysicalDevice physicalDevice, ui
 		}
 	}
 
-	void CVulkanMemoryBuffer::cleanUpBuffers(VulkanLogicalDevice logicalDevice, std::vector<ShaderPipeline> *shaderPipeline)
+	void VulkanMemoryBuffer::cleanUpBuffers(SVulkanLogicalDevice logicalDevice, std::vector<ShaderPipeline> *shaderPipeline)
 	{
 		for (unsigned int i = 0; i < shaderPipeline->size(); i++)
 		{

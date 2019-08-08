@@ -20,13 +20,13 @@
 #include "VulkanException.h"
 #include "VulkanDataVariables.h"
 
-class CVulkanQueueFamily
+class VulkanQueueFamily
 {
 private:
 
 public:
 	VkDeviceQueueCreateInfo CreateDeviceQueueCreateInfo(int queueFamily) const noexcept;
-	QueueFamilyIndices FindQueueFamilies(const VkPhysicalDevice& device, const VkSurfaceKHR surface) const;
+	SQueueFamilyIndices FindQueueFamilies(const VkPhysicalDevice& device, const VkSurfaceKHR surface) const;
 	std::vector<VkDeviceQueueCreateInfo> CreateQueueCreateInfos(
 		const std::set<int>& uniqueQueueFamilies) const noexcept;
 

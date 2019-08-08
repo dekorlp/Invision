@@ -22,7 +22,7 @@
 #include "VulkanException.h"
 #include "VulkanDataVariables.h"
 
-class CVulkanPipeline
+class VulkanPipeline
 {
 private:
 	VkRenderPass m_renderPass;
@@ -91,9 +91,9 @@ private:
 		const VkSubpassDependency& dependency) const noexcept;
 
 public:
-	CVulkanPipeline();
-	void CreateRenderPass(VulkanLogicalDevice logicalDevice, VulkanPipeline* pipeline, VulkanSwapchain* swapchain);
-	void CreateGraphicsPipeline(VulkanLogicalDevice logicalDevice, std::vector<ShaderPipeline> *shaderPipeline, VulkanPipeline *pipeline);
+	VulkanPipeline();
+	void CreateRenderPass(SVulkanLogicalDevice logicalDevice, SVulkanPipeline* pipeline, SVulkanSwapchain* swapchain);
+	void CreateGraphicsPipeline(SVulkanLogicalDevice logicalDevice, std::vector<ShaderPipeline> *shaderPipeline, SVulkanPipeline *pipeline);
 	void CleanupPipeline(std::vector<ShaderPipeline> *shaderPipeline);
 
 };

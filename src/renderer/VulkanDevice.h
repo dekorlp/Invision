@@ -26,14 +26,14 @@
 #include "VulkanQueueFamily.h"
 #include "VulkanException.h"
 
-class CVulkanDevice
+class VulkanDevice
 {
 	private:
 		VkSurfaceKHR m_surface;
 		VkQueue m_graphicsQueue;
 		VkQueue m_presentQueue;
 
-		CVulkanQueueFamily m_queueFamily;
+		VulkanQueueFamily m_queueFamily;
 
 		bool IsDeviceSuitable(VkPhysicalDevice physicalDevice);
 		bool CheckDeviceExtensionSupport(const VkPhysicalDevice& device) const;
@@ -44,10 +44,10 @@ class CVulkanDevice
 			const VkPhysicalDeviceFeatures& deviceFeatures) const noexcept;
 
 	public:
-		CVulkanDevice();
+		VulkanDevice();
 		void CreateWindowSurface(VkInstance instance, HWND hwnd, VkSurfaceKHR *surface);
 		void PickPhysicalDevice(VkInstance instance, VkPhysicalDevice *physicalDevice);
-		void CreateLogicalDevice(VkInstance instance, VkPhysicalDevice physicalDevice, VulkanLogicalDevice* logicalDevice);
+		void CreateLogicalDevice(VkInstance instance, VkPhysicalDevice physicalDevice, SVulkanLogicalDevice* logicalDevice);
 		VkWin32SurfaceCreateInfoKHR CreateWin32SurfaceCreateInfo(HWND hwnd) const noexcept;		
 };
 

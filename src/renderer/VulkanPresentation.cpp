@@ -1,20 +1,3 @@
-/* Copyright (C) 2019 Wildfire Games.
-* This file is part of 0 A.D.
-*
-* 0 A.D. is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 2 of the License, or
-* (at your option) any later version.
-*
-* 0 A.D. is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with 0 A.D.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
 #include "precompiled.h"
 
 #include "VulkanPresentation.h"
@@ -24,7 +7,7 @@ CVulkanPresentation::CVulkanPresentation() : m_swapchain(VK_NULL_HANDLE), m_swap
 	
 }
 
-void CVulkanPresentation::CreateSwapChain(VkPhysicalDevice physicalDevice, VulkanLogicalDevice logicalDevice, VkSurfaceKHR surface,  VulkanSwapchain* swapChain, const int width, const int height)
+void CVulkanPresentation::CreateSwapChain(VkPhysicalDevice physicalDevice, SVulkanLogicalDevice logicalDevice, VkSurfaceKHR surface,  SVulkanSwapchain* swapChain, const int width, const int height)
 {
 	m_surface = surface;
 	SwapChainSupportDetails swapChainSupport = QuerySwapChainSupport(physicalDevice);
@@ -43,19 +26,19 @@ void CVulkanPresentation::CreateSwapChain(VkPhysicalDevice physicalDevice, Vulka
 	createInfo.oldSwapchain = oldSwapchain;
 
 	if (result != VK_SUCCESS) {
-		throw CVulkanException(result, "Error attempting to create a swapchain:");
+		throw VulkanException(result, "Error attempting to create a swapchain:");
 	}
 	swapChain->m_swapchain = newSwapchain;
 	m_swapchain = newSwapchain;
 
 	result = vkGetSwapchainImagesKHR(logicalDevice.m_logicalDevice, swapChain->m_swapchain, &imageCount, nullptr);
 	if (result != VK_SUCCESS) {
-		throw CVulkanException(result, "Error attempting to retrieve the count of swapchain images:");
+		throw VulkanException(result, "Error attempting to retrieve the count of swapchain images:");
 	}
 	m_swapchainImages.resize(imageCount);
 	result = vkGetSwapchainImagesKHR(logicalDevice.m_logicalDevice, swapChain->m_swapchain, &imageCount, m_swapchainImages.data());
 	if (result != VK_SUCCESS) {
-		throw CVulkanException(result, "Error attempting to retrieve the swapchain images:");
+		throw VulkanException(result, "Error attempting to retrieve the swapchain images:");
 	}
 	m_swapchainImageFormat = surfaceFormat.format;
 	m_swapchainExtent = extent;
@@ -65,7 +48,7 @@ void CVulkanPresentation::CreateSwapChain(VkPhysicalDevice physicalDevice, Vulka
 	swapChain->m_swapchainExtent = extent;
 }
 
-void CVulkanPresentation::CreateImageViews(VulkanLogicalDevice logicalDevice, VulkanSwapchain* swapChain)
+void CVulkanPresentation::CreateImageViews(SVulkanLogicalDevice logicalDevice, SVulkanSwapchain* swapChain)
 {
 	m_swapchainImageViews.resize(m_swapchainImages.size());
 	for (uint32_t i = 0; i < m_swapchainImages.size(); i++) {
@@ -73,7 +56,7 @@ void CVulkanPresentation::CreateImageViews(VulkanLogicalDevice logicalDevice, Vu
 
 		VkResult result = vkCreateImageView(logicalDevice.m_logicalDevice, &createInfo, nullptr, &m_swapchainImageViews[i]);
 		if (result != VK_SUCCESS) {
-			throw CVulkanException(result, "Unable to create an image view for a swap chain image");
+			throw VulkanException(result, "Unable to create an image view for a swap chain image");
 		}
 	}
 	swapChain->m_swapchainImageViews = m_swapchainImageViews;
@@ -85,31 +68,31 @@ SwapChainSupportDetails CVulkanPresentation::QuerySwapChainSupport(const VkPhysi
 
 	VkResult result = vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, m_surface, &details.capabilities);
 	if (result != VK_SUCCESS) {
-		throw CVulkanException(result, "Unable to retrieve physical device surface capabilities:");
+		throw VulkanException(result, "Unable to retrieve physical device surface capabilities:");
 	}
 	uint32_t formatCount = 0;
 	result = vkGetPhysicalDeviceSurfaceFormatsKHR(device, m_surface, &formatCount, nullptr);
 	if (result != VK_SUCCESS) {
-		throw CVulkanException(result, "Unable to retrieve the number of formats for a surface on a physical device:");
+		throw VulkanException(result, "Unable to retrieve the number of formats for a surface on a physical device:");
 	}
 	if (formatCount != 0) {
 		details.formats.resize(formatCount);
 		result = vkGetPhysicalDeviceSurfaceFormatsKHR(device, m_surface, &formatCount, details.formats.data());
 		if (result != VK_SUCCESS) {
-			throw CVulkanException(result, "Unable to retrieve the formats for a surface on a physical device:");
+			throw VulkanException(result, "Unable to retrieve the formats for a surface on a physical device:");
 		}
 	}
 
 	uint32_t presentModeCount = 0;
 	result = vkGetPhysicalDeviceSurfacePresentModesKHR(device, m_surface, &presentModeCount, nullptr);
 	if (result != VK_SUCCESS) {
-		throw CVulkanException(result, "Unable to retrieve the count of present modes for a surface on a physical device:");
+		throw VulkanException(result, "Unable to retrieve the count of present modes for a surface on a physical device:");
 	}
 	if (presentModeCount != 0) {
 		details.presentModes.resize(presentModeCount);
 		result = vkGetPhysicalDeviceSurfacePresentModesKHR(device, m_surface, &presentModeCount, details.presentModes.data());
 		if (result != VK_SUCCESS) {
-			throw CVulkanException(result, "Unable to retrieve the present modes for a surface on a physical device:");
+			throw VulkanException(result, "Unable to retrieve the present modes for a surface on a physical device:");
 		}
 	}
 	return details;
@@ -185,7 +168,7 @@ VkSwapchainCreateInfoKHR CVulkanPresentation::CreateSwapchainCreateInfo(
 	createInfo.imageArrayLayers = 1;
 	createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
-	QueueFamilyIndices indices = FindQueueFamilies(physicalDevice);
+	SQueueFamilyIndices indices = FindQueueFamilies(physicalDevice);
 	uint32_t queueFamilyIndices[] = { static_cast<uint32_t>(indices.graphicsFamily),
 		static_cast<uint32_t>(indices.presentFamily) };
 	if (indices.graphicsFamily != indices.presentFamily) {
@@ -214,9 +197,9 @@ VkPresentModeKHR CVulkanPresentation::ChooseSwapPresentMode(
 	return VK_PRESENT_MODE_FIFO_KHR;
 }
 
-QueueFamilyIndices CVulkanPresentation::FindQueueFamilies(const VkPhysicalDevice& device) const
+SQueueFamilyIndices CVulkanPresentation::FindQueueFamilies(const VkPhysicalDevice& device) const
 {
-	QueueFamilyIndices indices;
+	SQueueFamilyIndices indices;
 	uint32_t queueFamilyCount = 0;
 	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
 	std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
@@ -230,7 +213,7 @@ QueueFamilyIndices CVulkanPresentation::FindQueueFamilies(const VkPhysicalDevice
 		VkBool32 presentSupport = false;
 		VkResult result = vkGetPhysicalDeviceSurfaceSupportKHR(device, i, m_surface, &presentSupport);
 		if (result != VK_SUCCESS) {
-			throw CVulkanException(result, "Error while attempting to check if a surface supports presentation:");
+			throw VulkanException(result, "Error while attempting to check if a surface supports presentation:");
 		}
 		if (queueFamily.queueCount > 0 && presentSupport) {
 			indices.presentFamily = i;
@@ -243,7 +226,7 @@ QueueFamilyIndices CVulkanPresentation::FindQueueFamilies(const VkPhysicalDevice
 	return indices;
 }
 
-void CVulkanPresentation::CleanupPresentation(VulkanLogicalDevice logicalDevice)
+void CVulkanPresentation::CleanupPresentation(SVulkanLogicalDevice logicalDevice)
 {
 	if (m_swapchain != VK_NULL_HANDLE) {
 		vkDestroySwapchainKHR(logicalDevice.m_logicalDevice, m_swapchain, nullptr);

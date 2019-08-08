@@ -59,14 +59,14 @@ struct Vertex
 
 //////////////////////////////////////////////////
 
-struct VulkanLogicalDevice
+struct SVulkanLogicalDevice
 {
 	VkDevice m_logicalDevice;
 	VkQueue m_graphicsQueue;
 	VkQueue m_presentQueue;
 };
 
-struct VulkanSwapchain
+struct SVulkanSwapchain
 {
 	VkSwapchainKHR m_swapchain;
 	std::vector<VkImage> m_swapchainImages;
@@ -75,13 +75,13 @@ struct VulkanSwapchain
 	std::vector<VkImageView> m_swapchainImageViews;
 };
 
-struct VulkanPipeline
+struct SVulkanPipeline
 {
 	VkRenderPass m_renderPass;
 	VkPipelineLayout m_pipelineLayout;
 };
 
-struct QueueFamilyIndices {
+struct SQueueFamilyIndices {
 	int graphicsFamily = -1;
 	int presentFamily = -1;
 
@@ -112,7 +112,7 @@ const std::vector<const char*> validationLayers = {
 
 enum VertexSource { IN_VERTEX_SOURCE_STRUCT, IN_VERTEX_SOURCE_SHADER };
 
-struct MeshData
+struct SMeshData
 {
 	std::vector<Vertex> meshVertizes;
 	VkBuffer VertexBuffer;
@@ -136,7 +136,7 @@ struct ShaderPipeline
 	VertexSource vertexSource;
 	uint32_t shaderCountOfVertizes = 0;
 	bool draw = false;
-	MeshData meshData;
+	SMeshData meshData;
 };
 
 #endif // INCLUDED_VULKAN

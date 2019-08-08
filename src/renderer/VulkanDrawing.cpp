@@ -1,25 +1,8 @@
-/* Copyright (C) 2019 Wildfire Games.
-* This file is part of 0 A.D.
-*
-* 0 A.D. is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 2 of the License, or
-* (at your option) any later version.
-*
-* 0 A.D. is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with 0 A.D.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
 #include "precompiled.h"
 
 #include "VulkanDrawing.h"
 
-CVulkanDrawing::CVulkanDrawing() : m_renderPass(VK_NULL_HANDLE), m_swapchain(VK_NULL_HANDLE), m_swapchainFramebuffers(VK_NULL_HANDLE),
+VulkanDrawing::VulkanDrawing() : m_renderPass(VK_NULL_HANDLE), m_swapchain(VK_NULL_HANDLE), m_swapchainFramebuffers(VK_NULL_HANDLE),
 				m_commandBuffers(VK_NULL_HANDLE), m_commandPool(VK_NULL_HANDLE), m_imageAvailableSemaphore(VK_NULL_HANDLE), m_renderFinishedSemaphore(VK_NULL_HANDLE),
 				m_swapchainImageViews(VK_NULL_HANDLE), m_surface(VK_NULL_HANDLE)
 {
@@ -27,7 +10,7 @@ CVulkanDrawing::CVulkanDrawing() : m_renderPass(VK_NULL_HANDLE), m_swapchain(VK_
 }
 
 
-void CVulkanDrawing::CreateFrameBuffers(VulkanLogicalDevice logicalDevice, VkSurfaceKHR surface, VulkanSwapchain* swapChain, VulkanPipeline* pipeline)
+void VulkanDrawing::CreateFrameBuffers(SVulkanLogicalDevice logicalDevice, VkSurfaceKHR surface, SVulkanSwapchain* swapChain, SVulkanPipeline* pipeline)
 {
 	m_swapchainExtent = swapChain->m_swapchainExtent;
 	m_swapchainImageViews = swapChain->m_swapchainImageViews;
@@ -44,22 +27,22 @@ void CVulkanDrawing::CreateFrameBuffers(VulkanLogicalDevice logicalDevice, VkSur
 
 		VkResult result = vkCreateFramebuffer(logicalDevice.m_logicalDevice, &framebufferInfo, nullptr, &m_swapchainFramebuffers[i]);
 		if (result != VK_SUCCESS) {
-			throw CVulkanException(result, "Failed to create framebuffer:");
+			throw VulkanException(result, "Failed to create framebuffer:");
 		}
 	}
 	m_surface = surface;
 }
 
-void CVulkanDrawing::CreateCommandPool(VkPhysicalDevice physicalDevice, VkDevice logicalDevice) {
-	QueueFamilyIndices queueFamilyIndices = m_queueFamily.FindQueueFamilies(physicalDevice, m_surface);
+void VulkanDrawing::CreateCommandPool(VkPhysicalDevice physicalDevice, VkDevice logicalDevice) {
+	SQueueFamilyIndices queueFamilyIndices = m_queueFamily.FindQueueFamilies(physicalDevice, m_surface);
 	VkCommandPoolCreateInfo poolInfo = CreateCommandPoolCreateInfo(queueFamilyIndices);
 	VkResult result = vkCreateCommandPool(logicalDevice, &poolInfo, nullptr, &m_commandPool);
 	if (result != VK_SUCCESS) {
-		throw CVulkanException(result, "Failed to create command pool:");
+		throw VulkanException(result, "Failed to create command pool:");
 	}
 }
 
-void CVulkanDrawing::CreateCommandBuffers(VulkanLogicalDevice logicalDevice, std::vector<VkCommandBuffer> *commandBuffer, VulkanPipeline* pipeline, std::vector<ShaderPipeline> *shaderPipeline)
+void VulkanDrawing::CreateCommandBuffers(SVulkanLogicalDevice logicalDevice, std::vector<VkCommandBuffer> *commandBuffer, SVulkanPipeline* pipeline, std::vector<ShaderPipeline> *shaderPipeline)
 {
 	m_renderPass = pipeline->m_renderPass;
 	if (m_commandBuffers.size() > 0) {
@@ -70,7 +53,7 @@ void CVulkanDrawing::CreateCommandBuffers(VulkanLogicalDevice logicalDevice, std
 	VkCommandBufferAllocateInfo allocInfo = CreateCommandBufferAllocateInfo();
 	VkResult result = vkAllocateCommandBuffers(logicalDevice.m_logicalDevice, &allocInfo, m_commandBuffers.data());
 	if (result != VK_SUCCESS) {
-		throw CVulkanException(result, "Failed to allocate command buffers:");
+		throw VulkanException(result, "Failed to allocate command buffers:");
 	}
 
 	VkClearValue clearColor = { 0.0f, 0.0f, 0.0f, 1.0f };
@@ -111,30 +94,30 @@ void CVulkanDrawing::CreateCommandBuffers(VulkanLogicalDevice logicalDevice, std
 
 		result = vkEndCommandBuffer(m_commandBuffers[i]);
 		if (result != VK_SUCCESS) {
-			throw CVulkanException(result, "Failed to record command buffer:");
+			throw VulkanException(result, "Failed to record command buffer:");
 		}
 	}
 
 	*commandBuffer = m_commandBuffers;
 }
 
-void CVulkanDrawing::CreateSemaphores(VulkanLogicalDevice logicalDevice, VkSemaphore *semaphore)
+void VulkanDrawing::CreateSemaphores(SVulkanLogicalDevice logicalDevice, VkSemaphore *semaphore)
 {
 	VkSemaphoreCreateInfo semaphoreInfo = CreateSemaphoreCreateInfo();
 
 	VkResult result = vkCreateSemaphore(logicalDevice.m_logicalDevice, &semaphoreInfo, nullptr, &m_imageAvailableSemaphore);
 	if (result != VK_SUCCESS) {
-		throw CVulkanException(result, "Failed to create image available semaphore:");
+		throw VulkanException(result, "Failed to create image available semaphore:");
 	}
 	result = vkCreateSemaphore(logicalDevice.m_logicalDevice, &semaphoreInfo, nullptr, &m_renderFinishedSemaphore);
 	if (result != VK_SUCCESS) {
-		throw CVulkanException(result, "Failed to create render finished semaphore:");
+		throw VulkanException(result, "Failed to create render finished semaphore:");
 	}
 
 	*semaphore = m_imageAvailableSemaphore;
 }
 
-VkFramebufferCreateInfo CVulkanDrawing::CreateFramebufferCreateInfo(
+VkFramebufferCreateInfo VulkanDrawing::CreateFramebufferCreateInfo(
 	const VkImageView& attachments) const noexcept
 {
 	VkFramebufferCreateInfo framebufferInfo = {};
@@ -148,8 +131,8 @@ VkFramebufferCreateInfo CVulkanDrawing::CreateFramebufferCreateInfo(
 	return framebufferInfo;
 }
 
-VkCommandPoolCreateInfo CVulkanDrawing::CreateCommandPoolCreateInfo(
-	QueueFamilyIndices& queueFamilyIndices) const noexcept
+VkCommandPoolCreateInfo VulkanDrawing::CreateCommandPoolCreateInfo(
+	SQueueFamilyIndices& queueFamilyIndices) const noexcept
 {
 	VkCommandPoolCreateInfo poolInfo = {};
 	poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
@@ -157,7 +140,7 @@ VkCommandPoolCreateInfo CVulkanDrawing::CreateCommandPoolCreateInfo(
 	return poolInfo;
 }
 
-VkCommandBufferAllocateInfo CVulkanDrawing::CreateCommandBufferAllocateInfo() const noexcept
+VkCommandBufferAllocateInfo VulkanDrawing::CreateCommandBufferAllocateInfo() const noexcept
 {
 	VkCommandBufferAllocateInfo allocInfo = {};
 	allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -167,7 +150,7 @@ VkCommandBufferAllocateInfo CVulkanDrawing::CreateCommandBufferAllocateInfo() co
 	return allocInfo;
 }
 
-VkCommandBufferBeginInfo CVulkanDrawing::CreateCommandBufferBeginInfo() const noexcept
+VkCommandBufferBeginInfo VulkanDrawing::CreateCommandBufferBeginInfo() const noexcept
 {
 	VkCommandBufferBeginInfo beginInfo = {};
 	beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -175,7 +158,7 @@ VkCommandBufferBeginInfo CVulkanDrawing::CreateCommandBufferBeginInfo() const no
 	return beginInfo;
 }
 
-VkRenderPassBeginInfo CVulkanDrawing::CreateRenderPassBeginInfo(size_t swapchainBufferNumber,
+VkRenderPassBeginInfo VulkanDrawing::CreateRenderPassBeginInfo(size_t swapchainBufferNumber,
 	const VkClearValue& clearValue) const noexcept
 {
 	VkRenderPassBeginInfo renderPassInfo = {};
@@ -190,14 +173,14 @@ VkRenderPassBeginInfo CVulkanDrawing::CreateRenderPassBeginInfo(size_t swapchain
 	return renderPassInfo;
 }
 
-VkSemaphoreCreateInfo CVulkanDrawing::CreateSemaphoreCreateInfo() const noexcept
+VkSemaphoreCreateInfo VulkanDrawing::CreateSemaphoreCreateInfo() const noexcept
 {
 	VkSemaphoreCreateInfo semaphoreInfo = {};
 	semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 	return semaphoreInfo;
 }
 
-VkSubmitInfo CVulkanDrawing::CreateSubmitInfo(uint32_t imageIndex,
+VkSubmitInfo VulkanDrawing::CreateSubmitInfo(uint32_t imageIndex,
 	VkPipelineStageFlags* waitStageFlags) const noexcept
 {
 	VkSubmitInfo submitInfo = {};
@@ -215,7 +198,7 @@ VkSubmitInfo CVulkanDrawing::CreateSubmitInfo(uint32_t imageIndex,
 	return submitInfo;
 }
 
-VkPresentInfoKHR CVulkanDrawing::CreatePresentInfoKHR(uint32_t& imageIndex, VulkanSwapchain* swapchain) noexcept
+VkPresentInfoKHR VulkanDrawing::CreatePresentInfoKHR(uint32_t& imageIndex, SVulkanSwapchain* swapchain) noexcept
 {
 	m_swapchain = swapchain->m_swapchain;
 	VkPresentInfoKHR presentInfo = {};
@@ -232,21 +215,21 @@ VkPresentInfoKHR CVulkanDrawing::CreatePresentInfoKHR(uint32_t& imageIndex, Vulk
 }
 
 
-void CVulkanDrawing::cleanUpCommandBuffers(VulkanLogicalDevice logicalDevice)
+void VulkanDrawing::cleanUpCommandBuffers(SVulkanLogicalDevice logicalDevice)
 {
 	if (m_commandPool != VK_NULL_HANDLE) {
 		vkDestroyCommandPool(logicalDevice.m_logicalDevice, m_commandPool, nullptr);
 	}
 }
 
-void CVulkanDrawing::cleanUpFrameBuffers(VulkanLogicalDevice logicalDevice)
+void VulkanDrawing::cleanUpFrameBuffers(SVulkanLogicalDevice logicalDevice)
 {
 	for (auto& framebuffer : m_swapchainFramebuffers) {
 		vkDestroyFramebuffer(logicalDevice.m_logicalDevice, framebuffer, nullptr);
 	}
 }
 
-void CVulkanDrawing::cleanUpSamaphores(VulkanLogicalDevice logicalDevice)
+void VulkanDrawing::cleanUpSamaphores(SVulkanLogicalDevice logicalDevice)
 {
 	if (m_imageAvailableSemaphore != VK_NULL_HANDLE) {
 		vkDestroySemaphore(logicalDevice.m_logicalDevice, m_imageAvailableSemaphore, nullptr);

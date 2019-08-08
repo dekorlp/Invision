@@ -1,31 +1,14 @@
-/* Copyright (C) 2019 Wildfire Games.
-* This file is part of 0 A.D.
-*
-* 0 A.D. is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 2 of the License, or
-* (at your option) any later version.
-*
-* 0 A.D. is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with 0 A.D.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
 #include "precompiled.h"
 
 #include "VulkanPipeline.h"
 
-CVulkanPipeline::CVulkanPipeline() : m_logicalDevice(VK_NULL_HANDLE), m_renderPass(VK_NULL_HANDLE),  m_pipelineLayout(VK_NULL_HANDLE)
+VulkanPipeline::VulkanPipeline() : m_logicalDevice(VK_NULL_HANDLE), m_renderPass(VK_NULL_HANDLE),  m_pipelineLayout(VK_NULL_HANDLE)
 {
 	
 }
 
 
-void CVulkanPipeline::CreateRenderPass(VulkanLogicalDevice logicalDevice, VulkanPipeline* pipeline, VulkanSwapchain* swapchain)
+void VulkanPipeline::CreateRenderPass(SVulkanLogicalDevice logicalDevice, SVulkanPipeline* pipeline, SVulkanSwapchain* swapchain)
 {
 	m_swapchainImageFormat = swapchain->m_swapchainImageFormat;
 	m_swapchainExtent = swapchain->m_swapchainExtent;
@@ -39,21 +22,21 @@ void CVulkanPipeline::CreateRenderPass(VulkanLogicalDevice logicalDevice, Vulkan
 
 	VkResult result = vkCreateRenderPass(logicalDevice.m_logicalDevice, &renderPassInfo, nullptr, &m_renderPass);
 	if (result != VK_SUCCESS) {
-		throw CVulkanException(result, "Failed to create a render pass:");
+		throw VulkanException(result, "Failed to create a render pass:");
 	}
 
 	pipeline->m_renderPass = m_renderPass;
 	
 }
 
-void CVulkanPipeline::CreateGraphicsPipeline(VulkanLogicalDevice logicalDevice, std::vector<ShaderPipeline> *shaderPipeline, VulkanPipeline *pipeline)
+void VulkanPipeline::CreateGraphicsPipeline(SVulkanLogicalDevice logicalDevice, std::vector<ShaderPipeline> *shaderPipeline, SVulkanPipeline *pipeline)
 {
 	m_logicalDevice = logicalDevice.m_logicalDevice;
 
 	VkPipelineLayoutCreateInfo pipelineLayoutInfo = CreatePipelineLayoutCreateInfo();
 	VkResult result = vkCreatePipelineLayout(logicalDevice.m_logicalDevice, &pipelineLayoutInfo, nullptr, &m_pipelineLayout);
 	if (result != VK_SUCCESS) {
-		throw CVulkanException(result, "Failed to create pipeline layout:");
+		throw VulkanException(result, "Failed to create pipeline layout:");
 	}
 
 	for(unsigned int i = 0; i < shaderPipeline->size(); i++)
@@ -90,7 +73,7 @@ void CVulkanPipeline::CreateGraphicsPipeline(VulkanLogicalDevice logicalDevice, 
 			(vertexInputInfo), inputAssembly, viewportState, rasterizer, multisampling, colorBlending);
 		result = vkCreateGraphicsPipelines(logicalDevice.m_logicalDevice, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &(shaderPipeline->at(i).pipeline));
 		if (result != VK_SUCCESS) {
-			throw CVulkanException(result, "Failed to create pipeline layout:");
+			throw VulkanException(result, "Failed to create pipeline layout:");
 		}
 	}
 
@@ -106,7 +89,7 @@ void CVulkanPipeline::CreateGraphicsPipeline(VulkanLogicalDevice logicalDevice, 
 	pipeline->m_pipelineLayout = m_pipelineLayout;
 }
 
-std::vector<char> CVulkanPipeline::ReadFile(const std::string& filename)
+std::vector<char> VulkanPipeline::ReadFile(const std::string& filename)
 {
 	std::ifstream file(filename, std::ios::ate | std::ios::binary);
 
@@ -127,17 +110,17 @@ std::vector<char> CVulkanPipeline::ReadFile(const std::string& filename)
 	return buffer;
 }
 
-void CVulkanPipeline::CreateShaderModule(const std::vector<char>& code, VkShaderModule& shaderModule) const
+void VulkanPipeline::CreateShaderModule(const std::vector<char>& code, VkShaderModule& shaderModule) const
 {
 	VkShaderModuleCreateInfo createInfo = CreateShaderModuleCreateInfo(code);
 
 	VkResult result = vkCreateShaderModule(m_logicalDevice, &createInfo, nullptr, &shaderModule);
 	if (result != VK_SUCCESS) {
-		throw CVulkanException(result, "Failed to create shader module:");
+		throw VulkanException(result, "Failed to create shader module:");
 	}
 }
 
-VkShaderModuleCreateInfo CVulkanPipeline::CreateShaderModuleCreateInfo(
+VkShaderModuleCreateInfo VulkanPipeline::CreateShaderModuleCreateInfo(
 	const std::vector<char>& code) const noexcept
 {
 	VkShaderModuleCreateInfo createInfo = {};
@@ -147,7 +130,7 @@ VkShaderModuleCreateInfo CVulkanPipeline::CreateShaderModuleCreateInfo(
 	return createInfo;
 }
 
-VkAttachmentDescription CVulkanPipeline::CreateAttachmentDescription() const noexcept
+VkAttachmentDescription VulkanPipeline::CreateAttachmentDescription() const noexcept
 {
 	VkAttachmentDescription colorAttachment = {};
 	colorAttachment.format = m_swapchainImageFormat;
@@ -161,7 +144,7 @@ VkAttachmentDescription CVulkanPipeline::CreateAttachmentDescription() const noe
 	return colorAttachment;
 }
 
-VkPipelineShaderStageCreateInfo CVulkanPipeline::CreatePipelineShaderStageCreateInfo(
+VkPipelineShaderStageCreateInfo VulkanPipeline::CreatePipelineShaderStageCreateInfo(
 	VkShaderStageFlagBits stage, VkShaderModule& module, const char* entryName) const noexcept
 {
 	VkPipelineShaderStageCreateInfo shaderStageInfo = {};
@@ -172,7 +155,7 @@ VkPipelineShaderStageCreateInfo CVulkanPipeline::CreatePipelineShaderStageCreate
 	return shaderStageInfo;
 }
 
-VkPipelineVertexInputStateCreateInfo CVulkanPipeline::CreatePipelineVertexInputStateCreateInfo(VertexSource vertexSource) noexcept
+VkPipelineVertexInputStateCreateInfo VulkanPipeline::CreatePipelineVertexInputStateCreateInfo(VertexSource vertexSource) noexcept
 {
 	m_BindingDescription = Vertex::getBindingDescription();
 	m_AttributeDescriptions = Vertex::getAttributeDescriptions();
@@ -202,7 +185,7 @@ VkPipelineVertexInputStateCreateInfo CVulkanPipeline::CreatePipelineVertexInputS
 	return vertexInputInfo;
 }
 
-VkPipelineInputAssemblyStateCreateInfo CVulkanPipeline::CreatePipelineInputAssemblyStateCreateInfo(
+VkPipelineInputAssemblyStateCreateInfo VulkanPipeline::CreatePipelineInputAssemblyStateCreateInfo(
 	const VkPrimitiveTopology& topology, uint32_t restartEnable) const noexcept
 {
 	VkPipelineInputAssemblyStateCreateInfo inputAssembly = {};
@@ -212,7 +195,7 @@ VkPipelineInputAssemblyStateCreateInfo CVulkanPipeline::CreatePipelineInputAssem
 	return inputAssembly;
 }
 
-VkViewport CVulkanPipeline::CreateViewport() const noexcept
+VkViewport VulkanPipeline::CreateViewport() const noexcept
 {
 	VkViewport viewport = {};
 	viewport.x = 0.0f;
@@ -224,7 +207,7 @@ VkViewport CVulkanPipeline::CreateViewport() const noexcept
 	return viewport;
 }
 
-VkRect2D CVulkanPipeline::CreateScissor() const noexcept
+VkRect2D VulkanPipeline::CreateScissor() const noexcept
 {
 	VkRect2D scissor = {};
 	scissor.offset = { 0, 0 };
@@ -232,7 +215,7 @@ VkRect2D CVulkanPipeline::CreateScissor() const noexcept
 	return scissor;
 }
 
-VkPipelineViewportStateCreateInfo CVulkanPipeline::CreatePipelineViewportStateCreateInfo(
+VkPipelineViewportStateCreateInfo VulkanPipeline::CreatePipelineViewportStateCreateInfo(
 	const VkViewport& viewport, const VkRect2D& scissor) const noexcept
 {
 	VkPipelineViewportStateCreateInfo viewportState = {};
@@ -244,7 +227,7 @@ VkPipelineViewportStateCreateInfo CVulkanPipeline::CreatePipelineViewportStateCr
 	return viewportState;
 }
 
-VkPipelineRasterizationStateCreateInfo CVulkanPipeline::CreatePipelineRasterizationStateCreateInfo() const noexcept
+VkPipelineRasterizationStateCreateInfo VulkanPipeline::CreatePipelineRasterizationStateCreateInfo() const noexcept
 {
 	VkPipelineRasterizationStateCreateInfo rasterizer = {};
 	rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
@@ -258,7 +241,7 @@ VkPipelineRasterizationStateCreateInfo CVulkanPipeline::CreatePipelineRasterizat
 	return rasterizer;
 }
 
-VkPipelineMultisampleStateCreateInfo CVulkanPipeline::CreatePipelineMultisampleStateCreateInfo() const noexcept
+VkPipelineMultisampleStateCreateInfo VulkanPipeline::CreatePipelineMultisampleStateCreateInfo() const noexcept
 {
 	VkPipelineMultisampleStateCreateInfo multisampling = {};
 	multisampling.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
@@ -267,7 +250,7 @@ VkPipelineMultisampleStateCreateInfo CVulkanPipeline::CreatePipelineMultisampleS
 	return multisampling;
 }
 
-VkPipelineColorBlendAttachmentState CVulkanPipeline::CreatePipelineColorBlendAttachmentState() const noexcept
+VkPipelineColorBlendAttachmentState VulkanPipeline::CreatePipelineColorBlendAttachmentState() const noexcept
 {
 	VkPipelineColorBlendAttachmentState colorBlendAttachment = {};
 	colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
@@ -275,7 +258,7 @@ VkPipelineColorBlendAttachmentState CVulkanPipeline::CreatePipelineColorBlendAtt
 	return colorBlendAttachment;
 }
 
-VkPipelineColorBlendStateCreateInfo CVulkanPipeline::CreatePipelineColorBlendStateCreateInfo(
+VkPipelineColorBlendStateCreateInfo VulkanPipeline::CreatePipelineColorBlendStateCreateInfo(
 	const VkPipelineColorBlendAttachmentState& colorBlendAttachment) const noexcept
 {
 	VkPipelineColorBlendStateCreateInfo colorBlending = {};
@@ -291,7 +274,7 @@ VkPipelineColorBlendStateCreateInfo CVulkanPipeline::CreatePipelineColorBlendSta
 	return colorBlending;
 }
 
-VkPipelineLayoutCreateInfo CVulkanPipeline::CreatePipelineLayoutCreateInfo() const noexcept
+VkPipelineLayoutCreateInfo VulkanPipeline::CreatePipelineLayoutCreateInfo() const noexcept
 {
 	VkPipelineLayoutCreateInfo pipelineLayoutInfo = {};
 	pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
@@ -300,7 +283,7 @@ VkPipelineLayoutCreateInfo CVulkanPipeline::CreatePipelineLayoutCreateInfo() con
 	return pipelineLayoutInfo;
 }
 
-VkGraphicsPipelineCreateInfo CVulkanPipeline::CreateGraphicsPipelineCreateInfo(
+VkGraphicsPipelineCreateInfo VulkanPipeline::CreateGraphicsPipelineCreateInfo(
 	const VkPipelineShaderStageCreateInfo shaderStages[],
 	const VkPipelineVertexInputStateCreateInfo& vertexInputInfo,
 	const VkPipelineInputAssemblyStateCreateInfo& inputAssembly,
@@ -327,7 +310,7 @@ VkGraphicsPipelineCreateInfo CVulkanPipeline::CreateGraphicsPipelineCreateInfo(
 	return pipelineInfo;
 }
 
-VkAttachmentReference CVulkanPipeline::CreateAttachmentReference() const noexcept
+VkAttachmentReference VulkanPipeline::CreateAttachmentReference() const noexcept
 {
 	VkAttachmentReference colorAttachmentRef = {};
 	colorAttachmentRef.attachment = 0;
@@ -335,7 +318,7 @@ VkAttachmentReference CVulkanPipeline::CreateAttachmentReference() const noexcep
 	return colorAttachmentRef;
 }
 
-VkSubpassDescription CVulkanPipeline::CreateSubpassDescription(
+VkSubpassDescription VulkanPipeline::CreateSubpassDescription(
 	const VkAttachmentReference& attachmentRef) const noexcept
 {
 	VkSubpassDescription subPass = {};
@@ -345,7 +328,7 @@ VkSubpassDescription CVulkanPipeline::CreateSubpassDescription(
 	return subPass;
 }
 
-VkSubpassDependency CVulkanPipeline::CreateSubpassDependency() const noexcept
+VkSubpassDependency VulkanPipeline::CreateSubpassDependency() const noexcept
 {
 	VkSubpassDependency dependency = {};
 	dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
@@ -357,7 +340,7 @@ VkSubpassDependency CVulkanPipeline::CreateSubpassDependency() const noexcept
 	return dependency;
 }
 
-VkRenderPassCreateInfo CVulkanPipeline::CreateRenderPassCreateInfo(
+VkRenderPassCreateInfo VulkanPipeline::CreateRenderPassCreateInfo(
 	const VkAttachmentDescription& colorAttachment,
 	const VkSubpassDescription& subPass,
 	const VkSubpassDependency& dependency) const noexcept
@@ -373,7 +356,7 @@ VkRenderPassCreateInfo CVulkanPipeline::CreateRenderPassCreateInfo(
 	return renderPassInfo;
 }
 
-void CVulkanPipeline::CleanupPipeline(std::vector<ShaderPipeline> *shaderPipeline)
+void VulkanPipeline::CleanupPipeline(std::vector<ShaderPipeline> *shaderPipeline)
 {
 	for (unsigned int i = 0; i < shaderPipeline->size(); i++)
 	{

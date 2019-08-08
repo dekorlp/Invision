@@ -23,10 +23,10 @@
 #include "VulkanDataVariables.h"
 #include "VulkanMemoryBuffer.h"
 
-class CVulkan
+class Vulkan
 {
 	public:
-		CVulkan();
+		Vulkan();
 		void run(HWND hwnd, const int width, const int height);
 
 		void OnPaint(const int width, const int height);
@@ -61,17 +61,17 @@ class CVulkan
 		std::vector<VkCommandBuffer> m_commandBuffers;
 		VkSemaphore m_imageAvailableSemaphore;
 
-		VulkanPipeline m_pipeline;
-		VulkanLogicalDevice m_logicalDevice;
-		VulkanSwapchain m_swapchain;
+		SVulkanPipeline m_pipeline;
+		SVulkanLogicalDevice m_logicalDevice;
+		SVulkanSwapchain m_swapchain;
 
 		std::vector<ShaderPipeline> m_ShaderPipelines;
 
-		CVulkanDevice vulkanDevice;
+		VulkanDevice vulkanDevice;
 		CVulkanPresentation vulkanPresentation;
-		CVulkanPipeline vulkanPipeline;
-		CVulkanDrawing vulkanDrawing;
-		CVulkanMemoryBuffer vulkanMemoryBuffer;
+		VulkanPipeline vulkanPipeline;
+		VulkanDrawing vulkanDrawing;
+		VulkanMemoryBuffer vulkanMemoryBuffer;
 };
 
 #endif // INCLUDED_VULKAN

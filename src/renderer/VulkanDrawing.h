@@ -18,7 +18,7 @@
 #include "VulkanDataVariables.h"
 #include "VulkanQueueFamily.h"
 
-class CVulkanDrawing
+class VulkanDrawing
 {
 private:
 	std::vector<VkFramebuffer> m_swapchainFramebuffers;
@@ -32,13 +32,13 @@ private:
 	VkSurfaceKHR m_surface;
 	VkSwapchainKHR m_swapchain;
 
-	CVulkanQueueFamily m_queueFamily;
+	VulkanQueueFamily m_queueFamily;
 
 	VkFramebufferCreateInfo CreateFramebufferCreateInfo(
 		const VkImageView& attachments) const noexcept;
 
 	VkCommandPoolCreateInfo CreateCommandPoolCreateInfo(
-		QueueFamilyIndices& queueFamilyIndices) const noexcept;
+		SQueueFamilyIndices& queueFamilyIndices) const noexcept;
 
 	VkCommandBufferAllocateInfo CreateCommandBufferAllocateInfo() const noexcept;
 
@@ -50,20 +50,20 @@ private:
 	VkSemaphoreCreateInfo CreateSemaphoreCreateInfo() const noexcept;
 
 public:
-	CVulkanDrawing();
-	void CreateFrameBuffers(VulkanLogicalDevice logicalDevice, VkSurfaceKHR surface, VulkanSwapchain* swapChain, VulkanPipeline* pipeline);
+	VulkanDrawing();
+	void CreateFrameBuffers(SVulkanLogicalDevice logicalDevice, VkSurfaceKHR surface, SVulkanSwapchain* swapChain, SVulkanPipeline* pipeline);
 	void CreateCommandPool(VkPhysicalDevice physicalDevice, VkDevice logicalDevice);
-	void CreateCommandBuffers(VulkanLogicalDevice logicalDevice, std::vector<VkCommandBuffer> *commandBuffer, VulkanPipeline* pipeline, std::vector<ShaderPipeline> *shaderPipeline);
-	void CreateSemaphores(VulkanLogicalDevice logicalDevice, VkSemaphore *semaphore);
+	void CreateCommandBuffers(SVulkanLogicalDevice logicalDevice, std::vector<VkCommandBuffer> *commandBuffer, SVulkanPipeline* pipeline, std::vector<ShaderPipeline> *shaderPipeline);
+	void CreateSemaphores(SVulkanLogicalDevice logicalDevice, VkSemaphore *semaphore);
 	
 	VkSubmitInfo CreateSubmitInfo(uint32_t imageIndex,
 		VkPipelineStageFlags* waitStageFlags) const noexcept;
 
-	VkPresentInfoKHR CreatePresentInfoKHR(uint32_t& imageIndex, VulkanSwapchain* swapchain) noexcept;
+	VkPresentInfoKHR CreatePresentInfoKHR(uint32_t& imageIndex, SVulkanSwapchain* swapchain) noexcept;
 
-	void cleanUpCommandBuffers(VulkanLogicalDevice logicalDevice);
-	void cleanUpFrameBuffers(VulkanLogicalDevice logicalDevice);
-	void cleanUpSamaphores(VulkanLogicalDevice logicalDevice);
+	void cleanUpCommandBuffers(SVulkanLogicalDevice logicalDevice);
+	void cleanUpFrameBuffers(SVulkanLogicalDevice logicalDevice);
+	void cleanUpSamaphores(SVulkanLogicalDevice logicalDevice);
 };
 
 #endif // INCLUDED_VULKAN

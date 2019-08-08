@@ -19,15 +19,15 @@
 #include "VulkanException.h"
 
 
-class CVulkanMemoryBuffer
+class VulkanMemoryBuffer
 {
 private:
 
 	uint32_t findMemoryType(VkPhysicalDevice physicalDevice, uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
 public:
-	void createVertexBuffer(VkPhysicalDevice physicalDevice, VulkanLogicalDevice logicalDevice, std::vector<ShaderPipeline> *shaderPipeline);
-	void cleanUpBuffers(VulkanLogicalDevice logicalDevice, std::vector<ShaderPipeline> *shaderPipeline);
+	void createVertexBuffer(VkPhysicalDevice physicalDevice, SVulkanLogicalDevice logicalDevice, std::vector<ShaderPipeline> *shaderPipeline);
+	void cleanUpBuffers(SVulkanLogicalDevice logicalDevice, std::vector<ShaderPipeline> *shaderPipeline);
 };
 
 #endif // INCLUDED_VULKANMEMORYBUFFER

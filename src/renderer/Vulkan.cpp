@@ -1,25 +1,8 @@
-/* Copyright (C) 2019 Wildfire Games.
-* This file is part of 0 A.D.
-*
-* 0 A.D. is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 2 of the License, or
-* (at your option) any later version.
-*
-* 0 A.D. is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with 0 A.D.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
 #include "precompiled.h"
 
 #include "Vulkan.h"
 
-CVulkan::CVulkan() 
+Vulkan::Vulkan() 
 	: m_vulkanInitialized(false), m_instance(VK_NULL_HANDLE),
 	m_surface(VK_NULL_HANDLE), m_physicalDevice(VK_NULL_HANDLE)
 	//m_commandPool(VK_NULL_HANDLE), m_imageAvailableSemaphore(VK_NULL_HANDLE),
@@ -30,7 +13,7 @@ CVulkan::CVulkan()
 	m_pipeline = { };
 }
 
-void CVulkan::run(HWND hwnd, const int width, const int height)
+void Vulkan::run(HWND hwnd, const int width, const int height)
 {
 	//-------------------------------------------------------------
 	// for debug create Shader
@@ -122,7 +105,7 @@ void CVulkan::run(HWND hwnd, const int width, const int height)
 	vulkanDrawing.CreateSemaphores(m_logicalDevice, &m_imageAvailableSemaphore);
 }
 
-void CVulkan::Destroy() noexcept
+void Vulkan::Destroy() noexcept
 {
 	if (m_instance != VK_NULL_HANDLE) {
 		if (m_logicalDevice.m_logicalDevice != VK_NULL_HANDLE) {
@@ -147,7 +130,7 @@ void CVulkan::Destroy() noexcept
 	}
 }
 
-void CVulkan::initVulkan(std::vector<const char*> requiredExtensions)
+void Vulkan::initVulkan(std::vector<const char*> requiredExtensions)
 {
 	// make sure that the Vulkan library is available on this system
 #ifdef _WIN32
@@ -165,12 +148,12 @@ void CVulkan::initVulkan(std::vector<const char*> requiredExtensions)
 	uint32_t count;
 	VkResult err = vkEnumerateInstanceExtensionProperties(nullptr, &count, nullptr);
 	if (err != VK_SUCCESS) {
-		throw CVulkanException(err, "Failed to retrieve the instance extension properties:");
+		throw VulkanException(err, "Failed to retrieve the instance extension properties:");
 	}
 	std::vector<VkExtensionProperties> extensions(count);
 	err = vkEnumerateInstanceExtensionProperties(nullptr, &count, extensions.data());
 	if (err != VK_SUCCESS) {
-		throw CVulkanException(err, "Failed to retrieve the instance extension properties:");
+		throw VulkanException(err, "Failed to retrieve the instance extension properties:");
 	}
 	for (unsigned int extNum = 0; extNum < extensions.size(); ++extNum) {
 		for (auto iter = requiredExtensions.begin(); iter < requiredExtensions.end(); ++iter) {
@@ -193,18 +176,18 @@ void CVulkan::initVulkan(std::vector<const char*> requiredExtensions)
 	m_vulkanInitialized = true;
 }
 
-void CVulkan::CreateInstance(const VkInstanceCreateInfo& createInfo)
+void Vulkan::CreateInstance(const VkInstanceCreateInfo& createInfo)
 {
 	if (!m_vulkanInitialized) {
 		throw std::runtime_error("Programming Error:\nAttempted to create a Vulkan instance before Vulkan was initialized.");
 	}
 	VkResult err = vkCreateInstance(&createInfo, nullptr, &m_instance);
 	if (err != VK_SUCCESS) {
-		throw CVulkanException(err, "Unable to create a Vulkan instance:");
+		throw VulkanException(err, "Unable to create a Vulkan instance:");
 	}
 }
 
-VkApplicationInfo CVulkan::CreateApplicationInfo(const std::string& appName,
+VkApplicationInfo Vulkan::CreateApplicationInfo(const std::string& appName,
 	const int32_t appVersion,
 	const std::string& engineName,
 	const int32_t engineVersion,
@@ -220,7 +203,7 @@ VkApplicationInfo CVulkan::CreateApplicationInfo(const std::string& appName,
 	return appInfo;
 }
 
-VkInstanceCreateInfo CVulkan::CreateInstanceCreateInfo(const VkApplicationInfo& appInfo,
+VkInstanceCreateInfo Vulkan::CreateInstanceCreateInfo(const VkApplicationInfo& appInfo,
 	const std::vector<const char*>& extensionNames,
 	const std::vector<const char*>& layerNames) const noexcept
 {
@@ -235,7 +218,7 @@ VkInstanceCreateInfo CVulkan::CreateInstanceCreateInfo(const VkApplicationInfo& 
 }
 
 #ifdef _WIN32
-VkWin32SurfaceCreateInfoKHR CVulkan::CreateWin32SurfaceCreateInfo(HWND hwnd) const noexcept
+VkWin32SurfaceCreateInfoKHR Vulkan::CreateWin32SurfaceCreateInfo(HWND hwnd) const noexcept
 {
 	VkWin32SurfaceCreateInfoKHR sci = {};
 	sci.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
@@ -245,7 +228,7 @@ VkWin32SurfaceCreateInfoKHR CVulkan::CreateWin32SurfaceCreateInfo(HWND hwnd) con
 }
 #endif
 
-	void CVulkan::RecreateSwapchain(const int width, const int height)
+	void Vulkan::RecreateSwapchain(const int width, const int height)
 	{
 		vkDeviceWaitIdle(m_logicalDevice.m_logicalDevice);
 
@@ -261,7 +244,7 @@ VkWin32SurfaceCreateInfoKHR CVulkan::CreateWin32SurfaceCreateInfo(HWND hwnd) con
 		vulkanDrawing.CreateCommandBuffers(m_logicalDevice, &m_commandBuffers, &m_pipeline, &m_ShaderPipelines);
 	}
 
-	void CVulkan::OnPaint(const int width, const int height)
+	void Vulkan::OnPaint(const int width, const int height)
 	{
 			uint32_t imageIndex;
 			VkResult result = vkAcquireNextImageKHR(m_logicalDevice.m_logicalDevice, m_swapchain.m_swapchain,
@@ -272,13 +255,13 @@ VkWin32SurfaceCreateInfoKHR CVulkan::CreateWin32SurfaceCreateInfo(HWND hwnd) con
 				return;
 			}
 			else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
-				throw CVulkanException(result, "Failed to acquire swap chain image");
+				throw VulkanException(result, "Failed to acquire swap chain image");
 			}
 			VkPipelineStageFlags waitFlags[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
 			VkSubmitInfo submitInfo = vulkanDrawing.CreateSubmitInfo(imageIndex, waitFlags);
 			result = vkQueueSubmit(m_logicalDevice.m_graphicsQueue, 1, &submitInfo, VK_NULL_HANDLE);
 			if (result != VK_SUCCESS) {
-				throw CVulkanException(result, "Failed to submit draw command buffer:");
+				throw VulkanException(result, "Failed to submit draw command buffer:");
 			}
 
 			VkPresentInfoKHR presentInfo = vulkanDrawing.CreatePresentInfoKHR(imageIndex, &m_swapchain);
@@ -287,11 +270,11 @@ VkWin32SurfaceCreateInfoKHR CVulkan::CreateWin32SurfaceCreateInfo(HWND hwnd) con
 				RecreateSwapchain(width, height);
 			}
 			else if (result != VK_SUCCESS) {
-				throw CVulkanException(result, "Failed to present swap chain image:");
+				throw VulkanException(result, "Failed to present swap chain image:");
 			}
 	}
 
-	void CVulkan::cleanupSwapChain()
+	void Vulkan::cleanupSwapChain()
 	{
 		if (m_instance != VK_NULL_HANDLE) {
 			if (m_logicalDevice.m_logicalDevice != VK_NULL_HANDLE) {
@@ -304,7 +287,7 @@ VkWin32SurfaceCreateInfoKHR CVulkan::CreateWin32SurfaceCreateInfo(HWND hwnd) con
 		}
 	}
 
-void CVulkan::CreateShaderPipeline(ShaderPipeline shaderPipeline)
+void Vulkan::CreateShaderPipeline(ShaderPipeline shaderPipeline)
 {
 	m_ShaderPipelines.push_back(shaderPipeline);
 }

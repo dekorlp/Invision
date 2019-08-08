@@ -18,13 +18,13 @@
 #include <string>
 #include "vulkan/vulkan.h"
 
-class CVulkanException :
+class VulkanException :
 	public std::runtime_error
 {
 public:
-	CVulkanException(const VkResult status, const std::string& msg);
-	CVulkanException(const std::string& msg);
-	virtual ~CVulkanException();
+	VulkanException(const VkResult status, const std::string& msg);
+	VulkanException(const std::string& msg);
+	virtual ~VulkanException();
 	const std::string GetStatus() const;
 
 private:
