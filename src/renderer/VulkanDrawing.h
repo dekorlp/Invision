@@ -14,8 +14,8 @@
 #define INCLUDED_VULKANDRAWING
 
 #include <vector>
-#include "VulkanException.h"
-#include "VulkanDataVariables.h"
+//#include "VulkanException.h"
+//#include "VulkanDataVariables.h"
 #include "VulkanQueueFamily.h"
 
 class VulkanDrawing

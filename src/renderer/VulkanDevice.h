@@ -24,7 +24,7 @@
 #include "vulkan/vulkan.h"
 #include "VulkanDataVariables.h"
 #include "VulkanQueueFamily.h"
-#include "VulkanException.h"
+//#include "VulkanException.h"
 
 class VulkanDevice
 {

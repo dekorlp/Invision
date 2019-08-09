@@ -15,12 +15,12 @@
 
 #define VK_USE_PLATFORM_WIN32_KHR
 #include "vulkan/vulkan.h"
-#include "VulkanException.h"
+//#include "VulkanException.h"
 #include "VulkanDevice.h"
 #include "VulkanPresentation.h"
 #include "VulkanPipeline.h"
 #include "VulkanDrawing.h"
-#include "VulkanDataVariables.h"
+//#include "VulkanDataVariables.h"
 #include "VulkanMemoryBuffer.h"
 
 class Vulkan
