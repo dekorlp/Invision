@@ -12,9 +12,10 @@
 
 #ifndef LOG_H
 #define LOG_H
-
-class  Log
+namespace Invision
 {
+	class  Log
+	{
 	public:
 		INVISION_API Log(std::string filename);
 		INVISION_API void Open(std::string filename);
@@ -31,17 +32,18 @@ class  Log
 		INVISION_API static void SetLogger(Log* log);
 		INVISION_API static Log* m_pThis;
 		INVISION_API static bool isSet;
-		
+
 	private:
 		std::ofstream stream;
 		std::string filename;
 
-		
-};
 
-#define INVISION_LOG_RAWTEXT(...) Log::GetLogger()->RawText(__VA_ARGS__);
-#define INVISION_LOG_ERROR(...) Log::GetLogger()->Error(__VA_ARGS__);
-#define INVISION_LOG_WARNING(...) Log::GetLogger()->Warning(__VA_ARGS__);
-#define INVISION_LOG_INFO(...) Log::GetLogger()->Info(__VA_ARGS__);
+	};
 
+}
+
+#define INVISION_LOG_RAWTEXT(...) Invision::Log::GetLogger()->RawText(__VA_ARGS__);
+#define INVISION_LOG_ERROR(...) Invision::Log::GetLogger()->Error(__VA_ARGS__);
+#define INVISION_LOG_WARNING(...) Invision::Log::GetLogger()->Warning(__VA_ARGS__);
+#define INVISION_LOG_INFO(...) Invision::Log::GetLogger()->Info(__VA_ARGS__);
 #endif // LOG_H

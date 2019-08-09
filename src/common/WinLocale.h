@@ -13,20 +13,21 @@
 #ifdef _WIN32
 #ifndef WINLOCALE_H
 #define WINLOCALE_H
-
-class INVISION_API WinLocale
+namespace Invision
 {
-public:
-	uint32 IdentifyCID();
-	uint32 IdentifyCID(WCHAR * langISO3166);
-	const char* IdentifySystemLanguage();
-	const char* IdentifyLanguage(uint32 langId);
-	const char* GetCountry();
-	const char* GetCountry(WCHAR * langISO3166);
+	class INVISION_API WinLocale
+	{
+	public:
+		uint32 IdentifyCID();
+		uint32 IdentifyCID(WCHAR * langISO3166);
+		const char* IdentifySystemLanguage();
+		const char* IdentifyLanguage(uint32 langId);
+		const char* GetCountry();
+		const char* GetCountry(WCHAR * langISO3166);
 
 
 
-};
-
+	};
+}
 #endif // WINLOCALE_H
 #endif

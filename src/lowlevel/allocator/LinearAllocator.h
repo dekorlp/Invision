@@ -14,9 +14,10 @@
 #ifndef LINEARALLOCATOR_H
 #define LINEARALLOCATOR_H
 
-
-class INVISION_API LinearAllocator
+namespace Invision
 {
+	class INVISION_API LinearAllocator
+	{
 	public:
 		explicit LinearAllocator();
 		explicit LinearAllocator(size_t size);
@@ -44,9 +45,9 @@ class INVISION_API LinearAllocator
 		void* currentOffset; // boundary between used and free memory
 		size_t size; // size of allocated Memory
 		size_t usedMemory;
-		uint32 numChunks; 
+		uint32 numChunks;
 
-};
-
+	};
+}
 
 #endif //LINEARALLOCATOR_H

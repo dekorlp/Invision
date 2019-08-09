@@ -14,35 +14,36 @@
 #define TIMESPAN_H
 
 #include "DateTime.h"
-
-class INVISION_API TimeSpan
+namespace Invision
 {
-public:
-	TimeSpan();
-	TimeSpan(uint64 milliseconds);
-	TimeSpan(uint32 hour, uint32 minute, uint32 seconds);
-	TimeSpan(uint32 days, uint32 hour, uint32 minute, uint32 seconds);
-	TimeSpan(uint32 days, uint32 hour, uint32 minute, uint32 seconds, uint32 milliseconds);
-	TimeSpan(DateTime begin, DateTime end);
-private:
+	class INVISION_API TimeSpan
+	{
+	public:
+		TimeSpan();
+		TimeSpan(uint64 milliseconds);
+		TimeSpan(uint32 hour, uint32 minute, uint32 seconds);
+		TimeSpan(uint32 days, uint32 hour, uint32 minute, uint32 seconds);
+		TimeSpan(uint32 days, uint32 hour, uint32 minute, uint32 seconds, uint32 milliseconds);
+		TimeSpan(DateTime begin, DateTime end);
+	private:
 
-	uint64 mMiliDays;
-	uint64 mMiliHours;
-	uint64 mMiliMinutes;
-	uint64 mMiliSeconds;
-	//real mMilliseconds;
+		uint64 mMiliDays;
+		uint64 mMiliHours;
+		uint64 mMiliMinutes;
+		uint64 mMiliSeconds;
+		//real mMilliseconds;
 
-	uint64 mDays;
-	uint64 mHours;
-	uint64 mMinutes;
-	uint64 mSeconds;
-	uint64 mMilliseconds;
+		uint64 mDays;
+		uint64 mHours;
+		uint64 mMinutes;
+		uint64 mSeconds;
+		uint64 mMilliseconds;
 
-	real mTotalDays;
-	real mTotalHours;
-	real mTotalMinutes;
-	real mTotalSeconds;
-	real mTotalMilliseconds;
-};
-
+		real mTotalDays;
+		real mTotalHours;
+		real mTotalMinutes;
+		real mTotalSeconds;
+		real mTotalMilliseconds;
+	};
+}
 #endif // TIMESPAN_H

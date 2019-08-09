@@ -14,9 +14,10 @@
 #define CRC_H
 
 
-
-class INVISION_API CRC
+namespace Invision
 {
+	class INVISION_API CRC
+	{
 	public:
 		static uint32 getCRC32(const char* data)
 		{
@@ -31,8 +32,8 @@ class INVISION_API CRC
 			result.process_bytes(data, wcslen(data));
 			return result.checksum();
 		}
-};
-
+	};
+}
 
 
 

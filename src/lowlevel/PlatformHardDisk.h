@@ -12,15 +12,17 @@
 
 #ifndef PLATFORMHARDDISC_H
 #define PLATFORMHARDDISC_H
-
-class INVISION_API PlatformHardDisk
+namespace Invision
 {
-private:
+	class INVISION_API PlatformHardDisk
+	{
+	private:
 
-public:
-	uint32 CalculateTotalSpace(uint8 drive);
-	uint32 CalculateFreeSpace(uint8 drive);
+	public:
+		uint32 CalculateTotalSpace(uint8 drive);
+		uint32 CalculateFreeSpace(uint8 drive);
 
 
-};
+	};
+}
 #endif //PLATFORMHARDDISC_H

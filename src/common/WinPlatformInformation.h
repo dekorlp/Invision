@@ -16,42 +16,43 @@
 #define WINPLATFORMINFORMATION_H
 
 #pragma warning(disable: 4996)
-
-typedef enum WINPLATFORM_PROCESSOR_ARCHITECTURE
+namespace Invision
 {
-	WINPLATFORM_PROCESSOR_ARCHITECTURE_AMD64 = 9,
-	WINPLATFORM_PROCESSOR_ARCHITECTURE_ARM = 8,
-	WINPLATFORM_PROCESSOR_ARCHITECTURE_IA64 = 6,
-	WINPLATFORM_PROCESSOR_ARCHITECTURE_INTEL = 0,
-	WINPLATFORM_PROCESSOR_ARCHITECTURE_UNKNOWN = 0xffff
-} ProcessorArchitecture;
+	typedef enum WINPLATFORM_PROCESSOR_ARCHITECTURE
+	{
+		WINPLATFORM_PROCESSOR_ARCHITECTURE_AMD64 = 9,
+		WINPLATFORM_PROCESSOR_ARCHITECTURE_ARM = 8,
+		WINPLATFORM_PROCESSOR_ARCHITECTURE_IA64 = 6,
+		WINPLATFORM_PROCESSOR_ARCHITECTURE_INTEL = 0,
+		WINPLATFORM_PROCESSOR_ARCHITECTURE_UNKNOWN = 0xffff
+	} ProcessorArchitecture;
 
-class INVISION_API WinPlatformInformation
-{
-public:
-	WinPlatformInformation();
-	uint64 GetVirtualRam();
-	uint64 GetTotalPhysicalRam();
-	uint64 GetFreePhysicalRam();
-	uint32 GetOSBuildNumber();
-	const char* GetOsVersion();
-	const char* GetLocaleLanguage();
-	const char* CSDVersion();
-	const char* GetLocaleCountry();
-	const char* GetLocaleGeoCountry();
-	uint32 GetCountOfProcessorCores();
-	WINPLATFORM_PROCESSOR_ARCHITECTURE GetProcessorArchitecture();
-	
-	uint32 IdentifyCID(WCHAR * langISO3166);
+	class INVISION_API WinPlatformInformation
+	{
+	public:
+		WinPlatformInformation();
+		uint64 GetVirtualRam();
+		uint64 GetTotalPhysicalRam();
+		uint64 GetFreePhysicalRam();
+		uint32 GetOSBuildNumber();
+		const char* GetOsVersion();
+		const char* GetLocaleLanguage();
+		const char* CSDVersion();
+		const char* GetLocaleCountry();
+		const char* GetLocaleGeoCountry();
+		uint32 GetCountOfProcessorCores();
+		WINPLATFORM_PROCESSOR_ARCHITECTURE GetProcessorArchitecture();
 
-private:
-	MEMORYSTATUSEX memStatus;
-	OSVERSIONINFOEX osVerInfo;
-	SYSTEM_INFO SysInfo;
-	const char* WindowsVersion;
-	void IdentifyWindowsVersion();
-};
+		uint32 IdentifyCID(WCHAR * langISO3166);
 
+	private:
+		MEMORYSTATUSEX memStatus;
+		OSVERSIONINFOEX osVerInfo;
+		SYSTEM_INFO SysInfo;
+		const char* WindowsVersion;
+		void IdentifyWindowsVersion();
+	};
+}
 #endif //WINPLATFORMINFORMATION_H
 
 #endif

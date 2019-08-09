@@ -1,248 +1,249 @@
 #include "precompiled.h"
 #include "InStringW.h"
+namespace Invision {
+	//std::map<usize_t, InBaseStringMultiByte<const wChar*, wChar>> InStringW::mBaseTable;
+	std::map<size_t, InBaseString<const wChar*, wChar>> InStringW::mBaseTable;
 
-//std::map<usize_t, InBaseStringMultiByte<const wChar*, wChar>> InStringW::mBaseTable;
-std::map<size_t, InBaseString<const wChar*, wChar>> InStringW::mBaseTable;
-
-InStringW::InStringW()
-{
-
-}
-
-InStringW::InStringW(const wChar* text)
-{
-	if (text == NULL)
+	InStringW::InStringW()
 	{
-		throw invisionCoreArgumentException("");
+
+	}
+
+	InStringW::InStringW(const wChar* text)
+	{
+		if (text == NULL)
+		{
+			throw invisionCoreArgumentException("");
+		}
+
+
+		//InBaseStringMultiByte<const wChar*, wChar> baseString(text, wcslen(text), CRC::getCRC32(text));
+		InBaseString<const wChar*, wChar> baseString(text, wcslen(text), CRC::getCRC32(text));
+		size_t id = baseString.GetCRCID();
+
+		if (mBaseTable.find(id) == mBaseTable.end())
+		{
+			mBaseTable[id] = baseString;
+		}
+		rBaseString = &mBaseTable.at(baseString.GetCRCID());
+	}
+
+	//InStringW::InStringW(InBaseStringMultiByte<const wChar*, wChar> bs)
+	InStringW::InStringW(InBaseString<const wChar*, wChar> bs)
+	{
+		if (bs.GetContent() == NULL)
+		{
+			throw invisionCoreArgumentException("");
+		}
+
+
+		if (mBaseTable.find(bs.GetCRCID()) == mBaseTable.end())
+		{
+			mBaseTable[bs.GetCRCID()] = bs;
+		}
+		rBaseString = &mBaseTable.at(bs.GetCRCID());
 	}
 
 
-	//InBaseStringMultiByte<const wChar*, wChar> baseString(text, wcslen(text), CRC::getCRC32(text));
-	InBaseString<const wChar*, wChar> baseString(text, wcslen(text), CRC::getCRC32(text));
-	size_t id = baseString.GetCRCID();
-
-	if (mBaseTable.find(id) == mBaseTable.end())
+	const wChar* InStringW::toString()
 	{
-		mBaseTable[id] = baseString;
-	}
-	rBaseString = &mBaseTable.at(baseString.GetCRCID());
-}
-
-//InStringW::InStringW(InBaseStringMultiByte<const wChar*, wChar> bs)
-InStringW::InStringW(InBaseString<const wChar*, wChar> bs)
-{
-	if (bs.GetContent() == NULL)
-	{
-		throw invisionCoreArgumentException("");
+		return rBaseString->GetContent();
 	}
 
-
-	if (mBaseTable.find(bs.GetCRCID()) == mBaseTable.end())
+	bool InStringW::operator == (const wChar* rValue)
 	{
-		mBaseTable[bs.GetCRCID()] = bs;
-	}
-	rBaseString = &mBaseTable.at(bs.GetCRCID());
-}
-
-
-const wChar* InStringW::toString()
-{
-	return rBaseString->GetContent();
-}
-
-bool InStringW::operator == (const wChar* rValue)
-{
-	return rBaseString->operator==(CRC::getCRC32(rValue));
-}
-
-bool InStringW::operator == (InStringW rValue)
-{
-	return rBaseString->operator==(rValue.rBaseString->GetCRCID());
-}
-
-size_t InStringW::Length()
-{
-	return (size_t)rBaseString->GetLength();
-}
-
-InStringW InStringW::substring(size_t pos, size_t len)
-{
-	return InStringW(rBaseString->substring(pos, len));
-}
-
-const wChar& InStringW::At(size_t index)
-{
-	return rBaseString->GetContent()[index];
-}
-
-const wChar& InStringW::operator[](size_t index)
-{
-	return rBaseString->GetContent()[index];
-}
-
-InStringW InStringW::trim()
-{
-	wChar chars[1] = { ' ' };
-	//InBaseStringMultiByte<const wChar*, wChar> baseString = rBaseString->trim(chars, 1);
-	InBaseString<const wChar*, wChar> baseString = rBaseString->trim(chars, 1);
-	return InStringW(baseString);
-}
-
-InStringW InStringW::trim(wChar chars[], size_t arrSize)
-{
-	//InBaseStringMultiByte<const wChar*, wChar> baseString = rBaseString->trim(chars, arrSize);
-	InBaseString<const wChar*, wChar> baseString = rBaseString->trim(chars, arrSize);
-	return InStringW(baseString);
-}
-
-std::vector<InStringW> InStringW::Split(wChar chars[], size_t arrSize)
-{
-	//std::vector<InBaseStringMultiByte<const wChar*, wChar>> splitedInBaseStrings = rBaseString->split(chars, arrSize);
-	std::vector<InBaseString<const wChar*, wChar>> splitedInBaseStrings = rBaseString->split(chars, arrSize);
-
-	std::vector<InStringW> SplitedStrings;
-
-	for (size_t i = 0; i < splitedInBaseStrings.size(); i++)
-	{
-		SplitedStrings.push_back(InStringW(splitedInBaseStrings[i]));
+		return rBaseString->operator==(CRC::getCRC32(rValue));
 	}
 
-	return SplitedStrings;
-}
+	bool InStringW::operator == (InStringW rValue)
+	{
+		return rBaseString->operator==(rValue.rBaseString->GetCRCID());
+	}
 
-bool InStringW::contains(const wChar* value)
-{
-	bool containsString = false;
-	containsString = rBaseString->contains(value);
-	return containsString;
-}
+	size_t InStringW::Length()
+	{
+		return (size_t)rBaseString->GetLength();
+	}
 
-InStringW InStringW::replace(const wChar* oldValue, const wChar* newValue)
-{
-	//InBaseStringMultiByte<const wChar*, wChar> baseString = rBaseString->replace(oldValue, newValue);
-	InBaseString<const wChar*, wChar> baseString = rBaseString->replace(oldValue, newValue);
-	return InStringW(baseString);
-}
+	InStringW InStringW::substring(size_t pos, size_t len)
+	{
+		return InStringW(rBaseString->substring(pos, len));
+	}
 
-InStringW InStringW::remove(size_t startIndex)
-{
-	//InBaseStringMultiByte<const wChar*, wChar> baseString = rBaseString->remove(startIndex, this->Length() - startIndex);
-	InBaseString<const wChar*, wChar> baseString = rBaseString->remove(startIndex, this->Length() - startIndex);
-	return InStringW(baseString);
-}
+	const wChar& InStringW::At(size_t index)
+	{
+		return rBaseString->GetContent()[index];
+	}
 
-InStringW InStringW::remove(size_t startIndex, size_t count)
-{
-	//InBaseStringMultiByte<const wChar*, wChar> baseString = rBaseString->remove(startIndex, count);
-	InBaseString<const wChar*, wChar> baseString = rBaseString->remove(startIndex, count);
-	return InStringW(baseString);
-}
+	const wChar& InStringW::operator[](size_t index)
+	{
+		return rBaseString->GetContent()[index];
+	}
 
-size_t InStringW::indexOf(wChar value)
-{
-	size_t index = rBaseString->indexOf(value, 0);
-	return index;
-}
-size_t InStringW::indexOf(wChar value, size_t startIndex)
-{
-	size_t index = rBaseString->indexOf(value, startIndex);
-	return index;
-}
+	InStringW InStringW::trim()
+	{
+		wChar chars[1] = { ' ' };
+		//InBaseStringMultiByte<const wChar*, wChar> baseString = rBaseString->trim(chars, 1);
+		InBaseString<const wChar*, wChar> baseString = rBaseString->trim(chars, 1);
+		return InStringW(baseString);
+	}
 
-size_t InStringW::indexOf(const wChar* value)
-{
-	size_t index = rBaseString->indexOf(value, 0);
-	return index;
-}
+	InStringW InStringW::trim(wChar chars[], size_t arrSize)
+	{
+		//InBaseStringMultiByte<const wChar*, wChar> baseString = rBaseString->trim(chars, arrSize);
+		InBaseString<const wChar*, wChar> baseString = rBaseString->trim(chars, arrSize);
+		return InStringW(baseString);
+	}
 
-size_t InStringW::indexOf(const wChar* value, size_t startIndex)
-{
-	size_t index = rBaseString->indexOf(value, startIndex);
-	return index;
-}
+	std::vector<InStringW> InStringW::Split(wChar chars[], size_t arrSize)
+	{
+		//std::vector<InBaseStringMultiByte<const wChar*, wChar>> splitedInBaseStrings = rBaseString->split(chars, arrSize);
+		std::vector<InBaseString<const wChar*, wChar>> splitedInBaseStrings = rBaseString->split(chars, arrSize);
 
-size_t InStringW::LastIndexOf(wChar value)
-{
-	size_t index = rBaseString->lastIndexOf(value, this->Length());
-	return index;
-}
+		std::vector<InStringW> SplitedStrings;
 
-size_t InStringW::LastIndexOf(wChar value, size_t startIndex)
-{
-	size_t index = rBaseString->lastIndexOf(value, startIndex);
-	return index;
-}
+		for (size_t i = 0; i < splitedInBaseStrings.size(); i++)
+		{
+			SplitedStrings.push_back(InStringW(splitedInBaseStrings[i]));
+		}
 
-size_t InStringW::LastIndexOf(const wChar* value)
-{
-	size_t index = rBaseString->lastIndexOf(value, this->Length());
-	return index;
-}
+		return SplitedStrings;
+	}
 
-size_t InStringW::LastIndexOf(const wChar* value, size_t startIndex)
-{
-	size_t index = rBaseString->lastIndexOf(value, startIndex);
-	return (index);
-}
+	bool InStringW::contains(const wChar* value)
+	{
+		bool containsString = false;
+		containsString = rBaseString->contains(value);
+		return containsString;
+	}
 
-bool InStringW::endsWith(const wChar* value)
-{
-	bool bEndsWith = rBaseString->endsWith(value);
-	return bEndsWith;
-}
+	InStringW InStringW::replace(const wChar* oldValue, const wChar* newValue)
+	{
+		//InBaseStringMultiByte<const wChar*, wChar> baseString = rBaseString->replace(oldValue, newValue);
+		InBaseString<const wChar*, wChar> baseString = rBaseString->replace(oldValue, newValue);
+		return InStringW(baseString);
+	}
 
-bool InStringW::startsWith(const wChar* value)
-{
-	bool bEndsWith = rBaseString->startsWith(value);
-	return bEndsWith;
-}
+	InStringW InStringW::remove(size_t startIndex)
+	{
+		//InBaseStringMultiByte<const wChar*, wChar> baseString = rBaseString->remove(startIndex, this->Length() - startIndex);
+		InBaseString<const wChar*, wChar> baseString = rBaseString->remove(startIndex, this->Length() - startIndex);
+		return InStringW(baseString);
+	}
 
-InStringW InStringW::padLeft(size_t totalWidth)
-{
-	//InBaseStringMultiByte<const wChar*, wChar> baseString = rBaseString->padLeft(totalWidth, ' ');
-	InBaseString<const wChar*, wChar> baseString = rBaseString->padLeft(totalWidth, ' ');
-	return InStringW(baseString);
-}
+	InStringW InStringW::remove(size_t startIndex, size_t count)
+	{
+		//InBaseStringMultiByte<const wChar*, wChar> baseString = rBaseString->remove(startIndex, count);
+		InBaseString<const wChar*, wChar> baseString = rBaseString->remove(startIndex, count);
+		return InStringW(baseString);
+	}
 
-InStringW InStringW::padLeft(size_t totalWidth, wChar paddingChar)
-{
-	//InBaseStringMultiByte<const wChar*, wChar> baseString = rBaseString->padLeft(totalWidth, paddingChar);
-	InBaseString<const wChar*, wChar> baseString = rBaseString->padLeft(totalWidth, paddingChar);
-	return InStringW(baseString);
-}
+	size_t InStringW::indexOf(wChar value)
+	{
+		size_t index = rBaseString->indexOf(value, 0);
+		return index;
+	}
+	size_t InStringW::indexOf(wChar value, size_t startIndex)
+	{
+		size_t index = rBaseString->indexOf(value, startIndex);
+		return index;
+	}
+
+	size_t InStringW::indexOf(const wChar* value)
+	{
+		size_t index = rBaseString->indexOf(value, 0);
+		return index;
+	}
+
+	size_t InStringW::indexOf(const wChar* value, size_t startIndex)
+	{
+		size_t index = rBaseString->indexOf(value, startIndex);
+		return index;
+	}
+
+	size_t InStringW::LastIndexOf(wChar value)
+	{
+		size_t index = rBaseString->lastIndexOf(value, this->Length());
+		return index;
+	}
+
+	size_t InStringW::LastIndexOf(wChar value, size_t startIndex)
+	{
+		size_t index = rBaseString->lastIndexOf(value, startIndex);
+		return index;
+	}
+
+	size_t InStringW::LastIndexOf(const wChar* value)
+	{
+		size_t index = rBaseString->lastIndexOf(value, this->Length());
+		return index;
+	}
+
+	size_t InStringW::LastIndexOf(const wChar* value, size_t startIndex)
+	{
+		size_t index = rBaseString->lastIndexOf(value, startIndex);
+		return (index);
+	}
+
+	bool InStringW::endsWith(const wChar* value)
+	{
+		bool bEndsWith = rBaseString->endsWith(value);
+		return bEndsWith;
+	}
+
+	bool InStringW::startsWith(const wChar* value)
+	{
+		bool bEndsWith = rBaseString->startsWith(value);
+		return bEndsWith;
+	}
+
+	InStringW InStringW::padLeft(size_t totalWidth)
+	{
+		//InBaseStringMultiByte<const wChar*, wChar> baseString = rBaseString->padLeft(totalWidth, ' ');
+		InBaseString<const wChar*, wChar> baseString = rBaseString->padLeft(totalWidth, ' ');
+		return InStringW(baseString);
+	}
+
+	InStringW InStringW::padLeft(size_t totalWidth, wChar paddingChar)
+	{
+		//InBaseStringMultiByte<const wChar*, wChar> baseString = rBaseString->padLeft(totalWidth, paddingChar);
+		InBaseString<const wChar*, wChar> baseString = rBaseString->padLeft(totalWidth, paddingChar);
+		return InStringW(baseString);
+	}
 
 
-InStringW InStringW::padRight(size_t totalWidth)
-{
-	//InBaseStringMultiByte<const wChar*, wChar> baseString = rBaseString->padRight(totalWidth, ' ');
-	InBaseString<const wChar*, wChar> baseString = rBaseString->padRight(totalWidth, ' ');
-	return InStringW(baseString);
-}
+	InStringW InStringW::padRight(size_t totalWidth)
+	{
+		//InBaseStringMultiByte<const wChar*, wChar> baseString = rBaseString->padRight(totalWidth, ' ');
+		InBaseString<const wChar*, wChar> baseString = rBaseString->padRight(totalWidth, ' ');
+		return InStringW(baseString);
+	}
 
-InStringW InStringW::padRight(size_t totalWidth, wChar paddingChar)
-{
-	//InBaseStringMultiByte<const wChar*, wChar> baseString = rBaseString->padRight(totalWidth, paddingChar);
-	InBaseString<const wChar*, wChar> baseString = rBaseString->padRight(totalWidth, paddingChar);
-	return InStringW(baseString);
-}
+	InStringW InStringW::padRight(size_t totalWidth, wChar paddingChar)
+	{
+		//InBaseStringMultiByte<const wChar*, wChar> baseString = rBaseString->padRight(totalWidth, paddingChar);
+		InBaseString<const wChar*, wChar> baseString = rBaseString->padRight(totalWidth, paddingChar);
+		return InStringW(baseString);
+	}
 
-InStringW InStringW::insert(size_t startIndex, const wChar* value)
-{
-	//InBaseStringMultiByte<const wChar*, wChar> baseString = rBaseString->insert(startIndex, value);
-	InBaseString<const wChar*, wChar> baseString = rBaseString->insert(startIndex, value);
-	return InStringW(baseString);
-}
+	InStringW InStringW::insert(size_t startIndex, const wChar* value)
+	{
+		//InBaseStringMultiByte<const wChar*, wChar> baseString = rBaseString->insert(startIndex, value);
+		InBaseString<const wChar*, wChar> baseString = rBaseString->insert(startIndex, value);
+		return InStringW(baseString);
+	}
 
-InStringW InStringW::toUpper()
-{
-	//InBaseStringMultiByte<const wChar*, wChar> baseString = rBaseString->toUpper(true);
-	InBaseString<const wChar*, wChar> baseString = rBaseString->toUpper(true);
-	return InStringW(baseString);
-}
+	InStringW InStringW::toUpper()
+	{
+		//InBaseStringMultiByte<const wChar*, wChar> baseString = rBaseString->toUpper(true);
+		InBaseString<const wChar*, wChar> baseString = rBaseString->toUpper(true);
+		return InStringW(baseString);
+	}
 
-InStringW InStringW::toLower()
-{
-	//InBaseStringMultiByte<const wChar*, wChar> baseString = rBaseString->toLower(true);
-	InBaseString<const wChar*, wChar> baseString = rBaseString->toLower(true);
-	return InStringW(baseString);
+	InStringW InStringW::toLower()
+	{
+		//InBaseStringMultiByte<const wChar*, wChar> baseString = rBaseString->toLower(true);
+		InBaseString<const wChar*, wChar> baseString = rBaseString->toLower(true);
+		return InStringW(baseString);
+	}
 }

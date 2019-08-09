@@ -1,6 +1,6 @@
 #include "precompiled.h"
 #include "PlatformHardDisk.h"
-
+namespace Invision {
 	uint32 PlatformHardDisk::CalculateTotalSpace(uint8 drive)
 	{
 #ifdef _WIN32
@@ -25,8 +25,10 @@
 		return (size / 1024);
 
 #elif __linux__
-		
+
 #elif __APPLE__
 
 #endif
 	}
+
+}

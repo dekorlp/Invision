@@ -31,8 +31,8 @@ class VulkanApp : public wxApp
 	public:
 		VulkanApp()
 		{
-			Log log("../../../logs/log.txt");
-			Log::SetLogger(&log);
+			Invision::Log log("../../../logs/log.txt");
+			Invision::Log::SetLogger(&log);
 		}
 		~VulkanApp()
 		{

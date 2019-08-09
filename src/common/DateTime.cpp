@@ -2,6 +2,7 @@
 
 #include "DateTime.h"
 
+namespace Invision {
 // TODO test components with testplan !!!
 DateTime::DateTime()
 {
@@ -654,4 +655,6 @@ std::string DateTime::printDate(std::string FormatProvider, LocalDateTimeTable d
 	}
 
 	return dateTime.str();
+}
+
 }

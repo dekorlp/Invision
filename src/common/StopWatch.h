@@ -14,23 +14,24 @@
 #define STOPWATCH_H
 
 #include "TimeSpan.h"
-
-class INVISION_API StopWatch
+namespace Invision
 {
-public:
-	StopWatch();
-	void start();
-	void stop();
-	bool isRunning();
-	uint64 getElapsedSeconds();
-	uint64 getElapsedMilliseconds();
-	TimeSpan getElapsedTimespan();
-private:
-	uint64 mMeasuredSeconds;
-	uint64 mMeasuredMilliseconds;
-	uint64 mMeasuresStartTime;
-	TimeSpan mMeasuredTimespan;
-	bool mIsRunning;
-};
-
+	class INVISION_API StopWatch
+	{
+	public:
+		StopWatch();
+		void start();
+		void stop();
+		bool isRunning();
+		uint64 getElapsedSeconds();
+		uint64 getElapsedMilliseconds();
+		TimeSpan getElapsedTimespan();
+	private:
+		uint64 mMeasuredSeconds;
+		uint64 mMeasuredMilliseconds;
+		uint64 mMeasuresStartTime;
+		TimeSpan mMeasuredTimespan;
+		bool mIsRunning;
+	};
+}
 #endif // STOPWATCH_H

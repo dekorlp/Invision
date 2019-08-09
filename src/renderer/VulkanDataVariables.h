@@ -27,8 +27,8 @@ class Vector2;
 /////////////// NEW VERTEX CODE //////////////////
 struct Vertex
 {
-	Vector2 pos;
-	Vector3 color;
+	Invision::Vector2 pos;
+	Invision::Vector3 color;
 
 	static VkVertexInputBindingDescription getBindingDescription()
 	{

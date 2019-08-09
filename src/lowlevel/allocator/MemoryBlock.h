@@ -35,28 +35,32 @@ enum UseHeader
 	INVISION_USE_POOLHEADER = 2
 };
 
+
+namespace Invision
+{
+	
 #define INVISION_MEM_ALLOCATION_ALLIGNMENT sizeof(char*)
 
-struct SMemoryTracking
-{
-	int lineOfFile;
-	void* filename;
-};
+	struct SMemoryTracking
+	{
+		int lineOfFile;
+		void* filename;
+	};
 
-struct SHeaderStack
-{
-	size_t size;
-	void* frontOffset;
-	void* backOffset;
-};
+	struct SHeaderStack
+	{
+		size_t size;
+		void* frontOffset;
+		void* backOffset;
+	};
 
-struct SHeaderPool
-{
-	void* next;
-};
+	struct SHeaderPool
+	{
+		void* next;
+	};
 
-class INVISION_API MemoryBlock
-{
+	class INVISION_API MemoryBlock
+	{
 	public:
 		static void* CreateMemoryBlock(void* position,
 			void** endposition,
@@ -78,7 +82,7 @@ class INVISION_API MemoryBlock
 
 		static bool CheckBoundaries(void* memoryBlock, size_t payloudSize, UseHeader header, MemoryTracking memTracking);
 	private:
-		
+
 
 		static uint8 ForwardAlignment(void* address, uint8 alignment);
 		static uint8 BackwardAlignment(void* address, uint8 alignment);
@@ -86,7 +90,7 @@ class INVISION_API MemoryBlock
 		static uint8 ForwardAlignmentWithHeader(void* address, uint8 alignment, uint8 header);
 		static uint8 BackwardAlignmentWithHeader(void* address, uint8 alignment, uint8 header);
 
-		
+
 
 		static void* Add(void* address, size_t toAdd);
 		static void* Subtract(void* address, size_t toSubtract);
@@ -96,6 +100,6 @@ class INVISION_API MemoryBlock
 		// Bound checking size
 		static const unsigned int FRONT_SIZE = 4;
 		static const unsigned int BACK_SIZE = 4;
-};
-
+	};
+}
 #endif // MEMORYBLOCK_H

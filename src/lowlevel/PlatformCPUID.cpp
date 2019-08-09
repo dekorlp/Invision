@@ -1,7 +1,7 @@
 #include "precompiled.h"
 #include "PlatformCPUID.h"
 #include "platform\CpuId.h"
-
+namespace Invision {
 	PlatformCPU::PlatformCPU()
 	{
 		SetMaxFunctions();
@@ -9,7 +9,7 @@
 		SetCPUName();
 
 		SetCPUInformation();
-		
+
 	}
 
 
@@ -22,9 +22,9 @@
 
 		CPUID cpuid(0x0000000);
 		memcpy(CPUInfo, &cpuid.EAX(), 4);
-		memcpy(CPUInfo+1, &cpuid.EBX(), 4);
-		memcpy(CPUInfo+2, &cpuid.EDX(), 4);
-		memcpy(CPUInfo+3, &cpuid.ECX(), 4);
+		memcpy(CPUInfo + 1, &cpuid.EBX(), 4);
+		memcpy(CPUInfo + 2, &cpuid.EDX(), 4);
+		memcpy(CPUInfo + 3, &cpuid.ECX(), 4);
 		_highestFunction = CPUInfo[0];
 		HighestFunction = _highestFunction;
 
@@ -42,7 +42,7 @@
 		memcpy_s(vendor + 4, 4, &cpuid.EDX(), 4);
 		memcpy_s(vendor + 8, 4, &cpuid.ECX(), 4);
 
-		VendorAlias = (char*)malloc(strlen(vendor)+1);
+		VendorAlias = (char*)malloc(strlen(vendor) + 1);
 		strcpy_s(VendorAlias, strlen(vendor) + 1, vendor);
 		VendorAlias[12] = '\0';
 	}
@@ -53,22 +53,22 @@
 
 		CPUID cpuid(0x80000002);
 		memcpy_s(name, 4, &cpuid.EAX(), 4);
-		memcpy_s(name +4, 4, &cpuid.EBX(), 4);
-		memcpy_s(name +8, 4, &cpuid.ECX(), 4);
-		memcpy_s(name +12, 4, &cpuid.EDX(), 4);
+		memcpy_s(name + 4, 4, &cpuid.EBX(), 4);
+		memcpy_s(name + 8, 4, &cpuid.ECX(), 4);
+		memcpy_s(name + 12, 4, &cpuid.EDX(), 4);
 		CPUID cpuid1(0x80000003);
-		memcpy_s(name +16, 4, &cpuid1.EAX(), 4);
-		memcpy_s(name +20, 4, &cpuid1.EBX(), 4);
-		memcpy_s(name +24, 4, &cpuid1.ECX(), 4);
-		memcpy_s(name +28, 4, &cpuid1.EDX(), 4);
+		memcpy_s(name + 16, 4, &cpuid1.EAX(), 4);
+		memcpy_s(name + 20, 4, &cpuid1.EBX(), 4);
+		memcpy_s(name + 24, 4, &cpuid1.ECX(), 4);
+		memcpy_s(name + 28, 4, &cpuid1.EDX(), 4);
 		CPUID cpuid2(0x80000004);
-		memcpy_s(name +32, 4, &cpuid2.EAX(), 4);
-		memcpy_s(name +36, 4, &cpuid2.EBX(), 4);
-		memcpy_s(name +40, 4, &cpuid2.ECX(), 4);
-		memcpy_s(name +44, 4, &cpuid2.EDX(), 4);
+		memcpy_s(name + 32, 4, &cpuid2.EAX(), 4);
+		memcpy_s(name + 36, 4, &cpuid2.EBX(), 4);
+		memcpy_s(name + 40, 4, &cpuid2.ECX(), 4);
+		memcpy_s(name + 44, 4, &cpuid2.EDX(), 4);
 
-		CpuName = (char*)malloc(strlen(name)+1);
-		strcpy_s(CpuName, strlen(name) + 1,name);
+		CpuName = (char*)malloc(strlen(name) + 1);
+		strcpy_s(CpuName, strlen(name) + 1, name);
 	}
 
 
@@ -87,7 +87,7 @@
 
 
 		CpuInformation.CpuName = CpuName;
-		
+
 		if (strcmp(VendorAlias, "GenuineIntel") == 0)
 		{
 			CpuInformation.CpuVendor = INTEL;
@@ -252,3 +252,5 @@
 		free(CpuName);
 		free(VendorAlias);
 	}
+
+}

@@ -4,45 +4,45 @@
 
 
 
-
+namespace Invision {
 #ifdef _WIN32
 
-DWORD PlatformCPUFrequency::ReadCPUSpeedFromRegistry()
-{
-	//CString sMHz;
-	char Buffer[_MAX_PATH];
-	DWORD BufSize = _MAX_PATH;
-	DWORD dwMHz = _MAX_PATH;
-	HKEY hKey;
+	DWORD PlatformCPUFrequency::ReadCPUSpeedFromRegistry()
+	{
+		//CString sMHz;
+		char Buffer[_MAX_PATH];
+		DWORD BufSize = _MAX_PATH;
+		DWORD dwMHz = _MAX_PATH;
+		HKEY hKey;
 
-	// open the key where the proc speed is hidden:
-	long lError = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-		"HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0",
-		0,
-		KEY_READ,
-		&hKey);
-
-	if (lError != ERROR_SUCCESS)
-	{// if the key is not found, tell the user why:
-		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM,
-			NULL,
-			lError,
+		// open the key where the proc speed is hidden:
+		long lError = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
+			"HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0",
 			0,
-			Buffer,
-			_MAX_PATH,
-			0);
-		//AfxMessageBox(Buffer);
-		return 0;
+			KEY_READ,
+			&hKey);
+
+		if (lError != ERROR_SUCCESS)
+		{// if the key is not found, tell the user why:
+			FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM,
+				NULL,
+				lError,
+				0,
+				Buffer,
+				_MAX_PATH,
+				0);
+			//AfxMessageBox(Buffer);
+			return 0;
+		}
+
+		// query the key:
+		RegQueryValueEx(hKey, "~MHz", NULL, NULL, (LPBYTE)&dwMHz, &BufSize);
+
+		// convert the DWORD to a CString:
+		//sMHz.Format("%i", dwMHz);
+
+		return dwMHz;
 	}
-
-	// query the key:
-	RegQueryValueEx(hKey, "~MHz", NULL, NULL, (LPBYTE)&dwMHz, &BufSize);
-
-	// convert the DWORD to a CString:
-	//sMHz.Format("%i", dwMHz);
-
-	return dwMHz;
-}
 #elif 
 	void PlatformCPUFrequency::StartTimingCPU()
 	{
@@ -99,20 +99,22 @@ DWORD PlatformCPUFrequency::ReadCPUSpeedFromRegistry()
 	}
 #endif
 
-real PlatformCPUFrequency::EstimateCpuSpeed()
-{
-#ifdef _WIN32
-	return ReadCPUSpeedFromRegistry();
-#elif
-	PlatformCPUFrequency CpuFreq;
-	CpuFreq.StartTimingCPU();
-
-	do
+	real PlatformCPUFrequency::EstimateCpuSpeed()
 	{
-		CpuFreq.UpdateCPUTime();
-		Sleep(0);
+#ifdef _WIN32
+		return ReadCPUSpeedFromRegistry();
+#elif
+		PlatformCPUFrequency CpuFreq;
+		CpuFreq.StartTimingCPU();
 
-	} while (CpuFreq.GetMilliseconds() < 1000);
-	return ((float)CpuFreq.GetTicks()) / ((float)CpuFreq.GetMilliseconds()) / 1000000.0f;
+		do
+		{
+			CpuFreq.UpdateCPUTime();
+			Sleep(0);
+
+		} while (CpuFreq.GetMilliseconds() < 1000);
+		return ((float)CpuFreq.GetTicks()) / ((float)CpuFreq.GetMilliseconds()) / 1000000.0f;
 #endif
+	}
+
 }

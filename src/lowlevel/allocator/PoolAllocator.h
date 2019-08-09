@@ -14,48 +14,49 @@
 #ifndef POOLALLOCATOR_H
 #define POOLALLOCATOR_H
 
-
-class INVISION_API PoolAllocator
+namespace Invision
 {
-public:
-	explicit PoolAllocator();
-	explicit PoolAllocator(size_t size, size_t chunksize, BoundsChecking boundsChecking = INVISION_NO_BOUNDS_CHECKING);
+	class INVISION_API PoolAllocator
+	{
+	public:
+		explicit PoolAllocator();
+		explicit PoolAllocator(size_t size, size_t chunksize, BoundsChecking boundsChecking = INVISION_NO_BOUNDS_CHECKING);
 
-	PoolAllocator(PoolAllocator&&) = delete;
-	PoolAllocator& operator==(PoolAllocator&&) = delete;
-	PoolAllocator(const PoolAllocator&) = delete;
-	PoolAllocator& operator=(const PoolAllocator&) = delete;
+		PoolAllocator(PoolAllocator&&) = delete;
+		PoolAllocator& operator==(PoolAllocator&&) = delete;
+		PoolAllocator(const PoolAllocator&) = delete;
+		PoolAllocator& operator=(const PoolAllocator&) = delete;
 
-	void Init(size_t size, size_t chunksize, BoundsChecking boundsChecking = INVISION_NO_BOUNDS_CHECKING);
-	void* Allocate();
+		void Init(size_t size, size_t chunksize, BoundsChecking boundsChecking = INVISION_NO_BOUNDS_CHECKING);
+		void* Allocate();
 
-	void Deallocate(void* block);
+		void Deallocate(void* block);
 
-	uint32 GetCountOfChunks();
-	void* GetArena();
-	size_t GetUsedMemory();
-	size_t GetTotalMemory();
+		uint32 GetCountOfChunks();
+		void* GetArena();
+		size_t GetUsedMemory();
+		size_t GetTotalMemory();
 
-	void Clear();
-	void Destroy();
-	~PoolAllocator();
-private:
-	void* arena; // start address
-	size_t size; // size of allocated Memory
-	size_t chunkSize; // size of each chunk
-	size_t usedMemory;
-	uint32 numChunks;
+		void Clear();
+		void Destroy();
+		~PoolAllocator();
+	private:
+		void* arena; // start address
+		size_t size; // size of allocated Memory
+		size_t chunkSize; // size of each chunk
+		size_t usedMemory;
+		uint32 numChunks;
 
-	BoundsChecking boundsChecking;
+		BoundsChecking boundsChecking;
 
-	void* freelist;
+		void* freelist;
 
-	void CreateFreeList(void* position, size_t blocksize, MemoryTracking memTracking,
-		BoundsChecking boundsChecking);
-	void* CreateFreeListBlock(void* position, void** newPosition, size_t blocksize, MemoryTracking memTracking,
-		BoundsChecking boundsChecking);
-	
-};
+		void CreateFreeList(void* position, size_t blocksize, MemoryTracking memTracking,
+			BoundsChecking boundsChecking);
+		void* CreateFreeListBlock(void* position, void** newPosition, size_t blocksize, MemoryTracking memTracking,
+			BoundsChecking boundsChecking);
 
+	};
+}
 
 #endif // POOLALLOCATOR_H

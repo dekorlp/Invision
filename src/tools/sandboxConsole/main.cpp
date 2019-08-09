@@ -9,8 +9,8 @@ using namespace std;
 
 void testCPUInfo()
 {
-	PlatformCPU platformCpu;
-	PlatformCPUFrequency cpufreq;
+	Invision::PlatformCPU platformCpu;
+	Invision::PlatformCPUFrequency cpufreq;
 
 	const char* name = platformCpu.GetCpuName();
 	std::cout << "Name: " << name << std::endl;
@@ -18,11 +18,10 @@ void testCPUInfo()
 	std::cout << "Frequency: " << cpufreq.EstimateCpuSpeed() << std::endl;
 }
 
-void testVector()
-{
-	Vector3 vec1(1, 4, 2);
+void testVector(){
+	Invision::Vector3 vec1(1, 4, 2);
 	//Vector3 vec2(4, 3, 1);
-	Vector3 vec2(2, 4, 2);
+	Invision::Vector3 vec2(2, 4, 2);
 	//Vector3 res = vec1 + vec2;
 	//Vector3 res = vec2 - vec1;
 	//res = vec2 + vec1;
@@ -31,13 +30,13 @@ void testVector()
 
 void testLog()
 {
-	Log log("../../../logs/log.txt");
+	Invision::Log log("../../../logs/log.txt");
 	log.RawText(std::string("HalloWelt").append("RAW"));
 	log.Info(std::string("HalloWelt").append("INFO"));
 	log.Error(std::string("HalloWelt").append("ERROR"));
 	log.Warning(std::string("HalloWelt").append("WARNING"));
 	//Log::m_pThis = &log;
-	Log::SetLogger(&log);
+	Invision::Log::SetLogger(&log);
 	INVISION_LOG_INFO(std::string("HalloWelt").append("INFO"));
 }
 
@@ -47,17 +46,17 @@ void testAllocatorBlockStack()
 	//void* arena = ::operator new (1);
 	uint32 length = 1024;
 	void* arena = malloc(length);
-	Log log("../../../logs/AllocationLog.txt");
-	Log::SetLogger(&log);
+	Invision::Log log("../../../logs/AllocationLog.txt");
+	Invision::Log::SetLogger(&log);
 	
 	void* top;
 	
-	int* test6 = (int*)MemoryBlock::CreateMemoryBlock(arena, &top, sizeof(int), __LINE__, __FILE__, INVISION_USE_STACKHEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	int* test6 = (int*)Invision::MemoryBlock::CreateMemoryBlock(arena, &top, sizeof(int), __LINE__, __FILE__, INVISION_USE_STACKHEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
 	*test6 = 0x2BEC;
-	SHeaderStack *header = MemoryBlock::GetStackHeader(test6);
-	SMemoryTracking* tracking = MemoryBlock::GetTrackingHeader(test6, INVISION_USE_STACKHEADER);
-	bool isBoundaries = MemoryBlock::CheckBoundaries(test6, sizeof(int), INVISION_USE_STACKHEADER, INVISION_ADVANCED_MEMORY_TRACKING);
-	size_t size = MemoryBlock::CalculateSize(arena, sizeof(int), INVISION_USE_STACKHEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	Invision::SHeaderStack *header = Invision::MemoryBlock::GetStackHeader(test6);
+	Invision::SMemoryTracking* tracking = Invision::MemoryBlock::GetTrackingHeader(test6, INVISION_USE_STACKHEADER);
+	bool isBoundaries = Invision::MemoryBlock::CheckBoundaries(test6, sizeof(int), INVISION_USE_STACKHEADER, INVISION_ADVANCED_MEMORY_TRACKING);
+	size_t size = Invision::MemoryBlock::CalculateSize(arena, sizeof(int), INVISION_USE_STACKHEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
 	// Ausgabe Size
 	stringstream ss1;
 	ss1 << "calculateSize(): " << size << std::endl;
@@ -76,22 +75,22 @@ void testAllocatorBlockPool()
 	//void* arena = ::operator new (1);
 	uint32 length = 1024;
 	void* arena = malloc(length);
-	Log log("../../../logs/AllocationLog.txt");
-	Log::SetLogger(&log);
+	Invision::Log log("../../../logs/AllocationLog.txt");
+	Invision::Log::SetLogger(&log);
 
 	void* top;
 
-	int* test6 = (int*)MemoryBlock::CreateMemoryBlock(arena, &top, sizeof(int), __LINE__, __FILE__, INVISION_USE_POOLHEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	int* test6 = (int*)Invision::MemoryBlock::CreateMemoryBlock(arena, &top, sizeof(int), __LINE__, __FILE__, INVISION_USE_POOLHEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
 	*test6 = 0x2BEC;
 
 	INVISION_LOG_RAWTEXT("----------Before SetPoolHeader()--------");
-	SHeaderPool *header1 = MemoryBlock::GetPoolHeader(test6);
+	Invision::SHeaderPool *header1 = Invision::MemoryBlock::GetPoolHeader(test6);
 	//memBlock.SetPoolHeader(test6, (void*)0xFFFFFFFF);
 	INVISION_LOG_RAWTEXT("----------After SetPoolHeader()-------");
-	SHeaderPool *header2 = MemoryBlock::GetPoolHeader(test6);
-	SMemoryTracking* tracking = MemoryBlock::GetTrackingHeader(test6, INVISION_USE_POOLHEADER);
-	bool isBoundaries = MemoryBlock::CheckBoundaries(test6, sizeof(int), INVISION_USE_POOLHEADER, INVISION_ADVANCED_MEMORY_TRACKING);
-	size_t size = MemoryBlock::CalculateSize(arena, sizeof(int), INVISION_USE_POOLHEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
+	Invision::SHeaderPool *header2 = Invision::MemoryBlock::GetPoolHeader(test6);
+	Invision::SMemoryTracking* tracking = Invision::MemoryBlock::GetTrackingHeader(test6, INVISION_USE_POOLHEADER);
+	bool isBoundaries = Invision::MemoryBlock::CheckBoundaries(test6, sizeof(int), INVISION_USE_POOLHEADER, INVISION_ADVANCED_MEMORY_TRACKING);
+	size_t size = Invision::MemoryBlock::CalculateSize(arena, sizeof(int), INVISION_USE_POOLHEADER, INVISION_ADVANCED_MEMORY_TRACKING, INVISION_STANDARD_BOUNDS_CHECKING);
 
 	// Ausgabe Size
 	stringstream ss1;
@@ -106,11 +105,11 @@ void testAllocatorBlockPool()
 
 void testLinearAllocator()
 {
-	Log log("../../../logs/LinearAllocationLog.txt");
-	Log::SetLogger(&log);
+	Invision::Log log("../../../logs/LinearAllocationLog.txt");
+	Invision::Log::SetLogger(&log);
 
 
-	LinearAllocator alloc;
+	Invision::LinearAllocator alloc;
 	alloc.Init(1024);
 	uint32* LinA1 = (uint32*) alloc.Allocate(sizeof(int));
 	*LinA1 = 44;
@@ -127,10 +126,10 @@ void testLinearAllocator()
 
 void testStackAllocator()
 {
-	Log log("../../../logs/StackAllocationLog.txt");
-	Log::SetLogger(&log);
+	Invision::Log log("../../../logs/StackAllocationLog.txt");
+	Invision::Log::SetLogger(&log);
 
-	StackAllocator alloc;
+	Invision::StackAllocator alloc;
 	alloc.Init(1024);
 	uint32* LinA1 = (uint32*)alloc.Allocate(sizeof(int));
 	*LinA1 = 44;
@@ -152,10 +151,10 @@ void testStackAllocator()
 
 void testPoolAllocator()
 {
-	Log log("../../../logs/PoolAllocationLog.txt");
-	Log::SetLogger(&log);
+	Invision::Log log("../../../logs/PoolAllocationLog.txt");
+	Invision::Log::SetLogger(&log);
 
-	PoolAllocator alloc;
+	Invision::PoolAllocator alloc;
 	alloc.Init(192, sizeof(int));
 	uint32* Pol1 = (uint32*) alloc.Allocate();
 	*Pol1 = 1024;

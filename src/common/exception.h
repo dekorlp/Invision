@@ -12,9 +12,10 @@
 
 #ifndef EXCEPTION_H
 #define EXCEPTION_H
-
-class invisionException
+namespace Invision
 {
+	class invisionException
+	{
 	protected:
 		const char* mHelpLink;
 		const char* mMessage;
@@ -24,190 +25,190 @@ class invisionException
 		{
 			return mMessage;
 		}
-};
+	};
 
-class invisionCoreException : protected invisionException
-{
-public:
-	invisionCoreException();
-	invisionCoreException(const char* message)
+	class invisionCoreException : protected invisionException
 	{
-		mMessage = message;
-	}
+	public:
+		invisionCoreException();
+		invisionCoreException(const char* message)
+		{
+			mMessage = message;
+		}
 
-	invisionCoreException(const char* message, const char* helpLink)
+		invisionCoreException(const char* message, const char* helpLink)
+		{
+			mMessage = message;
+			mHelpLink = helpLink;
+		}
+
+		invisionCoreException(const char* message, const char* helpLink, const char* source)
+		{
+			mMessage = message;
+			mHelpLink = helpLink;
+			mSource = source;
+		}
+	};
+
+	class invisionCoreArgumentException : protected  invisionException
 	{
-		mMessage = message;
-		mHelpLink = helpLink;
-	}
+	public:
+		invisionCoreArgumentException();
+		invisionCoreArgumentException(const char* message)
+		{
+			mMessage = message;
+		}
 
-	invisionCoreException(const char* message, const char* helpLink, const char* source)
+		invisionCoreArgumentException(const char* message, const char* helpLink)
+		{
+			mMessage = message;
+			mHelpLink = helpLink;
+		}
+
+		invisionCoreArgumentException(const char* message, const char* helpLink, const char* source)
+		{
+			mMessage = message;
+			mHelpLink = helpLink;
+			mSource = source;
+		}
+	};
+
+	class invisionCoreArgumentNullException : protected invisionException
 	{
-		mMessage = message;
-		mHelpLink = helpLink;
-		mSource = source;
-	}
-};
+	public:
+		invisionCoreArgumentNullException();
+		invisionCoreArgumentNullException(const char* message)
+		{
+			mMessage = message;
+		}
 
-class invisionCoreArgumentException : protected  invisionException
-{
-public:
-	invisionCoreArgumentException();
-	invisionCoreArgumentException(const char* message)
+		invisionCoreArgumentNullException(const char* message, const char* helpLink)
+		{
+			mMessage = message;
+			mHelpLink = helpLink;
+		}
+
+		invisionCoreArgumentNullException(const char* message, const char* helpLink, const char* source)
+		{
+			mMessage = message;
+			mHelpLink = helpLink;
+			mSource = source;
+		}
+	};
+
+	class invisionCoreArgumentOutOfRangeException : protected invisionException
 	{
-		mMessage = message;
-	}
+	public:
+		invisionCoreArgumentOutOfRangeException();
+		invisionCoreArgumentOutOfRangeException(const char* message)
+		{
+			mMessage = message;
+		}
 
-	invisionCoreArgumentException(const char* message, const char* helpLink)
+		invisionCoreArgumentOutOfRangeException(const char* message, const char* helpLink)
+		{
+			mMessage = message;
+			mHelpLink = helpLink;
+		}
+
+		invisionCoreArgumentOutOfRangeException(const char* message, const char* helpLink, const char* source)
+		{
+			mMessage = message;
+			mHelpLink = helpLink;
+			mSource = source;
+		}
+	};
+
+	class invisionCoreOutOfMemory : protected invisionException
 	{
-		mMessage = message;
-		mHelpLink = helpLink;
-	}
+	public:
+		invisionCoreOutOfMemory();
+		invisionCoreOutOfMemory(const char* message)
+		{
+			mMessage = message;
+		}
 
-	invisionCoreArgumentException(const char* message, const char* helpLink, const char* source)
+		invisionCoreOutOfMemory(const char* message, const char* helpLink)
+		{
+			mMessage = message;
+			mHelpLink = helpLink;
+		}
+
+		invisionCoreOutOfMemory(const char* message, const char* helpLink, const char* source)
+		{
+			mMessage = message;
+			mHelpLink = helpLink;
+			mSource = source;
+		}
+	};
+
+	class invisionCoreMemoryIsCorrupted : protected invisionException
 	{
-		mMessage = message;
-		mHelpLink = helpLink;
-		mSource = source;
-	}
-};
+	public:
+		invisionCoreMemoryIsCorrupted();
+		invisionCoreMemoryIsCorrupted(const char* message)
+		{
+			mMessage = message;
+		}
 
-class invisionCoreArgumentNullException : protected invisionException
-{
-public:
-	invisionCoreArgumentNullException();
-	invisionCoreArgumentNullException(const char* message)
+		invisionCoreMemoryIsCorrupted(const char* message, const char* helpLink)
+		{
+			mMessage = message;
+			mHelpLink = helpLink;
+		}
+
+		invisionCoreMemoryIsCorrupted(const char* message, const char* helpLink, const char* source)
+		{
+			mMessage = message;
+			mHelpLink = helpLink;
+			mSource = source;
+		}
+	};
+
+	class invisionCoreMemoryHasWrongAlignment : protected invisionException
 	{
-		mMessage = message;
-	}
+	public:
+		invisionCoreMemoryHasWrongAlignment();
+		invisionCoreMemoryHasWrongAlignment(const char* message)
+		{
+			mMessage = message;
+		}
 
-	invisionCoreArgumentNullException(const char* message, const char* helpLink)
+		invisionCoreMemoryHasWrongAlignment(const char* message, const char* helpLink)
+		{
+			mMessage = message;
+			mHelpLink = helpLink;
+		}
+
+		invisionCoreMemoryHasWrongAlignment(const char* message, const char* helpLink, const char* source)
+		{
+			mMessage = message;
+			mHelpLink = helpLink;
+			mSource = source;
+		}
+	};
+
+	class invisionCoreMemoryNoLogObject : protected invisionException
 	{
-		mMessage = message;
-		mHelpLink = helpLink;
-	}
+	public:
+		invisionCoreMemoryNoLogObject();
+		invisionCoreMemoryNoLogObject(const char* message)
+		{
+			mMessage = message;
+		}
 
-	invisionCoreArgumentNullException(const char* message, const char* helpLink, const char* source)
-	{
-		mMessage = message;
-		mHelpLink = helpLink;
-		mSource = source;
-	}
-};
+		invisionCoreMemoryNoLogObject(const char* message, const char* helpLink)
+		{
+			mMessage = message;
+			mHelpLink = helpLink;
+		}
 
-class invisionCoreArgumentOutOfRangeException : protected invisionException
-{
-public:
-	invisionCoreArgumentOutOfRangeException();
-	invisionCoreArgumentOutOfRangeException(const char* message)
-	{
-		mMessage = message;
-	}
-
-	invisionCoreArgumentOutOfRangeException(const char* message, const char* helpLink)
-	{
-		mMessage = message;
-		mHelpLink = helpLink;
-	}
-
-	invisionCoreArgumentOutOfRangeException(const char* message, const char* helpLink, const char* source)
-	{
-		mMessage = message;
-		mHelpLink = helpLink;
-		mSource = source;
-	}
-};
-
-class invisionCoreOutOfMemory : protected invisionException
-{
-public:
-	invisionCoreOutOfMemory();
-	invisionCoreOutOfMemory(const char* message)
-	{
-		mMessage = message;
-	}
-
-	invisionCoreOutOfMemory(const char* message, const char* helpLink)
-	{
-		mMessage = message;
-		mHelpLink = helpLink;
-	}
-
-	invisionCoreOutOfMemory(const char* message, const char* helpLink, const char* source)
-	{
-		mMessage = message;
-		mHelpLink = helpLink;
-		mSource = source;
-	}
-};
-
-class invisionCoreMemoryIsCorrupted : protected invisionException
-{
-public:
-	invisionCoreMemoryIsCorrupted();
-	invisionCoreMemoryIsCorrupted(const char* message)
-	{
-		mMessage = message;
-	}
-
-	invisionCoreMemoryIsCorrupted(const char* message, const char* helpLink)
-	{
-		mMessage = message;
-		mHelpLink = helpLink;
-	}
-
-	invisionCoreMemoryIsCorrupted(const char* message, const char* helpLink, const char* source)
-	{
-		mMessage = message;
-		mHelpLink = helpLink;
-		mSource = source;
-	}
-};
-
-class invisionCoreMemoryHasWrongAlignment : protected invisionException
-{
-public:
-	invisionCoreMemoryHasWrongAlignment();
-	invisionCoreMemoryHasWrongAlignment(const char* message)
-	{
-		mMessage = message;
-	}
-
-	invisionCoreMemoryHasWrongAlignment(const char* message, const char* helpLink)
-	{
-		mMessage = message;
-		mHelpLink = helpLink;
-	}
-
-	invisionCoreMemoryHasWrongAlignment(const char* message, const char* helpLink, const char* source)
-	{
-		mMessage = message;
-		mHelpLink = helpLink;
-		mSource = source;
-	}
-};
-
-class invisionCoreMemoryNoLogObject : protected invisionException
-{
-public:
-	invisionCoreMemoryNoLogObject();
-	invisionCoreMemoryNoLogObject(const char* message)
-	{
-		mMessage = message;
-	}
-
-	invisionCoreMemoryNoLogObject(const char* message, const char* helpLink)
-	{
-		mMessage = message;
-		mHelpLink = helpLink;
-	}
-
-	invisionCoreMemoryNoLogObject(const char* message, const char* helpLink, const char* source)
-	{
-		mMessage = message;
-		mHelpLink = helpLink;
-		mSource = source;
-	}
-};
-
+		invisionCoreMemoryNoLogObject(const char* message, const char* helpLink, const char* source)
+		{
+			mMessage = message;
+			mHelpLink = helpLink;
+			mSource = source;
+		}
+	};
+}
 #endif // EXCEPTION_H

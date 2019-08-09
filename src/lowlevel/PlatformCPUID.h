@@ -12,8 +12,9 @@
 
 #ifndef PLATFORMCPUID_H
 #define PLATFORMCPUID_H
-
-enum INVISION_API CPUVENDOR {
+namespace Invision
+{
+	enum INVISION_API CPUVENDOR {
 		UNKNOWNCPUVENDOR = 0,
 		AMD = 1,
 		INTEL = 2,
@@ -114,10 +115,10 @@ enum INVISION_API CPUVENDOR {
 		uint32 GetHighestFunction();
 		uint32 GetHighestAdvancedFunction();
 		uint32 GetLogicalCpuCores();
-		
+
 		CPUINFORMATION GetCPUInformation();
 
 		~PlatformCPU();
 	};
-
+}
 #endif //PLATFORMCPUID_H

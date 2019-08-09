@@ -14,39 +14,40 @@
 #ifndef STACKALLOCATOR_H
 #define STACKALLOCATOR_H
 
-
-class INVISION_API StackAllocator
+namespace Invision
 {
-public:
-	explicit StackAllocator();
-	explicit StackAllocator(size_t size);
+	class INVISION_API StackAllocator
+	{
+	public:
+		explicit StackAllocator();
+		explicit StackAllocator(size_t size);
 
-	StackAllocator(StackAllocator&&) = delete;
-	StackAllocator& operator==(StackAllocator&&) = delete;
-	StackAllocator(const StackAllocator&) = delete;
-	StackAllocator& operator=(const StackAllocator&) = delete;
+		StackAllocator(StackAllocator&&) = delete;
+		StackAllocator& operator==(StackAllocator&&) = delete;
+		StackAllocator(const StackAllocator&) = delete;
+		StackAllocator& operator=(const StackAllocator&) = delete;
 
-	void Init(size_t size);
-	void* Allocate(size_t blocksize, uint32 line = 0, char* file = "", MemoryTracking memTracking = INVISION_DEFAULT_MEMORY_TRACKING,
-		BoundsChecking boundsChecking = INVISION_NO_BOUNDS_CHECKING);
-	void Deallocate(void* block);
+		void Init(size_t size);
+		void* Allocate(size_t blocksize, uint32 line = 0, char* file = "", MemoryTracking memTracking = INVISION_DEFAULT_MEMORY_TRACKING,
+			BoundsChecking boundsChecking = INVISION_NO_BOUNDS_CHECKING);
+		void Deallocate(void* block);
 
-	uint32 GetCountOfChunks();
-	void* GetArena();
-	size_t GetUsedMemory();
-	size_t GetTotalMemory();
+		uint32 GetCountOfChunks();
+		void* GetArena();
+		size_t GetUsedMemory();
+		size_t GetTotalMemory();
 
-	void Clear();
-	void Destroy();
-	~StackAllocator();
-private:
-	void* arena; // start address
-	void* currentOffset; // boundary between used and free memory
-	size_t size; // size of allocated Memory
-	size_t usedMemory;
-	uint32 numChunks;
+		void Clear();
+		void Destroy();
+		~StackAllocator();
+	private:
+		void* arena; // start address
+		void* currentOffset; // boundary between used and free memory
+		size_t size; // size of allocated Memory
+		size_t usedMemory;
+		uint32 numChunks;
 
-};
-
+	};
+}
 
 #endif //STACKALLOCATOR_H
