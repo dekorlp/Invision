@@ -183,10 +183,8 @@ project "Invision"
 	}	
 	
 	includedirs {
-		srcroot .. "common/",
-		srcroot .. "lowlevel/",
-		srcroot .. "math",
-		srcroot .. "renderer"
+		srcroot,
+		srcroot .. "common/"
 	}
 	
 	filter "system:Windows"	

@@ -17,8 +17,8 @@
 #include <string>
 #include "Vulkan/vulkan.h"
 //#include <glm/glm.hpp>
-#include "Vector2.h"
-#include "Vector3.h"
+#include "math/Vector2.h"
+#include "math/Vector3.h"
 
 class Vector3;
 class Vector2;
