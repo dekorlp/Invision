@@ -13,7 +13,7 @@ namespace Invision {
 	{
 		if (text == NULL)
 		{
-			throw invisionCoreArgumentException("");
+			throw InvisionArgumentException("");
 		}
 
 
@@ -31,7 +31,7 @@ namespace Invision {
 	{
 		if (bs.GetContent() == NULL)
 		{
-			throw invisionCoreArgumentException("");
+			throw InvisionArgumentException("");
 		}
 
 

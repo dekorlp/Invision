@@ -118,12 +118,12 @@ namespace Invision
 		{
 			if (pos + len > this->GetLength())
 			{
-				throw invisionCoreArgumentOutOfRangeException("Argument 'size_t pos and size_t len' is out of Range");
+				throw InvisionArgumentOutOfRangeException("Argument 'size_t pos and size_t len' is out of Range");
 			}
 
 			if (pos < 0 || len < 0)
 			{
-				throw invisionCoreArgumentOutOfRangeException("Argument 'pos or len' is out of Range");
+				throw InvisionArgumentOutOfRangeException("Argument 'pos or len' is out of Range");
 			}
 
 			boost::shared_array<U> tmp(new U[len + 1]);
@@ -300,13 +300,13 @@ namespace Invision
 		{
 			if (oldValue == NULL || newValue == NULL)
 			{
-				throw invisionCoreArgumentNullException("Argument 'oldValue or newValue' is Null");
+				throw InvisionArgumentNullException("Argument 'oldValue or newValue' is Null");
 			}
 
 			//if (oldValue = "")
 			if (inStrlen(oldValue) == 0)
 			{
-				throw invisionCoreArgumentException("Argument 'oldValue' is empty");
+				throw InvisionArgumentException("Argument 'oldValue' is empty");
 			}
 
 			size_t inCounter = 0;
@@ -382,12 +382,12 @@ namespace Invision
 		{
 			if (startIndex + count > this->GetLength())
 			{
-				throw invisionCoreArgumentOutOfRangeException("Argument 'size_t pos and size_t len' is out of Range");
+				throw InvisionArgumentOutOfRangeException("Argument 'size_t pos and size_t len' is out of Range");
 			}
 
 			if (startIndex < 0 || count < 0)
 			{
-				throw invisionCoreArgumentOutOfRangeException("Argument 'pos or len' is out of Range");
+				throw InvisionArgumentOutOfRangeException("Argument 'pos or len' is out of Range");
 			}
 
 			boost::shared_array<U> origText(new U[this->mLength - count + 1]);
@@ -413,12 +413,12 @@ namespace Invision
 		{
 			if (value == NULL)
 			{
-				throw invisionCoreArgumentNullException("Argument 'T value' is NULL");
+				throw InvisionArgumentNullException("Argument 'T value' is NULL");
 			}
 
 			if (Startindex < 0 || Startindex > this->GetLength())
 			{
-				throw invisionCoreArgumentOutOfRangeException("Argument 'startIndex' is out of Range");
+				throw InvisionArgumentOutOfRangeException("Argument 'startIndex' is out of Range");
 			}
 
 			size_t Index = -1;
@@ -455,12 +455,12 @@ namespace Invision
 		{
 			if (value == NULL)
 			{
-				throw invisionCoreArgumentNullException("Argument 'T value' is NULL");
+				throw InvisionArgumentNullException("Argument 'T value' is NULL");
 			}
 
 			if (startIndex < 0 || startIndex > this->GetLength())
 			{
-				throw invisionCoreArgumentOutOfRangeException("Argument 'startIndex' is out of Range");
+				throw InvisionArgumentOutOfRangeException("Argument 'startIndex' is out of Range");
 			}
 
 			size_t Index = -1;
@@ -481,12 +481,12 @@ namespace Invision
 		{
 			if (value == NULL)
 			{
-				throw invisionCoreArgumentNullException("Argument 'T value' is NULL");
+				throw InvisionArgumentNullException("Argument 'T value' is NULL");
 			}
 
 			if (Startindex < 0 || Startindex > this->GetLength())
 			{
-				throw invisionCoreArgumentOutOfRangeException("Argument 'startIndex' is out of Range");
+				throw InvisionArgumentOutOfRangeException("Argument 'startIndex' is out of Range");
 			}
 
 			size_t Index = -1;
@@ -520,12 +520,12 @@ namespace Invision
 		{
 			if (value == NULL)
 			{
-				throw invisionCoreArgumentNullException("Argument 'T value' is NULL");
+				throw InvisionArgumentNullException("Argument 'T value' is NULL");
 			}
 
 			if (startIndex < 0 || startIndex > this->GetLength())
 			{
-				throw invisionCoreArgumentOutOfRangeException("Argument 'startIndex' is out of Range");
+				throw InvisionArgumentOutOfRangeException("Argument 'startIndex' is out of Range");
 			}
 
 			size_t Index = -1;
@@ -545,7 +545,7 @@ namespace Invision
 		{
 			if (value == NULL)
 			{
-				throw invisionCoreArgumentNullException("Argument 'T value' is NULL");
+				throw InvisionArgumentNullException("Argument 'T value' is NULL");
 			}
 
 			bool bEndsWith = false;
@@ -571,7 +571,7 @@ namespace Invision
 		{
 			if (value == NULL)
 			{
-				throw invisionCoreArgumentNullException("Argument 'T value' is NULL");
+				throw InvisionArgumentNullException("Argument 'T value' is NULL");
 			}
 
 			bool bEndsWith = false;
@@ -599,12 +599,12 @@ namespace Invision
 		{
 			if (paddingChar == NULL)
 			{
-				throw invisionCoreArgumentNullException("Argument 'T value' is NULL");
+				throw InvisionArgumentNullException("Argument 'T value' is NULL");
 			}
 
 			if (totalWidth < 0)
 			{
-				throw invisionCoreArgumentOutOfRangeException("Argument 'startIndex' is out of Range");
+				throw InvisionArgumentOutOfRangeException("Argument 'startIndex' is out of Range");
 			}
 
 			boost::shared_array<U> origText(new U[this->mLength + totalWidth + 1]);
@@ -631,12 +631,12 @@ namespace Invision
 		{
 			if (paddingChar == NULL)
 			{
-				throw invisionCoreArgumentNullException("Argument 'T value' is NULL");
+				throw InvisionArgumentNullException("Argument 'T value' is NULL");
 			}
 
 			if (totalWidth < 0)
 			{
-				throw invisionCoreArgumentOutOfRangeException("Argument 'startIndex' is out of Range");
+				throw InvisionArgumentOutOfRangeException("Argument 'startIndex' is out of Range");
 			}
 
 			boost::shared_array<U> origText(new U[this->mLength + totalWidth + 1]);
@@ -665,12 +665,12 @@ namespace Invision
 		{
 			if (value == NULL)
 			{
-				throw invisionCoreArgumentNullException("Argument 'T value' is Null");
+				throw InvisionArgumentNullException("Argument 'T value' is Null");
 			}
 
 			if (startIndex < 0 || startIndex > this->mLength)
 			{
-				throw invisionCoreArgumentOutOfRangeException("Argument 'size_t startIndex' is out of Range");
+				throw InvisionArgumentOutOfRangeException("Argument 'size_t startIndex' is out of Range");
 			}
 
 			boost::shared_array<U> origText(new U[this->mLength + inStrlen(value) + 1]);

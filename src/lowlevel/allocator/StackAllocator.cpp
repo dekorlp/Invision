@@ -57,7 +57,7 @@ namespace Invision {
 		if (usedMemory + calcultedSize > size)
 		{
 #ifdef _DEBUG
-			throw invisionCoreOutOfMemory("There is not enough additional memory available!");
+			throw InvisionOutOfMemory("There is not enough additional memory available!");
 #endif
 			INVISION_LOG_RAWTEXT("There is not enough additional memory available!");
 			return nullptr;

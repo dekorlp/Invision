@@ -352,7 +352,7 @@ namespace Invision {
 
 #ifdef _DEBUG
 		INVISION_LOG_ERROR("EXCEPTION OCCURED: Memory is corrupted!");
-		throw invisionCoreOutOfMemory("Memory is corrupted!");
+		throw InvisionOutOfMemory("Memory is corrupted!");
 #endif 
 
 		return false;
@@ -365,7 +365,7 @@ namespace Invision {
 		if (!isPowerOfTwo(alignment))
 		{
 			INVISION_LOG_WARNING("Allignment is not a power of two");
-			throw invisionCoreMemoryHasWrongAlignment("Alignment has not a Power of Two!");
+			throw InvisionMemoryHasWrongAlignment("Alignment has not a Power of Two!");
 		}
 #endif
 
@@ -385,7 +385,7 @@ namespace Invision {
 		if (!isPowerOfTwo(alignment))
 		{
 			INVISION_LOG_WARNING("Allignment is not a power of two");
-			throw invisionCoreMemoryHasWrongAlignment("Alignment has not a Power of Two!");
+			throw InvisionMemoryHasWrongAlignment("Alignment has not a Power of Two!");
 		}
 #endif
 
@@ -405,7 +405,7 @@ namespace Invision {
 		if (!isPowerOfTwo(alignment))
 		{
 			INVISION_LOG_WARNING("Allignment is not a power of two");
-			throw invisionCoreMemoryHasWrongAlignment("Alignment has not a Power of Two!");
+			throw InvisionMemoryHasWrongAlignment("Alignment has not a Power of Two!");
 		}
 #endif
 
@@ -434,7 +434,7 @@ namespace Invision {
 		if (!isPowerOfTwo(alignment))
 		{
 			INVISION_LOG_WARNING("Allignment is not a power of two");
-			throw invisionCoreMemoryHasWrongAlignment("Alignment has not a Power of Two!");
+			throw InvisionMemoryHasWrongAlignment("Alignment has not a Power of Two!");
 		}
 #endif
 

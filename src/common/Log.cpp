@@ -30,7 +30,7 @@ namespace Invision {
 		{
 			stream.flush();
 			stream.close();
-			throw invisionCoreException(std::string("Cannot open File " + filename).c_str());
+			throw InvisionException(std::string("Cannot open File " + filename).c_str());
 		}
 	}
 
@@ -38,7 +38,7 @@ namespace Invision {
 	{
 		if (Log::isSet == false)
 		{
-			throw invisionCoreMemoryNoLogObject("No Log Object assigned. Use SetLogger() to set a Log Object first!");
+			throw InvisionMemoryNoLogObject("No Log Object assigned. Use SetLogger() to set a Log Object first!");
 		}
 
 		if (stream.is_open())
@@ -47,7 +47,7 @@ namespace Invision {
 		}
 		else
 		{
-			throw invisionCoreException(std::string("Cannot access File " + this->filename).c_str());
+			throw InvisionException(std::string("Cannot access File " + this->filename).c_str());
 		}
 	}
 
@@ -55,7 +55,7 @@ namespace Invision {
 	{
 		if (Log::isSet == false)
 		{
-			throw invisionCoreMemoryNoLogObject("No Log Object assigned. Use SetLogger() to set a Log Object first!");
+			throw InvisionMemoryNoLogObject("No Log Object assigned. Use SetLogger() to set a Log Object first!");
 		}
 
 		if (stream.is_open())
@@ -64,7 +64,7 @@ namespace Invision {
 		}
 		else
 		{
-			throw invisionCoreException(std::string("Cannot access File " + this->filename).c_str());
+			throw InvisionException(std::string("Cannot access File " + this->filename).c_str());
 		}
 	}
 
@@ -72,7 +72,7 @@ namespace Invision {
 	{
 		if (Log::isSet == false)
 		{
-			throw invisionCoreMemoryNoLogObject("No Log Object assigned. Use SetLogger() to set a Log Object first!");
+			throw InvisionMemoryNoLogObject("No Log Object assigned. Use SetLogger() to set a Log Object first!");
 		}
 
 		if (stream.is_open())
@@ -81,7 +81,7 @@ namespace Invision {
 		}
 		else
 		{
-			throw invisionCoreException(std::string("Cannot access File " + this->filename).c_str());
+			throw InvisionException(std::string("Cannot access File " + this->filename).c_str());
 		}
 	}
 
@@ -89,7 +89,7 @@ namespace Invision {
 	{
 		if (Log::isSet == false)
 		{
-			throw invisionCoreMemoryNoLogObject("No Log Object assigned. Use SetLogger() to set a Log Object first!");
+			throw InvisionMemoryNoLogObject("No Log Object assigned. Use SetLogger() to set a Log Object first!");
 		}
 
 		if (stream.is_open())
@@ -98,7 +98,7 @@ namespace Invision {
 		}
 		else
 		{
-			throw invisionCoreException(std::string("Cannot access File " + this->filename).c_str());
+			throw InvisionException(std::string("Cannot access File " + this->filename).c_str());
 		}
 	}
 
@@ -106,7 +106,7 @@ namespace Invision {
 	{
 		if (Log::isSet == false)
 		{
-			throw invisionCoreMemoryNoLogObject("No Log Object assigned. Use SetLogger() to set a Log Object first!");
+			throw InvisionMemoryNoLogObject("No Log Object assigned. Use SetLogger() to set a Log Object first!");
 		}
 
 		std::stringstream ss;
@@ -118,7 +118,7 @@ namespace Invision {
 	{
 		if (Log::isSet == false)
 		{
-			throw invisionCoreMemoryNoLogObject("No Log Object assigned. Use SetLogger() to set a Log Object first!");
+			throw InvisionMemoryNoLogObject("No Log Object assigned. Use SetLogger() to set a Log Object first!");
 		}
 
 		std::stringstream ss;
