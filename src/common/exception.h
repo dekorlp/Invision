@@ -21,7 +21,7 @@ namespace Invision
 		const char* mMessage;
 		const char* mSource;
 	public:
-		virtual const char* what()
+		virtual const char* what() const
 		{
 			return mMessage;
 		}
