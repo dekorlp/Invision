@@ -17,7 +17,7 @@ namespace Invision {
 		}
 
 
-		InBaseString<const tChar*, tChar> baseString(text, strlen(text), CRC::getCRC32(text));
+		InBaseString<const tChar*, tChar> baseString(text, strlen(text), Hash::getHash(text));
 		size_t id = baseString.GetCRCID();
 
 		if (mBaseTable.find(id) == mBaseTable.end())
@@ -49,7 +49,7 @@ namespace Invision {
 
 	bool InStringA::operator == (const tChar* rValue)
 	{
-		return rBaseString->operator==(CRC::getCRC32(rValue));
+		return rBaseString->operator==(Hash::getHash(rValue));
 	}
 
 	bool InStringA::operator == (InStringA rValue)

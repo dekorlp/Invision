@@ -13,24 +13,33 @@
 #ifndef CRC_H
 #define CRC_H
 
+#include <functional>
 
 namespace Invision
 {
-	class INVISION_API CRC
+	class INVISION_API Hash
 	{
 	public:
-		static uint32 getCRC32(const char* data)
+		static uint32 getHash(const char* data)
 		{
-			boost::crc_32_type result;
-			result.process_bytes(data, strlen(data));
-			return result.checksum();
+			//boost::crc_32_type result;
+			//result.process_bytes(data, strlen(data));
+			//return result.checksum();
+
+			std::hash<const char*> hash;
+			uint32 str_hash = hash(data);
+			return str_hash;
 		}
 
-		static uint32 getCRC32(const wchar_t* data)
+		static uint32 getHash(const wchar_t* data)
 		{
-			boost::crc_32_type result;
-			result.process_bytes(data, wcslen(data));
-			return result.checksum();
+			//boost::crc_32_type result;
+			//result.process_bytes(data, wcslen(data));
+			//return result.checksum();
+
+			std::hash<const wchar_t*> hash;
+			uint32 str_hash = hash(data);
+			return str_hash;
 		}
 	};
 }

@@ -70,7 +70,7 @@ namespace Invision
 		{
 			mLength = inStrlen(text.get());
 			//mLength = (sizeof(text.get()) * sizeof(U));
-			mCRCID = CRC::getCRC32(text.get());
+			mCRCID = Hash::getHash(text.get());
 			mRefCount = 0;
 			mText = text;
 			addRef();
@@ -259,7 +259,7 @@ namespace Invision
 					tmp[origTextCursor] = '\0';
 					splitedStringIndex++;
 					origTextCursor = 0;
-					splitedStrings.push_back(InBaseString(tmp, inStrlen(tmp), CRC::getCRC32(tmp)));
+					splitedStrings.push_back(InBaseString(tmp, inStrlen(tmp), Hash::getHash(tmp)));
 					//splitedStrings.push_back(InBaseString(tmp, (sizeof(tmp) * sizeof(U)), CRC::getCRC32(tmp)));
 				}
 			}
