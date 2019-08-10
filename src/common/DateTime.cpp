@@ -14,6 +14,12 @@ DateTime::DateTime(int32 year, int32 month, int32 day)
 	setDateTime(year, month, day);
 }
 
+DateTime::DateTime(int32 year, int32 month, int32 day, int32 hour, int32 minute, int32 second)
+{
+	setDateTime(year, month, day, hour, minute, second);
+}
+
+
 void DateTime::setDateTime(int32 year, int32 month, int32 day)
 {
 	const short days_since_beginOfYear[12] = /* Days since beginning of the new year without days of actual month and without leap Day */
@@ -30,11 +36,6 @@ void DateTime::setDateTime(int32 year, int32 month, int32 day)
 	if ((month>2) && (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)))
 		unix_time += 60 * 60 * 24; /* +leap Day if year is leapYear */
 	this->timestamp = unix_time;
-}
-
-DateTime::DateTime(int32 year, int32 month, int32 day, int32 hour, int32 minute, int32 second)
-{
-	setDateTime(year, month, day, hour, minute, second);
 }
 
 void DateTime::setDateTime(int32 year, int32 month, int32 day, int32 hour, int32 minute, int32 second)
