@@ -14,7 +14,7 @@
 #define EXCEPTION_H
 namespace Invision
 {
-	class InvisionBaseException
+	class INVISION_API InvisionBaseException
 	{
 	protected:
 		const char* mHelpLink;
