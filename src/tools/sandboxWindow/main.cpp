@@ -34,7 +34,7 @@ class VulkanApp : public wxApp
 		{
 			Invision::Log log("../../../logs/log.txt");
 			Invision::Log::SetLogger(&log);
-			throw Invision::VulkanException("Exception wird geworfen");
+			//throw Invision::VulkanException("Exception wird geworfen");
 		}
 		~VulkanApp()
 		{
