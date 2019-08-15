@@ -22,18 +22,8 @@
 #endif
 #endif
 
-#include <vulkan\vulkan.h>
 #include "InCommon.h"
-#include "renderer\Vulkan\Vulkan.h"
 
-void debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
-	VkDebugUtilsMessageTypeFlagsEXT messageType,
-	const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData)
-{
-	std::stringstream ss;
-	ss << "validation layer: " << pCallbackData->pMessage;
-	INVISION_LOG_RAWTEXT(ss.str());
-}
 
 class VulkanApp : public wxApp
 {
@@ -44,12 +34,11 @@ class VulkanApp : public wxApp
 			Invision::Log::SetLogger(&log);
 			//throw Invision::VulkanException("Exception wird geworfen");
 			
-			vulkan.Init();
-			vulkan.SetDebugMessanger(debugCallback);
+			
 		}
 		~VulkanApp()
 		{
-			vulkan.Destroy();
+			
 		}
 		bool OnInit()
 		{
@@ -74,7 +63,6 @@ class VulkanApp : public wxApp
 			return true;
 		}
 private:
-	Invision::Vulkan vulkan;
 	Invision::Log log;
 };
 

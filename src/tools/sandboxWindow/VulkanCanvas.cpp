@@ -13,11 +13,14 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	Bind(wxEVT_PAINT, &VulkanCanvas::OnPaint, this);
 	Bind(wxEVT_SIZE, &VulkanCanvas::OnResize, this);
 	WXHWND hwnd = this->GetHandle(); // get window handle
+
+	vulkan.Init();
+	vulkan.SetDebugMessanger(debugCallback);
 }
 
 VulkanCanvas::~VulkanCanvas() noexcept
 {
-	
+	vulkan.Destroy();
 }
 
 void VulkanCanvas::OnPaint(wxPaintEvent& event)

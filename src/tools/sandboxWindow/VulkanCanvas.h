@@ -6,6 +6,19 @@
 #include "wx/wx.h"
 #endif
 
+#include "InCommon.h"
+#include "renderer\Vulkan\Vulkan.h"
+
+static void debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+	VkDebugUtilsMessageTypeFlagsEXT messageType,
+	const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData)
+{
+	std::stringstream ss;
+	ss << "validation layer: " << pCallbackData->pMessage;
+	INVISION_LOG_RAWTEXT(ss.str());
+}
+
+
 class VulkanCanvas : public wxWindow
 {
 public:
@@ -25,4 +38,6 @@ private:
 	void OnPaintException(const std::string& msg);
 
 	wxSize m_Size;
+
+	Invision::Vulkan vulkan;
 };
