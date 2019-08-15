@@ -26,6 +26,15 @@ namespace Invision
 		return VK_FALSE;
 	}
 
+	Vulkan::Vulkan() : mInstance(nullptr)
+	{
+#ifdef NDEBUG
+		mEnableValidationLayers = false;
+#else
+		mEnableValidationLayers = true;
+#endif
+	}
+
 	void Vulkan::Init()
 	{
 		CreateInstance();
@@ -35,7 +44,7 @@ namespace Invision
 		VkDebugUtilsMessageTypeFlagsEXT messageType,
 		const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData))
 	{
-		if (!enableValidationLayers) return;
+		if (!mEnableValidationLayers) return;
 
 		if (debugFunc != nullptr)
 		{
@@ -45,7 +54,7 @@ namespace Invision
 		VkDebugUtilsMessengerCreateInfoEXT createInfo;
 		populateDebugMessengerCreateInfo(createInfo);
 
-		if (CreateDebugUtilsMessengerEXT(mVkInstance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS) {
+		if (CreateDebugUtilsMessengerEXT(mInstance, &createInfo, nullptr, &mDebugMessanger) != VK_SUCCESS) {
 			throw std::runtime_error("failed to set up debug messenger!");
 		}
 
@@ -61,18 +70,18 @@ namespace Invision
 
 	void Vulkan::Destroy()
 	{
-		if (enableValidationLayers)
+		if (mEnableValidationLayers)
 		{
-			DestroyDebugUtilsMessengerEXT(mVkInstance, debugMessenger, nullptr);
+			DestroyDebugUtilsMessengerEXT(mInstance, mDebugMessanger, nullptr);
 		}
 
-		vkDestroyInstance(mVkInstance, nullptr);
+		vkDestroyInstance(mInstance, nullptr);
 	}
 
 	void Vulkan::CreateInstance()
 	{
 
-		mVkInstance = nullptr;
+		mInstance = nullptr;
 
 		// make sure that the Vulkan library is available on this system
 #ifdef _WIN32
@@ -103,7 +112,7 @@ namespace Invision
 		std::vector<const char*> requiredExtensions = { "VK_KHR_surface", "VK_KHR_win32_surface" };
 
 		// extension is Required!
-		if (enableValidationLayers)
+		if (mEnableValidationLayers)
 		{
 			requiredExtensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 		}
@@ -117,14 +126,14 @@ namespace Invision
 		instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(requiredExtensions.size());
 		instanceCreateInfo.ppEnabledExtensionNames = requiredExtensions.data();
 
-		if (enableValidationLayers && !CheckValidationLayerSupport(validationLayers))
+		if (mEnableValidationLayers && !CheckValidationLayerSupport(validationLayers))
 		{
 			throw VulkanException("validation layers requested, but not available!");
 		}
 
 
 		VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo;
-		if (enableValidationLayers)
+		if (mEnableValidationLayers)
 		{
 			instanceCreateInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
 			instanceCreateInfo.ppEnabledLayerNames = validationLayers.data();
@@ -140,7 +149,7 @@ namespace Invision
 			instanceCreateInfo.pNext = nullptr;
 		}
 
-		if (vkCreateInstance(&instanceCreateInfo, nullptr, &mVkInstance) != VK_SUCCESS)
+		if (vkCreateInstance(&instanceCreateInfo, nullptr, &mInstance) != VK_SUCCESS)
 		{
 			throw VulkanException("failed to create instance!");
 		}

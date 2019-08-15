@@ -8,6 +8,7 @@ namespace Invision
 	class INVISION_API Vulkan
 	{
 	public:
+		Vulkan();
 		void Init();
 		void SetDebugMessanger(void(*debugFunc)(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
 			VkDebugUtilsMessageTypeFlagsEXT messageType,
@@ -27,17 +28,11 @@ namespace Invision
 			const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
 			void* pUserData);
 
-		VkInstance mVkInstance;
+		VkInstance mInstance;
 
-		VkDebugUtilsMessengerEXT debugMessenger;
+		VkDebugUtilsMessengerEXT mDebugMessanger;
 
-
-#ifdef NDEBUG
-		const bool enableValidationLayers = false;
-#else
-		const bool enableValidationLayers = true;
-#endif
-
+		bool mEnableValidationLayers;
 		
 
 	};
