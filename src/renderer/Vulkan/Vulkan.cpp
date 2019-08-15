@@ -4,12 +4,13 @@
 
 namespace Invision
 {
-
-	static void(*invisionDebugFunc)(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
-		VkDebugUtilsMessageTypeFlagsEXT messageType,
-		const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData);
+	namespace {
+		static void(*invisionDebugFunc)(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+			VkDebugUtilsMessageTypeFlagsEXT messageType,
+			const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData);
+	}
 	
-	static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
+	VKAPI_ATTR VkBool32 VKAPI_CALL Vulkan::debugCallback(
 		VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
 		VkDebugUtilsMessageTypeFlagsEXT messageType,
 		const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
