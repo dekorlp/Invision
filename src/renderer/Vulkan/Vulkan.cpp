@@ -61,6 +61,11 @@ namespace Invision
 
 	void Vulkan::Destroy()
 	{
+		if (enableValidationLayers)
+		{
+			DestroyDebugUtilsMessengerEXT(mVkInstance, debugMessenger, nullptr);
+		}
+
 		vkDestroyInstance(mVkInstance, nullptr);
 	}
 
@@ -210,6 +215,13 @@ namespace Invision
 		}
 		else {
 			return VK_ERROR_EXTENSION_NOT_PRESENT;
+		}
+	}
+
+	void Vulkan::DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator) {
+		auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
+		if (func != nullptr) {
+			func(instance, debugMessenger, pAllocator);
 		}
 	}
 
