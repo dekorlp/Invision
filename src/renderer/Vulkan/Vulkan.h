@@ -9,6 +9,7 @@ namespace Invision
 	{
 	public:
 		void Init();
+		void Destroy();
 	private:
 		void CreateInstance();
 		void CheckExtensions(std::vector<const char*> &requiredExtensions);

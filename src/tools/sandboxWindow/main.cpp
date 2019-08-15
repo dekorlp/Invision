@@ -34,12 +34,12 @@ class VulkanApp : public wxApp
 			Invision::Log log("../../../logs/log.txt");
 			Invision::Log::SetLogger(&log);
 			//throw Invision::VulkanException("Exception wird geworfen");
-			Invision::Vulkan vulkan;
+			
 			vulkan.Init();
 		}
 		~VulkanApp()
 		{
-
+			vulkan.Destroy();
 		}
 		bool OnInit()
 		{
@@ -63,6 +63,8 @@ class VulkanApp : public wxApp
 
 			return true;
 		}
+private:
+	Invision::Vulkan vulkan;
 };
 
 IMPLEMENT_APP(VulkanApp);

@@ -10,6 +10,11 @@ namespace Invision
 		CreateInstance();
 	}
 
+	void Vulkan::Destroy()
+	{
+		vkDestroyInstance(mVkInstance, nullptr);
+	}
+
 	void Vulkan::CreateInstance()
 	{
 		// make sure that the Vulkan library is available on this system
