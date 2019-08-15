@@ -19,7 +19,7 @@ namespace Invision
 		void CheckExtensions(std::vector<const char*> &requiredExtensions);
 		bool CheckValidationLayerSupport(std::vector<const char*> validationLayers);
 		void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
-
+		VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger);
 
 
 		VkInstance mVkInstance;
