@@ -4,6 +4,11 @@ namespace Invision {
 	Log* Log::m_pThis = NULL;
 	bool Log::isSet = false;
 
+	Log::Log()
+	{
+
+	}
+
 	Log::Log(std::string filename)
 	{
 		Open(filename);
@@ -145,7 +150,7 @@ namespace Invision {
 
 	Log::~Log()
 	{
-		Close();
+		//Close();
 	}
 
 }

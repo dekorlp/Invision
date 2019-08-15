@@ -17,6 +17,7 @@ namespace Invision
 	class  Log
 	{
 	public:
+		INVISION_API Log();
 		INVISION_API Log(std::string filename);
 		INVISION_API void Open(std::string filename);
 		INVISION_API void RawText(std::string message);
