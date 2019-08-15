@@ -25,7 +25,6 @@
 #include <vulkan\vulkan.h>
 #include "InCommon.h"
 #include "renderer\Vulkan\Vulkan.h"
-#include "renderer\Vulkan\VulkanException.h"
 
 class VulkanApp : public wxApp
 {
@@ -35,6 +34,8 @@ class VulkanApp : public wxApp
 			Invision::Log log("../../../logs/log.txt");
 			Invision::Log::SetLogger(&log);
 			//throw Invision::VulkanException("Exception wird geworfen");
+			Invision::Vulkan vulkan;
+			vulkan.Init();
 		}
 		~VulkanApp()
 		{
