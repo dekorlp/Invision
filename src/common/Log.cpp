@@ -150,7 +150,7 @@ namespace Invision {
 
 	Log::~Log()
 	{
-		//Close();
+		Close();
 	}
 
 }
