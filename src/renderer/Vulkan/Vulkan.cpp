@@ -15,15 +15,23 @@ namespace Invision
 		}
 	}
 
+	static void(*invisionDebugFunc)(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+		VkDebugUtilsMessageTypeFlagsEXT messageType,
+		const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData);
 	
 	static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 		VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
 		VkDebugUtilsMessageTypeFlagsEXT messageType,
 		const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
 		void* pUserData) {
-
-		std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
-
+		if (invisionDebugFunc != nullptr)
+		{
+			invisionDebugFunc(messageSeverity, messageType, pCallbackData);
+		}
+		else
+		{
+			std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
+		}
 		return VK_FALSE;
 	}
 
@@ -32,9 +40,16 @@ namespace Invision
 		CreateInstance();
 	}
 
-	void Vulkan::SetDebugMessanger()
+	void Vulkan::SetDebugMessanger(void(*debugFunc)(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+		VkDebugUtilsMessageTypeFlagsEXT messageType,
+		const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData))
 	{
 		if (!enableValidationLayers) return;
+
+		if (debugFunc != nullptr)
+		{
+			invisionDebugFunc = debugFunc;
+		}
 
 		VkDebugUtilsMessengerCreateInfoEXT createInfo;
 		populateDebugMessengerCreateInfo(createInfo);
@@ -60,6 +75,8 @@ namespace Invision
 
 	void Vulkan::CreateInstance()
 	{
+
+		mVkInstance = nullptr;
 
 		// make sure that the Vulkan library is available on this system
 #ifdef _WIN32

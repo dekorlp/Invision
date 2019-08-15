@@ -9,7 +9,9 @@ namespace Invision
 	{
 	public:
 		void Init();
-		void SetDebugMessanger();
+		void SetDebugMessanger(void(*debugFunc)(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+			VkDebugUtilsMessageTypeFlagsEXT messageType,
+			const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData) = nullptr);
 
 		void Destroy();
 	private:
@@ -17,6 +19,9 @@ namespace Invision
 		void CheckExtensions(std::vector<const char*> &requiredExtensions);
 		bool CheckValidationLayerSupport(std::vector<const char*> validationLayers);
 		void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
+
+
+
 		VkInstance mVkInstance;
 
 		VkDebugUtilsMessengerEXT debugMessenger;
@@ -27,6 +32,8 @@ namespace Invision
 #else
 		const bool enableValidationLayers = true;
 #endif
+
+		
 
 	};
 }
