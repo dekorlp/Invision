@@ -13,20 +13,21 @@ namespace Invision
 	void Vulkan::CreateInstance()
 	{
 		// make sure that the Vulkan library is available on this system
-//#ifdef _WIN32
-//		HMODULE vulkanModule = ::LoadLibraryA("vulkan-1.dll");
-//		if (vulkanModule == NULL) {
-//			throw std::runtime_error("Vulkan library is not available on this system, so program cannot run.\n"
-//				"You must install the appropriate Vulkan library and also have a graphics card that supports Vulkan.");
-//		}
-//#else
-//#error Only Win32 is currently supported. To see how to support other windowing systems, \
-// see the definition of _glfw_dlopen in XXX_platform.h and its use in vulkan.c in the glfw\
-// source code. XXX specifies the windowing system (e.g. x11 for X11, and wl for Wayland).
-//#endif
+#ifdef _WIN32
+		HMODULE vulkanModule = ::LoadLibraryA("vulkan-1.dll");
+		if (vulkanModule == NULL) {
+			throw std::runtime_error("Vulkan library is not available on this system, so program cannot run.\n"
+				"You must install the appropriate Vulkan library and also have a graphics card that supports Vulkan.");
+		}
+#else
+#error Only Win32 is currently supported. To see how to support other windowing systems, \
+ see the definition of _glfw_dlopen in XXX_platform.h and its use in vulkan.c in the glfw\
+ source code. XXX specifies the windowing system (e.g. x11 for X11, and wl for Wayland).
+#endif
 
 		VkApplicationInfo appInfo = {};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+		appInfo.pNext = nullptr;
 		appInfo.pApplicationName = "Hello World";
 		appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
 		appInfo.pEngineName = "Invision";
@@ -38,10 +39,14 @@ namespace Invision
 
 		VkInstanceCreateInfo instanceCreateInfo;
 		instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+		instanceCreateInfo.pNext = nullptr;
+		instanceCreateInfo.flags = 0;
 		instanceCreateInfo.pApplicationInfo = &appInfo;
 		instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(requiredExtensions.size());
 		instanceCreateInfo.ppEnabledExtensionNames = requiredExtensions.data();
 		instanceCreateInfo.enabledLayerCount = 0;
+		instanceCreateInfo.ppEnabledLayerNames = nullptr;
+
 		if (vkCreateInstance(&instanceCreateInfo, nullptr, &mVkInstance) != VK_SUCCESS)
 		{
 			throw VulkanException("failed to create instance!");
