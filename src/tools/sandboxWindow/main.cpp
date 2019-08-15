@@ -36,6 +36,7 @@ class VulkanApp : public wxApp
 			//throw Invision::VulkanException("Exception wird geworfen");
 			
 			vulkan.Init();
+			vulkan.SetDebugMessanger();
 		}
 		~VulkanApp()
 		{

@@ -9,11 +9,25 @@ namespace Invision
 	{
 	public:
 		void Init();
+		void SetDebugMessanger();
+
 		void Destroy();
 	private:
 		void CreateInstance();
 		void CheckExtensions(std::vector<const char*> &requiredExtensions);
+		bool CheckValidationLayerSupport(std::vector<const char*> validationLayers);
+		void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
 		VkInstance mVkInstance;
+
+		VkDebugUtilsMessengerEXT debugMessenger;
+
+
+#ifdef NDEBUG
+		const bool enableValidationLayers = false;
+#else
+		const bool enableValidationLayers = true;
+#endif
+
 	};
 }
 
