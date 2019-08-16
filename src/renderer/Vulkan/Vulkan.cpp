@@ -55,7 +55,7 @@ namespace Invision
 		populateDebugMessengerCreateInfo(createInfo);
 
 		if (CreateDebugUtilsMessengerEXT(mInstance, &createInfo, nullptr, &mDebugMessanger) != VK_SUCCESS) {
-			throw std::runtime_error("failed to set up debug messenger!");
+			throw VulkanException("failed to set up debug messenger!");
 		}
 
 	}
@@ -87,7 +87,7 @@ namespace Invision
 #ifdef _WIN32
 		HMODULE vulkanModule = ::LoadLibraryA("vulkan-1.dll");
 		if (vulkanModule == NULL) {
-			throw std::runtime_error("Vulkan library is not available on this system, so program cannot run.\n"
+			throw VulkanException("Vulkan library is not available on this system, so program cannot run.\n"
 				"You must install the appropriate Vulkan library and also have a graphics card that supports Vulkan.");
 		}
 #else
@@ -187,7 +187,7 @@ namespace Invision
 				ss << requiredExtensions[extNum] << "\n";
 			}
 			ss << "Program cannot continue.";
-			throw std::runtime_error(ss.str());
+			throw VulkanException(ss.str());
 		}
 	}
 
