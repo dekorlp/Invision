@@ -9,14 +9,14 @@ namespace Invision
 	{
 	public:
 		Vulkan();
-		void Init();
+		void Init(const char* appName, const char* engineName, const uint32_t appVersion, const uint32_t engineVersion, const std::vector<const char*> &extensions);
 		void SetDebugMessanger(void(*debugFunc)(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
 			VkDebugUtilsMessageTypeFlagsEXT messageType,
 			const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData) = nullptr);
 
 		void Destroy();
 	private:
-		void CreateInstance();
+		void CreateInstance(const char* appName, const char* engineName, const uint32_t appVersion, const uint32_t engineVersion, const std::vector<const char*> &extensions);
 		void CheckExtensions(std::vector<const char*> &requiredExtensions);
 		bool CheckValidationLayerSupport(std::vector<const char*> validationLayers);
 		void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);

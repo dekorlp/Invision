@@ -14,7 +14,10 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	Bind(wxEVT_SIZE, &VulkanCanvas::OnResize, this);
 	WXHWND hwnd = this->GetHandle(); // get window handle
 
-	vulkan.Init();
+
+	std::vector<const char*> requiredExtensions = { "VK_KHR_surface", "VK_KHR_win32_surface" };
+
+	vulkan.Init("Hello World", "Invision", VK_MAKE_VERSION(1, 0, 0), VK_MAKE_VERSION(1, 0, 0), requiredExtensions);
 	vulkan.SetDebugMessanger(debugCallback);
 }
 

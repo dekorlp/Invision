@@ -35,9 +35,9 @@ namespace Invision
 #endif
 	}
 
-	void Vulkan::Init()
+	void Vulkan::Init(const char* appName, const char* engineName, const uint32_t appVersion, const uint32_t engineVersion, const std::vector<const char*> &extensions)
 	{
-		CreateInstance();
+		CreateInstance(appName, engineName, appVersion, engineVersion, extensions);
 	}
 
 	void Vulkan::SetDebugMessanger(void(*debugFunc)(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
@@ -78,7 +78,7 @@ namespace Invision
 		vkDestroyInstance(mInstance, nullptr);
 	}
 
-	void Vulkan::CreateInstance()
+	void Vulkan::CreateInstance(const char* appName, const char* engineName, const uint32_t appVersion, const uint32_t engineVersion, const std::vector<const char*> &extensions)
 	{
 
 		mInstance = nullptr;
@@ -103,13 +103,15 @@ namespace Invision
 		VkApplicationInfo appInfo = {};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
 		appInfo.pNext = nullptr;
-		appInfo.pApplicationName = "Hello World";
-		appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
-		appInfo.pEngineName = "Invision";
-		appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
+		appInfo.pApplicationName = appName;
+		appInfo.applicationVersion = appVersion;
+		appInfo.pEngineName = engineName;
+		appInfo.engineVersion = engineVersion;
 		appInfo.apiVersion = VK_API_VERSION_1_0;
 
-		std::vector<const char*> requiredExtensions = { "VK_KHR_surface", "VK_KHR_win32_surface" };
+		std::vector<const char*> requiredExtensions = extensions;
+
+		//std::vector<const char*> requiredExtensions = { "VK_KHR_surface", "VK_KHR_win32_surface" };
 
 		// extension is Required!
 		if (mEnableValidationLayers)
