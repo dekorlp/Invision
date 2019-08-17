@@ -8,6 +8,8 @@
 
 #include "InCommon.h"
 #include "renderer\Vulkan\Vulkan.h"
+#include "renderer\Vulkan\VulkanInstance.h"
+
 
 static void debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
 	VkDebugUtilsMessageTypeFlagsEXT messageType,
@@ -39,5 +41,5 @@ private:
 
 	wxSize m_Size;
 
-	Invision::Vulkan vulkan;
+	Invision::VulkanInstance vulkanInstance;
 };

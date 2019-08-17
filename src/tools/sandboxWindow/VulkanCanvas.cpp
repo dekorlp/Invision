@@ -17,13 +17,13 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 
 	std::vector<const char*> requiredExtensions = { "VK_KHR_surface", "VK_KHR_win32_surface" };
 
-	vulkan.Init("Hello World", "Invision", VK_MAKE_VERSION(1, 0, 0), VK_MAKE_VERSION(1, 0, 0), requiredExtensions);
-	vulkan.SetDebugMessanger(debugCallback);
+	SVulkan vulkInstance = vulkanInstance.Init("Hello World", "Invision", VK_MAKE_VERSION(1, 0, 0), VK_MAKE_VERSION(1, 0, 0), requiredExtensions);
+	vulkanInstance.SetDebugMessanger(debugCallback);
 }
 
 VulkanCanvas::~VulkanCanvas() noexcept
 {
-	vulkan.Destroy();
+	vulkanInstance.Destroy();
 }
 
 void VulkanCanvas::OnPaint(wxPaintEvent& event)

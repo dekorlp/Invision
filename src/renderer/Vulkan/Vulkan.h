@@ -1,41 +1,13 @@
 #ifndef VULKAN_H
 #define VULKAN_H
-
 #include "vulkan\vulkan.h"
-#include "VulkanException.h"
-namespace Invision
+
+struct SVulkan
 {
-	class INVISION_API Vulkan
-	{
-	public:
-		Vulkan();
-		void Init(const char* appName, const char* engineName, const uint32_t appVersion, const uint32_t engineVersion, const std::vector<const char*> &extensions);
-		void SetDebugMessanger(void(*debugFunc)(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
-			VkDebugUtilsMessageTypeFlagsEXT messageType,
-			const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData) = nullptr);
+	VkInstance instance;
+	VkPhysicalDevice physicalDevice;
+	VkDevice logicalDevice;
+};
 
-		void Destroy();
-	private:
-		void CreateInstance(const char* appName, const char* engineName, const uint32_t appVersion, const uint32_t engineVersion, const std::vector<const char*> &extensions);
-		void CheckExtensions(std::vector<const char*> &requiredExtensions);
-		bool CheckValidationLayerSupport(std::vector<const char*> validationLayers);
-		void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
-		VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger);
-		void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
-		static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
-			VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
-			VkDebugUtilsMessageTypeFlagsEXT messageType,
-			const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
-			void* pUserData);
 
-		VkInstance mInstance;
-
-		VkDebugUtilsMessengerEXT mDebugMessanger;
-
-		bool mEnableValidationLayers;
-		
-
-	};
-}
-
-#endif //VULKAN_H
+#endif // VULKAN_H
