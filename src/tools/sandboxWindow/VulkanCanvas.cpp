@@ -19,7 +19,7 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 
 	SVulkan vulkInstance = vulkanInstance.Init("Hello World", "Invision", VK_MAKE_VERSION(1, 0, 0), VK_MAKE_VERSION(1, 0, 0), requiredExtensions);
 	vulkanInstance.SetDebugMessanger(debugCallback);
-	Invision::CreateDevice(vulkInstance);
+	Invision::CreateVulkanDevice(vulkInstance);
 }
 
 VulkanCanvas::~VulkanCanvas() noexcept

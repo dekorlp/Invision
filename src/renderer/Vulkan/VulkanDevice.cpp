@@ -5,7 +5,7 @@
 namespace Invision
 {
 
-	void CreateDevice(SVulkan &vulkanInstance)
+	void CreateVulkanDevice(SVulkan &vulkanInstance)
 	{
 		VulkanDevice().GetDevices(vulkanInstance);
 	}

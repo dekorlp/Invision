@@ -26,7 +26,7 @@ namespace Invision
 		std::vector<VkPresentModeKHR> presentModes;
 	};
 
-	INVISION_API void CreateDevice(SVulkan &vulkanInstance);
+	INVISION_API void CreateVulkanDevice(SVulkan &vulkanInstance);
 
 	class INVISION_API VulkanDevice
 	{
