@@ -26,6 +26,7 @@ namespace Invision
 		std::vector<VkPresentModeKHR> presentModes;
 	};
 
+	INVISION_API void CreateDevice(SVulkan &vulkanInstance);
 
 	class INVISION_API VulkanDevice
 	{
@@ -46,6 +47,7 @@ namespace Invision
 		VkSurfaceKHR mSurface;
 	};
 
-}
+//#define CreateDevice(x) VulkanDevice().GetDevices(x)
 
+}
 #endif //VULKAN_DEVICE_H

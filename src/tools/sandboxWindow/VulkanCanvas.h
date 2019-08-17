@@ -12,6 +12,8 @@
 #include "renderer\Vulkan\VulkanDevice.h"
 
 
+
+
 static void debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
 	VkDebugUtilsMessageTypeFlagsEXT messageType,
 	const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData)

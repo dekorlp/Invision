@@ -5,9 +5,14 @@
 namespace Invision
 {
 
+	void CreateDevice(SVulkan &vulkanInstance)
+	{
+		VulkanDevice().GetDevices(vulkanInstance);
+	}
+
 	VulkanDevice::VulkanDevice() : mSurface(VK_NULL_HANDLE)//, m_presentQueue(VK_NULL_HANDLE), m_graphicsQueue(VK_NULL_HANDLE)
 	{
-
+		
 	}
 
 	void VulkanDevice::GetDevices(SVulkan &vulkanInstance)
