@@ -6,24 +6,25 @@
 #include "Vulkan.h"
 namespace Invision
 {
-	class INVISION_API VulkanInstance
+
+	class  VulkanInstance
 	{
 	public:
-		VulkanInstance();
-		SVulkan Init(const char* appName, const char* engineName, const uint32_t appVersion, const uint32_t engineVersion, const std::vector<const char*> &extensions);
-		void SetDebugMessanger(void(*debugFunc)(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+		INVISION_API VulkanInstance();
+		INVISION_API SVulkan Init(const char* appName, const char* engineName, const uint32_t appVersion, const uint32_t engineVersion, const std::vector<const char*> &extensions);
+		INVISION_API void SetDebugMessanger(void(*debugFunc)(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
 			VkDebugUtilsMessageTypeFlagsEXT messageType,
 			const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData) = nullptr);
 
-		void Destroy();
+		INVISION_API void Destroy();
 	private:
-		void CreateInstance(const char* appName, const char* engineName, const uint32_t appVersion, const uint32_t engineVersion, const std::vector<const char*> &extensions);
-		void CheckExtensions(std::vector<const char*> &requiredExtensions);
-		bool CheckValidationLayerSupport(std::vector<const char*> validationLayers);
-		void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
-		VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger);
-		void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
-		static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
+		INVISION_API void CreateInstance(const char* appName, const char* engineName, const uint32_t appVersion, const uint32_t engineVersion, const std::vector<const char*> &extensions);
+		INVISION_API void CheckExtensions(std::vector<const char*> &requiredExtensions);
+		INVISION_API bool CheckValidationLayerSupport(std::vector<const char*> validationLayers);
+		INVISION_API void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
+		INVISION_API VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger);
+		INVISION_API void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
+		INVISION_API static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 			VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
 			VkDebugUtilsMessageTypeFlagsEXT messageType,
 			const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
@@ -34,6 +35,8 @@ namespace Invision
 		VkDebugUtilsMessengerEXT mDebugMessanger;
 
 		bool mEnableValidationLayers;
+
+		std::vector<const char*> mValidationLayers;
 		
 
 	};

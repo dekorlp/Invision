@@ -13,6 +13,7 @@ namespace Invision
 	void VulkanDevice::GetDevices(SVulkan &vulkanInstance)
 	{
 		PickPhysicalDevice(vulkanInstance);
+		CreateLogicalDevice(vulkanInstance);
 	}
 
 	void VulkanDevice::PickPhysicalDevice(SVulkan &vulkanInstance)
@@ -39,7 +40,60 @@ namespace Invision
 		}
 	}
 
+	void VulkanDevice::CreateLogicalDevice(SVulkan& vulkanInstance)
+	{
+		/*
+		// Future Code
+		SQueueFamilyIndices indices = m_queueFamily.FindQueueFamilies(physicalDevice, m_surface);
+		std::set<int> uniqueQueueFamilies = { indices.graphicsFamily, indices.presentFamily };
+		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos = m_queueFamily.CreateQueueCreateInfos(uniqueQueueFamilies);
+		VkPhysicalDeviceFeatures deviceFeatures = {};
+		VkDeviceCreateInfo createInfo = CreateDeviceCreateInfo(queueCreateInfos, deviceFeatures);
 
+		VkResult result = vkCreateDevice(physicalDevice, &createInfo, nullptr, &(logicalDevice->m_logicalDevice));
+		if (result != VK_SUCCESS) {
+			throw VulkanException(result, "Unable to create a logical device");
+		}
+		vkGetDeviceQueue(logicalDevice->m_logicalDevice, indices.graphicsFamily, 0, &logicalDevice->m_graphicsQueue);
+		vkGetDeviceQueue(logicalDevice->m_logicalDevice, indices.graphicsFamily, 0, &logicalDevice->m_presentQueue);
+		*/
+
+		SQueueFamilyIndices indices = FindQueueFamilies(vulkanInstance.physicalDevice);
+
+		VkDeviceQueueCreateInfo queueCreateInfo = {};
+		queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+		queueCreateInfo.queueFamilyIndex = indices.graphicsFamily;
+		queueCreateInfo.queueCount = 1;
+
+		float queuePriority = 1.0f;
+		queueCreateInfo.pQueuePriorities = &queuePriority;
+
+		VkPhysicalDeviceFeatures deviceFeatures = {};
+
+		VkDeviceCreateInfo createInfo = {};
+		createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+
+		createInfo.pQueueCreateInfos = &queueCreateInfo;
+		createInfo.queueCreateInfoCount = 1;
+
+		createInfo.pEnabledFeatures = &deviceFeatures;
+
+		createInfo.enabledExtensionCount = 0;
+
+		if (vulkanInstance.enableValidationLayers) {
+			createInfo.enabledLayerCount = static_cast<uint32_t>(vulkanInstance.validationLayers.size());
+			createInfo.ppEnabledLayerNames = vulkanInstance.validationLayers.data();
+		}
+		else {
+			createInfo.enabledLayerCount = 0;
+		}
+
+		if (vkCreateDevice(vulkanInstance.physicalDevice, &createInfo, nullptr, &vulkanInstance.logicalDevice) != VK_SUCCESS) {
+			throw std::runtime_error("failed to create logical device!");
+		}
+
+		vkGetDeviceQueue(vulkanInstance.logicalDevice, indices.graphicsFamily, 0, &vulkanInstance.graphicsQueue);
+	}
 
 	bool VulkanDevice::IsDeviceSuitable(VkPhysicalDevice physicalDevice)
 	{

@@ -34,6 +34,7 @@ namespace Invision
 		void GetDevices(SVulkan &vulkanInstance);
 
 		void PickPhysicalDevice(SVulkan &vulkanInstance);
+		void CreateLogicalDevice(SVulkan& logicalDevice);
 
 	private:
 		bool IsDeviceSuitable(VkPhysicalDevice physicalDevice);

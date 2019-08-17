@@ -39,7 +39,9 @@ namespace Invision
 	{
 		CreateInstance(appName, engineName, appVersion, engineVersion, extensions);
 		SVulkan vulkStruct;
+		vulkStruct.enableValidationLayers = mEnableValidationLayers;
 		vulkStruct.instance = mInstance;
+		vulkStruct.validationLayers = mValidationLayers;
 		return vulkStruct;
 	}
 
@@ -99,7 +101,7 @@ namespace Invision
  source code. XXX specifies the windowing system (e.g. x11 for X11, and wl for Wayland).
 #endif
 
-		const std::vector<const char*> validationLayers = {
+		mValidationLayers = {
 			"VK_LAYER_KHRONOS_validation"
 		};
 
@@ -131,7 +133,7 @@ namespace Invision
 		instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(requiredExtensions.size());
 		instanceCreateInfo.ppEnabledExtensionNames = requiredExtensions.data();
 
-		if (mEnableValidationLayers && !CheckValidationLayerSupport(validationLayers))
+		if (mEnableValidationLayers && !CheckValidationLayerSupport(mValidationLayers))
 		{
 			throw VulkanException("validation layers requested, but not available!");
 		}
@@ -140,8 +142,8 @@ namespace Invision
 		VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo;
 		if (mEnableValidationLayers)
 		{
-			instanceCreateInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
-			instanceCreateInfo.ppEnabledLayerNames = validationLayers.data();
+			instanceCreateInfo.enabledLayerCount = static_cast<uint32_t>(mValidationLayers.size());
+			instanceCreateInfo.ppEnabledLayerNames = mValidationLayers.data();
 			
 			populateDebugMessengerCreateInfo(debugCreateInfo);
 			instanceCreateInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debugCreateInfo;
