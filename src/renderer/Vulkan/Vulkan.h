@@ -7,6 +7,7 @@ struct SVulkan
 	VkInstance instance;
 	VkPhysicalDevice physicalDevice;
 	VkDevice logicalDevice;
+	VkSurfaceKHR surface;
 };
 
 

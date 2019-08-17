@@ -9,6 +9,7 @@
 #include "InCommon.h"
 #include "renderer\Vulkan\Vulkan.h"
 #include "renderer\Vulkan\VulkanInstance.h"
+#include "renderer\Vulkan\VulkanDevice.h"
 
 
 static void debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,

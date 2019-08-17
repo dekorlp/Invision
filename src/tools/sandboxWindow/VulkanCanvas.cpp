@@ -17,8 +17,9 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 
 	std::vector<const char*> requiredExtensions = { "VK_KHR_surface", "VK_KHR_win32_surface" };
 
-	SVulkan vulkInstance = vulkanInstance.Init("Hello World", "Invision", VK_MAKE_VERSION(1, 0, 0), VK_MAKE_VERSION(1, 0, 0), requiredExtensions);
+	SVulkan vulkInstancee = vulkanInstance.Init("Hello World", "Invision", VK_MAKE_VERSION(1, 0, 0), VK_MAKE_VERSION(1, 0, 0), requiredExtensions);
 	vulkanInstance.SetDebugMessanger(debugCallback);
+	Invision::VulkanDevice().GetDevices(vulkInstancee);
 }
 
 VulkanCanvas::~VulkanCanvas() noexcept
