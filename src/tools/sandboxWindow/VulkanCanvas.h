@@ -45,4 +45,5 @@ private:
 	wxSize m_Size;
 
 	Invision::VulkanInstance vulkanInstance;
+	SVulkan vulkInstance;
 };
