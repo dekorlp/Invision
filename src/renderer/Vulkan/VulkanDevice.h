@@ -27,6 +27,7 @@ namespace Invision
 	};
 
 	INVISION_API void CreateVulkanDevice(SVulkan &vulkanInstance);
+	INVISION_API void DestroyVulkanDevice(SVulkan &vulkanInstance);
 
 	class INVISION_API VulkanDevice
 	{
@@ -42,9 +43,7 @@ namespace Invision
 		SQueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
 		SQueueFamilyIndices FindQueueFamilies(const VkPhysicalDevice& device, const VkSurfaceKHR surface) const;
 		bool CheckDeviceExtensionSupport(const VkPhysicalDevice& device) const;
-		SwapChainSupportDetails QuerySwapChainSupport(const VkPhysicalDevice& device) const;
-
-		VkSurfaceKHR mSurface;
+		SwapChainSupportDetails QuerySwapChainSupport(const VkPhysicalDevice& device, const VkSurfaceKHR surface) const;
 	};
 
 //#define CreateDevice(x) VulkanDevice().GetDevices(x)

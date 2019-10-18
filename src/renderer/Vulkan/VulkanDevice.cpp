@@ -10,7 +10,13 @@ namespace Invision
 		VulkanDevice().GetDevices(vulkanInstance);
 	}
 
-	VulkanDevice::VulkanDevice() : mSurface(VK_NULL_HANDLE)//, m_presentQueue(VK_NULL_HANDLE), m_graphicsQueue(VK_NULL_HANDLE)
+	void DestroyVulkanDevice(SVulkan &vulkanInstance)
+	{
+		vkDestroyDevice(vulkanInstance.logicalDevice, nullptr);
+	}
+
+
+	VulkanDevice::VulkanDevice() //: mSurface(VK_NULL_HANDLE)//, m_presentQueue(VK_NULL_HANDLE), m_graphicsQueue(VK_NULL_HANDLE)
 	{
 		
 	}
@@ -177,35 +183,35 @@ namespace Invision
 		return indices;
 	}
 
-	SwapChainSupportDetails VulkanDevice::QuerySwapChainSupport(const VkPhysicalDevice& device) const
+	SwapChainSupportDetails VulkanDevice::QuerySwapChainSupport( const VkPhysicalDevice& device, const VkSurfaceKHR surface) const
 	{
 		SwapChainSupportDetails details;
 
-		VkResult result = vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, mSurface, &details.capabilities);
+		VkResult result = vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, surface, &details.capabilities);
 		if (result != VK_SUCCESS) {
 			throw Invision::VulkanException(result, "Unable to retrieve physical device surface capabilities:");
 		}
 		uint32_t formatCount = 0;
-		result = vkGetPhysicalDeviceSurfaceFormatsKHR(device, mSurface, &formatCount, nullptr);
+		result = vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &formatCount, nullptr);
 		if (result != VK_SUCCESS) {
 			throw Invision::VulkanException(result, "Unable to retrieve the number of formats for a surface on a physical device:");
 		}
 		if (formatCount != 0) {
 			details.formats.resize(formatCount);
-			result = vkGetPhysicalDeviceSurfaceFormatsKHR(device, mSurface, &formatCount, details.formats.data());
+			result = vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &formatCount, details.formats.data());
 			if (result != VK_SUCCESS) {
 				throw Invision::VulkanException(result, "Unable to retrieve the formats for a surface on a physical device:");
 			}
 		}
 
 		uint32_t presentModeCount = 0;
-		result = vkGetPhysicalDeviceSurfacePresentModesKHR(device, mSurface, &presentModeCount, nullptr);
+		result = vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface, &presentModeCount, nullptr);
 		if (result != VK_SUCCESS) {
 			throw Invision::VulkanException(result, "Unable to retrieve the count of present modes for a surface on a physical device:");
 		}
 		if (presentModeCount != 0) {
 			details.presentModes.resize(presentModeCount);
-			result = vkGetPhysicalDeviceSurfacePresentModesKHR(device, mSurface, &presentModeCount, details.presentModes.data());
+			result = vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface, &presentModeCount, details.presentModes.data());
 			if (result != VK_SUCCESS) {
 				throw Invision::VulkanException(result, "Unable to retrieve the present modes for a surface on a physical device:");
 			}
