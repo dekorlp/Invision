@@ -19,12 +19,14 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 
 	vulkInstance = vulkanInstance.Init("Hello World", "Invision", VK_MAKE_VERSION(1, 0, 0), VK_MAKE_VERSION(1, 0, 0), requiredExtensions);
 	vulkanInstance.SetDebugMessanger(debugCallback);
+	Invision::CreateSurface(vulkInstance, hwnd);
 	Invision::CreateVulkanDevice(vulkInstance);
 }
 
 VulkanCanvas::~VulkanCanvas() noexcept
 {
 	Invision::DestroyVulkanDevice(vulkInstance);
+	Invision::DestroySurface(vulkInstance);
 	vulkanInstance.Destroy();
 }
 
