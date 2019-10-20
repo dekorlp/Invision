@@ -77,8 +77,6 @@ namespace Invision
 
 	void VulkanDevice::CreateLogicalDevice(SVulkan& vulkanInstance)
 	{
-		
-		// Future Code
 		SQueueFamilyIndices indices = FindQueueFamilies(vulkanInstance.physicalDevice, vulkanInstance.surface);
 		std::set<int> uniqueQueueFamilies = { indices.graphicsFamily, indices.presentFamily };
 		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos = CreateQueueCreateInfos(uniqueQueueFamilies);

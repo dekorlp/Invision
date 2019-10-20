@@ -13,6 +13,13 @@ struct SVulkan
 	VkSurfaceKHR surface;
 	VkQueue graphicsQueue;
 	VkQueue presentQueue;
+
+	SVulkan() : physicalDevice(VK_NULL_HANDLE), logicalDevice(VK_NULL_HANDLE), 
+		surface(VK_NULL_HANDLE), graphicsQueue(VK_NULL_HANDLE), 
+		presentQueue(VK_NULL_HANDLE)
+	{
+
+	}
 };
 
 
