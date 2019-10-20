@@ -1,6 +1,7 @@
 #ifndef VULKAN_H
 #define VULKAN_H
 #include "vulkan\vulkan.h"
+#include "VulkanException.h"
 
 struct SVulkan
 {
@@ -22,5 +23,19 @@ struct SVulkan
 	}
 };
 
+struct SQueueFamilyIndices {
+	int graphicsFamily = -1;
+	int presentFamily = -1;
 
+	bool IsComplete() {
+		return graphicsFamily >= 0 && presentFamily >= 0;
+	}
+};
+
+namespace Invision
+{
+	// global functions
+	SQueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
+	SQueueFamilyIndices FindQueueFamilies(const VkPhysicalDevice& device, const VkSurfaceKHR surface);
+}
 #endif // VULKAN_H

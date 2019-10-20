@@ -7,15 +7,6 @@
 
 namespace Invision
 {
-	struct SQueueFamilyIndices {
-		int graphicsFamily = -1;
-		int presentFamily = -1;
-
-		bool IsComplete() {
-			return graphicsFamily >= 0 && presentFamily >= 0;
-		}
-	};
-
 	const std::vector<const char*> deviceExtensions = {
 		VK_KHR_SWAPCHAIN_EXTENSION_NAME
 	};
@@ -40,8 +31,7 @@ namespace Invision
 
 	private:
 		bool IsDeviceSuitable(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface);
-		SQueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
-		SQueueFamilyIndices FindQueueFamilies(const VkPhysicalDevice& device, const VkSurfaceKHR surface) const;
+		
 		bool CheckDeviceExtensionSupport(const VkPhysicalDevice& device) const;
 		SwapChainSupportDetails QuerySwapChainSupport(const VkPhysicalDevice& device, const VkSurfaceKHR surface) const;
 		VkDeviceQueueCreateInfo CreateDeviceQueueCreateInfo(int queueFamily) const noexcept;
