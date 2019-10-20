@@ -12,7 +12,7 @@ namespace Invision
 		int presentFamily = -1;
 
 		bool IsComplete() {
-			return graphicsFamily >= 0; // && presentFamily >= 0;
+			return graphicsFamily >= 0 && presentFamily >= 0;
 		}
 	};
 
@@ -39,11 +39,18 @@ namespace Invision
 		void CreateLogicalDevice(SVulkan& logicalDevice);
 
 	private:
-		bool IsDeviceSuitable(VkPhysicalDevice physicalDevice);
+		bool IsDeviceSuitable(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface);
 		SQueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
 		SQueueFamilyIndices FindQueueFamilies(const VkPhysicalDevice& device, const VkSurfaceKHR surface) const;
 		bool CheckDeviceExtensionSupport(const VkPhysicalDevice& device) const;
 		SwapChainSupportDetails QuerySwapChainSupport(const VkPhysicalDevice& device, const VkSurfaceKHR surface) const;
+		VkDeviceQueueCreateInfo CreateDeviceQueueCreateInfo(int queueFamily) const noexcept;
+		std::vector<VkDeviceQueueCreateInfo> CreateQueueCreateInfos(
+			const std::set<int>& uniqueQueueFamilies) const noexcept;
+
+		VkDeviceCreateInfo VulkanDevice::CreateDeviceCreateInfo(SVulkan &vulkanInstance,
+			const std::vector<VkDeviceQueueCreateInfo>& queueCreateInfos,
+			const VkPhysicalDeviceFeatures& deviceFeatures) const noexcept;
 	};
 
 //#define CreateDevice(x) VulkanDevice().GetDevices(x)

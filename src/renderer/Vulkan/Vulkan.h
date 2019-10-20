@@ -12,6 +12,7 @@ struct SVulkan
 	VkDevice logicalDevice;
 	VkSurfaceKHR surface;
 	VkQueue graphicsQueue;
+	VkQueue presentQueue;
 };
 
 
