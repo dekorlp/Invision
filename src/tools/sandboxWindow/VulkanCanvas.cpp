@@ -25,6 +25,7 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 
 VulkanCanvas::~VulkanCanvas() noexcept
 {
+	Invision::DestroyPresentationSystem(vulkInstance);
 	Invision::DestroyVulkanDevice(vulkInstance);
 	Invision::DestroySurface(vulkInstance);
 	vulkanInstance.Destroy();

@@ -17,7 +17,7 @@ namespace Invision
 	INVISION_API void CreateSurface(SVulkan &vulkanInstance, HWND hwnd);
 	INVISION_API void DestroySurface(SVulkan &vulkanInstance);
 	INVISION_API void CreatePresentationSystem(SVulkan &vulkanInstance, unsigned int width, unsigned int height);
-	
+	INVISION_API void DestroyPresentationSystem(SVulkan &vulkanInstance);
 
 	class INVISION_API VulkanPresentation
 	{

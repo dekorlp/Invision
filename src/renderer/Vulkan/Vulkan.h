@@ -15,9 +15,16 @@ struct SVulkan
 	VkQueue graphicsQueue;
 	VkQueue presentQueue;
 
+	// swapchain component
+	VkSwapchainKHR swapChain;
+	std::vector<VkImage> swapChainImages;
+	VkFormat swapChainImageFormat;
+	VkExtent2D swapChainExtent;
+
+
 	SVulkan() : physicalDevice(VK_NULL_HANDLE), logicalDevice(VK_NULL_HANDLE), 
 		surface(VK_NULL_HANDLE), graphicsQueue(VK_NULL_HANDLE), 
-		presentQueue(VK_NULL_HANDLE)
+		presentQueue(VK_NULL_HANDLE), swapChain(VK_NULL_HANDLE)
 	{
 
 	}
