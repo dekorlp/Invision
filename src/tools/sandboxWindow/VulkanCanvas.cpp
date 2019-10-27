@@ -9,7 +9,6 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	: wxWindow(pParent, id, pos, size, style, name)
 {
 	m_Size = size;
-
 	Bind(wxEVT_PAINT, &VulkanCanvas::OnPaint, this);
 	Bind(wxEVT_SIZE, &VulkanCanvas::OnResize, this);
 	WXHWND hwnd = this->GetHandle(); // get window handle
@@ -21,6 +20,7 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	vulkanInstance.SetDebugMessanger(debugCallback);
 	Invision::CreateSurface(vulkInstance, hwnd);
 	Invision::CreateVulkanDevice(vulkInstance);
+	Invision::CreatePresentationSystem(vulkInstance, size.GetWidth(), size.GetHeight());
 }
 
 VulkanCanvas::~VulkanCanvas() noexcept

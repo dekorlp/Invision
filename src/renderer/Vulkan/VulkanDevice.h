@@ -11,12 +11,6 @@ namespace Invision
 		VK_KHR_SWAPCHAIN_EXTENSION_NAME
 	};
 
-	struct SwapChainSupportDetails {
-		VkSurfaceCapabilitiesKHR capabilities;
-		std::vector<VkSurfaceFormatKHR> formats;
-		std::vector<VkPresentModeKHR> presentModes;
-	};
-
 	INVISION_API void CreateVulkanDevice(SVulkan &vulkanInstance);
 	INVISION_API void DestroyVulkanDevice(SVulkan &vulkanInstance);
 
@@ -33,7 +27,7 @@ namespace Invision
 		bool IsDeviceSuitable(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface);
 		
 		bool CheckDeviceExtensionSupport(const VkPhysicalDevice& device) const;
-		SwapChainSupportDetails QuerySwapChainSupport(const VkPhysicalDevice& device, const VkSurfaceKHR surface) const;
+		
 		VkDeviceQueueCreateInfo CreateDeviceQueueCreateInfo(int queueFamily) const noexcept;
 		std::vector<VkDeviceQueueCreateInfo> CreateQueueCreateInfos(
 			const std::set<int>& uniqueQueueFamilies) const noexcept;
