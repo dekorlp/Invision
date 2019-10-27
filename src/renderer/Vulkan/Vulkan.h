@@ -5,11 +5,10 @@
 
 struct SVulkan
 {
-	bool enableValidationLayers;
-	std::vector<const char*> validationLayers;
-
 	// Instance Subsystem
 	VkInstance instance;
+	bool enableValidationLayers;
+	std::vector<const char*> validationLayers;
 
 	// Device Subsystem
 	VkPhysicalDevice physicalDevice;
