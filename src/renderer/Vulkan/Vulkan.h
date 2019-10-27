@@ -8,14 +8,17 @@ struct SVulkan
 	bool enableValidationLayers;
 	std::vector<const char*> validationLayers;
 
+	// Instance Subsystem
 	VkInstance instance;
+
+	// Device Subsystem
 	VkPhysicalDevice physicalDevice;
 	VkDevice logicalDevice;
 	VkSurfaceKHR surface;
 	VkQueue graphicsQueue;
 	VkQueue presentQueue;
 
-	// swapchain component
+	// Presentation Subsystem
 	VkSwapchainKHR swapChain;
 	std::vector<VkImage> swapChainImages;
 	VkFormat swapChainImageFormat;
