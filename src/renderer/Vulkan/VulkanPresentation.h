@@ -25,6 +25,7 @@ namespace Invision
 		public:
 			void CreatePresentation(SVulkan &vulkanInstance, unsigned int width, unsigned int height);
 			void CreateSwapChain(SVulkan &vulkanInstance, unsigned int width, unsigned int height);
+			void CreateImageViews(SVulkan &vulkanInstance);
 
 		private:
 			VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
