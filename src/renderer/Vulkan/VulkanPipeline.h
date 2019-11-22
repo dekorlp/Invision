@@ -14,8 +14,17 @@ namespace Invision
 	public:
 		void INVISION_API AddShader(VulkanShader shader);
 	private:
-		VkPipeline mPipeline; // basic pipeline
-		std::vector<VkPipelineShaderStageCreateInfo> mShaderStages; // shaders
+		std::vector<VkPipelineShaderStageCreateInfo> mShaderStages; // Shaders
+		VkPipelineVertexInputStateCreateInfo mVertexInputState; // Vertex configuration
+		VkPipelineInputAssemblyStateCreateInfo mInputAssemblyState; // Input assembly configuration
+		VkPipelineViewportStateCreateInfo mViewportState; // Viewport & Scissor configuration
+		VkPipelineRasterizationStateCreateInfo mRasterizer; // Rasterizer configuration
+		VkPipelineMultisampleStateCreateInfo mMultisampling; // Multisampling configuration
+		//VkPipelineDepthStencilStateCreateFlags mDepthStencil; // Depthstencil Testing configuration
+		VkPipelineColorBlendAttachmentState mColorBlendAttachment; // Color Blending
+		//VkPipelineDynamicStateCreateInfo mDynamicState; // Dynamic State configuration
+		VkPipelineLayoutCreateInfo mPipelineLayout; // Pipeline Layout
+
 		
 	};
 
