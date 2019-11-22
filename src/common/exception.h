@@ -12,6 +12,10 @@
 
 #ifndef EXCEPTION_H
 #define EXCEPTION_H
+
+#include <string>
+using namespace std;
+
 namespace Invision
 {
 	class INVISION_API InvisionBaseException
@@ -43,6 +47,29 @@ namespace Invision
 		}
 
 		InvisionException(const char* message, const char* helpLink, const char* source)
+		{
+			mMessage = message;
+			mHelpLink = helpLink;
+			mSource = source;
+		}
+	};
+
+	class InvisionBaseRendererException : public InvisionBaseException
+	{
+	public:
+		InvisionBaseRendererException();
+		InvisionBaseRendererException(const char* message)
+		{
+			mMessage = message;
+		}
+
+		InvisionBaseRendererException(const char* message, const char* helpLink)
+		{
+			mMessage = message;
+			mHelpLink = helpLink;
+		}
+
+		InvisionBaseRendererException(const char* message, const char* helpLink, const char* source)
 		{
 			mMessage = message;
 			mHelpLink = helpLink;

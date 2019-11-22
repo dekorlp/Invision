@@ -8,7 +8,7 @@ namespace Invision
 	void VulkanRenderPass::CreateRenderPass(const SVulkan &vulkanInstance)
 	{
 		if (mSubpassDescriptions.size() == 0) {
-			throw InvisionException("Subpass Descriptions are empty!");
+			throw InvisionBaseRendererException("Subpass Descriptions are empty!");
 		}
 
 		VkRenderPassCreateInfo renderPassInfo = {};
@@ -19,7 +19,7 @@ namespace Invision
 		renderPassInfo.pSubpasses = mSubpassDescriptions.data();
 
 		if (vkCreateRenderPass(vulkanInstance.logicalDevice, &renderPassInfo, nullptr, &mRenderPass) != VK_SUCCESS) {
-			throw VulkanException("failed to create render pass!");
+			throw InvisionBaseRendererException("failed to create render pass!");
 		}
 	}
 

@@ -69,6 +69,16 @@ class VulkanApp : public wxApp
 				INVISION_LOG_ERROR(ss.str());
 				return false;
 			}
+			catch (Invision::InvisionBaseRendererException& iEx)
+			{
+				std::stringstream ss;
+				ss << "Vulkan Error encountered trying to create the Vulkan canvas:\n";
+				ss << iEx.what();
+				// TODO OutputDebug Replace with own MessageBox
+				//wxMessageBox( ss.str(), "Info");
+				INVISION_LOG_ERROR(ss.str());
+				return false;
+			}
 
 			vkWindow->Show(true);
 
