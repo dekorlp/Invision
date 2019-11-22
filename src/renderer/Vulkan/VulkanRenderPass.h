@@ -28,6 +28,8 @@ namespace Invision
 	private:
 		std::vector<VkAttachmentDescription> mAttachmentDescriptions;
 	
+		// A Render Pass Consists of multiple Subpasses  and a Subpass consists of multiple ColorReference, Depth References etc..
+		// example: mSubpassesReferences[mSubpasses.Index].mColorReference
 		std::vector<VkSubpassDescription> mSubpasses;
 		std::vector<SubPass> mSubpassesReferences;
 
