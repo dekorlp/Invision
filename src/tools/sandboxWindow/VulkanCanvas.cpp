@@ -23,7 +23,10 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	Invision::CreateSurface(vulkInstance, hwnd);
 	Invision::CreateVulkanDevice(vulkInstance);
 	Invision::CreatePresentationSystem(vulkInstance, size.GetWidth(), size.GetHeight());
-	//renderPass.CreateRenderPass(vulkInstance);
+
+	renderPass.AddAttachment(vulkInstance);
+	renderPass.AddSubpass();
+	renderPass.CreateRenderPass(vulkInstance);
 
 	// Pipeline creation
 	auto vertShaderCode = readFile(std::string(ROOT).append("/src/tools/sandboxWindow/Shader/vert.spv"));
@@ -44,7 +47,7 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 VulkanCanvas::~VulkanCanvas() noexcept
 {
 	pipeline.DestroyPipeline(vulkInstance);
-	//renderPass.DestroyRenderPass(vulkInstance);
+	renderPass.DestroyRenderPass(vulkInstance);
 	Invision::DestroyPresentationSystem(vulkInstance);
 	Invision::DestroyVulkanDevice(vulkInstance);
 	Invision::DestroySurface(vulkInstance);
