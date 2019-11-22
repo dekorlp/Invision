@@ -7,7 +7,7 @@
 namespace Invision
 {
 
-	class VulkanException : Invision::InvisionBaseException
+	class VulkanException : public Invision::InvisionBaseException
 	{
 	public:
 		INVISION_API VulkanException(const VkResult status, const std::string& msg);

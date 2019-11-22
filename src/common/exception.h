@@ -27,7 +27,7 @@ namespace Invision
 		}
 	};
 
-	class InvisionException : protected InvisionBaseException
+	class InvisionException : public InvisionBaseException
 	{
 	public:
 		InvisionException();
@@ -50,7 +50,7 @@ namespace Invision
 		}
 	};
 
-	class InvisionArgumentException : protected  InvisionBaseException
+	class InvisionArgumentException : public  InvisionBaseException
 	{
 	public:
 		InvisionArgumentException();
@@ -73,7 +73,7 @@ namespace Invision
 		}
 	};
 
-	class InvisionArgumentNullException : protected InvisionBaseException
+	class InvisionArgumentNullException : public InvisionBaseException
 	{
 	public:
 		InvisionArgumentNullException();
@@ -96,7 +96,7 @@ namespace Invision
 		}
 	};
 
-	class InvisionArgumentOutOfRangeException : protected InvisionBaseException
+	class InvisionArgumentOutOfRangeException : public InvisionBaseException
 	{
 	public:
 		InvisionArgumentOutOfRangeException();
@@ -119,7 +119,7 @@ namespace Invision
 		}
 	};
 
-	class InvisionOutOfMemory : protected InvisionBaseException
+	class InvisionOutOfMemory : public InvisionBaseException
 	{
 	public:
 		InvisionOutOfMemory();
@@ -142,7 +142,7 @@ namespace Invision
 		}
 	};
 
-	class InvisionMemoryIsCorrupted : protected InvisionBaseException
+	class InvisionMemoryIsCorrupted : public InvisionBaseException
 	{
 	public:
 		InvisionMemoryIsCorrupted();
@@ -165,7 +165,7 @@ namespace Invision
 		}
 	};
 
-	class InvisionMemoryHasWrongAlignment : protected InvisionBaseException
+	class InvisionMemoryHasWrongAlignment : public InvisionBaseException
 	{
 	public:
 		InvisionMemoryHasWrongAlignment();
@@ -188,7 +188,7 @@ namespace Invision
 		}
 	};
 
-	class InvisionMemoryNoLogObject : protected InvisionBaseException
+	class InvisionMemoryNoLogObject : public InvisionBaseException
 	{
 	public:
 		InvisionMemoryNoLogObject();

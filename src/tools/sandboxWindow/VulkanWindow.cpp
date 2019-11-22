@@ -5,6 +5,7 @@ VulkanWindow::VulkanWindow(wxWindow* parent, wxWindowID id, const wxString& titl
 	: wxFrame(parent, id, title, pos, size), m_canvas(nullptr)
 {
 	Bind(wxEVT_SIZE, &VulkanWindow::OnResize, this);
+
 	m_canvas = new VulkanCanvas(this, wxID_ANY, wxDefaultPosition, { 800,600 });
 	Fit();
 

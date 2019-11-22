@@ -1,5 +1,6 @@
 ﻿#include "VulkanWindow.h"
 #include "AdditionalFunctions.h"
+#include "renderer\Vulkan\VulkanException.h"
 #include <iostream>
 #include <sstream>
 
@@ -53,6 +54,16 @@ class VulkanApp : public wxApp
 				std::stringstream ss;
 				ss << "Error encountered trying to create the Vulkan canvas:\n";
 				ss << err.what();
+				// TODO OutputDebug Replace with own MessageBox
+				//wxMessageBox( ss.str(), "Info");
+				INVISION_LOG_ERROR(ss.str());
+				return false;
+			}
+			catch (Invision::InvisionException& iEx)
+			{
+				std::stringstream ss;
+				ss << "Error encountered trying to create the Vulkan canvas:\n";
+				ss << iEx.what();
 				// TODO OutputDebug Replace with own MessageBox
 				//wxMessageBox( ss.str(), "Info");
 				INVISION_LOG_ERROR(ss.str());
