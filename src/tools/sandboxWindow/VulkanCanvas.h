@@ -6,6 +6,9 @@
 #include "wx/wx.h"
 #endif
 
+#define ROOT "../../../"
+
+#include "AdditionalFunctions.h"
 #include "InCommon.h"
 #include "renderer\Vulkan\Vulkan.h"
 #include "renderer\Vulkan\VulkanInstance.h"

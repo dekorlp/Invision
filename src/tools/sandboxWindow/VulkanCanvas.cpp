@@ -1,5 +1,7 @@
 #include "VulkanCanvas.h"
 
+
+
 VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	wxWindowID id,
 	const wxPoint& pos,
@@ -21,6 +23,11 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	Invision::CreateSurface(vulkInstance, hwnd);
 	Invision::CreateVulkanDevice(vulkInstance);
 	Invision::CreatePresentationSystem(vulkInstance, size.GetWidth(), size.GetHeight());
+
+	// Pipeline creation
+	auto vertShaderCode = readFile(std::string(ROOT).append("/src/tools/sandboxWindow/Shader/vert.spv"));
+	auto fragShaderCode	= readFile(std::string(ROOT).append("/src/tools/sandboxWindow/Shader/frag.spv"));
+
 }
 
 VulkanCanvas::~VulkanCanvas() noexcept

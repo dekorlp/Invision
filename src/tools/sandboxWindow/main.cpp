@@ -1,4 +1,5 @@
 ﻿#include "VulkanWindow.h"
+#include "AdditionalFunctions.h"
 #include <iostream>
 #include <sstream>
 

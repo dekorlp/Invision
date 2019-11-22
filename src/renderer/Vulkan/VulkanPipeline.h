@@ -10,7 +10,11 @@ namespace Invision
 {
 	class INVISION_API VulkanPipeline
 	{
+	public:
 
+	private:
+		VkPipeline mPipeline;
+		
 	};
 
 }
