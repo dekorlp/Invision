@@ -31,7 +31,6 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	Invision::VulkanShader vertShader(vulkInstance, vertShaderCode, VK_SHADER_STAGE_VERTEX_BIT);
 	Invision::VulkanShader fragShader(vulkInstance, fragShaderCode, VK_SHADER_STAGE_FRAGMENT_BIT);
 
-	//Invision::VulkanPipeline pipeline;
 	pipeline.AddShader(vertShader);
 	pipeline.AddShader(fragShader);
 	pipeline.CreatePipeline(vulkInstance);
