@@ -28,6 +28,11 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	auto vertShaderCode = readFile(std::string(ROOT).append("/src/tools/sandboxWindow/Shader/vert.spv"));
 	auto fragShaderCode	= readFile(std::string(ROOT).append("/src/tools/sandboxWindow/Shader/frag.spv"));
 
+	Invision::VulkanShader vertShader(vulkInstance, vertShaderCode, VK_SHADER_STAGE_VERTEX_BIT);
+	Invision::VulkanShader fragShader(vulkInstance, fragShaderCode, VK_SHADER_STAGE_FRAGMENT_BIT);
+
+	vertShader.Destroy(vulkInstance);
+	fragShader.Destroy(vulkInstance);
 }
 
 VulkanCanvas::~VulkanCanvas() noexcept
