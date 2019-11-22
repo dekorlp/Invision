@@ -9,13 +9,13 @@
 
 namespace Invision
 {
-	class INVISION_API VulkanPipeline
+	class  VulkanPipeline
 	{
 	public:
-
+		void INVISION_API AddShader(VulkanShader shader);
 	private:
 		VkPipeline mPipeline; // basic pipeline
-		std::vector<VkPipelineShaderStageCreateInfo> shaderStages; // shaders
+		std::vector<VkPipelineShaderStageCreateInfo> mShaderStages; // shaders
 		
 	};
 

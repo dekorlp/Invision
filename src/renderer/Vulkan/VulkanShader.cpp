@@ -15,6 +15,7 @@ namespace Invision
 		if (vkCreateShaderModule(vulkanInstance.logicalDevice, &createInfo, nullptr, &mShaderModule) != VK_SUCCESS) {
 			throw Invision::VulkanException("failed to create shader module!");
 		}
+		mShaderStage = stage;
 	}
 
 	VkShaderModule VulkanShader::GetShaderModule()

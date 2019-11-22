@@ -15,6 +15,7 @@
 #include "renderer\Vulkan\VulkanDevice.h"
 #include "renderer\Vulkan\VulkanPresentation.h"
 #include "renderer\Vulkan\VulkanShader.h"
+#include "renderer\Vulkan\VulkanPipeline.h"
 
 
 
