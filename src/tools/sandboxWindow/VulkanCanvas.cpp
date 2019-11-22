@@ -31,16 +31,19 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	Invision::VulkanShader vertShader(vulkInstance, vertShaderCode, VK_SHADER_STAGE_VERTEX_BIT);
 	Invision::VulkanShader fragShader(vulkInstance, fragShaderCode, VK_SHADER_STAGE_FRAGMENT_BIT);
 
-	Invision::VulkanPipeline pipeline;
+	//Invision::VulkanPipeline pipeline;
 	pipeline.AddShader(vertShader);
 	pipeline.AddShader(fragShader);
-
+	pipeline.CreatePipeline(vulkInstance);
 	vertShader.Destroy(vulkInstance);
 	fragShader.Destroy(vulkInstance);
+
+	
 }
 
 VulkanCanvas::~VulkanCanvas() noexcept
 {
+	pipeline.DestroyPipeline(vulkInstance);
 	Invision::DestroyPresentationSystem(vulkInstance);
 	Invision::DestroyVulkanDevice(vulkInstance);
 	Invision::DestroySurface(vulkInstance);
