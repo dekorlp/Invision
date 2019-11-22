@@ -135,7 +135,7 @@ namespace Invision
 		UpdatePipelineLayoutConfiguration();
 		
 		if (vkCreatePipelineLayout(vulkanInstance.logicalDevice, &mPipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
-			throw std::runtime_error("failed to create pipeline layout!");
+			throw InvisionBaseRendererException("failed to create pipeline layout!");
 		}
 	}
 

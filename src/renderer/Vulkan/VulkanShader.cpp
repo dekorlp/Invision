@@ -13,7 +13,7 @@ namespace Invision
 		createInfo.pCode = reinterpret_cast<const uint32_t*>(code.data());
 
 		if (vkCreateShaderModule(vulkanInstance.logicalDevice, &createInfo, nullptr, &mShaderModule) != VK_SUCCESS) {
-			throw Invision::VulkanException("failed to create shader module!");
+			throw Invision::InvisionBaseRendererException("failed to create shader module!");
 		}
 		mShaderStage = stage;
 	}

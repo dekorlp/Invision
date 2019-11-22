@@ -60,7 +60,7 @@ namespace Invision
 		populateDebugMessengerCreateInfo(createInfo);
 
 		if (CreateDebugUtilsMessengerEXT(mInstance, &createInfo, nullptr, &mDebugMessanger) != VK_SUCCESS) {
-			throw VulkanException("failed to set up debug messenger!");
+			throw InvisionBaseRendererException("failed to set up debug messenger!");
 		}
 
 	}
@@ -92,7 +92,7 @@ namespace Invision
 #ifdef _WIN32
 		HMODULE vulkanModule = ::LoadLibraryA("vulkan-1.dll");
 		if (vulkanModule == NULL) {
-			throw VulkanException("Vulkan library is not available on this system, so program cannot run.\n"
+			throw InvisionBaseRendererException("Vulkan library is not available on this system, so program cannot run.\n"
 				"You must install the appropriate Vulkan library and also have a graphics card that supports Vulkan.");
 		}
 #else
@@ -135,7 +135,7 @@ namespace Invision
 
 		if (mEnableValidationLayers && !CheckValidationLayerSupport(mValidationLayers))
 		{
-			throw VulkanException("validation layers requested, but not available!");
+			throw InvisionBaseRendererException("validation layers requested, but not available!");
 		}
 
 
@@ -158,7 +158,7 @@ namespace Invision
 
 		if (vkCreateInstance(&instanceCreateInfo, nullptr, &mInstance) != VK_SUCCESS)
 		{
-			throw VulkanException("failed to create instance!");
+			throw InvisionBaseRendererException("failed to create instance!");
 		}
 	}
 
@@ -194,7 +194,8 @@ namespace Invision
 				ss << requiredExtensions[extNum] << "\n";
 			}
 			ss << "Program cannot continue.";
-			throw VulkanException(ss.str());
+			const std::string tmp = ss.str();
+			throw InvisionBaseRendererException(tmp.c_str());
 		}
 	}
 

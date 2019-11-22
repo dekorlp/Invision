@@ -30,13 +30,13 @@ namespace Invision
 	void VulkanDevice::PickPhysicalDevice(SVulkan &vulkanInstance)
 	{
 		if (!vulkanInstance.instance) {
-			throw VulkanException("Programming Error:\n"
+			throw InvisionBaseRendererException("Programming Error:\n"
 				"Attempted to get a Vulkan physical device before the Vulkan instance was created.");
 		}
 		uint32_t deviceCount = 0;
 		vkEnumeratePhysicalDevices(vulkanInstance.instance, &deviceCount, nullptr);
 		if (deviceCount == 0) {
-			throw VulkanException("Failed to find a GPU with Vulkan support.");
+			throw InvisionBaseRendererException("Failed to find a GPU with Vulkan support.");
 		}
 		std::vector<VkPhysicalDevice> devices(deviceCount);
 		vkEnumeratePhysicalDevices(vulkanInstance.instance, &deviceCount, devices.data());
@@ -47,7 +47,7 @@ namespace Invision
 			}
 		}
 		if (vulkanInstance.physicalDevice == VK_NULL_HANDLE) {
-			throw VulkanException("No physical GPU could be found with the required extensions and swap chain support.");
+			throw InvisionBaseRendererException("No physical GPU could be found with the required extensions and swap chain support.");
 		}
 	}
 

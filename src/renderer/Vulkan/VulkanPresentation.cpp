@@ -129,7 +129,7 @@ required to support other windowing systems.
 		createInfo.oldSwapchain = VK_NULL_HANDLE;
 
 		if (vkCreateSwapchainKHR(vulkanInstance.logicalDevice, &createInfo, nullptr, &vulkanInstance.swapChain) != VK_SUCCESS) {
-			throw VulkanException("failed to create swap chain!");
+			throw InvisionBaseRendererException("failed to create swap chain!");
 		}
 
 		vkGetSwapchainImagesKHR(vulkanInstance.logicalDevice, vulkanInstance.swapChain, &imageCount, nullptr);
@@ -160,7 +160,7 @@ required to support other windowing systems.
 			createInfo.subresourceRange.layerCount = 1;
 
 			if (vkCreateImageView(vulkanInstance.logicalDevice, &createInfo, nullptr, &vulkanInstance.swapChainImageViews[i]) != VK_SUCCESS) {
-				throw VulkanException("failed to create image views!");
+				throw InvisionBaseRendererException("failed to create image views!");
 			}
 		}
 	}
