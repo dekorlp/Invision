@@ -14,7 +14,8 @@ namespace Invision
 	public:
 
 	private:
-		VkPipeline mPipeline;
+		VkPipeline mPipeline; // basic pipeline
+		std::vector<VkPipelineShaderStageCreateInfo> shaderStages; // shaders
 		
 	};
 
