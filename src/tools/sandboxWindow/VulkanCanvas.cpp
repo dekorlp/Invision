@@ -37,7 +37,7 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 
 	pipeline.AddShader(vertShader);
 	pipeline.AddShader(fragShader);
-	pipeline.CreatePipeline(vulkInstance);
+	pipeline.CreatePipeline(vulkInstance, renderPass, 0);
 	vertShader.Destroy(vulkInstance);
 	fragShader.Destroy(vulkInstance);
 

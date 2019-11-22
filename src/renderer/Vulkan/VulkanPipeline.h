@@ -5,6 +5,7 @@
 #include "Vulkan.h"
 #include "VulkanException.h"
 #include "VulkanShader.h"
+#include "VulkanRenderPass.h"
 
 
 namespace Invision
@@ -30,23 +31,30 @@ namespace Invision
 		void INVISION_API UpdateDynamicStatesConfiguration();
 		void INVISION_API UpdatePipelineLayoutConfiguration();
 
-		void INVISION_API CreatePipeline(const SVulkan &vulkanInstance);
+		void INVISION_API CreatePipeline(const SVulkan &vulkanInstance, VulkanRenderPass &renderPass, uint32_t subpassIndex);
 		void INVISION_API DestroyPipeline(const SVulkan &vulkanInstance);
 	private:
-		std::vector<VkPipelineShaderStageCreateInfo> mShaderStages; // Shaders
-		VkPipelineVertexInputStateCreateInfo mVertexInputConfig; // Vertex configuration
-		VkPipelineInputAssemblyStateCreateInfo mInputAssembly; // Input assembly configuration
-		VkPipelineViewportStateCreateInfo mViewport; // Viewport & Scissor configuration
-		VkPipelineRasterizationStateCreateInfo mRasterizer; // Rasterizer configuration
-		VkPipelineMultisampleStateCreateInfo mMultisampling; // Multisampling configuration
-		VkPipelineDepthStencilStateCreateFlags mDepthStencil; // Depthstencil Testing configuration
-		VkPipelineColorBlendStateCreateInfo mColorBlendAttachment; // Color Blending
-		VkPipelineDynamicStateCreateInfo mDynamicState; // Dynamic State configuration
-		VkPipelineLayoutCreateInfo mPipelineLayoutInfo; // Pipeline Layout
+
+		// Configurations
+		std::vector<VkPipelineShaderStageCreateInfo> mShaderStages = {}; // Shaders
+		VkPipelineVertexInputStateCreateInfo mVertexInputConfig = {}; // Vertex configuration
+		VkPipelineInputAssemblyStateCreateInfo mInputAssembly = {}; // Input assembly configuration
+		VkPipelineViewportStateCreateInfo mViewportState = {}; // Viewport & Scissor configuration
+		VkPipelineRasterizationStateCreateInfo mRasterizer = {}; // Rasterizer configuration
+		VkPipelineMultisampleStateCreateInfo mMultisampling = {}; // Multisampling configuration
+		VkPipelineDepthStencilStateCreateFlags mDepthStencil = {}; // Depthstencil Testing configuration
+		VkPipelineColorBlendStateCreateInfo mColorBlendAttachment = {}; // Color Blending
+		VkPipelineDynamicStateCreateInfo mDynamicState = {}; // Dynamic State configuration
+		VkPipelineLayoutCreateInfo mPipelineLayoutInfo = {}; // Pipeline Layout
+
+		// states
+		VkPipelineColorBlendAttachmentState mColorBlendAttachmentState = {};
+		VkViewport mViewport = {};
+		VkRect2D mScissor = {};
 
 		// pipeline
-		VkPipelineLayout pipelineLayout; // pipelineLayout
-		VkPipeline pipeline; // pipeline
+		VkPipelineLayout mPipelineLayout; // pipelineLayout
+		VkPipeline mGraphicsPipeline; // pipeline
 
 		
 	};

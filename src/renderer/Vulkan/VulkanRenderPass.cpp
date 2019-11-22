@@ -53,13 +53,11 @@ namespace Invision
 		subpassDesc.colorAttachmentCount = mSubpassesReferences.at(mSubpassesReferences.size() - 1).mColorReference.size();
 		subpassDesc.pColorAttachments = mSubpassesReferences.at(mSubpassesReferences.size() - 1).mColorReference.data();
 		mSubpasses.push_back(subpassDesc);
+	}
 
-		
-		
-		
-
-		
-
+	VkRenderPass VulkanRenderPass::GetRenderPass()
+	{
+		return mRenderPass;
 	}
 
 	void VulkanRenderPass::DestroyRenderPass(const SVulkan &vulkanInstance)

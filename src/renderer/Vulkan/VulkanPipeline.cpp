@@ -40,23 +40,23 @@ namespace Invision
 		float maxDepth,
 		VkOffset2D scissorOffset)
 	{
-		VkViewport viewport = {};
-		viewport.x = ViewportX; // default: 0.0f;
-		viewport.y = ViewportY; // default: 0.0f;
-		viewport.width = viewPortWidth; // default: (float)vulkanInstance.swapchainExtend.Width
-		viewport.height = viewPortHeight;// default: (float)vulkanInstance.swapchainExtend.Height
-		viewport.minDepth = minDepth; // default: 0.0
-		viewport.maxDepth = maxDepth; // default: 1.0
+		
+		mViewport.x = ViewportX; // default: 0.0f;
+		mViewport.y = ViewportY; // default: 0.0f;
+		mViewport.width = viewPortWidth; // default: (float)vulkanInstance.swapchainExtend.Width
+		mViewport.height = viewPortHeight;// default: (float)vulkanInstance.swapchainExtend.Height
+		mViewport.minDepth = minDepth; // default: 0.0
+		mViewport.maxDepth = maxDepth; // default: 1.0
 
-		VkRect2D scissor = {};
-		scissor.offset = scissorOffset; // default: { 0, 0 };
-		scissor.extent = vulkanInstance.swapChainExtent;
+		
+		mScissor.offset = scissorOffset; // default: { 0, 0 };
+		mScissor.extent = vulkanInstance.swapChainExtent;
 
-		mViewport.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
-		mViewport.viewportCount = 1;
-		mViewport.pViewports = &viewport;
-		mViewport.scissorCount = 1;
-		mViewport.pScissors = &scissor;
+		mViewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+		mViewportState.viewportCount = 1;
+		mViewportState.pViewports = &mViewport;
+		mViewportState.scissorCount = 1;
+		mViewportState.pScissors = &mScissor;
 	}
 
 	void VulkanPipeline::UpdateRasterizerConfiguration(VkPolygonMode polygonFillMode, float lineWidth, VkCullModeFlags cullMode, VkFrontFace frontFace)
@@ -91,16 +91,15 @@ namespace Invision
 
 	void VulkanPipeline::UpdateColorBlendingAttachmentConfiguration()
 	{
-		VkPipelineColorBlendAttachmentState colorBlendAttachment = {};
-		colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
-		colorBlendAttachment.blendEnable = VK_FALSE;
+		mColorBlendAttachmentState.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+		mColorBlendAttachmentState.blendEnable = VK_FALSE;
 
 		VkPipelineColorBlendStateCreateInfo colorBlending = {};
 		mColorBlendAttachment.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
 		mColorBlendAttachment.logicOpEnable = VK_FALSE;
 		mColorBlendAttachment.logicOp = VK_LOGIC_OP_COPY;
 		mColorBlendAttachment.attachmentCount = 1;
-		mColorBlendAttachment.pAttachments = &colorBlendAttachment;
+		mColorBlendAttachment.pAttachments = &mColorBlendAttachmentState;
 		mColorBlendAttachment.blendConstants[0] = 0.0f;
 		mColorBlendAttachment.blendConstants[1] = 0.0f;
 		mColorBlendAttachment.blendConstants[2] = 0.0f;
@@ -122,7 +121,7 @@ namespace Invision
 		mPipelineLayoutInfo.pPushConstantRanges = nullptr; // Optional
 	}
 
-	void VulkanPipeline::CreatePipeline(const SVulkan &vulkanInstance)
+	void VulkanPipeline::CreatePipeline(const SVulkan &vulkanInstance, VulkanRenderPass &renderPass, uint32_t subpassIndex)
 	{
 		UpdateVertexInputConfiguration();
 		UpdateInputAssemblyConfiguration(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST);
@@ -134,13 +133,36 @@ namespace Invision
 		UpdateDynamicStatesConfiguration();
 		UpdatePipelineLayoutConfiguration();
 		
-		if (vkCreatePipelineLayout(vulkanInstance.logicalDevice, &mPipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
+		if (vkCreatePipelineLayout(vulkanInstance.logicalDevice, &mPipelineLayoutInfo, nullptr, &mPipelineLayout) != VK_SUCCESS) {
 			throw InvisionBaseRendererException("failed to create pipeline layout!");
+		}
+
+		VkGraphicsPipelineCreateInfo pipelineInfo = {};
+		pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+		pipelineInfo.stageCount = mShaderStages.size();
+		pipelineInfo.pStages = mShaderStages.data();
+		pipelineInfo.pVertexInputState = &mVertexInputConfig;
+		pipelineInfo.pInputAssemblyState = &mInputAssembly;
+		pipelineInfo.pViewportState = &mViewportState;
+		pipelineInfo.pRasterizationState = &mRasterizer;
+		pipelineInfo.pMultisampleState = &mMultisampling;
+		pipelineInfo.pDepthStencilState = nullptr; // unused
+		pipelineInfo.pColorBlendState = &mColorBlendAttachment;
+		pipelineInfo.pDynamicState = nullptr; // unused
+		pipelineInfo.layout = mPipelineLayout;
+		pipelineInfo.renderPass = renderPass.GetRenderPass();
+		pipelineInfo.subpass = subpassIndex;
+		pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
+		pipelineInfo.basePipelineIndex = -1; // Optional
+
+		if (vkCreateGraphicsPipelines(vulkanInstance.logicalDevice, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &mGraphicsPipeline) != VK_SUCCESS) {
+			throw InvisionBaseRendererException("failed to create graphics pipeline!");
 		}
 	}
 
 	void VulkanPipeline::DestroyPipeline(const SVulkan &vulkanInstance)
 	{
-		vkDestroyPipelineLayout(vulkanInstance.logicalDevice, pipelineLayout, nullptr);
+		vkDestroyPipeline(vulkanInstance.logicalDevice, mGraphicsPipeline, nullptr);
+		vkDestroyPipelineLayout(vulkanInstance.logicalDevice, mPipelineLayout, nullptr);
 	}
 }
