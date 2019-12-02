@@ -41,11 +41,13 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	vertShader.Destroy(vulkInstance);
 	fragShader.Destroy(vulkInstance);
 
+	framebuffer.CreateFramebuffer(vulkInstance, renderPass);
 	
 }
 
 VulkanCanvas::~VulkanCanvas() noexcept
 {
+	framebuffer.DestroyFramebuffer(vulkInstance);
 	pipeline.DestroyPipeline(vulkInstance);
 	renderPass.DestroyRenderPass(vulkInstance);
 	Invision::DestroyPresentationSystem(vulkInstance);
