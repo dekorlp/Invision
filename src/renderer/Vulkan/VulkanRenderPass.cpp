@@ -17,6 +17,8 @@ namespace Invision
 		renderPassInfo.pAttachments = mAttachmentDescriptions.data();
 		renderPassInfo.subpassCount = mSubpasses.size();
 		renderPassInfo.pSubpasses = mSubpasses.data();
+		renderPassInfo.dependencyCount = mDependencies.size();
+		renderPassInfo.pDependencies = mDependencies.data();
 
 		if (vkCreateRenderPass(vulkanInstance.logicalDevice, &renderPassInfo, nullptr, &mRenderPass) != VK_SUCCESS) {
 			throw InvisionBaseRendererException("failed to create render pass!");
@@ -53,6 +55,19 @@ namespace Invision
 		subpassDesc.colorAttachmentCount = mSubpassesReferences.at(mSubpassesReferences.size() - 1).mColorReference.size();
 		subpassDesc.pColorAttachments = mSubpassesReferences.at(mSubpassesReferences.size() - 1).mColorReference.data();
 		mSubpasses.push_back(subpassDesc);
+	}
+
+	void VulkanRenderPass::AddSubpassDependency(const SVulkan &vulkanInstance)
+	{
+		VkSubpassDependency dependency = {};
+		dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
+		dependency.dstSubpass = 0;
+		dependency.srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+		dependency.srcAccessMask = 0;
+		dependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+		dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+
+		mDependencies.push_back(dependency);
 	}
 
 	VkRenderPass VulkanRenderPass::GetRenderPass()

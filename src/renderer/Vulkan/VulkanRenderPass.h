@@ -25,6 +25,7 @@ namespace Invision
 		void INVISION_API DestroyRenderPass(const SVulkan &vulkanInstance);
 		void INVISION_API AddAttachment(const SVulkan &vulkanInstance);
 		void INVISION_API AddSubpass(SubPass subPass = {});
+		void INVISION_API AddSubpassDependency(const SVulkan &vulkanInstance);
 		VkRenderPass INVISION_API GetRenderPass();
 	private:
 		std::vector<VkAttachmentDescription> mAttachmentDescriptions;
@@ -35,6 +36,7 @@ namespace Invision
 		std::vector<SubPass> mSubpassesReferences;
 
 		VkRenderPass mRenderPass;
+		std::vector<VkSubpassDependency> mDependencies;
 	};
 
 }

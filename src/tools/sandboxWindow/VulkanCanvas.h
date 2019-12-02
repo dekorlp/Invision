@@ -18,6 +18,7 @@
 #include "renderer\Vulkan\VulkanPipeline.h"
 #include "renderer\Vulkan\VulkanRenderPass.h"
 #include "renderer\Vulkan\VulkanFramebuffer.h"
+#include "renderer\Vulkan\VulkanCommandBuffer.h"
 
 
 
@@ -56,5 +57,6 @@ private:
 	Invision::VulkanPipeline pipeline;
 	Invision::VulkanRenderPass renderPass;
 	Invision::VulkanFramebuffer framebuffer;
+	Invision::VulkanCommandBuffer commandBuffer;
 	SVulkan vulkInstance;
 };

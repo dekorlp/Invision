@@ -121,6 +121,11 @@ namespace Invision
 		mPipelineLayoutInfo.pPushConstantRanges = nullptr; // Optional
 	}
 
+	VkPipeline VulkanPipeline::GetPipeline()
+	{
+		return mGraphicsPipeline;
+	}
+
 	void VulkanPipeline::CreatePipeline(const SVulkan &vulkanInstance, VulkanRenderPass &renderPass, uint32_t subpassIndex)
 	{
 		UpdateVertexInputConfiguration();

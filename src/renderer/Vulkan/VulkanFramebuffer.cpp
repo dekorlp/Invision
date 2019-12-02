@@ -37,4 +37,9 @@ namespace Invision
 			vkDestroyFramebuffer(vulkanInstance.logicalDevice, mFramebuffer[i], nullptr);
 		}
 	}
+
+	std::vector<VkFramebuffer> VulkanFramebuffer::GetFramebuffers()
+	{
+		return mFramebuffer;
+	}
 }

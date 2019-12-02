@@ -42,11 +42,18 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	fragShader.Destroy(vulkInstance);
 
 	framebuffer.CreateFramebuffer(vulkInstance, renderPass);
-	
+	commandBuffer.CreateCommandPool(vulkInstance);
+	commandBuffer.CreateCommandBuffers(vulkInstance, framebuffer, pipeline, renderPass);
+	commandBuffer.CreateSemaphores(vulkInstance);
 }
 
 VulkanCanvas::~VulkanCanvas() noexcept
 {
+	// wait for idle status before destroying
+	vkDeviceWaitIdle(vulkInstance.logicalDevice);
+
+	commandBuffer.DestroySemaphores(vulkInstance);
+	commandBuffer.DestroyCommandPool(vulkInstance);
 	framebuffer.DestroyFramebuffer(vulkInstance);
 	pipeline.DestroyPipeline(vulkInstance);
 	renderPass.DestroyRenderPass(vulkInstance);
@@ -58,7 +65,7 @@ VulkanCanvas::~VulkanCanvas() noexcept
 
 void VulkanCanvas::OnPaint(wxPaintEvent& event)
 {
-	
+	commandBuffer.DrawFrame(vulkInstance);
 }
 
 void VulkanCanvas::OnResize(wxSizeEvent& event)

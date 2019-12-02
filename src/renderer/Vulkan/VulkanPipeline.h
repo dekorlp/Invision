@@ -30,6 +30,7 @@ namespace Invision
 		void INVISION_API UpdateColorBlendingAttachmentConfiguration();
 		void INVISION_API UpdateDynamicStatesConfiguration();
 		void INVISION_API UpdatePipelineLayoutConfiguration();
+		VkPipeline INVISION_API GetPipeline();
 
 		void INVISION_API CreatePipeline(const SVulkan &vulkanInstance, VulkanRenderPass &renderPass, uint32_t subpassIndex);
 		void INVISION_API DestroyPipeline(const SVulkan &vulkanInstance);

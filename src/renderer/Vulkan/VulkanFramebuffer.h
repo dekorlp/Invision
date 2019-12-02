@@ -15,6 +15,7 @@ namespace Invision
 	public:
 		void INVISION_API CreateFramebuffer(SVulkan &vulkanInstance, VulkanRenderPass &renderPass);
 		void INVISION_API DestroyFramebuffer(SVulkan &vulkanInstance);
+		std::vector<VkFramebuffer> GetFramebuffers();
 	};
 }
 
