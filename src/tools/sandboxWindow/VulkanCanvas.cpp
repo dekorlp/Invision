@@ -44,13 +44,13 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	framebuffer.CreateFramebuffer(vulkInstance, renderPass);
 	commandBuffer.CreateCommandPool(vulkInstance);
 	commandBuffer.CreateCommandBuffers(vulkInstance, framebuffer, pipeline, renderPass);
-	commandBuffer.CreateSemaphores(vulkInstance);
+	commandBuffer.CreateSyncObjects(vulkInstance);
 }
 
 VulkanCanvas::~VulkanCanvas() noexcept
 {
 	// wait for idle status before destroying
-	vkDeviceWaitIdle(vulkInstance.logicalDevice);
+	//vkDeviceWaitIdle(vulkInstance.logicalDevice);
 
 	commandBuffer.DestroySemaphores(vulkInstance);
 	commandBuffer.DestroyCommandPool(vulkInstance);
