@@ -29,6 +29,9 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	renderPass.CreateRenderPass(vulkInstance);
 
 	// Pipeline creation
+
+	mCache = Invision::VulkanPipeline::CreatePipelineCache(vulkInstance);
+
 	auto vertShaderCode = readFile(std::string(ROOT).append("/src/tools/sandboxWindow/Shader/vert.spv"));
 	auto fragShaderCode	= readFile(std::string(ROOT).append("/src/tools/sandboxWindow/Shader/frag.spv"));
 
@@ -37,7 +40,7 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 
 	pipeline.AddShader(vertShader);
 	pipeline.AddShader(fragShader);
-	pipeline.CreatePipeline(vulkInstance, renderPass, 0);
+	pipeline.CreatePipeline(vulkInstance, renderPass, 0, mCache);
 	vertShader.Destroy(vulkInstance);
 	fragShader.Destroy(vulkInstance);
 

@@ -62,6 +62,7 @@ private:
 	Invision::VulkanRenderPass renderPass;
 	Invision::VulkanFramebuffer framebuffer;
 	Invision::VulkanCommandBuffer commandBuffer;
+	VkPipelineCache mCache;
 	SVulkan vulkInstance;
 	wxTimer m_timer;
 };

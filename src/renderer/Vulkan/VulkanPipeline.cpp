@@ -126,7 +126,7 @@ namespace Invision
 		return mGraphicsPipeline;
 	}
 
-	void VulkanPipeline::CreatePipeline(const SVulkan &vulkanInstance, VulkanRenderPass &renderPass, uint32_t subpassIndex)
+	void VulkanPipeline::CreatePipeline(const SVulkan &vulkanInstance, VulkanRenderPass &renderPass, uint32_t subpassIndex, VkPipelineCache pipelineCache)
 	{
 		UpdateVertexInputConfiguration();
 		UpdateInputAssemblyConfiguration(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST);
@@ -160,9 +160,23 @@ namespace Invision
 		pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
 		pipelineInfo.basePipelineIndex = -1; // Optional
 
-		if (vkCreateGraphicsPipelines(vulkanInstance.logicalDevice, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &mGraphicsPipeline) != VK_SUCCESS) {
+		if (vkCreateGraphicsPipelines(vulkanInstance.logicalDevice, pipelineCache, 1, &pipelineInfo, nullptr, &mGraphicsPipeline) != VK_SUCCESS) {
 			throw InvisionBaseRendererException("failed to create graphics pipeline!");
 		}
+	}
+
+	VkPipelineCache VulkanPipeline::CreatePipelineCache(const SVulkan &vulkanInstance)
+	{
+		VkPipelineCache cache;
+
+		VkPipelineCacheCreateInfo pipelineCacheCreateInfo = {};
+		pipelineCacheCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;
+		if (vkCreatePipelineCache(vulkanInstance.logicalDevice, &pipelineCacheCreateInfo, nullptr, &cache) != VK_SUCCESS)
+		{
+			throw VulkanException("failed to create pipeline cache!");
+		}
+
+		return cache;
 	}
 
 	void VulkanPipeline::DestroyPipeline(const SVulkan &vulkanInstance)

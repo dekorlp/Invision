@@ -33,8 +33,9 @@ namespace Invision
 		void INVISION_API UpdatePipelineLayoutConfiguration();
 		VkPipeline INVISION_API GetPipeline();
 
-		void INVISION_API CreatePipeline(const SVulkan &vulkanInstance, VulkanRenderPass &renderPass, uint32_t subpassIndex);
+		void INVISION_API CreatePipeline(const SVulkan &vulkanInstance, VulkanRenderPass &renderPass, uint32_t subpassIndex, VkPipelineCache pipelineCache = VK_NULL_HANDLE);
 		void INVISION_API DestroyPipeline(const SVulkan &vulkanInstance);
+		static VkPipelineCache INVISION_API CreatePipelineCache(const SVulkan &vulkanInstance);
 	private:
 
 		// Configurations
