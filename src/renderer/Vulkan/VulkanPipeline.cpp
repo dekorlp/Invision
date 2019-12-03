@@ -169,5 +169,6 @@ namespace Invision
 	{
 		vkDestroyPipeline(vulkanInstance.logicalDevice, mGraphicsPipeline, nullptr);
 		vkDestroyPipelineLayout(vulkanInstance.logicalDevice, mPipelineLayout, nullptr);
+		mShaderStages.clear();
 	}
 }

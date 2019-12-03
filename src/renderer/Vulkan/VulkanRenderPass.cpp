@@ -78,6 +78,10 @@ namespace Invision
 	void VulkanRenderPass::DestroyRenderPass(const SVulkan &vulkanInstance)
 	{
 		vkDestroyRenderPass(vulkanInstance.logicalDevice, mRenderPass, nullptr);
+		mAttachmentDescriptions.clear();
+		mSubpasses.clear();
+		mSubpassesReferences.clear();
+		mDependencies.clear();
 	}
 
 }

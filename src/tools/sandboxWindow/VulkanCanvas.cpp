@@ -45,6 +45,10 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	commandBuffer.CreateCommandPool(vulkInstance);
 	commandBuffer.CreateCommandBuffers(vulkInstance, framebuffer, pipeline, renderPass);
 	commandBuffer.CreateSyncObjects(vulkInstance);
+
+	m_timer.SetOwner(this);
+	m_timer.Start(5);
+	this->Bind(wxEVT_TIMER, &VulkanCanvas::OnTimer, this);
 }
 
 VulkanCanvas::~VulkanCanvas() noexcept
@@ -63,9 +67,74 @@ VulkanCanvas::~VulkanCanvas() noexcept
 	vulkanInstance.Destroy();
 }
 
+void VulkanCanvas::OnTimer(wxTimerEvent& event)
+{
+	Render();
+}
+
+void VulkanCanvas::Render()
+{
+	VkResult nextImageResult = commandBuffer.AquireNextImage(vulkInstance);
+	if (nextImageResult == VK_ERROR_OUT_OF_DATE_KHR) {
+		RecreateSwapChain(m_Size.GetWidth(), m_Size.GetHeight());
+		return;
+	}
+	else if (nextImageResult != VK_SUCCESS) {
+		throw Invision::VulkanException("failed to acquire swap chain image!");
+	}
+
+	VkResult drawFrameResult = commandBuffer.DrawFrame(vulkInstance);
+	if (drawFrameResult == VK_ERROR_OUT_OF_DATE_KHR || drawFrameResult == VK_SUBOPTIMAL_KHR) {
+		RecreateSwapChain(m_Size.GetWidth(), m_Size.GetHeight());
+	}
+	else if (drawFrameResult != VK_SUCCESS) {
+		throw Invision::VulkanException("failed to present swap chain image!");
+	}
+}
+
 void VulkanCanvas::OnPaint(wxPaintEvent& event)
 {
-	commandBuffer.DrawFrame(vulkInstance);
+	//while (1)
+	//{
+	//	commandBuffer.DrawFrame(vulkInstance);
+	//	Sleep(1);
+	//}
+}
+
+void VulkanCanvas::RecreateSwapChain(const int width, const int height)
+{
+	// first Destroy
+	commandBuffer.DestroySemaphores(vulkInstance);
+	commandBuffer.DestroyCommandPool(vulkInstance);
+	framebuffer.DestroyFramebuffer(vulkInstance);
+	pipeline.DestroyPipeline(vulkInstance);
+	renderPass.DestroyRenderPass(vulkInstance);
+	Invision::DestroyPresentationSystem(vulkInstance);
+
+	//Recreate
+	Invision::CreatePresentationSystem(vulkInstance, width, height);
+
+	renderPass.AddAttachment(vulkInstance);
+	renderPass.AddSubpass();
+	renderPass.CreateRenderPass(vulkInstance);
+
+	// Pipeline creation
+	auto vertShaderCode = readFile(std::string(ROOT).append("/src/tools/sandboxWindow/Shader/vert.spv"));
+	auto fragShaderCode = readFile(std::string(ROOT).append("/src/tools/sandboxWindow/Shader/frag.spv"));
+
+	Invision::VulkanShader vertShader(vulkInstance, vertShaderCode, VK_SHADER_STAGE_VERTEX_BIT);
+	Invision::VulkanShader fragShader(vulkInstance, fragShaderCode, VK_SHADER_STAGE_FRAGMENT_BIT);
+
+	pipeline.AddShader(vertShader);
+	pipeline.AddShader(fragShader);
+	pipeline.CreatePipeline(vulkInstance, renderPass, 0);
+	vertShader.Destroy(vulkInstance);
+	fragShader.Destroy(vulkInstance);
+
+	framebuffer.CreateFramebuffer(vulkInstance, renderPass);
+	commandBuffer.CreateCommandPool(vulkInstance);
+	commandBuffer.CreateCommandBuffers(vulkInstance, framebuffer, pipeline, renderPass);
+	commandBuffer.CreateSyncObjects(vulkInstance);
 }
 
 void VulkanCanvas::OnResize(wxSizeEvent& event)
@@ -76,6 +145,7 @@ void VulkanCanvas::OnResize(wxSizeEvent& event)
 		return;
 	}
 
+	RecreateSwapChain(size.GetWidth(), size.GetHeight());
 	wxRect refreshRect(size);
 
 	RefreshRect(refreshRect, false);

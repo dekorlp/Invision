@@ -40,6 +40,8 @@ required to support other windowing systems.
 		}
 
 		vkDestroySwapchainKHR(vulkanInstance.logicalDevice, vulkanInstance.swapChain, nullptr);
+		vulkanInstance.swapChainImages.clear();
+		vulkanInstance.swapChainImageViews.clear();
 	}
 
 	VkSurfaceFormatKHR VulkanPresentation::ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)

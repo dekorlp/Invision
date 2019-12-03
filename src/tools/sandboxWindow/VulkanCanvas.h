@@ -11,6 +11,7 @@
 #include "AdditionalFunctions.h"
 #include "InCommon.h"
 #include "renderer\Vulkan\Vulkan.h"
+#include "renderer\Vulkan\VulkanException.h"
 #include "renderer\Vulkan\VulkanInstance.h"
 #include "renderer\Vulkan\VulkanDevice.h"
 #include "renderer\Vulkan\VulkanPresentation.h"
@@ -48,8 +49,11 @@ public:
 private:
 
 	virtual void OnPaint(wxPaintEvent& event);
+	virtual void OnTimer(wxTimerEvent& event);
 	virtual void OnResize(wxSizeEvent& event);
 	void OnPaintException(const std::string& msg);
+	void RecreateSwapChain(const int width, const int height);
+	void Render();
 
 	wxSize m_Size;
 
@@ -59,4 +63,5 @@ private:
 	Invision::VulkanFramebuffer framebuffer;
 	Invision::VulkanCommandBuffer commandBuffer;
 	SVulkan vulkInstance;
+	wxTimer m_timer;
 };
