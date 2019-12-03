@@ -70,7 +70,8 @@ namespace Invision
 			{
 				VkRect2D scissor = {};
 				scissor.offset = { 0, 0 }; // default: { 0, 0 };
-				scissor.extent = vulkanInstance.swapChainExtent;
+				scissor.extent.width = vulkanInstance.swapChainExtent.width;
+				scissor.extent.height = vulkanInstance.swapChainExtent.height;
 				vkCmdSetScissor(mCommandBuffers[i], 0, 1, &scissor);
 			}
 			else
