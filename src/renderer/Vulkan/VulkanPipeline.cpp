@@ -31,26 +31,19 @@ namespace Invision
 		mInputAssembly.primitiveRestartEnable = VK_FALSE;
 	}
 
-	void VulkanPipeline::UpdateViewPortConfiguration(const SVulkan &vulkanInstance,
-		float ViewportX,
-		float ViewportY,
-		float viewPortWidth,
-		float viewPortHeight,
-		float minDepth,
-		float maxDepth,
-		VkOffset2D scissorOffset)
+	void VulkanPipeline::UpdateViewPortConfiguration(const SVulkan &vulkanInstance)
 	{
 		
-		mViewport.x = ViewportX; // default: 0.0f;
-		mViewport.y = ViewportY; // default: 0.0f;
-		mViewport.width = viewPortWidth; // default: (float)vulkanInstance.swapchainExtend.Width
-		mViewport.height = viewPortHeight;// default: (float)vulkanInstance.swapchainExtend.Height
-		mViewport.minDepth = minDepth; // default: 0.0
-		mViewport.maxDepth = maxDepth; // default: 1.0
+		//mViewport.x = ViewportX; // default: 0.0f;
+		//mViewport.y = ViewportY; // default: 0.0f;
+		//mViewport.width = viewPortWidth; // default: (float)vulkanInstance.swapchainExtend.Width
+		//mViewport.height = viewPortHeight;// default: (float)vulkanInstance.swapchainExtend.Height
+		//mViewport.minDepth = minDepth; // default: 0.0
+		//mViewport.maxDepth = maxDepth; // default: 1.0
 
 		
-		mScissor.offset = scissorOffset; // default: { 0, 0 };
-		mScissor.extent = vulkanInstance.swapChainExtent;
+		//mScissor.offset = scissorOffset; // default: { 0, 0 };
+		//mScissor.extent = vulkanInstance.swapChainExtent;
 
 		mViewportState = {};
 		mViewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
@@ -137,7 +130,7 @@ namespace Invision
 	{
 		UpdateVertexInputConfiguration();
 		UpdateInputAssemblyConfiguration(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST);
-		UpdateViewPortConfiguration(vulkanInstance, 0.0f, 0.0f, static_cast<float>(vulkanInstance.swapChainExtent.width), static_cast<float>(vulkanInstance.swapChainExtent.height), 0.0f, 1.0f, { 0, 0 });
+		UpdateViewPortConfiguration(vulkanInstance);
 		UpdateRasterizerConfiguration(VK_POLYGON_MODE_FILL, 1.0, VK_CULL_MODE_BACK_BIT, VK_FRONT_FACE_CLOCKWISE);
 		UpdateMultisamplingConfiguration();
 		UpdateDepthStencilConfiguration();

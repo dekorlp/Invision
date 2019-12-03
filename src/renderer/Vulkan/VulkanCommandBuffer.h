@@ -26,7 +26,7 @@ namespace Invision
 
 	public:
 		void INVISION_API CreateCommandPool(SVulkan &vulkanInstance);
-		void INVISION_API CreateCommandBuffers(SVulkan &vulkanInstance, VulkanFramebuffer &vulkanFramebuffer, VulkanPipeline &vulkanPipeline, VulkanRenderPass &renderPass);
+		void INVISION_API CreateCommandBuffers(SVulkan &vulkanInstance, VulkanFramebuffer &vulkanFramebuffer, VulkanPipeline &vulkanPipeline, VulkanRenderPass &renderPass, VkViewport viewport = {}, VkRect2D scissor = {});
 		void INVISION_API CreateSyncObjects(SVulkan &vulkanInstance);
 		VkResult INVISION_API AquireNextImage(SVulkan &vulkanInstance);
 		VkResult INVISION_API DrawFrame(SVulkan &vulkanInstance);

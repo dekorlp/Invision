@@ -21,7 +21,7 @@ namespace Invision
 
 	
 
-	void VulkanCommandBuffer::CreateCommandBuffers(SVulkan &vulkanInstance, VulkanFramebuffer &vulkanFramebuffer, VulkanPipeline &vulkanPipeline, VulkanRenderPass &renderPass)
+	void VulkanCommandBuffer::CreateCommandBuffers(SVulkan &vulkanInstance, VulkanFramebuffer &vulkanFramebuffer, VulkanPipeline &vulkanPipeline, VulkanRenderPass &renderPass, VkViewport viewportParam, VkRect2D scissorParam)
 	{
 		mCommandBuffers.resize(vulkanFramebuffer.GetFramebuffers().size());
 
@@ -48,19 +48,35 @@ namespace Invision
 				throw VulkanException("failed to begin recording command buffer!");
 			}
 		
-			VkViewport viewport = {};
-			viewport.x = 0.0f; // default: 0.0f;
-			viewport.y = 0.0f; // default: 0.0f;
-			viewport.width = (float)vulkanInstance.swapChainExtent.width; // default: (float)vulkanInstance.swapchainExtend.Width
-			viewport.height = (float)vulkanInstance.swapChainExtent.height;// default: (float)vulkanInstance.swapchainExtend.Height
-			viewport.minDepth = 0.0; // default: 0.0
-			viewport.maxDepth = 1.0; // default: 1.0
-			vkCmdSetViewport(mCommandBuffers[i], 0, 1, &viewport);
 
-			VkRect2D scissor = {};
-			scissor.offset = {0, 0}; // default: { 0, 0 };
-			scissor.extent = vulkanInstance.swapChainExtent;
-			vkCmdSetScissor(mCommandBuffers[i], 0, 1, &scissor);
+			if (viewportParam.height == 0 && viewportParam.width == 0)
+			{
+				// there is no viewport used
+				VkViewport viewport = {};
+				viewport.x = 0.0f; // default: 0.0f;
+				viewport.y = 0.0f; // default: 0.0f;
+				viewport.width = (float)vulkanInstance.swapChainExtent.width; // default: (float)vulkanInstance.swapchainExtend.Width
+				viewport.height = (float)vulkanInstance.swapChainExtent.height;// default: (float)vulkanInstance.swapchainExtend.Height
+				viewport.minDepth = 0.0; // default: 0.0
+				viewport.maxDepth = 1.0; // default: 1.0
+				vkCmdSetViewport(mCommandBuffers[i], 0, 1, &viewport);
+			}
+			else
+			{
+				vkCmdSetViewport(mCommandBuffers[i], 0, 1, &viewportParam);
+			}
+
+			if (scissorParam.extent.height == 0 && scissorParam.extent.width == 0)
+			{
+				VkRect2D scissor = {};
+				scissor.offset = { 0, 0 }; // default: { 0, 0 };
+				scissor.extent = vulkanInstance.swapChainExtent;
+				vkCmdSetScissor(mCommandBuffers[i], 0, 1, &scissor);
+			}
+			else
+			{
+				vkCmdSetScissor(mCommandBuffers[i], 0, 1, &scissorParam);
+			}
 
 
 

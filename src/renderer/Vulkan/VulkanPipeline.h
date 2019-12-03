@@ -16,14 +16,15 @@ namespace Invision
 		void INVISION_API AddShader(VulkanShader shader);
 		void INVISION_API UpdateVertexInputConfiguration();
 		void INVISION_API UpdateInputAssemblyConfiguration(VkPrimitiveTopology primitiveTopology);
-		void INVISION_API UpdateViewPortConfiguration(const SVulkan &vulkanInstance,
+		/*void INVISION_API UpdateViewPortConfiguration(const SVulkan &vulkanInstance,
 			float ViewportX,
 			float ViewportY,
 			float viewPortWidth,
 			float viewPortHeight,
 			float minDepth,
 			float maxDepth,
-			VkOffset2D scissorOffset);
+			VkOffset2D scissorOffset);*/
+		void INVISION_API UpdateViewPortConfiguration(const SVulkan &vulkanInstance);
 		void INVISION_API UpdateRasterizerConfiguration(VkPolygonMode fillMode, float lineWidth, VkCullModeFlags cullMode, VkFrontFace frontFace);
 		void INVISION_API UpdateMultisamplingConfiguration();
 		void INVISION_API UpdateDepthStencilConfiguration();
