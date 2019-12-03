@@ -10,6 +10,10 @@
 
 namespace Invision
 {
+
+	VkPipelineCache INVISION_API CreatePipelineCache(const SVulkan &vulkanInstance);
+	void INVISION_API DestroyPipelineCache(const SVulkan &vulkanInstance, VkPipelineCache cache);
+
 	class  VulkanPipeline
 	{
 	public:
@@ -35,7 +39,7 @@ namespace Invision
 
 		void INVISION_API CreatePipeline(const SVulkan &vulkanInstance, VulkanRenderPass &renderPass, uint32_t subpassIndex, VkPipelineCache pipelineCache = VK_NULL_HANDLE);
 		void INVISION_API DestroyPipeline(const SVulkan &vulkanInstance);
-		static VkPipelineCache INVISION_API CreatePipelineCache(const SVulkan &vulkanInstance);
+		
 	private:
 
 		// Configurations

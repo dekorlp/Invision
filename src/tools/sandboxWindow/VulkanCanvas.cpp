@@ -30,7 +30,7 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 
 	// Pipeline creation
 
-	mCache = Invision::VulkanPipeline::CreatePipelineCache(vulkInstance);
+	mCache = Invision::CreatePipelineCache(vulkInstance);
 
 	auto vertShaderCode = readFile(std::string(ROOT).append("/src/tools/sandboxWindow/Shader/vert.spv"));
 	auto fragShaderCode	= readFile(std::string(ROOT).append("/src/tools/sandboxWindow/Shader/frag.spv"));
@@ -63,6 +63,7 @@ VulkanCanvas::~VulkanCanvas() noexcept
 	commandBuffer.DestroyCommandPool(vulkInstance);
 	framebuffer.DestroyFramebuffer(vulkInstance);
 	pipeline.DestroyPipeline(vulkInstance);
+	Invision::DestroyPipelineCache(vulkInstance, mCache);
 	renderPass.DestroyRenderPass(vulkInstance);
 	Invision::DestroyPresentationSystem(vulkInstance);
 	Invision::DestroyVulkanDevice(vulkInstance);
@@ -112,13 +113,12 @@ void VulkanCanvas::RecreateSwapChain(const int width, const int height)
 	framebuffer.DestroyFramebuffer(vulkInstance);
 	renderPass.DestroyRenderPass(vulkInstance);
 	Invision::DestroyPresentationSystem(vulkInstance);
+
 	//Recreate
 	Invision::CreatePresentationSystem(vulkInstance, width, height);
-
 	renderPass.AddAttachment(vulkInstance);
 	renderPass.AddSubpass();
 	renderPass.CreateRenderPass(vulkInstance);
-
 	framebuffer.CreateFramebuffer(vulkInstance, renderPass);
 	commandBuffer.CreateCommandPool(vulkInstance);
 	commandBuffer.CreateCommandBuffers(vulkInstance, framebuffer, pipeline, renderPass);

@@ -4,6 +4,26 @@
 
 namespace Invision
 {
+
+	VkPipelineCache CreatePipelineCache(const SVulkan &vulkanInstance)
+	{
+		VkPipelineCache cache;
+
+		VkPipelineCacheCreateInfo pipelineCacheCreateInfo = {};
+		pipelineCacheCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;
+		if (vkCreatePipelineCache(vulkanInstance.logicalDevice, &pipelineCacheCreateInfo, nullptr, &cache) != VK_SUCCESS)
+		{
+			throw VulkanException("failed to create pipeline cache!");
+		}
+
+		return cache;
+	}
+
+	void DestroyPipelineCache(const SVulkan &vulkanInstance, VkPipelineCache cache)
+	{
+		vkDestroyPipelineCache(vulkanInstance.logicalDevice, cache, nullptr);
+	}
+
 	void VulkanPipeline::AddShader(VulkanShader shader)
 	{
 		VkPipelineShaderStageCreateInfo shaderStageInfo = {};
@@ -163,20 +183,6 @@ namespace Invision
 		if (vkCreateGraphicsPipelines(vulkanInstance.logicalDevice, pipelineCache, 1, &pipelineInfo, nullptr, &mGraphicsPipeline) != VK_SUCCESS) {
 			throw InvisionBaseRendererException("failed to create graphics pipeline!");
 		}
-	}
-
-	VkPipelineCache VulkanPipeline::CreatePipelineCache(const SVulkan &vulkanInstance)
-	{
-		VkPipelineCache cache;
-
-		VkPipelineCacheCreateInfo pipelineCacheCreateInfo = {};
-		pipelineCacheCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;
-		if (vkCreatePipelineCache(vulkanInstance.logicalDevice, &pipelineCacheCreateInfo, nullptr, &cache) != VK_SUCCESS)
-		{
-			throw VulkanException("failed to create pipeline cache!");
-		}
-
-		return cache;
 	}
 
 	void VulkanPipeline::DestroyPipeline(const SVulkan &vulkanInstance)
