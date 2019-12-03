@@ -48,6 +48,21 @@ namespace Invision
 				throw VulkanException("failed to begin recording command buffer!");
 			}
 		
+			VkViewport viewport = {};
+			viewport.x = 0.0f; // default: 0.0f;
+			viewport.y = 0.0f; // default: 0.0f;
+			viewport.width = (float)vulkanInstance.swapChainExtent.width; // default: (float)vulkanInstance.swapchainExtend.Width
+			viewport.height = (float)vulkanInstance.swapChainExtent.height;// default: (float)vulkanInstance.swapchainExtend.Height
+			viewport.minDepth = 0.0; // default: 0.0
+			viewport.maxDepth = 1.0; // default: 1.0
+			vkCmdSetViewport(mCommandBuffers[i], 0, 1, &viewport);
+
+			VkRect2D scissor = {};
+			scissor.offset = {0, 0}; // default: { 0, 0 };
+			scissor.extent = vulkanInstance.swapChainExtent;
+			vkCmdSetScissor(mCommandBuffers[i], 0, 1, &scissor);
+
+
 
 			VkRenderPassBeginInfo renderPassInfo = {};
 			renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;

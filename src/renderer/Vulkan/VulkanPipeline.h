@@ -52,6 +52,7 @@ namespace Invision
 		VkPipelineColorBlendAttachmentState mColorBlendAttachmentState = {};
 		VkViewport mViewport = {};
 		VkRect2D mScissor = {};
+		std::vector<VkDynamicState> mDynamicStateEnables = {};
 
 		// pipeline
 		VkPipelineLayout mPipelineLayout; // pipelineLayout

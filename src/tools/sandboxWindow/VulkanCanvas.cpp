@@ -107,7 +107,6 @@ void VulkanCanvas::RecreateSwapChain(const int width, const int height)
 	commandBuffer.DestroySemaphores(vulkInstance);
 	commandBuffer.DestroyCommandPool(vulkInstance);
 	framebuffer.DestroyFramebuffer(vulkInstance);
-	pipeline.DestroyPipeline(vulkInstance);
 	renderPass.DestroyRenderPass(vulkInstance);
 	Invision::DestroyPresentationSystem(vulkInstance);
 	//Recreate
@@ -116,19 +115,6 @@ void VulkanCanvas::RecreateSwapChain(const int width, const int height)
 	renderPass.AddAttachment(vulkInstance);
 	renderPass.AddSubpass();
 	renderPass.CreateRenderPass(vulkInstance);
-
-	// Pipeline creation
-	auto vertShaderCode = readFile(std::string(ROOT).append("/src/tools/sandboxWindow/Shader/vert.spv"));
-	auto fragShaderCode = readFile(std::string(ROOT).append("/src/tools/sandboxWindow/Shader/frag.spv"));
-
-	Invision::VulkanShader vertShader(vulkInstance, vertShaderCode, VK_SHADER_STAGE_VERTEX_BIT);
-	Invision::VulkanShader fragShader(vulkInstance, fragShaderCode, VK_SHADER_STAGE_FRAGMENT_BIT);
-
-	pipeline.AddShader(vertShader);
-	pipeline.AddShader(fragShader);
-	pipeline.CreatePipeline(vulkInstance, renderPass, 0);
-	vertShader.Destroy(vulkInstance);
-	fragShader.Destroy(vulkInstance);
 
 	framebuffer.CreateFramebuffer(vulkInstance, renderPass);
 	commandBuffer.CreateCommandPool(vulkInstance);

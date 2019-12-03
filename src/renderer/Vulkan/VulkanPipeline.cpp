@@ -52,11 +52,13 @@ namespace Invision
 		mScissor.offset = scissorOffset; // default: { 0, 0 };
 		mScissor.extent = vulkanInstance.swapChainExtent;
 
+		mViewportState = {};
 		mViewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
 		mViewportState.viewportCount = 1;
-		mViewportState.pViewports = &mViewport;
 		mViewportState.scissorCount = 1;
-		mViewportState.pScissors = &mScissor;
+		//mViewportState.pViewports = &mViewport;
+		
+		//mViewportState.pScissors = &mScissor;
 	}
 
 	void VulkanPipeline::UpdateRasterizerConfiguration(VkPolygonMode polygonFillMode, float lineWidth, VkCullModeFlags cullMode, VkFrontFace frontFace)
@@ -94,7 +96,6 @@ namespace Invision
 		mColorBlendAttachmentState.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
 		mColorBlendAttachmentState.blendEnable = VK_FALSE;
 
-		VkPipelineColorBlendStateCreateInfo colorBlending = {};
 		mColorBlendAttachment.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
 		mColorBlendAttachment.logicOpEnable = VK_FALSE;
 		mColorBlendAttachment.logicOp = VK_LOGIC_OP_COPY;
@@ -108,6 +109,12 @@ namespace Invision
 
 	void VulkanPipeline::UpdateDynamicStatesConfiguration()
 	{
+		mDynamicStateEnables.push_back(VK_DYNAMIC_STATE_VIEWPORT);
+		mDynamicStateEnables.push_back(VK_DYNAMIC_STATE_SCISSOR);
+
+		mDynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
+		mDynamicState.pDynamicStates = mDynamicStateEnables.data();
+		mDynamicState.dynamicStateCount = static_cast<uint32_t>(mDynamicStateEnables.size());
 	}
 
 	void VulkanPipeline::UpdatePipelineLayoutConfiguration()
@@ -153,7 +160,7 @@ namespace Invision
 		pipelineInfo.pMultisampleState = &mMultisampling;
 		pipelineInfo.pDepthStencilState = nullptr; // unused
 		pipelineInfo.pColorBlendState = &mColorBlendAttachment;
-		pipelineInfo.pDynamicState = nullptr; // unused
+		pipelineInfo.pDynamicState = &mDynamicState;
 		pipelineInfo.layout = mPipelineLayout;
 		pipelineInfo.renderPass = renderPass.GetRenderPass();
 		pipelineInfo.subpass = subpassIndex;
