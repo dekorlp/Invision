@@ -110,7 +110,6 @@ void VulkanCanvas::RecreateSwapChain(const int width, const int height)
 	pipeline.DestroyPipeline(vulkInstance);
 	renderPass.DestroyRenderPass(vulkInstance);
 	Invision::DestroyPresentationSystem(vulkInstance);
-
 	//Recreate
 	Invision::CreatePresentationSystem(vulkInstance, width, height);
 
@@ -140,7 +139,7 @@ void VulkanCanvas::RecreateSwapChain(const int width, const int height)
 void VulkanCanvas::OnResize(wxSizeEvent& event)
 {
 
-	wxSize size = m_Size;
+	wxSize size = GetSize();
 	if (size.GetWidth() == 0 || size.GetHeight() == 0) {
 		return;
 	}
