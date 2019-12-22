@@ -47,7 +47,8 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	framebuffer.CreateFramebuffer(vulkInstance, renderPass);
 	commandBuffer.CreateCommandPool(vulkInstance);
 	commandBuffer.CreateCommandBuffers(vulkInstance, framebuffer, pipeline, renderPass);
-	commandBuffer.CreateSyncObjects(vulkInstance);
+	//commandBuffer.CreateSyncObjects(vulkInstance);
+	renderer.CreateSyncObjects(vulkInstance);
 
 	m_timer.SetOwner(this);
 	m_timer.Start(5);
@@ -59,7 +60,8 @@ VulkanCanvas::~VulkanCanvas() noexcept
 	// wait for idle status before destroying
 	//vkDeviceWaitIdle(vulkInstance.logicalDevice);
 
-	commandBuffer.DestroySemaphores(vulkInstance);
+	//commandBuffer.DestroySemaphores(vulkInstance);
+	renderer.DestroySemaphores(vulkInstance);
 	commandBuffer.DestroyCommandPool(vulkInstance);
 	framebuffer.DestroyFramebuffer(vulkInstance);
 	pipeline.DestroyPipeline(vulkInstance);
@@ -78,7 +80,8 @@ void VulkanCanvas::OnTimer(wxTimerEvent& event)
 
 void VulkanCanvas::Render()
 {
-	VkResult nextImageResult = commandBuffer.AquireNextImage(vulkInstance);
+	//VkResult nextImageResult = commandBuffer.AquireNextImage(vulkInstance);
+	VkResult nextImageResult = renderer.AquireNextImage(vulkInstance);
 	if (nextImageResult == VK_ERROR_OUT_OF_DATE_KHR) {
 		RecreateSwapChain(m_Size.GetWidth(), m_Size.GetHeight());
 		return;
@@ -87,7 +90,8 @@ void VulkanCanvas::Render()
 		throw Invision::VulkanException("failed to acquire swap chain image!");
 	}
 
-	VkResult drawFrameResult = commandBuffer.DrawFrame(vulkInstance);
+	//VkResult drawFrameResult = commandBuffer.DrawFrame(vulkInstance);
+	VkResult drawFrameResult = renderer.DrawFrame(vulkInstance, commandBuffer);
 	if (drawFrameResult == VK_ERROR_OUT_OF_DATE_KHR || drawFrameResult == VK_SUBOPTIMAL_KHR) {
 		RecreateSwapChain(m_Size.GetWidth(), m_Size.GetHeight());
 	}
@@ -108,7 +112,8 @@ void VulkanCanvas::OnPaint(wxPaintEvent& event)
 void VulkanCanvas::RecreateSwapChain(const int width, const int height)
 {
 	// first Destroy
-	commandBuffer.DestroySemaphores(vulkInstance);
+	//commandBuffer.DestroySemaphores(vulkInstance);
+	renderer.DestroySemaphores(vulkInstance);
 	commandBuffer.DestroyCommandPool(vulkInstance);
 	framebuffer.DestroyFramebuffer(vulkInstance);
 	renderPass.DestroyRenderPass(vulkInstance);
@@ -122,7 +127,8 @@ void VulkanCanvas::RecreateSwapChain(const int width, const int height)
 	framebuffer.CreateFramebuffer(vulkInstance, renderPass);
 	commandBuffer.CreateCommandPool(vulkInstance);
 	commandBuffer.CreateCommandBuffers(vulkInstance, framebuffer, pipeline, renderPass);
-	commandBuffer.CreateSyncObjects(vulkInstance);
+	//commandBuffer.CreateSyncObjects(vulkInstance);
+	renderer.CreateSyncObjects(vulkInstance);
 }
 
 void VulkanCanvas::OnResize(wxSizeEvent& event)

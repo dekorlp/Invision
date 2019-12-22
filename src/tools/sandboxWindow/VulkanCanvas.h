@@ -20,6 +20,7 @@
 #include "renderer\Vulkan\VulkanRenderPass.h"
 #include "renderer\Vulkan\VulkanFramebuffer.h"
 #include "renderer\Vulkan\VulkanCommandBuffer.h"
+#include "renderer\Vulkan\VulkanRenderer.h"
 
 
 
@@ -62,6 +63,7 @@ private:
 	Invision::VulkanRenderPass renderPass;
 	Invision::VulkanFramebuffer framebuffer;
 	Invision::VulkanCommandBuffer commandBuffer;
+	Invision::VulkanRenderer renderer;
 	VkPipelineCache mCache;
 	SVulkan vulkInstance;
 	wxTimer m_timer;

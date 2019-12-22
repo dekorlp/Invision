@@ -8,7 +8,6 @@
 #include "VulkanPipeline.h"
 #include "VulkanRenderPass.h"
 
-const int MAX_FRAMES_IN_FLIGHT = 2;
 
 namespace Invision
 {
@@ -17,22 +16,15 @@ namespace Invision
 	private:
 		VkCommandPool mCommandPool;
 		std::vector<VkCommandBuffer> mCommandBuffers;
-		std::vector<VkSemaphore> mImageAvailableSemaphore;
-		std::vector<VkSemaphore> mRenderFinishedSemaphore;
-		size_t mCurrentFrame = 0;
-		std::vector<VkFence> mInFlightFences;
-		std::vector<VkFence> mImagesInFlight;
-		uint32_t mImageIndex;
 
 	public:
 		void INVISION_API CreateCommandPool(SVulkan &vulkanInstance);
 		void INVISION_API CreateCommandBuffers(SVulkan &vulkanInstance, VulkanFramebuffer &vulkanFramebuffer, VulkanPipeline &vulkanPipeline, VulkanRenderPass &renderPass, VkViewport viewport = {}, VkRect2D scissor = {});
-		void INVISION_API CreateSyncObjects(SVulkan &vulkanInstance);
-		VkResult INVISION_API AquireNextImage(SVulkan &vulkanInstance);
-		VkResult INVISION_API DrawFrame(SVulkan &vulkanInstance);
-
+		
 		void INVISION_API DestroyCommandPool(SVulkan &vulkanInstance);
-		void INVISION_API DestroySemaphores(SVulkan &vulkanInstance);
+
+		std::vector<VkCommandBuffer> INVISION_API GetCommandBuffers();
+		VkCommandBuffer* GetCommandBuffer(int index);
 	};
 }
 
