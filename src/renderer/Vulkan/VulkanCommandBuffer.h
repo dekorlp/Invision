@@ -17,7 +17,16 @@ namespace Invision
 		std::vector<VkCommandBuffer> mCommandBuffers;
 
 	public:
-		void INVISION_API CreateCommandBuffers(SVulkan &vulkanInstance, VulkanCommandPool &commandPool, VulkanFramebuffer &vulkanFramebuffer, VulkanPipeline &vulkanPipeline, VulkanRenderPass &renderPass, VkViewport viewport = {}, VkRect2D scissor = {});
+		void INVISION_API CreateCommandBuffer(SVulkan &vulkanInstance, VulkanCommandPool &commandPool, unsigned int countOfBuffers);
+		void INVISION_API BeginCommandBuffer();
+		void INVISION_API SetViewport(VkViewport& viewport);
+		void INVISION_API SetScissor(VkRect2D& rect);
+		void INVISION_API BeginRenderPass(SVulkan &vulkanInstance, VulkanRenderPass &renderPass, VulkanFramebuffer &vulkanFramebuffer);
+		void INVISION_API BindPipeline(VulkanPipeline pipeline, VkPipelineBindPoint bindPoint);
+		void INVISION_API Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex = 0, uint32_t firstInstance = 0);
+		void INVISION_API EndRenderPass();
+		void INVISION_API EndCommandBuffer();
+
 		std::vector<VkCommandBuffer> INVISION_API GetCommandBuffers();
 		VkCommandBuffer* GetCommandBuffer(int index);
 	};

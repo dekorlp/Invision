@@ -55,6 +55,7 @@ private:
 	virtual void OnResize(wxSizeEvent& event);
 	void OnPaintException(const std::string& msg);
 	void RecreateSwapChain(const int width, const int height);
+	void BuildCommandBuffer(float width, float height);
 	void Render();
 
 	wxSize m_Size;

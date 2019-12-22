@@ -4,10 +4,10 @@
 
 namespace Invision
 {
-	void VulkanCommandBuffer::CreateCommandBuffers(SVulkan &vulkanInstance, VulkanCommandPool &commandPool, VulkanFramebuffer &vulkanFramebuffer, VulkanPipeline &vulkanPipeline, VulkanRenderPass &renderPass, VkViewport viewportParam, VkRect2D scissorParam)
+	void VulkanCommandBuffer::CreateCommandBuffer(SVulkan &vulkanInstance, VulkanCommandPool &commandPool, unsigned int countOfBuffers)
 	{
 		mCommandBuffers.clear();
-		mCommandBuffers.resize(vulkanFramebuffer.GetFramebuffers().size());
+		mCommandBuffers.resize(countOfBuffers);
 
 		VkCommandBufferAllocateInfo allocInfo = {};
 		allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -19,7 +19,10 @@ namespace Invision
 		{
 			throw VulkanException("failed to create command buffers!");
 		}
+	}
 
+	void VulkanCommandBuffer::BeginCommandBuffer()
+	{
 		for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
 		{
 			VkCommandBufferBeginInfo beginInfo = {};
@@ -31,40 +34,29 @@ namespace Invision
 			{
 				throw VulkanException("failed to begin recording command buffer!");
 			}
-		
+		}
+	}
 
-			if (viewportParam.height == 0 && viewportParam.width == 0)
-			{
-				// there is no viewport used
-				VkViewport viewport = {};
-				viewport.x = 0.0f; // default: 0.0f;
-				viewport.y = 0.0f; // default: 0.0f;
-				viewport.width = (float)vulkanInstance.swapChainExtent.width; // default: (float)vulkanInstance.swapchainExtend.Width
-				viewport.height = (float)vulkanInstance.swapChainExtent.height;// default: (float)vulkanInstance.swapchainExtend.Height
-				viewport.minDepth = 0.0; // default: 0.0
-				viewport.maxDepth = 1.0; // default: 1.0
-				vkCmdSetViewport(mCommandBuffers[i], 0, 1, &viewport);
-			}
-			else
-			{
-				vkCmdSetViewport(mCommandBuffers[i], 0, 1, &viewportParam);
-			}
+	void VulkanCommandBuffer::SetViewport(VkViewport& viewport)
+	{
+		for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+		{
+			vkCmdSetViewport(mCommandBuffers[i], 0, 1, &viewport);
+		}
+	}
 
-			if (scissorParam.extent.height == 0 && scissorParam.extent.width == 0)
-			{
-				VkRect2D scissor = {};
-				scissor.offset = { 0, 0 }; // default: { 0, 0 };
-				scissor.extent.width = vulkanInstance.swapChainExtent.width;
-				scissor.extent.height = vulkanInstance.swapChainExtent.height;
-				vkCmdSetScissor(mCommandBuffers[i], 0, 1, &scissor);
-			}
-			else
-			{
-				vkCmdSetScissor(mCommandBuffers[i], 0, 1, &scissorParam);
-			}
+	void VulkanCommandBuffer::SetScissor(VkRect2D& scissor)
+	{
+		for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+		{
+			vkCmdSetScissor(mCommandBuffers[i], 0, 1, &scissor);
+		}
+	}
 
-
-
+	void VulkanCommandBuffer::BeginRenderPass(SVulkan &vulkanInstance, VulkanRenderPass &renderPass, VulkanFramebuffer &vulkanFramebuffer)
+	{
+		for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+		{
 			VkRenderPassBeginInfo renderPassInfo = {};
 			renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 			renderPassInfo.renderPass = renderPass.GetRenderPass();
@@ -72,17 +64,42 @@ namespace Invision
 			renderPassInfo.renderArea.offset = { 0, 0 };
 			renderPassInfo.renderArea.extent = vulkanInstance.swapChainExtent;
 
-			VkClearValue clearColor = {0.0f, 0.0f, 0.0f, 1.0f};
+			VkClearValue clearColor = { 0.0f, 0.0f, 0.0f, 1.0f };
 			renderPassInfo.clearValueCount = 1;
 			renderPassInfo.pClearValues = &clearColor;
-
+		
 			vkCmdBeginRenderPass(mCommandBuffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+		}
+	}
 
-			vkCmdBindPipeline(mCommandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, vulkanPipeline.GetPipeline());
-			vkCmdDraw(mCommandBuffers[i], 3, 1, 0, 0);
+	void VulkanCommandBuffer::BindPipeline(VulkanPipeline pipeline, VkPipelineBindPoint bindPoint)
+	{
+		for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+		{
+			vkCmdBindPipeline(mCommandBuffers[i], bindPoint, pipeline.GetPipeline());
+		}
+	}
 
+	void VulkanCommandBuffer::Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance)
+	{
+		for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+		{
+			vkCmdDraw(mCommandBuffers[i], vertexCount, instanceCount, firstVertex, firstInstance);
+		}
+	}
+
+	void VulkanCommandBuffer::EndRenderPass()
+	{
+		for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+		{
 			vkCmdEndRenderPass(mCommandBuffers[i]);
+		}
+	}
 
+	void VulkanCommandBuffer::EndCommandBuffer()
+	{
+		for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+		{
 			if (vkEndCommandBuffer(mCommandBuffers[i]) != VK_SUCCESS)
 			{
 				throw VulkanException("failed to record command buffer!");
