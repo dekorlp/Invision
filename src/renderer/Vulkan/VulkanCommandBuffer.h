@@ -7,22 +7,17 @@
 #include "VulkanFramebuffer.h"
 #include "VulkanPipeline.h"
 #include "VulkanRenderPass.h"
-
+#include "VulkanCommandPool.h"
 
 namespace Invision
 {
 	class  VulkanCommandBuffer
 	{
 	private:
-		VkCommandPool mCommandPool;
 		std::vector<VkCommandBuffer> mCommandBuffers;
 
 	public:
-		void INVISION_API CreateCommandPool(SVulkan &vulkanInstance);
-		void INVISION_API CreateCommandBuffers(SVulkan &vulkanInstance, VulkanFramebuffer &vulkanFramebuffer, VulkanPipeline &vulkanPipeline, VulkanRenderPass &renderPass, VkViewport viewport = {}, VkRect2D scissor = {});
-		
-		void INVISION_API DestroyCommandPool(SVulkan &vulkanInstance);
-
+		void INVISION_API CreateCommandBuffers(SVulkan &vulkanInstance, VulkanCommandPool &commandPool, VulkanFramebuffer &vulkanFramebuffer, VulkanPipeline &vulkanPipeline, VulkanRenderPass &renderPass, VkViewport viewport = {}, VkRect2D scissor = {});
 		std::vector<VkCommandBuffer> INVISION_API GetCommandBuffers();
 		VkCommandBuffer* GetCommandBuffer(int index);
 	};

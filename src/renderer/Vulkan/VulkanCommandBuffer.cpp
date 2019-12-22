@@ -4,30 +4,14 @@
 
 namespace Invision
 {
-	void VulkanCommandBuffer::CreateCommandPool(SVulkan &vulkanInstance)
+	void VulkanCommandBuffer::CreateCommandBuffers(SVulkan &vulkanInstance, VulkanCommandPool &commandPool, VulkanFramebuffer &vulkanFramebuffer, VulkanPipeline &vulkanPipeline, VulkanRenderPass &renderPass, VkViewport viewportParam, VkRect2D scissorParam)
 	{
-		SQueueFamilyIndices queueFamilyIndices = Invision::FindQueueFamilies(vulkanInstance.physicalDevice);
-
-		VkCommandPoolCreateInfo poolInfo = {};
-		poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-		poolInfo.queueFamilyIndex = queueFamilyIndices.graphicsFamily;
-		poolInfo.flags = 0;
-
-		if (vkCreateCommandPool(vulkanInstance.logicalDevice, &poolInfo, nullptr, &mCommandPool) != VK_SUCCESS)
-		{
-			throw VulkanException("failed to create Command pool!");
-		}
-	}
-
-	
-
-	void VulkanCommandBuffer::CreateCommandBuffers(SVulkan &vulkanInstance, VulkanFramebuffer &vulkanFramebuffer, VulkanPipeline &vulkanPipeline, VulkanRenderPass &renderPass, VkViewport viewportParam, VkRect2D scissorParam)
-	{
+		mCommandBuffers.clear();
 		mCommandBuffers.resize(vulkanFramebuffer.GetFramebuffers().size());
 
 		VkCommandBufferAllocateInfo allocInfo = {};
 		allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-		allocInfo.commandPool = mCommandPool;
+		allocInfo.commandPool = commandPool.GetCommandPool();
 		allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 		allocInfo.commandBufferCount = (uint32)mCommandBuffers.size();
 
@@ -105,14 +89,6 @@ namespace Invision
 			}
 		}
 	}
-
-	void VulkanCommandBuffer::DestroyCommandPool(SVulkan &vulkanInstance)
-	{
-		vkDestroyCommandPool(vulkanInstance.logicalDevice, mCommandPool, nullptr);
-		mCommandBuffers.clear();
-	}
-
-
 
 	std::vector<VkCommandBuffer> VulkanCommandBuffer::GetCommandBuffers()
 	{

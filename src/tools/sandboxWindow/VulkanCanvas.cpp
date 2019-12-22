@@ -45,8 +45,8 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	fragShader.Destroy(vulkInstance);
 
 	framebuffer.CreateFramebuffer(vulkInstance, renderPass);
-	commandBuffer.CreateCommandPool(vulkInstance);
-	commandBuffer.CreateCommandBuffers(vulkInstance, framebuffer, pipeline, renderPass);
+	commandPool.CreateCommandPool(vulkInstance);
+	commandBuffer.CreateCommandBuffers(vulkInstance, commandPool, framebuffer, pipeline, renderPass);
 	//commandBuffer.CreateSyncObjects(vulkInstance);
 	renderer.CreateSyncObjects(vulkInstance);
 
@@ -62,7 +62,7 @@ VulkanCanvas::~VulkanCanvas() noexcept
 
 	//commandBuffer.DestroySemaphores(vulkInstance);
 	renderer.DestroySemaphores(vulkInstance);
-	commandBuffer.DestroyCommandPool(vulkInstance);
+	commandPool.DestroyCommandPool(vulkInstance);
 	framebuffer.DestroyFramebuffer(vulkInstance);
 	pipeline.DestroyPipeline(vulkInstance);
 	Invision::DestroyPipelineCache(vulkInstance, mCache);
@@ -114,7 +114,7 @@ void VulkanCanvas::RecreateSwapChain(const int width, const int height)
 	// first Destroy
 	//commandBuffer.DestroySemaphores(vulkInstance);
 	renderer.DestroySemaphores(vulkInstance);
-	commandBuffer.DestroyCommandPool(vulkInstance);
+	commandPool.DestroyCommandPool(vulkInstance);
 	framebuffer.DestroyFramebuffer(vulkInstance);
 	renderPass.DestroyRenderPass(vulkInstance);
 	Invision::DestroyPresentationSystem(vulkInstance);
@@ -125,8 +125,8 @@ void VulkanCanvas::RecreateSwapChain(const int width, const int height)
 	renderPass.AddSubpass();
 	renderPass.CreateRenderPass(vulkInstance);
 	framebuffer.CreateFramebuffer(vulkInstance, renderPass);
-	commandBuffer.CreateCommandPool(vulkInstance);
-	commandBuffer.CreateCommandBuffers(vulkInstance, framebuffer, pipeline, renderPass);
+	commandPool.CreateCommandPool(vulkInstance);
+	commandBuffer.CreateCommandBuffers(vulkInstance, commandPool, framebuffer, pipeline, renderPass);
 	//commandBuffer.CreateSyncObjects(vulkInstance);
 	renderer.CreateSyncObjects(vulkInstance);
 }
