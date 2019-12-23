@@ -22,15 +22,15 @@ namespace Invision
 	public:
 		INVISION_API VulkanCommandBuffer();
 		INVISION_API VulkanCommandBuffer(SVulkan &vulkanInstance, VulkanCommandPool &commandPool, unsigned int countOfBuffers);
-		void INVISION_API CreateCommandBuffer(SVulkan &vulkanInstance, VulkanCommandPool &commandPool, unsigned int countOfBuffers);
-		void INVISION_API BeginCommandBuffer();
-		void INVISION_API SetViewport(VkViewport& viewport);
-		void INVISION_API SetScissor(VkRect2D& rect);
-		void INVISION_API BeginRenderPass(SVulkan &vulkanInstance, VulkanRenderPass &renderPass, VulkanFramebuffer &vulkanFramebuffer);
-		void INVISION_API BindPipeline(VulkanPipeline pipeline, VkPipelineBindPoint bindPoint);
-		void INVISION_API Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex = 0, uint32_t firstInstance = 0);
-		void INVISION_API EndRenderPass();
-		void INVISION_API EndCommandBuffer();
+		INVISION_API VulkanCommandBuffer& CreateCommandBuffer(SVulkan &vulkanInstance, VulkanCommandPool &commandPool, unsigned int countOfBuffers);
+		INVISION_API VulkanCommandBuffer& BeginCommandBuffer();
+		INVISION_API VulkanCommandBuffer& SetViewport(VkViewport& viewport);
+		INVISION_API VulkanCommandBuffer& SetScissor(VkRect2D& rect);
+		INVISION_API VulkanCommandBuffer& BeginRenderPass(SVulkan &vulkanInstance, VulkanRenderPass &renderPass, VulkanFramebuffer &vulkanFramebuffer);
+		INVISION_API VulkanCommandBuffer& BindPipeline(VulkanPipeline pipeline, VkPipelineBindPoint bindPoint);
+		INVISION_API VulkanCommandBuffer& Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex = 0, uint32_t firstInstance = 0);
+		INVISION_API VulkanCommandBuffer& EndRenderPass();
+		INVISION_API VulkanCommandBuffer& EndCommandBuffer();
 
 		std::vector<VkCommandBuffer> INVISION_API GetCommandBuffers();
 		VkCommandBuffer* GetCommandBuffer(int index);

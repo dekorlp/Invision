@@ -18,7 +18,7 @@ namespace Invision
 		mIsRenderPassStarted = false;
 	}
 
-	void VulkanCommandBuffer::CreateCommandBuffer(SVulkan &vulkanInstance, VulkanCommandPool &commandPool, unsigned int countOfBuffers)
+	VulkanCommandBuffer& VulkanCommandBuffer::CreateCommandBuffer(SVulkan &vulkanInstance, VulkanCommandPool &commandPool, unsigned int countOfBuffers)
 	{
 		mCommandBuffers.clear();
 		mCommandBuffers.resize(countOfBuffers);
@@ -37,9 +37,11 @@ namespace Invision
 		{
 			mCommandBufferIsInitialized = true;
 		}
+
+		return *this;
 	}
 
-	void VulkanCommandBuffer::BeginCommandBuffer()
+	VulkanCommandBuffer& VulkanCommandBuffer::BeginCommandBuffer()
 	{
 		for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
 		{
@@ -54,9 +56,11 @@ namespace Invision
 			}
 		}
 		mIsCommandBufferRecording = true;
+
+		return *this;
 	}
 
-	void VulkanCommandBuffer::SetViewport(VkViewport& viewport)
+	VulkanCommandBuffer& VulkanCommandBuffer::SetViewport(VkViewport& viewport)
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
@@ -69,9 +73,11 @@ namespace Invision
 		{
 			throw VulkanException("Set Viewport cannot be executed!");
 		}
+
+		return *this;
 	}
 
-	void VulkanCommandBuffer::SetScissor(VkRect2D& scissor)
+	VulkanCommandBuffer& VulkanCommandBuffer::SetScissor(VkRect2D& scissor)
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
@@ -84,9 +90,11 @@ namespace Invision
 		{
 			throw VulkanException("Set Scissor cannot be executed!");
 		}
+
+		return *this;
 	}
 
-	void VulkanCommandBuffer::BeginRenderPass(SVulkan &vulkanInstance, VulkanRenderPass &renderPass, VulkanFramebuffer &vulkanFramebuffer)
+	VulkanCommandBuffer& VulkanCommandBuffer::BeginRenderPass(SVulkan &vulkanInstance, VulkanRenderPass &renderPass, VulkanFramebuffer &vulkanFramebuffer)
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
@@ -112,9 +120,11 @@ namespace Invision
 		{
 			throw VulkanException("Begin Render Pass cannot be executed!");
 		}
+
+		return *this;
 	}
 
-	void VulkanCommandBuffer::BindPipeline(VulkanPipeline pipeline, VkPipelineBindPoint bindPoint)
+	VulkanCommandBuffer& VulkanCommandBuffer::BindPipeline(VulkanPipeline pipeline, VkPipelineBindPoint bindPoint)
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
@@ -127,9 +137,11 @@ namespace Invision
 		{
 			throw VulkanException("Bind Pipeline cannot be executed!");
 		}
+
+		return *this;
 	}
 
-	void VulkanCommandBuffer::Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance)
+	VulkanCommandBuffer& VulkanCommandBuffer::Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance)
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording && mIsRenderPassStarted)
 		{
@@ -142,9 +154,11 @@ namespace Invision
 		{
 			throw VulkanException("Draw Command cannot be executed!");
 		}
+
+		return *this;
 	}
 
-	void VulkanCommandBuffer::EndRenderPass()
+	VulkanCommandBuffer& VulkanCommandBuffer::EndRenderPass()
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording && mIsRenderPassStarted)
 		{
@@ -157,9 +171,11 @@ namespace Invision
 		{
 			throw VulkanException("End Render Pass cannot be executed!");
 		}
+
+		return *this;
 	}
 
-	void VulkanCommandBuffer::EndCommandBuffer()
+	VulkanCommandBuffer& VulkanCommandBuffer::EndCommandBuffer()
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
@@ -175,6 +191,8 @@ namespace Invision
 		{
 			throw VulkanException("End Command Buffer cannot be executed!");
 		}
+
+		return *this;
 	}
 
 	std::vector<VkCommandBuffer> VulkanCommandBuffer::GetCommandBuffers()

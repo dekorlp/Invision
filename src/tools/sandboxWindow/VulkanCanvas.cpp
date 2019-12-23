@@ -58,7 +58,29 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 
 void VulkanCanvas::BuildCommandBuffer(float width, float height)
 {
-	commandBuffer.CreateCommandBuffer(vulkInstance, commandPool, framebuffer.GetFramebuffers().size());
+	VkViewport viewport = {};
+	viewport.width = (float)width; // default: (float)vulkanInstance.swapchainExtend.Width
+	viewport.height = (float)height;// default: (float)vulkanInstance.swapchainExtend.Height
+	viewport.minDepth = 0.0; // default: 0.0
+	viewport.maxDepth = 1.0; // default: 1.0
+
+
+	VkRect2D scissor = {};
+	scissor.offset = { 0, 0 }; // default: { 0, 0 };
+	scissor.extent.width = width;
+	scissor.extent.height = height;
+	commandBuffer.CreateCommandBuffer(vulkInstance, commandPool, framebuffer.GetFramebuffers().size()).
+		BeginCommandBuffer().
+		SetViewport(viewport).
+		SetScissor(scissor).
+		BeginRenderPass(vulkInstance, renderPass, framebuffer).
+		BindPipeline(pipeline, VK_PIPELINE_BIND_POINT_GRAPHICS).
+		Draw(3, 1, 0, 0).
+		EndRenderPass().
+		EndCommandBuffer();
+
+
+	/*commandBuffer.CreateCommandBuffer(vulkInstance, commandPool, framebuffer.GetFramebuffers().size());
 	commandBuffer.BeginCommandBuffer();
 	// there is no viewport used
 	VkViewport viewport = {};
@@ -81,7 +103,7 @@ void VulkanCanvas::BuildCommandBuffer(float width, float height)
 	commandBuffer.BindPipeline(pipeline, VK_PIPELINE_BIND_POINT_GRAPHICS);
 	commandBuffer.Draw(3, 1, 0, 0);
 	commandBuffer.EndRenderPass();
-	commandBuffer.EndCommandBuffer();
+	commandBuffer.EndCommandBuffer();*/
 }
 
 VulkanCanvas::~VulkanCanvas() noexcept
