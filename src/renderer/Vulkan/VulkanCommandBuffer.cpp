@@ -52,11 +52,8 @@ namespace Invision
 			{
 				throw VulkanException("failed to begin recording command buffer!");
 			}
-			else
-			{
-				mIsCommandBufferRecording = true;
-			}
 		}
+		mIsCommandBufferRecording = true;
 	}
 
 	void VulkanCommandBuffer::SetViewport(VkViewport& viewport)
