@@ -4,6 +4,20 @@
 
 namespace Invision
 {
+	VulkanCommandBuffer::VulkanCommandBuffer()
+	{
+		mCommandBufferIsInitialized = false;
+		mIsCommandBufferRecording = false;
+		mIsRenderPassStarted = false;
+	}
+
+	VulkanCommandBuffer::VulkanCommandBuffer(SVulkan &vulkanInstance, VulkanCommandPool &commandPool, unsigned int countOfBuffers)
+	{
+		this->CreateCommandBuffer(vulkanInstance, commandPool, countOfBuffers);
+		mIsCommandBufferRecording = false;
+		mIsRenderPassStarted = false;
+	}
+
 	void VulkanCommandBuffer::CreateCommandBuffer(SVulkan &vulkanInstance, VulkanCommandPool &commandPool, unsigned int countOfBuffers)
 	{
 		mCommandBuffers.clear();
@@ -18,6 +32,10 @@ namespace Invision
 		if (vkAllocateCommandBuffers(vulkanInstance.logicalDevice, &allocInfo, mCommandBuffers.data()) != VK_SUCCESS)
 		{
 			throw VulkanException("failed to create command buffers!");
+		}
+		else
+		{
+			mCommandBufferIsInitialized = true;
 		}
 	}
 
@@ -34,76 +52,131 @@ namespace Invision
 			{
 				throw VulkanException("failed to begin recording command buffer!");
 			}
+			else
+			{
+				mIsCommandBufferRecording = true;
+			}
 		}
 	}
 
 	void VulkanCommandBuffer::SetViewport(VkViewport& viewport)
 	{
-		for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
-			vkCmdSetViewport(mCommandBuffers[i], 0, 1, &viewport);
+			for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+			{
+				vkCmdSetViewport(mCommandBuffers[i], 0, 1, &viewport);
+			}
+		}
+		else
+		{
+			throw VulkanException("Set Viewport cannot be executed!");
 		}
 	}
 
 	void VulkanCommandBuffer::SetScissor(VkRect2D& scissor)
 	{
-		for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
-			vkCmdSetScissor(mCommandBuffers[i], 0, 1, &scissor);
+			for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+			{
+				vkCmdSetScissor(mCommandBuffers[i], 0, 1, &scissor);
+			}
+		}
+		else
+		{
+			throw VulkanException("Set Scissor cannot be executed!");
 		}
 	}
 
 	void VulkanCommandBuffer::BeginRenderPass(SVulkan &vulkanInstance, VulkanRenderPass &renderPass, VulkanFramebuffer &vulkanFramebuffer)
 	{
-		for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
-			VkRenderPassBeginInfo renderPassInfo = {};
-			renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-			renderPassInfo.renderPass = renderPass.GetRenderPass();
-			renderPassInfo.framebuffer = vulkanFramebuffer.GetFramebuffers()[i];
-			renderPassInfo.renderArea.offset = { 0, 0 };
-			renderPassInfo.renderArea.extent = vulkanInstance.swapChainExtent;
+			for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+			{
+				VkRenderPassBeginInfo renderPassInfo = {};
+				renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+				renderPassInfo.renderPass = renderPass.GetRenderPass();
+				renderPassInfo.framebuffer = vulkanFramebuffer.GetFramebuffers()[i];
+				renderPassInfo.renderArea.offset = { 0, 0 };
+				renderPassInfo.renderArea.extent = vulkanInstance.swapChainExtent;
 
-			VkClearValue clearColor = { 0.0f, 0.0f, 0.0f, 1.0f };
-			renderPassInfo.clearValueCount = 1;
-			renderPassInfo.pClearValues = &clearColor;
-		
-			vkCmdBeginRenderPass(mCommandBuffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+				VkClearValue clearColor = { 0.0f, 0.0f, 0.0f, 1.0f };
+				renderPassInfo.clearValueCount = 1;
+				renderPassInfo.pClearValues = &clearColor;
+
+				vkCmdBeginRenderPass(mCommandBuffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+			}
+
+			mIsRenderPassStarted = true;
+		}
+		else
+		{
+			throw VulkanException("Begin Render Pass cannot be executed!");
 		}
 	}
 
 	void VulkanCommandBuffer::BindPipeline(VulkanPipeline pipeline, VkPipelineBindPoint bindPoint)
 	{
-		for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
-			vkCmdBindPipeline(mCommandBuffers[i], bindPoint, pipeline.GetPipeline());
+			for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+			{
+				vkCmdBindPipeline(mCommandBuffers[i], bindPoint, pipeline.GetPipeline());
+			}
+		}
+		else
+		{
+			throw VulkanException("Bind Pipeline cannot be executed!");
 		}
 	}
 
 	void VulkanCommandBuffer::Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance)
 	{
-		for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+		if (mCommandBufferIsInitialized && mIsCommandBufferRecording && mIsRenderPassStarted)
 		{
-			vkCmdDraw(mCommandBuffers[i], vertexCount, instanceCount, firstVertex, firstInstance);
+			for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+			{
+				vkCmdDraw(mCommandBuffers[i], vertexCount, instanceCount, firstVertex, firstInstance);
+			}
+		}
+		else
+		{
+			throw VulkanException("Draw Command cannot be executed!");
 		}
 	}
 
 	void VulkanCommandBuffer::EndRenderPass()
 	{
-		for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+		if (mCommandBufferIsInitialized && mIsCommandBufferRecording && mIsRenderPassStarted)
 		{
-			vkCmdEndRenderPass(mCommandBuffers[i]);
+			for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+			{
+				vkCmdEndRenderPass(mCommandBuffers[i]);
+			}
+		}
+		else
+		{
+			throw VulkanException("End Render Pass cannot be executed!");
 		}
 	}
 
 	void VulkanCommandBuffer::EndCommandBuffer()
 	{
-		for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
-			if (vkEndCommandBuffer(mCommandBuffers[i]) != VK_SUCCESS)
+			for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
 			{
-				throw VulkanException("failed to record command buffer!");
+				if (vkEndCommandBuffer(mCommandBuffers[i]) != VK_SUCCESS)
+				{
+					throw VulkanException("failed to record command buffer!");
+				}
 			}
+		}
+		else
+		{
+			throw VulkanException("End Command Buffer cannot be executed!");
 		}
 	}
 

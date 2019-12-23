@@ -15,8 +15,13 @@ namespace Invision
 	{
 	private:
 		std::vector<VkCommandBuffer> mCommandBuffers;
+		bool mCommandBufferIsInitialized;
+		bool mIsCommandBufferRecording;
+		bool mIsRenderPassStarted;
 
 	public:
+		INVISION_API VulkanCommandBuffer();
+		INVISION_API VulkanCommandBuffer(SVulkan &vulkanInstance, VulkanCommandPool &commandPool, unsigned int countOfBuffers);
 		void INVISION_API CreateCommandBuffer(SVulkan &vulkanInstance, VulkanCommandPool &commandPool, unsigned int countOfBuffers);
 		void INVISION_API BeginCommandBuffer();
 		void INVISION_API SetViewport(VkViewport& viewport);
