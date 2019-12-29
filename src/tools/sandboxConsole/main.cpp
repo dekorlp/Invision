@@ -2,6 +2,7 @@
 #include "inMath.h"
 
 #include <iostream>
+#include <string>
 
 
 
@@ -154,10 +155,12 @@ void testPoolAllocator()
 	Invision::Log log("../../../logs/PoolAllocationLog.txt");
 	Invision::Log::SetLogger(&log);
 
+	int test1 = 1024;
+
 	Invision::PoolAllocator alloc;
 	alloc.Init(192, sizeof(int));
 	uint32* Pol1 = (uint32*) alloc.Allocate();
-	*Pol1 = 1024;
+	*Pol1 = test1;
 	uint32* Pol2 = (uint32*)alloc.Allocate();
 	*Pol2 = 2048;
 	uint32* Pol3 = (uint32*)alloc.Allocate();
@@ -178,6 +181,116 @@ void testPoolAllocator()
 	alloc.Destroy();
 }
 
+struct Person
+{
+	float Gewicht;
+	int Alter;
+	std::string name;
+	//void* address;
+	Person()
+	{
+
+	}
+	Person(const Person &p)
+	{
+		int test = 1;
+	}
+};
+
+void testPoolAllocatorStruct()
+{
+	Invision::Log log("../../../logs/PoolAllocationLog.txt");
+	Invision::Log::SetLogger(&log);
+
+	std::string Addresse = "Main Road";
+	std::string Addresse1 = "Second Road";
+	std::string Addresse2 = "Third Road";
+	std::string Addresse3 = "Fourth Road";
+	std::string Addresse4 = "Fifth Road";
+	std::string Addresse5 = "Kettelerstraße";
+
+	
+
+	Person Pers1;
+	//Pers1.address = &Addresse;
+	Pers1.Alter = 22;
+	Pers1.Gewicht = 180;
+	Pers1.name = "Hans";
+
+	Person Pers2;
+	//Pers2.address = &Addresse1;
+	Pers2.Alter = 45;
+	Pers2.Gewicht = 185;
+	Pers2.name = "Dieter";
+
+	Person Pers3;
+	//Pers3.address = &Addresse2;
+	Pers3.Alter = 58;
+	Pers3.Gewicht = 200;
+	Pers3.name = "Werner";
+
+	Person Pers4;
+	//Pers4.address = &Addresse2;
+	Pers4.Alter = 16;
+	Pers4.Gewicht = 48;
+	Pers4.name = "Sven";
+
+	Person Pers5;
+	//Pers5.address = &Addresse3;
+	Pers5.Alter = 13;
+	Pers5.Gewicht = 35;
+	Pers5.name = "Peter";
+
+	Person Pers6;
+	//Pers6.address = &Addresse4;
+	Pers6.Alter = 68;
+	Pers6.Gewicht = 94;
+	Pers6.name = "Gundula";
+
+	Person Pers7;
+	//Pers7.address = &Addresse5;
+	Pers7.Alter = 27;
+	Pers7.Gewicht = 52;
+	Pers7.name = "Dennis";
+
+	Person Pers8;
+	//Pers8.address = &Addresse;
+	Pers8.Alter = 25;
+	Pers8.Gewicht = 92;
+	Pers8.name = "Thorsten";
+	
+	Person Pers9;
+	//Pers9.address = &Addresse2;
+	Pers9.Alter = 23;
+	Pers9.Gewicht = 68;
+	Pers9.name = "Marie";
+
+	Invision::PoolAllocator alloc;
+	alloc.Init(6 * ((48) + 8), sizeof(Person));
+	
+	Person** Pol1 = (Person**)alloc.Allocate();
+	*Pol1 = &Pers1;
+	Person** Pol2 = (Person**)alloc.Allocate();
+	*Pol2 = &Pers2;
+	Person** Pol3 = (Person**)alloc.Allocate();
+	*Pol3 = &Pers3;
+	Person** Pol4 = (Person**)alloc.Allocate();
+	*Pol4 = &Pers4;
+	Person** Pol5 = (Person**)alloc.Allocate();
+	*Pol5 = &Pers5;
+	Person** Pol6 = (Person**)alloc.Allocate();
+	*Pol6 = &Pers6;
+	alloc.Deallocate(Pol2);
+	alloc.Deallocate(Pol3);
+	Person** Pol7 = (Person**)alloc.Allocate();
+	*Pol7 = &Pers7;
+	Person** Pol8 = (Person**)alloc.Allocate();
+	*Pol8 = &Pers8;
+
+	alloc.Destroy();
+}
+
+
 int main()
 {
 	//CPUID cpuid(0x80000004);
@@ -197,10 +310,11 @@ int main()
 
 	//testAllocatorBlockStack();
 	//testAllocatorBlockPool();
-	testCPUInfo();
-	testLinearAllocator();
-	testStackAllocator();
-	testPoolAllocator();
+	//testCPUInfo();
+	//testLinearAllocator();
+	//testStackAllocator();
+	//testPoolAllocator();
+	testPoolAllocatorStruct();
 	
 	return 0;
 }

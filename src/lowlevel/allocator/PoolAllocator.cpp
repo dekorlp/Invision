@@ -70,7 +70,7 @@ namespace Invision {
 
 
 
-		while (usedMemory + calcultedSize < this->size)
+		while (usedMemory + calcultedSize <= this->size)
 		{
 #ifdef _DEBUG
 			count++;
