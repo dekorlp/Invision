@@ -8,6 +8,7 @@
 #include "VulkanPipeline.h"
 #include "VulkanRenderPass.h"
 #include "VulkanCommandPool.h"
+#include "VulkanVertexBuffer.h"
 
 namespace Invision
 {
@@ -28,6 +29,7 @@ namespace Invision
 		INVISION_API VulkanCommandBuffer& SetScissor(VkRect2D& rect);
 		INVISION_API VulkanCommandBuffer& BeginRenderPass(SVulkan &vulkanInstance, VulkanRenderPass &renderPass, VulkanFramebuffer &vulkanFramebuffer);
 		INVISION_API VulkanCommandBuffer& BindPipeline(VulkanPipeline pipeline, VkPipelineBindPoint bindPoint);
+		INVISION_API VulkanCommandBuffer& BindVertexBuffer(std::vector<VulkanVertexBuffer> vertexBuffers, uint32_t firstBinding, uint32_t bindingCount);
 		INVISION_API VulkanCommandBuffer& Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex = 0, uint32_t firstInstance = 0);
 		INVISION_API VulkanCommandBuffer& EndRenderPass();
 		INVISION_API VulkanCommandBuffer& EndCommandBuffer();

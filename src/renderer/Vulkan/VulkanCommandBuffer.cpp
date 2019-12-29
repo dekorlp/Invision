@@ -141,6 +141,34 @@ namespace Invision
 		return *this;
 	}
 
+	VulkanCommandBuffer& VulkanCommandBuffer::BindVertexBuffer(std::vector<VulkanVertexBuffer> vertexBuffers,  uint32_t firstBinding, uint32_t bindingCount)
+	{
+		std::vector<VkBuffer> bindingBuffers;
+		std::vector<VkDeviceSize> bindingOffsets;
+
+		// fill binding Buffers
+		for (int i = 0; i < vertexBuffers.size(); i++)
+		{
+			bindingBuffers.push_back(vertexBuffers[i].GetBuffer());
+			bindingOffsets.push_back(vertexBuffers[i].GetOffset());
+		}
+
+
+		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
+		{
+			for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+			{
+				vkCmdBindVertexBuffers(mCommandBuffers[i], firstBinding, bindingCount, bindingBuffers.data(), bindingOffsets.data());
+			}
+		}
+		else
+		{
+			throw VulkanException("Bind Vertex Buffer cannot be executed!");
+		}
+
+		return *this;
+	}
+
 	VulkanCommandBuffer& VulkanCommandBuffer::Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance)
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording && mIsRenderPassStarted)

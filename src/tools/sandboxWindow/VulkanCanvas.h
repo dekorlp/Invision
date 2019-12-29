@@ -38,8 +38,14 @@ static void debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity
 }
 
 struct Vertex {
-	Invision::Vector2 pos;
+	Invision::Vector2 position;
 	Invision::Vector3 color;
+};
+
+const std::vector<Vertex> vertices = {
+	{ { 0.0f, -0.5f },{ 1.0f, 1.0f, 1.0f } },
+	{ { 0.5f, 0.5f },{ 0.0f, 1.0f, 0.0f } },
+	{ { -0.5f, 0.5f },{ 0.0f, 0.0f, 1.0f } }
 };
 
 class VulkanCanvas : public wxWindow

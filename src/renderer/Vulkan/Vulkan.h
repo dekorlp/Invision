@@ -54,5 +54,6 @@ namespace Invision
 	SQueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
 	SQueueFamilyIndices FindQueueFamilies(const VkPhysicalDevice& device, const VkSurfaceKHR surface);
 	SwapChainSupportDetails QuerySwapChainSupport(const VkPhysicalDevice& device, const VkSurfaceKHR surface);
+	uint32_t findMemoryType(const VkPhysicalDevice& device, uint32_t typeFilter, VkMemoryPropertyFlags properties);
 }
 #endif // VULKAN_H
