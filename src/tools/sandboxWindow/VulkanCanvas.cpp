@@ -82,7 +82,7 @@ void VulkanCanvas::BuildCommandBuffer(float width, float height)
 		BeginRenderPass(vulkInstance, renderPass, framebuffer).
 		BindPipeline(pipeline, VK_PIPELINE_BIND_POINT_GRAPHICS).
 		BindVertexBuffer({vertexBuffer}, 0, 1).
-		Draw(3, 1, 0, 0).
+		Draw(static_cast<uint32_t>(vertices.size()), 1, 0, 0).
 		EndRenderPass().
 		EndCommandBuffer();
 
