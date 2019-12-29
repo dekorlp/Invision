@@ -17,7 +17,13 @@ namespace Invision {
 		Init(size, chunksize, boundsChecking);
 	}
 
-	void PoolAllocator::Init(size_t size, size_t chunksize, BoundsChecking boundsChecking)
+	void PoolAllocator::InitBlocks(size_t count, size_t chunksize, BoundsChecking boundsChecking, MemoryTracking memoryTracking)
+	{
+		size_t sizeLayout = MemoryBlock::CalculateLayoutSize(INVISION_USE_POOLHEADER, memoryTracking, boundsChecking);
+		Init(count * (chunksize + sizeLayout), chunksize, boundsChecking, memoryTracking);
+	}
+
+	void PoolAllocator::Init(size_t size, size_t chunksize, BoundsChecking boundsChecking, MemoryTracking memoryTracking)
 	{
 
 #ifdef _DEBUG
@@ -38,13 +44,14 @@ namespace Invision {
 		freelist = nullptr;
 
 		this->boundsChecking = boundsChecking;
+		mTracking = memoryTracking;
 
 #ifdef _DEBUG
 		Log::GetLogger()->WriteToLog("Arena: ", arena);
 		Log::GetLogger()->WriteToLog("Size: ", size);
 #endif
 
-		CreateFreeList(arena, chunksize, INVISION_DEFAULT_MEMORY_TRACKING, this->boundsChecking);
+		CreateFreeList(arena, chunksize, memoryTracking, this->boundsChecking);
 
 	}
 
@@ -65,7 +72,6 @@ namespace Invision {
 		void* previousOffset = nullptr;
 
 		size_t calcultedSize = 0;
-
 
 
 
@@ -197,7 +203,7 @@ namespace Invision {
 		// Check Bounds, when boundsChecking is activated
 		if (this->boundsChecking == INVISION_STANDARD_BOUNDS_CHECKING)
 		{
-			MemoryBlock::CheckBoundaries(toAllocate, chunkSize, INVISION_USE_POOLHEADER, INVISION_DEFAULT_MEMORY_TRACKING);
+			MemoryBlock::CheckBoundaries(toAllocate, chunkSize, INVISION_USE_POOLHEADER, mTracking);
 		}
 
 		return toAllocate;
@@ -251,6 +257,11 @@ namespace Invision {
 		return size;
 	}
 
+	size_t PoolAllocator::GetLayoutSize()
+	{
+		return MemoryBlock::CalculateLayoutSize(INVISION_USE_POOLHEADER, mTracking, boundsChecking);
+	}
+
 	void PoolAllocator::Clear()
 	{
 #ifdef _DEBUG
@@ -271,7 +282,7 @@ namespace Invision {
 		numChunks = 0;
 
 		freelist = nullptr;
-		CreateFreeList(arena, this->chunkSize, INVISION_DEFAULT_MEMORY_TRACKING, this->boundsChecking);
+		CreateFreeList(arena, this->chunkSize, mTracking, this->boundsChecking);
 	}
 
 	void PoolAllocator::Destroy()

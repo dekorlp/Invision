@@ -78,6 +78,10 @@ namespace Invision
 			MemoryTracking memTracking = INVISION_DEFAULT_MEMORY_TRACKING,
 			BoundsChecking boundsChecking = INVISION_NO_BOUNDS_CHECKING);
 
+		static size_t CalculateLayoutSize(UseHeader header = INVISION_USE_NO_HEADER,
+			MemoryTracking memTracking = INVISION_DEFAULT_MEMORY_TRACKING,
+			BoundsChecking boundsChecking = INVISION_NO_BOUNDS_CHECKING);
+
 		static SMemoryTracking* GetTrackingHeader(void* memoryBlock, UseHeader header);
 
 		static bool CheckBoundaries(void* memoryBlock, size_t payloudSize, UseHeader header, MemoryTracking memTracking);

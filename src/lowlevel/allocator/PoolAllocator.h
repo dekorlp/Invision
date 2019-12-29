@@ -27,7 +27,8 @@ namespace Invision
 		PoolAllocator(const PoolAllocator&) = delete;
 		PoolAllocator& operator=(const PoolAllocator&) = delete;
 
-		void Init(size_t size, size_t chunksize, BoundsChecking boundsChecking = INVISION_NO_BOUNDS_CHECKING);
+		void Init(size_t size, size_t chunksize, BoundsChecking boundsChecking = INVISION_NO_BOUNDS_CHECKING, MemoryTracking memoryTracking = INVISION_DEFAULT_MEMORY_TRACKING);
+		void InitBlocks(size_t count, size_t chunksize, BoundsChecking boundsChecking = INVISION_NO_BOUNDS_CHECKING, MemoryTracking memoryTracking = INVISION_DEFAULT_MEMORY_TRACKING);
 		void* Allocate();
 
 		void Deallocate(void* block);
@@ -36,6 +37,7 @@ namespace Invision
 		void* GetArena();
 		size_t GetUsedMemory();
 		size_t GetTotalMemory();
+		size_t GetLayoutSize();
 
 		void Clear();
 		void Destroy();
@@ -46,6 +48,7 @@ namespace Invision
 		size_t chunkSize; // size of each chunk
 		size_t usedMemory;
 		uint32 numChunks;
+		MemoryTracking mTracking;
 
 		BoundsChecking boundsChecking;
 

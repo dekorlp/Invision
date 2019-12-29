@@ -249,6 +249,46 @@ namespace Invision {
 		return memBlockSize;
 	}
 
+	size_t MemoryBlock::CalculateLayoutSize(UseHeader header,
+		MemoryTracking memTracking,
+		BoundsChecking boundsChecking)
+	{
+		size_t layoutSize = 0;
+
+		if (boundsChecking == INVISION_STANDARD_BOUNDS_CHECKING)
+		{
+			// FRONT Boundary
+			layoutSize += FRONT_SIZE;
+		}
+
+		if (memTracking == INVISION_ADVANCED_MEMORY_TRACKING)
+		{
+			// USE HEADER for Memory Tracking
+			layoutSize += sizeof(SMemoryTracking);
+		}
+
+		if (header == INVISION_USE_STACKHEADER)
+		{
+			// USE HEADER with size, front offset, back offset
+			layoutSize += sizeof(SHeaderStack);
+
+		}
+		else if (header == INVISION_USE_POOLHEADER)
+		{
+			// USE HEADER with size, front offset, back offset
+			layoutSize += sizeof(SHeaderPool);
+		}
+
+		if (boundsChecking == INVISION_STANDARD_BOUNDS_CHECKING)
+		{
+			//BACK Boundary
+			layoutSize += BACK_SIZE;
+		}
+
+		// size of layout structures
+		return layoutSize;
+	}
+
 	SMemoryTracking* MemoryBlock::GetTrackingHeader(void* memoryBlock, UseHeader header)
 	{
 		void* currentPosition = memoryBlock;
