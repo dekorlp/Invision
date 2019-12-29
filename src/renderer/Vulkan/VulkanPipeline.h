@@ -6,7 +6,7 @@
 #include "VulkanException.h"
 #include "VulkanShader.h"
 #include "VulkanRenderPass.h"
-
+#include "VulkanVertexBuffer.h"
 
 namespace Invision
 {
@@ -17,6 +17,7 @@ namespace Invision
 	class  VulkanPipeline
 	{
 	public:
+		void INVISION_API AddVertexBuffer(VulkanVertexBuffer& vertexBuffer);
 		void INVISION_API AddShader(VulkanShader shader);
 		void INVISION_API UpdateVertexInputConfiguration();
 		void INVISION_API UpdateInputAssemblyConfiguration(VkPrimitiveTopology primitiveTopology);
@@ -44,6 +45,8 @@ namespace Invision
 
 		// Configurations
 		std::vector<VkPipelineShaderStageCreateInfo> mShaderStages = {}; // Shaders
+		std::vector<VkVertexInputBindingDescription> mVertexInputBindingDescriptions = {}; // VertexInputBindingDescriptions
+		std::vector<VkVertexInputAttributeDescription> mVertexInputAttributeDescriptions = {}; // VertexInputAttributeDescriptions;
 		VkPipelineVertexInputStateCreateInfo mVertexInputConfig = {}; // Vertex configuration
 		VkPipelineInputAssemblyStateCreateInfo mInputAssembly = {}; // Input assembly configuration
 		VkPipelineViewportStateCreateInfo mViewportState = {}; // Viewport & Scissor configuration

@@ -35,13 +35,22 @@ namespace Invision
 		mShaderStages.push_back(shaderStageInfo);
 	}
 
+	void INVISION_API VulkanPipeline::AddVertexBuffer(VulkanVertexBuffer& vertexBuffer)
+	{
+		mVertexInputBindingDescriptions.push_back(vertexBuffer.GetBindingDescription());
+		for (int i = 0; i < vertexBuffer.GetAttributeDescriptions().size(); i++)
+		{
+			mVertexInputAttributeDescriptions.push_back(vertexBuffer.GetAttributeDescriptions()[i]);
+		}
+	}
+
 	void VulkanPipeline::UpdateVertexInputConfiguration()
 	{
 		mVertexInputConfig.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-		mVertexInputConfig.vertexBindingDescriptionCount = 0;
-		mVertexInputConfig.pVertexBindingDescriptions = nullptr;
-		mVertexInputConfig.vertexAttributeDescriptionCount = 0;
-		mVertexInputConfig.pVertexAttributeDescriptions = nullptr;
+		mVertexInputConfig.vertexBindingDescriptionCount = mVertexInputBindingDescriptions.size();
+		mVertexInputConfig.pVertexBindingDescriptions = mVertexInputBindingDescriptions.data();
+		mVertexInputConfig.vertexAttributeDescriptionCount = mVertexInputAttributeDescriptions.size();
+		mVertexInputConfig.pVertexAttributeDescriptions = mVertexInputAttributeDescriptions.data();
 	}
 
 	void VulkanPipeline::UpdateInputAssemblyConfiguration(VkPrimitiveTopology primitiveTopology)

@@ -22,7 +22,9 @@
 #include "renderer\Vulkan\VulkanCommandPool.h"
 #include "renderer\Vulkan\VulkanCommandBuffer.h"
 #include "renderer\Vulkan\VulkanRenderer.h"
-
+#include "renderer\Vulkan\VulkanVertexBuffer.h"
+#include "math\Vector2.h"
+#include "math\Vector3.h"
 
 
 
@@ -35,6 +37,10 @@ static void debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity
 	INVISION_LOG_RAWTEXT(ss.str());
 }
 
+struct Vertex {
+	Invision::Vector2 pos;
+	Invision::Vector3 color;
+};
 
 class VulkanCanvas : public wxWindow
 {
@@ -67,6 +73,8 @@ private:
 	Invision::VulkanCommandPool commandPool;
 	Invision::VulkanCommandBuffer commandBuffer;
 	Invision::VulkanRenderer renderer;
+
+	Invision::VulkanVertexBuffer vertexBuffer;
 	VkPipelineCache mCache;
 	SVulkan vulkInstance;
 	wxTimer m_timer;

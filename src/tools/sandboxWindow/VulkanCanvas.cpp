@@ -38,8 +38,13 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	Invision::VulkanShader vertShader(vulkInstance, vertShaderCode, VK_SHADER_STAGE_VERTEX_BIT);
 	Invision::VulkanShader fragShader(vulkInstance, fragShaderCode, VK_SHADER_STAGE_FRAGMENT_BIT);
 
+	vertexBuffer.CreateVertexInputDescription(0, sizeof(Vertex), VK_VERTEX_INPUT_RATE_VERTEX)
+		.CreateAttributeDescription(0, VK_FORMAT_R32G32_SFLOAT, offsetof(Vertex, pos))
+		.CreateAttributeDescription(1, VK_FORMAT_R32G32_SFLOAT, offsetof(Vertex, pos));
+
 	pipeline.AddShader(vertShader);
 	pipeline.AddShader(fragShader);
+	pipeline.AddVertexBuffer(vertexBuffer);
 	pipeline.CreatePipeline(vulkInstance, renderPass, 0, mCache);
 	vertShader.Destroy(vulkInstance);
 	fragShader.Destroy(vulkInstance);
