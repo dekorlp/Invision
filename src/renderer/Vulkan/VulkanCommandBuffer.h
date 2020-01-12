@@ -2,13 +2,7 @@
 #define VULKAN_COMMAND_BUFFER_H
 
 #include "vulkan\vulkan.h"
-#include "Vulkan.h"
-#include "VulkanException.h"
-#include "VulkanFramebuffer.h"
-#include "VulkanPipeline.h"
-#include "VulkanRenderPass.h"
 #include "VulkanCommandPool.h"
-#include "VulkanVertexBuffer.h"
 
 namespace Invision
 {

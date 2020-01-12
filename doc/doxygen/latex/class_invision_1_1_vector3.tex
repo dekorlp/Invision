@@ -1,0 +1,374 @@
+\hypertarget{class_invision_1_1_vector3}{}\doxysection{Invision\+::Vector3 Class Reference}
+\label{class_invision_1_1_vector3}\index{Invision::Vector3@{Invision::Vector3}}
+
+
+three dimensional vector  
+
+
+
+
+{\ttfamily \#include $<$Vector3.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_invision_1_1_vector3_af4e2751f6d01e6bab3a620661e199869}{Vector3}} ()
+\begin{DoxyCompactList}\small\item\em Initialize a three dimensional Vector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_invision_1_1_vector3_aad25b3116f98aa84a7a652b6676d3cea}{Vector3}} (float x, float y, float z)
+\begin{DoxyCompactList}\small\item\em Initialize a three dimensional Vector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \mbox{\hyperlink{class_invision_1_1_vector3_a6a97bec09dbe3dded6fce2d2358d5364}{operator+}} (const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&rhs) const
+\begin{DoxyCompactList}\small\item\em Adds a Vector to another Vector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \mbox{\hyperlink{class_invision_1_1_vector3_a066941c1457f8b2e1fef6c7b36830efb}{operator-\/}} (const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&rhs) const
+\begin{DoxyCompactList}\small\item\em Subtracts a Vector to another Vector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \mbox{\hyperlink{class_invision_1_1_vector3_a10b54d1b9391314b1cd7ca97785c7c49}{operator-\/}} () const
+\begin{DoxyCompactList}\small\item\em reverse sign \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \mbox{\hyperlink{class_invision_1_1_vector3_acdfb34f209ba228f48161147948efbc8}{operator+=}} (const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&lhs)
+\begin{DoxyCompactList}\small\item\em Adds a Vector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \mbox{\hyperlink{class_invision_1_1_vector3_a56ba349a82865fcdb5983d48854093a8}{operator-\/=}} (const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&lhs)
+\begin{DoxyCompactList}\small\item\em Subtracts a Vector. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_invision_1_1_vector3_ae1122bc53a72c6a8489abf3dbcaccbd1}{operator==}} (\mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} const \&rhs) const
+\begin{DoxyCompactList}\small\item\em checks Vectors, whether they are equal \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \mbox{\hyperlink{class_invision_1_1_vector3_aa825da1c0b4ae03a498363440ffc8d73}{cross}} (const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&rhs) const
+\begin{DoxyCompactList}\small\item\em calculares the vector product of two vectors \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \mbox{\hyperlink{class_invision_1_1_vector3_a3176e3788327369c8a7adbbd1901118b}{operator$\ast$}} (const float \&scalar)
+\begin{DoxyCompactList}\small\item\em multiplies the vector with a scale \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \mbox{\hyperlink{class_invision_1_1_vector3_a143748e4ee72ad0b87747d1ce1dff693}{operator/}} (const float \&scalar)
+\begin{DoxyCompactList}\small\item\em divides the vector with a scale \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_invision_1_1_vector3_aee3230a9edaaea63cceb32b77450a747}{dot}} (const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&rhs) const
+\begin{DoxyCompactList}\small\item\em calculates the dot product of a vector \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_invision_1_1_vector3_aff6ac11d4dc717c3dd27b12cb35169ba}{length}} () const
+\begin{DoxyCompactList}\small\item\em calculates the length of a vector \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_invision_1_1_vector3_a1103f0cdb87b9aa47c33ec2c0dad473f}{getZ}} () const
+\begin{DoxyCompactList}\small\item\em returns Z coordinate \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_invision_1_1_vector3_a06268a0da00683ebb8690a704246d9ca}{getY}} () const
+\begin{DoxyCompactList}\small\item\em returns Y coordinate \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_invision_1_1_vector3_a3a197c5a7722a3a6d3741a83cfff409c}{getX}} () const
+\begin{DoxyCompactList}\small\item\em returns X coordinate \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \mbox{\hyperlink{class_invision_1_1_vector3_ab07b0790eeecb4cb4ffd1b689891472a}{Normalize}} (const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&v)
+\begin{DoxyCompactList}\small\item\em normalizes a vector \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+const friend \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \mbox{\hyperlink{class_invision_1_1_vector3_a15f20646eba1be9c9148296288f50352}{operator$\ast$}} (const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&lhs, const float \&rhs)
+\item 
+\mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \mbox{\hyperlink{class_invision_1_1_vector3_af7520e911c459747bfb93eb096af3a60}{operator/}} (const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&lhs, const float \&rhs)
+\begin{DoxyCompactList}\small\item\em divides the vector with a scale \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+three dimensional vector 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_invision_1_1_vector3_af4e2751f6d01e6bab3a620661e199869}\label{class_invision_1_1_vector3_af4e2751f6d01e6bab3a620661e199869}} 
+\index{Invision::Vector3@{Invision::Vector3}!Vector3@{Vector3}}
+\index{Vector3@{Vector3}!Invision::Vector3@{Invision::Vector3}}
+\doxysubsubsection{\texorpdfstring{Vector3()}{Vector3()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Invision\+::\+Vector3\+::\+Vector3 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Initialize a three dimensional Vector. 
+
+\mbox{\Hypertarget{class_invision_1_1_vector3_aad25b3116f98aa84a7a652b6676d3cea}\label{class_invision_1_1_vector3_aad25b3116f98aa84a7a652b6676d3cea}} 
+\index{Invision::Vector3@{Invision::Vector3}!Vector3@{Vector3}}
+\index{Vector3@{Vector3}!Invision::Vector3@{Invision::Vector3}}
+\doxysubsubsection{\texorpdfstring{Vector3()}{Vector3()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Invision\+::\+Vector3\+::\+Vector3 (\begin{DoxyParamCaption}\item[{float}]{x,  }\item[{float}]{y,  }\item[{float}]{z }\end{DoxyParamCaption})}
+
+
+
+Initialize a three dimensional Vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & X Coordinate \\
+\hline
+{\em y} & Y Coordinate \\
+\hline
+{\em z} & Z Coordinate \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_invision_1_1_vector3_aa825da1c0b4ae03a498363440ffc8d73}\label{class_invision_1_1_vector3_aa825da1c0b4ae03a498363440ffc8d73}} 
+\index{Invision::Vector3@{Invision::Vector3}!cross@{cross}}
+\index{cross@{cross}!Invision::Vector3@{Invision::Vector3}}
+\doxysubsubsection{\texorpdfstring{cross()}{cross()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} Invision\+::\+Vector3\+::cross (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&}]{rhs }\end{DoxyParamCaption}) const}
+
+
+
+calculares the vector product of two vectors 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & A vector object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the result of the vector product calculation 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_vector3_aee3230a9edaaea63cceb32b77450a747}\label{class_invision_1_1_vector3_aee3230a9edaaea63cceb32b77450a747}} 
+\index{Invision::Vector3@{Invision::Vector3}!dot@{dot}}
+\index{dot@{dot}!Invision::Vector3@{Invision::Vector3}}
+\doxysubsubsection{\texorpdfstring{dot()}{dot()}}
+{\footnotesize\ttfamily float Invision\+::\+Vector3\+::dot (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&}]{rhs }\end{DoxyParamCaption}) const}
+
+
+
+calculates the dot product of a vector 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & a Vector object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the result of the dot product 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_vector3_a3a197c5a7722a3a6d3741a83cfff409c}\label{class_invision_1_1_vector3_a3a197c5a7722a3a6d3741a83cfff409c}} 
+\index{Invision::Vector3@{Invision::Vector3}!getX@{getX}}
+\index{getX@{getX}!Invision::Vector3@{Invision::Vector3}}
+\doxysubsubsection{\texorpdfstring{getX()}{getX()}}
+{\footnotesize\ttfamily float Invision\+::\+Vector3\+::getX (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+returns X coordinate 
+
+\begin{DoxyReturn}{Returns}
+float 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_vector3_a06268a0da00683ebb8690a704246d9ca}\label{class_invision_1_1_vector3_a06268a0da00683ebb8690a704246d9ca}} 
+\index{Invision::Vector3@{Invision::Vector3}!getY@{getY}}
+\index{getY@{getY}!Invision::Vector3@{Invision::Vector3}}
+\doxysubsubsection{\texorpdfstring{getY()}{getY()}}
+{\footnotesize\ttfamily float Invision\+::\+Vector3\+::getY (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+returns Y coordinate 
+
+\begin{DoxyReturn}{Returns}
+float 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_vector3_a1103f0cdb87b9aa47c33ec2c0dad473f}\label{class_invision_1_1_vector3_a1103f0cdb87b9aa47c33ec2c0dad473f}} 
+\index{Invision::Vector3@{Invision::Vector3}!getZ@{getZ}}
+\index{getZ@{getZ}!Invision::Vector3@{Invision::Vector3}}
+\doxysubsubsection{\texorpdfstring{getZ()}{getZ()}}
+{\footnotesize\ttfamily float Invision\+::\+Vector3\+::getZ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+returns Z coordinate 
+
+\begin{DoxyReturn}{Returns}
+float 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_vector3_aff6ac11d4dc717c3dd27b12cb35169ba}\label{class_invision_1_1_vector3_aff6ac11d4dc717c3dd27b12cb35169ba}} 
+\index{Invision::Vector3@{Invision::Vector3}!length@{length}}
+\index{length@{length}!Invision::Vector3@{Invision::Vector3}}
+\doxysubsubsection{\texorpdfstring{length()}{length()}}
+{\footnotesize\ttfamily float Invision\+::\+Vector3\+::length (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+calculates the length of a vector 
+
+\begin{DoxyReturn}{Returns}
+the length of the vector 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_vector3_ab07b0790eeecb4cb4ffd1b689891472a}\label{class_invision_1_1_vector3_ab07b0790eeecb4cb4ffd1b689891472a}} 
+\index{Invision::Vector3@{Invision::Vector3}!Normalize@{Normalize}}
+\index{Normalize@{Normalize}!Invision::Vector3@{Invision::Vector3}}
+\doxysubsubsection{\texorpdfstring{Normalize()}{Normalize()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} Invision\+::\+Vector3\+::\+Normalize (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+normalizes a vector 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & a vector object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a normalized vector 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_vector3_a3176e3788327369c8a7adbbd1901118b}\label{class_invision_1_1_vector3_a3176e3788327369c8a7adbbd1901118b}} 
+\index{Invision::Vector3@{Invision::Vector3}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!Invision::Vector3@{Invision::Vector3}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} Invision\+::\+Vector3\+::operator$\ast$ (\begin{DoxyParamCaption}\item[{const float \&}]{scalar }\end{DoxyParamCaption})}
+
+
+
+multiplies the vector with a scale 
+
+
+\begin{DoxyParams}{Parameters}
+{\em scalar} & a float value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the result of the multiplied vector with a scale 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_vector3_a6a97bec09dbe3dded6fce2d2358d5364}\label{class_invision_1_1_vector3_a6a97bec09dbe3dded6fce2d2358d5364}} 
+\index{Invision::Vector3@{Invision::Vector3}!operator+@{operator+}}
+\index{operator+@{operator+}!Invision::Vector3@{Invision::Vector3}}
+\doxysubsubsection{\texorpdfstring{operator+()}{operator+()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} Invision\+::\+Vector3\+::operator+ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&}]{rhs }\end{DoxyParamCaption}) const}
+
+
+
+Adds a Vector to another Vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & A Vector object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A added Vector object 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_vector3_acdfb34f209ba228f48161147948efbc8}\label{class_invision_1_1_vector3_acdfb34f209ba228f48161147948efbc8}} 
+\index{Invision::Vector3@{Invision::Vector3}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!Invision::Vector3@{Invision::Vector3}}
+\doxysubsubsection{\texorpdfstring{operator+=()}{operator+=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} Invision\+::\+Vector3\+::operator+= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&}]{lhs }\end{DoxyParamCaption})}
+
+
+
+Adds a Vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lhs} & A Vector object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A added Vector object 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_vector3_a10b54d1b9391314b1cd7ca97785c7c49}\label{class_invision_1_1_vector3_a10b54d1b9391314b1cd7ca97785c7c49}} 
+\index{Invision::Vector3@{Invision::Vector3}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!Invision::Vector3@{Invision::Vector3}}
+\doxysubsubsection{\texorpdfstring{operator-\/()}{operator-()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} Invision\+::\+Vector3\+::operator-\/ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+reverse sign 
+
+\begin{DoxyReturn}{Returns}
+vector object 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_vector3_a066941c1457f8b2e1fef6c7b36830efb}\label{class_invision_1_1_vector3_a066941c1457f8b2e1fef6c7b36830efb}} 
+\index{Invision::Vector3@{Invision::Vector3}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!Invision::Vector3@{Invision::Vector3}}
+\doxysubsubsection{\texorpdfstring{operator-\/()}{operator-()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} Invision\+::\+Vector3\+::operator-\/ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&}]{rhs }\end{DoxyParamCaption}) const}
+
+
+
+Subtracts a Vector to another Vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & A Vector object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A subtracted Vector object 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_vector3_a56ba349a82865fcdb5983d48854093a8}\label{class_invision_1_1_vector3_a56ba349a82865fcdb5983d48854093a8}} 
+\index{Invision::Vector3@{Invision::Vector3}!operator-\/=@{operator-\/=}}
+\index{operator-\/=@{operator-\/=}!Invision::Vector3@{Invision::Vector3}}
+\doxysubsubsection{\texorpdfstring{operator-\/=()}{operator-=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} Invision\+::\+Vector3\+::operator-\/= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&}]{lhs }\end{DoxyParamCaption})}
+
+
+
+Subtracts a Vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lhs} & A Vector object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A Subtracted Vector object 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_vector3_a143748e4ee72ad0b87747d1ce1dff693}\label{class_invision_1_1_vector3_a143748e4ee72ad0b87747d1ce1dff693}} 
+\index{Invision::Vector3@{Invision::Vector3}!operator/@{operator/}}
+\index{operator/@{operator/}!Invision::Vector3@{Invision::Vector3}}
+\doxysubsubsection{\texorpdfstring{operator/()}{operator/()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} Invision\+::\+Vector3\+::operator/ (\begin{DoxyParamCaption}\item[{const float \&}]{scalar }\end{DoxyParamCaption})}
+
+
+
+divides the vector with a scale 
+
+
+\begin{DoxyParams}{Parameters}
+{\em scalar} & a float value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the result of the divided vector with a scale 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_vector3_ae1122bc53a72c6a8489abf3dbcaccbd1}\label{class_invision_1_1_vector3_ae1122bc53a72c6a8489abf3dbcaccbd1}} 
+\index{Invision::Vector3@{Invision::Vector3}!operator==@{operator==}}
+\index{operator==@{operator==}!Invision::Vector3@{Invision::Vector3}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily bool Invision\+::\+Vector3\+::operator== (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} const \&}]{rhs }\end{DoxyParamCaption}) const}
+
+
+
+checks Vectors, whether they are equal 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & A Vector object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true, if both vectors are the same and false, if both vectors are not the same 
+\end{DoxyReturn}
+
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{class_invision_1_1_vector3_a15f20646eba1be9c9148296288f50352}\label{class_invision_1_1_vector3_a15f20646eba1be9c9148296288f50352}} 
+\index{Invision::Vector3@{Invision::Vector3}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!Invision::Vector3@{Invision::Vector3}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$}{operator*}}
+{\footnotesize\ttfamily const friend \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} operator$\ast$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&}]{lhs,  }\item[{const float \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+\mbox{\Hypertarget{class_invision_1_1_vector3_af7520e911c459747bfb93eb096af3a60}\label{class_invision_1_1_vector3_af7520e911c459747bfb93eb096af3a60}} 
+\index{Invision::Vector3@{Invision::Vector3}!operator/@{operator/}}
+\index{operator/@{operator/}!Invision::Vector3@{Invision::Vector3}}
+\doxysubsubsection{\texorpdfstring{operator/}{operator/}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} operator/ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&}]{lhs,  }\item[{const float \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+divides the vector with a scale 
+
+
+\begin{DoxyParams}{Parameters}
+{\em scalar} & a float value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the result of the divided vector with a scale 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Repository/\+Invision/src/math/\mbox{\hyperlink{_vector3_8h}{Vector3.\+h}}\item 
+D\+:/\+Repository/\+Invision/src/math/\mbox{\hyperlink{_vector3_8cpp}{Vector3.\+cpp}}\end{DoxyCompactItemize}

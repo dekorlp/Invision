@@ -1,0 +1,14 @@
+digraph "Invision::Vector3::cross"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="Invision::Vector3::\lcross",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="calculares the vector product of two vectors"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="BOOST_AUTO_TEST_CASE",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_vector3_unit_test_8cpp.html#a9a1b47f054399559f4c59408fa08a7b1",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="Invision::Matrix::Camera",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_matrix.html#a71cc9860636278d03154ee18f5115c3a",tooltip="use camera transformation"];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="Invision::Quaternion\l::operator*",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_quaternion.html#a598a2cc9f4cf5e137cab0b0734e57170",tooltip=" "];
+}

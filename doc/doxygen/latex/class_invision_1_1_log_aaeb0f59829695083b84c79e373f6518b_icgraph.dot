@@ -1,0 +1,12 @@
+digraph "Invision::Log::Open"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="Invision::Log::Open",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="Invision::Log::Log",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_log.html#a6cc85a518f24ff6a491917df0d2368aa",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="VulkanApp::VulkanApp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_vulkan_app.html#a41b06b554dbeea9fc20d9294b738bd05",tooltip=" "];
+}

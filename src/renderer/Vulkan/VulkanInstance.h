@@ -2,8 +2,6 @@
 #define VULKAN_INSTANCE_H
 
 #include "vulkan\vulkan.h"
-#include "VulkanException.h"
-#include "Vulkan.h"
 namespace Invision
 {
 

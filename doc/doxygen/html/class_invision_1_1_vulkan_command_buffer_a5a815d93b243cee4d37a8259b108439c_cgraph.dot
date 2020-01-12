@@ -1,0 +1,12 @@
+digraph "Invision::VulkanCommandBuffer::BeginRenderPass"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Invision::VulkanCommandBuffer\l::BeginRenderPass",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Invision::VulkanFramebuffer\l::GetFramebuffers",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_vulkan_framebuffer.html#ae7f58c1cb27bc7d709699fff2f35c517",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Invision::VulkanRenderPass\l::GetRenderPass",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_vulkan_render_pass.html#a991bd25743855fdebea4ace02e499a30",tooltip=" "];
+}

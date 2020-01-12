@@ -1,0 +1,18 @@
+digraph "Invision::Vector3::Normalize"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="Invision::Vector3::\lNormalize",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="normalizes a vector"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="Invision::Matrix::Camera",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_matrix.html#a71cc9860636278d03154ee18f5115c3a",tooltip="use camera transformation"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="Invision::Quaternion\l::rotate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_quaternion.html#a0e93170d0f2fc01ad73fd238ba43c546",tooltip=" "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="BOOST_AUTO_TEST_CASE",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_quaternion_unit_test_8cpp.html#ae9198bc98174605ef92a5e04a9520655",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="Invision::Matrix::RotateAxis",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_matrix.html#a3b8163d511f8cdf0853c4219d26d554b",tooltip="rotate around any axis"];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="BOOST_AUTO_TEST_CASE",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_matrix_unit_test_8cpp.html#aff2c9a737d4858422c476b1b89a835fd",tooltip=" "];
+}

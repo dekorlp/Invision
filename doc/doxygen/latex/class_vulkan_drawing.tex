@@ -1,0 +1,101 @@
+\hypertarget{class_vulkan_drawing}{}\doxysection{Vulkan\+Drawing Class Reference}
+\label{class_vulkan_drawing}\index{VulkanDrawing@{VulkanDrawing}}
+
+
+{\ttfamily \#include $<$Vulkan\+Drawing.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_vulkan_drawing_abbbe780e001169b2821a87bbaed8282c}{Vulkan\+Drawing}} ()
+\item 
+void \mbox{\hyperlink{class_vulkan_drawing_a1abcda954e036ce5ee5d4dc28415436e}{Create\+Frame\+Buffers}} (\mbox{\hyperlink{struct_s_vulkan_logical_device}{S\+Vulkan\+Logical\+Device}} logical\+Device, Vk\+Surface\+K\+HR surface, \mbox{\hyperlink{struct_s_vulkan_swapchain}{S\+Vulkan\+Swapchain}} $\ast$swap\+Chain, \mbox{\hyperlink{struct_s_vulkan_pipeline}{S\+Vulkan\+Pipeline}} $\ast$pipeline)
+\item 
+void \mbox{\hyperlink{class_vulkan_drawing_ad47198e0b55333658516f216b4a6866a}{Create\+Command\+Pool}} (Vk\+Physical\+Device physical\+Device, Vk\+Device logical\+Device)
+\item 
+void \mbox{\hyperlink{class_vulkan_drawing_a4c2f472537d66d5ea4ae3f985b18d4d6}{Create\+Command\+Buffers}} (\mbox{\hyperlink{struct_s_vulkan_logical_device}{S\+Vulkan\+Logical\+Device}} logical\+Device, std\+::vector$<$ Vk\+Command\+Buffer $>$ $\ast$command\+Buffer, \mbox{\hyperlink{struct_s_vulkan_pipeline}{S\+Vulkan\+Pipeline}} $\ast$pipeline, std\+::vector$<$ \mbox{\hyperlink{struct_shader_pipeline}{Shader\+Pipeline}} $>$ $\ast$shader\+Pipeline)
+\item 
+void \mbox{\hyperlink{class_vulkan_drawing_a81e4efac06021971df8b1e72b93c9359}{Create\+Semaphores}} (\mbox{\hyperlink{struct_s_vulkan_logical_device}{S\+Vulkan\+Logical\+Device}} logical\+Device, Vk\+Semaphore $\ast$semaphore)
+\item 
+Vk\+Submit\+Info \mbox{\hyperlink{class_vulkan_drawing_aeb1b4b26cbd37d31201a1b33e9f1e84a}{Create\+Submit\+Info}} (uint32\+\_\+t image\+Index, Vk\+Pipeline\+Stage\+Flags $\ast$wait\+Stage\+Flags) const noexcept
+\item 
+Vk\+Present\+Info\+K\+HR \mbox{\hyperlink{class_vulkan_drawing_aa9b35b9e07d83e5c4e69ef5e62549962}{Create\+Present\+Info\+K\+HR}} (uint32\+\_\+t \&image\+Index, \mbox{\hyperlink{struct_s_vulkan_swapchain}{S\+Vulkan\+Swapchain}} $\ast$swapchain) noexcept
+\item 
+void \mbox{\hyperlink{class_vulkan_drawing_adb7180db0d43f509ae5786790480808f}{clean\+Up\+Command\+Buffers}} (\mbox{\hyperlink{struct_s_vulkan_logical_device}{S\+Vulkan\+Logical\+Device}} logical\+Device)
+\item 
+void \mbox{\hyperlink{class_vulkan_drawing_aa0967dfc30db985703daa56ae11f1cdc}{clean\+Up\+Frame\+Buffers}} (\mbox{\hyperlink{struct_s_vulkan_logical_device}{S\+Vulkan\+Logical\+Device}} logical\+Device)
+\item 
+void \mbox{\hyperlink{class_vulkan_drawing_a44044a89fd555ae7aea2266fbe883e96}{clean\+Up\+Samaphores}} (\mbox{\hyperlink{struct_s_vulkan_logical_device}{S\+Vulkan\+Logical\+Device}} logical\+Device)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_vulkan_drawing_abbbe780e001169b2821a87bbaed8282c}\label{class_vulkan_drawing_abbbe780e001169b2821a87bbaed8282c}} 
+\index{VulkanDrawing@{VulkanDrawing}!VulkanDrawing@{VulkanDrawing}}
+\index{VulkanDrawing@{VulkanDrawing}!VulkanDrawing@{VulkanDrawing}}
+\doxysubsubsection{\texorpdfstring{VulkanDrawing()}{VulkanDrawing()}}
+{\footnotesize\ttfamily Vulkan\+Drawing\+::\+Vulkan\+Drawing (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_vulkan_drawing_adb7180db0d43f509ae5786790480808f}\label{class_vulkan_drawing_adb7180db0d43f509ae5786790480808f}} 
+\index{VulkanDrawing@{VulkanDrawing}!cleanUpCommandBuffers@{cleanUpCommandBuffers}}
+\index{cleanUpCommandBuffers@{cleanUpCommandBuffers}!VulkanDrawing@{VulkanDrawing}}
+\doxysubsubsection{\texorpdfstring{cleanUpCommandBuffers()}{cleanUpCommandBuffers()}}
+{\footnotesize\ttfamily void Vulkan\+Drawing\+::clean\+Up\+Command\+Buffers (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_s_vulkan_logical_device}{S\+Vulkan\+Logical\+Device}}}]{logical\+Device }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_vulkan_drawing_aa0967dfc30db985703daa56ae11f1cdc}\label{class_vulkan_drawing_aa0967dfc30db985703daa56ae11f1cdc}} 
+\index{VulkanDrawing@{VulkanDrawing}!cleanUpFrameBuffers@{cleanUpFrameBuffers}}
+\index{cleanUpFrameBuffers@{cleanUpFrameBuffers}!VulkanDrawing@{VulkanDrawing}}
+\doxysubsubsection{\texorpdfstring{cleanUpFrameBuffers()}{cleanUpFrameBuffers()}}
+{\footnotesize\ttfamily void Vulkan\+Drawing\+::clean\+Up\+Frame\+Buffers (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_s_vulkan_logical_device}{S\+Vulkan\+Logical\+Device}}}]{logical\+Device }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_vulkan_drawing_a44044a89fd555ae7aea2266fbe883e96}\label{class_vulkan_drawing_a44044a89fd555ae7aea2266fbe883e96}} 
+\index{VulkanDrawing@{VulkanDrawing}!cleanUpSamaphores@{cleanUpSamaphores}}
+\index{cleanUpSamaphores@{cleanUpSamaphores}!VulkanDrawing@{VulkanDrawing}}
+\doxysubsubsection{\texorpdfstring{cleanUpSamaphores()}{cleanUpSamaphores()}}
+{\footnotesize\ttfamily void Vulkan\+Drawing\+::clean\+Up\+Samaphores (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_s_vulkan_logical_device}{S\+Vulkan\+Logical\+Device}}}]{logical\+Device }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_vulkan_drawing_a4c2f472537d66d5ea4ae3f985b18d4d6}\label{class_vulkan_drawing_a4c2f472537d66d5ea4ae3f985b18d4d6}} 
+\index{VulkanDrawing@{VulkanDrawing}!CreateCommandBuffers@{CreateCommandBuffers}}
+\index{CreateCommandBuffers@{CreateCommandBuffers}!VulkanDrawing@{VulkanDrawing}}
+\doxysubsubsection{\texorpdfstring{CreateCommandBuffers()}{CreateCommandBuffers()}}
+{\footnotesize\ttfamily void Vulkan\+Drawing\+::\+Create\+Command\+Buffers (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_s_vulkan_logical_device}{S\+Vulkan\+Logical\+Device}}}]{logical\+Device,  }\item[{std\+::vector$<$ Vk\+Command\+Buffer $>$ $\ast$}]{command\+Buffer,  }\item[{\mbox{\hyperlink{struct_s_vulkan_pipeline}{S\+Vulkan\+Pipeline}} $\ast$}]{pipeline,  }\item[{std\+::vector$<$ \mbox{\hyperlink{struct_shader_pipeline}{Shader\+Pipeline}} $>$ $\ast$}]{shader\+Pipeline }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_vulkan_drawing_ad47198e0b55333658516f216b4a6866a}\label{class_vulkan_drawing_ad47198e0b55333658516f216b4a6866a}} 
+\index{VulkanDrawing@{VulkanDrawing}!CreateCommandPool@{CreateCommandPool}}
+\index{CreateCommandPool@{CreateCommandPool}!VulkanDrawing@{VulkanDrawing}}
+\doxysubsubsection{\texorpdfstring{CreateCommandPool()}{CreateCommandPool()}}
+{\footnotesize\ttfamily void Vulkan\+Drawing\+::\+Create\+Command\+Pool (\begin{DoxyParamCaption}\item[{Vk\+Physical\+Device}]{physical\+Device,  }\item[{Vk\+Device}]{logical\+Device }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_vulkan_drawing_a1abcda954e036ce5ee5d4dc28415436e}\label{class_vulkan_drawing_a1abcda954e036ce5ee5d4dc28415436e}} 
+\index{VulkanDrawing@{VulkanDrawing}!CreateFrameBuffers@{CreateFrameBuffers}}
+\index{CreateFrameBuffers@{CreateFrameBuffers}!VulkanDrawing@{VulkanDrawing}}
+\doxysubsubsection{\texorpdfstring{CreateFrameBuffers()}{CreateFrameBuffers()}}
+{\footnotesize\ttfamily void Vulkan\+Drawing\+::\+Create\+Frame\+Buffers (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_s_vulkan_logical_device}{S\+Vulkan\+Logical\+Device}}}]{logical\+Device,  }\item[{Vk\+Surface\+K\+HR}]{surface,  }\item[{\mbox{\hyperlink{struct_s_vulkan_swapchain}{S\+Vulkan\+Swapchain}} $\ast$}]{swap\+Chain,  }\item[{\mbox{\hyperlink{struct_s_vulkan_pipeline}{S\+Vulkan\+Pipeline}} $\ast$}]{pipeline }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_vulkan_drawing_aa9b35b9e07d83e5c4e69ef5e62549962}\label{class_vulkan_drawing_aa9b35b9e07d83e5c4e69ef5e62549962}} 
+\index{VulkanDrawing@{VulkanDrawing}!CreatePresentInfoKHR@{CreatePresentInfoKHR}}
+\index{CreatePresentInfoKHR@{CreatePresentInfoKHR}!VulkanDrawing@{VulkanDrawing}}
+\doxysubsubsection{\texorpdfstring{CreatePresentInfoKHR()}{CreatePresentInfoKHR()}}
+{\footnotesize\ttfamily Vk\+Present\+Info\+K\+HR Vulkan\+Drawing\+::\+Create\+Present\+Info\+K\+HR (\begin{DoxyParamCaption}\item[{uint32\+\_\+t \&}]{image\+Index,  }\item[{\mbox{\hyperlink{struct_s_vulkan_swapchain}{S\+Vulkan\+Swapchain}} $\ast$}]{swapchain }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{class_vulkan_drawing_a81e4efac06021971df8b1e72b93c9359}\label{class_vulkan_drawing_a81e4efac06021971df8b1e72b93c9359}} 
+\index{VulkanDrawing@{VulkanDrawing}!CreateSemaphores@{CreateSemaphores}}
+\index{CreateSemaphores@{CreateSemaphores}!VulkanDrawing@{VulkanDrawing}}
+\doxysubsubsection{\texorpdfstring{CreateSemaphores()}{CreateSemaphores()}}
+{\footnotesize\ttfamily void Vulkan\+Drawing\+::\+Create\+Semaphores (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_s_vulkan_logical_device}{S\+Vulkan\+Logical\+Device}}}]{logical\+Device,  }\item[{Vk\+Semaphore $\ast$}]{semaphore }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_vulkan_drawing_aeb1b4b26cbd37d31201a1b33e9f1e84a}\label{class_vulkan_drawing_aeb1b4b26cbd37d31201a1b33e9f1e84a}} 
+\index{VulkanDrawing@{VulkanDrawing}!CreateSubmitInfo@{CreateSubmitInfo}}
+\index{CreateSubmitInfo@{CreateSubmitInfo}!VulkanDrawing@{VulkanDrawing}}
+\doxysubsubsection{\texorpdfstring{CreateSubmitInfo()}{CreateSubmitInfo()}}
+{\footnotesize\ttfamily Vk\+Submit\+Info Vulkan\+Drawing\+::\+Create\+Submit\+Info (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{image\+Index,  }\item[{Vk\+Pipeline\+Stage\+Flags $\ast$}]{wait\+Stage\+Flags }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Repository/\+Invision/src/renderer\+Deprecated/\mbox{\hyperlink{_vulkan_drawing_8h}{Vulkan\+Drawing.\+h}}\item 
+D\+:/\+Repository/\+Invision/src/renderer\+Deprecated/\mbox{\hyperlink{_vulkan_drawing_8cpp}{Vulkan\+Drawing.\+cpp}}\end{DoxyCompactItemize}

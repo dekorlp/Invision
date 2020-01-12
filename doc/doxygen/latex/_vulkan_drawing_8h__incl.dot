@@ -1,0 +1,43 @@
+digraph "src/rendererDeprecated/VulkanDrawing.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/rendererDeprecated\l/VulkanDrawing.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="vector",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="VulkanQueueFamily.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_vulkan_queue_family_8h.html",tooltip=" "];
+  Node3 -> Node2 [color="midnightblue",fontsize="10",style="solid"];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="set",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node3 -> Node5 [color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="VulkanException.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$eprecated_2_vulkan_exception_8h.html",tooltip=" "];
+  Node5 -> Node6 [color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="stdexcept",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node5 -> Node7 [color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="map",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node5 -> Node8 [color="midnightblue",fontsize="10",style="solid"];
+  Node8 [label="string",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node5 -> Node9 [color="midnightblue",fontsize="10",style="solid"];
+  Node9 [label="vulkan/vulkan.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node3 -> Node10 [color="midnightblue",fontsize="10",style="solid"];
+  Node10 [label="VulkanDataVariables.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_vulkan_data_variables_8h.html",tooltip=" "];
+  Node10 -> Node11 [color="midnightblue",fontsize="10",style="solid"];
+  Node11 [label="array",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node10 -> Node8 [color="midnightblue",fontsize="10",style="solid"];
+  Node10 -> Node12 [color="midnightblue",fontsize="10",style="solid"];
+  Node12 [label="Vulkan/vulkan.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_vulkan_2_vulkan_8h.html",tooltip=" "];
+  Node12 -> Node13 [color="midnightblue",fontsize="10",style="solid"];
+  Node13 [label="vulkan\\vulkan.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node12 -> Node14 [color="midnightblue",fontsize="10",style="solid"];
+  Node14 [label="VulkanException.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_vulkan_2_vulkan_exception_8h.html",tooltip=" "];
+  Node14 -> Node13 [color="midnightblue",fontsize="10",style="solid"];
+  Node14 -> Node15 [color="midnightblue",fontsize="10",style="solid"];
+  Node15 [label="common\\exception.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$exception_8h.html",tooltip=" "];
+  Node15 -> Node8 [color="midnightblue",fontsize="10",style="solid"];
+  Node10 -> Node16 [color="midnightblue",fontsize="10",style="solid"];
+  Node16 [label="math/Vector2.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_vector2_8h.html",tooltip=" "];
+  Node10 -> Node17 [color="midnightblue",fontsize="10",style="solid"];
+  Node17 [label="math/Vector3.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_vector3_8h.html",tooltip=" "];
+}

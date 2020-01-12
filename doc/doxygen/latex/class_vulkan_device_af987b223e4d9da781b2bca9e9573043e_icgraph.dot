@@ -1,0 +1,12 @@
+digraph "VulkanDevice::CreateWin32SurfaceCreateInfo"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="VulkanDevice::CreateWin32\lSurfaceCreateInfo",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="VulkanDevice::CreateWindow\lSurface",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_vulkan_device.html#a32e83bf0f65df54d099db3d8d1abca9a",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="Vulkan::run",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_vulkan.html#a907b374b775bdfef3a85993ba8d75115",tooltip=" "];
+}

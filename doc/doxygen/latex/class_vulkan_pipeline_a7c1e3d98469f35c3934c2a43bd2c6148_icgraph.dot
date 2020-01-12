@@ -1,0 +1,14 @@
+digraph "VulkanPipeline::CreateGraphicsPipeline"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="VulkanPipeline::CreateGraphics\lPipeline",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="Vulkan::RecreateSwapchain",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_vulkan.html#a1e6aff6138f0fb7caf57ee08899a80ae",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="Vulkan::OnPaint",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_vulkan.html#a8419ba17f9b9d068cf3b07e5c71349f9",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="Vulkan::run",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_vulkan.html#a907b374b775bdfef3a85993ba8d75115",tooltip=" "];
+}

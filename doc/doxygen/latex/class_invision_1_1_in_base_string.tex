@@ -1,0 +1,272 @@
+\hypertarget{class_invision_1_1_in_base_string}{}\doxysection{Invision\+::In\+Base\+String$<$ T, U $>$ Class Template Reference}
+\label{class_invision_1_1_in_base_string}\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+
+
+{\ttfamily \#include $<$In\+Base\+String.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_invision_1_1_in_base_string_a7deee7b5b809d5670c8010b8c7904fa2}{In\+Base\+String}} ()
+\item 
+size\+\_\+t \mbox{\hyperlink{class_invision_1_1_in_base_string_a54d06d873572b292d8a01cd45338e406}{in\+Strlen}} (const char $\ast$str)
+\item 
+size\+\_\+t \mbox{\hyperlink{class_invision_1_1_in_base_string_ace70ee5ffc0cd7ce5a4a0f10952113bd}{in\+Strlen}} (const wchar\+\_\+t $\ast$str)
+\item 
+\mbox{\hyperlink{class_invision_1_1_in_base_string_a2a6b8a53a46ea66f1cf423e014a8626c}{In\+Base\+String}} (T text, size\+\_\+t length, size\+\_\+t C\+R\+C\+ID)
+\item 
+\mbox{\hyperlink{class_invision_1_1_in_base_string_ac417413875800b4950a28d5523d4ac45}{In\+Base\+String}} (boost\+::shared\+\_\+array$<$ U $>$ text)
+\item 
+size\+\_\+t \mbox{\hyperlink{class_invision_1_1_in_base_string_a49da4e420c74a09da383595a410c0752}{Get\+C\+R\+C\+ID}} ()
+\item 
+T \mbox{\hyperlink{class_invision_1_1_in_base_string_adeab9a2980b24d39ccb384f5677ae5fb}{Get\+Content}} ()
+\item 
+void \mbox{\hyperlink{class_invision_1_1_in_base_string_a304d01777ff377bd2f48cbc1ffb84bb2}{add\+Ref}} ()
+\item 
+void \mbox{\hyperlink{class_invision_1_1_in_base_string_af74696b6062b296ab00faf7d2dd90eed}{sub\+Ref}} ()
+\item 
+size\+\_\+t \mbox{\hyperlink{class_invision_1_1_in_base_string_a0c4deefd9830058025ac8a3f93bc335c}{Get\+Length}} ()
+\item 
+bool \mbox{\hyperlink{class_invision_1_1_in_base_string_ac4c66f2d9369a79c254d7d07cab53caf}{operator==}} (size\+\_\+t r\+Value)
+\item 
+\mbox{\hyperlink{class_invision_1_1_in_base_string}{In\+Base\+String}} \mbox{\hyperlink{class_invision_1_1_in_base_string_ad0dc3ac9fa9c74d2ddd56e965d482782}{substring}} (size\+\_\+t pos, size\+\_\+t len)
+\item 
+\mbox{\hyperlink{class_invision_1_1_in_base_string}{In\+Base\+String}} \mbox{\hyperlink{class_invision_1_1_in_base_string_ae375051692e689d5203deaf0644a1968}{trim}} (U chars\mbox{[}$\,$\mbox{]}, size\+\_\+t arr\+Size)
+\item 
+std\+::vector$<$ \mbox{\hyperlink{class_invision_1_1_in_base_string}{In\+Base\+String}}$<$ T, U $>$ $>$ \mbox{\hyperlink{class_invision_1_1_in_base_string_ad95f4c8368c5242fd2d7fb3f55388612}{split}} (U chars\mbox{[}$\,$\mbox{]}, size\+\_\+t arr\+Size)
+\item 
+bool \mbox{\hyperlink{class_invision_1_1_in_base_string_ac1e958be88d39eaf20c526cd7152e3e4}{contains}} (T value)
+\item 
+\mbox{\hyperlink{class_invision_1_1_in_base_string}{In\+Base\+String}} \mbox{\hyperlink{class_invision_1_1_in_base_string_aba28fa876a879edf10c4d9efe8da833c}{replace}} (T old\+Value, T new\+Value)
+\item 
+\mbox{\hyperlink{class_invision_1_1_in_base_string}{In\+Base\+String}} \mbox{\hyperlink{class_invision_1_1_in_base_string_ab6ea2253e50e3a8bfdcc12e530024612}{remove}} (size\+\_\+t start\+Index, size\+\_\+t count)
+\item 
+size\+\_\+t \mbox{\hyperlink{class_invision_1_1_in_base_string_adc6b68f8bc9ee7ce7a981184de975ef9}{index\+Of}} (T value, size\+\_\+t Startindex)
+\item 
+size\+\_\+t \mbox{\hyperlink{class_invision_1_1_in_base_string_a272084a093e24747b2ccdbee66692707}{index\+Of}} (U value, size\+\_\+t start\+Index)
+\item 
+size\+\_\+t \mbox{\hyperlink{class_invision_1_1_in_base_string_ae605a54c50f6f39cbc15a16651d10754}{last\+Index\+Of}} (T value, size\+\_\+t Startindex)
+\item 
+size\+\_\+t \mbox{\hyperlink{class_invision_1_1_in_base_string_a338e821dd5b6a2ffa780957871efb1d4}{last\+Index\+Of}} (U value, size\+\_\+t start\+Index)
+\item 
+bool \mbox{\hyperlink{class_invision_1_1_in_base_string_a40b9a57c1fbfce9d2c8445faf363a008}{ends\+With}} (T value)
+\item 
+bool \mbox{\hyperlink{class_invision_1_1_in_base_string_af41569784750c808bfacbc315c6d4610}{starts\+With}} (T value)
+\item 
+\mbox{\hyperlink{class_invision_1_1_in_base_string}{In\+Base\+String}} \mbox{\hyperlink{class_invision_1_1_in_base_string_a2f87c19c7aa7cc2a277ce7bbb292181b}{pad\+Left}} (size\+\_\+t total\+Width, U padding\+Char)
+\item 
+\mbox{\hyperlink{class_invision_1_1_in_base_string}{In\+Base\+String}} \mbox{\hyperlink{class_invision_1_1_in_base_string_af1c12bb0bd74226791f2ecb6c47e043f}{pad\+Right}} (size\+\_\+t total\+Width, U padding\+Char)
+\item 
+\mbox{\hyperlink{class_invision_1_1_in_base_string}{In\+Base\+String}} \mbox{\hyperlink{class_invision_1_1_in_base_string_afc9fb3dfcc85d774602b4e61018282cd}{insert}} (size\+\_\+t start\+Index, T value)
+\item 
+\mbox{\hyperlink{class_invision_1_1_in_base_string}{In\+Base\+String}} \mbox{\hyperlink{class_invision_1_1_in_base_string_ae7fc4b34e8178f9470139789af35d852}{to\+Upper}} (bool is\+Wide\+Char)
+\item 
+\mbox{\hyperlink{class_invision_1_1_in_base_string}{In\+Base\+String}} \mbox{\hyperlink{class_invision_1_1_in_base_string_ac9a0410b5f05e916ad44f9eb49ac1561}{to\+Lower}} (bool is\+Wide\+Char)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_a7deee7b5b809d5670c8010b8c7904fa2}\label{class_invision_1_1_in_base_string_a7deee7b5b809d5670c8010b8c7904fa2}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!InBaseString@{InBaseString}}
+\index{InBaseString@{InBaseString}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{InBaseString()}{InBaseString()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+\mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::\mbox{\hyperlink{class_invision_1_1_in_base_string}{In\+Base\+String}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_a2a6b8a53a46ea66f1cf423e014a8626c}\label{class_invision_1_1_in_base_string_a2a6b8a53a46ea66f1cf423e014a8626c}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!InBaseString@{InBaseString}}
+\index{InBaseString@{InBaseString}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{InBaseString()}{InBaseString()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+\mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::\mbox{\hyperlink{class_invision_1_1_in_base_string}{In\+Base\+String}} (\begin{DoxyParamCaption}\item[{T}]{text,  }\item[{size\+\_\+t}]{length,  }\item[{size\+\_\+t}]{C\+R\+C\+ID }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_ac417413875800b4950a28d5523d4ac45}\label{class_invision_1_1_in_base_string_ac417413875800b4950a28d5523d4ac45}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!InBaseString@{InBaseString}}
+\index{InBaseString@{InBaseString}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{InBaseString()}{InBaseString()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+\mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::\mbox{\hyperlink{class_invision_1_1_in_base_string}{In\+Base\+String}} (\begin{DoxyParamCaption}\item[{boost\+::shared\+\_\+array$<$ U $>$}]{text }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_a304d01777ff377bd2f48cbc1ffb84bb2}\label{class_invision_1_1_in_base_string_a304d01777ff377bd2f48cbc1ffb84bb2}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!addRef@{addRef}}
+\index{addRef@{addRef}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{addRef()}{addRef()}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+void \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::add\+Ref (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_ac1e958be88d39eaf20c526cd7152e3e4}\label{class_invision_1_1_in_base_string_ac1e958be88d39eaf20c526cd7152e3e4}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!contains@{contains}}
+\index{contains@{contains}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{contains()}{contains()}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+bool \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::contains (\begin{DoxyParamCaption}\item[{T}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_a40b9a57c1fbfce9d2c8445faf363a008}\label{class_invision_1_1_in_base_string_a40b9a57c1fbfce9d2c8445faf363a008}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!endsWith@{endsWith}}
+\index{endsWith@{endsWith}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{endsWith()}{endsWith()}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+bool \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::ends\+With (\begin{DoxyParamCaption}\item[{T}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_adeab9a2980b24d39ccb384f5677ae5fb}\label{class_invision_1_1_in_base_string_adeab9a2980b24d39ccb384f5677ae5fb}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!GetContent@{GetContent}}
+\index{GetContent@{GetContent}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{GetContent()}{GetContent()}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+T \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::Get\+Content (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_a49da4e420c74a09da383595a410c0752}\label{class_invision_1_1_in_base_string_a49da4e420c74a09da383595a410c0752}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!GetCRCID@{GetCRCID}}
+\index{GetCRCID@{GetCRCID}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{GetCRCID()}{GetCRCID()}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+size\+\_\+t \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::Get\+C\+R\+C\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_a0c4deefd9830058025ac8a3f93bc335c}\label{class_invision_1_1_in_base_string_a0c4deefd9830058025ac8a3f93bc335c}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!GetLength@{GetLength}}
+\index{GetLength@{GetLength}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{GetLength()}{GetLength()}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+size\+\_\+t \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::Get\+Length (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_adc6b68f8bc9ee7ce7a981184de975ef9}\label{class_invision_1_1_in_base_string_adc6b68f8bc9ee7ce7a981184de975ef9}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!indexOf@{indexOf}}
+\index{indexOf@{indexOf}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{indexOf()}{indexOf()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+size\+\_\+t \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::index\+Of (\begin{DoxyParamCaption}\item[{T}]{value,  }\item[{size\+\_\+t}]{Startindex }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_a272084a093e24747b2ccdbee66692707}\label{class_invision_1_1_in_base_string_a272084a093e24747b2ccdbee66692707}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!indexOf@{indexOf}}
+\index{indexOf@{indexOf}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{indexOf()}{indexOf()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+size\+\_\+t \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::index\+Of (\begin{DoxyParamCaption}\item[{U}]{value,  }\item[{size\+\_\+t}]{start\+Index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_afc9fb3dfcc85d774602b4e61018282cd}\label{class_invision_1_1_in_base_string_afc9fb3dfcc85d774602b4e61018282cd}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!insert@{insert}}
+\index{insert@{insert}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+\mbox{\hyperlink{class_invision_1_1_in_base_string}{In\+Base\+String}} \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::insert (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{start\+Index,  }\item[{T}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_a54d06d873572b292d8a01cd45338e406}\label{class_invision_1_1_in_base_string_a54d06d873572b292d8a01cd45338e406}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!inStrlen@{inStrlen}}
+\index{inStrlen@{inStrlen}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{inStrlen()}{inStrlen()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+size\+\_\+t \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::in\+Strlen (\begin{DoxyParamCaption}\item[{const char $\ast$}]{str }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_ace70ee5ffc0cd7ce5a4a0f10952113bd}\label{class_invision_1_1_in_base_string_ace70ee5ffc0cd7ce5a4a0f10952113bd}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!inStrlen@{inStrlen}}
+\index{inStrlen@{inStrlen}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{inStrlen()}{inStrlen()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+size\+\_\+t \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::in\+Strlen (\begin{DoxyParamCaption}\item[{const wchar\+\_\+t $\ast$}]{str }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_ae605a54c50f6f39cbc15a16651d10754}\label{class_invision_1_1_in_base_string_ae605a54c50f6f39cbc15a16651d10754}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!lastIndexOf@{lastIndexOf}}
+\index{lastIndexOf@{lastIndexOf}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{lastIndexOf()}{lastIndexOf()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+size\+\_\+t \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::last\+Index\+Of (\begin{DoxyParamCaption}\item[{T}]{value,  }\item[{size\+\_\+t}]{Startindex }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_a338e821dd5b6a2ffa780957871efb1d4}\label{class_invision_1_1_in_base_string_a338e821dd5b6a2ffa780957871efb1d4}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!lastIndexOf@{lastIndexOf}}
+\index{lastIndexOf@{lastIndexOf}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{lastIndexOf()}{lastIndexOf()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+size\+\_\+t \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::last\+Index\+Of (\begin{DoxyParamCaption}\item[{U}]{value,  }\item[{size\+\_\+t}]{start\+Index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_ac4c66f2d9369a79c254d7d07cab53caf}\label{class_invision_1_1_in_base_string_ac4c66f2d9369a79c254d7d07cab53caf}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!operator==@{operator==}}
+\index{operator==@{operator==}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+bool \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::operator== (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{r\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_a2f87c19c7aa7cc2a277ce7bbb292181b}\label{class_invision_1_1_in_base_string_a2f87c19c7aa7cc2a277ce7bbb292181b}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!padLeft@{padLeft}}
+\index{padLeft@{padLeft}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{padLeft()}{padLeft()}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+\mbox{\hyperlink{class_invision_1_1_in_base_string}{In\+Base\+String}} \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::pad\+Left (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{total\+Width,  }\item[{U}]{padding\+Char }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_af1c12bb0bd74226791f2ecb6c47e043f}\label{class_invision_1_1_in_base_string_af1c12bb0bd74226791f2ecb6c47e043f}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!padRight@{padRight}}
+\index{padRight@{padRight}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{padRight()}{padRight()}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+\mbox{\hyperlink{class_invision_1_1_in_base_string}{In\+Base\+String}} \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::pad\+Right (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{total\+Width,  }\item[{U}]{padding\+Char }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_ab6ea2253e50e3a8bfdcc12e530024612}\label{class_invision_1_1_in_base_string_ab6ea2253e50e3a8bfdcc12e530024612}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!remove@{remove}}
+\index{remove@{remove}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{remove()}{remove()}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+\mbox{\hyperlink{class_invision_1_1_in_base_string}{In\+Base\+String}} \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::remove (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{start\+Index,  }\item[{size\+\_\+t}]{count }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_aba28fa876a879edf10c4d9efe8da833c}\label{class_invision_1_1_in_base_string_aba28fa876a879edf10c4d9efe8da833c}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!replace@{replace}}
+\index{replace@{replace}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{replace()}{replace()}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+\mbox{\hyperlink{class_invision_1_1_in_base_string}{In\+Base\+String}} \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::replace (\begin{DoxyParamCaption}\item[{T}]{old\+Value,  }\item[{T}]{new\+Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_ad95f4c8368c5242fd2d7fb3f55388612}\label{class_invision_1_1_in_base_string_ad95f4c8368c5242fd2d7fb3f55388612}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!split@{split}}
+\index{split@{split}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{split()}{split()}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+std\+::vector$<$\mbox{\hyperlink{class_invision_1_1_in_base_string}{In\+Base\+String}}$<$T, U$>$ $>$ \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::split (\begin{DoxyParamCaption}\item[{U}]{chars\mbox{[}$\,$\mbox{]},  }\item[{size\+\_\+t}]{arr\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_af41569784750c808bfacbc315c6d4610}\label{class_invision_1_1_in_base_string_af41569784750c808bfacbc315c6d4610}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!startsWith@{startsWith}}
+\index{startsWith@{startsWith}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{startsWith()}{startsWith()}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+bool \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::starts\+With (\begin{DoxyParamCaption}\item[{T}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_af74696b6062b296ab00faf7d2dd90eed}\label{class_invision_1_1_in_base_string_af74696b6062b296ab00faf7d2dd90eed}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!subRef@{subRef}}
+\index{subRef@{subRef}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{subRef()}{subRef()}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+void \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::sub\+Ref (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_ad0dc3ac9fa9c74d2ddd56e965d482782}\label{class_invision_1_1_in_base_string_ad0dc3ac9fa9c74d2ddd56e965d482782}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!substring@{substring}}
+\index{substring@{substring}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{substring()}{substring()}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+\mbox{\hyperlink{class_invision_1_1_in_base_string}{In\+Base\+String}} \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::substring (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos,  }\item[{size\+\_\+t}]{len }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_ac9a0410b5f05e916ad44f9eb49ac1561}\label{class_invision_1_1_in_base_string_ac9a0410b5f05e916ad44f9eb49ac1561}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!toLower@{toLower}}
+\index{toLower@{toLower}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{toLower()}{toLower()}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+\mbox{\hyperlink{class_invision_1_1_in_base_string}{In\+Base\+String}} \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::to\+Lower (\begin{DoxyParamCaption}\item[{bool}]{is\+Wide\+Char }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_ae7fc4b34e8178f9470139789af35d852}\label{class_invision_1_1_in_base_string_ae7fc4b34e8178f9470139789af35d852}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!toUpper@{toUpper}}
+\index{toUpper@{toUpper}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{toUpper()}{toUpper()}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+\mbox{\hyperlink{class_invision_1_1_in_base_string}{In\+Base\+String}} \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::to\+Upper (\begin{DoxyParamCaption}\item[{bool}]{is\+Wide\+Char }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_invision_1_1_in_base_string_ae375051692e689d5203deaf0644a1968}\label{class_invision_1_1_in_base_string_ae375051692e689d5203deaf0644a1968}} 
+\index{Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}!trim@{trim}}
+\index{trim@{trim}!Invision::InBaseString$<$ T, U $>$@{Invision::InBaseString$<$ T, U $>$}}
+\doxysubsubsection{\texorpdfstring{trim()}{trim()}}
+{\footnotesize\ttfamily template$<$typename T , typename U $>$ \\
+\mbox{\hyperlink{class_invision_1_1_in_base_string}{In\+Base\+String}} \mbox{\hyperlink{class_invision_1_1_in_base_string}{Invision\+::\+In\+Base\+String}}$<$ T, U $>$\+::trim (\begin{DoxyParamCaption}\item[{U}]{chars\mbox{[}$\,$\mbox{]},  }\item[{size\+\_\+t}]{arr\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Repository/\+Invision/src/lowlevel/\mbox{\hyperlink{_in_base_string_8h}{In\+Base\+String.\+h}}\end{DoxyCompactItemize}

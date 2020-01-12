@@ -2,7 +2,6 @@
 #define VULKANEXCEPTION_H
 
 #include "vulkan\vulkan.h"
-#include "common\exception.h"
 
 namespace Invision
 {

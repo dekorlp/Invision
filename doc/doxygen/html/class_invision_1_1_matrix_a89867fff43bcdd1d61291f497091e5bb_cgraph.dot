@@ -1,0 +1,20 @@
+digraph "Invision::Matrix::RotateXYZ"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Invision::Matrix::RotateXYZ",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="rotate around XYZ axis"];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Invision::Vector3::getX",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_vector3.html#a3a197c5a7722a3a6d3741a83cfff409c",tooltip="returns X coordinate"];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Invision::Vector3::getY",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_vector3.html#a06268a0da00683ebb8690a704246d9ca",tooltip="returns Y coordinate"];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Invision::Vector3::getZ",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_vector3.html#a1103f0cdb87b9aa47c33ec2c0dad473f",tooltip="returns Z coordinate"];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Invision::Matrix::RotateX",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_matrix.html#adcf61c02eb6dc5941dd68695763f0169",tooltip="rotate around X axis"];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="Invision::Matrix::RotateY",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_matrix.html#ade0b5eef43cf9c85b17379bab3b12f10",tooltip="rotate around Y axis"];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="Invision::Matrix::RotateZ",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_matrix.html#a86c8539845241ca3caa7f73d9f2d5684",tooltip="rotate around Z axis"];
+}

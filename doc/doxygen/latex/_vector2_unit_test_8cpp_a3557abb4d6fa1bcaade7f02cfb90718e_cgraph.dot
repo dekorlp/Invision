@@ -1,0 +1,10 @@
+digraph "BOOST_AUTO_TEST_CASE"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="BOOST_AUTO_TEST_CASE",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="Invision::Vector2::dot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_vector2.html#a4ea3ed809622a4f8908eba51c9f9a8c1",tooltip="calculates the dot product of a vector"];
+}

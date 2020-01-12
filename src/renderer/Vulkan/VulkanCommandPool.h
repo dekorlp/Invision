@@ -2,12 +2,6 @@
 #define VULKAN_COMMAND_POOL_H
 
 #include "vulkan\vulkan.h"
-#include "Vulkan.h"
-#include "VulkanException.h"
-#include "VulkanFramebuffer.h"
-#include "VulkanPipeline.h"
-#include "VulkanRenderPass.h"
-
 
 namespace Invision
 {

@@ -1,0 +1,33 @@
+digraph "SQueueFamilyIndices::IsComplete"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="SQueueFamilyIndices\l::IsComplete",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="Invision::FindQueueFamilies",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespace_invision.html#a20f3ea575e96e64dee3be16ce8e92a9c",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="Invision::VulkanCommandPool\l::CreateCommandPool",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_vulkan_command_pool.html#a1ab367ed5d4f46a0347500d48924eabd",tooltip=" "];
+  Node2 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="Invision::VulkanDevice\l::CreateLogicalDevice",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_vulkan_device.html#af828d1992a59185c8efdd17229226240",tooltip=" "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="Invision::VulkanDevice\l::GetDevices",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_vulkan_device.html#a4f1ce3c94cb219d6f1dce39c3f696d74",tooltip=" "];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="Invision::CreateVulkanDevice",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespace_invision.html#adf574dabe1731e0da138e21eb321d90a",tooltip=" "];
+  Node2 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="Invision::VulkanPresentation\l::CreateSwapChain",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_vulkan_presentation.html#a40b3f250ac9c77fb87d309f7bbad7d5a",tooltip=" "];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node8 [label="Invision::VulkanPresentation\l::CreatePresentation",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_vulkan_presentation.html#abc0cda3723262745c3e4cb753eb372ec",tooltip=" "];
+  Node8 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node9 [label="Invision::CreatePresentation\lSystem",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespace_invision.html#a36f48147d19b6d75e6d27df76f8ff06d",tooltip=" "];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node10 [label="VulkanQueueFamily::\lFindQueueFamilies",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_vulkan_queue_family.html#ad30f71ca9e31a431fb1dd02e4b31323d",tooltip=" "];
+  Node10 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node11 [label="VulkanDrawing::CreateCommandPool",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_vulkan_drawing.html#ad47198e0b55333658516f216b4a6866a",tooltip=" "];
+  Node11 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node12 [label="Vulkan::run",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_vulkan.html#a907b374b775bdfef3a85993ba8d75115",tooltip=" "];
+  Node10 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node13 [label="VulkanDevice::CreateLogical\lDevice",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_vulkan_device.html#abd4082b9022c28d074f9f67e889d4e68",tooltip=" "];
+  Node13 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+}

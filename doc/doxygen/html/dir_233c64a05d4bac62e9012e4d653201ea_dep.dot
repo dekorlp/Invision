@@ -1,0 +1,11 @@
+digraph "src/renderer/Vulkan" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_7bc5e25958a2fb25a8561f3aa0def6c5 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="renderer" fontname="Helvetica", fontsize="10", URL="dir_7bc5e25958a2fb25a8561f3aa0def6c5.html"]
+  dir_233c64a05d4bac62e9012e4d653201ea [shape=box, label="Vulkan", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_233c64a05d4bac62e9012e4d653201ea.html"];
+  }
+  dir_fdedb0aba14d44ce9d99bc100e026e6a [shape=box label="common" URL="dir_fdedb0aba14d44ce9d99bc100e026e6a.html"];
+  dir_233c64a05d4bac62e9012e4d653201ea->dir_fdedb0aba14d44ce9d99bc100e026e6a [headlabel="14", labeldistance=1.5 headhref="dir_000007_000001.html"];
+}

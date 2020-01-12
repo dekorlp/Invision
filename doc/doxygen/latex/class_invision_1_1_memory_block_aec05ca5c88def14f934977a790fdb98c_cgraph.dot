@@ -1,0 +1,12 @@
+digraph "Invision::MemoryBlock::GetStackHeader"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Invision::MemoryBlock\l::GetStackHeader",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="Invision::Log::GetLogger",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_log.html#a4405d17191a7b5036c84c21641dd51e3",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="Invision::Log::WriteToLog",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_log.html#a142b52ecc1cb3c14704eb54dc8de8619",tooltip=" "];
+}

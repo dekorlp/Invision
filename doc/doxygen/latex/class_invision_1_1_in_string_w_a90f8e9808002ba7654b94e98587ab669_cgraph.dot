@@ -1,0 +1,12 @@
+digraph "Invision::InStringW::insert"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Invision::InStringW\l::insert",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="Invision::InBaseString\l::insert",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_in_base_string.html#afc9fb3dfcc85d774602b4e61018282cd",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="Invision::InStringW\l::InStringW",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_in_string_w.html#aa460fb602802d8f6a60fccf6032f31f4",tooltip=" "];
+}

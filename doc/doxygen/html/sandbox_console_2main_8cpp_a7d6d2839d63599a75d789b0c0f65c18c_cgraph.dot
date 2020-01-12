@@ -1,0 +1,14 @@
+digraph "testCPUInfo"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="testCPUInfo",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Invision::PlatformCPUFrequency\l::EstimateCpuSpeed",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_platform_c_p_u_frequency.html#a0274358ed29f0ffd11db6a7a2bea5d03",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Invision::PlatformCPU\l::GetCpuName",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_platform_c_p_u.html#a407ecce1b1da49e9434000c58c84cbe4",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Invision::PlatformCPU\l::GetLogicalCpuCores",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_platform_c_p_u.html#a796c9e18ccaee4bb8546c5614155e2c0",tooltip=" "];
+}

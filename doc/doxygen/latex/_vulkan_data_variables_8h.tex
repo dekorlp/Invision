@@ -1,0 +1,98 @@
+\hypertarget{_vulkan_data_variables_8h}{}\doxysection{D\+:/\+Repository/\+Invision/src/renderer\+Deprecated/\+Vulkan\+Data\+Variables.h File Reference}
+\label{_vulkan_data_variables_8h}\index{D:/Repository/Invision/src/rendererDeprecated/VulkanDataVariables.h@{D:/Repository/Invision/src/rendererDeprecated/VulkanDataVariables.h}}
+{\ttfamily \#include $<$array$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include \char`\"{}Vulkan/vulkan.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}math/\+Vector2.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}math/\+Vector3.\+h\char`\"{}}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_vertex}{Vertex}}
+\item 
+struct \mbox{\hyperlink{struct_s_vulkan_logical_device}{S\+Vulkan\+Logical\+Device}}
+\item 
+struct \mbox{\hyperlink{struct_s_vulkan_swapchain}{S\+Vulkan\+Swapchain}}
+\item 
+struct \mbox{\hyperlink{struct_s_vulkan_pipeline}{S\+Vulkan\+Pipeline}}
+\item 
+struct \mbox{\hyperlink{struct_s_queue_family_indices}{S\+Queue\+Family\+Indices}}
+\item 
+struct \mbox{\hyperlink{struct_swap_chain_support_details}{Swap\+Chain\+Support\+Details}}
+\item 
+struct \mbox{\hyperlink{struct_s_mesh_data}{S\+Mesh\+Data}}
+\item 
+struct \mbox{\hyperlink{struct_shader_type}{Shader\+Type}}
+\item 
+struct \mbox{\hyperlink{struct_shader_pipeline}{Shader\+Pipeline}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{_vulkan_data_variables_8h_aa7039edc2e907248605dfd72bcdaedde}{Vertex\+Source}} \{ \mbox{\hyperlink{_vulkan_data_variables_8h_aa7039edc2e907248605dfd72bcdaeddea8b9c4f615af08b302839099e1d7da910}{I\+N\+\_\+\+V\+E\+R\+T\+E\+X\+\_\+\+S\+O\+U\+R\+C\+E\+\_\+\+S\+T\+R\+U\+CT}}, 
+\mbox{\hyperlink{_vulkan_data_variables_8h_aa7039edc2e907248605dfd72bcdaeddea6ae403b1cb9175f943cdf36de3224215}{I\+N\+\_\+\+V\+E\+R\+T\+E\+X\+\_\+\+S\+O\+U\+R\+C\+E\+\_\+\+S\+H\+A\+D\+ER}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const std\+::vector$<$ const char $\ast$ $>$ \mbox{\hyperlink{_vulkan_data_variables_8h_ae9f2e52186582e1f54bb6e686671c24c}{device\+Extensions}}
+\item 
+const bool \mbox{\hyperlink{_vulkan_data_variables_8h_aebf0191c8cb852209eefbb50d9cbf7ba}{enable\+Validation\+Layers}} = false
+\item 
+const std\+::vector$<$ const char $\ast$ $>$ \mbox{\hyperlink{_vulkan_data_variables_8h_a7ca66b16460bd6b27fa5176e228218e8}{validation\+Layers}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{_vulkan_data_variables_8h_aa7039edc2e907248605dfd72bcdaedde}\label{_vulkan_data_variables_8h_aa7039edc2e907248605dfd72bcdaedde}} 
+\index{VulkanDataVariables.h@{VulkanDataVariables.h}!VertexSource@{VertexSource}}
+\index{VertexSource@{VertexSource}!VulkanDataVariables.h@{VulkanDataVariables.h}}
+\doxysubsubsection{\texorpdfstring{VertexSource}{VertexSource}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{_vulkan_data_variables_8h_aa7039edc2e907248605dfd72bcdaedde}{Vertex\+Source}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IN\_VERTEX\_SOURCE\_STRUCT@{IN\_VERTEX\_SOURCE\_STRUCT}!VulkanDataVariables.h@{VulkanDataVariables.h}}\index{VulkanDataVariables.h@{VulkanDataVariables.h}!IN\_VERTEX\_SOURCE\_STRUCT@{IN\_VERTEX\_SOURCE\_STRUCT}}}\mbox{\Hypertarget{_vulkan_data_variables_8h_aa7039edc2e907248605dfd72bcdaeddea8b9c4f615af08b302839099e1d7da910}\label{_vulkan_data_variables_8h_aa7039edc2e907248605dfd72bcdaeddea8b9c4f615af08b302839099e1d7da910}} 
+I\+N\+\_\+\+V\+E\+R\+T\+E\+X\+\_\+\+S\+O\+U\+R\+C\+E\+\_\+\+S\+T\+R\+U\+CT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IN\_VERTEX\_SOURCE\_SHADER@{IN\_VERTEX\_SOURCE\_SHADER}!VulkanDataVariables.h@{VulkanDataVariables.h}}\index{VulkanDataVariables.h@{VulkanDataVariables.h}!IN\_VERTEX\_SOURCE\_SHADER@{IN\_VERTEX\_SOURCE\_SHADER}}}\mbox{\Hypertarget{_vulkan_data_variables_8h_aa7039edc2e907248605dfd72bcdaeddea6ae403b1cb9175f943cdf36de3224215}\label{_vulkan_data_variables_8h_aa7039edc2e907248605dfd72bcdaeddea6ae403b1cb9175f943cdf36de3224215}} 
+I\+N\+\_\+\+V\+E\+R\+T\+E\+X\+\_\+\+S\+O\+U\+R\+C\+E\+\_\+\+S\+H\+A\+D\+ER&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{_vulkan_data_variables_8h_ae9f2e52186582e1f54bb6e686671c24c}\label{_vulkan_data_variables_8h_ae9f2e52186582e1f54bb6e686671c24c}} 
+\index{VulkanDataVariables.h@{VulkanDataVariables.h}!deviceExtensions@{deviceExtensions}}
+\index{deviceExtensions@{deviceExtensions}!VulkanDataVariables.h@{VulkanDataVariables.h}}
+\doxysubsubsection{\texorpdfstring{deviceExtensions}{deviceExtensions}}
+{\footnotesize\ttfamily const std\+::vector$<$const char$\ast$$>$ device\+Extensions}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{    VK\_KHR\_SWAPCHAIN\_EXTENSION\_NAME}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{_vulkan_data_variables_8h_aebf0191c8cb852209eefbb50d9cbf7ba}\label{_vulkan_data_variables_8h_aebf0191c8cb852209eefbb50d9cbf7ba}} 
+\index{VulkanDataVariables.h@{VulkanDataVariables.h}!enableValidationLayers@{enableValidationLayers}}
+\index{enableValidationLayers@{enableValidationLayers}!VulkanDataVariables.h@{VulkanDataVariables.h}}
+\doxysubsubsection{\texorpdfstring{enableValidationLayers}{enableValidationLayers}}
+{\footnotesize\ttfamily const bool enable\+Validation\+Layers = false}
+
+\mbox{\Hypertarget{_vulkan_data_variables_8h_a7ca66b16460bd6b27fa5176e228218e8}\label{_vulkan_data_variables_8h_a7ca66b16460bd6b27fa5176e228218e8}} 
+\index{VulkanDataVariables.h@{VulkanDataVariables.h}!validationLayers@{validationLayers}}
+\index{validationLayers@{validationLayers}!VulkanDataVariables.h@{VulkanDataVariables.h}}
+\doxysubsubsection{\texorpdfstring{validationLayers}{validationLayers}}
+{\footnotesize\ttfamily const std\+::vector$<$const char$\ast$$>$ validation\+Layers}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{    \textcolor{stringliteral}{"VK\_LAYER\_LUNARG\_standard\_validation"}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

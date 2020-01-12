@@ -1,0 +1,149 @@
+\hypertarget{class_invision_1_1_stack_allocator}{}\doxysection{Invision\+::Stack\+Allocator Class Reference}
+\label{class_invision_1_1_stack_allocator}\index{Invision::StackAllocator@{Invision::StackAllocator}}
+
+
+{\ttfamily \#include $<$Stack\+Allocator.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_invision_1_1_stack_allocator_a54832f4c1b4dcc5dbba119ac8f36e15e}{Stack\+Allocator}} ()
+\item 
+\mbox{\hyperlink{class_invision_1_1_stack_allocator_ad70b3b0b3f7167aa18ca6cba0e57a9a1}{Stack\+Allocator}} (size\+\_\+t size)
+\item 
+\mbox{\hyperlink{class_invision_1_1_stack_allocator_a7e7eb3dbc5e6c96fc9440e20046fc1a6}{Stack\+Allocator}} (\mbox{\hyperlink{class_invision_1_1_stack_allocator}{Stack\+Allocator}} \&\&)=delete
+\item 
+\mbox{\hyperlink{class_invision_1_1_stack_allocator}{Stack\+Allocator}} \& \mbox{\hyperlink{class_invision_1_1_stack_allocator_ae729eeb62ddee2e5eba7b6a17fac2a95}{operator==}} (\mbox{\hyperlink{class_invision_1_1_stack_allocator}{Stack\+Allocator}} \&\&)=delete
+\item 
+\mbox{\hyperlink{class_invision_1_1_stack_allocator_a4c635b564d8680ee061aa3a9d8d8ef8e}{Stack\+Allocator}} (const \mbox{\hyperlink{class_invision_1_1_stack_allocator}{Stack\+Allocator}} \&)=delete
+\item 
+\mbox{\hyperlink{class_invision_1_1_stack_allocator}{Stack\+Allocator}} \& \mbox{\hyperlink{class_invision_1_1_stack_allocator_a7e9b2bc88880d52ebbd25e0916a7fe9e}{operator=}} (const \mbox{\hyperlink{class_invision_1_1_stack_allocator}{Stack\+Allocator}} \&)=delete
+\item 
+void \mbox{\hyperlink{class_invision_1_1_stack_allocator_a6c25aefb5d124282ffa872815c886942}{Init}} (size\+\_\+t size)
+\item 
+void $\ast$ \mbox{\hyperlink{class_invision_1_1_stack_allocator_a0910e0ce73797b1396c72147b61a0056}{Allocate}} (size\+\_\+t blocksize, \mbox{\hyperlink{_base_types_8h_a1134b580f8da4de94ca6b1de4d37975e}{uint32}} line=0, char $\ast$file=\char`\"{}\char`\"{}, \mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5}{Memory\+Tracking}} mem\+Tracking=\mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5a0b554d3fc32cfff71aa201920ae36562}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+E\+M\+O\+R\+Y\+\_\+\+T\+R\+A\+C\+K\+I\+NG}}, \mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58}{Bounds\+Checking}} bounds\+Checking=\mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58ad54713c994f5a120c85f0ef6c633adef}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+N\+O\+\_\+\+B\+O\+U\+N\+D\+S\+\_\+\+C\+H\+E\+C\+K\+I\+NG}})
+\item 
+void \mbox{\hyperlink{class_invision_1_1_stack_allocator_ab20ec72d15bbf817a67668e84288acc9}{Deallocate}} (void $\ast$block)
+\item 
+\mbox{\hyperlink{_base_types_8h_a1134b580f8da4de94ca6b1de4d37975e}{uint32}} \mbox{\hyperlink{class_invision_1_1_stack_allocator_a95d2ce065c68c72e62a8d492a6f85b1d}{Get\+Count\+Of\+Chunks}} ()
+\item 
+void $\ast$ \mbox{\hyperlink{class_invision_1_1_stack_allocator_ad521ea78affa3abc888850295db32184}{Get\+Arena}} ()
+\item 
+size\+\_\+t \mbox{\hyperlink{class_invision_1_1_stack_allocator_a96e4b50df047af63c7ac0fffc038761f}{Get\+Used\+Memory}} ()
+\item 
+size\+\_\+t \mbox{\hyperlink{class_invision_1_1_stack_allocator_a876931406a7b2e49408b28d2d635d36d}{Get\+Total\+Memory}} ()
+\item 
+void \mbox{\hyperlink{class_invision_1_1_stack_allocator_aa6fbaa920b42ae814d636a16f22985bd}{Clear}} ()
+\item 
+void \mbox{\hyperlink{class_invision_1_1_stack_allocator_a703b80ce391ad9cc21055f2091f8865d}{Destroy}} ()
+\item 
+\mbox{\hyperlink{class_invision_1_1_stack_allocator_a48b011eb9d01554a258480acc78219ba}{$\sim$\+Stack\+Allocator}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_invision_1_1_stack_allocator_a54832f4c1b4dcc5dbba119ac8f36e15e}\label{class_invision_1_1_stack_allocator_a54832f4c1b4dcc5dbba119ac8f36e15e}} 
+\index{Invision::StackAllocator@{Invision::StackAllocator}!StackAllocator@{StackAllocator}}
+\index{StackAllocator@{StackAllocator}!Invision::StackAllocator@{Invision::StackAllocator}}
+\doxysubsubsection{\texorpdfstring{StackAllocator()}{StackAllocator()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily Invision\+::\+Stack\+Allocator\+::\+Stack\+Allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+\mbox{\Hypertarget{class_invision_1_1_stack_allocator_ad70b3b0b3f7167aa18ca6cba0e57a9a1}\label{class_invision_1_1_stack_allocator_ad70b3b0b3f7167aa18ca6cba0e57a9a1}} 
+\index{Invision::StackAllocator@{Invision::StackAllocator}!StackAllocator@{StackAllocator}}
+\index{StackAllocator@{StackAllocator}!Invision::StackAllocator@{Invision::StackAllocator}}
+\doxysubsubsection{\texorpdfstring{StackAllocator()}{StackAllocator()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily Invision\+::\+Stack\+Allocator\+::\+Stack\+Allocator (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+\mbox{\Hypertarget{class_invision_1_1_stack_allocator_a7e7eb3dbc5e6c96fc9440e20046fc1a6}\label{class_invision_1_1_stack_allocator_a7e7eb3dbc5e6c96fc9440e20046fc1a6}} 
+\index{Invision::StackAllocator@{Invision::StackAllocator}!StackAllocator@{StackAllocator}}
+\index{StackAllocator@{StackAllocator}!Invision::StackAllocator@{Invision::StackAllocator}}
+\doxysubsubsection{\texorpdfstring{StackAllocator()}{StackAllocator()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily Invision\+::\+Stack\+Allocator\+::\+Stack\+Allocator (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_invision_1_1_stack_allocator}{Stack\+Allocator}} \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\mbox{\Hypertarget{class_invision_1_1_stack_allocator_a4c635b564d8680ee061aa3a9d8d8ef8e}\label{class_invision_1_1_stack_allocator_a4c635b564d8680ee061aa3a9d8d8ef8e}} 
+\index{Invision::StackAllocator@{Invision::StackAllocator}!StackAllocator@{StackAllocator}}
+\index{StackAllocator@{StackAllocator}!Invision::StackAllocator@{Invision::StackAllocator}}
+\doxysubsubsection{\texorpdfstring{StackAllocator()}{StackAllocator()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily Invision\+::\+Stack\+Allocator\+::\+Stack\+Allocator (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_invision_1_1_stack_allocator}{Stack\+Allocator}} \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\mbox{\Hypertarget{class_invision_1_1_stack_allocator_a48b011eb9d01554a258480acc78219ba}\label{class_invision_1_1_stack_allocator_a48b011eb9d01554a258480acc78219ba}} 
+\index{Invision::StackAllocator@{Invision::StackAllocator}!````~StackAllocator@{$\sim$StackAllocator}}
+\index{````~StackAllocator@{$\sim$StackAllocator}!Invision::StackAllocator@{Invision::StackAllocator}}
+\doxysubsubsection{\texorpdfstring{$\sim$StackAllocator()}{~StackAllocator()}}
+{\footnotesize\ttfamily Invision\+::\+Stack\+Allocator\+::$\sim$\+Stack\+Allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_invision_1_1_stack_allocator_a0910e0ce73797b1396c72147b61a0056}\label{class_invision_1_1_stack_allocator_a0910e0ce73797b1396c72147b61a0056}} 
+\index{Invision::StackAllocator@{Invision::StackAllocator}!Allocate@{Allocate}}
+\index{Allocate@{Allocate}!Invision::StackAllocator@{Invision::StackAllocator}}
+\doxysubsubsection{\texorpdfstring{Allocate()}{Allocate()}}
+{\footnotesize\ttfamily void $\ast$ Invision\+::\+Stack\+Allocator\+::\+Allocate (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{blocksize,  }\item[{\mbox{\hyperlink{_base_types_8h_a1134b580f8da4de94ca6b1de4d37975e}{uint32}}}]{line = {\ttfamily 0},  }\item[{char $\ast$}]{file = {\ttfamily \char`\"{}\char`\"{}},  }\item[{\mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5}{Memory\+Tracking}}}]{mem\+Tracking = {\ttfamily \mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5a0b554d3fc32cfff71aa201920ae36562}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+E\+M\+O\+R\+Y\+\_\+\+T\+R\+A\+C\+K\+I\+NG}}},  }\item[{\mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58}{Bounds\+Checking}}}]{bounds\+Checking = {\ttfamily \mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58ad54713c994f5a120c85f0ef6c633adef}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+N\+O\+\_\+\+B\+O\+U\+N\+D\+S\+\_\+\+C\+H\+E\+C\+K\+I\+NG}}} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_invision_1_1_stack_allocator_aa6fbaa920b42ae814d636a16f22985bd}\label{class_invision_1_1_stack_allocator_aa6fbaa920b42ae814d636a16f22985bd}} 
+\index{Invision::StackAllocator@{Invision::StackAllocator}!Clear@{Clear}}
+\index{Clear@{Clear}!Invision::StackAllocator@{Invision::StackAllocator}}
+\doxysubsubsection{\texorpdfstring{Clear()}{Clear()}}
+{\footnotesize\ttfamily void Invision\+::\+Stack\+Allocator\+::\+Clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_invision_1_1_stack_allocator_ab20ec72d15bbf817a67668e84288acc9}\label{class_invision_1_1_stack_allocator_ab20ec72d15bbf817a67668e84288acc9}} 
+\index{Invision::StackAllocator@{Invision::StackAllocator}!Deallocate@{Deallocate}}
+\index{Deallocate@{Deallocate}!Invision::StackAllocator@{Invision::StackAllocator}}
+\doxysubsubsection{\texorpdfstring{Deallocate()}{Deallocate()}}
+{\footnotesize\ttfamily void Invision\+::\+Stack\+Allocator\+::\+Deallocate (\begin{DoxyParamCaption}\item[{void $\ast$}]{block }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_invision_1_1_stack_allocator_a703b80ce391ad9cc21055f2091f8865d}\label{class_invision_1_1_stack_allocator_a703b80ce391ad9cc21055f2091f8865d}} 
+\index{Invision::StackAllocator@{Invision::StackAllocator}!Destroy@{Destroy}}
+\index{Destroy@{Destroy}!Invision::StackAllocator@{Invision::StackAllocator}}
+\doxysubsubsection{\texorpdfstring{Destroy()}{Destroy()}}
+{\footnotesize\ttfamily void Invision\+::\+Stack\+Allocator\+::\+Destroy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_invision_1_1_stack_allocator_ad521ea78affa3abc888850295db32184}\label{class_invision_1_1_stack_allocator_ad521ea78affa3abc888850295db32184}} 
+\index{Invision::StackAllocator@{Invision::StackAllocator}!GetArena@{GetArena}}
+\index{GetArena@{GetArena}!Invision::StackAllocator@{Invision::StackAllocator}}
+\doxysubsubsection{\texorpdfstring{GetArena()}{GetArena()}}
+{\footnotesize\ttfamily void $\ast$ Invision\+::\+Stack\+Allocator\+::\+Get\+Arena (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_invision_1_1_stack_allocator_a95d2ce065c68c72e62a8d492a6f85b1d}\label{class_invision_1_1_stack_allocator_a95d2ce065c68c72e62a8d492a6f85b1d}} 
+\index{Invision::StackAllocator@{Invision::StackAllocator}!GetCountOfChunks@{GetCountOfChunks}}
+\index{GetCountOfChunks@{GetCountOfChunks}!Invision::StackAllocator@{Invision::StackAllocator}}
+\doxysubsubsection{\texorpdfstring{GetCountOfChunks()}{GetCountOfChunks()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_base_types_8h_a1134b580f8da4de94ca6b1de4d37975e}{uint32}} Invision\+::\+Stack\+Allocator\+::\+Get\+Count\+Of\+Chunks (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_invision_1_1_stack_allocator_a876931406a7b2e49408b28d2d635d36d}\label{class_invision_1_1_stack_allocator_a876931406a7b2e49408b28d2d635d36d}} 
+\index{Invision::StackAllocator@{Invision::StackAllocator}!GetTotalMemory@{GetTotalMemory}}
+\index{GetTotalMemory@{GetTotalMemory}!Invision::StackAllocator@{Invision::StackAllocator}}
+\doxysubsubsection{\texorpdfstring{GetTotalMemory()}{GetTotalMemory()}}
+{\footnotesize\ttfamily size\+\_\+t Invision\+::\+Stack\+Allocator\+::\+Get\+Total\+Memory (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_invision_1_1_stack_allocator_a96e4b50df047af63c7ac0fffc038761f}\label{class_invision_1_1_stack_allocator_a96e4b50df047af63c7ac0fffc038761f}} 
+\index{Invision::StackAllocator@{Invision::StackAllocator}!GetUsedMemory@{GetUsedMemory}}
+\index{GetUsedMemory@{GetUsedMemory}!Invision::StackAllocator@{Invision::StackAllocator}}
+\doxysubsubsection{\texorpdfstring{GetUsedMemory()}{GetUsedMemory()}}
+{\footnotesize\ttfamily size\+\_\+t Invision\+::\+Stack\+Allocator\+::\+Get\+Used\+Memory (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_invision_1_1_stack_allocator_a6c25aefb5d124282ffa872815c886942}\label{class_invision_1_1_stack_allocator_a6c25aefb5d124282ffa872815c886942}} 
+\index{Invision::StackAllocator@{Invision::StackAllocator}!Init@{Init}}
+\index{Init@{Init}!Invision::StackAllocator@{Invision::StackAllocator}}
+\doxysubsubsection{\texorpdfstring{Init()}{Init()}}
+{\footnotesize\ttfamily void Invision\+::\+Stack\+Allocator\+::\+Init (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_invision_1_1_stack_allocator_a7e9b2bc88880d52ebbd25e0916a7fe9e}\label{class_invision_1_1_stack_allocator_a7e9b2bc88880d52ebbd25e0916a7fe9e}} 
+\index{Invision::StackAllocator@{Invision::StackAllocator}!operator=@{operator=}}
+\index{operator=@{operator=}!Invision::StackAllocator@{Invision::StackAllocator}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_stack_allocator}{Stack\+Allocator}}\& Invision\+::\+Stack\+Allocator\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_invision_1_1_stack_allocator}{Stack\+Allocator}} \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\mbox{\Hypertarget{class_invision_1_1_stack_allocator_ae729eeb62ddee2e5eba7b6a17fac2a95}\label{class_invision_1_1_stack_allocator_ae729eeb62ddee2e5eba7b6a17fac2a95}} 
+\index{Invision::StackAllocator@{Invision::StackAllocator}!operator==@{operator==}}
+\index{operator==@{operator==}!Invision::StackAllocator@{Invision::StackAllocator}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_stack_allocator}{Stack\+Allocator}}\& Invision\+::\+Stack\+Allocator\+::operator== (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_invision_1_1_stack_allocator}{Stack\+Allocator}} \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Repository/\+Invision/src/lowlevel/allocator/\mbox{\hyperlink{_stack_allocator_8h}{Stack\+Allocator.\+h}}\item 
+D\+:/\+Repository/\+Invision/src/lowlevel/allocator/\mbox{\hyperlink{_stack_allocator_8cpp}{Stack\+Allocator.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,20 @@
+digraph "Invision::MemoryBlock::CreateMemoryBlock"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="Invision::MemoryBlock\l::CreateMemoryBlock",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Invision::LinearAllocator\l::Allocate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_linear_allocator.html#a71a4450d5856efbe69974bb6e01bb5d5",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="testLinearAllocator",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$sandbox_console_2main_8cpp.html#a4e49ccc59b50a8b7967b259909a508a1",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Invision::StackAllocator\l::Allocate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_stack_allocator.html#a0910e0ce73797b1396c72147b61a0056",tooltip=" "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="testStackAllocator",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$sandbox_console_2main_8cpp.html#af34c25b2b6ef0f8d4d57c885e926c3ce",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="testAllocatorBlockPool",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$sandbox_console_2main_8cpp.html#a9647d498320f4b69331702230f3d4081",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="testAllocatorBlockStack",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$sandbox_console_2main_8cpp.html#a22d09c7ee4a56d378c1f1c205a0e240a",tooltip=" "];
+}

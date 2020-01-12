@@ -2,12 +2,7 @@
 #define VULKAN_RENDERER_H
 
 #include "vulkan\vulkan.h"
-#include "Vulkan.h"
-#include "VulkanException.h"
-#include "VulkanFramebuffer.h"
-#include "VulkanPipeline.h"
-#include "VulkanRenderPass.h"
-#include "VulkanCommandBuffer.h"
+
 
 const int MAX_FRAMES_IN_FLIGHT = 2;
 

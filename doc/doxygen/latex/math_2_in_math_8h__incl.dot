@@ -1,0 +1,20 @@
+digraph "src/math/inMath.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/math/inMath.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="Vector2.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_vector2_8h.html",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="Vector3.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_vector3_8h.html",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="Matrix.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_matrix_8h.html",tooltip=" "];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="math_config.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$math__config_8h.html",tooltip=" "];
+  Node4 -> Node3 [color="midnightblue",fontsize="10",style="solid"];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="Quaternion.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_quaternion_8h.html",tooltip=" "];
+  Node6 -> Node3 [color="midnightblue",fontsize="10",style="solid"];
+  Node6 -> Node5 [color="midnightblue",fontsize="10",style="solid"];
+}

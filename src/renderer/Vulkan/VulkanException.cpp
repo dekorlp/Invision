@@ -1,5 +1,5 @@
 #include "precompiled.h"
-
+#include "common\exception.h"
 #include "VulkanException.h"
 
 namespace Invision

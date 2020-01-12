@@ -1,0 +1,30 @@
+digraph "Invision::DateTime::getTimestamp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="Invision::DateTime\l::getTimestamp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="Invision::DateTime\l::getDateTimeTable",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_date_time.html#a71c90bad77514b71d4ca90ffc8e22aaf",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="Invision::DateTime\l::getDayOfWeek",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_date_time.html#aeba4210fcf7a972d21970e55ea725e7f",tooltip=" "];
+  Node2 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="Invision::DateTime\l::getDayOfYear",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_date_time.html#ae318c2aedf086a8e4e421e8d95767b29",tooltip=" "];
+  Node2 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="Invision::DateTime\l::getHour",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_date_time.html#a7c992dd81c93640567c3f3040a99199b",tooltip=" "];
+  Node2 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="Invision::DateTime\l::getMinutes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_date_time.html#a5cee4ad0fa69b0b592e587a76f01e405",tooltip=" "];
+  Node2 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="Invision::DateTime\l::getMonth",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_date_time.html#a4b180d6fea3b00303b9f223e231009ca",tooltip=" "];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node8 [label="Invision::TimeSpan\l::TimeSpan",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_time_span.html#a066160eeaee2059a9d7e54f35a1cd4bc",tooltip=" "];
+  Node2 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node9 [label="Invision::DateTime\l::getSeconds",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_date_time.html#a1165ad51be678a3ba817798ee70dab26",tooltip=" "];
+  Node2 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node10 [label="Invision::DateTime\l::getYear",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_date_time.html#a92b37ce06fed2d999c882887715cdce8",tooltip=" "];
+  Node10 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node11 [label="Invision::DateTime\l::ToString",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_date_time.html#a5ddb0b31e736fed9cabb6357c0c54c93",tooltip=" "];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+}

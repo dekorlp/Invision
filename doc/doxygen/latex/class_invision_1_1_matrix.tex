@@ -1,0 +1,667 @@
+\hypertarget{class_invision_1_1_matrix}{}\doxysection{Invision\+::Matrix Class Reference}
+\label{class_invision_1_1_matrix}\index{Invision::Matrix@{Invision::Matrix}}
+
+
+\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}}.  
+
+
+
+
+{\ttfamily \#include $<$Matrix.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_invision_1_1_matrix_a9c8bc1501f1926cdbc21f87782c406f0}{Matrix}} ()
+\begin{DoxyCompactList}\small\item\em initialize a matrix \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_invision_1_1_matrix_a2a0a2627802e026f9fe1c37763ac262b}{Matrix}} (float e\mbox{[}16\mbox{]})
+\begin{DoxyCompactList}\small\item\em initialize a matrix \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_invision_1_1_matrix_a3c23728681ae9fa3c0f752d764978385}{Matrix}} (float e11, float e12, float e13, float e14, float e21, float e22, float e23, float e24, float e31, float e32, float e33, float e34, float e41, float e42, float e43, float e44)
+\begin{DoxyCompactList}\small\item\em initialize a matrix \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_invision_1_1_matrix_a9aec3be0a6d06378fc71170bc885f05d}{operator==}} (\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} const \&rhs) const
+\begin{DoxyCompactList}\small\item\em checks Matrices, whether they are equal \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \mbox{\hyperlink{class_invision_1_1_matrix_a76f194e18ed21b745aa5752af9401853}{operator$\ast$}} (\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} const \&rhs) const
+\begin{DoxyCompactList}\small\item\em multiplies the \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} with another \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \mbox{\hyperlink{class_invision_1_1_matrix_a019506ecd758f5787a6cf9e9c2f4598b}{operator+}} (\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} const \&rhs) const
+\begin{DoxyCompactList}\small\item\em adds the \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} with another \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \mbox{\hyperlink{class_invision_1_1_matrix_a926b8df17cd5c7861c5c5a42336fa8e3}{operator-\/}} (\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} const \&rhs) const
+\begin{DoxyCompactList}\small\item\em subtract the \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} with another \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \mbox{\hyperlink{class_invision_1_1_matrix_aa3450b3229c5fb22c366d8724e5266fa}{operator+=}} (\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} const \&rhs) const
+\begin{DoxyCompactList}\small\item\em Adds a \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \mbox{\hyperlink{class_invision_1_1_matrix_af8f72b62333d4ccd5d1e0610c5419365}{operator-\/=}} (\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} const \&rhs) const
+\begin{DoxyCompactList}\small\item\em Subtract a \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \mbox{\hyperlink{class_invision_1_1_matrix_a8e788dca42826226486b032f988f134e}{operator$\ast$}} (float const \&rhs) const
+\begin{DoxyCompactList}\small\item\em multiplies the \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} with a scale value \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \mbox{\hyperlink{class_invision_1_1_matrix_ae2180b1e5b0789a55376c89303775426}{operator$\ast$}} (\mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} const \&rhs) const
+\begin{DoxyCompactList}\small\item\em calculates the vector transformation \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \mbox{\hyperlink{class_invision_1_1_matrix_aa2551feb89d0fd26cae8059539d3e083}{operator/}} (float const \&rhs)
+\begin{DoxyCompactList}\small\item\em divides the \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} with a scale value \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_invision_1_1_matrix_aa60e4ac97063a4fff5df6f234980e6ef}{get\+Determinant}} () const
+\begin{DoxyCompactList}\small\item\em calculates the determinant from the matrix \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \mbox{\hyperlink{class_invision_1_1_matrix_a8d6f63e67c87b5a93126673a638ef15c}{get\+Transpose}} () const
+\begin{DoxyCompactList}\small\item\em calculates the transponse from the matrix \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \mbox{\hyperlink{class_invision_1_1_matrix_a14075c490c3506293e67dde53e0440bc}{Identity}} ()
+\begin{DoxyCompactList}\small\item\em returns an identity matrix \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \mbox{\hyperlink{class_invision_1_1_matrix_a72316cbb19b584cf680d5f6d43567d24}{Translate}} (const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&v)
+\begin{DoxyCompactList}\small\item\em returns an translated matrix \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \mbox{\hyperlink{class_invision_1_1_matrix_adcf61c02eb6dc5941dd68695763f0169}{RotateX}} (const float f)
+\begin{DoxyCompactList}\small\item\em rotate around X axis \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \mbox{\hyperlink{class_invision_1_1_matrix_ade0b5eef43cf9c85b17379bab3b12f10}{RotateY}} (const float f)
+\begin{DoxyCompactList}\small\item\em rotate around Y axis \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \mbox{\hyperlink{class_invision_1_1_matrix_a86c8539845241ca3caa7f73d9f2d5684}{RotateZ}} (const float f)
+\begin{DoxyCompactList}\small\item\em rotate around Z axis \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \mbox{\hyperlink{class_invision_1_1_matrix_adc6b6ab5ac26821a519b481c72a45773}{Rotate\+X\+YZ}} (const float x, const float y, const float z)
+\begin{DoxyCompactList}\small\item\em rotate around X\+YZ axis \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \mbox{\hyperlink{class_invision_1_1_matrix_a89867fff43bcdd1d61291f497091e5bb}{Rotate\+X\+YZ}} (const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&v)
+\begin{DoxyCompactList}\small\item\em rotate around X\+YZ axis \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \mbox{\hyperlink{class_invision_1_1_matrix_a3b8163d511f8cdf0853c4219d26d554b}{Rotate\+Axis}} (const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&v, const float f)
+\begin{DoxyCompactList}\small\item\em rotate around any axis \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \mbox{\hyperlink{class_invision_1_1_matrix_aac27b8528837a1a10b2340daf48102a8}{Scale}} (const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&v)
+\begin{DoxyCompactList}\small\item\em use scale transformation \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \mbox{\hyperlink{class_invision_1_1_matrix_a1cd58a2784c631b39764856d0207f7ce}{Axis}} (const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&x\+Axis, const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&y\+Axis, const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&z\+Axis)
+\begin{DoxyCompactList}\small\item\em align vector on X\+YZ axis \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \mbox{\hyperlink{class_invision_1_1_matrix_a71cc9860636278d03154ee18f5115c3a}{Camera}} (const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&v\+Pos, const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&v\+Look\+At, const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&v\+Up)
+\begin{DoxyCompactList}\small\item\em use camera transformation \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \mbox{\hyperlink{class_invision_1_1_matrix_a62098611a5c4b41522b903fe75a50339}{Perspective}} (const float \&anglef, const float aspect, const float \&nearf, const float \&farf)
+\begin{DoxyCompactList}\small\item\em use perspective projection \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \mbox{\hyperlink{class_invision_1_1_matrix_ac3061aa90440c6c94d72c6c514b340b7}{Orthogonal}} (const float \&width, const float \&height, const float \&nZ, const float \&fZ)
+\begin{DoxyCompactList}\small\item\em use orthogonal projection \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}}. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_invision_1_1_matrix_a9c8bc1501f1926cdbc21f87782c406f0}\label{class_invision_1_1_matrix_a9c8bc1501f1926cdbc21f87782c406f0}} 
+\index{Invision::Matrix@{Invision::Matrix}!Matrix@{Matrix}}
+\index{Matrix@{Matrix}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{Matrix()}{Matrix()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily Invision\+::\+Matrix\+::\+Matrix (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+initialize a matrix 
+
+\mbox{\Hypertarget{class_invision_1_1_matrix_a2a0a2627802e026f9fe1c37763ac262b}\label{class_invision_1_1_matrix_a2a0a2627802e026f9fe1c37763ac262b}} 
+\index{Invision::Matrix@{Invision::Matrix}!Matrix@{Matrix}}
+\index{Matrix@{Matrix}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{Matrix()}{Matrix()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily Invision\+::\+Matrix\+::\+Matrix (\begin{DoxyParamCaption}\item[{float}]{e\mbox{[}16\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+initialize a matrix 
+
+
+\begin{DoxyParams}{Parameters}
+{\em e} & an array with 16 float values in form of a float e11, float e12, float e13, float e14, float e21, float e22, float e23, float e24, float e31, float e32, float e33, float e34, float e41, float e42, float e43, float e44 \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_invision_1_1_matrix_a3c23728681ae9fa3c0f752d764978385}\label{class_invision_1_1_matrix_a3c23728681ae9fa3c0f752d764978385}} 
+\index{Invision::Matrix@{Invision::Matrix}!Matrix@{Matrix}}
+\index{Matrix@{Matrix}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{Matrix()}{Matrix()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily Invision\+::\+Matrix\+::\+Matrix (\begin{DoxyParamCaption}\item[{float}]{e11,  }\item[{float}]{e12,  }\item[{float}]{e13,  }\item[{float}]{e14,  }\item[{float}]{e21,  }\item[{float}]{e22,  }\item[{float}]{e23,  }\item[{float}]{e24,  }\item[{float}]{e31,  }\item[{float}]{e32,  }\item[{float}]{e33,  }\item[{float}]{e34,  }\item[{float}]{e41,  }\item[{float}]{e42,  }\item[{float}]{e43,  }\item[{float}]{e44 }\end{DoxyParamCaption})}
+
+
+
+initialize a matrix 
+
+
+\begin{DoxyParams}{Parameters}
+{\em e11} & -\/ e44 elements of the matrix \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_invision_1_1_matrix_a1cd58a2784c631b39764856d0207f7ce}\label{class_invision_1_1_matrix_a1cd58a2784c631b39764856d0207f7ce}} 
+\index{Invision::Matrix@{Invision::Matrix}!Axis@{Axis}}
+\index{Axis@{Axis}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{Axis()}{Axis()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} Invision\+::\+Matrix\+::\+Axis (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&}]{x\+Axis,  }\item[{const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&}]{y\+Axis,  }\item[{const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&}]{z\+Axis }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+align vector on X\+YZ axis 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\+Axis} & vector object \\
+\hline
+{\em y\+Axis} & vector object \\
+\hline
+{\em z\+Axis} & vector object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} object 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_matrix_a71cc9860636278d03154ee18f5115c3a}\label{class_invision_1_1_matrix_a71cc9860636278d03154ee18f5115c3a}} 
+\index{Invision::Matrix@{Invision::Matrix}!Camera@{Camera}}
+\index{Camera@{Camera}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{Camera()}{Camera()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} Invision\+::\+Matrix\+::\+Camera (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&}]{v\+Pos,  }\item[{const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&}]{v\+Look\+At,  }\item[{const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&}]{v\+Up }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+use camera transformation 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v\+Pos} & position vector \\
+\hline
+{\em v\+Look\+At} & look at vector \\
+\hline
+{\em v\+Up} & up Vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} object 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_matrix_aa60e4ac97063a4fff5df6f234980e6ef}\label{class_invision_1_1_matrix_aa60e4ac97063a4fff5df6f234980e6ef}} 
+\index{Invision::Matrix@{Invision::Matrix}!getDeterminant@{getDeterminant}}
+\index{getDeterminant@{getDeterminant}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{getDeterminant()}{getDeterminant()}}
+{\footnotesize\ttfamily float Invision\+::\+Matrix\+::get\+Determinant (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+calculates the determinant from the matrix 
+
+\begin{DoxyReturn}{Returns}
+float determinant 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_matrix_a8d6f63e67c87b5a93126673a638ef15c}\label{class_invision_1_1_matrix_a8d6f63e67c87b5a93126673a638ef15c}} 
+\index{Invision::Matrix@{Invision::Matrix}!getTranspose@{getTranspose}}
+\index{getTranspose@{getTranspose}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{getTranspose()}{getTranspose()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} Invision\+::\+Matrix\+::get\+Transpose (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+calculates the transponse from the matrix 
+
+\begin{DoxyReturn}{Returns}
+the transponse matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_matrix_a14075c490c3506293e67dde53e0440bc}\label{class_invision_1_1_matrix_a14075c490c3506293e67dde53e0440bc}} 
+\index{Invision::Matrix@{Invision::Matrix}!Identity@{Identity}}
+\index{Identity@{Identity}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{Identity()}{Identity()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} Invision\+::\+Matrix\+::\+Identity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+returns an identity matrix 
+
+\begin{DoxyReturn}{Returns}
+A \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} object 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_matrix_a8e788dca42826226486b032f988f134e}\label{class_invision_1_1_matrix_a8e788dca42826226486b032f988f134e}} 
+\index{Invision::Matrix@{Invision::Matrix}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} Invision\+::\+Matrix\+::operator$\ast$ (\begin{DoxyParamCaption}\item[{float const \&}]{rhs }\end{DoxyParamCaption}) const}
+
+
+
+multiplies the \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} with a scale value 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & a float value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the result of the multiplication with the scale 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_matrix_a76f194e18ed21b745aa5752af9401853}\label{class_invision_1_1_matrix_a76f194e18ed21b745aa5752af9401853}} 
+\index{Invision::Matrix@{Invision::Matrix}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} Invision\+::\+Matrix\+::operator$\ast$ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} const \&}]{rhs }\end{DoxyParamCaption}) const}
+
+
+
+multiplies the \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} with another \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & a \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the result of the multiplied Matrices 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_matrix_ae2180b1e5b0789a55376c89303775426}\label{class_invision_1_1_matrix_ae2180b1e5b0789a55376c89303775426}} 
+\index{Invision::Matrix@{Invision::Matrix}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} Invision\+::\+Matrix\+::operator$\ast$ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} const \&}]{rhs }\end{DoxyParamCaption}) const}
+
+
+
+calculates the vector transformation 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & a vector object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the result of the multiplication with the vector and the matrix (transformed vector) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_matrix_a019506ecd758f5787a6cf9e9c2f4598b}\label{class_invision_1_1_matrix_a019506ecd758f5787a6cf9e9c2f4598b}} 
+\index{Invision::Matrix@{Invision::Matrix}!operator+@{operator+}}
+\index{operator+@{operator+}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator+()}{operator+()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} Invision\+::\+Matrix\+::operator+ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} const \&}]{rhs }\end{DoxyParamCaption}) const}
+
+
+
+adds the \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} with another \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & a \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the result of the added Matrices 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_matrix_aa3450b3229c5fb22c366d8724e5266fa}\label{class_invision_1_1_matrix_aa3450b3229c5fb22c366d8724e5266fa}} 
+\index{Invision::Matrix@{Invision::Matrix}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator+=()}{operator+=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} Invision\+::\+Matrix\+::operator+= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} const \&}]{rhs }\end{DoxyParamCaption}) const}
+
+
+
+Adds a \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & A \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A added \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} object 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_matrix_a926b8df17cd5c7861c5c5a42336fa8e3}\label{class_invision_1_1_matrix_a926b8df17cd5c7861c5c5a42336fa8e3}} 
+\index{Invision::Matrix@{Invision::Matrix}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator-\/()}{operator-()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} Invision\+::\+Matrix\+::operator-\/ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} const \&}]{rhs }\end{DoxyParamCaption}) const}
+
+
+
+subtract the \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} with another \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & a \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the result of the subtracted Matrices 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_matrix_af8f72b62333d4ccd5d1e0610c5419365}\label{class_invision_1_1_matrix_af8f72b62333d4ccd5d1e0610c5419365}} 
+\index{Invision::Matrix@{Invision::Matrix}!operator-\/=@{operator-\/=}}
+\index{operator-\/=@{operator-\/=}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator-\/=()}{operator-=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} Invision\+::\+Matrix\+::operator-\/= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} const \&}]{rhs }\end{DoxyParamCaption}) const}
+
+
+
+Subtract a \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & A \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A subtracted \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} object 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_matrix_aa2551feb89d0fd26cae8059539d3e083}\label{class_invision_1_1_matrix_aa2551feb89d0fd26cae8059539d3e083}} 
+\index{Invision::Matrix@{Invision::Matrix}!operator/@{operator/}}
+\index{operator/@{operator/}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator/()}{operator/()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} Invision\+::\+Matrix\+::operator/ (\begin{DoxyParamCaption}\item[{float const \&}]{rhs }\end{DoxyParamCaption})}
+
+
+
+divides the \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} with a scale value 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & a float value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the result of the division with the scale 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_matrix_a9aec3be0a6d06378fc71170bc885f05d}\label{class_invision_1_1_matrix_a9aec3be0a6d06378fc71170bc885f05d}} 
+\index{Invision::Matrix@{Invision::Matrix}!operator==@{operator==}}
+\index{operator==@{operator==}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily bool Invision\+::\+Matrix\+::operator== (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} const \&}]{rhs }\end{DoxyParamCaption}) const}
+
+
+
+checks Matrices, whether they are equal 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rhs} & A \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true, if both Matrices are the same and false, if both Matrices are not the same 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_matrix_ac3061aa90440c6c94d72c6c514b340b7}\label{class_invision_1_1_matrix_ac3061aa90440c6c94d72c6c514b340b7}} 
+\index{Invision::Matrix@{Invision::Matrix}!Orthogonal@{Orthogonal}}
+\index{Orthogonal@{Orthogonal}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{Orthogonal()}{Orthogonal()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} Invision\+::\+Matrix\+::\+Orthogonal (\begin{DoxyParamCaption}\item[{const float \&}]{width,  }\item[{const float \&}]{height,  }\item[{const float \&}]{nZ,  }\item[{const float \&}]{fZ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+use orthogonal projection 
+
+
+\begin{DoxyParams}{Parameters}
+{\em width} & \\
+\hline
+{\em height} & \\
+\hline
+{\em nZ} & \\
+\hline
+{\em fZ} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_matrix_a62098611a5c4b41522b903fe75a50339}\label{class_invision_1_1_matrix_a62098611a5c4b41522b903fe75a50339}} 
+\index{Invision::Matrix@{Invision::Matrix}!Perspective@{Perspective}}
+\index{Perspective@{Perspective}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{Perspective()}{Perspective()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} Invision\+::\+Matrix\+::\+Perspective (\begin{DoxyParamCaption}\item[{const float \&}]{anglef,  }\item[{const float}]{aspect,  }\item[{const float \&}]{nearf,  }\item[{const float \&}]{farf }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+use perspective projection 
+
+
+\begin{DoxyParams}{Parameters}
+{\em angle} & \\
+\hline
+{\em aspect} & radio \\
+\hline
+{\em near} & near plane \textbackslash{}aram far far plane \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} object 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_matrix_a3b8163d511f8cdf0853c4219d26d554b}\label{class_invision_1_1_matrix_a3b8163d511f8cdf0853c4219d26d554b}} 
+\index{Invision::Matrix@{Invision::Matrix}!RotateAxis@{RotateAxis}}
+\index{RotateAxis@{RotateAxis}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{RotateAxis()}{RotateAxis()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} Invision\+::\+Matrix\+::\+Rotate\+Axis (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&}]{v,  }\item[{const float}]{f }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+rotate around any axis 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & vector object \\
+\hline
+{\em f} & float value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+rotated matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_matrix_adcf61c02eb6dc5941dd68695763f0169}\label{class_invision_1_1_matrix_adcf61c02eb6dc5941dd68695763f0169}} 
+\index{Invision::Matrix@{Invision::Matrix}!RotateX@{RotateX}}
+\index{RotateX@{RotateX}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{RotateX()}{RotateX()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} Invision\+::\+Matrix\+::\+RotateX (\begin{DoxyParamCaption}\item[{const float}]{f }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+rotate around X axis 
+
+
+\begin{DoxyParams}{Parameters}
+{\em f} & float value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+rotated matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_matrix_adc6b6ab5ac26821a519b481c72a45773}\label{class_invision_1_1_matrix_adc6b6ab5ac26821a519b481c72a45773}} 
+\index{Invision::Matrix@{Invision::Matrix}!RotateXYZ@{RotateXYZ}}
+\index{RotateXYZ@{RotateXYZ}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{RotateXYZ()}{RotateXYZ()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} Invision\+::\+Matrix\+::\+Rotate\+X\+YZ (\begin{DoxyParamCaption}\item[{const float}]{x,  }\item[{const float}]{y,  }\item[{const float}]{z }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+rotate around X\+YZ axis 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & float value \\
+\hline
+{\em y} & float value \\
+\hline
+{\em z} & float value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+rotated matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_matrix_a89867fff43bcdd1d61291f497091e5bb}\label{class_invision_1_1_matrix_a89867fff43bcdd1d61291f497091e5bb}} 
+\index{Invision::Matrix@{Invision::Matrix}!RotateXYZ@{RotateXYZ}}
+\index{RotateXYZ@{RotateXYZ}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{RotateXYZ()}{RotateXYZ()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} Invision\+::\+Matrix\+::\+Rotate\+X\+YZ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+rotate around X\+YZ axis 
+
+
+\begin{DoxyParams}{Parameters}
+{\em y} & vector object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+rotated matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_matrix_ade0b5eef43cf9c85b17379bab3b12f10}\label{class_invision_1_1_matrix_ade0b5eef43cf9c85b17379bab3b12f10}} 
+\index{Invision::Matrix@{Invision::Matrix}!RotateY@{RotateY}}
+\index{RotateY@{RotateY}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{RotateY()}{RotateY()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} Invision\+::\+Matrix\+::\+RotateY (\begin{DoxyParamCaption}\item[{const float}]{f }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+rotate around Y axis 
+
+
+\begin{DoxyParams}{Parameters}
+{\em f} & float value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+rotated matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_matrix_a86c8539845241ca3caa7f73d9f2d5684}\label{class_invision_1_1_matrix_a86c8539845241ca3caa7f73d9f2d5684}} 
+\index{Invision::Matrix@{Invision::Matrix}!RotateZ@{RotateZ}}
+\index{RotateZ@{RotateZ}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{RotateZ()}{RotateZ()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} Invision\+::\+Matrix\+::\+RotateZ (\begin{DoxyParamCaption}\item[{const float}]{f }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+rotate around Z axis 
+
+
+\begin{DoxyParams}{Parameters}
+{\em f} & float value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+rotated matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_matrix_aac27b8528837a1a10b2340daf48102a8}\label{class_invision_1_1_matrix_aac27b8528837a1a10b2340daf48102a8}} 
+\index{Invision::Matrix@{Invision::Matrix}!Scale@{Scale}}
+\index{Scale@{Scale}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{Scale()}{Scale()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} Invision\+::\+Matrix\+::\+Scale (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+use scale transformation 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & vector object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a scaled matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_invision_1_1_matrix_a72316cbb19b584cf680d5f6d43567d24}\label{class_invision_1_1_matrix_a72316cbb19b584cf680d5f6d43567d24}} 
+\index{Invision::Matrix@{Invision::Matrix}!Translate@{Translate}}
+\index{Translate@{Translate}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{Translate()}{Translate()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} Invision\+::\+Matrix\+::\+Translate (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+returns an translated matrix 
+
+\begin{DoxyReturn}{Returns}
+A \mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}} object 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_invision_1_1_matrix_af9b26f0abc620e81ef52b407d52bbdc8}\label{class_invision_1_1_matrix_af9b26f0abc620e81ef52b407d52bbdc8}} 
+\index{Invision::Matrix@{Invision::Matrix}!a@{a}}
+\index{a@{a}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{a}{a}}
+{\footnotesize\ttfamily float Invision\+::\+Matrix\+::a\mbox{[}16\mbox{]}}
+
+\mbox{\Hypertarget{class_invision_1_1_matrix_abdb1f79863b284f9472b83cde561857b}\label{class_invision_1_1_matrix_abdb1f79863b284f9472b83cde561857b}} 
+\index{Invision::Matrix@{Invision::Matrix}!a11@{a11}}
+\index{a11@{a11}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{a11}{a11}}
+{\footnotesize\ttfamily float Invision\+::\+Matrix\+::a11}
+
+\mbox{\Hypertarget{class_invision_1_1_matrix_aaecb9506e659a6f6dcbbc37cb695cbc2}\label{class_invision_1_1_matrix_aaecb9506e659a6f6dcbbc37cb695cbc2}} 
+\index{Invision::Matrix@{Invision::Matrix}!a12@{a12}}
+\index{a12@{a12}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{a12}{a12}}
+{\footnotesize\ttfamily float Invision\+::\+Matrix\+::a12}
+
+\mbox{\Hypertarget{class_invision_1_1_matrix_a20e8366a6a7686fe14b26b5af9059bac}\label{class_invision_1_1_matrix_a20e8366a6a7686fe14b26b5af9059bac}} 
+\index{Invision::Matrix@{Invision::Matrix}!a13@{a13}}
+\index{a13@{a13}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{a13}{a13}}
+{\footnotesize\ttfamily float Invision\+::\+Matrix\+::a13}
+
+\mbox{\Hypertarget{class_invision_1_1_matrix_a3832247464e287f63115ada7207ec6f3}\label{class_invision_1_1_matrix_a3832247464e287f63115ada7207ec6f3}} 
+\index{Invision::Matrix@{Invision::Matrix}!a14@{a14}}
+\index{a14@{a14}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{a14}{a14}}
+{\footnotesize\ttfamily float Invision\+::\+Matrix\+::a14}
+
+\mbox{\Hypertarget{class_invision_1_1_matrix_a131c225a9247cc6b73679189f9b3624f}\label{class_invision_1_1_matrix_a131c225a9247cc6b73679189f9b3624f}} 
+\index{Invision::Matrix@{Invision::Matrix}!a21@{a21}}
+\index{a21@{a21}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{a21}{a21}}
+{\footnotesize\ttfamily float Invision\+::\+Matrix\+::a21}
+
+\mbox{\Hypertarget{class_invision_1_1_matrix_a614330774f01b68d3d5e98a7ce420562}\label{class_invision_1_1_matrix_a614330774f01b68d3d5e98a7ce420562}} 
+\index{Invision::Matrix@{Invision::Matrix}!a22@{a22}}
+\index{a22@{a22}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{a22}{a22}}
+{\footnotesize\ttfamily float Invision\+::\+Matrix\+::a22}
+
+\mbox{\Hypertarget{class_invision_1_1_matrix_aac5416c761b20bd9fc55ec5ce37f88ad}\label{class_invision_1_1_matrix_aac5416c761b20bd9fc55ec5ce37f88ad}} 
+\index{Invision::Matrix@{Invision::Matrix}!a23@{a23}}
+\index{a23@{a23}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{a23}{a23}}
+{\footnotesize\ttfamily float Invision\+::\+Matrix\+::a23}
+
+\mbox{\Hypertarget{class_invision_1_1_matrix_a51eb468cb19437b9d833f7e1d41e99bc}\label{class_invision_1_1_matrix_a51eb468cb19437b9d833f7e1d41e99bc}} 
+\index{Invision::Matrix@{Invision::Matrix}!a24@{a24}}
+\index{a24@{a24}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{a24}{a24}}
+{\footnotesize\ttfamily float Invision\+::\+Matrix\+::a24}
+
+\mbox{\Hypertarget{class_invision_1_1_matrix_a15076e03c5422520fa786e8f84ac93f0}\label{class_invision_1_1_matrix_a15076e03c5422520fa786e8f84ac93f0}} 
+\index{Invision::Matrix@{Invision::Matrix}!a31@{a31}}
+\index{a31@{a31}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{a31}{a31}}
+{\footnotesize\ttfamily float Invision\+::\+Matrix\+::a31}
+
+\mbox{\Hypertarget{class_invision_1_1_matrix_af06a600f294526586298eb6f4da9200b}\label{class_invision_1_1_matrix_af06a600f294526586298eb6f4da9200b}} 
+\index{Invision::Matrix@{Invision::Matrix}!a32@{a32}}
+\index{a32@{a32}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{a32}{a32}}
+{\footnotesize\ttfamily float Invision\+::\+Matrix\+::a32}
+
+\mbox{\Hypertarget{class_invision_1_1_matrix_a8ffa7c583ea7bce7bd1386f50b7d137f}\label{class_invision_1_1_matrix_a8ffa7c583ea7bce7bd1386f50b7d137f}} 
+\index{Invision::Matrix@{Invision::Matrix}!a33@{a33}}
+\index{a33@{a33}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{a33}{a33}}
+{\footnotesize\ttfamily float Invision\+::\+Matrix\+::a33}
+
+\mbox{\Hypertarget{class_invision_1_1_matrix_ad4a09bf88c11f44461c60516c16a6597}\label{class_invision_1_1_matrix_ad4a09bf88c11f44461c60516c16a6597}} 
+\index{Invision::Matrix@{Invision::Matrix}!a34@{a34}}
+\index{a34@{a34}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{a34}{a34}}
+{\footnotesize\ttfamily float Invision\+::\+Matrix\+::a34}
+
+\mbox{\Hypertarget{class_invision_1_1_matrix_a174728b730234e8959a49b71519ba0f4}\label{class_invision_1_1_matrix_a174728b730234e8959a49b71519ba0f4}} 
+\index{Invision::Matrix@{Invision::Matrix}!a41@{a41}}
+\index{a41@{a41}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{a41}{a41}}
+{\footnotesize\ttfamily float Invision\+::\+Matrix\+::a41}
+
+\mbox{\Hypertarget{class_invision_1_1_matrix_aeaa5eb3bfe31a2cb33d9008bc827ab5f}\label{class_invision_1_1_matrix_aeaa5eb3bfe31a2cb33d9008bc827ab5f}} 
+\index{Invision::Matrix@{Invision::Matrix}!a42@{a42}}
+\index{a42@{a42}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{a42}{a42}}
+{\footnotesize\ttfamily float Invision\+::\+Matrix\+::a42}
+
+\mbox{\Hypertarget{class_invision_1_1_matrix_a116996a6f3c182757e7fb9b7f42d86e8}\label{class_invision_1_1_matrix_a116996a6f3c182757e7fb9b7f42d86e8}} 
+\index{Invision::Matrix@{Invision::Matrix}!a43@{a43}}
+\index{a43@{a43}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{a43}{a43}}
+{\footnotesize\ttfamily float Invision\+::\+Matrix\+::a43}
+
+\mbox{\Hypertarget{class_invision_1_1_matrix_a4f833ad893ecb660218a1f78eacad1fc}\label{class_invision_1_1_matrix_a4f833ad893ecb660218a1f78eacad1fc}} 
+\index{Invision::Matrix@{Invision::Matrix}!a44@{a44}}
+\index{a44@{a44}!Invision::Matrix@{Invision::Matrix}}
+\doxysubsubsection{\texorpdfstring{a44}{a44}}
+{\footnotesize\ttfamily float Invision\+::\+Matrix\+::a44}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Repository/\+Invision/src/math/\mbox{\hyperlink{_matrix_8h}{Matrix.\+h}}\item 
+D\+:/\+Repository/\+Invision/src/math/\mbox{\hyperlink{_matrix_8cpp}{Matrix.\+cpp}}\end{DoxyCompactItemize}

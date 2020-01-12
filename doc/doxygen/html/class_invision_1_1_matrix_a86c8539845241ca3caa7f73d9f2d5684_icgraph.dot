@@ -1,0 +1,12 @@
+digraph "Invision::Matrix::RotateZ"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="Invision::Matrix::RotateZ",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="rotate around Z axis"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="BOOST_AUTO_TEST_CASE",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_matrix_unit_test_8cpp.html#ada68d497feccc4310d1319fd0de68565",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Invision::Matrix::RotateXYZ",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_matrix.html#adc6b6ab5ac26821a519b481c72a45773",tooltip="rotate around XYZ axis"];
+}

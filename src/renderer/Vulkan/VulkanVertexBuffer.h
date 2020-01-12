@@ -2,8 +2,6 @@
 #define VULKAN_VERTEX_BUFFER_H
 
 #include "vulkan\vulkan.h"
-#include "Vulkan.h"
-#include "VulkanException.h"
 
 namespace Invision
 {

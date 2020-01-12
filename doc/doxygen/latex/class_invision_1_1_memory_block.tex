@@ -1,0 +1,82 @@
+\hypertarget{class_invision_1_1_memory_block}{}\doxysection{Invision\+::Memory\+Block Class Reference}
+\label{class_invision_1_1_memory_block}\index{Invision::MemoryBlock@{Invision::MemoryBlock}}
+
+
+{\ttfamily \#include $<$Memory\+Block.\+h$>$}
+
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void $\ast$ \mbox{\hyperlink{class_invision_1_1_memory_block_aa959a3acda51dc8bbafb6403a37db2f7}{Create\+Memory\+Block}} (void $\ast$position, void $\ast$$\ast$endposition, size\+\_\+t size, \mbox{\hyperlink{_base_types_8h_a1134b580f8da4de94ca6b1de4d37975e}{uint32}} line\+Of\+File, char $\ast$filename, \mbox{\hyperlink{_memory_block_8h_a4ebd95bbc74fdee6bae36b6cd2419124}{Use\+Header}} header=\mbox{\hyperlink{_memory_block_8h_a4ebd95bbc74fdee6bae36b6cd2419124a8fe13d95edcf303d8cb64ac19388081e}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+U\+S\+E\+\_\+\+N\+O\+\_\+\+H\+E\+A\+D\+ER}}, \mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5}{Memory\+Tracking}} mem\+Tracking=\mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5a0b554d3fc32cfff71aa201920ae36562}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+E\+M\+O\+R\+Y\+\_\+\+T\+R\+A\+C\+K\+I\+NG}}, \mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58}{Bounds\+Checking}} bounds\+Checking=\mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58ad54713c994f5a120c85f0ef6c633adef}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+N\+O\+\_\+\+B\+O\+U\+N\+D\+S\+\_\+\+C\+H\+E\+C\+K\+I\+NG}})
+\item 
+static \mbox{\hyperlink{struct_invision_1_1_s_header_stack}{S\+Header\+Stack}} $\ast$ \mbox{\hyperlink{class_invision_1_1_memory_block_aec05ca5c88def14f934977a790fdb98c}{Get\+Stack\+Header}} (void $\ast$memory\+Block)
+\item 
+static \mbox{\hyperlink{struct_invision_1_1_s_header_pool}{S\+Header\+Pool}} $\ast$ \mbox{\hyperlink{class_invision_1_1_memory_block_a755bdd11dba64be4cc6682d6d1774d7e}{Get\+Pool\+Header}} (void $\ast$memory\+Block)
+\item 
+static void \mbox{\hyperlink{class_invision_1_1_memory_block_acdd03d682edebf54e1b803a537d76ffe}{Set\+Pool\+Header}} (void $\ast$memory\+Block, void $\ast$next)
+\item 
+static size\+\_\+t \mbox{\hyperlink{class_invision_1_1_memory_block_a755026c53158570d1bd3c9e5969c8f4d}{Calculate\+Size}} (void $\ast$position, size\+\_\+t size, \mbox{\hyperlink{_memory_block_8h_a4ebd95bbc74fdee6bae36b6cd2419124}{Use\+Header}} header=\mbox{\hyperlink{_memory_block_8h_a4ebd95bbc74fdee6bae36b6cd2419124a8fe13d95edcf303d8cb64ac19388081e}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+U\+S\+E\+\_\+\+N\+O\+\_\+\+H\+E\+A\+D\+ER}}, \mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5}{Memory\+Tracking}} mem\+Tracking=\mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5a0b554d3fc32cfff71aa201920ae36562}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+E\+M\+O\+R\+Y\+\_\+\+T\+R\+A\+C\+K\+I\+NG}}, \mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58}{Bounds\+Checking}} bounds\+Checking=\mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58ad54713c994f5a120c85f0ef6c633adef}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+N\+O\+\_\+\+B\+O\+U\+N\+D\+S\+\_\+\+C\+H\+E\+C\+K\+I\+NG}})
+\item 
+static size\+\_\+t \mbox{\hyperlink{class_invision_1_1_memory_block_a37dc95b654bfb2fd7a2e50cf8c6d31f8}{Calculate\+Layout\+Size}} (\mbox{\hyperlink{_memory_block_8h_a4ebd95bbc74fdee6bae36b6cd2419124}{Use\+Header}} header=\mbox{\hyperlink{_memory_block_8h_a4ebd95bbc74fdee6bae36b6cd2419124a8fe13d95edcf303d8cb64ac19388081e}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+U\+S\+E\+\_\+\+N\+O\+\_\+\+H\+E\+A\+D\+ER}}, \mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5}{Memory\+Tracking}} mem\+Tracking=\mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5a0b554d3fc32cfff71aa201920ae36562}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+E\+M\+O\+R\+Y\+\_\+\+T\+R\+A\+C\+K\+I\+NG}}, \mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58}{Bounds\+Checking}} bounds\+Checking=\mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58ad54713c994f5a120c85f0ef6c633adef}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+N\+O\+\_\+\+B\+O\+U\+N\+D\+S\+\_\+\+C\+H\+E\+C\+K\+I\+NG}})
+\item 
+static \mbox{\hyperlink{struct_invision_1_1_s_memory_tracking}{S\+Memory\+Tracking}} $\ast$ \mbox{\hyperlink{class_invision_1_1_memory_block_a35c2249990799afe90568b0ffd52069e}{Get\+Tracking\+Header}} (void $\ast$memory\+Block, \mbox{\hyperlink{_memory_block_8h_a4ebd95bbc74fdee6bae36b6cd2419124}{Use\+Header}} header)
+\item 
+static bool \mbox{\hyperlink{class_invision_1_1_memory_block_ac8493c0d1c62ce566e2028808940a9c9}{Check\+Boundaries}} (void $\ast$memory\+Block, size\+\_\+t payloud\+Size, \mbox{\hyperlink{_memory_block_8h_a4ebd95bbc74fdee6bae36b6cd2419124}{Use\+Header}} header, \mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5}{Memory\+Tracking}} mem\+Tracking)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_invision_1_1_memory_block_a37dc95b654bfb2fd7a2e50cf8c6d31f8}\label{class_invision_1_1_memory_block_a37dc95b654bfb2fd7a2e50cf8c6d31f8}} 
+\index{Invision::MemoryBlock@{Invision::MemoryBlock}!CalculateLayoutSize@{CalculateLayoutSize}}
+\index{CalculateLayoutSize@{CalculateLayoutSize}!Invision::MemoryBlock@{Invision::MemoryBlock}}
+\doxysubsubsection{\texorpdfstring{CalculateLayoutSize()}{CalculateLayoutSize()}}
+{\footnotesize\ttfamily size\+\_\+t Invision\+::\+Memory\+Block\+::\+Calculate\+Layout\+Size (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{_memory_block_8h_a4ebd95bbc74fdee6bae36b6cd2419124}{Use\+Header}}}]{header = {\ttfamily \mbox{\hyperlink{_memory_block_8h_a4ebd95bbc74fdee6bae36b6cd2419124a8fe13d95edcf303d8cb64ac19388081e}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+U\+S\+E\+\_\+\+N\+O\+\_\+\+H\+E\+A\+D\+ER}}},  }\item[{\mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5}{Memory\+Tracking}}}]{mem\+Tracking = {\ttfamily \mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5a0b554d3fc32cfff71aa201920ae36562}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+E\+M\+O\+R\+Y\+\_\+\+T\+R\+A\+C\+K\+I\+NG}}},  }\item[{\mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58}{Bounds\+Checking}}}]{bounds\+Checking = {\ttfamily \mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58ad54713c994f5a120c85f0ef6c633adef}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+N\+O\+\_\+\+B\+O\+U\+N\+D\+S\+\_\+\+C\+H\+E\+C\+K\+I\+NG}}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{class_invision_1_1_memory_block_a755026c53158570d1bd3c9e5969c8f4d}\label{class_invision_1_1_memory_block_a755026c53158570d1bd3c9e5969c8f4d}} 
+\index{Invision::MemoryBlock@{Invision::MemoryBlock}!CalculateSize@{CalculateSize}}
+\index{CalculateSize@{CalculateSize}!Invision::MemoryBlock@{Invision::MemoryBlock}}
+\doxysubsubsection{\texorpdfstring{CalculateSize()}{CalculateSize()}}
+{\footnotesize\ttfamily size\+\_\+t Invision\+::\+Memory\+Block\+::\+Calculate\+Size (\begin{DoxyParamCaption}\item[{void $\ast$}]{position,  }\item[{size\+\_\+t}]{size,  }\item[{\mbox{\hyperlink{_memory_block_8h_a4ebd95bbc74fdee6bae36b6cd2419124}{Use\+Header}}}]{header = {\ttfamily \mbox{\hyperlink{_memory_block_8h_a4ebd95bbc74fdee6bae36b6cd2419124a8fe13d95edcf303d8cb64ac19388081e}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+U\+S\+E\+\_\+\+N\+O\+\_\+\+H\+E\+A\+D\+ER}}},  }\item[{\mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5}{Memory\+Tracking}}}]{mem\+Tracking = {\ttfamily \mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5a0b554d3fc32cfff71aa201920ae36562}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+E\+M\+O\+R\+Y\+\_\+\+T\+R\+A\+C\+K\+I\+NG}}},  }\item[{\mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58}{Bounds\+Checking}}}]{bounds\+Checking = {\ttfamily \mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58ad54713c994f5a120c85f0ef6c633adef}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+N\+O\+\_\+\+B\+O\+U\+N\+D\+S\+\_\+\+C\+H\+E\+C\+K\+I\+NG}}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{class_invision_1_1_memory_block_ac8493c0d1c62ce566e2028808940a9c9}\label{class_invision_1_1_memory_block_ac8493c0d1c62ce566e2028808940a9c9}} 
+\index{Invision::MemoryBlock@{Invision::MemoryBlock}!CheckBoundaries@{CheckBoundaries}}
+\index{CheckBoundaries@{CheckBoundaries}!Invision::MemoryBlock@{Invision::MemoryBlock}}
+\doxysubsubsection{\texorpdfstring{CheckBoundaries()}{CheckBoundaries()}}
+{\footnotesize\ttfamily bool Invision\+::\+Memory\+Block\+::\+Check\+Boundaries (\begin{DoxyParamCaption}\item[{void $\ast$}]{memory\+Block,  }\item[{size\+\_\+t}]{payloud\+Size,  }\item[{\mbox{\hyperlink{_memory_block_8h_a4ebd95bbc74fdee6bae36b6cd2419124}{Use\+Header}}}]{header,  }\item[{\mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5}{Memory\+Tracking}}}]{mem\+Tracking }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{class_invision_1_1_memory_block_aa959a3acda51dc8bbafb6403a37db2f7}\label{class_invision_1_1_memory_block_aa959a3acda51dc8bbafb6403a37db2f7}} 
+\index{Invision::MemoryBlock@{Invision::MemoryBlock}!CreateMemoryBlock@{CreateMemoryBlock}}
+\index{CreateMemoryBlock@{CreateMemoryBlock}!Invision::MemoryBlock@{Invision::MemoryBlock}}
+\doxysubsubsection{\texorpdfstring{CreateMemoryBlock()}{CreateMemoryBlock()}}
+{\footnotesize\ttfamily void $\ast$ Invision\+::\+Memory\+Block\+::\+Create\+Memory\+Block (\begin{DoxyParamCaption}\item[{void $\ast$}]{position,  }\item[{void $\ast$$\ast$}]{endposition,  }\item[{size\+\_\+t}]{size,  }\item[{\mbox{\hyperlink{_base_types_8h_a1134b580f8da4de94ca6b1de4d37975e}{uint32}}}]{line\+Of\+File,  }\item[{char $\ast$}]{filename,  }\item[{\mbox{\hyperlink{_memory_block_8h_a4ebd95bbc74fdee6bae36b6cd2419124}{Use\+Header}}}]{header = {\ttfamily \mbox{\hyperlink{_memory_block_8h_a4ebd95bbc74fdee6bae36b6cd2419124a8fe13d95edcf303d8cb64ac19388081e}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+U\+S\+E\+\_\+\+N\+O\+\_\+\+H\+E\+A\+D\+ER}}},  }\item[{\mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5}{Memory\+Tracking}}}]{mem\+Tracking = {\ttfamily \mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5a0b554d3fc32cfff71aa201920ae36562}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+E\+M\+O\+R\+Y\+\_\+\+T\+R\+A\+C\+K\+I\+NG}}},  }\item[{\mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58}{Bounds\+Checking}}}]{bounds\+Checking = {\ttfamily \mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58ad54713c994f5a120c85f0ef6c633adef}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+N\+O\+\_\+\+B\+O\+U\+N\+D\+S\+\_\+\+C\+H\+E\+C\+K\+I\+NG}}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{class_invision_1_1_memory_block_a755bdd11dba64be4cc6682d6d1774d7e}\label{class_invision_1_1_memory_block_a755bdd11dba64be4cc6682d6d1774d7e}} 
+\index{Invision::MemoryBlock@{Invision::MemoryBlock}!GetPoolHeader@{GetPoolHeader}}
+\index{GetPoolHeader@{GetPoolHeader}!Invision::MemoryBlock@{Invision::MemoryBlock}}
+\doxysubsubsection{\texorpdfstring{GetPoolHeader()}{GetPoolHeader()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_invision_1_1_s_header_pool}{S\+Header\+Pool}} $\ast$ Invision\+::\+Memory\+Block\+::\+Get\+Pool\+Header (\begin{DoxyParamCaption}\item[{void $\ast$}]{memory\+Block }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{class_invision_1_1_memory_block_aec05ca5c88def14f934977a790fdb98c}\label{class_invision_1_1_memory_block_aec05ca5c88def14f934977a790fdb98c}} 
+\index{Invision::MemoryBlock@{Invision::MemoryBlock}!GetStackHeader@{GetStackHeader}}
+\index{GetStackHeader@{GetStackHeader}!Invision::MemoryBlock@{Invision::MemoryBlock}}
+\doxysubsubsection{\texorpdfstring{GetStackHeader()}{GetStackHeader()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_invision_1_1_s_header_stack}{S\+Header\+Stack}} $\ast$ Invision\+::\+Memory\+Block\+::\+Get\+Stack\+Header (\begin{DoxyParamCaption}\item[{void $\ast$}]{memory\+Block }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{class_invision_1_1_memory_block_a35c2249990799afe90568b0ffd52069e}\label{class_invision_1_1_memory_block_a35c2249990799afe90568b0ffd52069e}} 
+\index{Invision::MemoryBlock@{Invision::MemoryBlock}!GetTrackingHeader@{GetTrackingHeader}}
+\index{GetTrackingHeader@{GetTrackingHeader}!Invision::MemoryBlock@{Invision::MemoryBlock}}
+\doxysubsubsection{\texorpdfstring{GetTrackingHeader()}{GetTrackingHeader()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_invision_1_1_s_memory_tracking}{S\+Memory\+Tracking}} $\ast$ Invision\+::\+Memory\+Block\+::\+Get\+Tracking\+Header (\begin{DoxyParamCaption}\item[{void $\ast$}]{memory\+Block,  }\item[{\mbox{\hyperlink{_memory_block_8h_a4ebd95bbc74fdee6bae36b6cd2419124}{Use\+Header}}}]{header }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{class_invision_1_1_memory_block_acdd03d682edebf54e1b803a537d76ffe}\label{class_invision_1_1_memory_block_acdd03d682edebf54e1b803a537d76ffe}} 
+\index{Invision::MemoryBlock@{Invision::MemoryBlock}!SetPoolHeader@{SetPoolHeader}}
+\index{SetPoolHeader@{SetPoolHeader}!Invision::MemoryBlock@{Invision::MemoryBlock}}
+\doxysubsubsection{\texorpdfstring{SetPoolHeader()}{SetPoolHeader()}}
+{\footnotesize\ttfamily void Invision\+::\+Memory\+Block\+::\+Set\+Pool\+Header (\begin{DoxyParamCaption}\item[{void $\ast$}]{memory\+Block,  }\item[{void $\ast$}]{next }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Repository/\+Invision/src/lowlevel/allocator/\mbox{\hyperlink{_memory_block_8h}{Memory\+Block.\+h}}\item 
+D\+:/\+Repository/\+Invision/src/lowlevel/allocator/\mbox{\hyperlink{_memory_block_8cpp}{Memory\+Block.\+cpp}}\end{DoxyCompactItemize}

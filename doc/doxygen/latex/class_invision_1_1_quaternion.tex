@@ -1,0 +1,93 @@
+\hypertarget{class_invision_1_1_quaternion}{}\doxysection{Invision\+::Quaternion Class Reference}
+\label{class_invision_1_1_quaternion}\index{Invision::Quaternion@{Invision::Quaternion}}
+
+
+\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}}.  
+
+
+
+
+{\ttfamily \#include $<$Quaternion.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_invision_1_1_quaternion_a24c179562f176cadfcf2be7e0cf9f60c}{Quaternion}} ()
+\item 
+\mbox{\hyperlink{class_invision_1_1_quaternion_abd0f25bee4d491818944f9ab886439f7}{Quaternion}} (\mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&v, float a)
+\item 
+const \mbox{\hyperlink{class_invision_1_1_quaternion}{Quaternion}} \mbox{\hyperlink{class_invision_1_1_quaternion_aa246cf3b2d54370074762788909a87c5}{invert}} () const
+\item 
+const \mbox{\hyperlink{class_invision_1_1_quaternion}{Quaternion}} \mbox{\hyperlink{class_invision_1_1_quaternion_a598a2cc9f4cf5e137cab0b0734e57170}{operator$\ast$}} (const \mbox{\hyperlink{class_invision_1_1_quaternion}{Quaternion}} \&q) const
+\item 
+const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \mbox{\hyperlink{class_invision_1_1_quaternion_aac95c22c8111510178df83b17d61f8a9}{operator$\ast$}} (const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&v) const
+\item 
+float \mbox{\hyperlink{class_invision_1_1_quaternion_a8299eaa0e92148455b761a0d9b61d438}{length}} () const
+\item 
+\mbox{\hyperlink{class_invision_1_1_quaternion}{Quaternion}} \mbox{\hyperlink{class_invision_1_1_quaternion_aa0cbc6a17c7cc679cd1930a2490eb495}{normalize}} () const
+\item 
+\mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \mbox{\hyperlink{class_invision_1_1_quaternion_a0e93170d0f2fc01ad73fd238ba43c546}{rotate}} (\mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&axis, float angle) const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{class_invision_1_1_matrix}{Matrix}}. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_invision_1_1_quaternion_a24c179562f176cadfcf2be7e0cf9f60c}\label{class_invision_1_1_quaternion_a24c179562f176cadfcf2be7e0cf9f60c}} 
+\index{Invision::Quaternion@{Invision::Quaternion}!Quaternion@{Quaternion}}
+\index{Quaternion@{Quaternion}!Invision::Quaternion@{Invision::Quaternion}}
+\doxysubsubsection{\texorpdfstring{Quaternion()}{Quaternion()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Invision\+::\+Quaternion\+::\+Quaternion (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_invision_1_1_quaternion_abd0f25bee4d491818944f9ab886439f7}\label{class_invision_1_1_quaternion_abd0f25bee4d491818944f9ab886439f7}} 
+\index{Invision::Quaternion@{Invision::Quaternion}!Quaternion@{Quaternion}}
+\index{Quaternion@{Quaternion}!Invision::Quaternion@{Invision::Quaternion}}
+\doxysubsubsection{\texorpdfstring{Quaternion()}{Quaternion()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Invision\+::\+Quaternion\+::\+Quaternion (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&}]{v,  }\item[{float}]{a }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_invision_1_1_quaternion_aa246cf3b2d54370074762788909a87c5}\label{class_invision_1_1_quaternion_aa246cf3b2d54370074762788909a87c5}} 
+\index{Invision::Quaternion@{Invision::Quaternion}!invert@{invert}}
+\index{invert@{invert}!Invision::Quaternion@{Invision::Quaternion}}
+\doxysubsubsection{\texorpdfstring{invert()}{invert()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{class_invision_1_1_quaternion}{Quaternion}} Invision\+::\+Quaternion\+::invert (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_invision_1_1_quaternion_a8299eaa0e92148455b761a0d9b61d438}\label{class_invision_1_1_quaternion_a8299eaa0e92148455b761a0d9b61d438}} 
+\index{Invision::Quaternion@{Invision::Quaternion}!length@{length}}
+\index{length@{length}!Invision::Quaternion@{Invision::Quaternion}}
+\doxysubsubsection{\texorpdfstring{length()}{length()}}
+{\footnotesize\ttfamily float Invision\+::\+Quaternion\+::length (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_invision_1_1_quaternion_aa0cbc6a17c7cc679cd1930a2490eb495}\label{class_invision_1_1_quaternion_aa0cbc6a17c7cc679cd1930a2490eb495}} 
+\index{Invision::Quaternion@{Invision::Quaternion}!normalize@{normalize}}
+\index{normalize@{normalize}!Invision::Quaternion@{Invision::Quaternion}}
+\doxysubsubsection{\texorpdfstring{normalize()}{normalize()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_quaternion}{Quaternion}} Invision\+::\+Quaternion\+::normalize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_invision_1_1_quaternion_a598a2cc9f4cf5e137cab0b0734e57170}\label{class_invision_1_1_quaternion_a598a2cc9f4cf5e137cab0b0734e57170}} 
+\index{Invision::Quaternion@{Invision::Quaternion}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!Invision::Quaternion@{Invision::Quaternion}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{class_invision_1_1_quaternion}{Quaternion}} Invision\+::\+Quaternion\+::operator$\ast$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_invision_1_1_quaternion}{Quaternion}} \&}]{q }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_invision_1_1_quaternion_aac95c22c8111510178df83b17d61f8a9}\label{class_invision_1_1_quaternion_aac95c22c8111510178df83b17d61f8a9}} 
+\index{Invision::Quaternion@{Invision::Quaternion}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!Invision::Quaternion@{Invision::Quaternion}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} Invision\+::\+Quaternion\+::operator$\ast$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&}]{v }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_invision_1_1_quaternion_a0e93170d0f2fc01ad73fd238ba43c546}\label{class_invision_1_1_quaternion_a0e93170d0f2fc01ad73fd238ba43c546}} 
+\index{Invision::Quaternion@{Invision::Quaternion}!rotate@{rotate}}
+\index{rotate@{rotate}!Invision::Quaternion@{Invision::Quaternion}}
+\doxysubsubsection{\texorpdfstring{rotate()}{rotate()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} Invision\+::\+Quaternion\+::rotate (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_invision_1_1_vector3}{Vector3}} \&}]{axis,  }\item[{float}]{angle }\end{DoxyParamCaption}) const}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Repository/\+Invision/src/math/\mbox{\hyperlink{_quaternion_8h}{Quaternion.\+h}}\item 
+D\+:/\+Repository/\+Invision/src/math/\mbox{\hyperlink{_quaternion_8cpp}{Quaternion.\+cpp}}\end{DoxyCompactItemize}

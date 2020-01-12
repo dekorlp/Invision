@@ -1,7 +1,7 @@
 #ifndef VULKAN_H
 #define VULKAN_H
+
 #include "vulkan\vulkan.h"
-#include "VulkanException.h"
 
 struct SVulkan
 {

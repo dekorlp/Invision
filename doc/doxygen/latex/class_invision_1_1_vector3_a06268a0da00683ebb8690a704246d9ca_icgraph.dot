@@ -1,0 +1,47 @@
+digraph "Invision::Vector3::getY"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="Invision::Vector3::getY",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="returns Y coordinate"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="Invision::Matrix::Axis",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_matrix.html#a1cd58a2784c631b39764856d0207f7ce",tooltip="align vector on XYZ axis"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="Invision::Matrix::Camera",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_matrix.html#a71cc9860636278d03154ee18f5115c3a",tooltip="use camera transformation"];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="Invision::Quaternion\l::invert",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_quaternion.html#aa246cf3b2d54370074762788909a87c5",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="Invision::Quaternion\l::length",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_quaternion.html#a8299eaa0e92148455b761a0d9b61d438",tooltip=" "];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="Invision::Quaternion\l::normalize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_quaternion.html#aa0cbc6a17c7cc679cd1930a2490eb495",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="Invision::Vector3::\lNormalize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_vector3.html#ab07b0790eeecb4cb4ffd1b689891472a",tooltip="normalizes a vector"];
+  Node7 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node8 [label="Invision::Quaternion\l::rotate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_quaternion.html#a0e93170d0f2fc01ad73fd238ba43c546",tooltip=" "];
+  Node8 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node9 [label="BOOST_AUTO_TEST_CASE",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_quaternion_unit_test_8cpp.html#ae9198bc98174605ef92a5e04a9520655",tooltip=" "];
+  Node7 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node10 [label="Invision::Matrix::RotateAxis",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_matrix.html#a3b8163d511f8cdf0853c4219d26d554b",tooltip="rotate around any axis"];
+  Node10 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node11 [label="BOOST_AUTO_TEST_CASE",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_matrix_unit_test_8cpp.html#aff2c9a737d4858422c476b1b89a835fd",tooltip=" "];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node12 [label="Invision::Matrix::operator*",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_matrix.html#ae2180b1e5b0789a55376c89303775426",tooltip="calculates the vector transformation"];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node13 [label="Invision::operator*",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespace_invision.html#a785e0c850c2e422b656000f6e647bf73",tooltip=" "];
+  Node1 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node14 [label="Invision::operator/",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespace_invision.html#ae6ee3185242450e171df42ec488fd565",tooltip=" "];
+  Node1 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node15 [label="Invision::Quaternion\l::Quaternion",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_quaternion.html#abd0f25bee4d491818944f9ab886439f7",tooltip=" "];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node1 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node16 [label="Invision::Matrix::RotateXYZ",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_matrix.html#a89867fff43bcdd1d61291f497091e5bb",tooltip="rotate around XYZ axis"];
+  Node1 -> Node17 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node17 [label="Invision::Matrix::Scale",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_matrix.html#aac27b8528837a1a10b2340daf48102a8",tooltip="use scale transformation"];
+  Node1 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node18 [label="Invision::Matrix::Translate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_matrix.html#a72316cbb19b584cf680d5f6d43567d24",tooltip="returns an translated matrix"];
+  Node18 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+}

@@ -1,0 +1,21 @@
+digraph "Invision::Quaternion::normalize"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Invision::Quaternion\l::normalize",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Invision::Vector3::getX",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_vector3.html#a3a197c5a7722a3a6d3741a83cfff409c",tooltip="returns X coordinate"];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Invision::Vector3::getY",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_vector3.html#a06268a0da00683ebb8690a704246d9ca",tooltip="returns Y coordinate"];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Invision::Vector3::getZ",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_vector3.html#a1103f0cdb87b9aa47c33ec2c0dad473f",tooltip="returns Z coordinate"];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Invision::Quaternion\l::length",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_quaternion.html#a8299eaa0e92148455b761a0d9b61d438",tooltip=" "];
+  Node5 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="Invision::Quaternion\l::Quaternion",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_invision_1_1_quaternion.html#a24c179562f176cadfcf2be7e0cf9f60c",tooltip=" "];
+}

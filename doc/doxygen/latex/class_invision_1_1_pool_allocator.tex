@@ -1,0 +1,165 @@
+\hypertarget{class_invision_1_1_pool_allocator}{}\doxysection{Invision\+::Pool\+Allocator Class Reference}
+\label{class_invision_1_1_pool_allocator}\index{Invision::PoolAllocator@{Invision::PoolAllocator}}
+
+
+{\ttfamily \#include $<$Pool\+Allocator.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_invision_1_1_pool_allocator_ae9551338ebd78d08f3d0763356b3bc0d}{Pool\+Allocator}} ()
+\item 
+\mbox{\hyperlink{class_invision_1_1_pool_allocator_a440ac0fa5141c35f4357ef88e782fbbd}{Pool\+Allocator}} (size\+\_\+t size, size\+\_\+t chunksize, \mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58}{Bounds\+Checking}} bounds\+Checking=\mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58ad54713c994f5a120c85f0ef6c633adef}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+N\+O\+\_\+\+B\+O\+U\+N\+D\+S\+\_\+\+C\+H\+E\+C\+K\+I\+NG}})
+\item 
+\mbox{\hyperlink{class_invision_1_1_pool_allocator_a4fea7657f91866d79955eed9f0709507}{Pool\+Allocator}} (\mbox{\hyperlink{class_invision_1_1_pool_allocator}{Pool\+Allocator}} \&\&)=delete
+\item 
+\mbox{\hyperlink{class_invision_1_1_pool_allocator}{Pool\+Allocator}} \& \mbox{\hyperlink{class_invision_1_1_pool_allocator_a21392637f0059afaef5f27fb7bfa9c91}{operator==}} (\mbox{\hyperlink{class_invision_1_1_pool_allocator}{Pool\+Allocator}} \&\&)=delete
+\item 
+\mbox{\hyperlink{class_invision_1_1_pool_allocator_a90500378eb8fa5a53c70dee2e54c77eb}{Pool\+Allocator}} (const \mbox{\hyperlink{class_invision_1_1_pool_allocator}{Pool\+Allocator}} \&)=delete
+\item 
+\mbox{\hyperlink{class_invision_1_1_pool_allocator}{Pool\+Allocator}} \& \mbox{\hyperlink{class_invision_1_1_pool_allocator_a7cced16947faa80e5ebc8ea6cf9d63d7}{operator=}} (const \mbox{\hyperlink{class_invision_1_1_pool_allocator}{Pool\+Allocator}} \&)=delete
+\item 
+void \mbox{\hyperlink{class_invision_1_1_pool_allocator_af01f49771e696221ce97ed55bd5c0619}{Init}} (size\+\_\+t size, size\+\_\+t chunksize, \mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58}{Bounds\+Checking}} bounds\+Checking=\mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58ad54713c994f5a120c85f0ef6c633adef}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+N\+O\+\_\+\+B\+O\+U\+N\+D\+S\+\_\+\+C\+H\+E\+C\+K\+I\+NG}}, \mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5}{Memory\+Tracking}} memory\+Tracking=\mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5a0b554d3fc32cfff71aa201920ae36562}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+E\+M\+O\+R\+Y\+\_\+\+T\+R\+A\+C\+K\+I\+NG}})
+\item 
+void \mbox{\hyperlink{class_invision_1_1_pool_allocator_a7cca5dc1a662f855a82e3b66e5cafbf3}{Init\+Blocks}} (size\+\_\+t count, size\+\_\+t chunksize, \mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58}{Bounds\+Checking}} bounds\+Checking=\mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58ad54713c994f5a120c85f0ef6c633adef}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+N\+O\+\_\+\+B\+O\+U\+N\+D\+S\+\_\+\+C\+H\+E\+C\+K\+I\+NG}}, \mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5}{Memory\+Tracking}} memory\+Tracking=\mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5a0b554d3fc32cfff71aa201920ae36562}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+E\+M\+O\+R\+Y\+\_\+\+T\+R\+A\+C\+K\+I\+NG}})
+\item 
+void $\ast$ \mbox{\hyperlink{class_invision_1_1_pool_allocator_afd9c61395fa059715ddd36dbd7406335}{Allocate}} ()
+\item 
+void \mbox{\hyperlink{class_invision_1_1_pool_allocator_a125aab7d417595865f4220dffb25ebaf}{Deallocate}} (void $\ast$block)
+\item 
+\mbox{\hyperlink{_base_types_8h_a1134b580f8da4de94ca6b1de4d37975e}{uint32}} \mbox{\hyperlink{class_invision_1_1_pool_allocator_adcc5ebf5e674f45231568b963ee719cc}{Get\+Count\+Of\+Chunks}} ()
+\item 
+void $\ast$ \mbox{\hyperlink{class_invision_1_1_pool_allocator_af059b60278968f7ee12a1c97ccce97bc}{Get\+Arena}} ()
+\item 
+size\+\_\+t \mbox{\hyperlink{class_invision_1_1_pool_allocator_a82483552cfa3f8b0eb52556f9720794a}{Get\+Used\+Memory}} ()
+\item 
+size\+\_\+t \mbox{\hyperlink{class_invision_1_1_pool_allocator_a9111ad57806193fac0631633ae5bebc7}{Get\+Total\+Memory}} ()
+\item 
+size\+\_\+t \mbox{\hyperlink{class_invision_1_1_pool_allocator_a2e34f9eb89762763f6056547c3e1b1bf}{Get\+Layout\+Size}} ()
+\item 
+void \mbox{\hyperlink{class_invision_1_1_pool_allocator_affb2c362890a97573f1e6b8fc6d15a2f}{Clear}} ()
+\item 
+void \mbox{\hyperlink{class_invision_1_1_pool_allocator_af1ba0ddda224a925b69b24f1dd144e9d}{Destroy}} ()
+\item 
+\mbox{\hyperlink{class_invision_1_1_pool_allocator_a2ea9158353f26efbfd9ead2e7bac863a}{$\sim$\+Pool\+Allocator}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_invision_1_1_pool_allocator_ae9551338ebd78d08f3d0763356b3bc0d}\label{class_invision_1_1_pool_allocator_ae9551338ebd78d08f3d0763356b3bc0d}} 
+\index{Invision::PoolAllocator@{Invision::PoolAllocator}!PoolAllocator@{PoolAllocator}}
+\index{PoolAllocator@{PoolAllocator}!Invision::PoolAllocator@{Invision::PoolAllocator}}
+\doxysubsubsection{\texorpdfstring{PoolAllocator()}{PoolAllocator()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily Invision\+::\+Pool\+Allocator\+::\+Pool\+Allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+\mbox{\Hypertarget{class_invision_1_1_pool_allocator_a440ac0fa5141c35f4357ef88e782fbbd}\label{class_invision_1_1_pool_allocator_a440ac0fa5141c35f4357ef88e782fbbd}} 
+\index{Invision::PoolAllocator@{Invision::PoolAllocator}!PoolAllocator@{PoolAllocator}}
+\index{PoolAllocator@{PoolAllocator}!Invision::PoolAllocator@{Invision::PoolAllocator}}
+\doxysubsubsection{\texorpdfstring{PoolAllocator()}{PoolAllocator()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily Invision\+::\+Pool\+Allocator\+::\+Pool\+Allocator (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{size,  }\item[{size\+\_\+t}]{chunksize,  }\item[{\mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58}{Bounds\+Checking}}}]{bounds\+Checking = {\ttfamily \mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58ad54713c994f5a120c85f0ef6c633adef}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+N\+O\+\_\+\+B\+O\+U\+N\+D\+S\+\_\+\+C\+H\+E\+C\+K\+I\+NG}}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+\mbox{\Hypertarget{class_invision_1_1_pool_allocator_a4fea7657f91866d79955eed9f0709507}\label{class_invision_1_1_pool_allocator_a4fea7657f91866d79955eed9f0709507}} 
+\index{Invision::PoolAllocator@{Invision::PoolAllocator}!PoolAllocator@{PoolAllocator}}
+\index{PoolAllocator@{PoolAllocator}!Invision::PoolAllocator@{Invision::PoolAllocator}}
+\doxysubsubsection{\texorpdfstring{PoolAllocator()}{PoolAllocator()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily Invision\+::\+Pool\+Allocator\+::\+Pool\+Allocator (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_invision_1_1_pool_allocator}{Pool\+Allocator}} \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\mbox{\Hypertarget{class_invision_1_1_pool_allocator_a90500378eb8fa5a53c70dee2e54c77eb}\label{class_invision_1_1_pool_allocator_a90500378eb8fa5a53c70dee2e54c77eb}} 
+\index{Invision::PoolAllocator@{Invision::PoolAllocator}!PoolAllocator@{PoolAllocator}}
+\index{PoolAllocator@{PoolAllocator}!Invision::PoolAllocator@{Invision::PoolAllocator}}
+\doxysubsubsection{\texorpdfstring{PoolAllocator()}{PoolAllocator()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily Invision\+::\+Pool\+Allocator\+::\+Pool\+Allocator (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_invision_1_1_pool_allocator}{Pool\+Allocator}} \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\mbox{\Hypertarget{class_invision_1_1_pool_allocator_a2ea9158353f26efbfd9ead2e7bac863a}\label{class_invision_1_1_pool_allocator_a2ea9158353f26efbfd9ead2e7bac863a}} 
+\index{Invision::PoolAllocator@{Invision::PoolAllocator}!````~PoolAllocator@{$\sim$PoolAllocator}}
+\index{````~PoolAllocator@{$\sim$PoolAllocator}!Invision::PoolAllocator@{Invision::PoolAllocator}}
+\doxysubsubsection{\texorpdfstring{$\sim$PoolAllocator()}{~PoolAllocator()}}
+{\footnotesize\ttfamily Invision\+::\+Pool\+Allocator\+::$\sim$\+Pool\+Allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_invision_1_1_pool_allocator_afd9c61395fa059715ddd36dbd7406335}\label{class_invision_1_1_pool_allocator_afd9c61395fa059715ddd36dbd7406335}} 
+\index{Invision::PoolAllocator@{Invision::PoolAllocator}!Allocate@{Allocate}}
+\index{Allocate@{Allocate}!Invision::PoolAllocator@{Invision::PoolAllocator}}
+\doxysubsubsection{\texorpdfstring{Allocate()}{Allocate()}}
+{\footnotesize\ttfamily void $\ast$ Invision\+::\+Pool\+Allocator\+::\+Allocate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_invision_1_1_pool_allocator_affb2c362890a97573f1e6b8fc6d15a2f}\label{class_invision_1_1_pool_allocator_affb2c362890a97573f1e6b8fc6d15a2f}} 
+\index{Invision::PoolAllocator@{Invision::PoolAllocator}!Clear@{Clear}}
+\index{Clear@{Clear}!Invision::PoolAllocator@{Invision::PoolAllocator}}
+\doxysubsubsection{\texorpdfstring{Clear()}{Clear()}}
+{\footnotesize\ttfamily void Invision\+::\+Pool\+Allocator\+::\+Clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_invision_1_1_pool_allocator_a125aab7d417595865f4220dffb25ebaf}\label{class_invision_1_1_pool_allocator_a125aab7d417595865f4220dffb25ebaf}} 
+\index{Invision::PoolAllocator@{Invision::PoolAllocator}!Deallocate@{Deallocate}}
+\index{Deallocate@{Deallocate}!Invision::PoolAllocator@{Invision::PoolAllocator}}
+\doxysubsubsection{\texorpdfstring{Deallocate()}{Deallocate()}}
+{\footnotesize\ttfamily void Invision\+::\+Pool\+Allocator\+::\+Deallocate (\begin{DoxyParamCaption}\item[{void $\ast$}]{block }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_invision_1_1_pool_allocator_af1ba0ddda224a925b69b24f1dd144e9d}\label{class_invision_1_1_pool_allocator_af1ba0ddda224a925b69b24f1dd144e9d}} 
+\index{Invision::PoolAllocator@{Invision::PoolAllocator}!Destroy@{Destroy}}
+\index{Destroy@{Destroy}!Invision::PoolAllocator@{Invision::PoolAllocator}}
+\doxysubsubsection{\texorpdfstring{Destroy()}{Destroy()}}
+{\footnotesize\ttfamily void Invision\+::\+Pool\+Allocator\+::\+Destroy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_invision_1_1_pool_allocator_af059b60278968f7ee12a1c97ccce97bc}\label{class_invision_1_1_pool_allocator_af059b60278968f7ee12a1c97ccce97bc}} 
+\index{Invision::PoolAllocator@{Invision::PoolAllocator}!GetArena@{GetArena}}
+\index{GetArena@{GetArena}!Invision::PoolAllocator@{Invision::PoolAllocator}}
+\doxysubsubsection{\texorpdfstring{GetArena()}{GetArena()}}
+{\footnotesize\ttfamily void $\ast$ Invision\+::\+Pool\+Allocator\+::\+Get\+Arena (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_invision_1_1_pool_allocator_adcc5ebf5e674f45231568b963ee719cc}\label{class_invision_1_1_pool_allocator_adcc5ebf5e674f45231568b963ee719cc}} 
+\index{Invision::PoolAllocator@{Invision::PoolAllocator}!GetCountOfChunks@{GetCountOfChunks}}
+\index{GetCountOfChunks@{GetCountOfChunks}!Invision::PoolAllocator@{Invision::PoolAllocator}}
+\doxysubsubsection{\texorpdfstring{GetCountOfChunks()}{GetCountOfChunks()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_base_types_8h_a1134b580f8da4de94ca6b1de4d37975e}{uint32}} Invision\+::\+Pool\+Allocator\+::\+Get\+Count\+Of\+Chunks (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_invision_1_1_pool_allocator_a2e34f9eb89762763f6056547c3e1b1bf}\label{class_invision_1_1_pool_allocator_a2e34f9eb89762763f6056547c3e1b1bf}} 
+\index{Invision::PoolAllocator@{Invision::PoolAllocator}!GetLayoutSize@{GetLayoutSize}}
+\index{GetLayoutSize@{GetLayoutSize}!Invision::PoolAllocator@{Invision::PoolAllocator}}
+\doxysubsubsection{\texorpdfstring{GetLayoutSize()}{GetLayoutSize()}}
+{\footnotesize\ttfamily size\+\_\+t Invision\+::\+Pool\+Allocator\+::\+Get\+Layout\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_invision_1_1_pool_allocator_a9111ad57806193fac0631633ae5bebc7}\label{class_invision_1_1_pool_allocator_a9111ad57806193fac0631633ae5bebc7}} 
+\index{Invision::PoolAllocator@{Invision::PoolAllocator}!GetTotalMemory@{GetTotalMemory}}
+\index{GetTotalMemory@{GetTotalMemory}!Invision::PoolAllocator@{Invision::PoolAllocator}}
+\doxysubsubsection{\texorpdfstring{GetTotalMemory()}{GetTotalMemory()}}
+{\footnotesize\ttfamily size\+\_\+t Invision\+::\+Pool\+Allocator\+::\+Get\+Total\+Memory (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_invision_1_1_pool_allocator_a82483552cfa3f8b0eb52556f9720794a}\label{class_invision_1_1_pool_allocator_a82483552cfa3f8b0eb52556f9720794a}} 
+\index{Invision::PoolAllocator@{Invision::PoolAllocator}!GetUsedMemory@{GetUsedMemory}}
+\index{GetUsedMemory@{GetUsedMemory}!Invision::PoolAllocator@{Invision::PoolAllocator}}
+\doxysubsubsection{\texorpdfstring{GetUsedMemory()}{GetUsedMemory()}}
+{\footnotesize\ttfamily size\+\_\+t Invision\+::\+Pool\+Allocator\+::\+Get\+Used\+Memory (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_invision_1_1_pool_allocator_af01f49771e696221ce97ed55bd5c0619}\label{class_invision_1_1_pool_allocator_af01f49771e696221ce97ed55bd5c0619}} 
+\index{Invision::PoolAllocator@{Invision::PoolAllocator}!Init@{Init}}
+\index{Init@{Init}!Invision::PoolAllocator@{Invision::PoolAllocator}}
+\doxysubsubsection{\texorpdfstring{Init()}{Init()}}
+{\footnotesize\ttfamily void Invision\+::\+Pool\+Allocator\+::\+Init (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{size,  }\item[{size\+\_\+t}]{chunksize,  }\item[{\mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58}{Bounds\+Checking}}}]{bounds\+Checking = {\ttfamily \mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58ad54713c994f5a120c85f0ef6c633adef}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+N\+O\+\_\+\+B\+O\+U\+N\+D\+S\+\_\+\+C\+H\+E\+C\+K\+I\+NG}}},  }\item[{\mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5}{Memory\+Tracking}}}]{memory\+Tracking = {\ttfamily \mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5a0b554d3fc32cfff71aa201920ae36562}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+E\+M\+O\+R\+Y\+\_\+\+T\+R\+A\+C\+K\+I\+NG}}} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_invision_1_1_pool_allocator_a7cca5dc1a662f855a82e3b66e5cafbf3}\label{class_invision_1_1_pool_allocator_a7cca5dc1a662f855a82e3b66e5cafbf3}} 
+\index{Invision::PoolAllocator@{Invision::PoolAllocator}!InitBlocks@{InitBlocks}}
+\index{InitBlocks@{InitBlocks}!Invision::PoolAllocator@{Invision::PoolAllocator}}
+\doxysubsubsection{\texorpdfstring{InitBlocks()}{InitBlocks()}}
+{\footnotesize\ttfamily void Invision\+::\+Pool\+Allocator\+::\+Init\+Blocks (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{count,  }\item[{size\+\_\+t}]{chunksize,  }\item[{\mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58}{Bounds\+Checking}}}]{bounds\+Checking = {\ttfamily \mbox{\hyperlink{_memory_block_8h_a9664b544f5a2af95e7ac78e369432d58ad54713c994f5a120c85f0ef6c633adef}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+N\+O\+\_\+\+B\+O\+U\+N\+D\+S\+\_\+\+C\+H\+E\+C\+K\+I\+NG}}},  }\item[{\mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5}{Memory\+Tracking}}}]{memory\+Tracking = {\ttfamily \mbox{\hyperlink{_memory_block_8h_ac7e2b1c93cde065a1dc3fff4fbdbf3a5a0b554d3fc32cfff71aa201920ae36562}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+E\+M\+O\+R\+Y\+\_\+\+T\+R\+A\+C\+K\+I\+NG}}} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_invision_1_1_pool_allocator_a7cced16947faa80e5ebc8ea6cf9d63d7}\label{class_invision_1_1_pool_allocator_a7cced16947faa80e5ebc8ea6cf9d63d7}} 
+\index{Invision::PoolAllocator@{Invision::PoolAllocator}!operator=@{operator=}}
+\index{operator=@{operator=}!Invision::PoolAllocator@{Invision::PoolAllocator}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_pool_allocator}{Pool\+Allocator}}\& Invision\+::\+Pool\+Allocator\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_invision_1_1_pool_allocator}{Pool\+Allocator}} \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\mbox{\Hypertarget{class_invision_1_1_pool_allocator_a21392637f0059afaef5f27fb7bfa9c91}\label{class_invision_1_1_pool_allocator_a21392637f0059afaef5f27fb7bfa9c91}} 
+\index{Invision::PoolAllocator@{Invision::PoolAllocator}!operator==@{operator==}}
+\index{operator==@{operator==}!Invision::PoolAllocator@{Invision::PoolAllocator}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_invision_1_1_pool_allocator}{Pool\+Allocator}}\& Invision\+::\+Pool\+Allocator\+::operator== (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_invision_1_1_pool_allocator}{Pool\+Allocator}} \&\&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Repository/\+Invision/src/lowlevel/allocator/\mbox{\hyperlink{_pool_allocator_8h}{Pool\+Allocator.\+h}}\item 
+D\+:/\+Repository/\+Invision/src/lowlevel/allocator/\mbox{\hyperlink{_pool_allocator_8cpp}{Pool\+Allocator.\+cpp}}\end{DoxyCompactItemize}
