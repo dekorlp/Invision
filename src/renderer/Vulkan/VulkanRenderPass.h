@@ -3,10 +3,10 @@
 
 #include "vulkan\vulkan.h"
 
-struct SVulkan;
-
 namespace Invision
 {
+	struct SVulkan;
+
 	// TODO: Convert this later to a class
 	struct SubPass
 	{

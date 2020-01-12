@@ -11,6 +11,8 @@
 
 namespace Invision
 {
+	const int MAX_FRAMES_IN_FLIGHT = 2;
+
 	void VulkanRenderer::CreateSyncObjects(SVulkan &vulkanInstance)
 	{
 		mImageAvailableSemaphore.resize(MAX_FRAMES_IN_FLIGHT);

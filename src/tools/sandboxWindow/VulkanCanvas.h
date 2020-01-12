@@ -82,6 +82,6 @@ private:
 
 	Invision::VulkanVertexBuffer vertexBuffer;
 	VkPipelineCache mCache;
-	SVulkan vulkInstance;
+	Invision::SVulkan vulkInstance;
 	wxTimer m_timer;
 };

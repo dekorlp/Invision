@@ -4,7 +4,6 @@
 #include "vulkan\vulkan.h"
 namespace Invision
 {
-
 	class  VulkanInstance
 	{
 	public:

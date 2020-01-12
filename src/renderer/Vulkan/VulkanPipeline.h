@@ -2,13 +2,12 @@
 #define VULKAN_PIPELINE_H
 
 #include "vulkan\vulkan.h"
-#include "VulkanRenderPass.h"
-#include "VulkanVertexBuffer.h"
-
-class VulkanShader;
 
 namespace Invision
 {
+	class VulkanShader;
+	class VulkanVertexBuffer;
+	class VulkanRenderPass;
 
 	VkPipelineCache INVISION_API CreatePipelineCache(const SVulkan &vulkanInstance);
 	void INVISION_API DestroyPipelineCache(const SVulkan &vulkanInstance, VkPipelineCache cache);

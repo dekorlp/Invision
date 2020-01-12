@@ -3,6 +3,8 @@
 #include "Vulkan.h"
 #include "VulkanException.h"
 #include "VulkanShader.h"
+#include "VulkanRenderPass.h"
+#include "VulkanVertexBuffer.h"
 
 #include "VulkanPipeline.h"
 

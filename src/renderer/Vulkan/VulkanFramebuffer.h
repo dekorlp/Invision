@@ -3,10 +3,10 @@
 
 #include "vulkan\vulkan.h"
 
-class VulkanRenderPass;
-
 namespace Invision
 {
+	class VulkanRenderPass;
+
 	class  VulkanFramebuffer
 	{
 	private:

@@ -3,10 +3,13 @@
 
 #include "vulkan\vulkan.h"
 
-class VulkanCommandPool;
+
 
 namespace Invision
 {
+
+	class VulkanCommandPool;
+
 	class  VulkanCommandBuffer
 	{
 	private:
