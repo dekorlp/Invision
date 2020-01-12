@@ -2,7 +2,8 @@
 #define VULKAN_COMMAND_BUFFER_H
 
 #include "vulkan\vulkan.h"
-#include "VulkanCommandPool.h"
+
+class VulkanCommandPool;
 
 namespace Invision
 {

@@ -1,5 +1,9 @@
 #include "precompiled.h"
 
+#include "VulkanException.h"
+#include "VulkanRenderPass.h"
+#include "Vulkan.h"
+
 #include "VulkanFramebuffer.h"
 
 namespace Invision

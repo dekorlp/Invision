@@ -2,9 +2,10 @@
 #define VULKAN_PIPELINE_H
 
 #include "vulkan\vulkan.h"
-#include "VulkanShader.h"
 #include "VulkanRenderPass.h"
 #include "VulkanVertexBuffer.h"
+
+class VulkanShader;
 
 namespace Invision
 {

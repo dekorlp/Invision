@@ -2,6 +2,7 @@
 
 #include "Vulkan.h"
 #include "VulkanException.h"
+#include "VulkanShader.h"
 
 #include "VulkanPipeline.h"
 

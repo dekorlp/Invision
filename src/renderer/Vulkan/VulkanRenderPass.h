@@ -1,13 +1,9 @@
 #ifndef VULKAN_RENDERPASS_H
 #define VULKAN_RENDERPASS_H
 
-#include <iostream>
-using namespace std;
-
 #include "vulkan\vulkan.h"
-#include "Vulkan.h"
-#include "VulkanException.h"
 
+struct SVulkan;
 
 namespace Invision
 {

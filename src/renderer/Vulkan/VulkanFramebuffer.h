@@ -2,9 +2,8 @@
 #define VULKAN_FRAMEBUFFER_H
 
 #include "vulkan\vulkan.h"
-#include "VulkanException.h"
-#include "VulkanRenderPass.h"
-#include "Vulkan.h"
+
+class VulkanRenderPass;
 
 namespace Invision
 {

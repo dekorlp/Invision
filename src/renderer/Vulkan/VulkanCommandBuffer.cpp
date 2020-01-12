@@ -6,7 +6,7 @@
 #include "VulkanPipeline.h"
 #include "VulkanRenderPass.h"
 #include "VulkanVertexBuffer.h"
-
+#include "VulkanCommandPool.h"
 #include "VulkanCommandBuffer.h"
 
 namespace Invision
