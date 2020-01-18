@@ -5,7 +5,7 @@ var searchData=
   ['calculatesize_66',['CalculateSize',['../class_invision_1_1_memory_block.html#a755026c53158570d1bd3c9e5969c8f4d',1,'Invision::MemoryBlock']]],
   ['calculatetotalspace_67',['CalculateTotalSpace',['../class_invision_1_1_platform_hard_disk.html#a962e0a3d190c4a909d36fb81793bea22',1,'Invision::PlatformHardDisk']]],
   ['camera_68',['Camera',['../class_invision_1_1_matrix.html#a71cc9860636278d03154ee18f5115c3a',1,'Invision::Matrix']]],
-  ['capabilities_69',['capabilities',['../struct_swap_chain_support_details.html#a8918f9f5496b29a701e8d094aa455b2a',1,'SwapChainSupportDetails']]],
+  ['capabilities_69',['capabilities',['../struct_invision_1_1_swap_chain_support_details.html#ad34e0ce8b3f5a67426520ce782f025ba',1,'Invision::SwapChainSupportDetails::capabilities()'],['../struct_swap_chain_support_details.html#a8918f9f5496b29a701e8d094aa455b2a',1,'SwapChainSupportDetails::capabilities()']]],
   ['centaur_70',['CENTAUR',['../_platform_c_p_u_i_d_8h.html#a8ecd2535f40dac65a364b7c24e254a6d',1,'PlatformCPUID.h']]],
   ['cflushsize_71',['CFlushSize',['../struct_invision_1_1_c_p_u_i_n_f_o_r_m_a_t_i_o_n.html#a79eb4f002b4ae3aae7fdb4913082bb0b',1,'Invision::CPUINFORMATION']]],
   ['checkboundaries_72',['CheckBoundaries',['../class_invision_1_1_memory_block.html#ac8493c0d1c62ce566e2028808940a9c9',1,'Invision::MemoryBlock']]],

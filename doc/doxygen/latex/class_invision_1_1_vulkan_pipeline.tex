@@ -15,7 +15,7 @@ void \mbox{\hyperlink{precompiled_8h_a878730690a529b13aaedb5d8f27b7277}{I\+N\+V\
 \item 
 void \mbox{\hyperlink{precompiled_8h_a878730690a529b13aaedb5d8f27b7277}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+A\+PI}} \mbox{\hyperlink{class_invision_1_1_vulkan_pipeline_a07f48514a76eede9f4d2851a0aea98e5}{Update\+Input\+Assembly\+Configuration}} (Vk\+Primitive\+Topology primitive\+Topology)
 \item 
-void \mbox{\hyperlink{precompiled_8h_a878730690a529b13aaedb5d8f27b7277}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+A\+PI}} \mbox{\hyperlink{class_invision_1_1_vulkan_pipeline_aab2ac18e561e1534bab50ed916838dc3}{Update\+View\+Port\+Configuration}} (const \mbox{\hyperlink{struct_s_vulkan}{S\+Vulkan}} \&vulkan\+Instance)
+void \mbox{\hyperlink{precompiled_8h_a878730690a529b13aaedb5d8f27b7277}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+A\+PI}} \mbox{\hyperlink{class_invision_1_1_vulkan_pipeline_aab2ac18e561e1534bab50ed916838dc3}{Update\+View\+Port\+Configuration}} (const \mbox{\hyperlink{struct_invision_1_1_s_vulkan}{S\+Vulkan}} \&vulkan\+Instance)
 \item 
 void \mbox{\hyperlink{precompiled_8h_a878730690a529b13aaedb5d8f27b7277}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+A\+PI}} \mbox{\hyperlink{class_invision_1_1_vulkan_pipeline_a5df82907e710e822204b9818c04c650b}{Update\+Rasterizer\+Configuration}} (Vk\+Polygon\+Mode fill\+Mode, float line\+Width, Vk\+Cull\+Mode\+Flags cull\+Mode, Vk\+Front\+Face front\+Face)
 \item 
@@ -31,9 +31,9 @@ void \mbox{\hyperlink{precompiled_8h_a878730690a529b13aaedb5d8f27b7277}{I\+N\+V\
 \item 
 Vk\+Pipeline \mbox{\hyperlink{precompiled_8h_a878730690a529b13aaedb5d8f27b7277}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+A\+PI}} \mbox{\hyperlink{class_invision_1_1_vulkan_pipeline_a0757544e568c7228ec272dfda9a5965a}{Get\+Pipeline}} ()
 \item 
-void \mbox{\hyperlink{precompiled_8h_a878730690a529b13aaedb5d8f27b7277}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+A\+PI}} \mbox{\hyperlink{class_invision_1_1_vulkan_pipeline_ab0e613a0015c963d1b3e471867fbdc10}{Create\+Pipeline}} (const \mbox{\hyperlink{struct_s_vulkan}{S\+Vulkan}} \&vulkan\+Instance, \mbox{\hyperlink{class_invision_1_1_vulkan_render_pass}{Vulkan\+Render\+Pass}} \&render\+Pass, uint32\+\_\+t subpass\+Index, Vk\+Pipeline\+Cache pipeline\+Cache=V\+K\+\_\+\+N\+U\+L\+L\+\_\+\+H\+A\+N\+D\+LE)
+void \mbox{\hyperlink{precompiled_8h_a878730690a529b13aaedb5d8f27b7277}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+A\+PI}} \mbox{\hyperlink{class_invision_1_1_vulkan_pipeline_ab0e613a0015c963d1b3e471867fbdc10}{Create\+Pipeline}} (const \mbox{\hyperlink{struct_invision_1_1_s_vulkan}{S\+Vulkan}} \&vulkan\+Instance, \mbox{\hyperlink{class_invision_1_1_vulkan_render_pass}{Vulkan\+Render\+Pass}} \&render\+Pass, uint32\+\_\+t subpass\+Index, Vk\+Pipeline\+Cache pipeline\+Cache=V\+K\+\_\+\+N\+U\+L\+L\+\_\+\+H\+A\+N\+D\+LE)
 \item 
-void \mbox{\hyperlink{precompiled_8h_a878730690a529b13aaedb5d8f27b7277}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+A\+PI}} \mbox{\hyperlink{class_invision_1_1_vulkan_pipeline_a464bf6e7a4af4b97bcdcc8371d0ff58d}{Destroy\+Pipeline}} (const \mbox{\hyperlink{struct_s_vulkan}{S\+Vulkan}} \&vulkan\+Instance)
+void \mbox{\hyperlink{precompiled_8h_a878730690a529b13aaedb5d8f27b7277}{I\+N\+V\+I\+S\+I\+O\+N\+\_\+\+A\+PI}} \mbox{\hyperlink{class_invision_1_1_vulkan_pipeline_a464bf6e7a4af4b97bcdcc8371d0ff58d}{Destroy\+Pipeline}} (const \mbox{\hyperlink{struct_invision_1_1_s_vulkan}{S\+Vulkan}} \&vulkan\+Instance)
 \end{DoxyCompactItemize}
 
 
@@ -54,13 +54,13 @@ void \mbox{\hyperlink{precompiled_8h_a878730690a529b13aaedb5d8f27b7277}{I\+N\+V\
 \index{Invision::VulkanPipeline@{Invision::VulkanPipeline}!CreatePipeline@{CreatePipeline}}
 \index{CreatePipeline@{CreatePipeline}!Invision::VulkanPipeline@{Invision::VulkanPipeline}}
 \doxysubsubsection{\texorpdfstring{CreatePipeline()}{CreatePipeline()}}
-{\footnotesize\ttfamily void Vulkan\+Pipeline\+::\+Create\+Pipeline (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_s_vulkan}{S\+Vulkan}} \&}]{vulkan\+Instance,  }\item[{\mbox{\hyperlink{class_invision_1_1_vulkan_render_pass}{Vulkan\+Render\+Pass}} \&}]{render\+Pass,  }\item[{uint32\+\_\+t}]{subpass\+Index,  }\item[{Vk\+Pipeline\+Cache}]{pipeline\+Cache = {\ttfamily VK\+\_\+NULL\+\_\+HANDLE} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Vulkan\+Pipeline\+::\+Create\+Pipeline (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_invision_1_1_s_vulkan}{S\+Vulkan}} \&}]{vulkan\+Instance,  }\item[{\mbox{\hyperlink{class_invision_1_1_vulkan_render_pass}{Vulkan\+Render\+Pass}} \&}]{render\+Pass,  }\item[{uint32\+\_\+t}]{subpass\+Index,  }\item[{Vk\+Pipeline\+Cache}]{pipeline\+Cache = {\ttfamily VK\+\_\+NULL\+\_\+HANDLE} }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{class_invision_1_1_vulkan_pipeline_a464bf6e7a4af4b97bcdcc8371d0ff58d}\label{class_invision_1_1_vulkan_pipeline_a464bf6e7a4af4b97bcdcc8371d0ff58d}} 
 \index{Invision::VulkanPipeline@{Invision::VulkanPipeline}!DestroyPipeline@{DestroyPipeline}}
 \index{DestroyPipeline@{DestroyPipeline}!Invision::VulkanPipeline@{Invision::VulkanPipeline}}
 \doxysubsubsection{\texorpdfstring{DestroyPipeline()}{DestroyPipeline()}}
-{\footnotesize\ttfamily void Vulkan\+Pipeline\+::\+Destroy\+Pipeline (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_s_vulkan}{S\+Vulkan}} \&}]{vulkan\+Instance }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Vulkan\+Pipeline\+::\+Destroy\+Pipeline (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_invision_1_1_s_vulkan}{S\+Vulkan}} \&}]{vulkan\+Instance }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{class_invision_1_1_vulkan_pipeline_a0757544e568c7228ec272dfda9a5965a}\label{class_invision_1_1_vulkan_pipeline_a0757544e568c7228ec272dfda9a5965a}} 
 \index{Invision::VulkanPipeline@{Invision::VulkanPipeline}!GetPipeline@{GetPipeline}}
@@ -120,7 +120,7 @@ void \mbox{\hyperlink{precompiled_8h_a878730690a529b13aaedb5d8f27b7277}{I\+N\+V\
 \index{Invision::VulkanPipeline@{Invision::VulkanPipeline}!UpdateViewPortConfiguration@{UpdateViewPortConfiguration}}
 \index{UpdateViewPortConfiguration@{UpdateViewPortConfiguration}!Invision::VulkanPipeline@{Invision::VulkanPipeline}}
 \doxysubsubsection{\texorpdfstring{UpdateViewPortConfiguration()}{UpdateViewPortConfiguration()}}
-{\footnotesize\ttfamily void Vulkan\+Pipeline\+::\+Update\+View\+Port\+Configuration (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_s_vulkan}{S\+Vulkan}} \&}]{vulkan\+Instance }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Vulkan\+Pipeline\+::\+Update\+View\+Port\+Configuration (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_invision_1_1_s_vulkan}{S\+Vulkan}} \&}]{vulkan\+Instance }\end{DoxyParamCaption})}
 
 
 

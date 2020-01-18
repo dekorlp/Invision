@@ -1,9 +1,9 @@
 ﻿#include "InCommon.h"
-#include "inMath.h"
 
 #include <iostream>
 #include <string>
-
+#include "math\Vector3.h"
+#include "math\Matrix.h"
 
 
 using namespace std;
@@ -299,6 +299,14 @@ void testPoolAllocatorStruct()
 	alloc.Destroy();
 }
 
+void testMatrix()
+{
+	Invision::Matrix mat = mat.RotateX(90);
+	Invision::Vector3 vec = Invision::Vector3(1, 2, 3);
+	Invision::Vector3 result =  mat * vec;
+
+
+}
 
 int main()
 {
@@ -323,7 +331,9 @@ int main()
 	//testLinearAllocator();
 	//testStackAllocator();
 	//testPoolAllocator();
-	testPoolAllocatorStruct();
+	//testPoolAllocatorStruct();
+	testVector();
+	testMatrix();
 	
 	return 0;
 }

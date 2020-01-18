@@ -42,5 +42,4 @@
 	#endif // SIMD_CONFIG_H
 
 
-
 #endif

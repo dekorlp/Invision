@@ -52,6 +52,6 @@ var searchData=
   ['getyear_228',['getYear',['../class_invision_1_1_date_time.html#a92b37ce06fed2d999c882887715cdce8',1,'Invision::DateTime::getYear()'],['../class_invision_1_1_date_time.html#a7d0995a48466df38070e4b76d1d2bc09',1,'Invision::DateTime::getYear(UTC utc)']]],
   ['getz_229',['getZ',['../class_invision_1_1_vector3.html#a1103f0cdb87b9aa47c33ec2c0dad473f',1,'Invision::Vector3']]],
   ['gewicht_230',['Gewicht',['../struct_person.html#a35d26b1c5abc0fd60d2c6ce94e1fcce9',1,'Person']]],
-  ['graphicsfamily_231',['graphicsFamily',['../struct_s_queue_family_indices.html#a3adab52bccd08b330bca19633e1c42b1',1,'SQueueFamilyIndices']]],
-  ['graphicsqueue_232',['graphicsQueue',['../struct_s_vulkan.html#a2ea9fbe5ebd6f73403a298c983205a3b',1,'SVulkan']]]
+  ['graphicsfamily_231',['graphicsFamily',['../struct_invision_1_1_s_queue_family_indices.html#a136ebef25450b0af1e533d04a039829c',1,'Invision::SQueueFamilyIndices::graphicsFamily()'],['../struct_s_queue_family_indices.html#a3adab52bccd08b330bca19633e1c42b1',1,'SQueueFamilyIndices::graphicsFamily()']]],
+  ['graphicsqueue_232',['graphicsQueue',['../struct_invision_1_1_s_vulkan.html#a127cf280fac81eda9bd6cce060546d4c',1,'Invision::SVulkan']]]
 ];

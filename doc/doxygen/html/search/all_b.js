@@ -18,7 +18,7 @@ var searchData=
   ['matrix_2ecpp_328',['Matrix.cpp',['../_matrix_8cpp.html',1,'']]],
   ['matrix_2eh_329',['Matrix.h',['../_matrix_8h.html',1,'']]],
   ['matrixunittest_2ecpp_330',['MatrixUnitTest.cpp',['../_matrix_unit_test_8cpp.html',1,'']]],
-  ['max_5fframes_5fin_5fflight_331',['MAX_FRAMES_IN_FLIGHT',['../_vulkan_renderer_8h.html#a7302e21aaabe341f71d799a7dd3f274f',1,'VulkanRenderer.h']]],
+  ['max_5fframes_5fin_5fflight_331',['MAX_FRAMES_IN_FLIGHT',['../namespace_invision.html#a498ad7cc7e5002a19f1ba4a007094d60',1,'Invision']]],
   ['max_5fsz_332',['MAX_SZ',['../_in_base_string_8h.html#a083914d2e7b7fe28b17b428efce415af',1,'InBaseString.h']]],
   ['mca_333',['MCA',['../struct_invision_1_1_c_p_u_i_n_f_o_r_m_a_t_i_o_n.html#a766ed8b314f40079b18809537627de2a',1,'Invision::CPUINFORMATION']]],
   ['mce_334',['MCE',['../struct_invision_1_1_c_p_u_i_n_f_o_r_m_a_t_i_o_n.html#ad01e5a7f38d310377f5d440e689d2ba6',1,'Invision::CPUINFORMATION']]],

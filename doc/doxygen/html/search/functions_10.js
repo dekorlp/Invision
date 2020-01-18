@@ -24,5 +24,5 @@ var searchData=
   ['subseconds_1079',['subSeconds',['../class_invision_1_1_date_time.html#a872fbdb5d39d86fc4ad704fe3778f292',1,'Invision::DateTime']]],
   ['substring_1080',['substring',['../class_invision_1_1_in_base_string.html#ad0dc3ac9fa9c74d2ddd56e965d482782',1,'Invision::InBaseString::substring()'],['../class_invision_1_1_in_string_a.html#aa4a88071999b410da89424fcfa9cef93',1,'Invision::InStringA::substring()'],['../class_invision_1_1_in_string_w.html#a2bd4776914d2c0a874cb64d76124b554',1,'Invision::InStringW::substring()']]],
   ['subyears_1081',['subYears',['../class_invision_1_1_date_time.html#a0c0bfac19c5acdce0410426963599d4f',1,'Invision::DateTime']]],
-  ['svulkan_1082',['SVulkan',['../struct_s_vulkan.html#a52592ea95d89df80b9345eb619e45469',1,'SVulkan']]]
+  ['svulkan_1082',['SVulkan',['../struct_invision_1_1_s_vulkan.html#ad9563d24a0a6b1822a7f5567c209ea2b',1,'Invision::SVulkan']]]
 ];

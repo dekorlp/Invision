@@ -11,7 +11,7 @@ var searchData=
   ['m_5fswapchainimageformat_1210',['m_swapchainImageFormat',['../struct_s_vulkan_swapchain.html#aa7b0d90a71b5bb37de9960e3934e2441',1,'SVulkanSwapchain']]],
   ['m_5fswapchainimages_1211',['m_swapchainImages',['../struct_s_vulkan_swapchain.html#a7ba2b49330489df1620676b17b7b88b8',1,'SVulkanSwapchain']]],
   ['m_5fswapchainimageviews_1212',['m_swapchainImageViews',['../struct_s_vulkan_swapchain.html#a4c447f0390b3c730bef3278cc5ae050e',1,'SVulkanSwapchain']]],
-  ['max_5fframes_5fin_5fflight_1213',['MAX_FRAMES_IN_FLIGHT',['../_vulkan_renderer_8h.html#a7302e21aaabe341f71d799a7dd3f274f',1,'VulkanRenderer.h']]],
+  ['max_5fframes_5fin_5fflight_1213',['MAX_FRAMES_IN_FLIGHT',['../namespace_invision.html#a498ad7cc7e5002a19f1ba4a007094d60',1,'Invision']]],
   ['mca_1214',['MCA',['../struct_invision_1_1_c_p_u_i_n_f_o_r_m_a_t_i_o_n.html#a766ed8b314f40079b18809537627de2a',1,'Invision::CPUINFORMATION']]],
   ['mce_1215',['MCE',['../struct_invision_1_1_c_p_u_i_n_f_o_r_m_a_t_i_o_n.html#ad01e5a7f38d310377f5d440e689d2ba6',1,'Invision::CPUINFORMATION']]],
   ['mcolorreference_1216',['mColorReference',['../struct_invision_1_1_sub_pass.html#a3f08257ab7813ee248c64220a65584a0',1,'Invision::SubPass']]],

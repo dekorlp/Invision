@@ -73,32 +73,30 @@ $(function() {
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define VULKANEXCEPTION_H</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;vulkan\vulkan.h&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="exception_8h.html">common\exception.h</a>&quot;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespace_invision.html">Invision</a></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;{</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="class_invision_1_1_vulkan_exception.html">   10</a></span>&#160;    <span class="keyword">class </span><a class="code" href="class_invision_1_1_vulkan_exception.html">VulkanException</a> : <span class="keyword">public</span> <a class="code" href="class_invision_1_1_invision_base_exception.html">Invision::InvisionBaseException</a></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <a class="code" href="precompiled_8h.html#a878730690a529b13aaedb5d8f27b7277">INVISION_API</a> <a class="code" href="class_invision_1_1_vulkan_exception.html#a12a0fe01d50e55c3822d6399d32b1402">VulkanException</a>(<span class="keyword">const</span> VkResult status, <span class="keyword">const</span> std::string&amp; msg);</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <a class="code" href="precompiled_8h.html#a878730690a529b13aaedb5d8f27b7277">INVISION_API</a> <a class="code" href="class_invision_1_1_vulkan_exception.html#a12a0fe01d50e55c3822d6399d32b1402">VulkanException</a>(<span class="keyword">const</span> std::string&amp; msg);</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <a class="code" href="precompiled_8h.html#a878730690a529b13aaedb5d8f27b7277">INVISION_API</a> <span class="keyword">virtual</span> <a class="code" href="class_invision_1_1_vulkan_exception.html#aba628e69da3f1076200fa9edce6095b5">~VulkanException</a>();</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <a class="code" href="precompiled_8h.html#a878730690a529b13aaedb5d8f27b7277">INVISION_API</a> <span class="keyword">const</span> std::string <a class="code" href="class_invision_1_1_vulkan_exception.html#a1ac83882fdb639810492e10e2f868c49">GetStatus</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keyword">const</span> VkResult m_status;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">static</span> std::map&lt;VkResult, std::string&gt; m_statuses;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    };</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;}</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespace_invision.html">Invision</a></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="class_invision_1_1_vulkan_exception.html">    9</a></span>&#160;    <span class="keyword">class </span><a class="code" href="class_invision_1_1_vulkan_exception.html">VulkanException</a> : <span class="keyword">public</span> <a class="code" href="class_invision_1_1_invision_base_exception.html">Invision::InvisionBaseException</a></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <a class="code" href="precompiled_8h.html#a878730690a529b13aaedb5d8f27b7277">INVISION_API</a> <a class="code" href="class_invision_1_1_vulkan_exception.html#a12a0fe01d50e55c3822d6399d32b1402">VulkanException</a>(<span class="keyword">const</span> VkResult status, <span class="keyword">const</span> std::string&amp; msg);</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <a class="code" href="precompiled_8h.html#a878730690a529b13aaedb5d8f27b7277">INVISION_API</a> <a class="code" href="class_invision_1_1_vulkan_exception.html#a12a0fe01d50e55c3822d6399d32b1402">VulkanException</a>(<span class="keyword">const</span> std::string&amp; msg);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <a class="code" href="precompiled_8h.html#a878730690a529b13aaedb5d8f27b7277">INVISION_API</a> <span class="keyword">virtual</span> <a class="code" href="class_invision_1_1_vulkan_exception.html#aba628e69da3f1076200fa9edce6095b5">~VulkanException</a>();</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <a class="code" href="precompiled_8h.html#a878730690a529b13aaedb5d8f27b7277">INVISION_API</a> <span class="keyword">const</span> std::string <a class="code" href="class_invision_1_1_vulkan_exception.html#a1ac83882fdb639810492e10e2f868c49">GetStatus</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keyword">const</span> VkResult m_status;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keyword">static</span> std::map&lt;VkResult, std::string&gt; m_statuses;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    };</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;}</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclass_invision_1_1_vulkan_exception_html_a1ac83882fdb639810492e10e2f868c49"><div class="ttname"><a href="class_invision_1_1_vulkan_exception.html#a1ac83882fdb639810492e10e2f868c49">Invision::VulkanException::GetStatus</a></div><div class="ttdeci">const INVISION_API std::string GetStatus() const</div><div class="ttdef"><b>Definition:</b> VulkanException.cpp:48</div></div>
 <div class="ttc" id="anamespace_invision_html"><div class="ttname"><a href="namespace_invision.html">Invision</a></div><div class="ttdef"><b>Definition:</b> DateTime.cpp:5</div></div>
 <div class="ttc" id="aclass_invision_1_1_vulkan_exception_html_a12a0fe01d50e55c3822d6399d32b1402"><div class="ttname"><a href="class_invision_1_1_vulkan_exception.html#a12a0fe01d50e55c3822d6399d32b1402">Invision::VulkanException::VulkanException</a></div><div class="ttdeci">INVISION_API VulkanException(const VkResult status, const std::string &amp;msg)</div><div class="ttdef"><b>Definition:</b> VulkanException.cpp:10</div></div>
-<div class="ttc" id="aexception_8h_html"><div class="ttname"><a href="exception_8h.html">exception.h</a></div></div>
-<div class="ttc" id="aclass_invision_1_1_vulkan_exception_html"><div class="ttname"><a href="class_invision_1_1_vulkan_exception.html">Invision::VulkanException</a></div><div class="ttdef"><b>Definition:</b> VulkanException.h:10</div></div>
+<div class="ttc" id="aclass_invision_1_1_vulkan_exception_html"><div class="ttname"><a href="class_invision_1_1_vulkan_exception.html">Invision::VulkanException</a></div><div class="ttdef"><b>Definition:</b> VulkanException.h:9</div></div>
 <div class="ttc" id="aclass_invision_1_1_invision_base_exception_html"><div class="ttname"><a href="class_invision_1_1_invision_base_exception.html">Invision::InvisionBaseException</a></div><div class="ttdef"><b>Definition:</b> exception.h:21</div></div>
 <div class="ttc" id="aprecompiled_8h_html_a878730690a529b13aaedb5d8f27b7277"><div class="ttname"><a href="precompiled_8h.html#a878730690a529b13aaedb5d8f27b7277">INVISION_API</a></div><div class="ttdeci">#define INVISION_API</div><div class="ttdef"><b>Definition:</b> precompiled.h:5</div></div>
 <div class="ttc" id="aclass_invision_1_1_vulkan_exception_html_aba628e69da3f1076200fa9edce6095b5"><div class="ttname"><a href="class_invision_1_1_vulkan_exception.html#aba628e69da3f1076200fa9edce6095b5">Invision::VulkanException::~VulkanException</a></div><div class="ttdeci">virtual INVISION_API ~VulkanException()</div><div class="ttdef"><b>Definition:</b> VulkanException.cpp:44</div></div>

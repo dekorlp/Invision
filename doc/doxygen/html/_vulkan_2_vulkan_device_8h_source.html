@@ -73,54 +73,50 @@ $(function() {
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define VULKAN_DEVICE_H</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;vulkan\vulkan.h&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_vulkan_2_vulkan_8h.html">Vulkan.h</a>&quot;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_vulkan_2_vulkan_exception_8h.html">VulkanException.h</a>&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespace_invision.html">Invision</a></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;{</div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="namespace_invision.html#a13671791cceafb8947992745d85df9b4">   10</a></span>&#160;    <span class="keyword">const</span> std::vector&lt;const char*&gt; <a class="code" href="namespace_invision.html#a13671791cceafb8947992745d85df9b4">deviceExtensions</a> = {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        VK_KHR_SWAPCHAIN_EXTENSION_NAME</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    };</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="precompiled_8h.html#a878730690a529b13aaedb5d8f27b7277">INVISION_API</a> <span class="keywordtype">void</span> <a class="code" href="namespace_invision.html#adf574dabe1731e0da138e21eb321d90a">CreateVulkanDevice</a>(<a class="code" href="struct_s_vulkan.html">SVulkan</a> &amp;vulkanInstance);</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <a class="code" href="precompiled_8h.html#a878730690a529b13aaedb5d8f27b7277">INVISION_API</a> <span class="keywordtype">void</span> <a class="code" href="namespace_invision.html#a0f30ab9ed939282855e6d44621497907">DestroyVulkanDevice</a>(<a class="code" href="struct_s_vulkan.html">SVulkan</a> &amp;vulkanInstance);</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="class_invision_1_1_vulkan_device.html">   17</a></span>&#160;    <span class="keyword">class </span><a class="code" href="precompiled_8h.html#a878730690a529b13aaedb5d8f27b7277">INVISION_API</a> <a class="code" href="class_invision_1_1_vulkan_device.html">VulkanDevice</a></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <a class="code" href="class_invision_1_1_vulkan_device.html">VulkanDevice</a>();</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keywordtype">void</span> GetDevices(<a class="code" href="struct_s_vulkan.html">SVulkan</a> &amp;vulkanInstance);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keywordtype">void</span> PickPhysicalDevice(<a class="code" href="struct_s_vulkan.html">SVulkan</a> &amp;vulkanInstance);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordtype">void</span> CreateLogicalDevice(<a class="code" href="struct_s_vulkan.html">SVulkan</a>&amp; logicalDevice);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordtype">bool</span> IsDeviceSuitable(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface);</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespace_invision.html">Invision</a></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="namespace_invision.html#a13671791cceafb8947992745d85df9b4">    8</a></span>&#160;    <span class="keyword">const</span> std::vector&lt;const char*&gt; <a class="code" href="namespace_invision.html#a13671791cceafb8947992745d85df9b4">deviceExtensions</a> = {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        VK_KHR_SWAPCHAIN_EXTENSION_NAME</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    };</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <a class="code" href="precompiled_8h.html#a878730690a529b13aaedb5d8f27b7277">INVISION_API</a> <span class="keywordtype">void</span> <a class="code" href="namespace_invision.html#adf574dabe1731e0da138e21eb321d90a">CreateVulkanDevice</a>(SVulkan &amp;vulkanInstance);</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <a class="code" href="precompiled_8h.html#a878730690a529b13aaedb5d8f27b7277">INVISION_API</a> <span class="keywordtype">void</span> <a class="code" href="namespace_invision.html#a0f30ab9ed939282855e6d44621497907">DestroyVulkanDevice</a>(SVulkan &amp;vulkanInstance);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="class_invision_1_1_vulkan_device.html">   15</a></span>&#160;    <span class="keyword">class </span><a class="code" href="precompiled_8h.html#a878730690a529b13aaedb5d8f27b7277">INVISION_API</a> <a class="code" href="class_invision_1_1_vulkan_device.html">VulkanDevice</a></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <a class="code" href="class_invision_1_1_vulkan_device.html">VulkanDevice</a>();</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keywordtype">void</span> GetDevices(<a class="code" href="struct_invision_1_1_s_vulkan.html">SVulkan</a> &amp;vulkanInstance);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keywordtype">void</span> PickPhysicalDevice(<a class="code" href="struct_invision_1_1_s_vulkan.html">SVulkan</a> &amp;vulkanInstance);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keywordtype">void</span> CreateLogicalDevice(<a class="code" href="struct_invision_1_1_s_vulkan.html">SVulkan</a>&amp; logicalDevice);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordtype">bool</span> IsDeviceSuitable(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordtype">bool</span> CheckDeviceExtensionSupport(<span class="keyword">const</span> VkPhysicalDevice&amp; device) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordtype">bool</span> CheckDeviceExtensionSupport(<span class="keyword">const</span> VkPhysicalDevice&amp; device) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        VkDeviceQueueCreateInfo CreateDeviceQueueCreateInfo(<span class="keywordtype">int</span> queueFamily) <span class="keyword">const</span> noexcept;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        std::vector&lt;VkDeviceQueueCreateInfo&gt; CreateQueueCreateInfos(</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            <span class="keyword">const</span> std::set&lt;int&gt;&amp; uniqueQueueFamilies) <span class="keyword">const</span> noexcept;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        VkDeviceCreateInfo VulkanDevice::CreateDeviceCreateInfo(<a class="code" href="struct_s_vulkan.html">SVulkan</a> &amp;vulkanInstance,</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            <span class="keyword">const</span> std::vector&lt;VkDeviceQueueCreateInfo&gt;&amp; queueCreateInfos,</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            <span class="keyword">const</span> VkPhysicalDeviceFeatures&amp; deviceFeatures) <span class="keyword">const</span> noexcept;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    };</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        VkDeviceQueueCreateInfo CreateDeviceQueueCreateInfo(<span class="keywordtype">int</span> queueFamily) <span class="keyword">const</span> noexcept;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        std::vector&lt;VkDeviceQueueCreateInfo&gt; CreateQueueCreateInfos(</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            <span class="keyword">const</span> std::set&lt;int&gt;&amp; uniqueQueueFamilies) <span class="keyword">const</span> noexcept;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        VkDeviceCreateInfo VulkanDevice::CreateDeviceCreateInfo(<a class="code" href="struct_invision_1_1_s_vulkan.html">SVulkan</a> &amp;vulkanInstance,</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            <span class="keyword">const</span> std::vector&lt;VkDeviceQueueCreateInfo&gt;&amp; queueCreateInfos,</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            <span class="keyword">const</span> VkPhysicalDeviceFeatures&amp; deviceFeatures) <span class="keyword">const</span> noexcept;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    };</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment">//#define CreateDevice(x) VulkanDevice().GetDevices(x)</span></div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment">//#define CreateDevice(x) VulkanDevice().GetDevices(x)</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#endif //VULKAN_DEVICE_H</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#endif //VULKAN_DEVICE_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aclass_invision_1_1_vulkan_device_html"><div class="ttname"><a href="class_invision_1_1_vulkan_device.html">Invision::VulkanDevice</a></div><div class="ttdef"><b>Definition:</b> VulkanDevice.h:17</div></div>
-<div class="ttc" id="astruct_s_vulkan_html"><div class="ttname"><a href="struct_s_vulkan.html">SVulkan</a></div><div class="ttdef"><b>Definition:</b> Vulkan.h:6</div></div>
-<div class="ttc" id="anamespace_invision_html_a0f30ab9ed939282855e6d44621497907"><div class="ttname"><a href="namespace_invision.html#a0f30ab9ed939282855e6d44621497907">Invision::DestroyVulkanDevice</a></div><div class="ttdeci">void DestroyVulkanDevice(SVulkan &amp;vulkanInstance)</div><div class="ttdef"><b>Definition:</b> VulkanDevice.cpp:13</div></div>
+<div class="ttc" id="aclass_invision_1_1_vulkan_device_html"><div class="ttname"><a href="class_invision_1_1_vulkan_device.html">Invision::VulkanDevice</a></div><div class="ttdef"><b>Definition:</b> VulkanDevice.h:15</div></div>
+<div class="ttc" id="anamespace_invision_html_a0f30ab9ed939282855e6d44621497907"><div class="ttname"><a href="namespace_invision.html#a0f30ab9ed939282855e6d44621497907">Invision::DestroyVulkanDevice</a></div><div class="ttdeci">void DestroyVulkanDevice(SVulkan &amp;vulkanInstance)</div><div class="ttdef"><b>Definition:</b> VulkanDevice.cpp:16</div></div>
 <div class="ttc" id="anamespace_invision_html"><div class="ttname"><a href="namespace_invision.html">Invision</a></div><div class="ttdef"><b>Definition:</b> DateTime.cpp:5</div></div>
-<div class="ttc" id="a_vulkan_2_vulkan_8h_html"><div class="ttname"><a href="_vulkan_2_vulkan_8h.html">Vulkan.h</a></div></div>
-<div class="ttc" id="anamespace_invision_html_adf574dabe1731e0da138e21eb321d90a"><div class="ttname"><a href="namespace_invision.html#adf574dabe1731e0da138e21eb321d90a">Invision::CreateVulkanDevice</a></div><div class="ttdeci">void CreateVulkanDevice(SVulkan &amp;vulkanInstance)</div><div class="ttdef"><b>Definition:</b> VulkanDevice.cpp:8</div></div>
-<div class="ttc" id="a_vulkan_2_vulkan_exception_8h_html"><div class="ttname"><a href="_vulkan_2_vulkan_exception_8h.html">VulkanException.h</a></div></div>
-<div class="ttc" id="anamespace_invision_html_a13671791cceafb8947992745d85df9b4"><div class="ttname"><a href="namespace_invision.html#a13671791cceafb8947992745d85df9b4">Invision::deviceExtensions</a></div><div class="ttdeci">const std::vector&lt; const char * &gt; deviceExtensions</div><div class="ttdef"><b>Definition:</b> VulkanDevice.h:10</div></div>
+<div class="ttc" id="anamespace_invision_html_adf574dabe1731e0da138e21eb321d90a"><div class="ttname"><a href="namespace_invision.html#adf574dabe1731e0da138e21eb321d90a">Invision::CreateVulkanDevice</a></div><div class="ttdeci">void CreateVulkanDevice(SVulkan &amp;vulkanInstance)</div><div class="ttdef"><b>Definition:</b> VulkanDevice.cpp:11</div></div>
+<div class="ttc" id="astruct_invision_1_1_s_vulkan_html"><div class="ttname"><a href="struct_invision_1_1_s_vulkan.html">Invision::SVulkan</a></div><div class="ttdef"><b>Definition:</b> Vulkan.h:9</div></div>
+<div class="ttc" id="anamespace_invision_html_a13671791cceafb8947992745d85df9b4"><div class="ttname"><a href="namespace_invision.html#a13671791cceafb8947992745d85df9b4">Invision::deviceExtensions</a></div><div class="ttdeci">const std::vector&lt; const char * &gt; deviceExtensions</div><div class="ttdef"><b>Definition:</b> VulkanDevice.h:8</div></div>
 <div class="ttc" id="aprecompiled_8h_html_a878730690a529b13aaedb5d8f27b7277"><div class="ttname"><a href="precompiled_8h.html#a878730690a529b13aaedb5d8f27b7277">INVISION_API</a></div><div class="ttdeci">#define INVISION_API</div><div class="ttdef"><b>Definition:</b> precompiled.h:5</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

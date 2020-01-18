@@ -12,7 +12,7 @@ var searchData=
   ['log_2ecpp_307',['Log.cpp',['../_log_8cpp.html',1,'']]],
   ['log_2eh_308',['Log.h',['../_log_8h.html',1,'']]],
   ['log_5fps_309',['log_ps',['../sse__mathfun_8h.html#a105f22fc857992c01c2822fea48a9d3b',1,'sse_mathfun.h']]],
-  ['logicaldevice_310',['logicalDevice',['../struct_s_vulkan.html#abe7377259b36717f5ca3dd750137f55c',1,'SVulkan']]],
+  ['logicaldevice_310',['logicalDevice',['../struct_invision_1_1_s_vulkan.html#a2bffb6ff597465f2d7adab1e4e65dc68',1,'Invision::SVulkan']]],
   ['lowlevel_2ecpp_311',['lowlevel.cpp',['../lowlevel_8cpp.html',1,'']]],
   ['lowlevel_2eh_312',['lowlevel.h',['../lowlevel_8h.html',1,'']]]
 ];
