@@ -44,6 +44,7 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	vertexBuffer.CreateVertexInputDescription(0, sizeof(Vertex), VK_VERTEX_INPUT_RATE_VERTEX)
 		.CreateAttributeDescription(0, VK_FORMAT_R32G32_SFLOAT, offsetof(Vertex, position))
 		.CreateAttributeDescription(1, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color));
+	indexBuffer.CreateIndexBuffer(vulkInstance, commandPool, sizeof(indices[0]) * indices.size(), VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_SHARING_MODE_EXCLUSIVE, indices.data(), 0);
 
 	pipeline.AddShader(vertShader);
 	pipeline.AddShader(fragShader);
@@ -84,7 +85,9 @@ void VulkanCanvas::BuildCommandBuffer(float width, float height)
 		BeginRenderPass(vulkInstance, renderPass, framebuffer).
 		BindPipeline(pipeline, VK_PIPELINE_BIND_POINT_GRAPHICS).
 		BindVertexBuffer({vertexBuffer}, 0, 1).
-		Draw(static_cast<uint32_t>(vertices.size()), 1, 0, 0).
+		BindIndexBuffer(indexBuffer, VK_INDEX_TYPE_UINT16).
+		//Draw(static_cast<uint32_t>(vertices.size()), 1, 0, 0).
+		DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0).
 		EndRenderPass().
 		EndCommandBuffer();
 
@@ -126,6 +129,7 @@ VulkanCanvas::~VulkanCanvas() noexcept
 	framebuffer.DestroyFramebuffer(vulkInstance);
 	pipeline.DestroyPipeline(vulkInstance);
 	vertexBuffer.DestroyVertexBuffer(vulkInstance);
+	indexBuffer.DestroyIndexBuffer(vulkInstance);
 	commandPool.DestroyCommandPool(vulkInstance);
 	Invision::DestroyPipelineCache(vulkInstance, mCache);
 	renderPass.DestroyRenderPass(vulkInstance);

@@ -23,6 +23,7 @@
 #include "renderer\Vulkan\VulkanCommandBuffer.h"
 #include "renderer\Vulkan\VulkanRenderer.h"
 #include "renderer\Vulkan\VulkanVertexBuffer.h"
+#include "renderer\Vulkan\VulkanIndexBuffer.h"
 #include "math\Vector2.h"
 #include "math\Vector3.h"
 
@@ -43,9 +44,14 @@ struct Vertex {
 };
 
 const std::vector<Vertex> vertices = {
-	{ { 0.0f, -0.5f },{ 1.0f, 1.0f, 1.0f } },
-	{ { 0.5f, 0.5f },{ 0.0f, 1.0f, 0.0f } },
-	{ { -0.5f, 0.5f },{ 0.0f, 0.0f, 1.0f } }
+	{ { -0.5f, -0.5f },{ 1.0f, 0.0f, 0.0f } },
+	{ { 0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f } },
+	{ { 0.5f, 0.5f },{ 0.0f, 0.0f, 1.0f } },
+	{ { -0.5f, 0.5f },{ 1.0f, 1.0f, 1.0f } }
+};
+
+const std::vector<uint16_t> indices = {
+	0, 1, 2, 2, 3, 0
 };
 
 class VulkanCanvas : public wxWindow
@@ -81,6 +87,7 @@ private:
 	Invision::VulkanRenderer renderer;
 
 	Invision::VulkanVertexBuffer vertexBuffer;
+	Invision::VulkanIndexBuffer indexBuffer;
 	VkPipelineCache mCache;
 	Invision::SVulkan vulkInstance;
 	wxTimer m_timer;

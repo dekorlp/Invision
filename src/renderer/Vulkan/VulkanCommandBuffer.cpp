@@ -6,6 +6,7 @@
 #include "VulkanPipeline.h"
 #include "VulkanRenderPass.h"
 #include "VulkanVertexBuffer.h"
+#include "VulkanIndexBuffer.h"
 #include "VulkanCommandPool.h"
 #include "VulkanCommandBuffer.h"
 
@@ -176,6 +177,24 @@ namespace Invision
 		return *this;
 	}
 
+	VulkanCommandBuffer& VulkanCommandBuffer::BindIndexBuffer(VulkanIndexBuffer indexBuffer, VkIndexType indexType)
+	{
+		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
+		{
+			for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+			{
+				vkCmdBindIndexBuffer(mCommandBuffers[i], indexBuffer.GetBuffer(), indexBuffer.GetOffset(), indexType);
+			}
+		}
+		else
+		{
+			throw VulkanException("Bind Index Buffer cannot be executed!");
+		}
+
+		return *this;
+	}
+
+
 	VulkanCommandBuffer& VulkanCommandBuffer::Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance)
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording && mIsRenderPassStarted)
@@ -188,6 +207,23 @@ namespace Invision
 		else
 		{
 			throw VulkanException("Draw Command cannot be executed!");
+		}
+
+		return *this;
+	}
+
+	VulkanCommandBuffer& VulkanCommandBuffer::DrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, uint32_t vertexOffset, uint32_t firstInstance)
+	{
+		if (mCommandBufferIsInitialized && mIsCommandBufferRecording && mIsRenderPassStarted)
+		{
+			for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+			{
+				vkCmdDrawIndexed(mCommandBuffers[i], indexCount, instanceCount, firstIndex, vertexOffset, firstInstance);
+			}
+		}
+		else
+		{
+			throw VulkanException("Draw Indexed Command cannot be executed!");
 		}
 
 		return *this;
