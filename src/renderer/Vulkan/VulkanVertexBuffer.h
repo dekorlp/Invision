@@ -2,6 +2,7 @@
 #define VULKAN_VERTEX_BUFFER_H
 
 #include "vulkan\vulkan.h"
+#include "VulkanBuffer.h"
 
 namespace Invision
 {
@@ -10,7 +11,7 @@ namespace Invision
 	{
 	public:
 		INVISION_API VulkanVertexBuffer();
-		INVISION_API VulkanVertexBuffer& CreateVertexBuffer(const SVulkan &vulkanInstance, VkDeviceSize size, VkBufferUsageFlagBits usage, VkSharingMode sharingMode, const void* source, VkDeviceSize offset);
+		INVISION_API VulkanVertexBuffer& CreateVertexBuffer(const SVulkan &vulkanInstance, VulkanCommandPool commandPool, VkDeviceSize size, VkBufferUsageFlagBits usage, VkSharingMode sharingMode, const void* source, VkDeviceSize offset);
 		INVISION_API VulkanVertexBuffer& CreateVertexInputDescription(uint32_t binding, uint32_t stride, VkVertexInputRate inputRate);
 		INVISION_API VulkanVertexBuffer& VulkanVertexBuffer::CreateAttributeDescription(uint32_t location, VkFormat format, uint32_t offset);
 		INVISION_API std::vector<VkVertexInputAttributeDescription> GetAttributeDescriptions();
@@ -24,8 +25,10 @@ namespace Invision
 	private:
 		// Vertex Buffer Creation (Memory)
 		VkDeviceSize mOffset;
-		VkBuffer mVertexBuffer;
-		VkDeviceMemory mVertexBufferMemory;
+		//VkBuffer mVertexBuffer;
+		//VkDeviceMemory mVertexBufferMemory;
+
+		VulkanBuffer mVertexBuffer;
 
 		// Vertex Shader Binding Description 
 		unsigned int mBinding;

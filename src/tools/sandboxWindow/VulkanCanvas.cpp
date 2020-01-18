@@ -38,7 +38,9 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	Invision::VulkanShader vertShader(vulkInstance, vertShaderCode, VK_SHADER_STAGE_VERTEX_BIT);
 	Invision::VulkanShader fragShader(vulkInstance, fragShaderCode, VK_SHADER_STAGE_FRAGMENT_BIT);
 
-	vertexBuffer.CreateVertexBuffer(vulkInstance, sizeof(vertices[0]) * vertices.size(), VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_SHARING_MODE_EXCLUSIVE, vertices.data(), 0);
+
+	commandPool.CreateCommandPool(vulkInstance);
+	vertexBuffer.CreateVertexBuffer(vulkInstance, commandPool, sizeof(vertices[0]) * vertices.size(), VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_SHARING_MODE_EXCLUSIVE, vertices.data(), 0);
 	vertexBuffer.CreateVertexInputDescription(0, sizeof(Vertex), VK_VERTEX_INPUT_RATE_VERTEX)
 		.CreateAttributeDescription(0, VK_FORMAT_R32G32_SFLOAT, offsetof(Vertex, position))
 		.CreateAttributeDescription(1, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color));
@@ -51,7 +53,7 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	fragShader.Destroy(vulkInstance);
 
 	framebuffer.CreateFramebuffer(vulkInstance, renderPass);
-	commandPool.CreateCommandPool(vulkInstance);
+	
 	//commandBuffer.CreateCommandBuffers(vulkInstance, commandPool, framebuffer, pipeline, renderPass);
 	BuildCommandBuffer(size.GetWidth(), size.GetHeight());
 	//commandBuffer.CreateSyncObjects(vulkInstance);
@@ -120,10 +122,11 @@ VulkanCanvas::~VulkanCanvas() noexcept
 
 	//commandBuffer.DestroySemaphores(vulkInstance);
 	renderer.DestroySemaphores(vulkInstance);
-	commandPool.DestroyCommandPool(vulkInstance);
+
 	framebuffer.DestroyFramebuffer(vulkInstance);
 	pipeline.DestroyPipeline(vulkInstance);
 	vertexBuffer.DestroyVertexBuffer(vulkInstance);
+	commandPool.DestroyCommandPool(vulkInstance);
 	Invision::DestroyPipelineCache(vulkInstance, mCache);
 	renderPass.DestroyRenderPass(vulkInstance);
 	Invision::DestroyPresentationSystem(vulkInstance);
@@ -179,12 +182,13 @@ void VulkanCanvas::RecreateSwapChain(const int width, const int height)
 	Invision::DestroyPresentationSystem(vulkInstance);
 
 	//Recreate
+	commandPool.CreateCommandPool(vulkInstance);
 	Invision::CreatePresentationSystem(vulkInstance, width, height);
 	renderPass.AddAttachment(vulkInstance);
 	renderPass.AddSubpass();
 	renderPass.CreateRenderPass(vulkInstance);
 	framebuffer.CreateFramebuffer(vulkInstance, renderPass);
-	commandPool.CreateCommandPool(vulkInstance);
+	
 	//commandBuffer.CreateCommandBuffers(vulkInstance, commandPool, framebuffer, pipeline, renderPass);
 	BuildCommandBuffer(width, height);
 	//commandBuffer.CreateSyncObjects(vulkInstance);
