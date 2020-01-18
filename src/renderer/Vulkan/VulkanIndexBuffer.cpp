@@ -11,12 +11,12 @@ namespace Invision
 	{
 	}
 
-	VulkanIndexBuffer& VulkanIndexBuffer::CreateIndexBuffer(const SVulkan &vulkanInstance, VulkanCommandPool commandPool, VkDeviceSize size, VkBufferUsageFlagBits usage, VkSharingMode sharingMode, const void* source, VkDeviceSize offset)
+	VulkanIndexBuffer& VulkanIndexBuffer::CreateIndexBuffer(const SVulkan &vulkanInstance, VulkanCommandPool commandPool, VkDeviceSize size,  const void* source, VkDeviceSize offset)
 	{
 		mOffset = offset;
 
 		VulkanBuffer stagingBuffer;
-		stagingBuffer.CreateBuffer(vulkanInstance, size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, sharingMode);
+		stagingBuffer.CreateBuffer(vulkanInstance, size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, VK_SHARING_MODE_EXCLUSIVE);
 
 
 		void* data;
@@ -24,7 +24,7 @@ namespace Invision
 		memcpy(data, source, (size_t)size);
 		vkUnmapMemory(vulkanInstance.logicalDevice, stagingBuffer.GetDeviceMemory());
 
-		mIndexBuffer.CreateBuffer(vulkanInstance, size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, sharingMode);
+		mIndexBuffer.CreateBuffer(vulkanInstance, size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, VK_SHARING_MODE_EXCLUSIVE);
 
 		stagingBuffer.CopyBuffer(vulkanInstance, commandPool, mIndexBuffer, 0, 0, size);
 

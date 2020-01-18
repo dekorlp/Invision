@@ -40,11 +40,11 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 
 
 	commandPool.CreateCommandPool(vulkInstance);
-	vertexBuffer.CreateVertexBuffer(vulkInstance, commandPool, sizeof(vertices[0]) * vertices.size(), VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_SHARING_MODE_EXCLUSIVE, vertices.data(), 0);
+	vertexBuffer.CreateVertexBuffer(vulkInstance, commandPool, sizeof(vertices[0]) * vertices.size(), vertices.data(), 0);
 	vertexBuffer.CreateVertexInputDescription(0, sizeof(Vertex), VK_VERTEX_INPUT_RATE_VERTEX)
 		.CreateAttributeDescription(0, VK_FORMAT_R32G32_SFLOAT, offsetof(Vertex, position))
 		.CreateAttributeDescription(1, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color));
-	indexBuffer.CreateIndexBuffer(vulkInstance, commandPool, sizeof(indices[0]) * indices.size(), VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_SHARING_MODE_EXCLUSIVE, indices.data(), 0);
+	indexBuffer.CreateIndexBuffer(vulkInstance, commandPool, sizeof(indices[0]) * indices.size(), indices.data(), 0);
 
 	pipeline.AddShader(vertShader);
 	pipeline.AddShader(fragShader);

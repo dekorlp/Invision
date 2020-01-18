@@ -10,7 +10,7 @@ namespace Invision
 	{
 	public:
 		INVISION_API VulkanIndexBuffer();
-		INVISION_API VulkanIndexBuffer& CreateIndexBuffer(const SVulkan &vulkanInstance, VulkanCommandPool commandPool, VkDeviceSize size, VkBufferUsageFlagBits usage, VkSharingMode sharingMode, const void* source, VkDeviceSize offset);
+		INVISION_API VulkanIndexBuffer& CreateIndexBuffer(const SVulkan &vulkanInstance, VulkanCommandPool commandPool, VkDeviceSize size, const void* source, VkDeviceSize offset);
 		INVISION_API VkBuffer GetBuffer();
 		INVISION_API VkDeviceSize GetOffset();
 
