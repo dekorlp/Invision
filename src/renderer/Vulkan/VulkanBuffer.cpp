@@ -7,7 +7,7 @@
 
 namespace Invision
 {
-	void VulkanBuffer::CreateBuffer(const SVulkan &vulkanInstance, VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkSharingMode sharingMode)
+	void VulkanBuffer::CreateBuffer(const SVulkan &vulkanInstance, VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkSharingMode sharingMode, VkDeviceSize memoryOffset)
 	{
 		// create Vertex Buffer
 		VkBufferCreateInfo bufferInfo = {};
@@ -27,13 +27,13 @@ namespace Invision
 		VkMemoryAllocateInfo allocInfo = {};
 		allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 		allocInfo.allocationSize = memRequirements.size;
-		allocInfo.memoryTypeIndex = Invision::findMemoryType(vulkanInstance.physicalDevice, memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+		allocInfo.memoryTypeIndex = Invision::findMemoryType(vulkanInstance.physicalDevice, memRequirements.memoryTypeBits, properties);
 
 		if (vkAllocateMemory(vulkanInstance.logicalDevice, &allocInfo, nullptr, &mBufferMemory) != VK_SUCCESS) {
 			throw std::runtime_error("failed to allocate vertex buffer memory!");
 		}
 
-		vkBindBufferMemory(vulkanInstance.logicalDevice, mBuffer, mBufferMemory, 0);
+		vkBindBufferMemory(vulkanInstance.logicalDevice, mBuffer, mBufferMemory, memoryOffset);
 	}
 
 	void VulkanBuffer::CopyBuffer(const SVulkan &vulkanInstance, VulkanCommandPool &commandPool, VulkanBuffer &dstBuffer, VkDeviceSize srcOffset, VkDeviceSize dstOffset, VkDeviceSize size)

@@ -10,7 +10,7 @@ namespace Invision
 	class VulkanBuffer
 	{
 		public:
-			void CreateBuffer(const SVulkan &vulkanInstance, VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkSharingMode sharingMode);
+			void CreateBuffer(const SVulkan &vulkanInstance, VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkSharingMode sharingMode, VkDeviceSize memoryOffset = 0);
 
 			void DestroyBuffer(const SVulkan &vulkanInstance);
 
