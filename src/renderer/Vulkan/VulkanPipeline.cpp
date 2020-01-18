@@ -53,9 +53,9 @@ namespace Invision
 	void VulkanPipeline::UpdateVertexInputConfiguration()
 	{
 		mVertexInputConfig.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-		mVertexInputConfig.vertexBindingDescriptionCount = mVertexInputBindingDescriptions.size();
+		mVertexInputConfig.vertexBindingDescriptionCount = static_cast<unsigned int>(mVertexInputBindingDescriptions.size());
 		mVertexInputConfig.pVertexBindingDescriptions = mVertexInputBindingDescriptions.data();
-		mVertexInputConfig.vertexAttributeDescriptionCount = mVertexInputAttributeDescriptions.size();
+		mVertexInputConfig.vertexAttributeDescriptionCount = static_cast<unsigned int>(mVertexInputAttributeDescriptions.size());
 		mVertexInputConfig.pVertexAttributeDescriptions = mVertexInputAttributeDescriptions.data();
 	}
 
@@ -179,7 +179,7 @@ namespace Invision
 
 		VkGraphicsPipelineCreateInfo pipelineInfo = {};
 		pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-		pipelineInfo.stageCount = mShaderStages.size();
+		pipelineInfo.stageCount = static_cast<unsigned int>(mShaderStages.size());
 		pipelineInfo.pStages = mShaderStages.data();
 		pipelineInfo.pVertexInputState = &mVertexInputConfig;
 		pipelineInfo.pInputAssemblyState = &mInputAssembly;

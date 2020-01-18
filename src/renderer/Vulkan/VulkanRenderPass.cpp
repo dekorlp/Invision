@@ -15,11 +15,11 @@ namespace Invision
 
 		VkRenderPassCreateInfo renderPassInfo = {};
 		renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
-		renderPassInfo.attachmentCount = mAttachmentDescriptions.size();
+		renderPassInfo.attachmentCount = static_cast<unsigned int>(mAttachmentDescriptions.size());
 		renderPassInfo.pAttachments = mAttachmentDescriptions.data();
-		renderPassInfo.subpassCount = mSubpasses.size();
+		renderPassInfo.subpassCount = static_cast<unsigned int>(mSubpasses.size());
 		renderPassInfo.pSubpasses = mSubpasses.data();
-		renderPassInfo.dependencyCount = mDependencies.size();
+		renderPassInfo.dependencyCount = static_cast<unsigned int>(mDependencies.size());
 		renderPassInfo.pDependencies = mDependencies.data();
 
 		if (vkCreateRenderPass(vulkanInstance.logicalDevice, &renderPassInfo, nullptr, &mRenderPass) != VK_SUCCESS) {
@@ -54,8 +54,8 @@ namespace Invision
 		VkSubpassDescription subpassDesc = {};
 		//VkSubpassDescription subpass = {};
 		subpassDesc.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
-		subpassDesc.colorAttachmentCount = mSubpassesReferences.at(mSubpassesReferences.size() - 1).mColorReference.size();
-		subpassDesc.pColorAttachments = mSubpassesReferences.at(mSubpassesReferences.size() - 1).mColorReference.data();
+		subpassDesc.colorAttachmentCount = static_cast<unsigned int>(mSubpassesReferences.at(static_cast<unsigned int>(mSubpassesReferences.size()) - 1).mColorReference.size());
+		subpassDesc.pColorAttachments = mSubpassesReferences.at(static_cast<unsigned int>(mSubpassesReferences.size()) - 1).mColorReference.data();
 		mSubpasses.push_back(subpassDesc);
 	}
 

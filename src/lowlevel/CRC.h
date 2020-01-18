@@ -27,7 +27,7 @@ namespace Invision
 			//return result.checksum();
 
 			std::hash<const char*> hash;
-			uint32 str_hash = hash(data);
+			uint32 str_hash = static_cast<unsigned int>(hash(data));
 			return str_hash;
 		}
 
@@ -38,7 +38,7 @@ namespace Invision
 			//return result.checksum();
 
 			std::hash<const wchar_t*> hash;
-			uint32 str_hash = hash(data);
+			uint32 str_hash = static_cast<unsigned int>(hash(data));
 			return str_hash;
 		}
 	};
