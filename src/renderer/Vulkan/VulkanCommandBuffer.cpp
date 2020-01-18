@@ -132,7 +132,7 @@ namespace Invision
 		return *this;
 	}
 
-	VulkanCommandBuffer& VulkanCommandBuffer::BindPipeline(VulkanPipeline pipeline, VkPipelineBindPoint bindPoint)
+	VulkanCommandBuffer& VulkanCommandBuffer::BindPipeline(VulkanPipeline &pipeline, VkPipelineBindPoint bindPoint)
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
@@ -177,7 +177,7 @@ namespace Invision
 		return *this;
 	}
 
-	VulkanCommandBuffer& VulkanCommandBuffer::BindIndexBuffer(VulkanIndexBuffer indexBuffer, VkIndexType indexType)
+	VulkanCommandBuffer& VulkanCommandBuffer::BindIndexBuffer(VulkanIndexBuffer &indexBuffer, VkIndexType indexType)
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
