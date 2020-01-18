@@ -17,6 +17,8 @@ namespace Invision
 		mCommandBufferIsInitialized = false;
 		mIsCommandBufferRecording = false;
 		mIsRenderPassStarted = false;
+		mIsIndexBufferBinded = false;
+		mIsVertexBufferBinded = false;
 	}
 
 	VulkanCommandBuffer::VulkanCommandBuffer(SVulkan &vulkanInstance, VulkanCommandPool &commandPool, unsigned int countOfBuffers)
@@ -174,6 +176,8 @@ namespace Invision
 			throw VulkanException("Bind Vertex Buffer cannot be executed!");
 		}
 
+		mIsVertexBufferBinded = true;
+
 		return *this;
 	}
 
@@ -191,13 +195,15 @@ namespace Invision
 			throw VulkanException("Bind Index Buffer cannot be executed!");
 		}
 
+		mIsIndexBufferBinded = true;
+
 		return *this;
 	}
 
 
 	VulkanCommandBuffer& VulkanCommandBuffer::Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance)
 	{
-		if (mCommandBufferIsInitialized && mIsCommandBufferRecording && mIsRenderPassStarted)
+		if (mCommandBufferIsInitialized && mIsCommandBufferRecording && mIsRenderPassStarted && mIsVertexBufferBinded)
 		{
 			for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
 			{
@@ -206,7 +212,14 @@ namespace Invision
 		}
 		else
 		{
-			throw VulkanException("Draw Command cannot be executed!");
+			if (!mIsVertexBufferBinded)
+			{
+				throw VulkanException("Draw Command cannot be executed, bind first an Vertex Buffer!");
+			}
+			else
+			{
+				throw VulkanException("Draw Command cannot be executed!");
+			}
 		}
 
 		return *this;
@@ -214,7 +227,7 @@ namespace Invision
 
 	VulkanCommandBuffer& VulkanCommandBuffer::DrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, uint32_t vertexOffset, uint32_t firstInstance)
 	{
-		if (mCommandBufferIsInitialized && mIsCommandBufferRecording && mIsRenderPassStarted)
+		if (mCommandBufferIsInitialized && mIsCommandBufferRecording && mIsRenderPassStarted && mIsIndexBufferBinded && mIsVertexBufferBinded)
 		{
 			for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
 			{
@@ -223,7 +236,18 @@ namespace Invision
 		}
 		else
 		{
-			throw VulkanException("Draw Indexed Command cannot be executed!");
+			if (!mIsIndexBufferBinded)
+			{
+				throw VulkanException("Draw Indexed Command cannot be executed, bind first an Index Buffer!");
+			}
+			else if (!mIsVertexBufferBinded)
+			{
+				throw VulkanException("Draw Indexed Command cannot be executed, bind first an Vertex Buffer!");
+			}
+			else
+			{
+				throw VulkanException("Draw Indexed Command cannot be executed!");
+			}
 		}
 
 		return *this;

@@ -17,6 +17,8 @@ namespace Invision
 		bool mCommandBufferIsInitialized;
 		bool mIsCommandBufferRecording;
 		bool mIsRenderPassStarted;
+		bool mIsIndexBufferBinded;
+		bool mIsVertexBufferBinded;
 
 	public:
 		INVISION_API VulkanCommandBuffer();
