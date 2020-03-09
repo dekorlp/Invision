@@ -39,6 +39,7 @@ namespace Invision
 
 		INVISION_API void CreateUniformSet(const SVulkan &vulkanInstance);
 		INVISION_API void DestroyUniformSet(const SVulkan &vulkanInstance);
+		INVISION_API VkDescriptorSetLayout GetDescriptorSetLayout();
 	};
 }
 

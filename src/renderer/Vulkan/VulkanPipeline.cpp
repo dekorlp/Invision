@@ -5,6 +5,7 @@
 #include "VulkanShader.h"
 #include "VulkanRenderPass.h"
 #include "VulkanVertexBuffer.h"
+#include "VulkanUniformBuffer.h"
 
 #include "VulkanPipeline.h"
 
@@ -39,6 +40,11 @@ namespace Invision
 		shaderStageInfo.pName = "main";
 
 		mShaderStages.push_back(shaderStageInfo);
+	}
+
+	void VulkanPipeline::AddUniformBuffer(VulkanUniformBuffer uniformBuffer)
+	{
+		mDescriptorSetLayout.push_back(uniformBuffer.GetDescriptorSetLayout());
 	}
 
 	void INVISION_API VulkanPipeline::AddVertexBuffer(VulkanVertexBuffer& vertexBuffer)
@@ -150,8 +156,8 @@ namespace Invision
 		mPipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 		mPipelineLayoutInfo.pNext = VK_NULL_HANDLE;
 		mPipelineLayoutInfo.flags = 0;
-		mPipelineLayoutInfo.setLayoutCount = 0; // Optional
-		mPipelineLayoutInfo.pSetLayouts = nullptr; // Optional
+		mPipelineLayoutInfo.setLayoutCount = static_cast<uint32_t>(mDescriptorSetLayout.size()); // Optional
+		mPipelineLayoutInfo.pSetLayouts = mDescriptorSetLayout.data(); // Optional
 		mPipelineLayoutInfo.pushConstantRangeCount = 0; // Optional
 		mPipelineLayoutInfo.pPushConstantRanges = nullptr; // Optional
 	}

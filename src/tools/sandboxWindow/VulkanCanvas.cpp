@@ -53,6 +53,11 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	uniformBuffer2.CreateUniformBinding(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 6, VK_SHADER_STAGE_VERTEX_BIT).CreateUniformSet(vulkInstance);
 	uniformBuffer4.CreateUniformBinding(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 6, VK_SHADER_STAGE_VERTEX_BIT).CreateUniformSet(vulkInstance);
 
+	pipeline.AddUniformBuffer(uniformBuffer0);
+	//pipeline.AddUniformBuffer(uniformBuffer1);
+	//pipeline.AddUniformBuffer(uniformBuffer2);
+	//pipeline.AddUniformBuffer(uniformBuffer4);
+
 	pipeline.AddShader(vertShader);
 	pipeline.AddShader(fragShader);
 	pipeline.AddVertexBuffer(vertexBuffer);

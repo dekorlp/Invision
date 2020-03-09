@@ -62,15 +62,6 @@ namespace Invision
 			vkDestroyDescriptorSetLayout(vulkanInstance.logicalDevice, mDescriptorSetLayout, nullptr);
 		}
 
-		/*if (mDescriptorSetLayouts.size() > 0)
-		{
-			for (unsigned int i = 0; i < mDescriptorSetLayouts.size(); i++)
-			{
-				vkDestroyDescriptorSetLayout(vulkanInstance.logicalDevice, mDescriptorSetLayouts[i], nullptr);
-			}
-			mDescriptorSetLayouts.clear();
-		}*/
-
 		std::vector<VkDescriptorSetLayoutBinding> uboLayoutBindings;
 
 		for (unsigned int j = 0; j < bindings.size(); j++)
@@ -96,7 +87,11 @@ namespace Invision
 
 	void VulkanUniformBuffer::DestroyUniformSet(const SVulkan &vulkanInstance)
 	{
-
 		vkDestroyDescriptorSetLayout(vulkanInstance.logicalDevice, mDescriptorSetLayout, nullptr);
+	}
+
+	VkDescriptorSetLayout VulkanUniformBuffer::GetDescriptorSetLayout()
+	{
+		return mDescriptorSetLayout;
 	}
 }
