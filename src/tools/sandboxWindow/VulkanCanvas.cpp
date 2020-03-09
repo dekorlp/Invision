@@ -32,8 +32,8 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 
 	mCache = Invision::CreatePipelineCache(vulkInstance);
 
-	auto vertShaderCode = readFile(std::string(ROOT).append("/src/tools/sandboxWindow/Shader/vert.spv"));
-	auto fragShaderCode	= readFile(std::string(ROOT).append("/src/tools/sandboxWindow/Shader/frag.spv"));
+	auto vertShaderCode = readFile(std::string(ROOT).append("/src/tools/sandboxWindow/Shader/DrawIndexBuffer/vert.spv"));
+	auto fragShaderCode	= readFile(std::string(ROOT).append("/src/tools/sandboxWindow/Shader/DrawIndexBuffer/frag.spv"));
 
 	Invision::VulkanShader vertShader(vulkInstance, vertShaderCode, VK_SHADER_STAGE_VERTEX_BIT);
 	Invision::VulkanShader fragShader(vulkInstance, fragShaderCode, VK_SHADER_STAGE_FRAGMENT_BIT);
@@ -55,6 +55,14 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 
 	framebuffer.CreateFramebuffer(vulkInstance, renderPass);
 	
+	uniformBuffer.CreateUniformBufferSet(0).CreateUniformBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT).
+		CreateUniformBinding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 12, VK_SHADER_STAGE_VERTEX_BIT).
+		CreateUniformBinding(4, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT);
+	uniformBuffer.CreateUniformBufferSet(1).CreateUniformBinding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 5, VK_SHADER_STAGE_VERTEX_BIT);
+	uniformBuffer.CreateUniformBufferSet(4).CreateUniformBinding(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 6, VK_SHADER_STAGE_VERTEX_BIT);
+	
+	uniformBuffer.DestroyUniformBuffer();
+
 	//commandBuffer.CreateCommandBuffers(vulkInstance, commandPool, framebuffer, pipeline, renderPass);
 	BuildCommandBuffer(size.GetWidth(), size.GetHeight());
 	//commandBuffer.CreateSyncObjects(vulkInstance);

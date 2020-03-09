@@ -24,8 +24,10 @@
 #include "renderer\Vulkan\VulkanRenderer.h"
 #include "renderer\Vulkan\VulkanVertexBuffer.h"
 #include "renderer\Vulkan\VulkanIndexBuffer.h"
+#include "renderer\Vulkan\VulkanUniformBuffer.h"
 #include "math\Vector2.h"
 #include "math\Vector3.h"
+#include "math\Matrix.h"
 
 
 
@@ -52,6 +54,12 @@ const std::vector<Vertex> vertices = {
 
 const std::vector<uint16_t> indices = {
 	0, 1, 2, 2, 3, 0
+};
+
+struct UniformBufferObject {
+	Invision::Matrix model;
+	Invision::Matrix view;
+	Invision::Matrix proj;
 };
 
 class VulkanCanvas : public wxWindow
@@ -88,6 +96,8 @@ private:
 
 	Invision::VulkanVertexBuffer vertexBuffer;
 	Invision::VulkanIndexBuffer indexBuffer;
+	Invision::VulkanUniformBuffer uniformBuffer;
+
 	VkPipelineCache mCache;
 	Invision::SVulkan vulkInstance;
 	wxTimer m_timer;
