@@ -18,6 +18,10 @@ namespace Invision
 				VkDescriptorType descriptorType,
 				uint32_t descriptorCount,
 				VkShaderStageFlags stageFlags);
+			INVISION_API uint32_t GetBinding();
+			INVISION_API VkDescriptorType GetDescriptorType();
+			INVISION_API uint32_t GetDescriptorCount();
+			INVISION_API VkShaderStageFlags GetStageFlags();
 	};
 
 	class VulkanSetLayout
@@ -32,6 +36,9 @@ namespace Invision
 				VkDescriptorType descriptorType,
 				uint32_t descriptorCount,
 				VkShaderStageFlags stageFlags);
+			INVISION_API VulkanUniformBinding& GetBinding(unsigned int index);
+			INVISION_API unsigned int GetSize();
+			INVISION_API uint32_t GetSetNumber();
 	};
 
 	// Binding Description
@@ -39,9 +46,11 @@ namespace Invision
 	{
 	private:
 		std::vector<VulkanSetLayout> UniformSets;
+		std::vector<VkDescriptorSetLayout> mDescriptorSetLayouts;
 	public:
-		INVISION_API VulkanSetLayout CreateUniformBufferSet(uint32 setNumber);
-		INVISION_API void DestroyUniformBuffer();
+		INVISION_API VulkanSetLayout CreateUniformBufferSet();
+		INVISION_API void CreateUniformBuffer(const SVulkan &vulkanInstance);
+		INVISION_API void DestroyUniformBuffer(const SVulkan &vulkanInstance);
 	};
 }
 

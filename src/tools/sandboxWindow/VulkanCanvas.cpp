@@ -46,6 +46,18 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 		.CreateAttributeDescription(1, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color));
 	indexBuffer.CreateIndexBuffer(vulkInstance, commandPool, sizeof(indices[0]) * indices.size(), indices.data(), 0);
 
+	Invision::VulkanSetLayout layout0 = uniformBuffer.CreateUniformBufferSet().CreateUniformBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT).
+		CreateUniformBinding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 12, VK_SHADER_STAGE_VERTEX_BIT).
+		CreateUniformBinding(4, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT);
+	int setNr0 = layout0.GetSetNumber();
+	Invision::VulkanSetLayout layout1 = uniformBuffer.CreateUniformBufferSet().CreateUniformBinding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 5, VK_SHADER_STAGE_VERTEX_BIT);
+	int setNr1 = layout1.GetSetNumber();
+	Invision::VulkanSetLayout layout2 = uniformBuffer.CreateUniformBufferSet().CreateUniformBinding(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 6, VK_SHADER_STAGE_VERTEX_BIT);
+	int setNr2 = layout2.GetSetNumber();
+	Invision::VulkanSetLayout layout3 = uniformBuffer.CreateUniformBufferSet().CreateUniformBinding(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 6, VK_SHADER_STAGE_VERTEX_BIT);
+	int setNr3 = layout3.GetSetNumber();
+	uniformBuffer.CreateUniformBuffer(vulkInstance);
+
 	pipeline.AddShader(vertShader);
 	pipeline.AddShader(fragShader);
 	pipeline.AddVertexBuffer(vertexBuffer);
@@ -55,13 +67,7 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 
 	framebuffer.CreateFramebuffer(vulkInstance, renderPass);
 	
-	uniformBuffer.CreateUniformBufferSet(0).CreateUniformBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT).
-		CreateUniformBinding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 12, VK_SHADER_STAGE_VERTEX_BIT).
-		CreateUniformBinding(4, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT);
-	uniformBuffer.CreateUniformBufferSet(1).CreateUniformBinding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 5, VK_SHADER_STAGE_VERTEX_BIT);
-	uniformBuffer.CreateUniformBufferSet(4).CreateUniformBinding(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 6, VK_SHADER_STAGE_VERTEX_BIT);
 	
-	uniformBuffer.DestroyUniformBuffer();
 
 	//commandBuffer.CreateCommandBuffers(vulkInstance, commandPool, framebuffer, pipeline, renderPass);
 	BuildCommandBuffer(size.GetWidth(), size.GetHeight());
@@ -136,6 +142,7 @@ VulkanCanvas::~VulkanCanvas() noexcept
 
 	framebuffer.DestroyFramebuffer(vulkInstance);
 	pipeline.DestroyPipeline(vulkInstance);
+	uniformBuffer.DestroyUniformBuffer(vulkInstance);
 	vertexBuffer.DestroyVertexBuffer(vulkInstance);
 	indexBuffer.DestroyIndexBuffer(vulkInstance);
 	commandPool.DestroyCommandPool(vulkInstance);
