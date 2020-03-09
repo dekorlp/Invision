@@ -24,33 +24,21 @@ namespace Invision
 			INVISION_API VkShaderStageFlags GetStageFlags();
 	};
 
-	class VulkanSetLayout
-	{
-		private:
-			std::vector<VulkanUniformBinding> *bindings;
-			uint32_t mSetNumber;
-		public:
-			INVISION_API VulkanSetLayout(uint32_t setNumber);
-			INVISION_API void DestroyVulkanSetLayout();
-			INVISION_API VulkanSetLayout& CreateUniformBinding(uint32_t binding,
-				VkDescriptorType descriptorType,
-				uint32_t descriptorCount,
-				VkShaderStageFlags stageFlags);
-			INVISION_API VulkanUniformBinding& GetBinding(unsigned int index);
-			INVISION_API unsigned int GetSize();
-			INVISION_API uint32_t GetSetNumber();
-	};
-
 	// Binding Description
 	class VulkanUniformBuffer
 	{
 	private:
-		std::vector<VulkanSetLayout> UniformSets;
-		std::vector<VkDescriptorSetLayout> mDescriptorSetLayouts;
+		std::vector<VulkanUniformBinding> bindings;
+		VkDescriptorSetLayout mDescriptorSetLayout;
 	public:
-		INVISION_API VulkanSetLayout CreateUniformBufferSet();
-		INVISION_API void CreateUniformBuffer(const SVulkan &vulkanInstance);
-		INVISION_API void DestroyUniformBuffer(const SVulkan &vulkanInstance);
+		INVISION_API VulkanUniformBuffer();
+		INVISION_API VulkanUniformBuffer& CreateUniformBinding(uint32_t binding,
+			VkDescriptorType descriptorType,
+			uint32_t descriptorCount,
+			VkShaderStageFlags stageFlags);
+
+		INVISION_API void CreateUniformSet(const SVulkan &vulkanInstance);
+		INVISION_API void DestroyUniformSet(const SVulkan &vulkanInstance);
 	};
 }
 
