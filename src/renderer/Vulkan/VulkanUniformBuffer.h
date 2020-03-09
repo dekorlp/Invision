@@ -17,13 +17,7 @@ namespace Invision
 			INVISION_API VulkanUniformBinding(uint32_t binding,
 				VkDescriptorType descriptorType,
 				uint32_t descriptorCount,
-				VkShaderStageFlags stageFlags)
-			{
-				this->mBinding = binding;
-				this->mDescriptorCount = descriptorCount;
-				this->mDescriptorType = descriptorType;
-				this->mStageFlags = stageFlags;
-			}
+				VkShaderStageFlags stageFlags);
 	};
 
 	class VulkanSetLayout
@@ -32,30 +26,16 @@ namespace Invision
 			std::vector<VulkanUniformBinding> *bindings;
 			uint32_t mSetNumber;
 		public:
-			INVISION_API VulkanSetLayout(uint32_t setNumber)
-			{
-				bindings = new std::vector<VulkanUniformBinding>();
-				this->mSetNumber = setNumber;
-			}
-
-			INVISION_API void DestroyVulkanSetLayout()
-			{
-				delete bindings;
-			}
-
+			INVISION_API VulkanSetLayout(uint32_t setNumber);
+			INVISION_API void DestroyVulkanSetLayout();
 			INVISION_API VulkanSetLayout& CreateUniformBinding(uint32_t binding,
-			VkDescriptorType descriptorType,
-			uint32_t descriptorCount,
-			VkShaderStageFlags stageFlags)
-			{
-				VulkanUniformBinding uniformBinding(binding, descriptorType, descriptorCount, stageFlags);
-				bindings->push_back(uniformBinding);
-				return *this;
-			}
+				VkDescriptorType descriptorType,
+				uint32_t descriptorCount,
+				VkShaderStageFlags stageFlags);
 	};
 
 	// Binding Description
-	class  VulkanUniformBuffer
+	class VulkanUniformBuffer
 	{
 	private:
 		std::vector<VulkanSetLayout> UniformSets;
