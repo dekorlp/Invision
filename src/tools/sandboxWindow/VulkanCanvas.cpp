@@ -46,7 +46,7 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 		.CreateAttributeDescription(1, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color));
 	indexBuffer.CreateIndexBuffer(vulkInstance, commandPool, sizeof(indices[0]) * indices.size(), indices.data(), 0);
 
-	uniformBuffer.CreateUniformBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT).CreateUniformBuffer(vulkInstance);
+	uniformBuffer.CreateUniformBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject)).CreateUniformBuffer(vulkInstance);
 	pipeline.AddUniformBuffer(uniformBuffer);
 
 	pipeline.AddShader(vertShader);

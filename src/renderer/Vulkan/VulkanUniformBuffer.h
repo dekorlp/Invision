@@ -13,15 +13,18 @@ namespace Invision
 			VkDescriptorType mDescriptorType;
 			uint32_t mDescriptorCount;
 			VkShaderStageFlags mStageFlags;
+			VkDeviceSize mBufferSize;
 		public:
 			INVISION_API VulkanUniformBinding(uint32_t binding,
 				VkDescriptorType descriptorType,
 				uint32_t descriptorCount,
-				VkShaderStageFlags stageFlags);
+				VkShaderStageFlags stageFlags,
+				VkDeviceSize bufferSize);
 			INVISION_API uint32_t GetBinding();
 			INVISION_API VkDescriptorType GetDescriptorType();
 			INVISION_API uint32_t GetDescriptorCount();
 			INVISION_API VkShaderStageFlags GetStageFlags();
+			INVISION_API VkDeviceSize GetBufferSize();
 	};
 
 	// Binding Description
@@ -39,7 +42,8 @@ namespace Invision
 		INVISION_API VulkanUniformBuffer& CreateUniformBinding(uint32_t binding,
 			VkDescriptorType descriptorType,
 			uint32_t descriptorCount,
-			VkShaderStageFlags stageFlags);
+			VkShaderStageFlags stageFlags,
+			VkDeviceSize bufferSize);
 		INVISION_API void CreateUniformBuffer(const SVulkan &vulkanInstance);
 		INVISION_API void DestroyUniformBuffer(const SVulkan &vulkanInstance);
 		INVISION_API VkDescriptorSetLayout GetDescriptorSetLayout();

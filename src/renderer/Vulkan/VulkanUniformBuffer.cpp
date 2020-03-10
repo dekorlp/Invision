@@ -11,7 +11,8 @@ namespace Invision
 	VulkanUniformBinding::VulkanUniformBinding(uint32_t binding,
 		VkDescriptorType descriptorType,
 		uint32_t descriptorCount,
-		VkShaderStageFlags stageFlags)
+		VkShaderStageFlags stageFlags,
+		VkDeviceSize bufferSize)
 	{
 		this->mBinding = binding;
 		this->mDescriptorCount = descriptorCount;
@@ -39,6 +40,10 @@ namespace Invision
 		return mStageFlags;
 	}
 
+	VkDeviceSize VulkanUniformBinding::GetBufferSize()
+	{
+		return mBufferSize;
+	}
 	
 	VulkanUniformBuffer::VulkanUniformBuffer()
 	{
@@ -48,9 +53,10 @@ namespace Invision
 	VulkanUniformBuffer& VulkanUniformBuffer::CreateUniformBinding(uint32_t binding,
 		VkDescriptorType descriptorType,
 		uint32_t descriptorCount,
-		VkShaderStageFlags stageFlags)
+		VkShaderStageFlags stageFlags,
+		VkDeviceSize bufferSize)
 	{
-		VulkanUniformBinding uniformBinding(binding, descriptorType, descriptorCount, stageFlags);
+		VulkanUniformBinding uniformBinding(binding, descriptorType, descriptorCount, stageFlags, bufferSize);
 		bindings.push_back(uniformBinding);
 		return *this;
 	}
