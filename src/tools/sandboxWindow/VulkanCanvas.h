@@ -96,11 +96,7 @@ private:
 
 	Invision::VulkanVertexBuffer vertexBuffer;
 	Invision::VulkanIndexBuffer indexBuffer;
-	Invision::VulkanUniformBuffer uniformBuffer0;
-	Invision::VulkanUniformBuffer uniformBuffer1;
-	Invision::VulkanUniformBuffer uniformBuffer2;
-	Invision::VulkanUniformBuffer uniformBuffer4;
-	Invision::VulkanUniformBuffer uniformBuffer3;
+	Invision::VulkanUniformBuffer uniformBuffer;
 
 	VkPipelineCache mCache;
 	Invision::SVulkan vulkInstance;
