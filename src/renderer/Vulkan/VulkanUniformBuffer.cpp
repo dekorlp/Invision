@@ -55,6 +55,11 @@ namespace Invision
 		return *this;
 	}
 
+	void VulkanUniformBuffer::CreateUniformBuffer(const SVulkan &vulkanInstance)
+	{
+		CreateUniformSet(vulkanInstance);
+	}
+
 	void VulkanUniformBuffer::CreateUniformSet(const SVulkan &vulkanInstance)
 	{
 		if (mDescriptorSetLayout != VK_NULL_HANDLE)
@@ -83,6 +88,11 @@ namespace Invision
 		if (vkCreateDescriptorSetLayout(vulkanInstance.logicalDevice, &layoutInfo, nullptr, &mDescriptorSetLayout) != VK_SUCCESS) {
 			throw std::runtime_error("failed to create descriptor set layout!");
 		}
+	}
+
+	void VulkanUniformBuffer::DestroyUniformBuffer(const SVulkan &vulkanInstance)
+	{
+		DestroyUniformSet(vulkanInstance);
 	}
 
 	void VulkanUniformBuffer::DestroyUniformSet(const SVulkan &vulkanInstance)

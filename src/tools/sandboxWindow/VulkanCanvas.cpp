@@ -48,10 +48,10 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 
 	uniformBuffer0.CreateUniformBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT).
 		CreateUniformBinding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 12, VK_SHADER_STAGE_VERTEX_BIT).
-		CreateUniformBinding(4, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT).CreateUniformSet(vulkInstance);
-	uniformBuffer1.CreateUniformBinding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 5, VK_SHADER_STAGE_VERTEX_BIT).CreateUniformSet(vulkInstance);
-	uniformBuffer2.CreateUniformBinding(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 6, VK_SHADER_STAGE_VERTEX_BIT).CreateUniformSet(vulkInstance);
-	uniformBuffer4.CreateUniformBinding(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 6, VK_SHADER_STAGE_VERTEX_BIT).CreateUniformSet(vulkInstance);
+		CreateUniformBinding(4, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT).CreateUniformBuffer(vulkInstance);
+	uniformBuffer1.CreateUniformBinding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 5, VK_SHADER_STAGE_VERTEX_BIT).CreateUniformBuffer(vulkInstance);
+	uniformBuffer2.CreateUniformBinding(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 6, VK_SHADER_STAGE_VERTEX_BIT).CreateUniformBuffer(vulkInstance);
+	uniformBuffer4.CreateUniformBinding(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 6, VK_SHADER_STAGE_VERTEX_BIT).CreateUniformBuffer(vulkInstance);
 
 	pipeline.AddUniformBuffer(uniformBuffer0);
 	//pipeline.AddUniformBuffer(uniformBuffer1);
@@ -142,11 +142,11 @@ VulkanCanvas::~VulkanCanvas() noexcept
 
 	framebuffer.DestroyFramebuffer(vulkInstance);
 	pipeline.DestroyPipeline(vulkInstance);
-	uniformBuffer0.DestroyUniformSet(vulkInstance);
-	uniformBuffer1.DestroyUniformSet(vulkInstance);
-	uniformBuffer2.DestroyUniformSet(vulkInstance);
-	uniformBuffer4.DestroyUniformSet(vulkInstance);
-	uniformBuffer3.DestroyUniformSet(vulkInstance);
+	uniformBuffer0.DestroyUniformBuffer(vulkInstance);
+	uniformBuffer1.DestroyUniformBuffer(vulkInstance);
+	uniformBuffer2.DestroyUniformBuffer(vulkInstance);
+	uniformBuffer4.DestroyUniformBuffer(vulkInstance);
+	uniformBuffer3.DestroyUniformBuffer(vulkInstance);
 	vertexBuffer.DestroyVertexBuffer(vulkInstance);
 	indexBuffer.DestroyIndexBuffer(vulkInstance);
 	commandPool.DestroyCommandPool(vulkInstance);

@@ -50,7 +50,7 @@ namespace Invision
 	void INVISION_API VulkanPipeline::AddVertexBuffer(VulkanVertexBuffer& vertexBuffer)
 	{
 		mVertexInputBindingDescriptions.push_back(vertexBuffer.GetBindingDescription());
-		for (int i = 0; i < vertexBuffer.GetAttributeDescriptions().size(); i++)
+		for (unsigned int i = 0; i < vertexBuffer.GetAttributeDescriptions().size(); i++)
 		{
 			mVertexInputAttributeDescriptions.push_back(vertexBuffer.GetAttributeDescriptions()[i]);
 		}
