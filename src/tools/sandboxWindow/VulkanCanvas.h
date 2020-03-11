@@ -8,6 +8,8 @@
 
 #define ROOT "../../../"
 
+#include <chrono>
+
 #include "AdditionalFunctions.h"
 #include "InCommon.h"
 #include "renderer\Vulkan\Vulkan.h"
@@ -82,6 +84,7 @@ private:
 	void OnPaintException(const std::string& msg);
 	void RecreateSwapChain(const int width, const int height);
 	void BuildCommandBuffer(float width, float height);
+	void UpdateUniformBuffer(float width, float height);
 	void Render();
 
 	wxSize m_Size;

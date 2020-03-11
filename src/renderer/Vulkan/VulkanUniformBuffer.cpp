@@ -58,7 +58,7 @@ namespace Invision
 
 	void VulkanUniformBinding::ClearAndDestroyBuffers(const SVulkan &vulkanInstance)
 	{
-		for (int i = 0; i < mUniformBuffer.size(); i++)
+		for (unsigned int i = 0; i < mUniformBuffer.size(); i++)
 		{
 			mUniformBuffer[i].DestroyBuffer(vulkanInstance);
 		}
@@ -152,5 +152,23 @@ namespace Invision
 	VkDescriptorSetLayout VulkanUniformBuffer::GetDescriptorSetLayout()
 	{
 		return mDescriptorSetLayout;
+	}
+
+	void VulkanUniformBuffer::UpdateUniform(const SVulkan &vulkanInstance, const void* source, size_t size, uint32_t binding)
+	{
+		unsigned int index = -1;
+		for (unsigned int i = 0; i < bindings.size(); i++)
+		{
+			if (bindings.at(i).GetBinding() == binding)
+			{
+				index = i;
+				break;
+			}
+		}
+		
+		void* data;
+		vkMapMemory(vulkanInstance.logicalDevice, bindings.at(index).GetBuffers()[vulkanInstance.mImageIndex].GetDeviceMemory(), 0, size, 0, &data);
+		memcpy(data, source, size);
+		vkUnmapMemory(vulkanInstance.logicalDevice, bindings.at(index).GetBuffers()[vulkanInstance.mImageIndex].GetDeviceMemory());
 	}
 }

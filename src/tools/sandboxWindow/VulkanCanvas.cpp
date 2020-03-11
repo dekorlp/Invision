@@ -150,6 +150,22 @@ void VulkanCanvas::OnTimer(wxTimerEvent& event)
 	Render();
 }
 
+void VulkanCanvas::UpdateUniformBuffer(float width, float height)
+{
+	static auto startTime = std::chrono::high_resolution_clock::now();
+
+	auto currentTime = std::chrono::high_resolution_clock::now();
+	float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
+
+	UniformBufferObject ubo = {};
+	ubo.model = Invision::Matrix::RotateZ(time * 90.0);
+	ubo.view = Invision::Matrix::Camera(Invision::Vector3(2.0f, 2.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 0.0f, 1.0f));
+	ubo.proj = Invision::Matrix::Perspective(45.0, width / height, 0.1f, 10.0f);
+
+	uniformBuffer.UpdateUniform(vulkInstance, &ubo, sizeof(ubo), 0);
+		
+}
+
 void VulkanCanvas::Render()
 {
 	//VkResult nextImageResult = commandBuffer.AquireNextImage(vulkInstance);
@@ -161,6 +177,8 @@ void VulkanCanvas::Render()
 	else if (nextImageResult != VK_SUCCESS) {
 		throw Invision::VulkanException("failed to acquire swap chain image!");
 	}
+
+	UpdateUniformBuffer(m_Size.GetWidth(), m_Size.GetHeight());
 
 	//VkResult drawFrameResult = commandBuffer.DrawFrame(vulkInstance);
 	VkResult drawFrameResult = renderer.DrawFrame(vulkInstance, commandBuffer);

@@ -53,6 +53,7 @@ namespace Invision
 		INVISION_API void CreateUniformBuffer(const SVulkan &vulkanInstance);
 		INVISION_API void DestroyUniformBuffer(const SVulkan &vulkanInstance);
 		INVISION_API VkDescriptorSetLayout GetDescriptorSetLayout();
+		INVISION_API void UpdateUniform(const SVulkan &vulkanInstance, const void* source, size_t size, uint32_t binding);
 	};
 }
 
