@@ -44,7 +44,23 @@ namespace Invision
 	{
 		return mBufferSize;
 	}
+
+	void VulkanUniformBinding::SetBuffers(std::vector<VkBuffer> uniformBuffers, std::vector<VkDeviceMemory> uniformBuffersMemory)
+	{
+		this->mUniformBuffers = uniformBuffers;
+		this->mUniformBuffersMemory = uniformBuffersMemory;
+	}
 	
+	std::vector<VkBuffer> VulkanUniformBinding::GetBuffers()
+	{
+		return mUniformBuffers;
+	}
+
+	std::vector<VkDeviceMemory> VulkanUniformBinding::GetBuffersMemory()
+	{
+		return mUniformBuffersMemory;
+	}
+
 	VulkanUniformBuffer::VulkanUniformBuffer()
 	{
 		this->mDescriptorSetLayout = VK_NULL_HANDLE;
@@ -64,6 +80,7 @@ namespace Invision
 	void VulkanUniformBuffer::CreateUniformBuffer(const SVulkan &vulkanInstance)
 	{
 		CreateUniformSet(vulkanInstance);
+		CreateBuffers(vulkanInstance);
 	}
 
 	void VulkanUniformBuffer::CreateUniformSet(const SVulkan &vulkanInstance)
@@ -94,6 +111,11 @@ namespace Invision
 		if (vkCreateDescriptorSetLayout(vulkanInstance.logicalDevice, &layoutInfo, nullptr, &mDescriptorSetLayout) != VK_SUCCESS) {
 			throw std::runtime_error("failed to create descriptor set layout!");
 		}
+	}
+
+	void VulkanUniformBuffer::CreateBuffers(const SVulkan &vulkanInstance)
+	{
+
 	}
 
 	void VulkanUniformBuffer::DestroyUniformBuffer(const SVulkan &vulkanInstance)
