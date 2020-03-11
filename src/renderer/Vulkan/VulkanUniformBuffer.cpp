@@ -18,6 +18,7 @@ namespace Invision
 		this->mDescriptorCount = descriptorCount;
 		this->mDescriptorType = descriptorType;
 		this->mStageFlags = stageFlags;
+		this->mBufferSize = bufferSize;
 	}
 
 	uint32_t VulkanUniformBinding::GetBinding()
@@ -45,21 +46,16 @@ namespace Invision
 		return mBufferSize;
 	}
 
-	void VulkanUniformBinding::SetBuffers(std::vector<VkBuffer> uniformBuffers, std::vector<VkDeviceMemory> uniformBuffersMemory)
+	void VulkanUniformBinding::SetBuffers(std::vector<VulkanBuffer> uniformBuffer)
 	{
-		this->mUniformBuffers = uniformBuffers;
-		this->mUniformBuffersMemory = uniformBuffersMemory;
+		this->mUniformBuffer = uniformBuffer;
 	}
 	
-	std::vector<VkBuffer> VulkanUniformBinding::GetBuffers()
+	std::vector<VulkanBuffer> VulkanUniformBinding::GetBuffers()
 	{
-		return mUniformBuffers;
+		return mUniformBuffer;
 	}
 
-	std::vector<VkDeviceMemory> VulkanUniformBinding::GetBuffersMemory()
-	{
-		return mUniformBuffersMemory;
-	}
 
 	VulkanUniformBuffer::VulkanUniformBuffer()
 	{
@@ -115,7 +111,19 @@ namespace Invision
 
 	void VulkanUniformBuffer::CreateBuffers(const SVulkan &vulkanInstance)
 	{
+		for (unsigned int j = 0; j < bindings.size(); j++)
+		{
+			VkDeviceSize bufferSize = bindings.at(j).GetBufferSize();
+			std::vector<VulkanBuffer> uniformBuffers;
 
+			for (unsigned int i = 0; i < vulkanInstance.swapChainImages.size(); i++)
+			{
+				VulkanBuffer buffer;
+				buffer.CreateBuffer(vulkanInstance, bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, VK_SHARING_MODE_EXCLUSIVE);
+				uniformBuffers.push_back(buffer);
+			}
+			bindings.at(j).SetBuffers(uniformBuffers);
+		}
 	}
 
 	void VulkanUniformBuffer::DestroyUniformBuffer(const SVulkan &vulkanInstance)

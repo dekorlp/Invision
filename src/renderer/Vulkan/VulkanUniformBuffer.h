@@ -14,8 +14,7 @@ namespace Invision
 			uint32_t mDescriptorCount;
 			VkShaderStageFlags mStageFlags;
 			VkDeviceSize mBufferSize;
-			std::vector<VkBuffer> mUniformBuffers;
-			std::vector<VkDeviceMemory> mUniformBuffersMemory;
+			std::vector<VulkanBuffer> mUniformBuffer;
 
 		public:
 			INVISION_API VulkanUniformBinding(uint32_t binding,
@@ -28,9 +27,8 @@ namespace Invision
 			INVISION_API uint32_t GetDescriptorCount();
 			INVISION_API VkShaderStageFlags GetStageFlags();
 			INVISION_API VkDeviceSize GetBufferSize();
-			INVISION_API void SetBuffers(std::vector<VkBuffer> uniformBuffers, std::vector<VkDeviceMemory> uniformBuffersMemory);
-			INVISION_API std::vector<VkBuffer> GetBuffers();
-			INVISION_API std::vector<VkDeviceMemory> GetBuffersMemory();
+			INVISION_API void SetBuffers(std::vector<VulkanBuffer> uniformBuffer);
+			INVISION_API std::vector<VulkanBuffer> GetBuffers();
 	};
 
 	// Binding Description
