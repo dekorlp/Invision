@@ -29,6 +29,7 @@ namespace Invision
 			INVISION_API VkDeviceSize GetBufferSize();
 			INVISION_API void SetBuffers(std::vector<VulkanBuffer> uniformBuffer);
 			INVISION_API std::vector<VulkanBuffer> GetBuffers();
+			INVISION_API void ClearAndDestroyBuffers(const SVulkan &vulkanInstance);
 	};
 
 	// Binding Description

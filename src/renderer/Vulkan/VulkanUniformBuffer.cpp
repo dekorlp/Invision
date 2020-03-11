@@ -56,6 +56,14 @@ namespace Invision
 		return mUniformBuffer;
 	}
 
+	void VulkanUniformBinding::ClearAndDestroyBuffers(const SVulkan &vulkanInstance)
+	{
+		for (int i = 0; i < mUniformBuffer.size(); i++)
+		{
+			mUniformBuffer[i].DestroyBuffer(vulkanInstance);
+		}
+		mUniformBuffer.clear();
+	}
 
 	VulkanUniformBuffer::VulkanUniformBuffer()
 	{
@@ -134,6 +142,11 @@ namespace Invision
 	void VulkanUniformBuffer::DestroyUniformSet(const SVulkan &vulkanInstance)
 	{
 		vkDestroyDescriptorSetLayout(vulkanInstance.logicalDevice, mDescriptorSetLayout, nullptr);
+		for (unsigned int i = 0; i < bindings.size(); i++)
+		{
+			bindings.at(i).ClearAndDestroyBuffers(vulkanInstance);
+		}
+	
 	}
 
 	VkDescriptorSetLayout VulkanUniformBuffer::GetDescriptorSetLayout()
