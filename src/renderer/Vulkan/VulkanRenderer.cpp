@@ -41,20 +41,20 @@ namespace Invision
 	{
 		vkWaitForFences(vulkanInstance.logicalDevice, 1, &mInFlightFences[mCurrentFrame], VK_TRUE, UINT64_MAX);
 
-		mImageIndex = 0;
-		VkResult result = vkAcquireNextImageKHR(vulkanInstance.logicalDevice, vulkanInstance.swapChain, UINT64_MAX, mImageAvailableSemaphore[mCurrentFrame], VK_NULL_HANDLE, &mImageIndex);
+		vulkanInstance.mImageIndex = 0;
+		VkResult result = vkAcquireNextImageKHR(vulkanInstance.logicalDevice, vulkanInstance.swapChain, UINT64_MAX, mImageAvailableSemaphore[mCurrentFrame], VK_NULL_HANDLE, &vulkanInstance.mImageIndex);
 		return result;
 	}
 
 	VkResult VulkanRenderer::DrawFrame(SVulkan &vulkanInstance, VulkanCommandBuffer& commandBuffer)
 	{
 		
-		if (mImagesInFlight[mImageIndex] != VK_NULL_HANDLE)
+		if (mImagesInFlight[vulkanInstance.mImageIndex] != VK_NULL_HANDLE)
 		{
-			vkWaitForFences(vulkanInstance.logicalDevice, 1, &mImagesInFlight[mImageIndex], VK_TRUE, UINT64_MAX);
+			vkWaitForFences(vulkanInstance.logicalDevice, 1, &mImagesInFlight[vulkanInstance.mImageIndex], VK_TRUE, UINT64_MAX);
 		}
 
-		mImagesInFlight[mImageIndex] = mInFlightFences[mCurrentFrame];
+		mImagesInFlight[vulkanInstance.mImageIndex] = mInFlightFences[mCurrentFrame];
 
 		VkSubmitInfo submitInfo = {};
 		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -64,7 +64,7 @@ namespace Invision
 		submitInfo.pWaitSemaphores = waitSemaphores;
 		submitInfo.pWaitDstStageMask = waitStages;
 		submitInfo.commandBufferCount = 1;
-		submitInfo.pCommandBuffers = commandBuffer.GetCommandBuffer(mImageIndex);
+		submitInfo.pCommandBuffers = commandBuffer.GetCommandBuffer(vulkanInstance.mImageIndex);
 
 
 		VkSemaphore signalSemaphores[] = { mRenderFinishedSemaphore[mCurrentFrame] };
@@ -86,7 +86,7 @@ namespace Invision
 		VkSwapchainKHR swapChains[] = { vulkanInstance.swapChain };
 		presentInfo.swapchainCount = 1;
 		presentInfo.pSwapchains = swapChains;
-		presentInfo.pImageIndices = &mImageIndex;
+		presentInfo.pImageIndices = &vulkanInstance.mImageIndex;
 		presentInfo.pResults = nullptr; // Optional
 		VkResult result = vkQueuePresentKHR(vulkanInstance.presentQueue, &presentInfo);
 

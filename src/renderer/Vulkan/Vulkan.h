@@ -27,6 +27,9 @@ namespace Invision
 		VkExtent2D swapChainExtent;
 		std::vector<VkImageView> swapChainImageViews;
 
+		// VulkanRenderer Subsystem
+		uint32_t mImageIndex;
+
 
 		SVulkan() : physicalDevice(VK_NULL_HANDLE), logicalDevice(VK_NULL_HANDLE), 
 			surface(VK_NULL_HANDLE), graphicsQueue(VK_NULL_HANDLE), 

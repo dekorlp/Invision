@@ -13,7 +13,7 @@ namespace Invision
 		size_t mCurrentFrame = 0;
 		std::vector<VkFence> mInFlightFences;
 		std::vector<VkFence> mImagesInFlight;
-		uint32_t mImageIndex;
+		
 
 	public:
 		void INVISION_API CreateSyncObjects(SVulkan &vulkanInstance);
