@@ -27,6 +27,7 @@
 #include "renderer\Vulkan\VulkanVertexBuffer.h"
 #include "renderer\Vulkan\VulkanIndexBuffer.h"
 #include "renderer\Vulkan\VulkanUniformBuffer.h"
+#include "renderer\Vulkan\VulkanDescriptorPool.h"
 #include "math\Vector2.h"
 #include "math\Vector3.h"
 #include "math\Matrix.h"
@@ -94,6 +95,7 @@ private:
 	Invision::VulkanRenderPass renderPass;
 	Invision::VulkanFramebuffer framebuffer;
 	Invision::VulkanCommandPool commandPool;
+	Invision::VulkanDescriptorPool descriptorPool;
 	Invision::VulkanCommandBuffer commandBuffer;
 	Invision::VulkanRenderer renderer;
 

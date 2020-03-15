@@ -6,13 +6,14 @@
 
 namespace Invision
 {
-	class  VulkanDescriptorPool
+	class VulkanDescriptorPool
 	{
 	private:
-
+		VkDescriptorPool mDescriptorPool;
 
 	public:
-
+		void INVISION_API CreateDescriptorPool(SVulkan &vulkanInstance);
+		void INVISION_API DestroyDescriptorPool(SVulkan &vulkanInstance);
 
 	};
 }
