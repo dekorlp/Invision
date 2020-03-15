@@ -142,6 +142,7 @@ namespace Invision
 	void VulkanUniformBuffer::DestroyUniformSet(const SVulkan &vulkanInstance)
 	{
 		vkDestroyDescriptorSetLayout(vulkanInstance.logicalDevice, mDescriptorSetLayout, nullptr);
+		mDescriptorSetLayout = VK_NULL_HANDLE;
 		for (unsigned int i = 0; i < bindings.size(); i++)
 		{
 			bindings.at(i).ClearAndDestroyBuffers(vulkanInstance);
