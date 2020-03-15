@@ -1,5 +1,5 @@
 #ifndef VULKAN_DESCRIPTOR_POOL_H
-#define VULKAN_DESCRIPTOR_POOL
+#define VULKAN_DESCRIPTOR_POOL_H
 
 #include "vulkan\vulkan.h"
 #include "Vulkan.h"
@@ -18,4 +18,4 @@ namespace Invision
 }
 
 
-#endif // VULKAN_DESCRIPTOR_POOL
+#endif // VULKAN_DESCRIPTOR_POOL_H
