@@ -37,6 +37,8 @@ namespace Invision
 		 * \brief initialize a matrix
 		 */
 		Matrix();
+
+		Matrix(float val);
 		/**
 		 * \brief initialize a matrix
 		 * \param e an array with 16 float values in form of a float e11, float e12, float e13, float e14,
@@ -44,7 +46,7 @@ namespace Invision
 																float e31, float e32, float e33, float e34,
 																float e41, float e42, float e43, float e44 Matrix
 		 */
-		Matrix(float e[16]);
+		Matrix(float *e);
 
 		/**
 		 * \brief initialize a matrix

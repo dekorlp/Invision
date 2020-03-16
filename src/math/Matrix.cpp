@@ -15,6 +15,14 @@ namespace Invision {
 	{
 	}
 
+	Matrix::Matrix(float val) : a11(val), a12(val), a13(val), a14(val),
+		a21(val), a22(val), a23(val), a24(val),
+		a31(val), a32(val), a33(val), a34(val),
+		a41(val), a42(val), a43(val), a44(val)
+	{
+
+	}
+
 	Matrix::Matrix(float *e)
 	{
 		memcpy(a, e, sizeof(float) * 16);
