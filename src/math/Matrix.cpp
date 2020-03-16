@@ -351,14 +351,15 @@ namespace Invision {
 	Matrix Matrix::CameraVK(const Vector3 &vPos, const Vector3 &vLookAt, const Vector3 &vUp)
 	{
 		Vector3 vZAxis = Vector3::Normalize(vLookAt - vPos); // forward
-		Vector3 vXAxis = Vector3::Normalize(vUp.cross(vZAxis)); // left
+		Vector3 vXAxis = Vector3::Normalize(vUp); // left
 		Vector3 vYAxis = Vector3::Normalize(vZAxis.cross(vXAxis)); // up
+		Vector3 u = vYAxis.cross(vZAxis);
 
 
-		return Matrix::TranslateDX(-vPos) * 
-			Matrix(vXAxis.getX(), vYAxis.getX(), vZAxis.getX(), 0.0f,
-				vXAxis.getY(), vYAxis.getY(), vZAxis.getY(), 0.0f,
-				vXAxis.getZ(), vYAxis.getZ(), vZAxis.getZ(), 0.0f,
+		return
+			Matrix(vYAxis.getX(), u.getX(), vZAxis.getX(), -vYAxis.dot(vPos),
+				vYAxis.getY(), u.getY(), vZAxis.getY(), -u.dot(vPos),
+				vYAxis.getZ(), u.getZ(), vZAxis.getZ(), -vZAxis.dot(vPos),
 			0.0f, 0.0f, 0.0f, 1.0f);
 	}
 
