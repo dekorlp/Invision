@@ -32,8 +32,8 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 
 	mCache = Invision::CreatePipelineCache(vulkInstance);
 
-	auto vertShaderCode = readFile(("D:/Repository/Invision/src/tools/sandboxWindow/Shader/DrawUniformBuffer/vert.spv"));
-	auto fragShaderCode	= readFile(("D:/Repository/Invision/src/tools/sandboxWindow/Shader/DrawUniformBuffer/frag.spv"));
+	auto vertShaderCode = readFile(std::string(ROOT).append("/src/tools/sandboxWindow/Shader/DrawUniformBuffer/vert.spv"));
+	auto fragShaderCode	= readFile(std::string(ROOT).append("/src/tools/sandboxWindow/Shader/DrawUniformBuffer/frag.spv"));
 
 	Invision::VulkanShader vertShader(vulkInstance, vertShaderCode, VK_SHADER_STAGE_VERTEX_BIT);
 	Invision::VulkanShader fragShader(vulkInstance, fragShaderCode, VK_SHADER_STAGE_FRAGMENT_BIT);
@@ -160,41 +160,11 @@ void VulkanCanvas::UpdateUniformBuffer(float width, float height)
 	auto currentTime = std::chrono::high_resolution_clock::now();
 	float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
 
-	/*UniformBufferObject ubo = {};
-	ubo.model = Invision::Matrix::RotateZ(time * 90.0);
-	ubo.view = Invision::Matrix::CameraVK(Invision::Vector3(2.0f, 2.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 0.0f, 1.0f));
-	//ubo.proj = Invision::Matrix::PerspectiveVK(45.0, width / height, 0.1f, 10.0f);
-	ubo.proj = glm::perspective(glm::radians(45.0f), width / height, 0.1f, 10.0f);
-	ubo.proj[1][1] *= -1;
-
-	uniformBuffer.UpdateUniform(vulkInstance, &ubo, sizeof(ubo), 0);*/
-
 	UniformBufferObject ubo = {};
-	//ubo.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	ubo.model = Invision::Matrix(1.0f) * Invision::Matrix::RotateZ(time * 90.0);
-	//ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	ubo.view = Invision::Matrix::CameraVK(Invision::Vector3(2.0f, 2.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 0.0f, 1.0f));
 	ubo.proj = Invision::Matrix::PerspectiveVK(45.0, width / height, 0.1f, 10.0f);
-	//ubo.proj = glm::perspective(glm::radians(45.0f), width / height, 0.1f, 10.0f);
-	//ubo.proj[1][1] *= -1;
-	uniformBuffer.UpdateUniform(vulkInstance, &ubo, sizeof(ubo), 0); 
-	
-
-	/*static auto startTime = std::chrono::high_resolution_clock::now();
-
-	auto currentTime = std::chrono::high_resolution_clock::now();
-	float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
-
-	Invision::Matrix matText = Invision::Matrix(1) * Invision::Matrix::RotateZ(time * -90);
-
-	UniformBufferObject ubo = {};
-	ubo.model = glm::mat4(1.0); //glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	ubo.proj = glm::perspective(glm::radians(45.0f), width / height, 0.1f, 10.0f);
-	ubo.proj[1][1] *= -1;
-	uniformBuffer.UpdateUniform(vulkInstance, &ubo, sizeof(ubo), 0);*/
-
-		
+	uniformBuffer.UpdateUniform(vulkInstance, &ubo, sizeof(ubo), 0); 		
 }
 
 void VulkanCanvas::Render()

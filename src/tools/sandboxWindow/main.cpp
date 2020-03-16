@@ -32,7 +32,7 @@ class VulkanApp : public wxApp
 	public:
 		VulkanApp()
 		{
-			log.Open("D:/Repository/Invision/logs/log.txt");
+			log.Open("../../../logs/log.txt");
 			Invision::Log::SetLogger(&log);
 			//throw Invision::VulkanException("Exception wird geworfen");
 			
