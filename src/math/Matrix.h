@@ -143,7 +143,8 @@ namespace Invision
 		* \brief returns an translated matrix
 		* \return A Matrix object
 		*/
-		static Matrix Translate(const Vector3& v);
+		static Matrix TranslateDX(const Vector3& v);
+		static Matrix TranslateVK(const Vector3& v);
 
 
 		/**
@@ -217,7 +218,9 @@ namespace Invision
 		 * \param vUp up Vector
 		 * \return Matrix object
 		 */
-		static Matrix Camera(const Vector3 &vPos, const Vector3 &vLookAt, const Vector3 &vUp);
+		static Matrix CameraDX(const Vector3 &vPos, const Vector3 &vLookAt, const Vector3 &vUp);
+
+		static Matrix CameraVK(const Vector3 &vPos, const Vector3 &vLookAt, const Vector3 &vUp);
 
 
 		/**
@@ -228,7 +231,9 @@ namespace Invision
 		 * \aram far far plane
 		 * \return Matrix object
 		 */
-		static Matrix Perspective(const float &anglef, const float aspect, const float &nearf, const  float &farf);
+		static Matrix PerspectiveDX(const float &anglef, const float aspect, const float &nearf, const  float &farf);
+
+		static Matrix PerspectiveVK(const float &anglef, const float aspect, const float &nearf, const  float &farf);
 
 
 		/**

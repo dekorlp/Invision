@@ -15,10 +15,10 @@ namespace Invision {
 	{
 	}
 
-	Matrix::Matrix(float val) : a11(val), a12(val), a13(val), a14(val),
-		a21(val), a22(val), a23(val), a24(val),
-		a31(val), a32(val), a33(val), a34(val),
-		a41(val), a42(val), a43(val), a44(val)
+	Matrix::Matrix(float val) : a11(val), a12(0), a13(0), a14(0),
+		a21(0), a22(val), a23(0), a24(0),
+		a31(0), a32(0), a33(val), a34(0),
+		a41(0), a42(0), a43(0), a44(val)
 	{
 
 	}
@@ -239,12 +239,20 @@ namespace Invision {
 				 0, 0, 0, 1 };
 	}
 
-	Matrix Matrix::Translate(const Vector3& v)
+	Matrix Matrix::TranslateDX(const Vector3& v)
 	{
 		return{ 1, 0, 0, 0,
 				0, 1, 0, 0,
 				0, 0, 1, 0,
 				v.getX(), v.getY(), v.getZ(), 1 };
+	}
+
+	Matrix Matrix::TranslateVK(const Vector3& v)
+	{
+		return{ 1, 0, 0, v.getX(),
+			0, 1, 0, v.getY(),
+			0, 0, 1, v.getZ(),
+			0, 0, 0, 1 };
 	}
 
 	Matrix Matrix::RotateX(const float f)
@@ -327,20 +335,34 @@ namespace Invision {
 				0, 0, 0, 1 };
 	}
 
-	Matrix Matrix::Camera(const Vector3 &vPos, const Vector3 &vLookAt, const Vector3 &vUp)
+	Matrix Matrix::CameraDX(const Vector3 &vPos, const Vector3 &vLookAt, const Vector3 &vUp)
 	{
 		Vector3 vZAxis = Vector3::Normalize(vLookAt - vPos);
 
 		Vector3 vXAxis = Vector3::Normalize(vUp.cross(vZAxis));
 		Vector3 vYAxis = Vector3::Normalize(vZAxis.cross(vXAxis));
 
-		return Matrix::Translate(-vPos) * Matrix(vXAxis.getX(), vYAxis.getX(), vZAxis.getX(), 0.0f,
+		return Matrix::TranslateDX(-vPos) * Matrix(vXAxis.getX(), vYAxis.getX(), vZAxis.getX(), 0.0f,
 			vXAxis.getY(), vYAxis.getY(), vZAxis.getY(), 0.0f,
 			vXAxis.getZ(), vYAxis.getZ(), vZAxis.getZ(), 0.0f,
 			0.0f, 0.0f, 0.0f, 1.0f);
 	}
 
-	Matrix Matrix::Perspective(const float &anglef, const float aspect, const float &nearf, const  float &farf)
+	Matrix Matrix::CameraVK(const Vector3 &vPos, const Vector3 &vLookAt, const Vector3 &vUp)
+	{
+		Vector3 vZAxis = Vector3::Normalize(vLookAt - vPos); // forward
+		Vector3 vXAxis = Vector3::Normalize(vUp.cross(vZAxis)); // left
+		Vector3 vYAxis = Vector3::Normalize(vZAxis.cross(vXAxis)); // up
+
+
+		return Matrix::TranslateDX(-vPos) * 
+			Matrix(vXAxis.getX(), vYAxis.getX(), vZAxis.getX(), 0.0f,
+				vXAxis.getY(), vYAxis.getY(), vZAxis.getY(), 0.0f,
+				vXAxis.getZ(), vYAxis.getZ(), vZAxis.getZ(), 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f);
+	}
+
+	Matrix Matrix::PerspectiveDX(const float &anglef, const float aspect, const float &nearf, const  float &farf)
 	{
 		const float scale = 1.0f / tanf(anglef * 0.5f);
 		float nf = 1.0f / (nearf - farf);
@@ -349,6 +371,25 @@ namespace Invision {
 				0.0f , scale, 0.0f, 0.0f,
 				0.0f, 0.0f, (nearf + farf) * nf, (2.0f * nearf * farf) * nf,
 				0.0f, 0.0f, -1, 0.0f
+		};
+	}
+
+	Matrix Matrix::PerspectiveVK(const float &anglef, const float aspect, const float &nearf, const  float &farf)
+	{
+		float tanCalc = 0.5f * anglef;
+
+		float degrees = tanCalc * 4.0 * atan(1.0) / 180.0;
+
+		float f = 1.0 / tan(degrees);
+
+		float range = nearf - farf;
+		const float scale = 1.0f / tanf(anglef * 0.5f);
+		float nf = 1.0f / (nearf - farf);
+
+		return{ f / aspect, 0.0f, 0.0f, 0.0f,
+			0.0f , -f, 0.0f, 0.0f,
+			0.0f, 0.0f, farf / (nearf - farf) , -1,
+			0.0f, 0.0f, (nearf * farf) / (nearf - farf), 0.0f
 		};
 	}
 

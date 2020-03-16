@@ -63,17 +63,21 @@ const std::vector<uint16_t> indices = {
 	0, 1, 2, 2, 3, 0
 };
 
-/*struct UniformBufferObject {
-	alignas(16) Invision::Matrix model;
-	alignas(16) Invision::Matrix view;
-	alignas(16) Invision::Matrix proj;
-};*/
-
 struct UniformBufferObject {
+//glm::mat4 model;
+Invision::Matrix model;
+glm::mat4 view;
+//Invision::Matrix view;
+//glm::mat4 proj;
+Invision::Matrix proj;
+};
+
+
+/*struct UniformBufferObject {
 	glm::mat4 model;
 	glm::mat4 view;
 	glm::mat4 proj;
-};
+};*/
 
 class VulkanCanvas : public wxWindow
 {
