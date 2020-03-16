@@ -32,8 +32,8 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 
 	mCache = Invision::CreatePipelineCache(vulkInstance);
 
-	auto vertShaderCode = readFile(std::string(ROOT).append("/src/tools/sandboxWindow/Shader/DrawIndexBuffer/vert.spv"));
-	auto fragShaderCode	= readFile(std::string(ROOT).append("/src/tools/sandboxWindow/Shader/DrawIndexBuffer/frag.spv"));
+	auto vertShaderCode = readFile(std::string(ROOT).append("/src/tools/sandboxWindow/Shader/DrawUniformBuffer/vert.spv"));
+	auto fragShaderCode	= readFile(std::string(ROOT).append("/src/tools/sandboxWindow/Shader/DrawUniformBuffer/frag.spv"));
 
 	Invision::VulkanShader vertShader(vulkInstance, vertShaderCode, VK_SHADER_STAGE_VERTEX_BIT);
 	Invision::VulkanShader fragShader(vulkInstance, fragShaderCode, VK_SHADER_STAGE_FRAGMENT_BIT);
@@ -47,7 +47,7 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	indexBuffer.CreateIndexBuffer(vulkInstance, commandPool, sizeof(indices[0]) * indices.size(), indices.data(), 0);
 
 	descriptorPool.CreateDescriptorPool(vulkInstance);
-	uniformBuffer.CreateUniformBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject)).CreateUniformBuffer(vulkInstance);
+	uniformBuffer.CreateUniformBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject)).CreateUniformBuffer(vulkInstance, descriptorPool);
 	pipeline.AddUniformBuffer(uniformBuffer);
 
 	pipeline.AddShader(vertShader);
@@ -91,6 +91,7 @@ void VulkanCanvas::BuildCommandBuffer(float width, float height)
 		BeginRenderPass(vulkInstance, renderPass, framebuffer).
 		BindPipeline(pipeline, VK_PIPELINE_BIND_POINT_GRAPHICS).
 		BindVertexBuffer({vertexBuffer}, 0, 1).
+		BindDescriptorSets(uniformBuffer, pipeline, VK_PIPELINE_BIND_POINT_GRAPHICS, 0).
 		BindIndexBuffer(indexBuffer, VK_INDEX_TYPE_UINT16).
 		//Draw(static_cast<uint32_t>(vertices.size()), 1, 0, 0).
 		DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0).
@@ -154,7 +155,7 @@ void VulkanCanvas::OnTimer(wxTimerEvent& event)
 
 void VulkanCanvas::UpdateUniformBuffer(float width, float height)
 {
-	static auto startTime = std::chrono::high_resolution_clock::now();
+	/*static auto startTime = std::chrono::high_resolution_clock::now();
 
 	auto currentTime = std::chrono::high_resolution_clock::now();
 	float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
@@ -164,7 +165,20 @@ void VulkanCanvas::UpdateUniformBuffer(float width, float height)
 	ubo.view = Invision::Matrix::Camera(Invision::Vector3(2.0f, 2.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 0.0f, 1.0f));
 	ubo.proj = Invision::Matrix::Perspective(45.0, width / height, 0.1f, 10.0f);
 
+	uniformBuffer.UpdateUniform(vulkInstance, &ubo, sizeof(ubo), 0);*/
+
+	static auto startTime = std::chrono::high_resolution_clock::now();
+
+	auto currentTime = std::chrono::high_resolution_clock::now();
+	float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
+
+	UniformBufferObject ubo = {};
+	ubo.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	ubo.proj = glm::perspective(glm::radians(45.0f), width / height, 0.1f, 10.0f);
+	ubo.proj[1][1] *= -1;
 	uniformBuffer.UpdateUniform(vulkInstance, &ubo, sizeof(ubo), 0);
+
 		
 }
 
@@ -221,7 +235,7 @@ void VulkanCanvas::RecreateSwapChain(const int width, const int height)
 	renderPass.CreateRenderPass(vulkInstance);
 	framebuffer.CreateFramebuffer(vulkInstance, renderPass);
 	descriptorPool.CreateDescriptorPool(vulkInstance);
-	uniformBuffer.CreateUniformBuffer(vulkInstance);
+	uniformBuffer.CreateUniformBuffer(vulkInstance, descriptorPool);
 	
 	//commandBuffer.CreateCommandBuffers(vulkInstance, commandPool, framebuffer, pipeline, renderPass);
 	BuildCommandBuffer(width, height);

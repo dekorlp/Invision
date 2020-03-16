@@ -32,6 +32,10 @@
 #include "math\Vector3.h"
 #include "math\Matrix.h"
 
+#define GLM_FORCE_RADIANS
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 
 
 static void debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
@@ -59,10 +63,16 @@ const std::vector<uint16_t> indices = {
 	0, 1, 2, 2, 3, 0
 };
 
+/*struct UniformBufferObject {
+	alignas(16) Invision::Matrix model;
+	alignas(16) Invision::Matrix view;
+	alignas(16) Invision::Matrix proj;
+};*/
+
 struct UniformBufferObject {
-	Invision::Matrix model;
-	Invision::Matrix view;
-	Invision::Matrix proj;
+	glm::mat4 model;
+	glm::mat4 view;
+	glm::mat4 proj;
 };
 
 class VulkanCanvas : public wxWindow

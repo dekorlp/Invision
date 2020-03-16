@@ -167,12 +167,17 @@ namespace Invision
 		return mGraphicsPipeline;
 	}
 
+	VkPipelineLayout VulkanPipeline::GetPipelineLayout()
+	{
+		return mPipelineLayout;
+	}
+
 	void VulkanPipeline::CreatePipeline(const SVulkan &vulkanInstance, VulkanRenderPass &renderPass, uint32_t subpassIndex, VkPipelineCache pipelineCache)
 	{
 		UpdateVertexInputConfiguration();
 		UpdateInputAssemblyConfiguration(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST);
 		UpdateViewPortConfiguration(vulkanInstance);
-		UpdateRasterizerConfiguration(VK_POLYGON_MODE_FILL, 1.0, VK_CULL_MODE_BACK_BIT, VK_FRONT_FACE_CLOCKWISE);
+		UpdateRasterizerConfiguration(VK_POLYGON_MODE_FILL, 1.0, VK_CULL_MODE_BACK_BIT, VK_FRONT_FACE_COUNTER_CLOCKWISE);
 		UpdateMultisamplingConfiguration();
 		UpdateDepthStencilConfiguration();
 		UpdateColorBlendingAttachmentConfiguration();

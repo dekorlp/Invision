@@ -14,7 +14,8 @@ namespace Invision
 	public:
 		void INVISION_API CreateDescriptorPool(SVulkan &vulkanInstance);
 		void INVISION_API DestroyDescriptorPool(SVulkan &vulkanInstance);
-
+		
+		VkDescriptorPool INVISION_API GetDescriptorPool();
 	};
 }
 

@@ -46,11 +46,21 @@ namespace Invision
 		return mBufferSize;
 	}
 
+	std::vector<VkDescriptorSet> VulkanUniformBinding::GetDescriptorSets()
+	{
+		return mDescriptorSets;
+	}
+
 	void VulkanUniformBinding::SetBuffers(std::vector<VulkanBuffer> uniformBuffer)
 	{
 		this->mUniformBuffer = uniformBuffer;
 	}
 	
+	void VulkanUniformBinding::SetDescriptorSets(std::vector<VkDescriptorSet> descriptorSets)
+	{
+		mDescriptorSets = descriptorSets;
+	}
+
 	std::vector<VulkanBuffer> VulkanUniformBinding::GetBuffers()
 	{
 		return mUniformBuffer;
@@ -81,10 +91,11 @@ namespace Invision
 		return *this;
 	}
 
-	void VulkanUniformBuffer::CreateUniformBuffer(const SVulkan &vulkanInstance)
+	void VulkanUniformBuffer::CreateUniformBuffer(const SVulkan &vulkanInstance, VulkanDescriptorPool &pool)
 	{
 		CreateUniformSet(vulkanInstance);
 		CreateBuffers(vulkanInstance);
+		CreateDescriptorSets(vulkanInstance, pool);
 	}
 
 	void VulkanUniformBuffer::CreateUniformSet(const SVulkan &vulkanInstance)
@@ -171,5 +182,65 @@ namespace Invision
 		vkMapMemory(vulkanInstance.logicalDevice, bindings.at(index).GetBuffers()[vulkanInstance.mImageIndex].GetDeviceMemory(), 0, size, 0, &data);
 		memcpy(data, source, size);
 		vkUnmapMemory(vulkanInstance.logicalDevice, bindings.at(index).GetBuffers()[vulkanInstance.mImageIndex].GetDeviceMemory());
+	}
+
+	std::vector<VkDescriptorSet> VulkanUniformBuffer::GetDescriptorSets(uint32_t binding)
+	{
+		unsigned int index = -1;
+		for (unsigned int i = 0; i < bindings.size(); i++)
+		{
+			if (bindings.at(i).GetBinding() == binding)
+			{
+				index = i;
+				break;
+			}
+		}
+
+		return bindings[index].GetDescriptorSets();
+	}
+
+	void VulkanUniformBuffer::CreateDescriptorSets(const SVulkan &vulkanInstance, VulkanDescriptorPool &pool)
+	{
+		std::vector<VkDescriptorSetLayout> layouts(vulkanInstance.swapChainImages.size(), mDescriptorSetLayout);
+
+		VkDescriptorSetAllocateInfo allocInfo = {};
+		allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+		allocInfo.descriptorPool = pool.GetDescriptorPool();
+		allocInfo.descriptorSetCount = static_cast<uint32_t>(vulkanInstance.swapChainImages.size());
+		allocInfo.pSetLayouts = layouts.data();
+
+		for (unsigned int j = 0; j < bindings.size(); j++)
+		{
+			std::vector<VkDescriptorSet> descriptorSets;
+			descriptorSets.resize(vulkanInstance.swapChainImages.size());
+
+			if (vkAllocateDescriptorSets(vulkanInstance.logicalDevice, &allocInfo, descriptorSets.data()) != VK_SUCCESS) {
+				throw std::runtime_error("failed to allocate descriptor sets!");
+			}
+			bindings[j].SetDescriptorSets(descriptorSets);
+
+			for (size_t i = 0; i < vulkanInstance.swapChainImages.size(); i++) {
+				VkDescriptorBufferInfo bufferInfo = {};
+				bufferInfo.buffer = bindings[j].GetBuffers()[i].GetBuffer();
+				bufferInfo.offset = 0;
+				bufferInfo.range = bindings[j].GetBufferSize();
+
+				VkWriteDescriptorSet descriptorWrite = {};
+				descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+				descriptorWrite.dstSet = descriptorSets[i];
+				descriptorWrite.dstBinding = bindings[j].GetBinding();
+				descriptorWrite.dstArrayElement = 0;
+
+				descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+				descriptorWrite.descriptorCount = 1;
+
+				descriptorWrite.pBufferInfo = &bufferInfo;
+				descriptorWrite.pImageInfo = nullptr; // Optional
+				descriptorWrite.pTexelBufferView = nullptr; // Optional
+
+				vkUpdateDescriptorSets(vulkanInstance.logicalDevice, 1, &descriptorWrite, 0, nullptr);
+			}
+
+		}
 	}
 }

@@ -30,4 +30,9 @@ namespace Invision
 		vkDestroyDescriptorPool(vulkanInstance.logicalDevice, mDescriptorPool, nullptr);
 	}
 
+	VkDescriptorPool VulkanDescriptorPool::GetDescriptorPool()
+	{
+		return mDescriptorPool;
+	}
+
 }

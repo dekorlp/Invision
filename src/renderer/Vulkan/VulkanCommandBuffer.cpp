@@ -7,6 +7,7 @@
 #include "VulkanRenderPass.h"
 #include "VulkanVertexBuffer.h"
 #include "VulkanIndexBuffer.h"
+#include "VulkanUniformBuffer.h"
 #include "VulkanCommandPool.h"
 #include "VulkanCommandBuffer.h"
 
@@ -199,7 +200,16 @@ namespace Invision
 
 		return *this;
 	}
+	
+	VulkanCommandBuffer& VulkanCommandBuffer::BindDescriptorSets(VulkanUniformBuffer &uniformBuffer, VulkanPipeline& pipeline, VkPipelineBindPoint bindPoint, uint32_t binding)
+	{
+		for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+		{
+			vkCmdBindDescriptorSets(mCommandBuffers[i], bindPoint, pipeline.GetPipelineLayout(), 0, 1, &uniformBuffer.GetDescriptorSets(binding)[i], 0, nullptr);
+		}
 
+		return *this;
+	}
 
 	VulkanCommandBuffer& VulkanCommandBuffer::Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance)
 	{
