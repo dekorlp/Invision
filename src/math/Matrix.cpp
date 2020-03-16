@@ -350,17 +350,15 @@ namespace Invision {
 
 	Matrix Matrix::CameraVK(const Vector3 &vPos, const Vector3 &vLookAt, const Vector3 &vUp)
 	{
-		Vector3 vZAxis = Vector3::Normalize(vLookAt - vPos); // forward
-		Vector3 vXAxis = Vector3::Normalize(vUp); // left
+		Vector3 vZAxis = Vector3::Normalize( vPos - vLookAt); // forward
+		Vector3 vXAxis = Vector3::Normalize(vUp.cross(vZAxis)); // left
 		Vector3 vYAxis = Vector3::Normalize(vZAxis.cross(vXAxis)); // up
-		Vector3 u = vYAxis.cross(vZAxis);
-
 
 		return
-			Matrix(vYAxis.getX(), u.getX(), vZAxis.getX(), -vYAxis.dot(vPos),
-				vYAxis.getY(), u.getY(), vZAxis.getY(), -u.dot(vPos),
-				vYAxis.getZ(), u.getZ(), vZAxis.getZ(), -vZAxis.dot(vPos),
-			0.0f, 0.0f, 0.0f, 1.0f);
+			Matrix(vXAxis.getX(), vYAxis.getX(), vZAxis.getX(), 0,
+				vXAxis.getY(), vYAxis.getY(), vZAxis.getY(), 0,
+				vXAxis.getZ(), vYAxis.getZ(), vZAxis.getZ(), 0,
+			-vXAxis.dot(vPos), -vYAxis.dot(vPos), -vZAxis.dot(vPos), 1.0f) ;
 	}
 
 	Matrix Matrix::PerspectiveDX(const float &anglef, const float aspect, const float &nearf, const  float &farf)
@@ -379,9 +377,9 @@ namespace Invision {
 	{
 		float tanCalc = 0.5f * anglef;
 
-		float degrees = tanCalc * 4.0 * atan(1.0) / 180.0;
+		float degrees = tanCalc * 4.0f * atan(1.0f) / 180.0f;
 
-		float f = 1.0 / tan(degrees);
+		float f = 1.0f / tan(degrees);
 
 		float range = nearf - farf;
 		const float scale = 1.0f / tanf(anglef * 0.5f);

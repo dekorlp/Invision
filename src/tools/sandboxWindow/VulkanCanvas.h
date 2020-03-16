@@ -66,8 +66,8 @@ const std::vector<uint16_t> indices = {
 struct UniformBufferObject {
 //glm::mat4 model;
 Invision::Matrix model;
-glm::mat4 view;
-//Invision::Matrix view;
+//glm::mat4 view;
+Invision::Matrix view;
 //glm::mat4 proj;
 Invision::Matrix proj;
 };
