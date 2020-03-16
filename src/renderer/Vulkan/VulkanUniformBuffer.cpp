@@ -12,13 +12,15 @@ namespace Invision
 		VkDescriptorType descriptorType,
 		uint32_t descriptorCount,
 		VkShaderStageFlags stageFlags,
-		VkDeviceSize bufferSize)
+		VkDeviceSize bufferSize,
+		VkDeviceSize offset)
 	{
 		this->mBinding = binding;
 		this->mDescriptorCount = descriptorCount;
 		this->mDescriptorType = descriptorType;
 		this->mStageFlags = stageFlags;
 		this->mBufferSize = bufferSize;
+		this->mOffset = offset;
 	}
 
 	uint32_t VulkanUniformBinding::GetBinding()
@@ -44,6 +46,11 @@ namespace Invision
 	VkDeviceSize VulkanUniformBinding::GetBufferSize()
 	{
 		return mBufferSize;
+	}
+
+	VkDeviceSize VulkanUniformBinding::GetOffset()
+	{
+		return mOffset;
 	}
 
 	std::vector<VkDescriptorSet> VulkanUniformBinding::GetDescriptorSets()
@@ -84,9 +91,10 @@ namespace Invision
 		VkDescriptorType descriptorType,
 		uint32_t descriptorCount,
 		VkShaderStageFlags stageFlags,
-		VkDeviceSize bufferSize)
+		VkDeviceSize bufferSize,
+		VkDeviceSize offset)
 	{
-		VulkanUniformBinding uniformBinding(binding, descriptorType, descriptorCount, stageFlags, bufferSize);
+		VulkanUniformBinding uniformBinding(binding, descriptorType, descriptorCount, stageFlags, bufferSize, offset);
 		bindings.push_back(uniformBinding);
 		return *this;
 	}
@@ -133,12 +141,13 @@ namespace Invision
 		for (unsigned int j = 0; j < bindings.size(); j++)
 		{
 			VkDeviceSize bufferSize = bindings.at(j).GetBufferSize();
+			VkDeviceSize offset = bindings.at(j).GetOffset();
 			std::vector<VulkanBuffer> uniformBuffers;
 
 			for (unsigned int i = 0; i < vulkanInstance.swapChainImages.size(); i++)
 			{
 				VulkanBuffer buffer;
-				buffer.CreateBuffer(vulkanInstance, bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, VK_SHARING_MODE_EXCLUSIVE);
+				buffer.CreateBuffer(vulkanInstance, bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, VK_SHARING_MODE_EXCLUSIVE, offset);
 				uniformBuffers.push_back(buffer);
 			}
 			bindings.at(j).SetBuffers(uniformBuffers);
@@ -222,7 +231,7 @@ namespace Invision
 			for (size_t i = 0; i < vulkanInstance.swapChainImages.size(); i++) {
 				VkDescriptorBufferInfo bufferInfo = {};
 				bufferInfo.buffer = bindings[j].GetBuffers()[i].GetBuffer();
-				bufferInfo.offset = 0;
+				bufferInfo.offset = bindings[j].GetOffset();
 				bufferInfo.range = bindings[j].GetBufferSize();
 
 				VkWriteDescriptorSet descriptorWrite = {};
@@ -232,7 +241,7 @@ namespace Invision
 				descriptorWrite.dstArrayElement = 0;
 
 				descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-				descriptorWrite.descriptorCount = 1;
+				descriptorWrite.descriptorCount = bindings[j].GetDescriptorCount();
 
 				descriptorWrite.pBufferInfo = &bufferInfo;
 				descriptorWrite.pImageInfo = nullptr; // Optional

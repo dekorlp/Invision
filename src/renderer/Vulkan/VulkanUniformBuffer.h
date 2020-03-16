@@ -15,6 +15,7 @@ namespace Invision
 			uint32_t mDescriptorCount;
 			VkShaderStageFlags mStageFlags;
 			VkDeviceSize mBufferSize;
+			VkDeviceSize mOffset;
 			std::vector<VulkanBuffer> mUniformBuffer;
 			std::vector<VkDescriptorSet> mDescriptorSets;
 
@@ -23,12 +24,14 @@ namespace Invision
 				VkDescriptorType descriptorType,
 				uint32_t descriptorCount,
 				VkShaderStageFlags stageFlags,
-				VkDeviceSize bufferSize);
+				VkDeviceSize bufferSize,
+				VkDeviceSize offset);
 			INVISION_API uint32_t GetBinding();
 			INVISION_API VkDescriptorType GetDescriptorType();
 			INVISION_API uint32_t GetDescriptorCount();
 			INVISION_API VkShaderStageFlags GetStageFlags();
 			INVISION_API VkDeviceSize GetBufferSize();
+			INVISION_API VkDeviceSize GetOffset();
 			INVISION_API void SetBuffers(std::vector<VulkanBuffer> uniformBuffer);
 			INVISION_API std::vector<VulkanBuffer> GetBuffers();
 			INVISION_API void ClearAndDestroyBuffers(const SVulkan &vulkanInstance);
@@ -54,7 +57,8 @@ namespace Invision
 			VkDescriptorType descriptorType,
 			uint32_t descriptorCount,
 			VkShaderStageFlags stageFlags,
-			VkDeviceSize bufferSize);
+			VkDeviceSize bufferSize,
+			VkDeviceSize offset);
 		INVISION_API void CreateUniformBuffer(const SVulkan &vulkanInstance, VulkanDescriptorPool &pool);
 		INVISION_API void DestroyUniformBuffer(const SVulkan &vulkanInstance);
 		INVISION_API VkDescriptorSetLayout GetDescriptorSetLayout();

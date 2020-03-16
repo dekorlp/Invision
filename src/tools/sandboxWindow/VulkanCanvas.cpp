@@ -47,7 +47,7 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	indexBuffer.CreateIndexBuffer(vulkInstance, commandPool, sizeof(indices[0]) * indices.size(), indices.data(), 0);
 
 	descriptorPool.CreateDescriptorPool(vulkInstance);
-	uniformBuffer.CreateUniformBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject)).CreateUniformBuffer(vulkInstance, descriptorPool);
+	uniformBuffer.CreateUniformBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject), 0).CreateUniformBuffer(vulkInstance, descriptorPool);
 	pipeline.AddUniformBuffer(uniformBuffer);
 
 	pipeline.AddShader(vertShader);
