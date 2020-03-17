@@ -6,8 +6,6 @@
 #include "wx/wx.h"
 #endif
 
-#define ROOT "../../../"
-
 #include <chrono>
 
 #include "AdditionalFunctions.h"
