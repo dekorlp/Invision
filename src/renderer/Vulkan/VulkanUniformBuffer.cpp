@@ -216,6 +216,16 @@ namespace Invision
 		return bindings[index].GetDescriptorSets();
 	}
 
+	std::vector<VkDescriptorSet> VulkanUniformBuffer::GetDescriptorSetsByIndex(uint32_t index)
+	{
+		return bindings[index].GetDescriptorSets();
+	}
+
+	size_t VulkanUniformBuffer::GetSizeOfBindings()
+	{
+		return bindings.size();
+	}
+
 	void VulkanUniformBuffer::CreateDescriptorSets(const SVulkan &vulkanInstance)
 	{
 		std::vector<VkDescriptorSetLayout> layouts(vulkanInstance.swapChainImages.size(), mDescriptorSetLayout);

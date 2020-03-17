@@ -32,7 +32,7 @@ namespace Invision
 		INVISION_API VulkanCommandBuffer& BindPipeline(VulkanPipeline& pipeline, VkPipelineBindPoint bindPoint);
 		INVISION_API VulkanCommandBuffer& BindVertexBuffer(std::vector<VulkanVertexBuffer> vertexBuffers, uint32_t firstBinding, uint32_t bindingCount);
 		INVISION_API VulkanCommandBuffer& BindIndexBuffer(VulkanIndexBuffer &indexBuffer, VkIndexType indexType);
-		INVISION_API VulkanCommandBuffer& BindDescriptorSets(VulkanUniformBuffer &uniformBuffer, VulkanPipeline& pipeline, VkPipelineBindPoint bindPoint, uint32_t binding);
+		INVISION_API VulkanCommandBuffer& BindDescriptorSets(VulkanUniformBuffer &uniformBuffer, VulkanPipeline& pipeline, VkPipelineBindPoint bindPoint);
 		INVISION_API VulkanCommandBuffer& Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex = 0, uint32_t firstInstance = 0);
 		INVISION_API VulkanCommandBuffer& DrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex = 0, uint32_t vertexOffset = 0, uint32_t firstInstance = 0);
 		INVISION_API VulkanCommandBuffer& EndRenderPass();

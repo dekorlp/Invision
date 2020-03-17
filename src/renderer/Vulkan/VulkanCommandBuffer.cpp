@@ -201,13 +201,15 @@ namespace Invision
 		return *this;
 	}
 	
-	VulkanCommandBuffer& VulkanCommandBuffer::BindDescriptorSets(VulkanUniformBuffer &uniformBuffer, VulkanPipeline& pipeline, VkPipelineBindPoint bindPoint, uint32_t binding)
+	VulkanCommandBuffer& VulkanCommandBuffer::BindDescriptorSets(VulkanUniformBuffer &uniformBuffer, VulkanPipeline& pipeline, VkPipelineBindPoint bindPoint)
 	{
-		for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+		for (unsigned int i = 0; i < uniformBuffer.GetSizeOfBindings(); i++)
 		{
-			vkCmdBindDescriptorSets(mCommandBuffers[i], bindPoint, pipeline.GetPipelineLayout(), 0, 1, &uniformBuffer.GetDescriptorSets(binding)[i], 0, nullptr);
+			for (unsigned int j = 0; j < mCommandBuffers.size(); j++)
+			{
+				vkCmdBindDescriptorSets(mCommandBuffers[j], bindPoint, pipeline.GetPipelineLayout(), 0, 1, &uniformBuffer.GetDescriptorSetsByIndex(i)[j], 0, nullptr);
+			}
 		}
-
 		return *this;
 	}
 

@@ -90,7 +90,7 @@ void VulkanCanvas::BuildCommandBuffer(float width, float height)
 		BeginRenderPass(vulkInstance, renderPass, framebuffer).
 		BindPipeline(pipeline, VK_PIPELINE_BIND_POINT_GRAPHICS).
 		BindVertexBuffer({vertexBuffer}, 0, 1).
-		BindDescriptorSets(uniformBuffer, pipeline, VK_PIPELINE_BIND_POINT_GRAPHICS, 0).
+		BindDescriptorSets(uniformBuffer, pipeline, VK_PIPELINE_BIND_POINT_GRAPHICS).
 		BindIndexBuffer(indexBuffer, VK_INDEX_TYPE_UINT16).
 		//Draw(static_cast<uint32_t>(vertices.size()), 1, 0, 0).
 		DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0).

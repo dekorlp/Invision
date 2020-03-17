@@ -65,6 +65,8 @@ namespace Invision
 		INVISION_API VkDescriptorSetLayout GetDescriptorSetLayout();
 		INVISION_API void UpdateUniform(const SVulkan &vulkanInstance, const void* source, size_t size, uint32_t binding);
 		INVISION_API std::vector<VkDescriptorSet> GetDescriptorSets(uint32_t binding);
+		INVISION_API std::vector<VkDescriptorSet> GetDescriptorSetsByIndex(uint32_t index);
+		INVISION_API size_t GetSizeOfBindings();
 	};
 }
 
