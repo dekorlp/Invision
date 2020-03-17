@@ -248,7 +248,7 @@ namespace Invision
 				descriptorWrite.dstBinding = bindings[j].GetBinding();
 				descriptorWrite.dstArrayElement = 0;
 
-				descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+				descriptorWrite.descriptorType = bindings[j].GetDescriptorType();
 				descriptorWrite.descriptorCount = bindings[j].GetDescriptorCount();
 
 				descriptorWrite.pBufferInfo = &bufferInfo;
