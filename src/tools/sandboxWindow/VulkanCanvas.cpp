@@ -46,8 +46,7 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 		.CreateAttributeDescription(1, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color));
 	indexBuffer.CreateIndexBuffer(vulkInstance, commandPool, sizeof(indices[0]) * indices.size(), indices.data(), 0);
 
-	descriptorPool.CreateDescriptorPool(vulkInstance);
-	uniformBuffer.CreateUniformBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject), 0).CreateUniformBuffer(vulkInstance, descriptorPool);
+	uniformBuffer.CreateUniformBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject), 0).CreateUniformBuffer(vulkInstance);
 	pipeline.AddUniformBuffer(uniformBuffer);
 
 	pipeline.AddShader(vertShader);
@@ -136,7 +135,6 @@ VulkanCanvas::~VulkanCanvas() noexcept
 	framebuffer.DestroyFramebuffer(vulkInstance);
 	pipeline.DestroyPipeline(vulkInstance);
 	uniformBuffer.DestroyUniformBuffer(vulkInstance);
-	descriptorPool.DestroyDescriptorPool(vulkInstance);
 	vertexBuffer.DestroyVertexBuffer(vulkInstance);
 	indexBuffer.DestroyIndexBuffer(vulkInstance);
 	commandPool.DestroyCommandPool(vulkInstance);
@@ -207,7 +205,6 @@ void VulkanCanvas::RecreateSwapChain(const int width, const int height)
 	renderer.DestroySemaphores(vulkInstance);
 	commandPool.DestroyCommandPool(vulkInstance);
 	uniformBuffer.DestroyUniformBuffer(vulkInstance);
-	descriptorPool.DestroyDescriptorPool(vulkInstance);
 	framebuffer.DestroyFramebuffer(vulkInstance);
 	renderPass.DestroyRenderPass(vulkInstance);
 	Invision::DestroyPresentationSystem(vulkInstance);
@@ -219,8 +216,7 @@ void VulkanCanvas::RecreateSwapChain(const int width, const int height)
 	renderPass.AddSubpass();
 	renderPass.CreateRenderPass(vulkInstance);
 	framebuffer.CreateFramebuffer(vulkInstance, renderPass);
-	descriptorPool.CreateDescriptorPool(vulkInstance);
-	uniformBuffer.CreateUniformBuffer(vulkInstance, descriptorPool);
+	uniformBuffer.CreateUniformBuffer(vulkInstance);
 	
 	//commandBuffer.CreateCommandBuffers(vulkInstance, commandPool, framebuffer, pipeline, renderPass);
 	BuildCommandBuffer(width, height);

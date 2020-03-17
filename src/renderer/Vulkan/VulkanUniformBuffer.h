@@ -45,11 +45,12 @@ namespace Invision
 	private:
 		std::vector<VulkanUniformBinding> bindings;
 		VkDescriptorSetLayout mDescriptorSetLayout;
+		VulkanDescriptorPool mDescriptorPool;
 
 		INVISION_API void CreateUniformSet(const SVulkan &vulkanInstance);
 		INVISION_API void CreateBuffers(const SVulkan &vulkanInstance);
 		INVISION_API void DestroyUniformSet(const SVulkan &vulkanInstance);
-		INVISION_API void CreateDescriptorSets(const SVulkan &vulkanInstance, VulkanDescriptorPool &pool);
+		INVISION_API void CreateDescriptorSets(const SVulkan &vulkanInstance);
 
 	public:
 		INVISION_API VulkanUniformBuffer();
@@ -59,7 +60,7 @@ namespace Invision
 			VkShaderStageFlags stageFlags,
 			VkDeviceSize bufferSize,
 			VkDeviceSize offset);
-		INVISION_API void CreateUniformBuffer(const SVulkan &vulkanInstance, VulkanDescriptorPool &pool);
+		INVISION_API void CreateUniformBuffer(const SVulkan &vulkanInstance);
 		INVISION_API void DestroyUniformBuffer(const SVulkan &vulkanInstance);
 		INVISION_API VkDescriptorSetLayout GetDescriptorSetLayout();
 		INVISION_API void UpdateUniform(const SVulkan &vulkanInstance, const void* source, size_t size, uint32_t binding);

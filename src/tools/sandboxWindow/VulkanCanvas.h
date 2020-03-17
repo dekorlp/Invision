@@ -95,7 +95,6 @@ private:
 	Invision::VulkanRenderPass renderPass;
 	Invision::VulkanFramebuffer framebuffer;
 	Invision::VulkanCommandPool commandPool;
-	Invision::VulkanDescriptorPool descriptorPool;
 	Invision::VulkanCommandBuffer commandBuffer;
 	Invision::VulkanRenderer renderer;
 

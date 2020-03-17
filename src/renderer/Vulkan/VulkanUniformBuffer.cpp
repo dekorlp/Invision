@@ -99,11 +99,11 @@ namespace Invision
 		return *this;
 	}
 
-	void VulkanUniformBuffer::CreateUniformBuffer(const SVulkan &vulkanInstance, VulkanDescriptorPool &pool)
+	void VulkanUniformBuffer::CreateUniformBuffer(const SVulkan &vulkanInstance)
 	{
 		CreateUniformSet(vulkanInstance);
 		CreateBuffers(vulkanInstance);
-		CreateDescriptorSets(vulkanInstance, pool);
+		CreateDescriptorSets(vulkanInstance);
 	}
 
 	void VulkanUniformBuffer::CreateUniformSet(const SVulkan &vulkanInstance)
@@ -114,6 +114,7 @@ namespace Invision
 		}
 
 		std::vector<VkDescriptorSetLayoutBinding> uboLayoutBindings;
+		std::vector<VkDescriptorPoolSize> poolElements;
 
 		for (unsigned int j = 0; j < bindings.size(); j++)
 		{
@@ -124,6 +125,11 @@ namespace Invision
 			uboLayoutBinding.stageFlags = bindings.at(j).GetStageFlags();
 			uboLayoutBinding.pImmutableSamplers = nullptr;
 			uboLayoutBindings.push_back(uboLayoutBinding);
+
+			VkDescriptorPoolSize poolSize = {};
+			poolSize.type = bindings.at(j).GetDescriptorType();
+			poolSize.descriptorCount = static_cast<uint32_t>(vulkanInstance.swapChainImages.size());
+			poolElements.push_back(poolSize);
 		}
 
 		VkDescriptorSetLayoutCreateInfo layoutInfo = {};
@@ -131,6 +137,7 @@ namespace Invision
 		layoutInfo.bindingCount = static_cast<uint32_t>(uboLayoutBindings.size());
 		layoutInfo.pBindings = uboLayoutBindings.data();
 
+		mDescriptorPool.CreateDescriptorPool(vulkanInstance, poolElements);
 		if (vkCreateDescriptorSetLayout(vulkanInstance.logicalDevice, &layoutInfo, nullptr, &mDescriptorSetLayout) != VK_SUCCESS) {
 			throw std::runtime_error("failed to create descriptor set layout!");
 		}
@@ -157,6 +164,7 @@ namespace Invision
 	void VulkanUniformBuffer::DestroyUniformBuffer(const SVulkan &vulkanInstance)
 	{
 		DestroyUniformSet(vulkanInstance);
+		mDescriptorPool.DestroyDescriptorPool(vulkanInstance);
 	}
 
 	void VulkanUniformBuffer::DestroyUniformSet(const SVulkan &vulkanInstance)
@@ -208,13 +216,13 @@ namespace Invision
 		return bindings[index].GetDescriptorSets();
 	}
 
-	void VulkanUniformBuffer::CreateDescriptorSets(const SVulkan &vulkanInstance, VulkanDescriptorPool &pool)
+	void VulkanUniformBuffer::CreateDescriptorSets(const SVulkan &vulkanInstance)
 	{
 		std::vector<VkDescriptorSetLayout> layouts(vulkanInstance.swapChainImages.size(), mDescriptorSetLayout);
 
 		VkDescriptorSetAllocateInfo allocInfo = {};
 		allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-		allocInfo.descriptorPool = pool.GetDescriptorPool();
+		allocInfo.descriptorPool = mDescriptorPool.GetDescriptorPool();
 		allocInfo.descriptorSetCount = static_cast<uint32_t>(vulkanInstance.swapChainImages.size());
 		allocInfo.pSetLayouts = layouts.data();
 

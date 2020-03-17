@@ -8,16 +8,16 @@
 namespace Invision
 {
 
-	void VulkanDescriptorPool::CreateDescriptorPool(SVulkan &vulkanInstance)
+	void VulkanDescriptorPool::CreateDescriptorPool(const SVulkan &vulkanInstance, std::vector<VkDescriptorPoolSize> poolSizeElements)
 	{
-		VkDescriptorPoolSize poolSize = {};
-		poolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-		poolSize.descriptorCount = static_cast<uint32_t>(vulkanInstance.swapChainImages.size());
+		//VkDescriptorPoolSize poolSize = {};
+		//poolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+		//poolSize.descriptorCount = static_cast<uint32_t>(vulkanInstance.swapChainImages.size());
 
 		VkDescriptorPoolCreateInfo poolInfo = {};
 		poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-		poolInfo.poolSizeCount = 1;
-		poolInfo.pPoolSizes = &poolSize;
+		poolInfo.poolSizeCount = poolSizeElements.size();
+		poolInfo.pPoolSizes = poolSizeElements.data();
 		poolInfo.maxSets = static_cast<uint32_t>(vulkanInstance.swapChainImages.size());
 
 		if (vkCreateDescriptorPool(vulkanInstance.logicalDevice, &poolInfo, nullptr, &mDescriptorPool) != VK_SUCCESS) {
@@ -25,7 +25,7 @@ namespace Invision
 		}
 	}
 
-	void VulkanDescriptorPool::DestroyDescriptorPool(SVulkan &vulkanInstance)
+	void VulkanDescriptorPool::DestroyDescriptorPool(const SVulkan &vulkanInstance)
 	{
 		vkDestroyDescriptorPool(vulkanInstance.logicalDevice, mDescriptorPool, nullptr);
 	}
