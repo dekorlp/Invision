@@ -16,7 +16,7 @@ namespace Invision
 
 		VkDescriptorPoolCreateInfo poolInfo = {};
 		poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-		poolInfo.poolSizeCount = poolSizeElements.size();
+		poolInfo.poolSizeCount = static_cast<uint32_t>(poolSizeElements.size());
 		poolInfo.pPoolSizes = poolSizeElements.data();
 		poolInfo.maxSets = static_cast<uint32_t>(vulkanInstance.swapChainImages.size());
 
