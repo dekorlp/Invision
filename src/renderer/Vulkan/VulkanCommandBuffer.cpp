@@ -203,12 +203,19 @@ namespace Invision
 	
 	VulkanCommandBuffer& VulkanCommandBuffer::BindDescriptorSets(VulkanUniformBuffer &uniformBuffer, VulkanPipeline& pipeline, VkPipelineBindPoint bindPoint)
 	{
-		for (unsigned int i = 0; i < uniformBuffer.GetSizeOfBindings(); i++)
+		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
-			for (unsigned int j = 0; j < mCommandBuffers.size(); j++)
+			for (unsigned int i = 0; i < uniformBuffer.GetSizeOfBindings(); i++)
 			{
-				vkCmdBindDescriptorSets(mCommandBuffers[j], bindPoint, pipeline.GetPipelineLayout(), 0, 1, &uniformBuffer.GetDescriptorSetsByIndex(i)[j], 0, nullptr);
+				for (unsigned int j = 0; j < mCommandBuffers.size(); j++)
+				{
+					vkCmdBindDescriptorSets(mCommandBuffers[j], bindPoint, pipeline.GetPipelineLayout(), 0, 1, &uniformBuffer.GetDescriptorSetsByIndex(i)[j], 0, nullptr);
+				}
 			}
+		}
+		else
+		{
+			throw VulkanException("Bind Descriptor Sets cannot be executed!");
 		}
 		return *this;
 	}
