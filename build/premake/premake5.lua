@@ -150,6 +150,7 @@ end
 rootdir = "../.."
 srcroot = rootdir .. "/src/"
 libroot = rootdir .. "/lib/"
+invision_root = "\"" .. path.getabsolute(rootdir) .. "\""
 
 workspace "Invision"
 	configurations { "Debug" , "Release" }
@@ -237,6 +238,8 @@ project "SandboxWindow"
 	}
 	
 	links { "Invision" }
+	
+	defines {"INVISION_BASE_DIR=" .. invision_root }
 	
 	AddWXWidgetStaticLibrary(libpath)
 	AddBoostLibrary(libpath)
