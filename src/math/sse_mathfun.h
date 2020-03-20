@@ -32,6 +32,10 @@ misrepresented as being the original software.
 #ifndef SSE_MATHFUN_H
 #define SSE_MATHFUN_H
 
+#if _MSC_VER >= 1910 && _MSC_VER <= 1916
+#define _MM_ALIGN16 _VCRT_ALIGN(16)
+#endif
+
 #pragma warning(push)
 #pragma warning(disable:4083)
 #pragma warning(disable:4305)
