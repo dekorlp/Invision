@@ -1,11 +1,11 @@
 #ifndef QUATERNION_H
 #define QUATERNION_H
 
-
-
+#include "math_config.h"
+#include "Simd_Config.h"
+#include "sse_mathfun.h"
 #include "Vector3.h"
 
-#include "math_config.h"
 
 namespace Invision
 {

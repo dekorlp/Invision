@@ -11,6 +11,10 @@
 #ifndef VECTOR3_H
 #define VECTOR3_H
 
+#include "math_config.h"
+#include "Simd_Config.h"
+#include "sse_mathfun.h"
+
 namespace Invision
 {
 	/**
