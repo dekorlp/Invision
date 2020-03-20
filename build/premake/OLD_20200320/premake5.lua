@@ -164,8 +164,7 @@ project "Invision"
 	kind "SharedLib"
 	language "C++"
 	targetdir (rootdir.."/bin/%{cfg.buildcfg}")
-	characterset ("MBCS")
-		--cppdialect "C++17"
+	--cppdialect "C++17"
 	
 	pchheader "precompiled.h"
 	pchsource (srcroot .. "common/precompiled.cpp")
@@ -202,7 +201,7 @@ project "Invision"
 	
 	filter "configurations:Debug"
 		defines { "DEBUG" }
-		symbols "On"
+		flags { "Symbols" }
 		
 		
 	filter "configurations:Release"
@@ -217,7 +216,7 @@ project "Invision"
 	
 project "SandboxWindow"
 	kind "WindowedApp"
-	entrypoint "WinMainCRTStartup"
+	flags { "WinMain" }
 	language "C++"
 	targetdir (rootdir.."/bin/%{cfg.buildcfg}")
 	--cppdialect "C++17"
@@ -248,7 +247,7 @@ project "SandboxWindow"
 		
 	filter "configurations:Debug"
 		defines { "DEBUG" }
-		symbols "On"
+		flags { "Symbols" }
 		
 	filter "configurations:Release"
 		defines { "NDEBUG" }
@@ -289,7 +288,7 @@ project "SandboxConsole"
 		
 	filter "configurations:Debug"
 		defines { "DEBUG" }
-		symbols "On"
+		flags { "Symbols" }
 		
 	filter "configurations:Release"
 		defines { "NDEBUG" }
@@ -328,7 +327,7 @@ project "UnitTests"
 		
 	filter "configurations:Debug"
 		defines { "DEBUG" }
-		symbols "On"
+		flags { "Symbols" }
 		
 	filter "configurations:Release"
 		defines { "NDEBUG" }
