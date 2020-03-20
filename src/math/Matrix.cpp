@@ -1,4 +1,7 @@
 #include "precompiled.h"
+#include "math_config.h"
+#include "Simd_Config.h"
+#include "sse_mathfun.h"
 #include "Matrix.h"
 namespace Invision {
 

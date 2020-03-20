@@ -13,6 +13,10 @@
 
 namespace Invision
 {
+#if _MSC_VER >= 1910 && _MSC_VER <= 1916
+#define _MM_ALIGN16 _VCRT_ALIGN(16)
+#endif
+
 	/**
 	 * \brief three dimensional vector
 	 */

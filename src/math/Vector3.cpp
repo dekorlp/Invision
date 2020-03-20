@@ -1,8 +1,9 @@
 #include "precompiled.h"
-#include "Vector3.h"
 #include "math_config.h"
 #include "Simd_Config.h"
 #include "sse_mathfun.h"
+
+#include "Vector3.h"
 
 namespace Invision {
 	Vector3::Vector3(float x, float y, float z)

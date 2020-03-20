@@ -1,6 +1,12 @@
 #pragma once
 
+
+
+#if _MSC_VER >= 1910 && _MSC_VER <= 1916
+#define SSE_INSTR_SET 7
+#else
 #define SSE_INSTR_SET 5
+#endif
 
 #ifdef _WIN64
 #define USE_SSE2
