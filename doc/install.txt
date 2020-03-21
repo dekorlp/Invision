@@ -2,7 +2,7 @@ Platform: Windows
 
  Create Project:
   1. start Invision/build/solutions/update-solutions.bat
-  2. Open Project: Invision/build/solutions/ vs2013 - vs2015
+  2. Open Project: Invision/build/solutions/ vs2013 - vs2019
   3. Run Bat /lib/win32/loadLibraries.bat
 
 
@@ -11,7 +11,8 @@ Platform: Windows
   2. start: bootstrap.bat
   3.
      a. start: b2.exe toolset=msvc-14.0 => for Microsoft Visual Studio 2015
-     a. start: b2.exe toolset=msvc-14.1 => for Microsoft Visual Studio 2017
+     b. start: b2.exe toolset=msvc-14.1 => for Microsoft Visual Studio 2017
+     c. start: b2.exe toolset=msvc-14.2 => for Microsoft Visual Studio 2019
 
  To compile WxWidget GUI:
   1. Open /lib/wxWidgets/build/msw/wx_vc12.sln
