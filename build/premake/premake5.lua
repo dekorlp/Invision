@@ -339,3 +339,52 @@ project "UnitTests"
 		
 	filter "platforms:x64"
 		architecture "x86_64"
+		
+-----------------------------------------------------------------------------------------------------
+--Examples
+-----------------------------------------------------------------------------------------------------		
+project "Triangle"
+	kind "WindowedApp"
+	entrypoint "WinMainCRTStartup"
+	language "C++"
+	targetdir (rootdir.."/bin/%{cfg.buildcfg}")
+	--cppdialect "C++17"
+	
+	files
+	{
+		srcroot .. "tools/examples/triangle/**.h",
+		srcroot .. "tools/examples/triangle/**.cpp"
+	}
+	
+	filter "system:Windows"		
+		
+	filter {}
+	
+	includedirs
+	{
+		-- Invision libraries
+		srcroot
+	}
+	
+	links { "Invision" }
+	
+	defines {"INVISION_BASE_DIR=" .. invision_root }
+	
+	AddWXWidgetStaticLibrary(libpath)
+	AddBoostLibrary(libpath)
+	AddVulkanLibrary(libpath)
+		
+	filter "configurations:Debug"
+		defines { "DEBUG" }
+		symbols "On"
+		
+	filter "configurations:Release"
+		defines { "NDEBUG" }
+		optimize "On"
+
+		
+	filter "platforms:x86"
+		architecture "x86"	
+		
+	filter "platforms:x64"
+		architecture "x86_64"
