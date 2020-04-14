@@ -308,33 +308,125 @@ void testMatrix()
 
 }
 
-class Car
+typedef void* HANDLE;
+
+class VulkanAPI
 {
 	private:
-		int wheels;
+		std::string name = "Vulklan API";
+	public:
+		std::string getName()
+		{
+			return name;
+		}
+
+};
+
+class DirectXAPI
+{
+private:
+	std::string name = "DirectX API";
 public:
-	void SetWheels(int num)
+	std::string getName()
 	{
-		wheels = num;
+		return name;
 	}
 
-	int GetWheels()
+};
+
+enum GRAPHIC_API
+{
+	VULKAN = 0,
+	DIRECTX = 1
+};
+
+class APIConfig
+{
+public:
+	VulkanAPI* apiVulkan = nullptr;
+	DirectXAPI* apiDirectx = nullptr;
+	GRAPHIC_API api;
+
+	std::string GetApi()
 	{
-		return wheels;
+		if (api == VULKAN)
+		{
+			return apiVulkan->getName();
+		}
+		else if (api == DIRECTX)
+		{
+			return apiDirectx->getName();
+		}
+		else
+		{
+			return "";
+		}
 	}
+};
+
+class InvisionRenderer
+{
+	private:
+		APIConfig* config;
+		
+public:
+	InvisionRenderer(GRAPHIC_API api, HANDLE& handle)
+	{
+		config = new APIConfig();
+		if (api == VULKAN)
+		{
+			config->apiVulkan = new VulkanAPI();
+			config->api = VULKAN;
+			handle = (HANDLE)(config);
+		}
+		else if (api == DIRECTX)
+		{
+			config->apiDirectx = new DirectXAPI();
+			config->api = DIRECTX;
+			DirectXAPI* ap = config->apiDirectx;
+			handle = (HANDLE)(config);
+		}
+		else
+		{
+			throw "undefined Handle";
+		}
+	}
+	~InvisionRenderer()
+	{
+		if (config->api == VULKAN)
+		{
+			delete config->apiVulkan;
+		}
+		else if (config->api == DIRECTX)
+		{
+			delete config->apiDirectx;
+		}
+
+		delete config;
+	 }
+
+};
+
+class InvisionCommandBuffer
+{
+	public:
+		void printSelectedAPI(void* handle)
+		{
+			std::cout << ((APIConfig*)handle)->GetApi() << std::endl;
+		}
 };
 
 void testCast()
 {
 
-	typedef void* HANDLE;
+	
+	HANDLE config;
 
-
-	Car car;
-	car.SetWheels(4);
-	std::cout << "Wheels before convert: " << car.GetWheels() << " " << std::endl;
-	HANDLE ptr = (HANDLE)(&car);
-	std::cout << "Wheels after convert: " << ((Car*)ptr)->GetWheels() << " " << std::endl;
+	InvisionRenderer *dx = new InvisionRenderer(DIRECTX, config);
+	InvisionCommandBuffer commandBuffer;
+	commandBuffer.printSelectedAPI(config);
+	dx->~InvisionRenderer();
+	int test = 0;
 }
 
 int main()
