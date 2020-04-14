@@ -308,6 +308,35 @@ void testMatrix()
 
 }
 
+class Car
+{
+	private:
+		int wheels;
+public:
+	void SetWheels(int num)
+	{
+		wheels = num;
+	}
+
+	int GetWheels()
+	{
+		return wheels;
+	}
+};
+
+void testCast()
+{
+
+	typedef void* HANDLE;
+
+
+	Car car;
+	car.SetWheels(4);
+	std::cout << "Wheels before convert: " << car.GetWheels() << " " << std::endl;
+	HANDLE ptr = (HANDLE)(&car);
+	std::cout << "Wheels after convert: " << ((Car*)ptr)->GetWheels() << " " << std::endl;
+}
+
 int main()
 {
 	//CPUID cpuid(0x80000004);
@@ -332,8 +361,9 @@ int main()
 	//testStackAllocator();
 	//testPoolAllocator();
 	//testPoolAllocatorStruct();
-	testVector();
-	testMatrix();
+	//testVector();
+	//testMatrix();
+	testCast();
 	
 	return 0;
 }

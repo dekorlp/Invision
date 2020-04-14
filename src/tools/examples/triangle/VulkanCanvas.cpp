@@ -32,8 +32,8 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 
 	mCache = Invision::CreatePipelineCache(vulkInstance);
 
-	auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/sandboxWindow/Shader/DrawUniformBuffer/vert.spv"));
-	auto fragShaderCode	= readFile(std::string(INVISION_BASE_DIR).append("/src/tools/sandboxWindow/Shader/DrawUniformBuffer/frag.spv"));
+	auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/examples/triangle/Shader/DrawUniformBuffer/vert.spv"));
+	auto fragShaderCode	= readFile(std::string(INVISION_BASE_DIR).append("/src/tools/examples/triangle/Shader/DrawUniformBuffer/frag.spv"));
 
 	Invision::VulkanShader vertShader(vulkInstance, vertShaderCode, VK_SHADER_STAGE_VERTEX_BIT);
 	Invision::VulkanShader fragShader(vulkInstance, fragShaderCode, VK_SHADER_STAGE_FRAGMENT_BIT);
