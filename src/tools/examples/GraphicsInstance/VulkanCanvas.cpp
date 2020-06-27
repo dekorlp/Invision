@@ -22,7 +22,8 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	//vulkInstance = vulkanInstance.Init("Hello World", "Invision", VK_MAKE_VERSION(1, 0, 0), VK_MAKE_VERSION(1, 0, 0), requiredExtensions);
 	//vulkanInstance.SetDebugMessanger(debugCallback);
 
-	graphicsEngine = std::make_shared<Invision::VulkanEngine>();
+	Invision::CanvasDimensions dim = { hwnd, size.GetWidth(), size.GetHeight() };
+	graphicsEngine = std::make_shared<Invision::VulkanEngine>(dim);
 	
 	m_timer.SetOwner(this);
 	m_timer.Start(5);

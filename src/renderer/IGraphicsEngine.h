@@ -5,6 +5,15 @@
 
 namespace Invision
 {
+
+	struct CanvasDimensions
+	{
+		HWND hwnd;
+		int width;
+		int height;
+
+	};
+
 	namespace EngineType
 	{
 		enum Type
@@ -18,7 +27,7 @@ namespace Invision
 	class IGraphicsEngine
 	{
 	public:
-		IGraphicsEngine(EngineType::Type type, std::string const& name, std::string const& version);
+		IGraphicsEngine(EngineType::Type type, std::string const& name, std::string const& version, CanvasDimensions canvas);
 
 		EngineType::Type type() const;
 

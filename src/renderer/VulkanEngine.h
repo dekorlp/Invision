@@ -6,6 +6,7 @@
 #include "renderer\Vulkan\VulkanException.h"
 #include "renderer\Vulkan\VulkanInstance.h"
 #include "renderer\Vulkan\VulkanDevice.h"
+#include "renderer\Vulkan\VulkanPresentation.h"
 
 #include "Vulkan/Vulkan.h"
 
@@ -29,7 +30,7 @@ namespace Invision
 		Invision::SVulkan vulkInstance;
 
 	public:
-		INVISION_API VulkanEngine();
+		INVISION_API VulkanEngine(CanvasDimensions canvas);
 
 		INVISION_API ~VulkanEngine();
 
