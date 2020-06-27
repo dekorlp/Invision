@@ -28,7 +28,11 @@
 //#include "renderer\Vulkan\VulkanIndexBuffer.h"
 //#include "renderer\Vulkan\VulkanUniformBuffer.h"
 //#include "renderer\Vulkan\VulkanDescriptorPool.h"
-#include "renderer/VulkanEngine.h"
+
+
+
+//#include "renderer/VulkanEngine.h"
+#include "renderer/GraphicsFactory.h"
 
 #include "math\Vector2.h"
 #include "math\Vector3.h"

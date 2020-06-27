@@ -1,5 +1,3 @@
-
-
 #include "VulkanCanvas.h"
 
 
@@ -23,8 +21,10 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	//vulkanInstance.SetDebugMessanger(debugCallback);
 
 	Invision::CanvasDimensions dim = { hwnd, size.GetWidth(), size.GetHeight() };
-	graphicsEngine = std::make_shared<Invision::VulkanEngine>(dim);
-	
+	//graphicsEngine = std::make_shared<Invision::VulkanEngine>(dim);
+	graphicsEngine = Invision::create_engine(Invision::EngineType::Vulkan, dim);
+
+
 	m_timer.SetOwner(this);
 	m_timer.Start(5);
 	this->Bind(wxEVT_TIMER, &VulkanCanvas::OnTimer, this);

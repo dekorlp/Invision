@@ -6,6 +6,7 @@
 namespace Invision
 {
 
+
 	struct CanvasDimensions
 	{
 		HWND hwnd;
