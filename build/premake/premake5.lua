@@ -388,3 +388,49 @@ project "Triangle"
 		
 	filter "platforms:x64"
 		architecture "x86_64"
+
+project "GraphicsInstance"
+	kind "WindowedApp"
+	entrypoint "WinMainCRTStartup"
+	language "C++"
+	targetdir (rootdir.."/bin/%{cfg.buildcfg}")
+	--cppdialect "C++17"
+	
+	files
+	{
+		srcroot .. "tools/examples/GraphicsInstance/**.h",
+		srcroot .. "tools/examples/GraphicsInstance/**.cpp"
+	}
+	
+	filter "system:Windows"		
+		
+	filter {}
+	
+	includedirs
+	{
+		-- Invision libraries
+		srcroot
+	}
+	
+	links { "Invision" }
+	
+	defines {"INVISION_BASE_DIR=" .. invision_root }
+	
+	AddWXWidgetStaticLibrary(libpath)
+	AddBoostLibrary(libpath)
+	AddVulkanLibrary(libpath)
+		
+	filter "configurations:Debug"
+		defines { "DEBUG" }
+		symbols "On"
+		
+	filter "configurations:Release"
+		defines { "NDEBUG" }
+		optimize "On"
+
+		
+	filter "platforms:x86"
+		architecture "x86"	
+		
+	filter "platforms:x64"
+		architecture "x86_64"
