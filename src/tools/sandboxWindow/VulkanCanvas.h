@@ -10,7 +10,7 @@
 
 #include "AdditionalFunctions.h"
 #include "InCommon.h"
-#include "renderer\Vulkan\Vulkan.h"
+#include "renderer\Vulkan\InVulkan.h"
 #include "renderer\Vulkan\VulkanException.h"
 #include "renderer\Vulkan\VulkanInstance.h"
 #include "renderer\Vulkan\VulkanDevice.h"

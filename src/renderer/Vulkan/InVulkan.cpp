@@ -2,7 +2,7 @@
 
 #include "VulkanException.h"
 
-#include "Vulkan.h"
+#include "InVulkan.h"
 namespace Invision
 {
 	SQueueFamilyIndices FindQueueFamilies(const VkPhysicalDevice& device, const VkSurfaceKHR surface)

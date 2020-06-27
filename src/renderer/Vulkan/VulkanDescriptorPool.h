@@ -2,7 +2,7 @@
 #define VULKAN_DESCRIPTOR_POOL_H
 
 #include "vulkan\vulkan.h"
-#include "Vulkan.h"
+#include "InVulkan.h"
 
 namespace Invision
 {

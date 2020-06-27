@@ -8,38 +8,42 @@
 
 #include <chrono>
 
+#include <iostream>
+#include <memory>
 #include "AdditionalFunctions.h"
 #include "InCommon.h"
-#include "renderer\Vulkan\Vulkan.h"
+/*#include "renderer\Vulkan\InVulkan.h"
 #include "renderer\Vulkan\VulkanException.h"
 #include "renderer\Vulkan\VulkanInstance.h"
-#include "renderer\Vulkan\VulkanDevice.h"
-#include "renderer\Vulkan\VulkanPresentation.h"
-#include "renderer\Vulkan\VulkanShader.h"
-#include "renderer\Vulkan\VulkanPipeline.h"
-#include "renderer\Vulkan\VulkanRenderPass.h"
-#include "renderer\Vulkan\VulkanFramebuffer.h"
-#include "renderer\Vulkan\VulkanCommandPool.h"
-#include "renderer\Vulkan\VulkanCommandBuffer.h"
-#include "renderer\Vulkan\VulkanRenderer.h"
-#include "renderer\Vulkan\VulkanVertexBuffer.h"
-#include "renderer\Vulkan\VulkanIndexBuffer.h"
-#include "renderer\Vulkan\VulkanUniformBuffer.h"
-#include "renderer\Vulkan\VulkanDescriptorPool.h"
+#include "renderer\Vulkan\VulkanDevice.h"*/
+//#include "renderer\Vulkan\VulkanPresentation.h"
+//#include "renderer\Vulkan\VulkanShader.h"
+//#include "renderer\Vulkan\VulkanPipeline.h"
+//#include "renderer\Vulkan\VulkanRenderPass.h"
+//#include "renderer\Vulkan\VulkanFramebuffer.h"
+//#include "renderer\Vulkan\VulkanCommandPool.h"
+//#include "renderer\Vulkan\VulkanCommandBuffer.h"
+//#include "renderer\Vulkan\VulkanRenderer.h"
+//#include "renderer\Vulkan\VulkanVertexBuffer.h"
+//#include "renderer\Vulkan\VulkanIndexBuffer.h"
+//#include "renderer\Vulkan\VulkanUniformBuffer.h"
+//#include "renderer\Vulkan\VulkanDescriptorPool.h"
+#include "renderer/VulkanEngine.h"
+
 #include "math\Vector2.h"
 #include "math\Vector3.h"
 #include "math\Matrix.h"
 
 
 
-static void debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+/*static void debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
 	VkDebugUtilsMessageTypeFlagsEXT messageType,
 	const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData)
 {
 	std::stringstream ss;
 	ss << "validation layer: " << pCallbackData->pMessage;
 	INVISION_LOG_RAWTEXT(ss.str());
-}
+}*/
 
 struct Vertex {
 	Invision::Vector2 position;
@@ -87,9 +91,11 @@ private:
 	void Render();
 
 	wxSize m_Size;
+	
+	std::shared_ptr <Invision::IGraphicsEngine> graphicsEngine;
 
-	Invision::VulkanInstance vulkanInstance;
-	Invision::VulkanPipeline pipeline;
+	//Invision::VulkanInstance vulkanInstance;
+	/*Invision::VulkanPipeline pipeline;
 	Invision::VulkanRenderPass renderPass;
 	Invision::VulkanFramebuffer framebuffer;
 	Invision::VulkanCommandPool commandPool;
@@ -98,9 +104,11 @@ private:
 
 	Invision::VulkanVertexBuffer vertexBuffer;
 	Invision::VulkanIndexBuffer indexBuffer;
-	Invision::VulkanUniformBuffer uniformBuffer;
+	Invision::VulkanUniformBuffer uniformBuffer;*/
 
-	VkPipelineCache mCache;
-	Invision::SVulkan vulkInstance;
+	//VkPipelineCache mCache;
+	//Invision::SVulkan vulkInstance;
+
+
 	wxTimer m_timer;
 };

@@ -9,7 +9,7 @@ required to support other windowing systems.
 #endif
 
 
-#include "Vulkan.h"
+#include "InVulkan.h"
 #include "VulkanException.h"
 
 #include "VulkanPresentation.h"
