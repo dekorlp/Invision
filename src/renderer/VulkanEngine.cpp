@@ -1,10 +1,15 @@
 #include "precompiled.h"
 
+#include "VulkanRender.h"
+
 #include "VulkanEngine.h"
+
 
 
 namespace Invision
 {
+
+
 	VulkanEngine::VulkanEngine(CanvasDimensions canvas) :
 		IGraphicsEngine(EngineType::Vulkan, "Vulkan", "1.2.137", canvas)
 	{
@@ -15,6 +20,11 @@ namespace Invision
 		Invision::CreateSurface(vulkInstance, canvas.hwnd);
 		Invision::CreateVulkanDevice(vulkInstance);
 		Invision::CreatePresentationSystem(vulkInstance, canvas.width, canvas.height);
+	}
+
+	std::shared_ptr <IRenderer> VulkanEngine::create_renderer()
+	{
+		return  std::make_shared<VulkanRenderer >(this);
 	}
 
 	VulkanEngine::~VulkanEngine()

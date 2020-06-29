@@ -1,18 +1,17 @@
 #ifndef VULKAN_ENGINE_H
 #define VULKAN_ENGINE_H
 
+#include <memory>
 #include "IGraphicsEngine.h"
-#include "renderer\Vulkan\InVulkan.h"
-#include "renderer\Vulkan\VulkanException.h"
-#include "renderer\Vulkan\VulkanInstance.h"
-#include "renderer\Vulkan\VulkanDevice.h"
-#include "renderer\Vulkan\VulkanPresentation.h"
-
+#include "renderer\Vulkan\VulkanBase.h"
+#include "renderer\Vulkan\VulkanBaseException.h"
+#include "renderer\Vulkan\VulkanBaseInstance.h"
+#include "renderer\Vulkan\VulkanBaseDevice.h"
+#include "renderer\Vulkan\VulkanBasePresentation.h"
 #include "Vulkan/Vulkan.h"
 
 namespace Invision
 {
-	
 
 	static void debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
 		VkDebugUtilsMessageTypeFlagsEXT messageType,
@@ -26,15 +25,15 @@ namespace Invision
 	class VulkanEngine : public IGraphicsEngine
 	{
 	private:
-		Invision::VulkanInstance vulkanInstance;
-		Invision::SVulkan vulkInstance;
+		Invision::VulkanBaseInstance vulkanInstance;
+		Invision::SVulkanBase vulkInstance;
 
 	public:
 		INVISION_API VulkanEngine(CanvasDimensions canvas);
-
+		INVISION_API std::shared_ptr <IRenderer> create_renderer() override;
 		INVISION_API ~VulkanEngine();
 
 	};
 
 }
-#endif //VulkanEngine
+#endif // VULKAN_ENGINE_H

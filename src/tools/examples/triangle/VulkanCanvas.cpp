@@ -35,8 +35,8 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/examples/triangle/Shader/DrawUniformBuffer/vert.spv"));
 	auto fragShaderCode	= readFile(std::string(INVISION_BASE_DIR).append("/src/tools/examples/triangle/Shader/DrawUniformBuffer/frag.spv"));
 
-	Invision::VulkanShader vertShader(vulkInstance, vertShaderCode, VK_SHADER_STAGE_VERTEX_BIT);
-	Invision::VulkanShader fragShader(vulkInstance, fragShaderCode, VK_SHADER_STAGE_FRAGMENT_BIT);
+	Invision::VulkanBaseShader vertShader(vulkInstance, vertShaderCode, VK_SHADER_STAGE_VERTEX_BIT);
+	Invision::VulkanBaseShader fragShader(vulkInstance, fragShaderCode, VK_SHADER_STAGE_FRAGMENT_BIT);
 
 
 	commandPool.CreateCommandPool(vulkInstance);
@@ -174,7 +174,7 @@ void VulkanCanvas::Render()
 		return;
 	}
 	else if (nextImageResult != VK_SUCCESS) {
-		throw Invision::VulkanException("failed to acquire swap chain image!");
+		throw Invision::VulkanBaseException("failed to acquire swap chain image!");
 	}
 
 	UpdateUniformBuffer(m_Size.GetWidth(), m_Size.GetHeight());
@@ -185,7 +185,7 @@ void VulkanCanvas::Render()
 		RecreateSwapChain(m_Size.GetWidth(), m_Size.GetHeight());
 	}
 	else if (drawFrameResult != VK_SUCCESS) {
-		throw Invision::VulkanException("failed to present swap chain image!");
+		throw Invision::VulkanBaseException("failed to present swap chain image!");
 	}
 }
 

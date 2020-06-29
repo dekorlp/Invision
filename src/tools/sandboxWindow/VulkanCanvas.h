@@ -10,22 +10,22 @@
 
 #include "AdditionalFunctions.h"
 #include "InCommon.h"
-#include "renderer\Vulkan\InVulkan.h"
-#include "renderer\Vulkan\VulkanException.h"
-#include "renderer\Vulkan\VulkanInstance.h"
-#include "renderer\Vulkan\VulkanDevice.h"
-#include "renderer\Vulkan\VulkanPresentation.h"
-#include "renderer\Vulkan\VulkanShader.h"
-#include "renderer\Vulkan\VulkanPipeline.h"
-#include "renderer\Vulkan\VulkanRenderPass.h"
-#include "renderer\Vulkan\VulkanFramebuffer.h"
-#include "renderer\Vulkan\VulkanCommandPool.h"
-#include "renderer\Vulkan\VulkanCommandBuffer.h"
-#include "renderer\Vulkan\VulkanRenderer.h"
-#include "renderer\Vulkan\VulkanVertexBuffer.h"
-#include "renderer\Vulkan\VulkanIndexBuffer.h"
-#include "renderer\Vulkan\VulkanUniformBuffer.h"
-#include "renderer\Vulkan\VulkanDescriptorPool.h"
+#include "renderer\Vulkan\VulkanBase.h"
+#include "renderer\Vulkan\VulkanBaseException.h"
+#include "renderer\Vulkan\VulkanBaseInstance.h"
+#include "renderer\Vulkan\VulkanBaseDevice.h"
+#include "renderer\Vulkan\VulkanBasePresentation.h"
+#include "renderer\Vulkan\VulkanBaseShader.h"
+#include "renderer\Vulkan\VulkanBasePipeline.h"
+#include "renderer\Vulkan\VulkanBaseRenderPass.h"
+#include "renderer\Vulkan\VulkanBaseFramebuffer.h"
+#include "renderer\Vulkan\VulkanBaseCommandPool.h"
+#include "renderer\Vulkan\VulkanBaseCommandBuffer.h"
+#include "renderer\Vulkan\VulkanBaseRenderer.h"
+#include "renderer\Vulkan\VulkanBaseVertexBuffer.h"
+#include "renderer\Vulkan\VulkanBaseIndexBuffer.h"
+#include "renderer\Vulkan\VulkanBaseUniformBuffer.h"
+#include "renderer\Vulkan\VulkanBaseDescriptorPool.h"
 #include "math\Vector2.h"
 #include "math\Vector3.h"
 #include "math\Matrix.h"
@@ -88,19 +88,19 @@ private:
 
 	wxSize m_Size;
 
-	Invision::VulkanInstance vulkanInstance;
-	Invision::VulkanPipeline pipeline;
-	Invision::VulkanRenderPass renderPass;
-	Invision::VulkanFramebuffer framebuffer;
-	Invision::VulkanCommandPool commandPool;
-	Invision::VulkanCommandBuffer commandBuffer;
-	Invision::VulkanRenderer renderer;
+	Invision::VulkanBaseInstance vulkanInstance;
+	Invision::VulkanBasePipeline pipeline;
+	Invision::VulkanBaseRenderPass renderPass;
+	Invision::VulkanBaseFramebuffer framebuffer;
+	Invision::VulkanBaseCommandPool commandPool;
+	Invision::VulkanBaseCommandBuffer commandBuffer;
+	Invision::VulkanBaseRenderer renderer;
 
-	Invision::VulkanVertexBuffer vertexBuffer;
-	Invision::VulkanIndexBuffer indexBuffer;
-	Invision::VulkanUniformBuffer uniformBuffer;
+	Invision::VulkanBaseVertexBuffer vertexBuffer;
+	Invision::VulkanBaseIndexBuffer indexBuffer;
+	Invision::VulkanBaseUniformBuffer uniformBuffer;
 
 	VkPipelineCache mCache;
-	Invision::SVulkan vulkInstance;
+	Invision::SVulkanBase vulkInstance;
 	wxTimer m_timer;
 };

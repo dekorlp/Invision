@@ -1,6 +1,6 @@
 ﻿#include "VulkanWindow.h"
 #include "AdditionalFunctions.h"
-#include "renderer\Vulkan\VulkanException.h"
+#include "renderer\Vulkan\VulkanBaseException.h"
 #include <iostream>
 #include <sstream>
 

@@ -2,6 +2,8 @@
 #define IGRAPHICS_ENGINE_H
 
 #include <string>
+#include "IRenderer.h"
+
 
 namespace Invision
 {
@@ -28,15 +30,17 @@ namespace Invision
 	class IGraphicsEngine
 	{
 	public:
-		IGraphicsEngine(EngineType::Type type, std::string const& name, std::string const& version, CanvasDimensions canvas);
+		 INVISION_API IGraphicsEngine(EngineType::Type type, std::string const& name, std::string const& version, CanvasDimensions canvas);
 
-		EngineType::Type type() const;
+		 INVISION_API EngineType::Type type() const;
 
-		std::string const& name() const;
+		 INVISION_API std::string const& name() const;
 
-		std::string const& version() const;
+		 INVISION_API std::string const& version() const;
 
-		~IGraphicsEngine();
+		 INVISION_API virtual std::shared_ptr<IRenderer> create_renderer() = 0;
+
+		 INVISION_API ~IGraphicsEngine();
 	private:
 		EngineType::Type Type_ = EngineType::Unknown;
 		std::string const Name_;
