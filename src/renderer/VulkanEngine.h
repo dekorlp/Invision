@@ -12,14 +12,16 @@
 
 namespace Invision
 {
-
-	static void debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
-		VkDebugUtilsMessageTypeFlagsEXT messageType,
-		const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData)
+	namespace VulkanDebug
 	{
-		std::stringstream ss;
-		ss << "validation layer: " << pCallbackData->pMessage;
-		INVISION_LOG_RAWTEXT(ss.str());
+		static void debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+			VkDebugUtilsMessageTypeFlagsEXT messageType,
+			const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData)
+		{
+			std::stringstream ss;
+			ss << "validation layer: " << pCallbackData->pMessage;
+			INVISION_LOG_RAWTEXT(ss.str());
+		}
 	}
 
 	class VulkanEngine : public IGraphicsEngine
