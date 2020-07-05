@@ -21,8 +21,9 @@ namespace Invision
 
 		vulkInstance = vulkanInstance.Init("Hello World", "Invision", VK_MAKE_VERSION(1, 0, 0), VK_MAKE_VERSION(1, 0, 0), requiredExtensions);
 		vulkanInstance.SetDebugMessanger(VulkanDebug::debugCallback);
+		Invision::VulkanBaseDevice().PickPhysicalDevice(vulkInstance);
 		Invision::CreateSurface(vulkInstance, canvas.hwnd);
-		Invision::CreateVulkanDevice(vulkInstance);
+		Invision::VulkanBaseDevice().CreateLogicalDevice(vulkInstance);
 		Invision::CreatePresentationSystem(vulkInstance, canvas.width, canvas.height);
 		commandPool.CreateCommandPool(vulkInstance);
 	}
