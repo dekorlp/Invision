@@ -27,6 +27,11 @@ namespace Invision
 		return  std::make_shared<VulkanRenderer >(this);
 	}
 
+	Invision::SVulkanBase VulkanEngine::GetVulkanInstance()
+	{
+		return vulkInstance;
+	}
+
 	VulkanEngine::~VulkanEngine()
 	{
 		Invision::DestroyPresentationSystem(vulkInstance);
