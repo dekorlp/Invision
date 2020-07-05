@@ -3,6 +3,8 @@
 
 
 #include "IRenderPass.h"
+#include "renderer\Vulkan\VulkanBaseRenderPass.h"
+
 namespace Invision
 {
 	class VulkanEngine;
@@ -13,6 +15,12 @@ namespace Invision
 		INVISION_API VulkanRenderPass() = delete;
 
 		INVISION_API VulkanRenderPass(VulkanEngine* engine);
+
+		INVISION_API ~VulkanRenderPass();
+
+	private:
+		Invision::VulkanBaseRenderPass renderPass;
+		Invision::VulkanEngine *vulkanEngine;
 
 	};
 
