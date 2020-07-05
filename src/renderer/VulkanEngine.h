@@ -8,6 +8,7 @@
 #include "renderer\Vulkan\VulkanBaseInstance.h"
 #include "renderer\Vulkan\VulkanBaseDevice.h"
 #include "renderer\Vulkan\VulkanBasePresentation.h"
+#include "renderer\Vulkan\VulkanBaseCommandPool.h"
 #include "Vulkan/Vulkan.h"
 
 namespace Invision
@@ -29,10 +30,12 @@ namespace Invision
 	private:
 		Invision::VulkanBaseInstance vulkanInstance;
 		Invision::SVulkanBase vulkInstance;
+		Invision::VulkanBaseCommandPool commandPool;
 
 	public:
 		INVISION_API VulkanEngine(CanvasDimensions canvas);
 		INVISION_API Invision::SVulkanBase GetVulkanInstance();
+		INVISION_API Invision::VulkanBaseCommandPool GetCommandPool();
 		INVISION_API std::shared_ptr <IRenderer> create_renderer() override;
 		INVISION_API std::shared_ptr <IRenderPass> CreateRenderPass() override; 
 		INVISION_API ~VulkanEngine();

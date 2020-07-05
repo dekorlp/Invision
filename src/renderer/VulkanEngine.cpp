@@ -21,6 +21,7 @@ namespace Invision
 		Invision::CreateSurface(vulkInstance, canvas.hwnd);
 		Invision::CreateVulkanDevice(vulkInstance);
 		Invision::CreatePresentationSystem(vulkInstance, canvas.width, canvas.height);
+		commandPool.CreateCommandPool(vulkInstance);
 	}
 
 	std::shared_ptr <IRenderer> VulkanEngine::create_renderer()
@@ -38,8 +39,14 @@ namespace Invision
 		return vulkInstance;
 	}
 
+	Invision::VulkanBaseCommandPool VulkanEngine::GetCommandPool()
+	{
+		return commandPool;
+	}
+
 	VulkanEngine::~VulkanEngine()
 	{
+		commandPool.DestroyCommandPool(vulkInstance);
 		Invision::DestroyPresentationSystem(vulkInstance);
 		Invision::DestroyVulkanDevice(vulkInstance);
 		Invision::DestroySurface(vulkInstance);
