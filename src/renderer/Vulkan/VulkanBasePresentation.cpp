@@ -29,6 +29,9 @@ namespace Invision
 		if (err != VK_SUCCESS) {
 			throw VulkanBaseException(err, "Cannot create a Win32 Vulkan surface:");
 		}
+
+
+		VulkanBasePresentation().IsDeviceSurfaceSuitable(vulkanInstance.physicalDeviceStruct, vulkanInstance.surface);
 #else
 #error The code in VulkanCanvas::CreateWindowSurface only supports Win32. Changes are \
 required to support other windowing systems.
@@ -99,9 +102,23 @@ required to support other windowing systems.
 		CreateImageViews(vulkanInstance);
 	}
 
+	bool VulkanBasePresentation::IsDeviceSurfaceSuitable(SVulkanBasePhysicalDevice vulkanPhysicalDevice, VkSurfaceKHR surface)
+	{
+
+		//SQueueFamilyIndices indices = FindQueueFamilies(physicalDevice, surface);
+		//bool extensionsSupported = CheckDeviceExtensionSupport(physicalDevice);
+
+		bool swapChainAdequate = false;
+		if (vulkanPhysicalDevice.extensionSupported) {
+			SwapChainSupportDetails swapChainSupport = QuerySwapChainSupport(vulkanPhysicalDevice.physicalDevice, surface);
+			swapChainAdequate = !swapChainSupport.formats.empty() && !swapChainSupport.presentModes.empty();
+		}
+		return swapChainAdequate;
+	}
+
 	void VulkanBasePresentation::CreateSwapChain(SVulkanBase &vulkanInstance, unsigned int width, unsigned int height)
 	{
-		SwapChainSupportDetails swapChainSupport = QuerySwapChainSupport(vulkanInstance.physicalDevice, vulkanInstance.surface);
+		SwapChainSupportDetails swapChainSupport = QuerySwapChainSupport(vulkanInstance.physicalDeviceStruct.physicalDevice, vulkanInstance.surface);
 
 		VkSurfaceFormatKHR surfaceFormat = ChooseSwapSurfaceFormat(swapChainSupport.formats);
 		VkPresentModeKHR presentMode = ChooseSwapPresentMode(swapChainSupport.presentModes);
@@ -122,7 +139,7 @@ required to support other windowing systems.
 		createInfo.imageArrayLayers = 1;
 		createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
-		SQueueFamilyIndices indices = FindQueueFamilies(vulkanInstance.physicalDevice, vulkanInstance.surface);
+		SQueueFamilyIndices indices = FindQueueFamilies(vulkanInstance.physicalDeviceStruct.physicalDevice, vulkanInstance.surface);
 		uint32_t queueFamilyIndices[] = { (uint32_t)indices.graphicsFamily, (uint32_t)indices.presentFamily };
 
 		if (indices.graphicsFamily != indices.presentFamily) {

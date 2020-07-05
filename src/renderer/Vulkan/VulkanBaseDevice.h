@@ -22,7 +22,8 @@ namespace Invision
 		void CreateLogicalDevice(SVulkanBase& logicalDevice);
 
 	private:
-		bool IsDeviceSuitable(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface);
+		bool IsDeviceSuitable(VkPhysicalDevice physicalDevice);
+		void PickDeviceInformations(SVulkanBase &vulkanInstance, VkPhysicalDevice physicalDevice);
 		
 		bool CheckDeviceExtensionSupport(const VkPhysicalDevice& device) const;
 		

@@ -9,7 +9,7 @@ namespace Invision
 {
 	void VulkanBaseCommandPool::CreateCommandPool(SVulkanBase &vulkanInstance)
 	{
-		SQueueFamilyIndices queueFamilyIndices = Invision::FindQueueFamilies(vulkanInstance.physicalDevice);
+		SQueueFamilyIndices queueFamilyIndices = Invision::FindQueueFamilies(vulkanInstance.physicalDeviceStruct.physicalDevice);
 
 		VkCommandPoolCreateInfo poolInfo = {};
 		poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;

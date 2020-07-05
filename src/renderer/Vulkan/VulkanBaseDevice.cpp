@@ -32,6 +32,8 @@ namespace Invision
 
 	void VulkanBaseDevice::PickPhysicalDevice(SVulkanBase &vulkanInstance)
 	{
+		//VkPhysicalDevice physDevice;
+
 		if (!vulkanInstance.instance) {
 			throw InvisionBaseRendererException("Programming Error:\n"
 				"Attempted to get a Vulkan physical device before the Vulkan instance was created.");
@@ -44,14 +46,27 @@ namespace Invision
 		std::vector<VkPhysicalDevice> devices(deviceCount);
 		vkEnumeratePhysicalDevices(vulkanInstance.instance, &deviceCount, devices.data());
 		for (const auto& device : devices) {
-			if (IsDeviceSuitable(device, vulkanInstance.surface)) {
-				vulkanInstance.physicalDevice = device;
+			if (IsDeviceSuitable(device)) {
+				vulkanInstance.physicalDeviceStruct.physicalDevice = device;
 				break;
 			}
 		}
-		if (vulkanInstance.physicalDevice == VK_NULL_HANDLE) {
+		if (vulkanInstance.physicalDeviceStruct.physicalDevice == VK_NULL_HANDLE) {
 			throw InvisionBaseRendererException("No physical GPU could be found with the required extensions and swap chain support.");
 		}
+
+		//Pick Device Informations
+		PickDeviceInformations(vulkanInstance, vulkanInstance.physicalDeviceStruct.physicalDevice);
+		
+	}
+
+	void VulkanBaseDevice::PickDeviceInformations(SVulkanBase &vulkanInstance, VkPhysicalDevice physicalDevice)
+	{
+		bool extensionsSupported = CheckDeviceExtensionSupport(physicalDevice);
+		
+		vkGetPhysicalDeviceProperties(physicalDevice, &(vulkanInstance.physicalDeviceStruct.deviceProperties));
+		vkGetPhysicalDeviceFeatures(physicalDevice, &vulkanInstance.physicalDeviceStruct.deviceFeatures);
+
 	}
 
 
@@ -80,13 +95,13 @@ namespace Invision
 
 	void VulkanBaseDevice::CreateLogicalDevice(SVulkanBase& vulkanInstance)
 	{
-		SQueueFamilyIndices indices = FindQueueFamilies(vulkanInstance.physicalDevice, vulkanInstance.surface);
+		SQueueFamilyIndices indices = FindQueueFamilies(vulkanInstance.physicalDeviceStruct.physicalDevice, vulkanInstance.surface);
 		std::set<int> uniqueQueueFamilies = { indices.graphicsFamily, indices.presentFamily };
 		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos = CreateQueueCreateInfos(uniqueQueueFamilies);
 		VkPhysicalDeviceFeatures deviceFeatures = {};
 		VkDeviceCreateInfo createInfo = CreateDeviceCreateInfo(vulkanInstance, queueCreateInfos, deviceFeatures);
 
-		VkResult result = vkCreateDevice(vulkanInstance.physicalDevice, &createInfo, nullptr, &(vulkanInstance.logicalDevice));
+		VkResult result = vkCreateDevice(vulkanInstance.physicalDeviceStruct.physicalDevice, &createInfo, nullptr, &(vulkanInstance.logicalDevice));
 		if (result != VK_SUCCESS) {
 			throw VulkanBaseException(result, "Unable to create a logical device");
 		}
@@ -95,19 +110,14 @@ namespace Invision
 		vkGetDeviceQueue(vulkanInstance.logicalDevice, indices.presentFamily, 0, &vulkanInstance.presentQueue);
 	}
 
-	bool VulkanBaseDevice::IsDeviceSuitable(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface)
+	bool VulkanBaseDevice::IsDeviceSuitable(VkPhysicalDevice physicalDevice)
 	{
-		
-		SQueueFamilyIndices indices = FindQueueFamilies(physicalDevice, surface);
-		bool extensionsSupported = CheckDeviceExtensionSupport(physicalDevice);
 
-		bool swapChainAdequate = false;
-		if (extensionsSupported) {
-			SwapChainSupportDetails swapChainSupport = QuerySwapChainSupport(physicalDevice, surface);
-			swapChainAdequate = !swapChainSupport.formats.empty() && !swapChainSupport.presentModes.empty();
-		}
-		return indices.IsComplete() & extensionsSupported && swapChainAdequate;
+		SQueueFamilyIndices indices = FindQueueFamilies(physicalDevice);
+		bool extensionsSupported = CheckDeviceExtensionSupport(physicalDevice);
+		return indices.GraphicsFamilyIsSet() & extensionsSupported;
 	}
+
 
 	
 

@@ -26,7 +26,7 @@ namespace Invision
 			if (queueFamily.queueCount > 0 && presentSupport) {
 				indices.presentFamily = i;
 			}
-			if (indices.IsComplete()) {
+			if (indices.GraphicsFamilyIsSet() && indices.PresentFamilyIsSet()) {
 				break;
 			}
 			++i;
@@ -49,7 +49,7 @@ namespace Invision
 				indices.graphicsFamily = i;
 			}
 
-			if (indices.IsComplete()) {
+			if (indices.GraphicsFamilyIsSet()) {
 				break;
 			}
 

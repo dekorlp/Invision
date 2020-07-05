@@ -6,6 +6,20 @@
 namespace Invision
 {
 
+	struct SVulkanBasePhysicalDevice 
+	{
+		VkPhysicalDevice physicalDevice;
+		bool extensionSupported;
+		VkPhysicalDeviceProperties deviceProperties;
+		VkPhysicalDeviceFeatures deviceFeatures;
+
+
+		SVulkanBasePhysicalDevice() : physicalDevice(VK_NULL_HANDLE), extensionSupported(false)
+		{
+
+		}
+	};
+
 	struct SVulkanBase
 	{
 		// Instance Subsystem
@@ -14,7 +28,9 @@ namespace Invision
 		std::vector<const char*> validationLayers;
 
 		// Device Subsystem
-		VkPhysicalDevice physicalDevice;
+		//VkPhysicalDevice physicalDevice;
+		SVulkanBasePhysicalDevice physicalDeviceStruct;
+
 		VkDevice logicalDevice;
 		VkSurfaceKHR surface;
 		VkQueue graphicsQueue;
@@ -31,7 +47,7 @@ namespace Invision
 		uint32_t mImageIndex;
 
 
-		SVulkanBase() : physicalDevice(VK_NULL_HANDLE), logicalDevice(VK_NULL_HANDLE),
+		SVulkanBase() : logicalDevice(VK_NULL_HANDLE),
 			surface(VK_NULL_HANDLE), graphicsQueue(VK_NULL_HANDLE), 
 			presentQueue(VK_NULL_HANDLE), swapChain(VK_NULL_HANDLE)
 		{
@@ -43,8 +59,14 @@ namespace Invision
 		int graphicsFamily = -1;
 		int presentFamily = -1;
 
-		bool IsComplete() {
-			return graphicsFamily >= 0 && presentFamily >= 0;
+		bool GraphicsFamilyIsSet()
+		{
+			return graphicsFamily >= 0;
+		}
+
+		bool PresentFamilyIsSet()
+		{
+			return presentFamily >= 0;
 		}
 	};
 

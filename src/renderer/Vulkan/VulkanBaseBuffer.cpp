@@ -27,7 +27,7 @@ namespace Invision
 		VkMemoryAllocateInfo allocInfo = {};
 		allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 		allocInfo.allocationSize = memRequirements.size;
-		allocInfo.memoryTypeIndex = Invision::findMemoryType(vulkanInstance.physicalDevice, memRequirements.memoryTypeBits, properties);
+		allocInfo.memoryTypeIndex = Invision::findMemoryType(vulkanInstance.physicalDeviceStruct.physicalDevice, memRequirements.memoryTypeBits, properties);
 
 		if (vkAllocateMemory(vulkanInstance.logicalDevice, &allocInfo, nullptr, &mBufferMemory) != VK_SUCCESS) {
 			throw std::runtime_error("failed to allocate vertex buffer memory!");
