@@ -97,6 +97,7 @@ private:
 	wxSize m_Size;
 	
 	std::shared_ptr <Invision::IGraphicsEngine> graphicsEngine;
+	std::shared_ptr <Invision::IRenderPass> renderPass;
 
 	//Invision::VulkanInstance vulkanInstance;
 	/*Invision::VulkanPipeline pipeline;

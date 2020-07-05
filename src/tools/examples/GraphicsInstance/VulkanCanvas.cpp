@@ -23,6 +23,7 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	Invision::CanvasDimensions dim = { hwnd, size.GetWidth(), size.GetHeight() };
 	//graphicsEngine = std::make_shared<Invision::VulkanEngine>(dim);
 	graphicsEngine = Invision::create_engine(Invision::EngineType::Vulkan, dim);
+	renderPass = graphicsEngine->CreateRenderPass();
 
 
 	m_timer.SetOwner(this);

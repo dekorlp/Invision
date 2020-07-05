@@ -34,6 +34,7 @@ namespace Invision
 		INVISION_API VulkanEngine(CanvasDimensions canvas);
 		INVISION_API Invision::SVulkanBase GetVulkanInstance();
 		INVISION_API std::shared_ptr <IRenderer> create_renderer() override;
+		INVISION_API std::shared_ptr <IRenderPass> CreateRenderPass() override; 
 		INVISION_API ~VulkanEngine();
 
 	};

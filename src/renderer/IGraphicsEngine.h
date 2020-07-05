@@ -3,6 +3,7 @@
 
 #include <string>
 #include "IRenderer.h"
+#include "IRenderPass.h"
 
 
 namespace Invision
@@ -39,7 +40,7 @@ namespace Invision
 		 INVISION_API std::string const& version() const;
 
 		 INVISION_API virtual std::shared_ptr<IRenderer> create_renderer() = 0;
-
+		 INVISION_API virtual std::shared_ptr <IRenderPass> CreateRenderPass() = 0;
 		 INVISION_API ~IGraphicsEngine();
 	private:
 		EngineType::Type Type_ = EngineType::Unknown;

@@ -1,6 +1,7 @@
 #include "precompiled.h"
 
 #include "VulkanRender.h"
+#include "VulkanRenderPass.h"
 
 #include "VulkanEngine.h"
 
@@ -25,6 +26,11 @@ namespace Invision
 	std::shared_ptr <IRenderer> VulkanEngine::create_renderer()
 	{
 		return  std::make_shared<VulkanRenderer >(this);
+	}
+
+	INVISION_API std::shared_ptr<IRenderPass> VulkanEngine::CreateRenderPass()
+	{
+		return  std::make_shared<VulkanRenderPass>(this);
 	}
 
 	Invision::SVulkanBase VulkanEngine::GetVulkanInstance()
