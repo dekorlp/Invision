@@ -98,6 +98,7 @@ private:
 	
 	std::shared_ptr <Invision::IGraphicsEngine> graphicsEngine;
 	std::shared_ptr <Invision::IRenderPass> renderPass;
+	std::shared_ptr <Invision::IVertexBuffer> vertexBuffer;
 
 	//Invision::VulkanInstance vulkanInstance;
 	/*Invision::VulkanPipeline pipeline;

@@ -25,6 +25,11 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	graphicsEngine = Invision::create_engine(Invision::EngineType::Vulkan, dim);
 	renderPass = graphicsEngine->CreateRenderPass();
 
+	vertexBuffer = graphicsEngine->CreateVertexBuffer();
+	vertexBuffer->CreateVertexBuffer(sizeof(vertices[0]) * vertices.size(), vertices.data(), 0);
+	vertexBuffer->CreateVertexInput(0, sizeof(Vertex), Invision::VERTEX_INPUT_RATE_VERTEX)
+		.CreateAttribute(0, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, position))
+		.CreateAttribute(1, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color));
 
 	m_timer.SetOwner(this);
 	m_timer.Start(5);

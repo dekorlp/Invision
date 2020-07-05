@@ -2,6 +2,7 @@
 
 #include "VulkanRender.h"
 #include "VulkanRenderPass.h"
+#include "VulkanVertexBuffer.h"
 
 #include "VulkanEngine.h"
 
@@ -29,9 +30,14 @@ namespace Invision
 		return  std::make_shared<VulkanRenderer >(this);
 	}
 
-	INVISION_API std::shared_ptr<IRenderPass> VulkanEngine::CreateRenderPass()
+	std::shared_ptr<IRenderPass> VulkanEngine::CreateRenderPass()
 	{
 		return  std::make_shared<VulkanRenderPass>(this);
+	}
+
+	std::shared_ptr<IVertexBuffer> VulkanEngine::CreateVertexBuffer()
+	{
+		return  std::make_shared<VulkanVertexBuffer>(this);
 	}
 
 	Invision::SVulkanBase VulkanEngine::GetVulkanInstance()
