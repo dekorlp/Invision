@@ -24,12 +24,16 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	//graphicsEngine = std::make_shared<Invision::VulkanEngine>(dim);
 	graphicsEngine = Invision::create_engine(Invision::EngineType::Vulkan, dim);
 	renderPass = graphicsEngine->CreateRenderPass();
-
 	vertexBuffer = graphicsEngine->CreateVertexBuffer();
+	uniformBuffer = graphicsEngine->CreateUniformBuffer();
+
+
 	vertexBuffer->CreateVertexBuffer(sizeof(vertices[0]) * vertices.size(), vertices.data(), 0);
 	vertexBuffer->CreateVertexInput(0, sizeof(Vertex), Invision::VERTEX_INPUT_RATE_VERTEX)
 		.CreateAttribute(0, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, position))
 		.CreateAttribute(1, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color));
+
+	uniformBuffer->CreateUniformBinding(0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject), 0).CreateUniformBuffer();
 
 	m_timer.SetOwner(this);
 	m_timer.Start(5);

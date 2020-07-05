@@ -3,6 +3,7 @@
 
 
 #include "IUniformBuffer.h"
+#include "renderer\Vulkan\VulkanBaseUniformBuffer.h"
 
 namespace Invision
 {
@@ -15,11 +16,15 @@ namespace Invision
 
 		INVISION_API VulkanUniformBuffer(VulkanEngine* engine);
 
+		INVISION_API VulkanUniformBuffer& CreateUniformBinding(uint32_t binding, uint32_t descriptorCount, ShaderStage shaderStage, uint64_t bufferSize, uint64_t offset);
+
+		INVISION_API void CreateUniformBuffer();
+
 		INVISION_API ~VulkanUniformBuffer();
 
 	private:
 		Invision::VulkanEngine *vulkanEngine;
-
+		Invision::VulkanBaseUniformBuffer uniformBuffer;
 	};
 
 }

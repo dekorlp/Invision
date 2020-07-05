@@ -3,6 +3,7 @@
 #include "VulkanRender.h"
 #include "VulkanRenderPass.h"
 #include "VulkanVertexBuffer.h"
+#include "VulkanUniformBuffer.h"
 
 #include "VulkanEngine.h"
 
@@ -38,6 +39,11 @@ namespace Invision
 	std::shared_ptr<IVertexBuffer> VulkanEngine::CreateVertexBuffer()
 	{
 		return  std::make_shared<VulkanVertexBuffer>(this);
+	}
+
+	std::shared_ptr<IUniformBuffer> VulkanEngine::CreateUniformBuffer()
+	{
+		return std::make_shared<VulkanUniformBuffer>(this);
 	}
 
 	Invision::SVulkanBase VulkanEngine::GetVulkanInstance()
