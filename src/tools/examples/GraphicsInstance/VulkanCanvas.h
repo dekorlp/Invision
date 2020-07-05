@@ -100,6 +100,7 @@ private:
 	std::shared_ptr <Invision::IRenderPass> renderPass;
 	std::shared_ptr <Invision::IVertexBuffer> vertexBuffer;
 	std::shared_ptr <Invision::IUniformBuffer> uniformBuffer;
+	std::shared_ptr <Invision::IIndexBuffer> indexBuffer;
 
 	//Invision::VulkanInstance vulkanInstance;
 	/*Invision::VulkanPipeline pipeline;

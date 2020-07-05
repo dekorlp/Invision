@@ -40,6 +40,8 @@ namespace Invision
 		INVISION_API std::shared_ptr <IRenderPass> CreateRenderPass() override; 
 		INVISION_API std::shared_ptr<IVertexBuffer> CreateVertexBuffer() override;
 		INVISION_API std::shared_ptr<IUniformBuffer> CreateUniformBuffer() override;
+		INVISION_API std::shared_ptr<IIndexBuffer> CreateIndexBuffer() override;
+
 		INVISION_API ~VulkanEngine();
 
 	};
