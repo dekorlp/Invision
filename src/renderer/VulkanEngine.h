@@ -32,8 +32,14 @@ namespace Invision
 		Invision::SVulkanBase vulkInstance;
 		Invision::VulkanBaseCommandPool commandPool;
 
+		PhysicalDeviceProperties ConvertPhysicalDeviceParameters(SVulkanBasePhysicalDevice physicalDeviceStruct);
+
 	public:
-		INVISION_API VulkanEngine(CanvasDimensions canvas);
+		INVISION_API VulkanEngine();
+
+		INVISION_API void Init(CanvasDimensions canvas);
+		INVISION_API void Init(unsigned int index, CanvasDimensions canvas);
+
 		INVISION_API Invision::SVulkanBase GetVulkanInstance();
 		INVISION_API Invision::VulkanBaseCommandPool GetCommandPool();
 		INVISION_API std::shared_ptr <IRenderer> create_renderer() override;
@@ -41,6 +47,9 @@ namespace Invision
 		INVISION_API std::shared_ptr<IVertexBuffer> CreateVertexBuffer() override;
 		INVISION_API std::shared_ptr<IUniformBuffer> CreateUniformBuffer() override;
 		INVISION_API std::shared_ptr<IIndexBuffer> CreateIndexBuffer() override;
+
+
+		INVISION_API std::vector< PhysicalDeviceProperties> GetPhysicalDevices();
 
 		INVISION_API ~VulkanEngine();
 

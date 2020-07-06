@@ -19,11 +19,14 @@ namespace Invision
 		void GetDevices(SVulkanBase &vulkanInstance);
 
 		void PickPhysicalDevice(SVulkanBase &vulkanInstance);
+		void PickPhysicalDevice(SVulkanBase &vulkanInstance, unsigned int index);
 		void CreateLogicalDevice(SVulkanBase& logicalDevice);
+
+		void PickDeviceInformations(SVulkanBase &vulkanInstance, VkPhysicalDevice physicalDevice);
 
 	private:
 		bool IsDeviceSuitable(VkPhysicalDevice physicalDevice);
-		void PickDeviceInformations(SVulkanBase &vulkanInstance, VkPhysicalDevice physicalDevice);
+		
 		
 		bool CheckDeviceExtensionSupport(const VkPhysicalDevice& device) const;
 		

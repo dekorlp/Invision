@@ -5,6 +5,6 @@
 
 namespace Invision
 {
-	INVISION_API std::shared_ptr<IGraphicsEngine> create_engine(EngineType::Type type, CanvasDimensions canvas);
+	INVISION_API std::shared_ptr<IGraphicsEngine> create_engine(EngineType::Type type);
 }
 #endif // GRAPHICS_FACTORY_H

@@ -12,6 +12,7 @@ namespace Invision
 		bool extensionSupported;
 		VkPhysicalDeviceProperties deviceProperties;
 		VkPhysicalDeviceFeatures deviceFeatures;
+		unsigned int index;
 
 
 		SVulkanBasePhysicalDevice() : physicalDevice(VK_NULL_HANDLE), extensionSupported(false)

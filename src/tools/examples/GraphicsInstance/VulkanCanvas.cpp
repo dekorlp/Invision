@@ -22,11 +22,13 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 
 	Invision::CanvasDimensions dim = { hwnd, size.GetWidth(), size.GetHeight() };
 	//graphicsEngine = std::make_shared<Invision::VulkanEngine>(dim);
-	graphicsEngine = Invision::create_engine(Invision::EngineType::Vulkan, dim);
+	graphicsEngine = Invision::create_engine(Invision::EngineType::Vulkan);
+	graphicsEngine->Init(dim);
 	renderPass = graphicsEngine->CreateRenderPass();
 	vertexBuffer = graphicsEngine->CreateVertexBuffer();
 	uniformBuffer = graphicsEngine->CreateUniformBuffer();
 	indexBuffer = graphicsEngine->CreateIndexBuffer();
+
 
 
 	vertexBuffer->CreateVertexBuffer(sizeof(vertices[0]) * vertices.size(), vertices.data(), 0);

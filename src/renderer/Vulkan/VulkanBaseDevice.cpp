@@ -45,19 +45,62 @@ namespace Invision
 		}
 		std::vector<VkPhysicalDevice> devices(deviceCount);
 		vkEnumeratePhysicalDevices(vulkanInstance.instance, &deviceCount, devices.data());
+		int index = 0;
 		for (const auto& device : devices) {
 			if (IsDeviceSuitable(device)) {
 				vulkanInstance.physicalDeviceStruct.physicalDevice = device;
 				break;
 			}
+			index++;
 		}
+		vulkanInstance.physicalDeviceStruct.index = index;
+
 		if (vulkanInstance.physicalDeviceStruct.physicalDevice == VK_NULL_HANDLE) {
-			throw InvisionBaseRendererException("No physical GPU could be found with the required extensions and swap chain support.");
+			throw InvisionBaseRendererException("No physical GPU could be found with the required extensions support.");
 		}
 
 		//Pick Device Informations
 		PickDeviceInformations(vulkanInstance, vulkanInstance.physicalDeviceStruct.physicalDevice);
 		
+	}
+
+	void VulkanBaseDevice::PickPhysicalDevice(SVulkanBase &vulkanInstance, unsigned int index)
+	{
+		if (!vulkanInstance.instance) {
+			throw InvisionBaseRendererException("Programming Error:\n"
+				"Attempted to get a Vulkan physical device before the Vulkan instance was created.");
+		}
+		uint32_t deviceCount = 0;
+		vkEnumeratePhysicalDevices(vulkanInstance.instance, &deviceCount, nullptr);
+		if (deviceCount == 0) {
+			throw InvisionBaseRendererException("Failed to find a GPU with Vulkan support.");
+		}
+		std::vector<VkPhysicalDevice> devices(deviceCount);
+		vkEnumeratePhysicalDevices(vulkanInstance.instance, &deviceCount, devices.data());
+		int i = 0;
+		bool deviceFound = false;
+		for (const auto& device : devices) {
+			if (index == i)
+			{
+				vulkanInstance.physicalDeviceStruct.physicalDevice = device;
+				deviceFound = true;
+				break;
+			}
+			i++;
+		}
+
+		if (deviceFound == false)
+		{
+			throw InvisionBaseRendererException("No physical GPU could be found with the required index support.");
+		}
+		vulkanInstance.physicalDeviceStruct.index = index;
+
+		if (vulkanInstance.physicalDeviceStruct.physicalDevice == VK_NULL_HANDLE) {
+			throw InvisionBaseRendererException("No physical GPU could be found with the required extensions support.");
+		}
+
+		//Pick Device Informations
+		PickDeviceInformations(vulkanInstance, vulkanInstance.physicalDeviceStruct.physicalDevice);
 	}
 
 	void VulkanBaseDevice::PickDeviceInformations(SVulkanBase &vulkanInstance, VkPhysicalDevice physicalDevice)

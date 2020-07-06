@@ -11,6 +11,25 @@
 namespace Invision
 {
 
+	enum PhysicalDeviceType
+	{
+		PHYSICAL_DEVICE_TYPE_OTHER = 0,
+		PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU = 1,
+		PHYSICAL_DEVICE_TYPE_DISCRETE_GPU = 2,
+		PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU = 3,
+		PHYSICAL_DEVICE_TYPE_CPU = 4,
+	};
+
+	struct PhysicalDeviceProperties
+	{
+		uint32_t index;
+		uint32_t apiVersion;
+		uint32_t driverVersion;
+		uint32_t vendorID;
+		uint32_t deviceID;
+		PhysicalDeviceType deviceType;
+		char deviceName[256];
+	};
 
 	struct CanvasDimensions
 	{
@@ -33,7 +52,11 @@ namespace Invision
 	class IGraphicsEngine
 	{
 	public:
-		 INVISION_API IGraphicsEngine(EngineType::Type type, std::string const& name, std::string const& version, CanvasDimensions canvas);
+		 INVISION_API IGraphicsEngine(EngineType::Type type, std::string const& name, std::string const& version);
+
+		 INVISION_API virtual void Init(CanvasDimensions canvas) = 0;
+		 INVISION_API virtual void Init(unsigned int index, CanvasDimensions canvas) = 0;
+
 
 		 INVISION_API EngineType::Type type() const;
 
@@ -47,9 +70,13 @@ namespace Invision
 		 INVISION_API virtual std::shared_ptr<IUniformBuffer> CreateUniformBuffer() = 0;
 		 INVISION_API virtual std::shared_ptr<IIndexBuffer> CreateIndexBuffer() = 0;
 
+		 INVISION_API virtual std::vector< PhysicalDeviceProperties> GetPhysicalDevices() = 0;
+
+
 		 INVISION_API ~IGraphicsEngine();
-	private:
+	protected:
 		EngineType::Type Type_ = EngineType::Unknown;
+		PhysicalDeviceProperties deviceProperties;
 		std::string const Name_;
 		std::string const Version_;
 	};
