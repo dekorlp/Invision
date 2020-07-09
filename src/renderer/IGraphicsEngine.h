@@ -7,6 +7,7 @@
 #include "IVertexBuffer.h"
 #include "IUniformBuffer.h"
 #include "IIndexBuffer.h"
+#include "IPipeline.h"
 
 namespace Invision
 {
@@ -69,6 +70,7 @@ namespace Invision
 		 INVISION_API virtual std::shared_ptr<IVertexBuffer> CreateVertexBuffer() = 0;
 		 INVISION_API virtual std::shared_ptr<IUniformBuffer> CreateUniformBuffer() = 0;
 		 INVISION_API virtual std::shared_ptr<IIndexBuffer> CreateIndexBuffer() = 0;
+		 INVISION_API virtual std::shared_ptr<IPipeline> CreatePipeline() = 0;
 
 		 INVISION_API virtual std::vector< PhysicalDeviceProperties> GetPhysicalDevices() = 0;
 

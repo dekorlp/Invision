@@ -28,7 +28,7 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	vertexBuffer = graphicsEngine->CreateVertexBuffer();
 	uniformBuffer = graphicsEngine->CreateUniformBuffer();
 	indexBuffer = graphicsEngine->CreateIndexBuffer();
-
+	pipeline = graphicsEngine->CreatePipeline();
 
 
 	vertexBuffer->CreateVertexBuffer(sizeof(vertices[0]) * vertices.size(), vertices.data(), 0);
@@ -39,6 +39,9 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	indexBuffer->CreateIndexBuffer(sizeof(indices[0]) * indices.size(), indices.data(), 0);
 
 	uniformBuffer->CreateUniformBinding(0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject), 0).CreateUniformBuffer();
+
+	auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/examples/triangle/Shader/DrawUniformBuffer/vert.spv"));
+	auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/examples/triangle/Shader/DrawUniformBuffer/frag.spv"));
 
 	m_timer.SetOwner(this);
 	m_timer.Start(5);

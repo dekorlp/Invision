@@ -47,6 +47,7 @@ namespace Invision
 		INVISION_API std::shared_ptr<IVertexBuffer> CreateVertexBuffer() override;
 		INVISION_API std::shared_ptr<IUniformBuffer> CreateUniformBuffer() override;
 		INVISION_API std::shared_ptr<IIndexBuffer> CreateIndexBuffer() override;
+		INVISION_API std::shared_ptr<IPipeline> CreatePipeline() override;
 
 
 		INVISION_API std::vector< PhysicalDeviceProperties> GetPhysicalDevices();
