@@ -2,6 +2,7 @@
 
 #include "GraphicsFactory.h"
 
+
 namespace Invision
 {
 	std::shared_ptr<IGraphicsEngine> create_engine(EngineType::Type type)

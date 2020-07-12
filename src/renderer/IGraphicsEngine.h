@@ -11,7 +11,6 @@
 
 namespace Invision
 {
-
 	enum PhysicalDeviceType
 	{
 		PHYSICAL_DEVICE_TYPE_OTHER = 0,
@@ -19,6 +18,14 @@ namespace Invision
 		PHYSICAL_DEVICE_TYPE_DISCRETE_GPU = 2,
 		PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU = 3,
 		PHYSICAL_DEVICE_TYPE_CPU = 4,
+	};
+
+	enum ShaderStage
+	{
+		SHADER_STAGE_VERTEX_BIT = 0,
+		SHADER_STAGE_GEOMETRY_BIT = 2,
+		SHADER_STAGE_FRAGMENT_BIT = 3,
+		SHADER_STAGE_COMPUTE_BIT = 4
 	};
 
 	struct PhysicalDeviceProperties

@@ -20,6 +20,8 @@ namespace Invision
 
 		INVISION_API void CreateUniformBuffer();
 
+		INVISION_API VulkanBaseUniformBuffer GetBuffer();
+
 		INVISION_API ~VulkanUniformBuffer();
 
 	private:

@@ -4,7 +4,6 @@
 
 #include "IGraphicsEngine.h"
 
-
 namespace Invision
 {
 	IPipeline::IPipeline(IGraphicsEngine* engine) :

@@ -7,13 +7,9 @@ namespace Invision
 
 	class IGraphicsEngine;
 
-	enum ShaderStage
-	{
-		SHADER_STAGE_VERTEX_BIT = 0,
-		SHADER_STAGE_GEOMETRY_BIT = 2,
-		SHADER_STAGE_FRAGMENT_BIT = 3,
-		SHADER_STAGE_COMPUTE_BIT = 4
-	};
+
+	enum ShaderStage;
+	
 
 
 	class IUniformBuffer

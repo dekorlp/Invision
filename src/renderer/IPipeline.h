@@ -6,6 +6,9 @@ namespace Invision
 {
 
 	class IGraphicsEngine;
+	class IUniformBuffer;
+
+	enum ShaderStage;
 
 	class IPipeline
 	{
@@ -18,7 +21,8 @@ namespace Invision
 
 		INVISION_API IGraphicsEngine* engine();
 
-		INVISION_API virtual void render() = 0;
+		INVISION_API virtual void AddShader(const std::vector<char>& code, ShaderStage stage) = 0;
+		INVISION_API virtual void AddUniformBuffer(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer) = 0;
 	};
 }
 
