@@ -15,7 +15,10 @@ namespace Invision
 		vulkanEngine = engine;
 	}
 	
-
+	VulkanBaseRenderPass VulkanRenderPass::GetRenderPass()
+	{
+		return renderPass;
+	}
 
 	VulkanRenderPass::~VulkanRenderPass()
 	{

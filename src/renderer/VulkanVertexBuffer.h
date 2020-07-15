@@ -19,6 +19,7 @@ namespace Invision
 		INVISION_API VulkanVertexBuffer& CreateVertexBuffer(uint64_t size, const void* source, uint64_t offset);
 		INVISION_API VulkanVertexBuffer& CreateVertexInput(uint32_t binding, uint32_t stride, VertexInputRate vertexInputRate);
 		INVISION_API VulkanVertexBuffer& CreateAttribute(uint32_t location, VertexFormat format, uint32_t offset );
+		INVISION_API VulkanBaseVertexBuffer GetBuffer();
 
 		INVISION_API ~VulkanVertexBuffer();
 

@@ -16,6 +16,8 @@ namespace Invision
 
 		INVISION_API VulkanRenderPass(VulkanEngine* engine);
 
+		INVISION_API VulkanBaseRenderPass GetRenderPass();
+
 		INVISION_API ~VulkanRenderPass();
 
 	private:

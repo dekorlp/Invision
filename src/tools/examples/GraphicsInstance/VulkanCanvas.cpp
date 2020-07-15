@@ -45,6 +45,8 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	pipeline->AddUniformBuffer(uniformBuffer);
 	pipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
 	pipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
+	pipeline->AddVertexBuffer(vertexBuffer);
+	pipeline->CreatePipeline(renderPass);
 
 	m_timer.SetOwner(this);
 	m_timer.Start(5);

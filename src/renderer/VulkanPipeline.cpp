@@ -2,6 +2,8 @@
 
 #include "VulkanEngine.h"
 #include "VulkanUniformBuffer.h"
+#include "VulkanVertexBuffer.h"
+#include "VulkanRenderPass.h"
 
 #include "VulkanPipeline.h"
 namespace Invision
@@ -40,7 +42,6 @@ namespace Invision
 		}
 
 		shaders.push_back(VulkanBaseShader(vulkanEngine->GetVulkanInstance(), code, vkShaderStage));
-
 	}
 
 	void VulkanPipeline::AddUniformBuffer(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer)
@@ -49,5 +50,29 @@ namespace Invision
 		
 	}
 
+	void VulkanPipeline::AddVertexBuffer(std::shared_ptr<Invision::IVertexBuffer> vertexBuffer)
+	{
+		pipeline.AddVertexBuffer(dynamic_pointer_cast<VulkanVertexBuffer>(vertexBuffer)->GetBuffer());
+	}
+
+	void VulkanPipeline::CreatePipeline(std::shared_ptr<Invision::IRenderPass> renderPass)
+	{
+		for (int i = 0; i < shaders.size(); i++)
+		{
+			pipeline.AddShader(shaders[i]);
+		}
+
+		pipeline.CreatePipeline(vulkanEngine->GetVulkanInstance(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), 0);
+		for(int i = 0; i < shaders.size(); i++)
+		{
+			shaders[i].Destroy(vulkanEngine->GetVulkanInstance());
+		}
+
+	}
+
+	VulkanPipeline::~VulkanPipeline()
+	{
+		pipeline.DestroyPipeline(vulkanEngine->GetVulkanInstance());
+	}
 
 }

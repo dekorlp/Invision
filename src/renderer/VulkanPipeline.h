@@ -25,6 +25,12 @@ namespace Invision
 
 		INVISION_API void AddUniformBuffer(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer);
 
+		INVISION_API void AddVertexBuffer(std::shared_ptr<Invision::IVertexBuffer> vertexBuffer);
+
+		INVISION_API void CreatePipeline(std::shared_ptr<Invision::IRenderPass> renderPass);
+
+		INVISION_API ~VulkanPipeline();
+
 
 	private:
 		Invision::VulkanEngine *vulkanEngine;

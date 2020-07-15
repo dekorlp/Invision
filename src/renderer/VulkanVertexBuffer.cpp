@@ -62,6 +62,11 @@ namespace Invision
 	}
 
 
+	VulkanBaseVertexBuffer VulkanVertexBuffer::GetBuffer()
+	{
+		return vertexBuffer;
+	}
+
 	VulkanVertexBuffer::~VulkanVertexBuffer()
 	{
 		vertexBuffer.DestroyVertexBuffer(vulkanEngine->GetVulkanInstance());
