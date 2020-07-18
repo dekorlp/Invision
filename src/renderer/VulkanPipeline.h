@@ -29,6 +29,8 @@ namespace Invision
 
 		INVISION_API void CreatePipeline(std::shared_ptr<Invision::IRenderPass> renderPass);
 
+		INVISION_API VulkanBasePipeline GetPipeline();
+
 		INVISION_API ~VulkanPipeline();
 
 

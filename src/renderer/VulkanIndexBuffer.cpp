@@ -17,6 +17,11 @@ namespace Invision
 		indexBuffer.CreateIndexBuffer(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetCommandPool(), size, source, offset);
 	}
 
+	VulkanBaseIndexBuffer VulkanIndexBuffer::GetBuffer()
+	{
+		return indexBuffer;
+	}
+
 	VulkanIndexBuffer::~VulkanIndexBuffer()
 	{
 		indexBuffer.DestroyIndexBuffer(vulkanEngine->GetVulkanInstance());

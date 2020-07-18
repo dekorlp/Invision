@@ -18,6 +18,8 @@ namespace Invision
 
 		INVISION_API void CreateIndexBuffer(uint64_t size, const void* source, uint64_t offset);
 
+		INVISION_API VulkanBaseIndexBuffer GetBuffer();
+
 		INVISION_API ~VulkanIndexBuffer();
 
 	private:

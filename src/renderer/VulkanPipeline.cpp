@@ -70,6 +70,11 @@ namespace Invision
 
 	}
 
+	VulkanBasePipeline VulkanPipeline::GetPipeline()
+	{
+		return pipeline;
+	}
+
 	VulkanPipeline::~VulkanPipeline()
 	{
 		pipeline.DestroyPipeline(vulkanEngine->GetVulkanInstance());
