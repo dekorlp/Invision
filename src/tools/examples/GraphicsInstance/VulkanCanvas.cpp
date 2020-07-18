@@ -49,7 +49,7 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	pipeline->CreatePipeline(renderPass);
 	framebuffer = graphicsEngine->CreateFramebuffer(renderPass);
 
-	
+	BuildCommandBuffer(size.GetWidth(), size.GetHeight());
 
 	m_timer.SetOwner(this);
 	m_timer.Start(5);
