@@ -7,18 +7,9 @@ namespace Invision
 
 	class IGraphicsEngine;
 
-	enum VertexFormat
-	{
-		FORMAT_UNEDFINED = 0,
-		FORMAT_R32G32_SFLOAT = 1,
-		FORMAT_R32G32B32_SFLOAT = 2,
-	};
-
-	enum VertexInputRate
-	{
-		VERTEX_INPUT_RATE_VERTEX = 0,
-		VERTEX_INPUT_RATE_INSTANCE = 1
-	};
+	// used enumerations
+	enum VertexFormat;
+	enum VertexInputRate;
 
 
 	class IVertexBuffer
