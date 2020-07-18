@@ -10,7 +10,6 @@ namespace Invision
 	IFramebuffer::IFramebuffer(IGraphicsEngine* engine, std::shared_ptr<IRenderPass> renderPass) :
 		Engine(engine)
 	{
-		int test = 0;
 	}
 
 	IGraphicsEngine* IFramebuffer::engine()
