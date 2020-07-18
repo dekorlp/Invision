@@ -29,6 +29,7 @@ namespace Invision
 		SHADER_STAGE_FRAGMENT_BIT = 3,
 		SHADER_STAGE_COMPUTE_BIT = 4
 	};
+
 	namespace GPU
 	{
 		enum GPUDeviceVendor
@@ -56,7 +57,7 @@ namespace Invision
 		VERTEX_INPUT_RATE_INSTANCE = 1
 	};
 
-	struct PhysicalDeviceProperties
+	typedef struct PhysicalDeviceProperties
 	{
 		uint32_t index;
 		uint32_t apiVersion;
@@ -66,15 +67,15 @@ namespace Invision
 		uint32_t deviceID;
 		PhysicalDeviceType deviceType;
 		char deviceName[256];
-	};
+	} PhysicalDeviceProperties;
 
-	struct CanvasDimensions
+	typedef struct CanvasDimensions
 	{
 		HWND hwnd;
 		int width;
 		int height;
 
-	};
+	} CanvasDimensions;
 
 	namespace EngineType
 	{
@@ -85,6 +86,23 @@ namespace Invision
 			Vulkan
 		};
 	}
+
+
+	typedef struct Viewport {
+		float    TopLeftX;
+		float    TopLeftY;
+		float    Width;
+		float    Height;
+		float    MinDepth;
+		float    MaxDepth;
+	} Viewport;
+
+	typedef struct Rect {
+		int32_t left;
+		int32_t top;
+		int32_t right;
+		int32_t bottom;
+	} Rect;
 
 	class IGraphicsEngine
 	{

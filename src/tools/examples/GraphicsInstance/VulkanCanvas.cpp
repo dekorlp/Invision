@@ -50,7 +50,7 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	framebuffer = graphicsEngine->CreateFramebuffer(renderPass);
 
 	BuildCommandBuffer(size.GetWidth(), size.GetHeight());
-
+ 
 	m_timer.SetOwner(this);
 	m_timer.Start(5);
 	this->Bind(wxEVT_TIMER, &VulkanCanvas::OnTimer, this);
