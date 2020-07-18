@@ -6,12 +6,18 @@
 namespace Invision
 {
 
-	VulkanRenderer::VulkanRenderer(VulkanEngine* engine) :
+	/*VulkanRenderer::VulkanRenderer(VulkanEngine* engine) :
 		IRenderer(engine)
 	{
+	}*/
+
+	VulkanRenderer::VulkanRenderer(VulkanEngine* engine)
+		: IRenderer(engine)
+	{
+		
 	}
 
-	void VulkanRenderer::render()
+	void VulkanRenderer::render(std::shared_ptr<ICommandBuffer> commandBuffer)
 	{
 		
 	}

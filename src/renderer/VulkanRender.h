@@ -6,6 +6,7 @@
 namespace Invision
 {
 	class VulkanEngine;
+	class ICommandBuffer;
 	class VulkanRenderer : public IRenderer
 	{
 	public:
@@ -14,7 +15,7 @@ namespace Invision
 
 		INVISION_API VulkanRenderer(VulkanEngine* engine);
 
-		INVISION_API void render() override;
+		INVISION_API void render(std::shared_ptr<ICommandBuffer> commandBuffer) override;
 	};
 
 }

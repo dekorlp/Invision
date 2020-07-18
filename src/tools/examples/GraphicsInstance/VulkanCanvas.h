@@ -104,6 +104,7 @@ private:
 	std::shared_ptr <Invision::IPipeline> pipeline;
 	std::shared_ptr <Invision::IFramebuffer> framebuffer;
 	std::shared_ptr <Invision::ICommandBuffer> commandBuffer;
+	std::shared_ptr <Invision::IRenderer> renderer;
 
 	//Invision::VulkanInstance vulkanInstance;
 	/*Invision::VulkanPipeline pipeline;

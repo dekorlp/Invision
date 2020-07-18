@@ -186,6 +186,7 @@ namespace Invision
 		return physicalDevices;
 	}
 
+
 	VulkanEngine::~VulkanEngine()
 	{
 		commandPool.DestroyCommandPool(vulkInstance);

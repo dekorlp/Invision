@@ -20,6 +20,8 @@ namespace Invision
 
 		INVISION_API void CreateUniformBuffer();
 
+		INVISION_API void UpdateUniform(const void* source, size_t size, uint32_t binding) override;
+
 		INVISION_API VulkanBaseUniformBuffer GetBuffer();
 
 		INVISION_API ~VulkanUniformBuffer();

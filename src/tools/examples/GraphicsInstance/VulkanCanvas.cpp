@@ -29,6 +29,7 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	uniformBuffer = graphicsEngine->CreateUniformBuffer();
 	indexBuffer = graphicsEngine->CreateIndexBuffer();
 	pipeline = graphicsEngine->CreatePipeline();
+	renderer = graphicsEngine->CreateRenderer();
 
 
 	vertexBuffer->CreateVertexBuffer(sizeof(vertices[0]) * vertices.size(), vertices.data(), 0);
@@ -86,7 +87,7 @@ void VulkanCanvas::OnTimer(wxTimerEvent& event)
 
 void VulkanCanvas::UpdateUniformBuffer(float width, float height)
 {
-	/*static auto startTime = std::chrono::high_resolution_clock::now();
+	static auto startTime = std::chrono::high_resolution_clock::now();
 
 	auto currentTime = std::chrono::high_resolution_clock::now();
 	float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
@@ -95,7 +96,7 @@ void VulkanCanvas::UpdateUniformBuffer(float width, float height)
 	ubo.model = Invision::Matrix(1.0f) * Invision::Matrix::RotateZ(time * 90.0);
 	ubo.view = Invision::Matrix::CameraVK(Invision::Vector3(2.0f, 2.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 0.0f, 1.0f));
 	ubo.proj = Invision::Matrix::PerspectiveVK(45.0, width / height, 0.1f, 10.0f);
-	uniformBuffer.UpdateUniform(vulkInstance, &ubo, sizeof(ubo), 0); */
+	uniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0); 
 }
 
 void VulkanCanvas::Render()

@@ -6,6 +6,7 @@ namespace Invision
 {
 
 	class IGraphicsEngine;
+	class ICommandBuffer;
 
 	class IRenderer
 	{
@@ -18,7 +19,7 @@ namespace Invision
 
 		INVISION_API IGraphicsEngine* engine();
 
-		INVISION_API virtual void render() = 0;
+		INVISION_API virtual void render(std::shared_ptr<ICommandBuffer> commandBuffer) = 0;
 	};
 }
 
