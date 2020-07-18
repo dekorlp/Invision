@@ -115,6 +115,32 @@ namespace Invision
 		locDeviceProperties.driverVersion = physicalDeviceStruct.deviceProperties.driverVersion;
 		locDeviceProperties.index = physicalDeviceStruct.index;
 		locDeviceProperties.vendorID = physicalDeviceStruct.deviceProperties.vendorID;
+
+
+		switch (physicalDeviceStruct.deviceProperties.vendorID)
+		{
+		case GPU::GPUDeviceVendor::AMD:
+			locDeviceProperties.vendorType = GPU::GPUDeviceVendor::AMD;
+				break;
+		case GPU::GPUDeviceVendor::ARM:
+			locDeviceProperties.vendorType = GPU::GPUDeviceVendor::ARM;
+			break;
+		case GPU::GPUDeviceVendor::IMGTEC:
+			locDeviceProperties.vendorType = GPU::GPUDeviceVendor::IMGTEC;
+			break;
+		case GPU::GPUDeviceVendor::INTEL:
+			locDeviceProperties.vendorType = GPU::GPUDeviceVendor::INTEL;
+			break;
+		case GPU::GPUDeviceVendor::NVIDIA:
+			locDeviceProperties.vendorType = GPU::GPUDeviceVendor::NVIDIA;
+			break;
+		case GPU::GPUDeviceVendor::QUALCOMM:
+			locDeviceProperties.vendorType = GPU::GPUDeviceVendor::QUALCOMM;
+			break;
+		default:
+			locDeviceProperties.vendorType = GPU::GPUDeviceVendor::UNKNOWN;
+		}
+
 		return locDeviceProperties;
 	}
 

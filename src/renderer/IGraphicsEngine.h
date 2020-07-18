@@ -27,6 +27,19 @@ namespace Invision
 		SHADER_STAGE_FRAGMENT_BIT = 3,
 		SHADER_STAGE_COMPUTE_BIT = 4
 	};
+	namespace GPU
+	{
+		enum GPUDeviceVendor
+		{
+			AMD = 0x1002,
+			IMGTEC = 0x1010,
+			NVIDIA = 0x10DE,
+			ARM = 0x13B5,
+			QUALCOMM = 0x5143,
+			INTEL = 0x8086,
+			UNKNOWN = 0x9999
+		};
+	}
 
 	struct PhysicalDeviceProperties
 	{
@@ -34,6 +47,7 @@ namespace Invision
 		uint32_t apiVersion;
 		uint32_t driverVersion;
 		uint32_t vendorID;
+		GPU::GPUDeviceVendor vendorType;
 		uint32_t deviceID;
 		PhysicalDeviceType deviceType;
 		char deviceName[256];
