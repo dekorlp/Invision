@@ -8,6 +8,7 @@
 #include "IUniformBuffer.h"
 #include "IIndexBuffer.h"
 #include "IPipeline.h"
+#include "IFramebuffer.h"
 
 namespace Invision
 {
@@ -92,6 +93,7 @@ namespace Invision
 		 INVISION_API virtual std::shared_ptr<IUniformBuffer> CreateUniformBuffer() = 0;
 		 INVISION_API virtual std::shared_ptr<IIndexBuffer> CreateIndexBuffer() = 0;
 		 INVISION_API virtual std::shared_ptr<IPipeline> CreatePipeline() = 0;
+		 INVISION_API virtual std::shared_ptr<IFramebuffer> CreateFramebuffer(std::shared_ptr<Invision::IRenderPass> renderPass) = 0;
 
 		 INVISION_API virtual std::vector< PhysicalDeviceProperties> GetPhysicalDevices() = 0;
 

@@ -6,6 +6,7 @@
 #include "VulkanUniformBuffer.h"
 #include "VulkanIndexBuffer.h"
 #include "VulkanPipeline.h"
+#include "VulkanFramebuffer.h"
 
 #include "VulkanEngine.h"
 
@@ -73,6 +74,11 @@ namespace Invision
 	std::shared_ptr<IPipeline> VulkanEngine::CreatePipeline()
 	{
 		return std::make_shared<VulkanPipeline>(this);
+	}
+
+	std::shared_ptr<IFramebuffer> VulkanEngine::CreateFramebuffer(std::shared_ptr<IRenderPass> renderPass)
+	{
+		return std::make_shared<VulkanFramebuffer>(this, renderPass);
 	}
 
 	Invision::SVulkanBase VulkanEngine::GetVulkanInstance()
