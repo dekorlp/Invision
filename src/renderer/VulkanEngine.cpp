@@ -48,6 +48,12 @@ namespace Invision
 		commandPool.CreateCommandPool(vulkInstance);
 	}
 
+	void VulkanEngine::ResetPresentation(CanvasDimensions canvas)
+	{
+		Invision::DestroyPresentationSystem(vulkInstance);
+		Invision::CreatePresentationSystem(vulkInstance, canvas.width, canvas.height);
+	}
+
 	std::shared_ptr <IRenderer> VulkanEngine::CreateRenderer()
 	{
 		return  std::make_shared<VulkanRenderer >(this);

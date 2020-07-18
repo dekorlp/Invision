@@ -39,6 +39,7 @@ namespace Invision
 
 		INVISION_API void Init(CanvasDimensions canvas);
 		INVISION_API void Init(unsigned int index, CanvasDimensions canvas);
+		INVISION_API void ResetPresentation(CanvasDimensions canvas);
 
 		INVISION_API Invision::SVulkanBase& GetVulkanInstance();
 		INVISION_API Invision::VulkanBaseCommandPool GetCommandPool();

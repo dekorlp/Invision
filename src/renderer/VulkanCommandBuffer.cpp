@@ -119,4 +119,9 @@ namespace Invision
 		return commandBuffer;
 	}
 
+	VulkanCommandBuffer::~VulkanCommandBuffer()
+	{
+		commandBuffer.DestroyCommandBuffer(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetCommandPool());
+	}
+
 }

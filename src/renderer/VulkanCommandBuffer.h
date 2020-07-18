@@ -30,6 +30,8 @@ namespace Invision
 
 		VulkanBaseCommandBuffer GetCommandBuffer();
 
+		~VulkanCommandBuffer();
+
 	private:
 		Invision::VulkanEngine *vulkanEngine;
 		Invision::VulkanBaseCommandBuffer commandBuffer;

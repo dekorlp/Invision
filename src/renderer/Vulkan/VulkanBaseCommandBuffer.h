@@ -40,6 +40,7 @@ namespace Invision
 		INVISION_API VulkanBaseCommandBuffer& DrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex = 0, uint32_t vertexOffset = 0, uint32_t firstInstance = 0);
 		INVISION_API VulkanBaseCommandBuffer& EndRenderPass();
 		INVISION_API VulkanBaseCommandBuffer& EndCommandBuffer();
+		INVISION_API void DestroyCommandBuffer(SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool);
 
 		std::vector<VkCommandBuffer> INVISION_API GetCommandBuffers();
 		VkCommandBuffer* GetCommandBuffer(int index);

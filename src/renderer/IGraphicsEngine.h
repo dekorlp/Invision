@@ -111,6 +111,7 @@ namespace Invision
 
 		 INVISION_API virtual void Init(CanvasDimensions canvas) = 0;
 		 INVISION_API virtual void Init(unsigned int index, CanvasDimensions canvas) = 0;
+		 INVISION_API virtual void ResetPresentation(CanvasDimensions canvas) = 0;
 
 
 		 INVISION_API EngineType::Type type() const;

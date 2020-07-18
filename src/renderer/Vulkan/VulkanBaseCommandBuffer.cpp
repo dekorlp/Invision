@@ -318,4 +318,9 @@ namespace Invision
 	{
 		return &mCommandBuffers[index];
 	}
+
+	void VulkanBaseCommandBuffer::DestroyCommandBuffer(SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool)
+	{
+		vkFreeCommandBuffers(vulkanInstance.logicalDevice, commandPool.GetCommandPool(), (uint32_t)mCommandBuffers.size(), mCommandBuffers.data());
+	}
 }

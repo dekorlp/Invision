@@ -53,4 +53,9 @@ namespace Invision
 
 		return recreateSwapchainIsNecessary;
 	}
+
+	VulkanRenderer::~VulkanRenderer()
+	{
+		renderer.DestroySemaphores(vulkanEngine->GetVulkanInstance());
+	}
 }

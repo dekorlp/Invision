@@ -208,9 +208,9 @@ void VulkanCanvas::RecreateSwapChain(const int width, const int height)
 {
 	// first Destroy
 	//commandBuffer.DestroySemaphores(vulkInstance);
-	renderer.DestroySemaphores(vulkInstance);
+	//renderer.DestroySemaphores(vulkInstance);
 	commandPool.DestroyCommandPool(vulkInstance);
-	uniformBuffer.DestroyUniformBuffer(vulkInstance);
+	//uniformBuffer.DestroyUniformBuffer(vulkInstance);
 	framebuffer.DestroyFramebuffer(vulkInstance);
 	renderPass.DestroyRenderPass(vulkInstance);
 	Invision::DestroyPresentationSystem(vulkInstance);
@@ -222,12 +222,12 @@ void VulkanCanvas::RecreateSwapChain(const int width, const int height)
 	renderPass.AddSubpass();
 	renderPass.CreateRenderPass(vulkInstance);
 	framebuffer.CreateFramebuffer(vulkInstance, renderPass);
-	uniformBuffer.CreateUniformBuffer(vulkInstance);
+	//uniformBuffer.CreateUniformBuffer(vulkInstance);
 	
 	//commandBuffer.CreateCommandBuffers(vulkInstance, commandPool, framebuffer, pipeline, renderPass);
 	BuildCommandBuffer(width, height);
 	//commandBuffer.CreateSyncObjects(vulkInstance);
-	renderer.CreateSyncObjects(vulkInstance);
+	//renderer.CreateSyncObjects(vulkInstance);
 }
 
 void VulkanCanvas::OnResize(wxSizeEvent& event)
