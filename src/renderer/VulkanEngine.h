@@ -40,7 +40,7 @@ namespace Invision
 		INVISION_API void Init(CanvasDimensions canvas);
 		INVISION_API void Init(unsigned int index, CanvasDimensions canvas);
 
-		INVISION_API Invision::SVulkanBase GetVulkanInstance();
+		INVISION_API Invision::SVulkanBase& GetVulkanInstance();
 		INVISION_API Invision::VulkanBaseCommandPool GetCommandPool();
 		INVISION_API std::shared_ptr<IRenderer> CreateRenderer() override;
 		INVISION_API std::shared_ptr<IRenderPass> CreateRenderPass() override; 

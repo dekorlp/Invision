@@ -3,6 +3,8 @@
 
 
 #include "IRenderer.h"
+#include "renderer\Vulkan\VulkanBaseRenderer.h"
+
 namespace Invision
 {
 	class VulkanEngine;
@@ -15,7 +17,12 @@ namespace Invision
 
 		INVISION_API VulkanRenderer(VulkanEngine* engine);
 
-		INVISION_API void render(std::shared_ptr<ICommandBuffer> commandBuffer) override;
+		INVISION_API bool PrepareFrame() override;
+		INVISION_API bool SubmitFrame(std::shared_ptr<ICommandBuffer> commandBuffer) override;
+
+	private:
+		VulkanEngine* vulkanEngine;
+		VulkanBaseRenderer renderer;
 	};
 
 }

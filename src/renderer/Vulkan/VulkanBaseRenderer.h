@@ -5,6 +5,10 @@
 
 namespace Invision
 {
+
+	struct SVulkanBase;
+	class VulkanBaseCommandBuffer;
+
 	class  VulkanBaseRenderer
 	{
 	private:

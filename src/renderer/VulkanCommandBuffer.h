@@ -28,6 +28,8 @@ namespace Invision
 		ICommandBuffer& EndRenderPass() override;
 		ICommandBuffer& EndCommandBuffer() override;
 
+		VulkanBaseCommandBuffer GetCommandBuffer();
+
 	private:
 		Invision::VulkanEngine *vulkanEngine;
 		Invision::VulkanBaseCommandBuffer commandBuffer;

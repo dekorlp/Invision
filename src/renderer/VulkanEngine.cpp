@@ -87,7 +87,7 @@ namespace Invision
 		return std::make_shared<VulkanCommandBuffer>(this, framebuffer);
 	}
 
-	Invision::SVulkanBase VulkanEngine::GetVulkanInstance()
+	Invision::SVulkanBase& VulkanEngine::GetVulkanInstance()
 	{
 		return vulkInstance;
 	}

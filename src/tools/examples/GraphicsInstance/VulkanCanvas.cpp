@@ -29,8 +29,7 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	uniformBuffer = graphicsEngine->CreateUniformBuffer();
 	indexBuffer = graphicsEngine->CreateIndexBuffer();
 	pipeline = graphicsEngine->CreatePipeline();
-	renderer = graphicsEngine->CreateRenderer();
-
+	
 
 	vertexBuffer->CreateVertexBuffer(sizeof(vertices[0]) * vertices.size(), vertices.data(), 0);
 	vertexBuffer->CreateVertexInput(0, sizeof(Vertex), Invision::VERTEX_INPUT_RATE_VERTEX)
@@ -51,7 +50,10 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	framebuffer = graphicsEngine->CreateFramebuffer(renderPass);
 
 	BuildCommandBuffer(size.GetWidth(), size.GetHeight());
- 
+	renderer = graphicsEngine->CreateRenderer();
+
+
+
 	m_timer.SetOwner(this);
 	m_timer.Start(5);
 	this->Bind(wxEVT_TIMER, &VulkanCanvas::OnTimer, this);
@@ -101,6 +103,16 @@ void VulkanCanvas::UpdateUniformBuffer(float width, float height)
 
 void VulkanCanvas::Render()
 {
+
+	bool recreateSwapchainIsNecessary = false;
+
+	recreateSwapchainIsNecessary = renderer->PrepareFrame();
+
+	UpdateUniformBuffer(m_Size.GetWidth(), m_Size.GetHeight());
+
+	recreateSwapchainIsNecessary = renderer->SubmitFrame(commandBuffer);
+
+
 	//VkResult nextImageResult = commandBuffer.AquireNextImage(vulkInstance);
 	/*VkResult nextImageResult = renderer.AquireNextImage(vulkInstance);
 	if (nextImageResult == VK_ERROR_OUT_OF_DATE_KHR) {

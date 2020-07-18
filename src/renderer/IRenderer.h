@@ -19,7 +19,8 @@ namespace Invision
 
 		INVISION_API IGraphicsEngine* engine();
 
-		INVISION_API virtual void render(std::shared_ptr<ICommandBuffer> commandBuffer) = 0;
+		INVISION_API virtual bool PrepareFrame() = 0;
+		INVISION_API virtual bool SubmitFrame(std::shared_ptr<ICommandBuffer> commandBuffer) = 0;
 	};
 }
 

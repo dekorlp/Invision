@@ -167,10 +167,13 @@ void VulkanCanvas::UpdateUniformBuffer(float width, float height)
 
 void VulkanCanvas::Render()
 {
+	bool recreateSwapchainIsNecessary = false;
+
 	//VkResult nextImageResult = commandBuffer.AquireNextImage(vulkInstance);
 	VkResult nextImageResult = renderer.AquireNextImage(vulkInstance);
 	if (nextImageResult == VK_ERROR_OUT_OF_DATE_KHR) {
-		RecreateSwapChain(m_Size.GetWidth(), m_Size.GetHeight());
+		recreateSwapchainIsNecessary = true;
+		//RecreateSwapChain(m_Size.GetWidth(), m_Size.GetHeight());
 		return;
 	}
 	else if (nextImageResult != VK_SUCCESS) {
@@ -182,11 +185,14 @@ void VulkanCanvas::Render()
 	//VkResult drawFrameResult = commandBuffer.DrawFrame(vulkInstance);
 	VkResult drawFrameResult = renderer.DrawFrame(vulkInstance, commandBuffer);
 	if (drawFrameResult == VK_ERROR_OUT_OF_DATE_KHR || drawFrameResult == VK_SUBOPTIMAL_KHR) {
-		RecreateSwapChain(m_Size.GetWidth(), m_Size.GetHeight());
+		recreateSwapchainIsNecessary = true;
+		//RecreateSwapChain(m_Size.GetWidth(), m_Size.GetHeight());
 	}
 	else if (drawFrameResult != VK_SUCCESS) {
 		throw Invision::VulkanBaseException("failed to present swap chain image!");
 	}
+
+	if(recreateSwapchainIsNecessary) RecreateSwapChain(m_Size.GetWidth(), m_Size.GetHeight());
 }
 
 void VulkanCanvas::OnPaint(wxPaintEvent& event)

@@ -114,4 +114,9 @@ namespace Invision
 		return *this;
 	}
 
+	VulkanBaseCommandBuffer VulkanCommandBuffer::GetCommandBuffer()
+	{
+		return commandBuffer;
+	}
+
 }
