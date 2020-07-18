@@ -42,7 +42,7 @@ namespace Invision
 
 		INVISION_API Invision::SVulkanBase GetVulkanInstance();
 		INVISION_API Invision::VulkanBaseCommandPool GetCommandPool();
-		INVISION_API std::shared_ptr<IRenderer> create_renderer() override;
+		INVISION_API std::shared_ptr<IRenderer> CreateRenderer() override;
 		INVISION_API std::shared_ptr<IRenderPass> CreateRenderPass() override; 
 		INVISION_API std::shared_ptr<IVertexBuffer> CreateVertexBuffer() override;
 		INVISION_API std::shared_ptr<IUniformBuffer> CreateUniformBuffer() override;

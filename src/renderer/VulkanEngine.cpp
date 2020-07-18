@@ -48,7 +48,7 @@ namespace Invision
 		commandPool.CreateCommandPool(vulkInstance);
 	}
 
-	std::shared_ptr <IRenderer> VulkanEngine::create_renderer()
+	std::shared_ptr <IRenderer> VulkanEngine::CreateRenderer()
 	{
 		return  std::make_shared<VulkanRenderer >(this);
 	}

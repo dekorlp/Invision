@@ -119,7 +119,7 @@ namespace Invision
 
 		 INVISION_API std::string const& version() const;
 
-		 INVISION_API virtual std::shared_ptr<IRenderer> create_renderer() = 0;
+		 INVISION_API virtual std::shared_ptr<IRenderer> CreateRenderer() = 0;
 		 INVISION_API virtual std::shared_ptr<IRenderPass> CreateRenderPass() = 0;
 		 INVISION_API virtual std::shared_ptr<IVertexBuffer> CreateVertexBuffer() = 0;
 		 INVISION_API virtual std::shared_ptr<IUniformBuffer> CreateUniformBuffer() = 0;
