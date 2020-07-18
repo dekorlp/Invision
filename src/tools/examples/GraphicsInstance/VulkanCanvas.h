@@ -103,6 +103,7 @@ private:
 	std::shared_ptr <Invision::IIndexBuffer> indexBuffer;
 	std::shared_ptr <Invision::IPipeline> pipeline;
 	std::shared_ptr <Invision::IFramebuffer> framebuffer;
+	std::shared_ptr <Invision::ICommandBuffer> commandBuffer;
 
 	//Invision::VulkanInstance vulkanInstance;
 	/*Invision::VulkanPipeline pipeline;

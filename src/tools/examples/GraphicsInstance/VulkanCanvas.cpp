@@ -49,11 +49,17 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	pipeline->CreatePipeline(renderPass);
 	framebuffer = graphicsEngine->CreateFramebuffer(renderPass);
 
+	
+
 	m_timer.SetOwner(this);
 	m_timer.Start(5);
 	this->Bind(wxEVT_TIMER, &VulkanCanvas::OnTimer, this);
 }
 
+void VulkanCanvas::BuildCommandBuffer(float width, float height)
+{
+	commandBuffer = graphicsEngine->CreateCommandBuffer(framebuffer);
+}
 
 VulkanCanvas::~VulkanCanvas() noexcept
 {

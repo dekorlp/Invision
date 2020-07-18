@@ -10,6 +10,9 @@ namespace Invision
 	class VulkanBaseIndexBuffer;
 	class VulkanBaseVertexBuffer;
 	class VulkanBaseUniformBuffer;
+	class VulkanBasePipeline;
+	class VulkanBaseRenderPass;
+	class VulkanBaseFramebuffer;
 
 	class  VulkanBaseCommandBuffer
 	{
