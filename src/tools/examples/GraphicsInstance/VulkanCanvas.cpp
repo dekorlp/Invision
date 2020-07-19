@@ -69,6 +69,8 @@ void VulkanCanvas::BuildCommandBuffer(float width, float height)
 		DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0).
 		EndRenderPass().
 		EndCommandBuffer();
+
+	
 } 
 
 VulkanCanvas::~VulkanCanvas() noexcept
