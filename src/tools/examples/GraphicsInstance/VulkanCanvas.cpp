@@ -1,5 +1,6 @@
 #include "VulkanCanvas.h"
 
+#define FIXED_FPS 60
 
 VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	wxWindowID id,
@@ -81,9 +82,18 @@ VulkanCanvas::~VulkanCanvas() noexcept
 	
 }
 
-
 void VulkanCanvas::OnIdle(wxIdleEvent& event)
 {
+	// limit framerate
+	timer.stop();
+	if (timer.getElapsedMilliseconds()< 1000/FIXED_FPS)
+	{
+		long long delta_ms = (1000 / FIXED_FPS - timer.getElapsedMilliseconds());
+		std::this_thread::sleep_for(std::chrono::milliseconds(delta_ms));
+	}
+	timer.start();
+
+	// execute render
 	Render();
 	event.RequestMore();	
 }

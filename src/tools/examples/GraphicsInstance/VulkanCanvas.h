@@ -33,6 +33,7 @@
 
 //#include "renderer/VulkanEngine.h"
 #include "renderer/GraphicsFactory.h"
+#include "common/StopWatch.h"
 
 #include "math\Vector2.h"
 #include "math\Vector3.h"
@@ -120,4 +121,5 @@ private:
 	//VkPipelineCache mCache;
 	//Invision::SVulkan vulkInstance;
 	//wxTimer m_timer;
+	Invision::StopWatch timer;
 };
