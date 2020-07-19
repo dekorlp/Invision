@@ -10,7 +10,6 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	: wxWindow(pParent, id, pos, size, style, name)
 {
 	m_Size = size;
-	Bind(wxEVT_PAINT, &VulkanCanvas::OnPaint, this);
 	Bind(wxEVT_SIZE, &VulkanCanvas::OnResize, this);
 	WXHWND hwnd = this->GetHandle(); // get window handle
 
@@ -52,11 +51,7 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	BuildCommandBuffer(size.GetWidth(), size.GetHeight());
 	renderer = graphicsEngine->CreateRenderer();
 
-
-
-	m_timer.SetOwner(this);
-	m_timer.Start(5);
-	this->Bind(wxEVT_TIMER, &VulkanCanvas::OnTimer, this);
+	this->Bind(wxEVT_IDLE, &VulkanCanvas::OnIdle, this);
 }
 
 void VulkanCanvas::BuildCommandBuffer(float width, float height)
@@ -80,11 +75,15 @@ VulkanCanvas::~VulkanCanvas() noexcept
 {
 	//vulkanInstance.Destroy();
 	
+
+	
 }
 
-void VulkanCanvas::OnTimer(wxTimerEvent& event)
+
+void VulkanCanvas::OnIdle(wxIdleEvent& event)
 {
 	Render();
+	event.RequestMore();	
 }
 
 void VulkanCanvas::UpdateUniformBuffer(float width, float height)
@@ -103,6 +102,7 @@ void VulkanCanvas::UpdateUniformBuffer(float width, float height)
 
 void VulkanCanvas::Render()
 {
+	
 
 	bool recreateSwapchainIsNecessary = false;
 
@@ -114,15 +114,6 @@ void VulkanCanvas::Render()
 
 
 	if (recreateSwapchainIsNecessary) RecreateSwapChain(m_Size.GetWidth(), m_Size.GetHeight());
-}
-
-void VulkanCanvas::OnPaint(wxPaintEvent& event)
-{
-	//while (1)
-	//{
-	//	commandBuffer.DrawFrame(vulkInstance);
-	//	Sleep(1);
-	//}
 }
 
 void VulkanCanvas::RecreateSwapChain(const int width, const int height)

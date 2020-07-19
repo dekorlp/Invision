@@ -85,9 +85,8 @@ public:
 
 private:
 
-	virtual void OnPaint(wxPaintEvent& event);
-	virtual void OnTimer(wxTimerEvent& event);
 	virtual void OnResize(wxSizeEvent& event);
+	virtual void OnIdle(wxIdleEvent& event);
 	void OnPaintException(const std::string& msg);
 	void RecreateSwapChain(const int width, const int height);
 	void BuildCommandBuffer(float width, float height);
@@ -120,7 +119,5 @@ private:
 
 	//VkPipelineCache mCache;
 	//Invision::SVulkan vulkInstance;
-
-
-	wxTimer m_timer;
+	//wxTimer m_timer;
 };
