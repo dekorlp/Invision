@@ -85,13 +85,13 @@ VulkanCanvas::~VulkanCanvas() noexcept
 void VulkanCanvas::OnIdle(wxIdleEvent& event)
 {
 	// limit framerate
-	timer.stop();
-	if (timer.getElapsedMilliseconds()< 1000/FIXED_FPS)
+	mTimer.stop();
+	if (mTimer.getElapsedMilliseconds()< 1000/FIXED_FPS)
 	{
-		long long delta_ms = (1000 / FIXED_FPS - timer.getElapsedMilliseconds());
+		long long delta_ms = (1000 / FIXED_FPS - mTimer.getElapsedMilliseconds());
 		std::this_thread::sleep_for(std::chrono::milliseconds(delta_ms));
 	}
-	timer.start();
+	mTimer.start();
 
 	// execute render
 	Render();

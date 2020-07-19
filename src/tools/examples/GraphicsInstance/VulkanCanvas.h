@@ -121,5 +121,5 @@ private:
 	//VkPipelineCache mCache;
 	//Invision::SVulkan vulkInstance;
 	//wxTimer m_timer;
-	Invision::StopWatch timer;
+	Invision::StopWatch mTimer;
 };
