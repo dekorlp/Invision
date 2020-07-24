@@ -49,7 +49,7 @@ build/solutions/xcode3
 build/solutions/xcode4
 build/solutions/gcc
 build/solutions/codeblocks
-
+build/premake/files.lua
 #log folder
 Logs/
 
@@ -61,8 +61,6 @@ lib/win32/wxWidgets
 #bin folder
 bin
 
-#files configuration
-files.lua
 
 #vs
 .vs
