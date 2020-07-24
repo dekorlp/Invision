@@ -61,6 +61,8 @@ lib/win32/wxWidgets
 #bin folder
 bin
 
+#configuration 
+files.lua
 
 #vs
 .vs
