@@ -1,5 +1,9 @@
 -- premake5.lua
 
+include( "files.lua" )
+require( "qt/qt" )
+local qt = premake.extensions.qt
+
 function AddWXWidgetStaticLibrary(libpath)
 
 	wxwidgetOption = "lib"
@@ -434,3 +438,54 @@ project "GraphicsInstance"
 		
 	filter "platforms:x64"
 		architecture "x86_64"
+
+project "QTDemoApp"
+		kind "ConsoleApp"
+		language "C++"
+		--cppdialect "C++17"
+		
+		files
+		{
+			srcroot .. "tools/QTDemoApp/**.h",
+			srcroot .. "tools/QTDemoApp/**.cpp"
+		}
+		
+	--QT
+		qt.enable()
+		qtmodules { "core", "gui", "widgets", "opengl" }
+		qtprefix "Qt5"
+		configuration { "Debug" }
+			qtsuffix "d"
+		configuration { }
+		print( Invision.qt.pathX64)
+		filter "platforms:x64"
+			qtpath ( Invision.qt.pathX64)
+	
+		filter "platforms:x86"
+			qtpath ( Invision.qt.pathX86)
+		filter {}
+	
+		filter "system:Windows"		
+			
+		filter {}
+		
+		includedirs
+		{
+			-- Invision libraries
+			srcroot
+		}
+	
+		filter "configurations:Debug"
+			defines { "DEBUG" }
+			symbols "On"
+			
+		filter "configurations:Release"
+			defines { "NDEBUG" }
+			optimize "On"	
+			
+		filter "platforms:x86"
+			architecture "x86"
+			targetdir (rootdir.."/bin/QTDemoApp/win32/%{cfg.buildcfg}")		
+		filter "platforms:x64"
+			architecture "x86_64"
+			targetdir (rootdir.."/bin/QTDemoApp/x64/%{cfg.buildcfg}")	

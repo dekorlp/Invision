@@ -58,10 +58,8 @@ lib/win32/boost_1_66_0
 lib/win32/boost
 lib/win32/wxWidgets
 
-
-#bin Debug folder
-bin/Debug
-bin/Release
+#bin folder
+bin
 
 #vs
 .vs
