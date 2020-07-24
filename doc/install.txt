@@ -4,7 +4,19 @@ Platform: Windows
   1. start Invision/build/solutions/update-solutions.bat
   2. Open Project: Invision/build/solutions/ vs2013 - vs2019
   3. Run Bat /lib/win32/loadLibraries.bat
+  4. Install QT (https://www.qt.io/download?utm_referrer=https%3A%2F%2Fwww.qt.io%2F)
+  5. Insert following Code into build/premake/files.lua
 
+-- Configuration 
+
+
+--QT
+Invision = {
+    qt = {
+        pathX64 = "<64 bit QT>",
+        pathX86 = "<32 bit QT>"
+    }
+}
 
  To compile tests, (boost unit test libs are needed):
   1. Go in libs/win32/boost
