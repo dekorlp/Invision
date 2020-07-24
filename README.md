@@ -3,11 +3,11 @@
 ## Deployment (Windows)
 
 In order to deplay the Invision Engine follow these steps below:
-* [Install Qt](https://www.qt.io)
-* Open a terminal and execute /Invision/build/solutions/update-solutions.bat
-* Run Bat Invision/lib/win32/loadLibraries.bat
-* Create File Invision/build/premake/files.lua
-* add following Content
+1. [Install Qt](https://www.qt.io)
+1. Open a terminal and execute /Invision/build/solutions/update-solutions.bat
+1. Run Bat Invision/lib/win32/loadLibraries.bat
+1. Create File Invision/build/premake/files.lua
+1. add following Content
 ```lua
 -- Configuration 
 
@@ -22,16 +22,16 @@ Invision = {
 ```
 
 To compile tests, (boost unit test libs are needed):
-* Go in libs/win32/boost
-* start: bootstrap.bat
-* choose correct Option for your Visual Studio Version
-    * start: b2.exe toolset=msvc-14.0 => for Microsoft Visual Studio 2015
-    * start: b2.exe toolset=msvc-14.1 => for Microsoft Visual Studio 2017
-    * start: b2.exe toolset=msvc-14.2 => for Microsoft Visual Studio 2019
+1. Go in libs/win32/boost
+1. start: bootstrap.bat
+1. choose correct Option for your Visual Studio Version
+    1. start: b2.exe toolset=msvc-14.0 => for Microsoft Visual Studio 2015
+    1. start: b2.exe toolset=msvc-14.1 => for Microsoft Visual Studio 2017
+    1. start: b2.exe toolset=msvc-14.2 => for Microsoft Visual Studio 2019
 
 
 To compile WxWidget GUI (deprecated, will be removed, soon):
-* Open /lib/wxWidgets/build/msw/wx_vc12.sln
-* Compile solution for both release and debug
+1. Open /lib/wxWidgets/build/msw/wx_vc12.sln
+1. Compile solution for both release and debug
 
 
