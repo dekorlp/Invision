@@ -27,11 +27,13 @@ function AddWXWidgetStaticLibrary(libpath)
 		links { "wxmsw31ud_core.lib" } -- necessary for WXWIDGET
 		links { "wxpngd.lib" } -- necessary for WXWIDGET
 		links { "wxzlibd.lib" } -- necessary for WXWIDGET
+		links { "wxregexud.lib" }
 	filter "configurations:Release"
 		links { "wxbase31u.lib" } -- necessary for WXWIDGET
 		links { "wxmsw31u_core.lib" } -- necessary for WXWIDGET
 		links { "wxpng.lib" } -- necessary for WXWIDGET
 		links { "wxzlib.lib" } -- necessary for WXWIDGET
+		links { "wxregexu.lib" }
 	filter "platforms:x86"
 		libdirs
 		{
@@ -167,7 +169,6 @@ workspace "Invision"
 project "Invision"
 	kind "SharedLib"
 	language "C++"
-	targetdir (rootdir.."/bin/%{cfg.buildcfg}")
 	characterset ("MBCS")
 		--cppdialect "C++17"
 	
@@ -215,17 +216,17 @@ project "Invision"
 		
 	filter "platforms:x86"
 		architecture "x86"
-		
+		targetdir (rootdir.."/bin/Invision/win32/%{cfg.buildcfg}")		
 	filter "platforms:x64"
 		architecture "x86_64"
+		targetdir (rootdir.."/bin/Invision/x64/%{cfg.buildcfg}")	
 	
 project "SandboxWindow"
 	kind "WindowedApp"
 	entrypoint "WinMainCRTStartup"
 	language "C++"
-	targetdir (rootdir.."/bin/%{cfg.buildcfg}")
 	--cppdialect "C++17"
-	
+
 	files
 	{
 		srcroot .. "tools/sandboxWindow/**.h",
@@ -260,15 +261,23 @@ project "SandboxWindow"
 
 		
 	filter "platforms:x86"
-		architecture "x86"	
-		
+		architecture "x86"
+		targetdir (rootdir.."/bin/SandboxWindow/win32/%{cfg.buildcfg}")		
+		postbuildcommands
+		{
+			{"{COPY} "..rootdir.."/../bin/Invision/win32/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/SandboxWindow/win32/%{cfg.buildcfg}"}
+		}
 	filter "platforms:x64"
 		architecture "x86_64"
+		targetdir (rootdir.."/bin/SandboxWindow/x64/%{cfg.buildcfg}")
+		postbuildcommands
+		{
+			{"{COPY} "..rootdir.."/../bin/Invision/x64/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/SandboxWindow/x64/%{cfg.buildcfg}"}
+		}
 	
 project "SandboxConsole"
 	kind "ConsoleApp"
 	language "C++"
-	targetdir (rootdir.."/bin/%{cfg.buildcfg}")
 	--cppdialect "C++17"
 	
 	files
@@ -301,15 +310,23 @@ project "SandboxConsole"
 
 		
 	filter "platforms:x86"
-		architecture "x86"	
-		
+		architecture "x86"
+		targetdir (rootdir.."/bin/SandboxConsole/win32/%{cfg.buildcfg}")
+		postbuildcommands
+		{
+			{"{COPY} "..rootdir.."/../bin/Invision/win32/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/sandboxConsole/win32/%{cfg.buildcfg}"}
+		}
 	filter "platforms:x64"
 		architecture "x86_64"
+		targetdir (rootdir.."/bin/SandboxConsole/x64/%{cfg.buildcfg}")
+		postbuildcommands
+		{
+			{"{COPY} "..rootdir.."/../bin/Invision/x64/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/sandboxConsole/x64/%{cfg.buildcfg}"}
+		}	
 		
 project "UnitTests"
 	kind "ConsoleApp"
 	language "C++"
-	targetdir (rootdir.."/bin/%{cfg.buildcfg}")
 	--cppdialect "C++17"
 	
 	files
@@ -340,9 +357,18 @@ project "UnitTests"
 		
 	filter "platforms:x86"
 		architecture "x86"
-		
+		targetdir (rootdir.."/bin/UnitTests/win32/%{cfg.buildcfg}")
+		postbuildcommands
+		{
+			{"{COPY} "..rootdir.."/../bin/Invision/win32/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/UnitTests/win32/%{cfg.buildcfg}"}
+		}		
 	filter "platforms:x64"
 		architecture "x86_64"
+		targetdir (rootdir.."/bin/UnitTests/x64/%{cfg.buildcfg}")
+		postbuildcommands
+		{
+			{"{COPY} "..rootdir.."/../bin/Invision/x64/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/UnitTests/x64/%{cfg.buildcfg}"}
+		}	
 		
 -----------------------------------------------------------------------------------------------------
 --Examples
@@ -351,7 +377,6 @@ project "Triangle"
 	kind "WindowedApp"
 	entrypoint "WinMainCRTStartup"
 	language "C++"
-	targetdir (rootdir.."/bin/%{cfg.buildcfg}")
 	--cppdialect "C++17"
 	
 	files
@@ -388,16 +413,24 @@ project "Triangle"
 
 		
 	filter "platforms:x86"
-		architecture "x86"	
-		
+		architecture "x86"
+		targetdir (rootdir.."/bin/Triangle/win32/%{cfg.buildcfg}")
+		postbuildcommands
+		{
+			{"{COPY} "..rootdir.."/../bin/Invision/win32/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/Triangle/win32/%{cfg.buildcfg}"}
+		}			
 	filter "platforms:x64"
 		architecture "x86_64"
+		targetdir (rootdir.."/bin/Triangle/x64/%{cfg.buildcfg}")
+		postbuildcommands
+		{
+			{"{COPY} "..rootdir.."/../bin/Invision/x64/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/Triangle/x64/%{cfg.buildcfg}"}
+		}		
 
 project "GraphicsInstance"
 	kind "WindowedApp"
 	entrypoint "WinMainCRTStartup"
 	language "C++"
-	targetdir (rootdir.."/bin/%{cfg.buildcfg}")
 	--cppdialect "C++17"
 	
 	files
@@ -434,10 +467,19 @@ project "GraphicsInstance"
 
 		
 	filter "platforms:x86"
-		architecture "x86"	
-		
+		architecture "x86"
+		targetdir (rootdir.."/bin/GraphicsInstance/win32/%{cfg.buildcfg}")
+		postbuildcommands
+		{
+			{"{COPY} "..rootdir.."/../bin/Invision/win32/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/GraphicsInstance/win32/%{cfg.buildcfg}"}
+		}		
 	filter "platforms:x64"
 		architecture "x86_64"
+		targetdir (rootdir.."/bin/GraphicsInstance/x64/%{cfg.buildcfg}")
+		postbuildcommands
+		{
+			{"{COPY} "..rootdir.."/../bin/Invision/x64/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/GraphicsInstance/x64/%{cfg.buildcfg}"}
+		}		
 
 project "QTDemoApp"
 		kind "ConsoleApp"
@@ -449,7 +491,7 @@ project "QTDemoApp"
 			srcroot .. "tools/QTDemoApp/**.h",
 			srcroot .. "tools/QTDemoApp/**.cpp"
 		}
-		
+
 	--QT
 		qt.enable()
 		qtmodules { "core", "gui", "widgets", "opengl" }
@@ -475,6 +517,14 @@ project "QTDemoApp"
 			srcroot
 		}
 	
+		links { "Invision" }
+	
+		defines {"INVISION_BASE_DIR=" .. invision_root }
+	
+		AddWXWidgetStaticLibrary(libpath)
+		AddBoostLibrary(libpath)
+		AddVulkanLibrary(libpath)
+
 		filter "configurations:Debug"
 			defines { "DEBUG" }
 			symbols "On"
@@ -485,7 +535,15 @@ project "QTDemoApp"
 			
 		filter "platforms:x86"
 			architecture "x86"
-			targetdir (rootdir.."/bin/QTDemoApp/win32/%{cfg.buildcfg}")		
+			targetdir (rootdir.."/bin/QTDemoApp/win32/%{cfg.buildcfg}")
+			postbuildcommands
+			{
+				{"{COPY} "..rootdir.."/../bin/Invision/win32/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/QTDemoApp/win32/%{cfg.buildcfg}"}
+			}		
 		filter "platforms:x64"
 			architecture "x86_64"
 			targetdir (rootdir.."/bin/QTDemoApp/x64/%{cfg.buildcfg}")	
+			postbuildcommands
+			{
+				{"{COPY} "..rootdir.."/../bin/Invision/x64/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/QTDemoApp/x64/%{cfg.buildcfg}"}
+			}		
