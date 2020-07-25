@@ -501,7 +501,8 @@ project "GraphicsInstance"
 		}		
 
 project "QTDemoApp"
-		kind "ConsoleApp"
+		kind "WindowedApp"
+		entrypoint "WinMainCRTStartup"
 		language "C++"
 		--cppdialect "C++17"
 		
