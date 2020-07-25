@@ -494,14 +494,16 @@ project "QTDemoApp"
 
 		defines {"INVISION_BASE_DIR=" .. invision_root }
 		
-		AddWXWidgetStaticLibrary(libpath)
 		AddBoostLibrary(libpath)
 		AddVulkanLibrary(libpath)
 
 	--QT
+
+		filter {}
 		qt.enable()
 		qtmodules { "core", "gui", "widgets", "opengl" }
 		qtprefix "Qt5"
+		qtgenerateddir (srcroot .. "tools/QTDemoApp/genqt/")
 		configuration { "Debug" }
 			qtsuffix "d"
 		configuration { }
