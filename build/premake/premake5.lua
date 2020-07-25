@@ -492,6 +492,12 @@ project "QTDemoApp"
 			srcroot .. "tools/QTDemoApp/**.cpp"
 		}
 
+		defines {"INVISION_BASE_DIR=" .. invision_root }
+		
+		AddWXWidgetStaticLibrary(libpath)
+		AddBoostLibrary(libpath)
+		AddVulkanLibrary(libpath)
+
 	--QT
 		qt.enable()
 		qtmodules { "core", "gui", "widgets", "opengl" }
@@ -517,13 +523,7 @@ project "QTDemoApp"
 			srcroot
 		}
 	
-		links { "Invision" }
-	
-		defines {"INVISION_BASE_DIR=" .. invision_root }
-	
-		AddWXWidgetStaticLibrary(libpath)
-		AddBoostLibrary(libpath)
-		AddVulkanLibrary(libpath)
+		links { "Invision" }		
 
 		filter "configurations:Debug"
 			defines { "DEBUG" }
