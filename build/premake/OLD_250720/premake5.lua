@@ -153,25 +153,6 @@ function AddBoostLibrary(libpath)
 
 end
 
-function AddQtLibrary(qtPathX64, qtPathX86, usedModules, genMocsPath)
---QT
-
-	filter {}
-	qt.enable()
-	qtmodules { usedModules }
-	qtprefix "Qt5"
-	qtgenerateddir (genMocsPath)
-	configuration { "Debug" }
-		qtsuffix "d"
-	configuration { }
-	filter "platforms:x64"
-		qtpath ( qtPathX64)
-
-	filter "platforms:x86"
-		qtpath ( qtPathX86)
-	filter {}
-end
-
 rootdir = "../.."
 srcroot = rootdir .. "/src/"
 libroot = rootdir .. "/lib/"
@@ -517,7 +498,22 @@ project "QTDemoApp"
 		AddVulkanLibrary(libpath)
 
 	--QT
-		AddQtLibrary(Invision.qt.pathX64, Invision.qt.pathX86,  { "core", "gui", "widgets", "opengl" }, (srcroot .. "tools/QTDemoApp/genqt/"))
+
+		filter {}
+		qt.enable()
+		qtmodules { "core", "gui", "widgets", "opengl" }
+		qtprefix "Qt5"
+		qtgenerateddir (srcroot .. "tools/QTDemoApp/genqt/")
+		configuration { "Debug" }
+			qtsuffix "d"
+		configuration { }
+		print( Invision.qt.pathX64)
+		filter "platforms:x64"
+			qtpath ( Invision.qt.pathX64)
+	
+		filter "platforms:x86"
+			qtpath ( Invision.qt.pathX86)
+		filter {}
 	
 		filter "system:Windows"		
 			
