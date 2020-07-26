@@ -23,6 +23,8 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
+#include "RenderWidget.h"
+
 QT_BEGIN_NAMESPACE
 
 class Ui_MainWindow
@@ -31,7 +33,8 @@ public:
 	QWidget *centralwidget;
 	QWidget *verticalLayoutWidget;
 	QVBoxLayout *verticalLayout;
-	QWidget *widget;
+	//QWidget *widget;
+	RenderWidget *widget;
 	QTextBrowser *textBrowser;
 	QHBoxLayout *horizontalLayout;
 	QPushButton *pushButton_2;
@@ -54,9 +57,10 @@ public:
 		verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
 		verticalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
 		verticalLayout->setContentsMargins(0, 0, 0, 0);
-		widget = new QWidget(verticalLayoutWidget);
+		widget = new RenderWidget(verticalLayoutWidget);
 		widget->setObjectName(QStringLiteral("widget"));
 		widget->setMaximumSize(QSize(16777215, 300));
+		widget->SetContinousRender(true);
 
 		verticalLayout->addWidget(widget);
 
@@ -97,7 +101,7 @@ public:
 		MainWindow->setStatusBar(statusbar);
 
 		retranslateUi(MainWindow);
-
+		
 		QMetaObject::connectSlotsByName(MainWindow);
 	} // setupUi
 
