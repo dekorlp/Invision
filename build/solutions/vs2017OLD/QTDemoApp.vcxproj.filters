@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="genqt">
+      <UniqueIdentifier>{4421800F-B035-A8C0-79B7-4B20E58AA4F1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\tools\QTDemoApp\Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\tools\QTDemoApp\genqt\moc_MainWindow2.cpp">
+      <Filter>genqt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\tools\QTDemoApp\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\src\tools\QTDemoApp\MainWindow2.h" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,7 @@
+﻿  AdditionalFunctions.cpp
+  VulkanCanvas.cpp
+  VulkanWindow.cpp
+  main.cpp
+  Generating Code...
+wxbase31ud.lib(extended.obj) : warning LNK4099: PDB 'wxbase31ud.pdb' was not found with 'wxbase31ud.lib(extended.obj)' or at 'D:\Repository\Invision\bin\SandboxWindow\x64\Debug\wxbase31ud.pdb'; linking object as if no debug info
+  SandboxWindow.vcxproj -> D:\Repository\Invision\build\solutions\vs2017\..\..\..\bin\SandboxWindow\x64\Debug\SandboxWindow.exe

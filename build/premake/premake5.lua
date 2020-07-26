@@ -172,6 +172,142 @@ function AddQtLibrary(qtPathX64, qtPathX86, usedModules, genMocsPath)
 	filter {}
 end
 
+function AddWindowedProject(name, projectDir, argFiles, argIncludes, argLinks, argDefines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
+	project (name)
+		kind "WindowedApp"
+		entrypoint "WinMainCRTStartup"
+		
+		language "C++"
+		--cppdialect "C++17"
+		
+		files (argFiles) 
+		
+		filter "system:Windows"		
+		
+		filter {}
+		
+		includedirs	{ argIncludes }
+
+		links { argLinks }
+		
+		defines { argDefines }
+		if (usewxWidget == true)
+		then
+			AddWXWidgetStaticLibrary(libpath)
+		end
+
+		if(useBoost == true)
+		then
+			AddBoostLibrary(libpath)
+		end
+
+		if(useVulkan == true)
+		then
+			AddVulkanLibrary(libpath)
+		end
+		if(useQt == true)
+		then
+			AddQtLibrary(Invision.qt.pathX64, Invision.qt.pathX86,  { "core", "gui", "widgets", "opengl" }, (projectDir..name.."/genqt/"))
+		end
+
+		filter "configurations:Debug"
+			defines { "DEBUG" }
+			symbols "On"
+			
+		filter "configurations:Release"
+			defines { "NDEBUG" }
+			optimize "On"
+
+			
+		filter "platforms:x86"
+			architecture "x86"
+			targetdir (rootdir.."/bin/"..name.."/win32/%{cfg.buildcfg}")
+			if(useInvisionEgine == true)
+			then	
+				postbuildcommands
+				{
+					{"{COPY} "..rootdir.."/../bin/Invision/win32/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/"..name.."/win32/%{cfg.buildcfg}"}
+				}
+			end
+		filter "platforms:x64"
+			architecture "x86_64"
+			targetdir (rootdir.."/bin/"..name.."/x64/%{cfg.buildcfg}")
+			if(useInvisionEgine == true)
+			then
+				postbuildcommands
+				{
+					{"{COPY} "..rootdir.."/../bin/Invision/x64/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/"..name.."/x64/%{cfg.buildcfg}"}
+				}
+			end
+end
+
+function AddConsoleProject(name, projectDir, argFiles, argIncludes, argLinks, argDefines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
+	project (name)
+		kind "ConsoleApp"		
+		language "C++"
+		--cppdialect "C++17"
+		
+		files (argFiles) 
+		
+		filter "system:Windows"		
+		
+		filter {}
+		
+		includedirs	{ argIncludes }
+
+		links { argLinks }
+		
+		defines { argDefines }
+		if (usewxWidget == true)
+		then
+			AddWXWidgetStaticLibrary(libpath)
+		end
+
+		if(useBoost == true)
+		then
+			AddBoostLibrary(libpath)
+		end
+
+		if(useVulkan == true)
+		then
+			AddVulkanLibrary(libpath)
+		end
+		if(useQt == true)
+		then
+			AddQtLibrary(Invision.qt.pathX64, Invision.qt.pathX86,  { "core", "gui", "widgets", "opengl" }, (srcroot .. "tools/"..name.."/genqt/"))
+		end
+
+		filter "configurations:Debug"
+			defines { "DEBUG" }
+			symbols "On"
+			
+		filter "configurations:Release"
+			defines { "NDEBUG" }
+			optimize "On"
+
+			
+		filter "platforms:x86"
+			architecture "x86"
+			targetdir (rootdir.."/bin/"..name.."/win32/%{cfg.buildcfg}")
+			if(useInvisionEgine == true)
+			then	
+				postbuildcommands
+				{
+					{"{COPY} "..rootdir.."/../bin/Invision/win32/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/"..name.."/win32/%{cfg.buildcfg}"}
+				}
+			end
+		filter "platforms:x64"
+			architecture "x86_64"
+			targetdir (rootdir.."/bin/"..name.."/x64/%{cfg.buildcfg}")
+			if(useInvisionEgine == true)
+			then
+				postbuildcommands
+				{
+					{"{COPY} "..rootdir.."/../bin/Invision/x64/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/"..name.."/x64/%{cfg.buildcfg}"}
+				}
+			end
+end
+
 rootdir = "../.."
 srcroot = rootdir .. "/src/"
 libroot = rootdir .. "/lib/"
@@ -238,319 +374,51 @@ project "Invision"
 		targetdir (rootdir.."/bin/Invision/win32/%{cfg.buildcfg}")		
 	filter "platforms:x64"
 		architecture "x86_64"
-		targetdir (rootdir.."/bin/Invision/x64/%{cfg.buildcfg}")	
-	
-project "SandboxWindow"
-	kind "WindowedApp"
-	entrypoint "WinMainCRTStartup"
-	language "C++"
-	--cppdialect "C++17"
+		targetdir (rootdir.."/bin/Invision/x64/%{cfg.buildcfg}")
 
-	files
-	{
-		srcroot .. "tools/sandboxWindow/**.h",
-		srcroot .. "tools/sandboxWindow/**.cpp"
-	}
-	
-	filter "system:Windows"		
-		
-	filter {}
-	
-	includedirs
-	{
-		-- Invision libraries
-		srcroot
-	}
-	
-	links { "Invision" }
-	
-	defines {"INVISION_BASE_DIR=" .. invision_root }
-	
-	AddWXWidgetStaticLibrary(libpath)
-	AddBoostLibrary(libpath)
-	AddVulkanLibrary(libpath)
-		
-	filter "configurations:Debug"
-		defines { "DEBUG" }
-		symbols "On"
-		
-	filter "configurations:Release"
-		defines { "NDEBUG" }
-		optimize "On"
+--function AddWindowedProject(name, projectDir, files, includes, links, defines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
+AddWindowedProject(
+	"SandboxWindow", srcroot .. "tools/", {
+	srcroot .. "tools/sandboxWindow/**.h",
+	srcroot .. "tools/sandboxWindow/**.cpp"
+	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, true, false, true, true)
 
-		
-	filter "platforms:x86"
-		architecture "x86"
-		targetdir (rootdir.."/bin/SandboxWindow/win32/%{cfg.buildcfg}")		
-		postbuildcommands
-		{
-			{"{COPY} "..rootdir.."/../bin/Invision/win32/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/SandboxWindow/win32/%{cfg.buildcfg}"}
-		}
-	filter "platforms:x64"
-		architecture "x86_64"
-		targetdir (rootdir.."/bin/SandboxWindow/x64/%{cfg.buildcfg}")
-		postbuildcommands
-		{
-			{"{COPY} "..rootdir.."/../bin/Invision/x64/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/SandboxWindow/x64/%{cfg.buildcfg}"}
-		}
-	
-project "SandboxConsole"
-	kind "ConsoleApp"
-	language "C++"
-	--cppdialect "C++17"
-	
-	files
-	{
-		srcroot .. "tools/sandboxConsole/**.h",
-		srcroot .. "tools/sandboxConsole/**.cpp"
-	}
-	
-	filter "system:Windows"		
-		
-	filter {}
-	
-	includedirs
-	{
-		-- Invision libraries
-		srcroot
-	}
-	
-	links { "Invision" }
-	
-	AddBoostLibrary(libpath)
-		
-	filter "configurations:Debug"
-		defines { "DEBUG" }
-		symbols "On"
-		
-	filter "configurations:Release"
-		defines { "NDEBUG" }
-		optimize "On"
+--function AddConsoleProject(name, projectDir, argFiles, argIncludes, argLinks, argDefines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
+AddConsoleProject(
+	"SandboxConsole", srcroot .. "tools/", {
+	srcroot .. "tools/sandboxConsole/**.h",
+	srcroot .. "tools/sandboxConsole/**.cpp"
+	}, srcroot, { "Invision" }, {}, true, false, false, false, true)
 
-		
-	filter "platforms:x86"
-		architecture "x86"
-		targetdir (rootdir.."/bin/SandboxConsole/win32/%{cfg.buildcfg}")
-		postbuildcommands
-		{
-			{"{COPY} "..rootdir.."/../bin/Invision/win32/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/sandboxConsole/win32/%{cfg.buildcfg}"}
-		}
-	filter "platforms:x64"
-		architecture "x86_64"
-		targetdir (rootdir.."/bin/SandboxConsole/x64/%{cfg.buildcfg}")
-		postbuildcommands
-		{
-			{"{COPY} "..rootdir.."/../bin/Invision/x64/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/sandboxConsole/x64/%{cfg.buildcfg}"}
-		}	
-		
-project "UnitTests"
-	kind "ConsoleApp"
-	language "C++"
-	--cppdialect "C++17"
-	
-	files
-	{
+--function AddConsoleProject(name, projectDir, argFiles, argIncludes, argLinks, argDefines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)	
+AddConsoleProject(
+	"UnitTests", srcroot .. "tests/", {
 		srcroot .. "tests/**.h",
 		srcroot .. "tests/**.cpp"
-	}
-	
-	filter {}
-	
-	includedirs
-	{
-		-- Invision libraries
-		srcroot
-	}
-		
-	links { "Invision" }
-	
-	AddBoostLibrary(libpath)
-		
-	filter "configurations:Debug"
-		defines { "DEBUG" }
-		symbols "On"
-		
-	filter "configurations:Release"
-		defines { "NDEBUG" }
-		optimize "On"
-		
-	filter "platforms:x86"
-		architecture "x86"
-		targetdir (rootdir.."/bin/UnitTests/win32/%{cfg.buildcfg}")
-		postbuildcommands
-		{
-			{"{COPY} "..rootdir.."/../bin/Invision/win32/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/UnitTests/win32/%{cfg.buildcfg}"}
-		}		
-	filter "platforms:x64"
-		architecture "x86_64"
-		targetdir (rootdir.."/bin/UnitTests/x64/%{cfg.buildcfg}")
-		postbuildcommands
-		{
-			{"{COPY} "..rootdir.."/../bin/Invision/x64/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/UnitTests/x64/%{cfg.buildcfg}"}
-		}	
-		
+	}, srcroot, { "Invision" }, {}, true, false, false, false, true)
+
 -----------------------------------------------------------------------------------------------------
 --Examples
------------------------------------------------------------------------------------------------------		
-project "Triangle"
-	kind "WindowedApp"
-	entrypoint "WinMainCRTStartup"
-	language "C++"
-	--cppdialect "C++17"
-	
-	files
-	{
+-----------------------------------------------------------------------------------------------------
+
+--function AddWindowedProject(name, files, includes, links, defines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
+AddWindowedProject(
+	"Triangle", srcroot .. "tools/", {
 		srcroot .. "tools/examples/triangle/**.h",
 		srcroot .. "tools/examples/triangle/**.cpp"
-	}
-	
-	filter "system:Windows"		
-		
-	filter {}
-	
-	includedirs
-	{
-		-- Invision libraries
-		srcroot
-	}
-	
-	links { "Invision" }
-	
-	defines {"INVISION_BASE_DIR=" .. invision_root }
-	
-	AddWXWidgetStaticLibrary(libpath)
-	AddBoostLibrary(libpath)
-	AddVulkanLibrary(libpath)
-		
-	filter "configurations:Debug"
-		defines { "DEBUG" }
-		symbols "On"
-		
-	filter "configurations:Release"
-		defines { "NDEBUG" }
-		optimize "On"
+	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, true, false, true, true)
 
-		
-	filter "platforms:x86"
-		architecture "x86"
-		targetdir (rootdir.."/bin/Triangle/win32/%{cfg.buildcfg}")
-		postbuildcommands
-		{
-			{"{COPY} "..rootdir.."/../bin/Invision/win32/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/Triangle/win32/%{cfg.buildcfg}"}
-		}			
-	filter "platforms:x64"
-		architecture "x86_64"
-		targetdir (rootdir.."/bin/Triangle/x64/%{cfg.buildcfg}")
-		postbuildcommands
-		{
-			{"{COPY} "..rootdir.."/../bin/Invision/x64/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/Triangle/x64/%{cfg.buildcfg}"}
-		}		
 
-project "GraphicsInstance"
-	kind "WindowedApp"
-	entrypoint "WinMainCRTStartup"
-	language "C++"
-	--cppdialect "C++17"
-	
-	files
-	{
+--function AddWindowedProject(name, files, includes, links, defines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
+AddWindowedProject(
+	"GraphicsInstance", srcroot .. "tools/" ,{
 		srcroot .. "tools/examples/GraphicsInstance/**.h",
 		srcroot .. "tools/examples/GraphicsInstance/**.cpp"
-	}
-	
-	filter "system:Windows"		
-		
-	filter {}
-	
-	includedirs
-	{
-		-- Invision libraries
-		srcroot
-	}
-	
-	links { "Invision" }
-	
-	defines {"INVISION_BASE_DIR=" .. invision_root }
-	
-	AddWXWidgetStaticLibrary(libpath)
-	AddBoostLibrary(libpath)
-	AddVulkanLibrary(libpath)
-		
-	filter "configurations:Debug"
-		defines { "DEBUG" }
-		symbols "On"
-		
-	filter "configurations:Release"
-		defines { "NDEBUG" }
-		optimize "On"
+	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, true, false, true, true)
 
-		
-	filter "platforms:x86"
-		architecture "x86"
-		targetdir (rootdir.."/bin/GraphicsInstance/win32/%{cfg.buildcfg}")
-		postbuildcommands
-		{
-			{"{COPY} "..rootdir.."/../bin/Invision/win32/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/GraphicsInstance/win32/%{cfg.buildcfg}"}
-		}		
-	filter "platforms:x64"
-		architecture "x86_64"
-		targetdir (rootdir.."/bin/GraphicsInstance/x64/%{cfg.buildcfg}")
-		postbuildcommands
-		{
-			{"{COPY} "..rootdir.."/../bin/Invision/x64/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/GraphicsInstance/x64/%{cfg.buildcfg}"}
-		}		
-
-project "QTDemoApp"
-		kind "WindowedApp"
-		entrypoint "WinMainCRTStartup"
-		language "C++"
-		--cppdialect "C++17"
-		
-		files
-		{
-			srcroot .. "tools/QTDemoApp/**.h",
-			srcroot .. "tools/QTDemoApp/**.cpp"
-		}
-
-		defines {"INVISION_BASE_DIR=" .. invision_root }
-		
-		AddBoostLibrary(libpath)
-		AddVulkanLibrary(libpath)
-
-	--QT
-		AddQtLibrary(Invision.qt.pathX64, Invision.qt.pathX86,  { "core", "gui", "widgets", "opengl" }, (srcroot .. "tools/QTDemoApp/genqt/"))
-	
-		filter "system:Windows"		
-			
-		filter {}
-		
-		includedirs
-		{
-			-- Invision libraries
-			srcroot
-		}
-	
-		links { "Invision" }		
-
-		filter "configurations:Debug"
-			defines { "DEBUG" }
-			symbols "On"
-			
-		filter "configurations:Release"
-			defines { "NDEBUG" }
-			optimize "On"	
-			
-		filter "platforms:x86"
-			architecture "x86"
-			targetdir (rootdir.."/bin/QTDemoApp/win32/%{cfg.buildcfg}")
-			postbuildcommands
-			{
-				{"{COPY} "..rootdir.."/../bin/Invision/win32/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/QTDemoApp/win32/%{cfg.buildcfg}"}
-			}		
-		filter "platforms:x64"
-			architecture "x86_64"
-			targetdir (rootdir.."/bin/QTDemoApp/x64/%{cfg.buildcfg}")	
-			postbuildcommands
-			{
-				{"{COPY} "..rootdir.."/../bin/Invision/x64/%{cfg.buildcfg}/Invision.dll".." "..rootdir.."/../bin/QTDemoApp/x64/%{cfg.buildcfg}"}
-			}		
+--function AddWindowedProject(name, files, includes, links, defines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
+AddConsoleProject(
+	"QTDemoApp", srcroot .. "tools/", {
+		srcroot .. "tools/QTDemoApp/**.h",
+		srcroot .. "tools/QTDemoApp/**.cpp"
+	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, false, true)

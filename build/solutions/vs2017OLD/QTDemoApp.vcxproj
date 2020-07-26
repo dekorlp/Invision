@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F0C019B9-5C2B-CE2F-A569-7FD51113AC84}</ProjectGuid>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>QTDemoApp</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\..\..\bin\QTDemoApp\win32\Debug\</OutDir>
+    <IntDir>obj\x86\Debug\QTDemoApp\</IntDir>
+    <TargetName>QTDemoApp</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\..\..\bin\QTDemoApp\x64\Debug\</OutDir>
+    <IntDir>obj\x64\Debug\QTDemoApp\</IntDir>
+    <TargetName>QTDemoApp</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\..\..\bin\QTDemoApp\win32\Release\</OutDir>
+    <IntDir>obj\x86\Release\QTDemoApp\</IntDir>
+    <TargetName>QTDemoApp</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\..\..\bin\QTDemoApp\x64\Release\</OutDir>
+    <IntDir>obj\x64\Release\QTDemoApp\</IntDir>
+    <TargetName>QTDemoApp</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>INVISION_BASE_DIR="D:/Repository/Invision";DEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;QT_OPENGL_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\src;..\..\..\lib\win32\boost;..\..\..\lib\win32\vulkan\include;D:\Programme\Qt\5.9.9\msvc2015\include;D:\Programme\Qt\5.9.9\msvc2015\include\QtCore;D:\Programme\Qt\5.9.9\msvc2015\include\QtGui;D:\Programme\Qt\5.9.9\msvc2015\include\QtWidgets;D:\Programme\Qt\5.9.9\msvc2015\include\QtOpenGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>vulkan-1.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;Qt5OpenGLd.lib;OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\lib\win32\boost\stage\lib;..\..\..\lib\win32\vulkan\Lib32;D:\Programme\Qt\5.9.9\msvc2015\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <EntryPointSymbol>WinMainCRTStartup</EntryPointSymbol>
+    </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST ..\..\..\bin\Invision\win32\Debug\Invision.dll\ (xcopy /Q /E /Y /I ..\..\..\bin\Invision\win32\Debug\Invision.dll ..\..\..\bin\QTDemoApp\win32\Debug &gt; nul) ELSE (xcopy /Q /Y /I ..\..\..\bin\Invision\win32\Debug\Invision.dll ..\..\..\bin\QTDemoApp\win32\Debug &gt; nul)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>INVISION_BASE_DIR="D:/Repository/Invision";DEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;QT_OPENGL_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\src;..\..\..\lib\win32\boost;..\..\..\lib\win32\vulkan\include;D:\Programme\Qt\5.9.9\msvc2017_64\include;D:\Programme\Qt\5.9.9\msvc2017_64\include\QtCore;D:\Programme\Qt\5.9.9\msvc2017_64\include\QtGui;D:\Programme\Qt\5.9.9\msvc2017_64\include\QtWidgets;D:\Programme\Qt\5.9.9\msvc2017_64\include\QtOpenGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>vulkan-1.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;Qt5OpenGLd.lib;OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\lib\win32\boost\stage\lib;..\..\..\lib\win32\vulkan\Lib;D:\Programme\Qt\5.9.9\msvc2017_64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <EntryPointSymbol>WinMainCRTStartup</EntryPointSymbol>
+    </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST ..\..\..\bin\Invision\x64\Debug\Invision.dll\ (xcopy /Q /E /Y /I ..\..\..\bin\Invision\x64\Debug\Invision.dll ..\..\..\bin\QTDemoApp\x64\Debug &gt; nul) ELSE (xcopy /Q /Y /I ..\..\..\bin\Invision\x64\Debug\Invision.dll ..\..\..\bin\QTDemoApp\x64\Debug &gt; nul)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>INVISION_BASE_DIR="D:/Repository/Invision";NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;QT_OPENGL_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\src;..\..\..\lib\win32\boost;..\..\..\lib\win32\vulkan\include;D:\Programme\Qt\5.9.9\msvc2015\include;D:\Programme\Qt\5.9.9\msvc2015\include\QtCore;D:\Programme\Qt\5.9.9\msvc2015\include\QtGui;D:\Programme\Qt\5.9.9\msvc2015\include\QtWidgets;D:\Programme\Qt\5.9.9\msvc2015\include\QtOpenGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>vulkan-1.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Widgets.lib;Qt5OpenGL.lib;OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\lib\win32\boost\stage\lib;..\..\..\lib\win32\vulkan\Lib32;D:\Programme\Qt\5.9.9\msvc2015\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <EntryPointSymbol>WinMainCRTStartup</EntryPointSymbol>
+    </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST ..\..\..\bin\Invision\win32\Release\Invision.dll\ (xcopy /Q /E /Y /I ..\..\..\bin\Invision\win32\Release\Invision.dll ..\..\..\bin\QTDemoApp\win32\Release &gt; nul) ELSE (xcopy /Q /Y /I ..\..\..\bin\Invision\win32\Release\Invision.dll ..\..\..\bin\QTDemoApp\win32\Release &gt; nul)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>INVISION_BASE_DIR="D:/Repository/Invision";NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;QT_OPENGL_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\src;..\..\..\lib\win32\boost;..\..\..\lib\win32\vulkan\include;D:\Programme\Qt\5.9.9\msvc2017_64\include;D:\Programme\Qt\5.9.9\msvc2017_64\include\QtCore;D:\Programme\Qt\5.9.9\msvc2017_64\include\QtGui;D:\Programme\Qt\5.9.9\msvc2017_64\include\QtWidgets;D:\Programme\Qt\5.9.9\msvc2017_64\include\QtOpenGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>vulkan-1.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Widgets.lib;Qt5OpenGL.lib;OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\lib\win32\boost\stage\lib;..\..\..\lib\win32\vulkan\Lib;D:\Programme\Qt\5.9.9\msvc2017_64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <EntryPointSymbol>WinMainCRTStartup</EntryPointSymbol>
+    </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST ..\..\..\bin\Invision\x64\Release\Invision.dll\ (xcopy /Q /E /Y /I ..\..\..\bin\Invision\x64\Release\Invision.dll ..\..\..\bin\QTDemoApp\x64\Release &gt; nul) ELSE (xcopy /Q /Y /I ..\..\..\bin\Invision\x64\Release\Invision.dll ..\..\..\bin\QTDemoApp\x64\Release &gt; nul)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\tools\QTDemoApp\Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\tools\QTDemoApp\genqt\moc_MainWindow2.cpp" />
+    <ClCompile Include="..\..\..\src\tools\QTDemoApp\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\..\src\tools\QTDemoApp\MainWindow2.h">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"D:/Programme/Qt/5.9.9/msvc2015/bin/moc" "../../../src/tools/QTDemoApp/MainWindow2.h" -o "../../../src/tools/QTDemoApp/genqt/moc_MainWindow2.cpp"  -DINVISION_BASE_DIR="D:/Repository/Invision" -DDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_OPENGL_LIB -I"../../../src" -I"../../../lib/win32/boost" -I"../../../lib/win32/vulkan/include" -I"D:/Programme/Qt/5.9.9/msvc2015/include" -I"D:/Programme/Qt/5.9.9/msvc2015/include/QtCore" -I"D:/Programme/Qt/5.9.9/msvc2015/include/QtGui" -I"D:/Programme/Qt/5.9.9/msvc2015/include/QtWidgets" -I"D:/Programme/Qt/5.9.9/msvc2015/include/QtOpenGL"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"D:/Programme/Qt/5.9.9/msvc2017_64/bin/moc" "../../../src/tools/QTDemoApp/MainWindow2.h" -o "../../../src/tools/QTDemoApp/genqt/moc_MainWindow2.cpp"  -DINVISION_BASE_DIR="D:/Repository/Invision" -DDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_OPENGL_LIB -I"../../../src" -I"../../../lib/win32/boost" -I"../../../lib/win32/vulkan/include" -I"D:/Programme/Qt/5.9.9/msvc2017_64/include" -I"D:/Programme/Qt/5.9.9/msvc2017_64/include/QtCore" -I"D:/Programme/Qt/5.9.9/msvc2017_64/include/QtGui" -I"D:/Programme/Qt/5.9.9/msvc2017_64/include/QtWidgets" -I"D:/Programme/Qt/5.9.9/msvc2017_64/include/QtOpenGL"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"D:/Programme/Qt/5.9.9/msvc2015/bin/moc" "../../../src/tools/QTDemoApp/MainWindow2.h" -o "../../../src/tools/QTDemoApp/genqt/moc_MainWindow2.cpp"  -DINVISION_BASE_DIR="D:/Repository/Invision" -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_OPENGL_LIB -I"../../../src" -I"../../../lib/win32/boost" -I"../../../lib/win32/vulkan/include" -I"D:/Programme/Qt/5.9.9/msvc2015/include" -I"D:/Programme/Qt/5.9.9/msvc2015/include/QtCore" -I"D:/Programme/Qt/5.9.9/msvc2015/include/QtGui" -I"D:/Programme/Qt/5.9.9/msvc2015/include/QtWidgets" -I"D:/Programme/Qt/5.9.9/msvc2015/include/QtOpenGL"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"D:/Programme/Qt/5.9.9/msvc2017_64/bin/moc" "../../../src/tools/QTDemoApp/MainWindow2.h" -o "../../../src/tools/QTDemoApp/genqt/moc_MainWindow2.cpp"  -DINVISION_BASE_DIR="D:/Repository/Invision" -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_OPENGL_LIB -I"../../../src" -I"../../../lib/win32/boost" -I"../../../lib/win32/vulkan/include" -I"D:/Programme/Qt/5.9.9/msvc2017_64/include" -I"D:/Programme/Qt/5.9.9/msvc2017_64/include/QtCore" -I"D:/Programme/Qt/5.9.9/msvc2017_64/include/QtGui" -I"D:/Programme/Qt/5.9.9/msvc2017_64/include/QtWidgets" -I"D:/Programme/Qt/5.9.9/msvc2017_64/include/QtOpenGL"</Command>
+      <Outputs>../../../src/tools/QTDemoApp/genqt/moc_MainWindow2.cpp</Outputs>
+      <Message>Moc'ing MainWindow2.h</Message>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Invision.vcxproj">
+      <Project>{34BDEC08-208A-4714-49A3-35BC35CF7CA2}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

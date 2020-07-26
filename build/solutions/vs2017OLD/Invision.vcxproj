@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{34BDEC08-208A-4714-49A3-35BC35CF7CA2}</ProjectGuid>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Invision</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\..\..\bin\Invision\win32\Debug\</OutDir>
+    <IntDir>obj\x86\Debug\Invision\</IntDir>
+    <TargetName>Invision</TargetName>
+    <TargetExt>.dll</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\..\..\bin\Invision\x64\Debug\</OutDir>
+    <IntDir>obj\x64\Debug\Invision\</IntDir>
+    <TargetName>Invision</TargetName>
+    <TargetExt>.dll</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\..\..\bin\Invision\win32\Release\</OutDir>
+    <IntDir>obj\x86\Release\Invision\</IntDir>
+    <TargetName>Invision</TargetName>
+    <TargetExt>.dll</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\..\..\bin\Invision\x64\Release\</OutDir>
+    <IntDir>obj\x64\Release\Invision\</IntDir>
+    <TargetName>Invision</TargetName>
+    <TargetExt>.dll</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>precompiled.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>INVISION_EXPORTS;_WINDLL;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\src;..\..\..\src\common;..\..\..\lib\win32\boost;..\..\..\lib\win32\vulkan\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\lib\win32\boost\stage\lib;..\..\..\lib\win32\vulkan\Lib32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImportLibrary>..\..\..\bin\Invision\win32\Debug\Invision.lib</ImportLibrary>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>precompiled.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>INVISION_EXPORTS;_WINDLL;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\src;..\..\..\src\common;..\..\..\lib\win32\boost;..\..\..\lib\win32\vulkan\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\lib\win32\boost\stage\lib;..\..\..\lib\win32\vulkan\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImportLibrary>..\..\..\bin\Invision\x64\Debug\Invision.lib</ImportLibrary>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>precompiled.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>INVISION_EXPORTS;_WINDLL;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\src;..\..\..\src\common;..\..\..\lib\win32\boost;..\..\..\lib\win32\vulkan\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\lib\win32\boost\stage\lib;..\..\..\lib\win32\vulkan\Lib32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImportLibrary>..\..\..\bin\Invision\win32\Release\Invision.lib</ImportLibrary>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>precompiled.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>INVISION_EXPORTS;_WINDLL;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\src;..\..\..\src\common;..\..\..\lib\win32\boost;..\..\..\lib\win32\vulkan\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\lib\win32\boost\stage\lib;..\..\..\lib\win32\vulkan\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImportLibrary>..\..\..\bin\Invision\x64\Release\Invision.lib</ImportLibrary>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\InCommon.h" />
+    <ClInclude Include="..\..\..\src\InMath.h" />
+    <ClInclude Include="..\..\..\src\Invision.h" />
+    <ClInclude Include="..\..\..\src\common\BaseTypes.h" />
+    <ClInclude Include="..\..\..\src\common\DateTime.h" />
+    <ClInclude Include="..\..\..\src\common\Log.h" />
+    <ClInclude Include="..\..\..\src\common\StopWatch.h" />
+    <ClInclude Include="..\..\..\src\common\TimeSpan.h" />
+    <ClInclude Include="..\..\..\src\common\WinLocale.h" />
+    <ClInclude Include="..\..\..\src\common\WinPlatformInformation.h" />
+    <ClInclude Include="..\..\..\src\common\common.h" />
+    <ClInclude Include="..\..\..\src\common\exception.h" />
+    <ClInclude Include="..\..\..\src\common\precompiled.h" />
+    <ClInclude Include="..\..\..\src\lowlevel\CRC.h" />
+    <ClInclude Include="..\..\..\src\lowlevel\InBaseString.h" />
+    <ClInclude Include="..\..\..\src\lowlevel\InStringA.h" />
+    <ClInclude Include="..\..\..\src\lowlevel\InStringW.h" />
+    <ClInclude Include="..\..\..\src\lowlevel\PlatformCPUFrequency.h" />
+    <ClInclude Include="..\..\..\src\lowlevel\PlatformCPUID.h" />
+    <ClInclude Include="..\..\..\src\lowlevel\PlatformHardDisk.h" />
+    <ClInclude Include="..\..\..\src\lowlevel\allocator\LinearAllocator.h" />
+    <ClInclude Include="..\..\..\src\lowlevel\allocator\MemoryBlock.h" />
+    <ClInclude Include="..\..\..\src\lowlevel\allocator\PoolAllocator.h" />
+    <ClInclude Include="..\..\..\src\lowlevel\allocator\StackAllocator.h" />
+    <ClInclude Include="..\..\..\src\lowlevel\lowlevel.h" />
+    <ClInclude Include="..\..\..\src\lowlevel\platform\CpuId.h" />
+    <ClInclude Include="..\..\..\src\math\Matrix.h" />
+    <ClInclude Include="..\..\..\src\math\Quaternion.h" />
+    <ClInclude Include="..\..\..\src\math\Simd_Config.h" />
+    <ClInclude Include="..\..\..\src\math\Vector2.h" />
+    <ClInclude Include="..\..\..\src\math\Vector3.h" />
+    <ClInclude Include="..\..\..\src\math\inMath.h" />
+    <ClInclude Include="..\..\..\src\math\math_config.h" />
+    <ClInclude Include="..\..\..\src\math\sse_mathfun.h" />
+    <ClInclude Include="..\..\..\src\renderer\GraphicsFactory.h" />
+    <ClInclude Include="..\..\..\src\renderer\ICommandBuffer.h" />
+    <ClInclude Include="..\..\..\src\renderer\IFramebuffer.h" />
+    <ClInclude Include="..\..\..\src\renderer\IGraphicsEngine.h" />
+    <ClInclude Include="..\..\..\src\renderer\IIndexBuffer.h" />
+    <ClInclude Include="..\..\..\src\renderer\IPipeline.h" />
+    <ClInclude Include="..\..\..\src\renderer\IRenderPass.h" />
+    <ClInclude Include="..\..\..\src\renderer\IRenderer.h" />
+    <ClInclude Include="..\..\..\src\renderer\IUniformBuffer.h" />
+    <ClInclude Include="..\..\..\src\renderer\IVertexBuffer.h" />
+    <ClInclude Include="..\..\..\src\renderer\Vulkan\VulkanBase.h" />
+    <ClInclude Include="..\..\..\src\renderer\Vulkan\VulkanBaseBuffer.h" />
+    <ClInclude Include="..\..\..\src\renderer\Vulkan\VulkanBaseCommandBuffer.h" />
+    <ClInclude Include="..\..\..\src\renderer\Vulkan\VulkanBaseCommandPool.h" />
+    <ClInclude Include="..\..\..\src\renderer\Vulkan\VulkanBaseDescriptorPool.h" />
+    <ClInclude Include="..\..\..\src\renderer\Vulkan\VulkanBaseDevice.h" />
+    <ClInclude Include="..\..\..\src\renderer\Vulkan\VulkanBaseException.h" />
+    <ClInclude Include="..\..\..\src\renderer\Vulkan\VulkanBaseFramebuffer.h" />
+    <ClInclude Include="..\..\..\src\renderer\Vulkan\VulkanBaseIndexBuffer.h" />
+    <ClInclude Include="..\..\..\src\renderer\Vulkan\VulkanBaseInstance.h" />
+    <ClInclude Include="..\..\..\src\renderer\Vulkan\VulkanBasePipeline.h" />
+    <ClInclude Include="..\..\..\src\renderer\Vulkan\VulkanBasePresentation.h" />
+    <ClInclude Include="..\..\..\src\renderer\Vulkan\VulkanBaseRenderPass.h" />
+    <ClInclude Include="..\..\..\src\renderer\Vulkan\VulkanBaseRenderer.h" />
+    <ClInclude Include="..\..\..\src\renderer\Vulkan\VulkanBaseShader.h" />
+    <ClInclude Include="..\..\..\src\renderer\Vulkan\VulkanBaseUniformBuffer.h" />
+    <ClInclude Include="..\..\..\src\renderer\Vulkan\VulkanBaseVertexBuffer.h" />
+    <ClInclude Include="..\..\..\src\renderer\VulkanCommandBuffer.h" />
+    <ClInclude Include="..\..\..\src\renderer\VulkanEngine.h" />
+    <ClInclude Include="..\..\..\src\renderer\VulkanFramebuffer.h" />
+    <ClInclude Include="..\..\..\src\renderer\VulkanIndexBuffer.h" />
+    <ClInclude Include="..\..\..\src\renderer\VulkanPipeline.h" />
+    <ClInclude Include="..\..\..\src\renderer\VulkanRender.h" />
+    <ClInclude Include="..\..\..\src\renderer\VulkanRenderPass.h" />
+    <ClInclude Include="..\..\..\src\renderer\VulkanUniformBuffer.h" />
+    <ClInclude Include="..\..\..\src\renderer\VulkanVertexBuffer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\common\BaseTypes.cpp" />
+    <ClCompile Include="..\..\..\src\common\DateTime.cpp" />
+    <ClCompile Include="..\..\..\src\common\Log.cpp" />
+    <ClCompile Include="..\..\..\src\common\StopWatch.cpp" />
+    <ClCompile Include="..\..\..\src\common\TimeSpan.cpp" />
+    <ClCompile Include="..\..\..\src\common\WinLocale.cpp" />
+    <ClCompile Include="..\..\..\src\common\WinPlatformInformation.cpp" />
+    <ClCompile Include="..\..\..\src\common\common.cpp" />
+    <ClCompile Include="..\..\..\src\common\exception.cpp" />
+    <ClCompile Include="..\..\..\src\common\precompiled.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\lowlevel\CRC.cpp" />
+    <ClCompile Include="..\..\..\src\lowlevel\InBaseString.cpp" />
+    <ClCompile Include="..\..\..\src\lowlevel\InStringA.cpp" />
+    <ClCompile Include="..\..\..\src\lowlevel\InStringW.cpp" />
+    <ClCompile Include="..\..\..\src\lowlevel\PlatformCPUFrequency.cpp" />
+    <ClCompile Include="..\..\..\src\lowlevel\PlatformCPUID.cpp" />
+    <ClCompile Include="..\..\..\src\lowlevel\PlatformHardDisk.cpp" />
+    <ClCompile Include="..\..\..\src\lowlevel\allocator\LinearAllocator.cpp" />
+    <ClCompile Include="..\..\..\src\lowlevel\allocator\MemoryBlock.cpp" />
+    <ClCompile Include="..\..\..\src\lowlevel\allocator\PoolAllocator.cpp" />
+    <ClCompile Include="..\..\..\src\lowlevel\allocator\StackAllocator.cpp" />
+    <ClCompile Include="..\..\..\src\lowlevel\lowlevel.cpp" />
+    <ClCompile Include="..\..\..\src\lowlevel\platform\CpuId.cpp" />
+    <ClCompile Include="..\..\..\src\math\Matrix.cpp" />
+    <ClCompile Include="..\..\..\src\math\Quaternion.cpp" />
+    <ClCompile Include="..\..\..\src\math\Simd_Config.cpp" />
+    <ClCompile Include="..\..\..\src\math\Vector2.cpp" />
+    <ClCompile Include="..\..\..\src\math\Vector3.cpp" />
+    <ClCompile Include="..\..\..\src\math\inMath.cpp" />
+    <ClCompile Include="..\..\..\src\math\sse_mathfun.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\GraphicsFactory.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\ICommandBuffer.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\IFramebuffer.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\IGraphicsEngine.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\IIndexBuffer.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\IPipeline.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\IRenderPass.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\IRenderer.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\IUniformBuffer.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\IVertexBuffer.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\Vulkan\VulkanBase.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\Vulkan\VulkanBaseBuffer.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\Vulkan\VulkanBaseCommandBuffer.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\Vulkan\VulkanBaseCommandPool.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\Vulkan\VulkanBaseDescriptorPool.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\Vulkan\VulkanBaseDevice.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\Vulkan\VulkanBaseException.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\Vulkan\VulkanBaseFramebuffer.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\Vulkan\VulkanBaseIndexBuffer.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\Vulkan\VulkanBaseInstance.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\Vulkan\VulkanBasePipeline.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\Vulkan\VulkanBasePresentation.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\Vulkan\VulkanBaseRenderPass.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\Vulkan\VulkanBaseRenderer.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\Vulkan\VulkanBaseShader.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\Vulkan\VulkanBaseUniformBuffer.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\Vulkan\VulkanBaseVertexBuffer.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\VulkanCommandBuffer.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\VulkanEngine.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\VulkanFramebuffer.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\VulkanIndexBuffer.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\VulkanPipeline.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\VulkanRender.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\VulkanRenderPass.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\VulkanUniformBuffer.cpp" />
+    <ClCompile Include="..\..\..\src\renderer\VulkanVertexBuffer.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
