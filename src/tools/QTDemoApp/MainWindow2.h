@@ -15,11 +15,11 @@ public:
 	MainWindow2(QMainWindow *parent = 0)
 	{
 		setupUi(this);
-		textBrowser->setText("Hallo Welt");
+		rtbOutput->setText("Hallo Welt");
 
 
-		QObject::connect(pushButton, SIGNAL(clicked()), this, SLOT(startStopEvent()));
-		QObject::connect(pushButton_3, SIGNAL(clicked()), this, SLOT(textChangeEvent()));
+		QObject::connect(btnStartStop, SIGNAL(clicked()), this, SLOT(startStopEvent()));
+		QObject::connect(btnChangeText, SIGNAL(clicked()), this, SLOT(textChangeEvent()));
 	}
 
 
@@ -34,15 +34,15 @@ public:
 private slots:
 	void startStopEvent()
 	{
-		if (!widget->GetContinousRender())
-			widget->SetContinousRender(true);
+		if (!leftWidget->GetContinousRender())
+			leftWidget->SetContinousRender(true);
 		else
-			widget->SetContinousRender(false);
+			leftWidget->SetContinousRender(false);
 	}
 
 	void textChangeEvent()
 	{
-		textBrowser->setText("dssdsddssdsd");
+		rtbOutput->setText("dssdsddssdsd");
 	}
 
 };
