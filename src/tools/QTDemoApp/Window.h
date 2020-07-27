@@ -107,10 +107,10 @@ public:
 
 	void retranslateUi(QMainWindow *MainWindow)
 	{
-		MainWindow->setWindowTitle(QApplication::translate("MainWindow", "FirstApp", Q_NULLPTR));
-		pushButton_2->setText(QApplication::translate("MainWindow", "PushButton", Q_NULLPTR));
-		pushButton_3->setText(QApplication::translate("MainWindow", "PushButton", Q_NULLPTR));
-		pushButton->setText(QApplication::translate("MainWindow", "PushButton", Q_NULLPTR));
+		MainWindow->setWindowTitle(QApplication::translate("MainWindow", "QT Vulkan Window", Q_NULLPTR));
+		pushButton_2->setText(QApplication::translate("MainWindow", "PushButton1", Q_NULLPTR));
+		pushButton_3->setText(QApplication::translate("MainWindow", "Change Text", Q_NULLPTR));
+		pushButton->setText(QApplication::translate("MainWindow", "Start/Stop", Q_NULLPTR));
 	} // retranslateUi
 
 };

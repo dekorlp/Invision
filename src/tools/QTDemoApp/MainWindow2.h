@@ -18,7 +18,8 @@ public:
 		textBrowser->setText("Hallo Welt");
 
 
-		connect(pushButton, SIGNAL(clicked()), this, SLOT(pushedEvent()));
+		connect(pushButton, SIGNAL(clicked()), this, SLOT(startStopEvent()));
+		connect(pushButton_3, SIGNAL(clicked()), this, SLOT(textChangeEvent()));
 	}
 
 
@@ -31,11 +32,17 @@ public:
 
 
 private slots:
-	void pushedEvent()
+	void startStopEvent()
+	{
+		if (!widget->GetContinousRender())
+			widget->SetContinousRender(true);
+		else
+			widget->SetContinousRender(false);
+	}
+
+	void textChangeEvent()
 	{
 		textBrowser->setText("dssdsddssdsd");
-		int test = 0;
-
 	}
 
 };

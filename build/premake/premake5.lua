@@ -421,4 +421,4 @@ AddConsoleProject(
 	"QTDemoApp", srcroot .. "tools/", {
 		srcroot .. "tools/QTDemoApp/**.h",
 		srcroot .. "tools/QTDemoApp/**.cpp"
-	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, false, true)
+	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true)
