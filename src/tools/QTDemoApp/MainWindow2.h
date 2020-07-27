@@ -18,15 +18,15 @@ public:
 		textBrowser->setText("Hallo Welt");
 
 
-		connect(pushButton, SIGNAL(clicked()), this, SLOT(startStopEvent()));
-		connect(pushButton_3, SIGNAL(clicked()), this, SLOT(textChangeEvent()));
+		QObject::connect(pushButton, SIGNAL(clicked()), this, SLOT(startStopEvent()));
+		QObject::connect(pushButton_3, SIGNAL(clicked()), this, SLOT(textChangeEvent()));
 	}
 
 
 
 	~MainWindow2()
 	{
-
+		
 	}
 
 
