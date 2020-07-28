@@ -88,6 +88,8 @@ namespace Invision
 		presentInfo.pSwapchains = swapChains;
 		presentInfo.pImageIndices = &vulkanInstance.mImageIndex;
 		presentInfo.pResults = nullptr; // Optional
+
+
 		VkResult result = vkQueuePresentKHR(vulkanInstance.presentQueue, &presentInfo);
 
 		mCurrentFrame = (mCurrentFrame + 1) % MAX_FRAMES_IN_FLIGHT;

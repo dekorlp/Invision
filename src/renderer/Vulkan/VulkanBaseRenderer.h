@@ -17,6 +17,8 @@ namespace Invision
 		size_t mCurrentFrame = 0;
 		std::vector<VkFence> mInFlightFences;
 		std::vector<VkFence> mImagesInFlight;
+
+		PFN_vkQueuePresentKHR fpQueuePresentKHR;
 		
 
 	public:

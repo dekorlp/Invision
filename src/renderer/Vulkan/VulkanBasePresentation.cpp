@@ -18,6 +18,7 @@ namespace Invision
 {
 	void CreateSurface(SVulkanBase &vulkanInstance, HWND hwnd)
 	{
+
 #ifdef _WIN32
 		VkWin32SurfaceCreateInfoKHR sci = {};
 		sci.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
@@ -30,8 +31,8 @@ namespace Invision
 			throw VulkanBaseException(err, "Cannot create a Win32 Vulkan surface:");
 		}
 
-
 		VulkanBasePresentation().IsDeviceSurfaceSuitable(vulkanInstance.physicalDeviceStruct, vulkanInstance.surface);
+
 #else
 #error The code in VulkanCanvas::CreateWindowSurface only supports Win32. Changes are \
 required to support other windowing systems.
@@ -45,6 +46,9 @@ required to support other windowing systems.
 
 	void CreatePresentationSystem(SVulkanBase &vulkanInstance, unsigned int width, unsigned int height)
 	{
+		SQueueFamilyIndices indices = FindPresentQueueFamiliy(vulkanInstance.physicalDeviceStruct.physicalDevice, vulkanInstance.surface);
+		vkGetDeviceQueue(vulkanInstance.logicalDevice, indices.presentFamily, 0, &vulkanInstance.presentQueue);
+
 		VulkanBasePresentation().CreatePresentation(vulkanInstance, width, height);
 	}
 

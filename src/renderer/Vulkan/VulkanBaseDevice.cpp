@@ -138,8 +138,8 @@ namespace Invision
 
 	void VulkanBaseDevice::CreateLogicalDevice(SVulkanBase& vulkanInstance)
 	{
-		SQueueFamilyIndices indices = FindQueueFamilies(vulkanInstance.physicalDeviceStruct.physicalDevice, vulkanInstance.surface);
-		std::set<int> uniqueQueueFamilies = { indices.graphicsFamily, indices.presentFamily };
+		SQueueFamilyIndices indices = FindQueueFamilies(vulkanInstance.physicalDeviceStruct.physicalDevice, VK_QUEUE_GRAPHICS_BIT);  //VK_QUEUE_TRANSFER_BIT | VK_QUEUE_COMPUTE_BIT
+		std::set<int> uniqueQueueFamilies = { indices.graphicsFamily, indices.computeFamily, indices.transferFamily };
 		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos = CreateQueueCreateInfos(uniqueQueueFamilies);
 		VkPhysicalDeviceFeatures deviceFeatures = {};
 		VkDeviceCreateInfo createInfo = CreateDeviceCreateInfo(vulkanInstance, queueCreateInfos, deviceFeatures);
@@ -150,7 +150,8 @@ namespace Invision
 		}
 
 		vkGetDeviceQueue(vulkanInstance.logicalDevice, indices.graphicsFamily, 0, &vulkanInstance.graphicsQueue);
-		vkGetDeviceQueue(vulkanInstance.logicalDevice, indices.presentFamily, 0, &vulkanInstance.presentQueue);
+		//vkGetDeviceQueue(vulkanInstance.logicalDevice, indices.computeFamily, 0, &vulkanInstance.computeQueue);
+		//vkGetDeviceQueue(vulkanInstance.logicalDevice, indices.transferFamily, 0, &vulkanInstance.transferQueue);
 	}
 
 	bool VulkanBaseDevice::IsDeviceSuitable(VkPhysicalDevice physicalDevice)
@@ -202,8 +203,11 @@ namespace Invision
 		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
 
 		for (int queueFamily : uniqueQueueFamilies) {
-			VkDeviceQueueCreateInfo queueCreateInfo = CreateDeviceQueueCreateInfo(queueFamily);
-			queueCreateInfos.push_back(queueCreateInfo);
+			if (queueFamily != -1)
+			{
+				VkDeviceQueueCreateInfo queueCreateInfo = CreateDeviceQueueCreateInfo(queueFamily);
+				queueCreateInfos.push_back(queueCreateInfo);
+			}
 		}
 		return queueCreateInfos;
 	}

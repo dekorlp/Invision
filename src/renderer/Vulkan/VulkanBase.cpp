@@ -5,7 +5,8 @@
 #include "VulkanBase.h"
 namespace Invision
 {
-	SQueueFamilyIndices FindQueueFamilies(const VkPhysicalDevice& device, const VkSurfaceKHR surface)
+
+	SQueueFamilyIndices FindQueueFamilies(const VkPhysicalDevice& device, VkQueueFlags queueFlags)
 	{
 		SQueueFamilyIndices indices;
 		uint32_t queueFamilyCount = 0;
@@ -13,6 +14,118 @@ namespace Invision
 		std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
 		vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
 
+		for (unsigned int i = 0; i < static_cast<uint32_t>(queueFamilies.size()); i++)
+		{
+			if (queueFlags & VK_QUEUE_GRAPHICS_BIT)
+			{
+				if ((queueFamilies[i].queueCount > 0) && (queueFamilies[i].queueFlags & queueFlags) && !indices.GraphicsFamilyIsSet())
+				{
+
+					indices.graphicsFamily = i;
+				}
+			}
+			if (queueFlags & VK_QUEUE_COMPUTE_BIT)
+			{
+				if ((queueFamilies[i].queueCount > 0) && (queueFamilies[i].queueFlags & queueFlags) && ((queueFamilies[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) == 0) && !indices.ComputeFamilyIsSet())
+				{
+					indices.computeFamily = i;
+				}
+			}
+			
+			if (queueFlags & VK_QUEUE_TRANSFER_BIT)
+			{
+				if ((queueFamilies[i].queueCount > 0) && (queueFamilies[i].queueFlags & queueFlags) && ((queueFamilies[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) == 0) && ((queueFamilies[i].queueFlags & VK_QUEUE_COMPUTE_BIT) == 0) && !indices.TransferFamilyIsSet())
+				{
+					indices.transferFamily = i;
+				}
+			
+			}
+
+			if ((indices.GraphicsFamilyIsSet() || !(queueFlags & VK_QUEUE_GRAPHICS_BIT))
+				&& (indices.TransferFamilyIsSet() || !(queueFlags & VK_QUEUE_TRANSFER_BIT))
+				&& (indices.ComputeFamilyIsSet()) || !(queueFlags & VK_QUEUE_COMPUTE_BIT))
+			{
+				break;
+			}
+		}
+
+		if (!indices.GraphicsFamilyIsSet() || !indices.TransferFamilyIsSet() || !indices.TransferFamilyIsSet())
+		{
+			for (unsigned int i = 0; i < static_cast<uint32_t>(queueFamilies.size()); i++)
+			{
+				if (queueFamilies[i].queueFlags & queueFlags)
+				{
+					if (!indices.GraphicsFamilyIsSet() && (queueFlags & VK_QUEUE_GRAPHICS_BIT) && !indices.GraphicsFamilyIsSet())
+					{
+						indices.graphicsFamily = i;
+					}
+
+					if (!indices.TransferFamilyIsSet() && (queueFlags & VK_QUEUE_TRANSFER_BIT) && indices.TransferFamilyIsSet())
+					{
+						indices.transferFamily = i;
+					}
+
+					if (!indices.ComputeFamilyIsSet() && (queueFlags & VK_QUEUE_COMPUTE_BIT) && !indices.ComputeFamilyIsSet())
+					{
+						indices.computeFamily = i;
+					}
+
+				}
+
+				if ((indices.GraphicsFamilyIsSet() || !(queueFlags & VK_QUEUE_GRAPHICS_BIT))
+					&& (indices.TransferFamilyIsSet() || !(queueFlags & VK_QUEUE_TRANSFER_BIT))  
+					&& (indices.ComputeFamilyIsSet()) || !(queueFlags & VK_QUEUE_COMPUTE_BIT))
+				{
+					break;
+				}
+			}
+		}
+
+		if (!(indices.GraphicsFamilyIsSet()) && (queueFlags & VK_QUEUE_GRAPHICS_BIT)
+			|| !(indices.TransferFamilyIsSet()) && (queueFlags & VK_QUEUE_TRANSFER_BIT)
+			|| !(indices.ComputeFamilyIsSet()) && (queueFlags & VK_QUEUE_COMPUTE_BIT))
+		{
+			throw Invision::VulkanBaseException("Could not find a matching Queue Family index");
+		}
+
+		return indices;
+	}
+
+	SQueueFamilyIndices FindPresentQueueFamiliy(const VkPhysicalDevice& device, const VkSurfaceKHR surface)
+	{
+		SQueueFamilyIndices indices;
+		uint32_t queueFamilyCount = 0;
+		vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
+		std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+		vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
+
+		int i = 0;
+		for (const auto& queueFamily : queueFamilies) {
+			VkBool32 presentSupport = false;
+			VkResult result = vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentSupport);
+			if (result != VK_SUCCESS) {
+				throw Invision::VulkanBaseException(result, "Error while attempting to check if a surface supports presentation:");
+			}
+			if (queueFamily.queueCount > 0 && presentSupport && VK_QUEUE_GRAPHICS_BIT) {
+				indices.presentFamily = i;
+			}
+			if (indices.PresentFamilyIsSet()) {
+				break;
+			}
+			++i;
+		}
+		return indices;
+
+	}
+
+	SQueueFamilyIndices FindQueueFamilies(const VkPhysicalDevice& device, const VkSurfaceKHR surface)
+	{
+		SQueueFamilyIndices indices;
+		uint32_t queueFamilyCount = 0;
+		vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
+		std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+		vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
+		
 		int i = 0;
 		for (const auto& queueFamily : queueFamilies) {
 			if (queueFamily.queueCount > 0 && queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {

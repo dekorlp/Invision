@@ -32,8 +32,10 @@ namespace Invision
 	{
 		Invision::VulkanBaseDevice().PickPhysicalDevice(vulkInstance);
 		deviceProperties = ConvertPhysicalDeviceParameters(vulkInstance.physicalDeviceStruct);
-		Invision::CreateSurface(vulkInstance, canvas.hwnd);
 		Invision::VulkanBaseDevice().CreateLogicalDevice(vulkInstance);
+
+
+		Invision::CreateSurface(vulkInstance, canvas.hwnd);
 		Invision::CreatePresentationSystem(vulkInstance, canvas.width, canvas.height);
 		commandPool.CreateCommandPool(vulkInstance);
 	}
@@ -42,8 +44,9 @@ namespace Invision
 	{
 		Invision::VulkanBaseDevice().PickPhysicalDevice(vulkInstance, index);
 		deviceProperties = ConvertPhysicalDeviceParameters(vulkInstance.physicalDeviceStruct);
-		Invision::CreateSurface(vulkInstance, canvas.hwnd);
 		Invision::VulkanBaseDevice().CreateLogicalDevice(vulkInstance);
+
+		Invision::CreateSurface(vulkInstance, canvas.hwnd);
 		Invision::CreatePresentationSystem(vulkInstance, canvas.width, canvas.height);
 		commandPool.CreateCommandPool(vulkInstance);
 	}

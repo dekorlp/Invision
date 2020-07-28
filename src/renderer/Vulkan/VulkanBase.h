@@ -34,8 +34,11 @@ namespace Invision
 
 		VkDevice logicalDevice;
 		VkSurfaceKHR surface;
+
 		VkQueue graphicsQueue;
 		VkQueue presentQueue;
+		VkQueue computeQueue;
+		VkQueue transferQueue;
 
 		// Presentation Subsystem
 		VkSwapchainKHR swapChain;
@@ -58,6 +61,8 @@ namespace Invision
 
 	struct SQueueFamilyIndices {
 		int graphicsFamily = -1;
+		int computeFamily = -1;
+		int transferFamily = -1;
 		int presentFamily = -1;
 
 		bool GraphicsFamilyIsSet()
@@ -68,6 +73,16 @@ namespace Invision
 		bool PresentFamilyIsSet()
 		{
 			return presentFamily >= 0;
+		}
+
+		bool TransferFamilyIsSet()
+		{
+			return transferFamily >= 0;
+		}
+
+		bool ComputeFamilyIsSet()
+		{
+			return computeFamily >= 0;
 		}
 	};
 
@@ -81,6 +96,10 @@ namespace Invision
 	// global functions
 	SQueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
 	SQueueFamilyIndices FindQueueFamilies(const VkPhysicalDevice& device, const VkSurfaceKHR surface);
+
+	SQueueFamilyIndices FindQueueFamilies(const VkPhysicalDevice& device, VkQueueFlags queueFlags);
+	SQueueFamilyIndices FindPresentQueueFamiliy(const VkPhysicalDevice& device, const VkSurfaceKHR surface);
+
 	SwapChainSupportDetails QuerySwapChainSupport(const VkPhysicalDevice& device, const VkSurfaceKHR surface);
 	uint32_t findMemoryType(const VkPhysicalDevice& device, uint32_t typeFilter, VkMemoryPropertyFlags properties);
 }
