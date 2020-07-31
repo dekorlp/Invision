@@ -8,14 +8,14 @@
 
 namespace Invision
 {
-	void VulkanBaseFramebuffer::CreateFramebuffer(SVulkanBase &vulkanInstance, VulkanBaseRenderPass &renderPass)
+	void VulkanBaseFramebuffer::CreateFramebuffer(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseRenderPass &renderPass)
 	{
-		mFramebuffer.resize(vulkanInstance.swapChainImageViews.size());
+		mFramebuffer.resize(vulkanContext.swapChainImageViews.size());
 
-		for (unsigned int i = 0; i < vulkanInstance.swapChainImageViews.size(); i++)
+		for (unsigned int i = 0; i < vulkanContext.swapChainImageViews.size(); i++)
 		{
 			VkImageView attachments[] = {
-				vulkanInstance.swapChainImageViews[i]
+				vulkanContext.swapChainImageViews[i]
 			};
 
 			VkFramebufferCreateInfo framebufferInfo = {};
@@ -23,8 +23,8 @@ namespace Invision
 			framebufferInfo.renderPass = renderPass.GetRenderPass();
 			framebufferInfo.attachmentCount = 1;
 			framebufferInfo.pAttachments = attachments;
-			framebufferInfo.width = vulkanInstance.swapChainExtent.width;
-			framebufferInfo.height = vulkanInstance.swapChainExtent.height;
+			framebufferInfo.width = vulkanContext.swapChainExtent.width;
+			framebufferInfo.height = vulkanContext.swapChainExtent.height;
 			framebufferInfo.layers = 1;
 
 			if (vkCreateFramebuffer(vulkanInstance.logicalDevice, &framebufferInfo, nullptr, &mFramebuffer[i]) != VK_SUCCESS)

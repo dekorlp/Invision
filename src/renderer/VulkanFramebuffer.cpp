@@ -12,7 +12,7 @@ namespace Invision
 		IFramebuffer(engine, renderPass)
 	{
 		vulkanEngine = engine;
-		framebuffer.CreateFramebuffer(vulkanEngine->GetVulkanInstance(), dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetRenderPass());
+		framebuffer.CreateFramebuffer(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetVulkanContext(), dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetRenderPass());
 	}
 
 	VulkanBaseFramebuffer VulkanFramebuffer::GetFramebuffer()

@@ -35,8 +35,8 @@ namespace Invision
 		Invision::VulkanBaseDevice().CreateLogicalDevice(vulkInstance);
 
 
-		Invision::CreateSurface(vulkInstance, canvas.hwnd);
-		Invision::CreatePresentationSystem(vulkInstance, canvas.width, canvas.height);
+		Invision::CreateSurface(vulkInstance, vulkanContext, canvas.hwnd);
+		Invision::CreatePresentationSystem(vulkInstance, vulkanContext, canvas.width, canvas.height);
 		commandPool.CreateCommandPool(vulkInstance);
 	}
 
@@ -46,15 +46,15 @@ namespace Invision
 		deviceProperties = ConvertPhysicalDeviceParameters(vulkInstance.physicalDeviceStruct);
 		Invision::VulkanBaseDevice().CreateLogicalDevice(vulkInstance);
 
-		Invision::CreateSurface(vulkInstance, canvas.hwnd);
-		Invision::CreatePresentationSystem(vulkInstance, canvas.width, canvas.height);
+		Invision::CreateSurface(vulkInstance, vulkanContext, canvas.hwnd);
+		Invision::CreatePresentationSystem(vulkInstance, vulkanContext, canvas.width, canvas.height);
 		commandPool.CreateCommandPool(vulkInstance);
 	}
 
 	void VulkanEngine::ResetPresentation(CanvasDimensions canvas)
 	{
-		Invision::DestroyPresentationSystem(vulkInstance);
-		Invision::CreatePresentationSystem(vulkInstance, canvas.width, canvas.height);
+		Invision::DestroyPresentationSystem(vulkInstance, vulkanContext);
+		Invision::CreatePresentationSystem(vulkInstance, vulkanContext, canvas.width, canvas.height);
 	}
 
 	std::shared_ptr <IRenderer> VulkanEngine::CreateRenderer()
@@ -99,6 +99,11 @@ namespace Invision
 	Invision::SVulkanBase& VulkanEngine::GetVulkanInstance()
 	{
 		return vulkInstance;
+	}
+
+	SVulkanContext& VulkanEngine::GetVulkanContext()
+	{
+		return vulkanContext;
 	}
 
 	Invision::VulkanBaseCommandPool VulkanEngine::GetCommandPool()
@@ -199,9 +204,9 @@ namespace Invision
 	VulkanEngine::~VulkanEngine()
 	{
 		commandPool.DestroyCommandPool(vulkInstance);
-		Invision::DestroyPresentationSystem(vulkInstance);
+		Invision::DestroyPresentationSystem(vulkInstance, vulkanContext);
 		Invision::DestroyVulkanDevice(vulkInstance);
-		Invision::DestroySurface(vulkInstance);
+		Invision::DestroySurface(vulkInstance, vulkanContext);
 		vulkanInstance.Destroy();
 	}
 

@@ -6,6 +6,7 @@
 namespace Invision
 {
 	struct SVulkanBase;
+	struct SVulkanContext;
 
 	// TODO: Convert this later to a class
 	struct BaseSubPass
@@ -19,7 +20,7 @@ namespace Invision
 	public:
 		void INVISION_API CreateRenderPass(const SVulkanBase &vulkanInstance);
 		void INVISION_API DestroyRenderPass(const SVulkanBase &vulkanInstance);
-		void INVISION_API AddAttachment(const SVulkanBase &vulkanInstance);
+		void INVISION_API AddAttachment(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext);
 		void INVISION_API AddSubpass(BaseSubPass subPass = {});
 		void INVISION_API AddSubpassDependency(const SVulkanBase &vulkanInstance);
 		VkRenderPass INVISION_API GetRenderPass();

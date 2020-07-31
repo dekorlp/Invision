@@ -16,7 +16,7 @@ required to support other windowing systems.
 
 namespace Invision
 {
-	void CreateSurface(SVulkanBase &vulkanInstance, HWND hwnd)
+	void CreateSurface(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, HWND hwnd)
 	{
 
 #ifdef _WIN32
@@ -26,12 +26,12 @@ namespace Invision
 		sci.hinstance = GetModuleHandle(NULL);
 
 
-		VkResult err = vkCreateWin32SurfaceKHR(vulkanInstance.instance, &sci, nullptr, &vulkanInstance.surface);
+		VkResult err = vkCreateWin32SurfaceKHR(vulkanInstance.instance, &sci, nullptr, &vulkanContext.surface);
 		if (err != VK_SUCCESS) {
 			throw VulkanBaseException(err, "Cannot create a Win32 Vulkan surface:");
 		}
 
-		VulkanBasePresentation().IsDeviceSurfaceSuitable(vulkanInstance.physicalDeviceStruct, vulkanInstance.surface);
+		VulkanBasePresentation().IsDeviceSurfaceSuitable(vulkanInstance.physicalDeviceStruct, vulkanContext.surface);
 
 #else
 #error The code in VulkanCanvas::CreateWindowSurface only supports Win32. Changes are \
@@ -39,28 +39,28 @@ required to support other windowing systems.
 #endif
 	}
 
-	void DestroySurface(SVulkanBase &vulkanInstance)
+	void DestroySurface(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext)
 	{
-		vkDestroySurfaceKHR(vulkanInstance.instance, vulkanInstance.surface, nullptr);
+		vkDestroySurfaceKHR(vulkanInstance.instance, vulkanContext.surface, nullptr);
 	}
 
-	void CreatePresentationSystem(SVulkanBase &vulkanInstance, unsigned int width, unsigned int height)
+	void CreatePresentationSystem(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, unsigned int width, unsigned int height)
 	{
-		SQueueFamilyIndices indices = FindPresentQueueFamiliy(vulkanInstance.physicalDeviceStruct.physicalDevice, vulkanInstance.surface);
-		vkGetDeviceQueue(vulkanInstance.logicalDevice, indices.presentFamily, 0, &vulkanInstance.presentQueue);
+		SQueueFamilyIndices indices = FindPresentQueueFamiliy(vulkanInstance.physicalDeviceStruct.physicalDevice, vulkanContext, vulkanContext.surface);
+		vkGetDeviceQueue(vulkanInstance.logicalDevice, vulkanContext.presentFamily, 0, &vulkanContext.presentQueue);
 
-		VulkanBasePresentation().CreatePresentation(vulkanInstance, width, height);
+		VulkanBasePresentation().CreatePresentation(vulkanInstance, vulkanContext, width, height);
 	}
 
-	void DestroyPresentationSystem(SVulkanBase &vulkanInstance)
+	void DestroyPresentationSystem(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext)
 	{
-		for (auto imageView : vulkanInstance.swapChainImageViews) {
+		for (auto imageView : vulkanContext.swapChainImageViews) {
 			vkDestroyImageView(vulkanInstance.logicalDevice, imageView, nullptr);
 		}
 
-		vkDestroySwapchainKHR(vulkanInstance.logicalDevice, vulkanInstance.swapChain, nullptr);
-		vulkanInstance.swapChainImages.clear();
-		vulkanInstance.swapChainImageViews.clear();
+		vkDestroySwapchainKHR(vulkanInstance.logicalDevice, vulkanContext.swapChain, nullptr);
+		vulkanContext.swapChainImages.clear();
+		vulkanContext.swapChainImageViews.clear();
 	}
 
 	VkSurfaceFormatKHR VulkanBasePresentation::ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
@@ -100,10 +100,10 @@ required to support other windowing systems.
 		}
 	}
 
-	void VulkanBasePresentation::CreatePresentation(SVulkanBase &vulkanInstance, unsigned int width, unsigned int height)
+	void VulkanBasePresentation::CreatePresentation(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, unsigned int width, unsigned int height)
 	{
-		CreateSwapChain(vulkanInstance, width, height);
-		CreateImageViews(vulkanInstance);
+		CreateSwapChain(vulkanInstance, vulkanContext, width, height);
+		CreateImageViews(vulkanInstance, vulkanContext);
 	}
 
 	bool VulkanBasePresentation::IsDeviceSurfaceSuitable(SVulkanBasePhysicalDevice vulkanPhysicalDevice, VkSurfaceKHR surface)
@@ -120,9 +120,9 @@ required to support other windowing systems.
 		return swapChainAdequate;
 	}
 
-	void VulkanBasePresentation::CreateSwapChain(SVulkanBase &vulkanInstance, unsigned int width, unsigned int height)
+	void VulkanBasePresentation::CreateSwapChain(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, unsigned int width, unsigned int height)
 	{
-		SwapChainSupportDetails swapChainSupport = QuerySwapChainSupport(vulkanInstance.physicalDeviceStruct.physicalDevice, vulkanInstance.surface);
+		SwapChainSupportDetails swapChainSupport = QuerySwapChainSupport(vulkanInstance.physicalDeviceStruct.physicalDevice, vulkanContext.surface);
 
 		VkSurfaceFormatKHR surfaceFormat = ChooseSwapSurfaceFormat(swapChainSupport.formats);
 		VkPresentModeKHR presentMode = ChooseSwapPresentMode(swapChainSupport.presentModes);
@@ -135,7 +135,7 @@ required to support other windowing systems.
 
 		VkSwapchainCreateInfoKHR createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-		createInfo.surface = vulkanInstance.surface;
+		createInfo.surface = vulkanContext.surface;
 		createInfo.minImageCount = imageCount;
 		createInfo.imageFormat = surfaceFormat.format;
 		createInfo.imageColorSpace = surfaceFormat.colorSpace;
@@ -143,10 +143,10 @@ required to support other windowing systems.
 		createInfo.imageArrayLayers = 1;
 		createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
-		SQueueFamilyIndices indices = FindQueueFamilies(vulkanInstance.physicalDeviceStruct.physicalDevice, vulkanInstance.surface);
-		uint32_t queueFamilyIndices[] = { (uint32_t)indices.graphicsFamily, (uint32_t)indices.presentFamily };
+		SQueueFamilyIndices indices = FindQueueFamilies(vulkanInstance.physicalDeviceStruct.physicalDevice, vulkanContext, vulkanContext.surface);
+		uint32_t queueFamilyIndices[] = { (uint32_t)indices.graphicsFamily, (uint32_t)vulkanContext.presentFamily };
 
-		if (indices.graphicsFamily != indices.presentFamily) {
+		if (indices.graphicsFamily != vulkanContext.presentFamily) {
 			createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
 			createInfo.queueFamilyIndexCount = 2;
 			createInfo.pQueueFamilyIndices = queueFamilyIndices;
@@ -163,27 +163,27 @@ required to support other windowing systems.
 		createInfo.clipped = VK_TRUE;
 		createInfo.oldSwapchain = VK_NULL_HANDLE;
 
-		if (vkCreateSwapchainKHR(vulkanInstance.logicalDevice, &createInfo, nullptr, &vulkanInstance.swapChain) != VK_SUCCESS) {
+		if (vkCreateSwapchainKHR(vulkanInstance.logicalDevice, &createInfo, nullptr, &vulkanContext.swapChain) != VK_SUCCESS) {
 			throw InvisionBaseRendererException("failed to create swap chain!");
 		}
 
-		vkGetSwapchainImagesKHR(vulkanInstance.logicalDevice, vulkanInstance.swapChain, &imageCount, nullptr);
-		vulkanInstance.swapChainImages.resize(imageCount);
-		vkGetSwapchainImagesKHR(vulkanInstance.logicalDevice, vulkanInstance.swapChain, &imageCount, vulkanInstance.swapChainImages.data());
+		vkGetSwapchainImagesKHR(vulkanInstance.logicalDevice, vulkanContext.swapChain, &imageCount, nullptr);
+		vulkanContext.swapChainImages.resize(imageCount);
+		vkGetSwapchainImagesKHR(vulkanInstance.logicalDevice, vulkanContext.swapChain, &imageCount, vulkanContext.swapChainImages.data());
 
-		vulkanInstance.swapChainImageFormat = surfaceFormat.format;
-		vulkanInstance.swapChainExtent = extent;
+		vulkanContext.swapChainImageFormat = surfaceFormat.format;
+		vulkanContext.swapChainExtent = extent;
 	}
 
-	void VulkanBasePresentation::CreateImageViews(SVulkanBase &vulkanInstance)
+	void VulkanBasePresentation::CreateImageViews(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext)
 	{
-		vulkanInstance.swapChainImageViews.resize(vulkanInstance.swapChainImages.size());
-		for (size_t i = 0; i < vulkanInstance.swapChainImages.size(); i++) {
+		vulkanContext.swapChainImageViews.resize(vulkanContext.swapChainImages.size());
+		for (size_t i = 0; i < vulkanContext.swapChainImages.size(); i++) {
 			VkImageViewCreateInfo createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-			createInfo.image = vulkanInstance.swapChainImages[i];
+			createInfo.image = vulkanContext.swapChainImages[i];
 			createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-			createInfo.format = vulkanInstance.swapChainImageFormat;
+			createInfo.format = vulkanContext.swapChainImageFormat;
 			createInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
 			createInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
 			createInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
@@ -194,7 +194,7 @@ required to support other windowing systems.
 			createInfo.subresourceRange.baseArrayLayer = 0;
 			createInfo.subresourceRange.layerCount = 1;
 
-			if (vkCreateImageView(vulkanInstance.logicalDevice, &createInfo, nullptr, &vulkanInstance.swapChainImageViews[i]) != VK_SUCCESS) {
+			if (vkCreateImageView(vulkanInstance.logicalDevice, &createInfo, nullptr, &vulkanContext.swapChainImageViews[i]) != VK_SUCCESS) {
 				throw InvisionBaseRendererException("failed to create image views!");
 			}
 		}

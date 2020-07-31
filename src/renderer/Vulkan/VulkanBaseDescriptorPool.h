@@ -12,7 +12,7 @@ namespace Invision
 		VkDescriptorPool mDescriptorPool;
 
 	public:
-		void INVISION_API CreateDescriptorPool(const SVulkanBase &vulkanInstance, std::vector<VkDescriptorPoolSize> poolSizeElements);
+		void INVISION_API CreateDescriptorPool(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, std::vector<VkDescriptorPoolSize> poolSizeElements);
 		void INVISION_API DestroyDescriptorPool(const SVulkanBase &vulkanInstance);
 		
 		VkDescriptorPool INVISION_API GetDescriptorPool();

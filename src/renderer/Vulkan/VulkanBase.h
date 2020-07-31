@@ -5,7 +5,6 @@
 
 namespace Invision
 {
-
 	struct SVulkanBasePhysicalDevice 
 	{
 		VkPhysicalDevice physicalDevice;
@@ -21,26 +20,11 @@ namespace Invision
 		}
 	};
 
-	struct SVulkanBase
+	struct SVulkanContext
 	{
-		// Instance Subsystem
-		VkInstance instance;
-		bool enableValidationLayers;
-		std::vector<const char*> validationLayers;
-
-		// Device Subsystem
-		//VkPhysicalDevice physicalDevice;
-		SVulkanBasePhysicalDevice physicalDeviceStruct;
-
-		VkDevice logicalDevice;
-		VkSurfaceKHR surface;
-
-		VkQueue graphicsQueue;
 		VkQueue presentQueue;
-		VkQueue computeQueue;
-		VkQueue transferQueue;
-
 		// Presentation Subsystem
+		VkSurfaceKHR surface;
 		VkSwapchainKHR swapChain;
 		std::vector<VkImage> swapChainImages;
 		VkFormat swapChainImageFormat;
@@ -50,12 +34,19 @@ namespace Invision
 		// VulkanRenderer Subsystem
 		uint32_t mImageIndex;
 
-
-		SVulkanBase() : logicalDevice(VK_NULL_HANDLE),
-			surface(VK_NULL_HANDLE), graphicsQueue(VK_NULL_HANDLE), 
+		SVulkanContext() : 
+			surface(VK_NULL_HANDLE),
 			presentQueue(VK_NULL_HANDLE), swapChain(VK_NULL_HANDLE)
 		{
 
+		}
+
+		// Queue Family Indices
+		int presentFamily = -1;
+
+		bool PresentFamilyIsSet()
+		{
+			return presentFamily >= 0;
 		}
 	};
 
@@ -63,17 +54,17 @@ namespace Invision
 		int graphicsFamily = -1;
 		int computeFamily = -1;
 		int transferFamily = -1;
-		int presentFamily = -1;
+		//int presentFamily = -1;
 
 		bool GraphicsFamilyIsSet()
 		{
 			return graphicsFamily >= 0;
 		}
 
-		bool PresentFamilyIsSet()
+		/*bool PresentFamilyIsSet()
 		{
 			return presentFamily >= 0;
-		}
+		}*/
 
 		bool TransferFamilyIsSet()
 		{
@@ -86,6 +77,33 @@ namespace Invision
 		}
 	};
 
+	struct SVulkanBase
+	{
+		// Instance Subsystem
+		VkInstance instance;
+		bool enableValidationLayers;
+		std::vector<const char*> validationLayers;
+
+		// Device Subsystem
+		//VkPhysicalDevice physicalDevice;
+		SVulkanBasePhysicalDevice physicalDeviceStruct;
+		VkDevice logicalDevice;
+
+		SQueueFamilyIndices indices;
+
+		VkQueue graphicsQueue;
+		VkQueue computeQueue;
+		VkQueue transferQueue;
+
+		
+		SVulkanBase() : logicalDevice(VK_NULL_HANDLE), graphicsQueue(VK_NULL_HANDLE)
+		{
+
+		}
+	};
+
+	
+
 	struct SwapChainSupportDetails {
 		VkSurfaceCapabilitiesKHR capabilities;
 		std::vector<VkSurfaceFormatKHR> formats;
@@ -95,10 +113,10 @@ namespace Invision
 
 	// global functions
 	SQueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
-	SQueueFamilyIndices FindQueueFamilies(const VkPhysicalDevice& device, const VkSurfaceKHR surface);
+	SQueueFamilyIndices FindQueueFamilies(const VkPhysicalDevice& device, SVulkanContext& vulkanContext, const VkSurfaceKHR surface);
 
 	SQueueFamilyIndices FindQueueFamilies(const VkPhysicalDevice& device, VkQueueFlags queueFlags);
-	SQueueFamilyIndices FindPresentQueueFamiliy(const VkPhysicalDevice& device, const VkSurfaceKHR surface);
+	SQueueFamilyIndices FindPresentQueueFamiliy(const VkPhysicalDevice& device, SVulkanContext& vulkanContext, const VkSurfaceKHR surface);
 
 	SwapChainSupportDetails QuerySwapChainSupport(const VkPhysicalDevice& device, const VkSurfaceKHR surface);
 	uint32_t findMemoryType(const VkPhysicalDevice& device, uint32_t typeFilter, VkMemoryPropertyFlags properties);

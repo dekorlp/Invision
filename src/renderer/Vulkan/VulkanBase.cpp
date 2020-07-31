@@ -91,7 +91,7 @@ namespace Invision
 		return indices;
 	}
 
-	SQueueFamilyIndices FindPresentQueueFamiliy(const VkPhysicalDevice& device, const VkSurfaceKHR surface)
+	SQueueFamilyIndices FindPresentQueueFamiliy(const VkPhysicalDevice& device, SVulkanContext& vulkanContext, const VkSurfaceKHR surface)
 	{
 		SQueueFamilyIndices indices;
 		uint32_t queueFamilyCount = 0;
@@ -107,9 +107,9 @@ namespace Invision
 				throw Invision::VulkanBaseException(result, "Error while attempting to check if a surface supports presentation:");
 			}
 			if (queueFamily.queueCount > 0 && presentSupport && VK_QUEUE_GRAPHICS_BIT) {
-				indices.presentFamily = i;
+				vulkanContext.presentFamily = i;
 			}
-			if (indices.PresentFamilyIsSet()) {
+			if (vulkanContext.PresentFamilyIsSet()) {
 				break;
 			}
 			++i;
@@ -118,7 +118,7 @@ namespace Invision
 
 	}
 
-	SQueueFamilyIndices FindQueueFamilies(const VkPhysicalDevice& device, const VkSurfaceKHR surface)
+	SQueueFamilyIndices FindQueueFamilies(const VkPhysicalDevice& device, SVulkanContext& vulkanContext, const VkSurfaceKHR surface)
 	{
 		SQueueFamilyIndices indices;
 		uint32_t queueFamilyCount = 0;
@@ -137,9 +137,9 @@ namespace Invision
 				throw Invision::VulkanBaseException(result, "Error while attempting to check if a surface supports presentation:");
 			}
 			if (queueFamily.queueCount > 0 && presentSupport) {
-				indices.presentFamily = i;
+				vulkanContext.presentFamily = i;
 			}
-			if (indices.GraphicsFamilyIsSet() && indices.PresentFamilyIsSet()) {
+			if (indices.GraphicsFamilyIsSet() && vulkanContext.PresentFamilyIsSet()) {
 				break;
 			}
 			++i;

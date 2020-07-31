@@ -89,6 +89,7 @@ private:
 	wxSize m_Size;
 
 	Invision::VulkanBaseInstance vulkanInstance;
+	Invision::SVulkanContext vulkanContext;
 	Invision::VulkanBasePipeline pipeline;
 	Invision::VulkanBaseRenderPass renderPass;
 	Invision::VulkanBaseFramebuffer framebuffer;

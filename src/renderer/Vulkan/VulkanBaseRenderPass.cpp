@@ -27,10 +27,10 @@ namespace Invision
 		}
 	}
 
-	void VulkanBaseRenderPass::AddAttachment(const SVulkanBase &vulkanInstance)
+	void VulkanBaseRenderPass::AddAttachment(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext)
 	{
 		VkAttachmentDescription attachment = {};
-		attachment.format = vulkanInstance.swapChainImageFormat;
+		attachment.format = vulkanContext.swapChainImageFormat;
 		attachment.samples = VK_SAMPLE_COUNT_1_BIT;
 		attachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
 		attachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;

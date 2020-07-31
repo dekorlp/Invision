@@ -30,6 +30,7 @@ namespace Invision
 	private:
 		Invision::VulkanBaseInstance vulkanInstance;
 		Invision::SVulkanBase vulkInstance;
+		Invision::SVulkanContext vulkanContext;
 		Invision::VulkanBaseCommandPool commandPool;
 
 		PhysicalDeviceProperties ConvertPhysicalDeviceParameters(SVulkanBasePhysicalDevice physicalDeviceStruct);
@@ -42,6 +43,7 @@ namespace Invision
 		INVISION_API void ResetPresentation(CanvasDimensions canvas);
 
 		INVISION_API Invision::SVulkanBase& GetVulkanInstance();
+		INVISION_API Invision::SVulkanContext& GetVulkanContext();
 		INVISION_API Invision::VulkanBaseCommandPool GetCommandPool();
 		INVISION_API std::shared_ptr<IRenderer> CreateRenderer() override;
 		INVISION_API std::shared_ptr<IRenderPass> CreateRenderPass() override; 

@@ -16,7 +16,7 @@ namespace Invision
 		: IRenderer(engine)
 	{
 		vulkanEngine = engine;
-		renderer.CreateSyncObjects(vulkanEngine->GetVulkanInstance());
+		renderer.CreateSyncObjects(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetVulkanContext());
 	}
 
 	bool VulkanRenderer::PrepareFrame()
@@ -24,7 +24,7 @@ namespace Invision
 		bool recreateSwapchainIsNecessary = false;
 
 		//VkResult nextImageResult = commandBuffer.AquireNextImage(vulkInstance);
-		VkResult nextImageResult = renderer.AquireNextImage(vulkanEngine->GetVulkanInstance());
+		VkResult nextImageResult = renderer.AquireNextImage(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetVulkanContext());
 		if (nextImageResult == VK_ERROR_OUT_OF_DATE_KHR) {
 			recreateSwapchainIsNecessary = true;
 			//RecreateSwapChain(m_Size.GetWidth(), m_Size.GetHeight());
@@ -42,7 +42,7 @@ namespace Invision
 		bool recreateSwapchainIsNecessary = false;
 
 		//VkResult drawFrameResult = commandBuffer.DrawFrame(vulkInstance);
-		VkResult drawFrameResult = renderer.DrawFrame(vulkanEngine->GetVulkanInstance(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer());
+		VkResult drawFrameResult = renderer.DrawFrame(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer());
 		if (drawFrameResult == VK_ERROR_OUT_OF_DATE_KHR || drawFrameResult == VK_SUBOPTIMAL_KHR) {
 			recreateSwapchainIsNecessary = true;
 			//RecreateSwapChain(m_Size.GetWidth(), m_Size.GetHeight());

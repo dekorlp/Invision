@@ -42,12 +42,12 @@ namespace Invision
 
 	void VulkanUniformBuffer::CreateUniformBuffer()
 	{
-		uniformBuffer.CreateUniformBuffer(vulkanEngine->GetVulkanInstance());
+		uniformBuffer.CreateUniformBuffer(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetVulkanContext());
 	}
 
 	void VulkanUniformBuffer::UpdateUniform(const void* source, size_t size, uint32_t binding)
 	{
-		uniformBuffer.UpdateUniform(vulkanEngine->GetVulkanInstance(), source, size, binding);
+		uniformBuffer.UpdateUniform(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetVulkanContext(), source, size, binding);
 	}
 
 	VulkanBaseUniformBuffer VulkanUniformBuffer::GetBuffer()

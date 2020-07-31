@@ -102,5 +102,6 @@ private:
 
 	VkPipelineCache mCache;
 	Invision::SVulkanBase vulkInstance;
+	Invision::SVulkanContext vulkanContext;
 	wxTimer m_timer;
 };

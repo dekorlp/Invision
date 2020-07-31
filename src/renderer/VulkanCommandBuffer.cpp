@@ -56,7 +56,7 @@ namespace Invision
 
 	ICommandBuffer& VulkanCommandBuffer::BeginRenderPass(std::shared_ptr<IRenderPass> renderPass, std::shared_ptr<Invision::IFramebuffer> framebuffer)
 	{
-		commandBuffer.BeginRenderPass(vulkanEngine->GetVulkanInstance(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), dynamic_pointer_cast<VulkanFramebuffer>(framebuffer)->GetFramebuffer());
+		commandBuffer.BeginRenderPass(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetVulkanContext(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), dynamic_pointer_cast<VulkanFramebuffer>(framebuffer)->GetFramebuffer());
 		return *this;
 	}
 

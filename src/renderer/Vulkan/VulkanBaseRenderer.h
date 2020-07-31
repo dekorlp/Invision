@@ -7,6 +7,7 @@ namespace Invision
 {
 
 	struct SVulkanBase;
+	struct SVulkanContext;
 	class VulkanBaseCommandBuffer;
 
 	class  VulkanBaseRenderer
@@ -22,9 +23,9 @@ namespace Invision
 		
 
 	public:
-		void INVISION_API CreateSyncObjects(SVulkanBase &vulkanInstance);
-		VkResult INVISION_API AquireNextImage(SVulkanBase &vulkanInstance);
-		VkResult INVISION_API DrawFrame(SVulkanBase &vulkanInstance, VulkanBaseCommandBuffer& commandBuffer);
+		void INVISION_API CreateSyncObjects(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext);
+		VkResult INVISION_API AquireNextImage(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext);
+		VkResult INVISION_API DrawFrame(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseCommandBuffer& commandBuffer);
 
 		void INVISION_API DestroySemaphores(SVulkanBase &vulkanInstance);
 	};

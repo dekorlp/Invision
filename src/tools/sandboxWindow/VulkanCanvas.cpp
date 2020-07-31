@@ -20,11 +20,11 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 
 	vulkInstance = vulkanInstance.Init("Hello World", "Invision", VK_MAKE_VERSION(1, 0, 0), VK_MAKE_VERSION(1, 0, 0), requiredExtensions);
 	vulkanInstance.SetDebugMessanger(debugCallback);
-	Invision::CreateSurface(vulkInstance, hwnd);
+	Invision::CreateSurface(vulkInstance, vulkanContext, hwnd);
 	Invision::CreateVulkanDevice(vulkInstance);
-	Invision::CreatePresentationSystem(vulkInstance, size.GetWidth(), size.GetHeight());
+	Invision::CreatePresentationSystem(vulkInstance, vulkanContext, size.GetWidth(), size.GetHeight());
 
-	renderPass.AddAttachment(vulkInstance);
+	renderPass.AddAttachment(vulkInstance, vulkanContext);
 	renderPass.AddSubpass();
 	renderPass.CreateRenderPass(vulkInstance);
 
@@ -46,7 +46,7 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 		.CreateAttributeDescription(1, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color));
 	indexBuffer.CreateIndexBuffer(vulkInstance, commandPool, sizeof(indices[0]) * indices.size(), indices.data(), 0);
 
-	uniformBuffer.CreateUniformBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject), 0).CreateUniformBuffer(vulkInstance);
+	uniformBuffer.CreateUniformBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject), 0).CreateUniformBuffer(vulkInstance, vulkanContext);
 	pipeline.AddUniformBuffer(uniformBuffer);
 
 	pipeline.AddShader(vertShader);
@@ -56,14 +56,14 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	vertShader.Destroy(vulkInstance);
 	fragShader.Destroy(vulkInstance);
 
-	framebuffer.CreateFramebuffer(vulkInstance, renderPass);
+	framebuffer.CreateFramebuffer(vulkInstance, vulkanContext, renderPass);
 	
 	
 
 	//commandBuffer.CreateCommandBuffers(vulkInstance, commandPool, framebuffer, pipeline, renderPass);
 	BuildCommandBuffer(size.GetWidth(), size.GetHeight());
 	//commandBuffer.CreateSyncObjects(vulkInstance);
-	renderer.CreateSyncObjects(vulkInstance);
+	renderer.CreateSyncObjects(vulkInstance, vulkanContext);
 
 	m_timer.SetOwner(this);
 	m_timer.Start(5);
@@ -87,7 +87,7 @@ void VulkanCanvas::BuildCommandBuffer(float width, float height)
 		BeginCommandBuffer().
 		SetViewport(viewport).
 		SetScissor(scissor).
-		BeginRenderPass(vulkInstance, renderPass, framebuffer).
+		BeginRenderPass(vulkInstance, vulkanContext, renderPass, framebuffer).
 		BindPipeline(pipeline, VK_PIPELINE_BIND_POINT_GRAPHICS).
 		BindVertexBuffer({vertexBuffer}, 0, 1).
 		BindDescriptorSets(uniformBuffer, pipeline, VK_PIPELINE_BIND_POINT_GRAPHICS).
@@ -140,9 +140,9 @@ VulkanCanvas::~VulkanCanvas() noexcept
 	commandPool.DestroyCommandPool(vulkInstance);
 	Invision::DestroyPipelineCache(vulkInstance, mCache);
 	renderPass.DestroyRenderPass(vulkInstance);
-	Invision::DestroyPresentationSystem(vulkInstance);
+	Invision::DestroyPresentationSystem(vulkInstance, vulkanContext);
 	Invision::DestroyVulkanDevice(vulkInstance);
-	Invision::DestroySurface(vulkInstance);
+	Invision::DestroySurface(vulkInstance, vulkanContext);
 	vulkanInstance.Destroy();
 }
 
@@ -162,13 +162,13 @@ void VulkanCanvas::UpdateUniformBuffer(float width, float height)
 	ubo.model = Invision::Matrix(1.0f) * Invision::Matrix::RotateZ(time * 90.0);
 	ubo.view = Invision::Matrix::CameraVK(Invision::Vector3(2.0f, 2.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 0.0f, 1.0f));
 	ubo.proj = Invision::Matrix::PerspectiveVK(45.0, width / height, 0.1f, 10.0f);
-	uniformBuffer.UpdateUniform(vulkInstance, &ubo, sizeof(ubo), 0); 		
+	uniformBuffer.UpdateUniform(vulkInstance, vulkanContext, &ubo, sizeof(ubo), 0);
 }
 
 void VulkanCanvas::Render()
 {
 	//VkResult nextImageResult = commandBuffer.AquireNextImage(vulkInstance);
-	VkResult nextImageResult = renderer.AquireNextImage(vulkInstance);
+	VkResult nextImageResult = renderer.AquireNextImage(vulkInstance, vulkanContext);
 	if (nextImageResult == VK_ERROR_OUT_OF_DATE_KHR) {
 		RecreateSwapChain(m_Size.GetWidth(), m_Size.GetHeight());
 		return;
@@ -180,7 +180,7 @@ void VulkanCanvas::Render()
 	UpdateUniformBuffer(m_Size.GetWidth(), m_Size.GetHeight());
 
 	//VkResult drawFrameResult = commandBuffer.DrawFrame(vulkInstance);
-	VkResult drawFrameResult = renderer.DrawFrame(vulkInstance, commandBuffer);
+	VkResult drawFrameResult = renderer.DrawFrame(vulkInstance, vulkanContext, commandBuffer);
 	if (drawFrameResult == VK_ERROR_OUT_OF_DATE_KHR || drawFrameResult == VK_SUBOPTIMAL_KHR) {
 		RecreateSwapChain(m_Size.GetWidth(), m_Size.GetHeight());
 	}
@@ -207,21 +207,21 @@ void VulkanCanvas::RecreateSwapChain(const int width, const int height)
 	uniformBuffer.DestroyUniformBuffer(vulkInstance);
 	framebuffer.DestroyFramebuffer(vulkInstance);
 	renderPass.DestroyRenderPass(vulkInstance);
-	Invision::DestroyPresentationSystem(vulkInstance);
+	Invision::DestroyPresentationSystem(vulkInstance, vulkanContext);
 
 	//Recreate
 	commandPool.CreateCommandPool(vulkInstance);
-	Invision::CreatePresentationSystem(vulkInstance, width, height);
-	renderPass.AddAttachment(vulkInstance);
+	Invision::CreatePresentationSystem(vulkInstance, vulkanContext, width, height);
+	renderPass.AddAttachment(vulkInstance, vulkanContext);
 	renderPass.AddSubpass();
 	renderPass.CreateRenderPass(vulkInstance);
-	framebuffer.CreateFramebuffer(vulkInstance, renderPass);
-	uniformBuffer.CreateUniformBuffer(vulkInstance);
+	framebuffer.CreateFramebuffer(vulkInstance, vulkanContext, renderPass);
+	uniformBuffer.CreateUniformBuffer(vulkInstance, vulkanContext);
 	
 	//commandBuffer.CreateCommandBuffers(vulkInstance, commandPool, framebuffer, pipeline, renderPass);
 	BuildCommandBuffer(width, height);
 	//commandBuffer.CreateSyncObjects(vulkInstance);
-	renderer.CreateSyncObjects(vulkInstance);
+	renderer.CreateSyncObjects(vulkInstance, vulkanContext);
 }
 
 void VulkanCanvas::OnResize(wxSizeEvent& event)

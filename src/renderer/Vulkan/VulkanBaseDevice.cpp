@@ -138,8 +138,8 @@ namespace Invision
 
 	void VulkanBaseDevice::CreateLogicalDevice(SVulkanBase& vulkanInstance)
 	{
-		SQueueFamilyIndices indices = FindQueueFamilies(vulkanInstance.physicalDeviceStruct.physicalDevice, VK_QUEUE_GRAPHICS_BIT);  //VK_QUEUE_TRANSFER_BIT | VK_QUEUE_COMPUTE_BIT
-		std::set<int> uniqueQueueFamilies = { indices.graphicsFamily, indices.computeFamily, indices.transferFamily };
+		vulkanInstance.indices = FindQueueFamilies(vulkanInstance.physicalDeviceStruct.physicalDevice, VK_QUEUE_GRAPHICS_BIT);  //VK_QUEUE_TRANSFER_BIT | VK_QUEUE_COMPUTE_BIT
+		std::set<int> uniqueQueueFamilies = { vulkanInstance.indices.graphicsFamily, vulkanInstance.indices.computeFamily, vulkanInstance.indices.transferFamily };
 		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos = CreateQueueCreateInfos(uniqueQueueFamilies);
 		VkPhysicalDeviceFeatures deviceFeatures = {};
 		VkDeviceCreateInfo createInfo = CreateDeviceCreateInfo(vulkanInstance, queueCreateInfos, deviceFeatures);
@@ -149,7 +149,7 @@ namespace Invision
 			throw VulkanBaseException(result, "Unable to create a logical device");
 		}
 
-		vkGetDeviceQueue(vulkanInstance.logicalDevice, indices.graphicsFamily, 0, &vulkanInstance.graphicsQueue);
+		vkGetDeviceQueue(vulkanInstance.logicalDevice, vulkanInstance.indices.graphicsFamily, 0, &vulkanInstance.graphicsQueue);
 		//vkGetDeviceQueue(vulkanInstance.logicalDevice, indices.computeFamily, 0, &vulkanInstance.computeQueue);
 		//vkGetDeviceQueue(vulkanInstance.logicalDevice, indices.transferFamily, 0, &vulkanInstance.transferQueue);
 	}

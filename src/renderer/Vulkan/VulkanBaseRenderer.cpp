@@ -13,12 +13,12 @@ namespace Invision
 {
 	const int MAX_FRAMES_IN_FLIGHT = 2;
 
-	void VulkanBaseRenderer::CreateSyncObjects(SVulkanBase &vulkanInstance)
+	void VulkanBaseRenderer::CreateSyncObjects(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext)
 	{
 		mImageAvailableSemaphore.resize(MAX_FRAMES_IN_FLIGHT);
 		mRenderFinishedSemaphore.resize(MAX_FRAMES_IN_FLIGHT);
 		mInFlightFences.resize(MAX_FRAMES_IN_FLIGHT);
-		mImagesInFlight.resize(vulkanInstance.swapChainImages.size(), VK_NULL_HANDLE);
+		mImagesInFlight.resize(vulkanContext.swapChainImages.size(), VK_NULL_HANDLE);
 
 		VkSemaphoreCreateInfo semaphoreInfo = {};
 		semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
@@ -37,24 +37,24 @@ namespace Invision
 		}
 	}
 
-	VkResult VulkanBaseRenderer::AquireNextImage(SVulkanBase &vulkanInstance)
+	VkResult VulkanBaseRenderer::AquireNextImage(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext)
 	{
 		vkWaitForFences(vulkanInstance.logicalDevice, 1, &mInFlightFences[mCurrentFrame], VK_TRUE, UINT64_MAX);
 
-		vulkanInstance.mImageIndex = 0;
-		VkResult result = vkAcquireNextImageKHR(vulkanInstance.logicalDevice, vulkanInstance.swapChain, UINT64_MAX, mImageAvailableSemaphore[mCurrentFrame], VK_NULL_HANDLE, &vulkanInstance.mImageIndex);
+		vulkanContext.mImageIndex = 0;
+		VkResult result = vkAcquireNextImageKHR(vulkanInstance.logicalDevice, vulkanContext.swapChain, UINT64_MAX, mImageAvailableSemaphore[mCurrentFrame], VK_NULL_HANDLE, &vulkanContext.mImageIndex);
 		return result;
 	}
 
-	VkResult VulkanBaseRenderer::DrawFrame(SVulkanBase &vulkanInstance, VulkanBaseCommandBuffer& commandBuffer)
+	VkResult VulkanBaseRenderer::DrawFrame(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseCommandBuffer& commandBuffer)
 	{
 		
-		if (mImagesInFlight[vulkanInstance.mImageIndex] != VK_NULL_HANDLE)
+		if (mImagesInFlight[vulkanContext.mImageIndex] != VK_NULL_HANDLE)
 		{
-			vkWaitForFences(vulkanInstance.logicalDevice, 1, &mImagesInFlight[vulkanInstance.mImageIndex], VK_TRUE, UINT64_MAX);
+			vkWaitForFences(vulkanInstance.logicalDevice, 1, &mImagesInFlight[vulkanContext.mImageIndex], VK_TRUE, UINT64_MAX);
 		}
 
-		mImagesInFlight[vulkanInstance.mImageIndex] = mInFlightFences[mCurrentFrame];
+		mImagesInFlight[vulkanContext.mImageIndex] = mInFlightFences[mCurrentFrame];
 
 		VkSubmitInfo submitInfo = {};
 		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -64,7 +64,7 @@ namespace Invision
 		submitInfo.pWaitSemaphores = waitSemaphores;
 		submitInfo.pWaitDstStageMask = waitStages;
 		submitInfo.commandBufferCount = 1;
-		submitInfo.pCommandBuffers = commandBuffer.GetCommandBuffer(vulkanInstance.mImageIndex);
+		submitInfo.pCommandBuffers = commandBuffer.GetCommandBuffer(vulkanContext.mImageIndex);
 
 
 		VkSemaphore signalSemaphores[] = { mRenderFinishedSemaphore[mCurrentFrame] };
@@ -83,18 +83,18 @@ namespace Invision
 		presentInfo.waitSemaphoreCount = 1;
 		presentInfo.pWaitSemaphores = signalSemaphores;
 
-		VkSwapchainKHR swapChains[] = { vulkanInstance.swapChain };
+		VkSwapchainKHR swapChains[] = { vulkanContext.swapChain };
 		presentInfo.swapchainCount = 1;
 		presentInfo.pSwapchains = swapChains;
-		presentInfo.pImageIndices = &vulkanInstance.mImageIndex;
+		presentInfo.pImageIndices = &vulkanContext.mImageIndex;
 		presentInfo.pResults = nullptr; // Optional
 
 
-		VkResult result = vkQueuePresentKHR(vulkanInstance.presentQueue, &presentInfo);
+		VkResult result = vkQueuePresentKHR(vulkanContext.presentQueue, &presentInfo);
 
 		mCurrentFrame = (mCurrentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 
-		vkQueueWaitIdle(vulkanInstance.presentQueue);
+		vkQueueWaitIdle(vulkanContext.presentQueue);
 
 		return result;
 	}
