@@ -7,14 +7,17 @@
 
 namespace Invision
 {
-	class VulkanEngine;
+	//class VulkanEngine;
+	class VulkanInstance;
+
 	class VulkanRenderPass : public IRenderPass
 	{
 	public:
 
 		INVISION_API VulkanRenderPass() = delete;
 
-		INVISION_API VulkanRenderPass(VulkanEngine* engine);
+		//INVISION_API VulkanRenderPass(VulkanEngine* engine);
+		INVISION_API VulkanRenderPass(VulkanInstance* instance);
 
 		INVISION_API VulkanBaseRenderPass GetRenderPass();
 
@@ -22,7 +25,8 @@ namespace Invision
 
 	private:
 		Invision::VulkanBaseRenderPass renderPass;
-		Invision::VulkanEngine *vulkanEngine;
+		Invision::VulkanInstance *vulkanInstance;
+		//Invision::VulkanEngine *vulkanEngine;
 
 	};
 

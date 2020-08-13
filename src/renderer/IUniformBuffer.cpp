@@ -3,12 +3,12 @@
 #include "IUniformBuffer.h"
 
 #include "IGraphicsEngine.h"
-
+#include "IGraphicsInstance.h"
 
 namespace Invision
 {
-	IUniformBuffer::IUniformBuffer(IGraphicsEngine* engine) :
-		Engine(engine)
+	IUniformBuffer::IUniformBuffer(IGraphicsInstance* instance) :
+		instance(instance)
 	{
 	}
 

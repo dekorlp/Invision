@@ -7,21 +7,23 @@
 
 namespace Invision
 {
-	class VulkanEngine;
+	class VulkanInstance;
 	class VulkanFramebuffer : public IFramebuffer
 	{
 	public:
 
 		INVISION_API VulkanFramebuffer() = delete;
 
-		INVISION_API VulkanFramebuffer(VulkanEngine* engine, std::shared_ptr<Invision::IRenderPass> renderPass);
+		INVISION_API VulkanFramebuffer(VulkanInstance* instance, std::shared_ptr<Invision::IRenderPass> renderPass);
 
 		INVISION_API VulkanBaseFramebuffer GetFramebuffer();
 
 
 		INVISION_API ~VulkanFramebuffer();
 	private:
-		Invision::VulkanEngine *vulkanEngine;
+		//Invision::VulkanEngine *vulkanEngine;
+		Invision::VulkanInstance *vulkanInstance;
+
 		Invision::VulkanBaseFramebuffer framebuffer;
 
 	};

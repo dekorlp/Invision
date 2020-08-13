@@ -1,21 +1,22 @@
 #include "precompiled.h"
 
 #include "VulkanEngine.h"
+#include "VulkanInstance.h"
 
 #include "VulkanVertexBuffer.h"
 namespace Invision
 {
 
-	VulkanVertexBuffer::VulkanVertexBuffer(VulkanEngine* engine) :
-		IVertexBuffer(engine)
+	VulkanVertexBuffer::VulkanVertexBuffer(VulkanInstance* instance) :
+		IVertexBuffer(instance)
 	{
-		this->vulkanEngine = engine;
+		vulkanInstance = instance;
 	}
 
 
 	VulkanVertexBuffer& VulkanVertexBuffer::CreateVertexBuffer(uint64_t size, const void* source, uint64_t offset)
 	{
-		vertexBuffer.CreateVertexBuffer(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetCommandPool(), size, source, offset);
+		vertexBuffer.CreateVertexBuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetCoreEngine()->GetCommandPool(), size, source, offset);
 		return *this;
 	}
 
@@ -69,6 +70,6 @@ namespace Invision
 
 	VulkanVertexBuffer::~VulkanVertexBuffer()
 	{
-		vertexBuffer.DestroyVertexBuffer(vulkanEngine->GetVulkanInstance());
+		vertexBuffer.DestroyVertexBuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
 	}
 }

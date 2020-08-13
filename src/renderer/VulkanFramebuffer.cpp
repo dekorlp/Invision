@@ -1,6 +1,7 @@
 #include "precompiled.h"
 
 #include "VulkanEngine.h"
+#include "VulkanInstance.h"
 
 #include "VulkanFramebuffer.h"
 #include "VulkanRenderPass.h"
@@ -8,11 +9,11 @@
 namespace Invision
 {
 
-	VulkanFramebuffer::VulkanFramebuffer(VulkanEngine* engine, std::shared_ptr<Invision::IRenderPass> renderPass) :
-		IFramebuffer(engine, renderPass)
+	VulkanFramebuffer::VulkanFramebuffer(VulkanInstance* instance, std::shared_ptr<Invision::IRenderPass> renderPass) :
+		IFramebuffer(instance, renderPass)
 	{
-		vulkanEngine = engine;
-		framebuffer.CreateFramebuffer(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetVulkanContext(), dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetRenderPass());
+		vulkanInstance = instance;
+		framebuffer.CreateFramebuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetRenderPass());
 	}
 
 	VulkanBaseFramebuffer VulkanFramebuffer::GetFramebuffer()
@@ -22,7 +23,7 @@ namespace Invision
 
 	VulkanFramebuffer::~VulkanFramebuffer()
 	{
-		framebuffer.DestroyFramebuffer(vulkanEngine->GetVulkanInstance());
+		framebuffer.DestroyFramebuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
 	}
 
 }

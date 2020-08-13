@@ -7,13 +7,15 @@
 
 namespace Invision
 {
-	class VulkanEngine;
+	//class VulkanEngine;
+	class VulkanInstance;
+
 	class VulkanCommandBuffer : public ICommandBuffer
 	{
 	public:
 
 		INVISION_API VulkanCommandBuffer() = delete;
-		INVISION_API VulkanCommandBuffer(VulkanEngine* engine, std::shared_ptr<Invision::IFramebuffer> framebuffer);
+		INVISION_API VulkanCommandBuffer(VulkanInstance* instance, std::shared_ptr<Invision::IFramebuffer> framebuffer);
 
 		ICommandBuffer& BeginCommandBuffer() override;
 		ICommandBuffer& SetViewport(Invision::Viewport viewport) override;
@@ -33,7 +35,9 @@ namespace Invision
 		~VulkanCommandBuffer();
 
 	private:
-		Invision::VulkanEngine *vulkanEngine;
+		//Invision::VulkanEngine *vulkanEngine;
+		Invision::VulkanInstance *vulkanInstance;
+
 		Invision::VulkanBaseCommandBuffer commandBuffer;
 
 	};

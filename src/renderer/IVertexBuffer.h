@@ -6,6 +6,7 @@ namespace Invision
 {
 
 	class IGraphicsEngine;
+	class IGraphicsInstance;
 
 	// used enumerations
 	enum VertexFormat;
@@ -15,10 +16,11 @@ namespace Invision
 	class IVertexBuffer
 	{
 		IGraphicsEngine* Engine = nullptr;
+		IGraphicsInstance* instance = nullptr;
 
 	public:
 		INVISION_API IVertexBuffer() = delete;
-		INVISION_API IVertexBuffer(IGraphicsEngine* engine);
+		INVISION_API IVertexBuffer(IGraphicsInstance* instance);
 		INVISION_API virtual ~IVertexBuffer() = default;
 
 		INVISION_API virtual IVertexBuffer& CreateVertexBuffer(uint64_t size, const void* source, uint64_t offset) = 0;

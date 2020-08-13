@@ -1,15 +1,16 @@
 #include "precompiled.h"
 
 #include "VulkanEngine.h"
+#include "VulkanInstance.h"
 
 #include "VulkanUniformBuffer.h"
 namespace Invision
 {
 
-	VulkanUniformBuffer::VulkanUniformBuffer(VulkanEngine* engine) :
-		IUniformBuffer(engine)
+	VulkanUniformBuffer::VulkanUniformBuffer(VulkanInstance* instance) :
+		IUniformBuffer(instance)
 	{
-		vulkanEngine = engine;
+		vulkanInstance = instance;
 	}
 
 	VulkanUniformBuffer& VulkanUniformBuffer::CreateUniformBinding(uint32_t binding, uint32_t descriptorCount, ShaderStage shaderStage, uint64_t bufferSize, uint64_t offset)
@@ -42,12 +43,12 @@ namespace Invision
 
 	void VulkanUniformBuffer::CreateUniformBuffer()
 	{
-		uniformBuffer.CreateUniformBuffer(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetVulkanContext());
+		uniformBuffer.CreateUniformBuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext());
 	}
 
 	void VulkanUniformBuffer::UpdateUniform(const void* source, size_t size, uint32_t binding)
 	{
-		uniformBuffer.UpdateUniform(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetVulkanContext(), source, size, binding);
+		uniformBuffer.UpdateUniform(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), source, size, binding);
 	}
 
 	VulkanBaseUniformBuffer VulkanUniformBuffer::GetBuffer()
@@ -57,6 +58,6 @@ namespace Invision
 
 	VulkanUniformBuffer::~VulkanUniformBuffer()
 	{
-		uniformBuffer.DestroyUniformBuffer(vulkanEngine->GetVulkanInstance());
+		uniformBuffer.DestroyUniformBuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
 	}
 }

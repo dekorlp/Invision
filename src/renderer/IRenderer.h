@@ -6,15 +6,17 @@ namespace Invision
 {
 
 	class IGraphicsEngine;
+	class IGraphicsInstance;
 	class ICommandBuffer;
 
 	class IRenderer
 	{
 		IGraphicsEngine* Engine = nullptr;
+		IGraphicsInstance* instance = nullptr;
 
 	public:
 		INVISION_API IRenderer() = delete;
-		INVISION_API IRenderer(IGraphicsEngine* engine);
+		INVISION_API IRenderer(IGraphicsInstance* instance);
 		INVISION_API virtual ~IRenderer() = default;
 
 		INVISION_API IGraphicsEngine* engine();

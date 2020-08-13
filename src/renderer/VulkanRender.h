@@ -7,7 +7,7 @@
 
 namespace Invision
 {
-	class VulkanEngine;
+	class VulkanInstance;
 	class ICommandBuffer;
 	class VulkanRenderer : public IRenderer
 	{
@@ -15,7 +15,7 @@ namespace Invision
 
 		INVISION_API VulkanRenderer() = delete;
 
-		INVISION_API VulkanRenderer(VulkanEngine* engine);
+		INVISION_API VulkanRenderer(VulkanInstance* instance);
 
 		INVISION_API bool PrepareFrame() override;
 		INVISION_API bool SubmitFrame(std::shared_ptr<ICommandBuffer> commandBuffer) override;
@@ -23,7 +23,9 @@ namespace Invision
 		INVISION_API ~VulkanRenderer();
 
 	private:
-		VulkanEngine* vulkanEngine;
+		//VulkanEngine* vulkanEngine;
+		Invision::VulkanInstance *vulkanInstance;
+
 		VulkanBaseRenderer renderer;
 	};
 

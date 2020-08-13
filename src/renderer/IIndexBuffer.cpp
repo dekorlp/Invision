@@ -3,12 +3,12 @@
 #include "IIndexBuffer.h"
 
 #include "IGraphicsEngine.h"
-
+#include "IGraphicsInstance.h"
 
 namespace Invision
 {
-	IIndexBuffer::IIndexBuffer(IGraphicsEngine* engine) :
-		Engine(engine)
+	IIndexBuffer::IIndexBuffer(IGraphicsInstance* instance) :
+		instance(instance)
 	{
 	}
 

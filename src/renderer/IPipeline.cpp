@@ -3,11 +3,12 @@
 #include "IPipeline.h"
 
 #include "IGraphicsEngine.h"
+#include "IGraphicsInstance.h"
 
 namespace Invision
 {
-	IPipeline::IPipeline(IGraphicsEngine* engine) :
-		Engine(engine)
+	IPipeline::IPipeline(IGraphicsInstance* instance) :
+		instance(instance)
 	{
 	}
 

@@ -7,14 +7,14 @@
 
 namespace Invision
 {
-	class VulkanEngine;
+	class VulkanInstance;
 	class VulkanUniformBuffer : public IUniformBuffer
 	{
 	public:
 
 		INVISION_API VulkanUniformBuffer() = delete;
 
-		INVISION_API VulkanUniformBuffer(VulkanEngine* engine);
+		INVISION_API VulkanUniformBuffer(VulkanInstance* instance);
 
 		INVISION_API VulkanUniformBuffer& CreateUniformBinding(uint32_t binding, uint32_t descriptorCount, ShaderStage shaderStage, uint64_t bufferSize, uint64_t offset);
 
@@ -27,7 +27,9 @@ namespace Invision
 		INVISION_API ~VulkanUniformBuffer();
 
 	private:
-		Invision::VulkanEngine *vulkanEngine;
+		//Invision::VulkanEngine *vulkanEngine;
+		Invision::VulkanInstance *vulkanInstance;
+
 		Invision::VulkanBaseUniformBuffer uniformBuffer;
 	};
 

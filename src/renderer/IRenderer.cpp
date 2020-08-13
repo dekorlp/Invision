@@ -3,12 +3,12 @@
 #include "IRenderer.h"
 
 #include "IGraphicsEngine.h"
-
+#include "IGraphicsInstance.h"
 
 namespace Invision
 {
-	IRenderer::IRenderer(IGraphicsEngine* engine) :
-		Engine(engine)
+	IRenderer::IRenderer(IGraphicsInstance* instance) :
+		instance(instance)
 	{
 	}
 

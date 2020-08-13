@@ -3,12 +3,12 @@
 #include "IFramebuffer.h"
 
 #include "IGraphicsEngine.h"
-
+#include "IGraphicsInstance.h"
 
 namespace Invision
 {
-	IFramebuffer::IFramebuffer(IGraphicsEngine* engine, std::shared_ptr<IRenderPass> renderPass) :
-		Engine(engine)
+	IFramebuffer::IFramebuffer(IGraphicsInstance* instance, std::shared_ptr<IRenderPass> renderPass) :
+		instance(instance)
 	{
 	}
 

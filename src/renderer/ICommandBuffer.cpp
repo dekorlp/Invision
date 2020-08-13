@@ -3,12 +3,12 @@
 #include "ICommandBuffer.h"
 
 #include "IGraphicsEngine.h"
-
+#include "IGraphicsInstance.h"
 
 namespace Invision
 {
-	ICommandBuffer::ICommandBuffer(IGraphicsEngine* engine, std::shared_ptr<Invision::IFramebuffer> framebuffer) :
-		Engine(engine)
+	ICommandBuffer::ICommandBuffer(IGraphicsInstance* instance, std::shared_ptr<Invision::IFramebuffer> framebuffer) :
+		instance(instance)
 	{
 	}
 

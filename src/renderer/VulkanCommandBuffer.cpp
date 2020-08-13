@@ -1,6 +1,7 @@
 #include "precompiled.h"
 
 #include "VulkanEngine.h"
+#include "VulkanInstance.h"
 
 #include "VulkanCommandBuffer.h"
 #include "VulkanFramebuffer.h"
@@ -13,12 +14,12 @@
 namespace Invision
 {
 
-	VulkanCommandBuffer::VulkanCommandBuffer(VulkanEngine* engine, std::shared_ptr<Invision::IFramebuffer> framebuffer) :
-		ICommandBuffer(engine, framebuffer)
+	VulkanCommandBuffer::VulkanCommandBuffer(VulkanInstance* instance, std::shared_ptr<Invision::IFramebuffer> framebuffer) :
+		ICommandBuffer(instance, framebuffer)
 	{
-		vulkanEngine = engine;
+		vulkanInstance = instance;
 		
-		commandBuffer.CreateCommandBuffer(engine->GetVulkanInstance(), engine->GetCommandPool(), (unsigned int)dynamic_pointer_cast<Invision::VulkanFramebuffer>(framebuffer)->GetFramebuffer().GetFramebuffers().size());
+		commandBuffer.CreateCommandBuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetCoreEngine()->GetCommandPool(), (unsigned int)dynamic_pointer_cast<Invision::VulkanFramebuffer>(framebuffer)->GetFramebuffer().GetFramebuffers().size());
 	}
 
 	ICommandBuffer& VulkanCommandBuffer::BeginCommandBuffer()
@@ -56,7 +57,7 @@ namespace Invision
 
 	ICommandBuffer& VulkanCommandBuffer::BeginRenderPass(std::shared_ptr<IRenderPass> renderPass, std::shared_ptr<Invision::IFramebuffer> framebuffer)
 	{
-		commandBuffer.BeginRenderPass(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetVulkanContext(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), dynamic_pointer_cast<VulkanFramebuffer>(framebuffer)->GetFramebuffer());
+		commandBuffer.BeginRenderPass(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), dynamic_pointer_cast<VulkanFramebuffer>(framebuffer)->GetFramebuffer());
 		return *this;
 	}
 
@@ -121,7 +122,7 @@ namespace Invision
 
 	VulkanCommandBuffer::~VulkanCommandBuffer()
 	{
-		commandBuffer.DestroyCommandBuffer(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetCommandPool());
+		commandBuffer.DestroyCommandBuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetCoreEngine()->GetCommandPool());
 	}
 
 }

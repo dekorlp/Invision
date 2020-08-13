@@ -8,7 +8,7 @@
 
 namespace Invision
 {
-	class VulkanEngine;
+	class VulkanInstance;
 	class VulkanUniformBuffer;
 
 	class VulkanPipeline : public IPipeline
@@ -19,7 +19,7 @@ namespace Invision
 
 		INVISION_API VulkanPipeline() = delete;
 
-		INVISION_API VulkanPipeline(VulkanEngine* engine);
+		INVISION_API VulkanPipeline(VulkanInstance* instance);
 
 		INVISION_API void AddShader(const std::vector<char>& code, ShaderStage stage);
 
@@ -35,7 +35,9 @@ namespace Invision
 
 
 	private:
-		Invision::VulkanEngine *vulkanEngine;
+		//Invision::VulkanEngine *vulkanEngine;
+		Invision::VulkanInstance *vulkanInstance;
+
 		std::vector< Invision::VulkanBaseShader> shaders;
 		Invision::VulkanBasePipeline pipeline;
 

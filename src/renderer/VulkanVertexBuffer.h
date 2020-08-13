@@ -7,14 +7,14 @@
 
 namespace Invision
 {
-	class VulkanEngine;
+	class VulkanInstance;
 	class VulkanVertexBuffer : public IVertexBuffer
 	{
 	public:
 
 		INVISION_API VulkanVertexBuffer() = delete;
 
-		INVISION_API VulkanVertexBuffer(VulkanEngine* engine);
+		INVISION_API VulkanVertexBuffer(VulkanInstance* instance);
 
 		INVISION_API VulkanVertexBuffer& CreateVertexBuffer(uint64_t size, const void* source, uint64_t offset);
 		INVISION_API VulkanVertexBuffer& CreateVertexInput(uint32_t binding, uint32_t stride, VertexInputRate vertexInputRate);
@@ -24,7 +24,9 @@ namespace Invision
 		INVISION_API ~VulkanVertexBuffer();
 
 	private:
-		Invision::VulkanEngine *vulkanEngine;
+		//Invision::VulkanEngine *vulkanEngine;
+		Invision::VulkanInstance *vulkanInstance;
+
 		Invision::VulkanBaseVertexBuffer vertexBuffer;
 
 	};

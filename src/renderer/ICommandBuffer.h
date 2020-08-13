@@ -6,6 +6,8 @@ namespace Invision
 {
 
 	class IGraphicsEngine;
+	class IGraphicsInstance;
+
 	class IFramebuffer;
 	class IRenderPass;
 	class IPipeline;
@@ -19,10 +21,11 @@ namespace Invision
 	class ICommandBuffer
 	{
 		IGraphicsEngine* Engine = nullptr;
+		IGraphicsInstance* instance = nullptr;
 
 	public:
 		INVISION_API ICommandBuffer() = delete;
-		INVISION_API ICommandBuffer(IGraphicsEngine* engine, std::shared_ptr<Invision::IFramebuffer> framebuffer);
+		INVISION_API ICommandBuffer(IGraphicsInstance* instance, std::shared_ptr<Invision::IFramebuffer> framebuffer);
 
 		INVISION_API virtual ICommandBuffer& BeginCommandBuffer() = 0;
 		INVISION_API virtual ICommandBuffer& SetViewport(Invision::Viewport viewport) = 0;
@@ -40,6 +43,7 @@ namespace Invision
 
 		INVISION_API virtual ~ICommandBuffer() = default;
 		INVISION_API IGraphicsEngine* engine();
+		
 
 	};
 }

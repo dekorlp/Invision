@@ -1,6 +1,8 @@
 #include "precompiled.h"
 
 #include "VulkanEngine.h"
+#include "VulkanInstance.h"
+
 #include "VulkanUniformBuffer.h"
 #include "VulkanVertexBuffer.h"
 #include "VulkanRenderPass.h"
@@ -9,10 +11,10 @@
 namespace Invision
 {
 
-	VulkanPipeline::VulkanPipeline(VulkanEngine* engine) :
-		IPipeline(engine)
+	VulkanPipeline::VulkanPipeline(VulkanInstance* instance) :
+		IPipeline(instance)
 	{
-		vulkanEngine = engine;
+		vulkanInstance = instance;
 	}
 
 
@@ -41,7 +43,7 @@ namespace Invision
 
 		}
 
-		shaders.push_back(VulkanBaseShader(vulkanEngine->GetVulkanInstance(), code, vkShaderStage));
+		shaders.push_back(VulkanBaseShader(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), code, vkShaderStage));
 	}
 
 	void VulkanPipeline::AddUniformBuffer(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer)
@@ -62,10 +64,10 @@ namespace Invision
 			pipeline.AddShader(shaders[i]);
 		}
 
-		pipeline.CreatePipeline(vulkanEngine->GetVulkanInstance(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), 0);
+		pipeline.CreatePipeline(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), 0);
 		for(int i = 0; i < shaders.size(); i++)
 		{
-			shaders[i].Destroy(vulkanEngine->GetVulkanInstance());
+			shaders[i].Destroy(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
 		}
 
 	}
@@ -77,7 +79,7 @@ namespace Invision
 
 	VulkanPipeline::~VulkanPipeline()
 	{
-		pipeline.DestroyPipeline(vulkanEngine->GetVulkanInstance());
+		pipeline.DestroyPipeline(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
 	}
 
 }

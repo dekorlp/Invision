@@ -1,5 +1,6 @@
 #include "precompiled.h"
 
+#include "VulkanInstance.h"
 #include "VulkanRender.h"
 #include "VulkanRenderPass.h"
 #include "VulkanVertexBuffer.h"
@@ -28,46 +29,45 @@ namespace Invision
 		
 	}
 
-	void VulkanEngine::Init(CanvasDimensions canvas)
+	void VulkanEngine::Init()
 	{
 		Invision::VulkanBaseDevice().PickPhysicalDevice(vulkInstance);
 		deviceProperties = ConvertPhysicalDeviceParameters(vulkInstance.physicalDeviceStruct);
 		Invision::VulkanBaseDevice().CreateLogicalDevice(vulkInstance);
 
 
-		Invision::CreateSurface(vulkInstance, vulkanContext, canvas.hwnd);
-		Invision::CreatePresentationSystem(vulkInstance, vulkanContext, canvas.width, canvas.height);
+		//Invision::CreateSurface(vulkInstance, vulkanContext, canvas.hwnd);
+		//Invision::CreatePresentationSystem(vulkInstance, vulkanContext, canvas.width, canvas.height);
 		commandPool.CreateCommandPool(vulkInstance);
 	}
 
-	void VulkanEngine::Init(unsigned int index, CanvasDimensions canvas)
+	void VulkanEngine::Init(unsigned int index)
 	{
 		Invision::VulkanBaseDevice().PickPhysicalDevice(vulkInstance, index);
 		deviceProperties = ConvertPhysicalDeviceParameters(vulkInstance.physicalDeviceStruct);
 		Invision::VulkanBaseDevice().CreateLogicalDevice(vulkInstance);
 
-		Invision::CreateSurface(vulkInstance, vulkanContext, canvas.hwnd);
-		Invision::CreatePresentationSystem(vulkInstance, vulkanContext, canvas.width, canvas.height);
+		//Invision::CreateSurface(vulkInstance, vulkanContext, canvas.hwnd);
+		//Invision::CreatePresentationSystem(vulkInstance, vulkanContext, canvas.width, canvas.height);
 		commandPool.CreateCommandPool(vulkInstance);
 	}
 
-	void VulkanEngine::ResetPresentation(CanvasDimensions canvas)
+	std::shared_ptr<IGraphicsInstance> VulkanEngine::CreateInstance(CanvasDimensions canvas)
 	{
-		Invision::DestroyPresentationSystem(vulkInstance, vulkanContext);
-		Invision::CreatePresentationSystem(vulkInstance, vulkanContext, canvas.width, canvas.height);
+		return  std::make_shared<VulkanInstance>(this, canvas);
 	}
 
-	std::shared_ptr <IRenderer> VulkanEngine::CreateRenderer()
+	/*std::shared_ptr <IRenderer> VulkanEngine::CreateRenderer()
 	{
 		return  std::make_shared<VulkanRenderer >(this);
-	}
+	}*/
 
-	std::shared_ptr<IRenderPass> VulkanEngine::CreateRenderPass()
+	/*std::shared_ptr<IRenderPass> VulkanEngine::CreateRenderPass()
 	{
 		return  std::make_shared<VulkanRenderPass>(this);
-	}
+	}*/
 
-	std::shared_ptr<IVertexBuffer> VulkanEngine::CreateVertexBuffer()
+	/*std::shared_ptr<IVertexBuffer> VulkanEngine::CreateVertexBuffer()
 	{
 		return  std::make_shared<VulkanVertexBuffer>(this);
 	}
@@ -94,16 +94,11 @@ namespace Invision
 	std::shared_ptr<ICommandBuffer> VulkanEngine::CreateCommandBuffer(std::shared_ptr<Invision::IFramebuffer> framebuffer)
 	{
 		return std::make_shared<VulkanCommandBuffer>(this, framebuffer);
-	}
+	}*/
 
 	Invision::SVulkanBase& VulkanEngine::GetVulkanInstance()
 	{
 		return vulkInstance;
-	}
-
-	SVulkanContext& VulkanEngine::GetVulkanContext()
-	{
-		return vulkanContext;
 	}
 
 	Invision::VulkanBaseCommandPool VulkanEngine::GetCommandPool()
@@ -204,9 +199,9 @@ namespace Invision
 	VulkanEngine::~VulkanEngine()
 	{
 		commandPool.DestroyCommandPool(vulkInstance);
-		Invision::DestroyPresentationSystem(vulkInstance, vulkanContext);
+		//Invision::DestroyPresentationSystem(vulkInstance, vulkanContext);
 		Invision::DestroyVulkanDevice(vulkInstance);
-		Invision::DestroySurface(vulkInstance, vulkanContext);
+		//Invision::DestroySurface(vulkInstance, vulkanContext);
 		vulkanInstance.Destroy();
 	}
 

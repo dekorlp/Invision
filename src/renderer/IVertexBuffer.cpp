@@ -3,12 +3,12 @@
 #include "IVertexBuffer.h"
 
 #include "IGraphicsEngine.h"
-
+#include "IGraphicsInstance.h"
 
 namespace Invision
 {
-	IVertexBuffer::IVertexBuffer(IGraphicsEngine* engine) :
-		Engine(engine)
+	IVertexBuffer::IVertexBuffer(IGraphicsInstance* instance) :
+		instance(instance)
 	{
 	}
 

@@ -6,6 +6,8 @@ namespace Invision
 {
 
 	class IGraphicsEngine;
+	class IGraphicsInstance;
+
 	class IUniformBuffer;
 	class IVertexBuffer;
 	class IRenderPass;
@@ -15,10 +17,11 @@ namespace Invision
 	class IPipeline
 	{
 		IGraphicsEngine* Engine = nullptr;
+		IGraphicsInstance* instance = nullptr;
 
 	public:
 		INVISION_API IPipeline() = delete;
-		INVISION_API IPipeline(IGraphicsEngine* engine);
+		INVISION_API IPipeline(IGraphicsInstance* instance);
 		INVISION_API virtual ~IPipeline() = default;
 
 		INVISION_API IGraphicsEngine* engine();
