@@ -97,6 +97,7 @@ private:
 	wxSize m_Size;
 	
 	std::shared_ptr <Invision::IGraphicsEngine> graphicsEngine;
+	std::shared_ptr <Invision::IGraphicsInstance> graphicsInstance;
 	std::shared_ptr <Invision::IRenderPass> renderPass;
 	std::shared_ptr <Invision::IVertexBuffer> vertexBuffer;
 	std::shared_ptr <Invision::IUniformBuffer> uniformBuffer;

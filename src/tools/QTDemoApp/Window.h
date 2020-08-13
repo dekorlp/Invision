@@ -25,6 +25,8 @@
 #include <QtWidgets/QWidget>
 
 #include "RenderWidget.h"
+#include "RenderWidget2.h"
+#include "renderer/GraphicsFactory.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -40,7 +42,7 @@ public:
 	QHBoxLayout *horizontalLayout_2;
 	//QWidget *leftWidget; 
 	RenderWidget *leftWidget;
-	QWidget *rightWIdget;
+	RenderWidget2 *rightWIdget;
 	QVBoxLayout *verticalLayout_5;
 	QHBoxLayout *horizontalLayout;
 	QPushButton *btnPushButton3;
@@ -51,8 +53,17 @@ public:
 	QMenu *menuFile;
 	QStatusBar *statusbar;
 
+
+	std::shared_ptr <Invision::IGraphicsEngine> graphicsEngine;
+
 	void setupUi(QMainWindow *MainWindow)
 	{
+		// initialization Code
+		std::vector<const char*> requiredExtensions = { "VK_KHR_surface", "VK_KHR_win32_surface" };
+		graphicsEngine = Invision::create_engine(Invision::EngineType::Vulkan);
+		graphicsEngine->Init();
+
+
 		if (MainWindow->objectName().isEmpty())
 			MainWindow->setObjectName(QStringLiteral("MainWindow"));
 		MainWindow->resize(1920, 1080);
@@ -80,7 +91,7 @@ public:
 		verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
 		horizontalLayout_2 = new QHBoxLayout();
 		horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-		leftWidget = new RenderWidget(centralwidget);
+		leftWidget = new RenderWidget(centralwidget, graphicsEngine);
 		leftWidget->setObjectName(QStringLiteral("leftWidget"));
 		leftWidget->setMinimumSize(QSize(100, 100));
 		leftWidget->setMaximumSize(QSize(9000, 9000));
@@ -88,10 +99,11 @@ public:
 
 		horizontalLayout_2->addWidget(leftWidget);
 
-		rightWIdget = new QWidget(centralwidget);
+		rightWIdget = new RenderWidget2(centralwidget, graphicsEngine);
 		rightWIdget->setObjectName(QStringLiteral("rightWIdget"));
 		rightWIdget->setMinimumSize(QSize(100, 100));
 		rightWIdget->setMaximumSize(QSize(9000, 9000));
+		rightWIdget->SetContinousRender(true);
 
 		horizontalLayout_2->addWidget(rightWIdget);
 

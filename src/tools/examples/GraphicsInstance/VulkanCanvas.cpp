@@ -23,12 +23,13 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	Invision::CanvasDimensions dim = { hwnd, size.GetWidth(), size.GetHeight() };
 	//graphicsEngine = std::make_shared<Invision::VulkanEngine>(dim);
 	graphicsEngine = Invision::create_engine(Invision::EngineType::Vulkan);
-	graphicsEngine->Init(dim);
-	renderPass = graphicsEngine->CreateRenderPass();
-	vertexBuffer = graphicsEngine->CreateVertexBuffer();
-	uniformBuffer = graphicsEngine->CreateUniformBuffer();
-	indexBuffer = graphicsEngine->CreateIndexBuffer();
-	pipeline = graphicsEngine->CreatePipeline();
+	graphicsEngine->Init();
+	graphicsInstance = graphicsEngine->CreateInstance(dim);
+	renderPass = graphicsInstance->CreateRenderPass();
+	vertexBuffer = graphicsInstance->CreateVertexBuffer();
+	uniformBuffer = graphicsInstance->CreateUniformBuffer();
+	indexBuffer = graphicsInstance->CreateIndexBuffer();
+	pipeline = graphicsInstance->CreatePipeline();
 	
 
 	vertexBuffer->CreateVertexBuffer(sizeof(vertices[0]) * vertices.size(), vertices.data(), 0);
@@ -47,17 +48,17 @@ VulkanCanvas::VulkanCanvas(wxWindow* pParent,
 	pipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
 	pipeline->AddVertexBuffer(vertexBuffer);
 	pipeline->CreatePipeline(renderPass);
-	framebuffer = graphicsEngine->CreateFramebuffer(renderPass);
+	framebuffer = graphicsInstance->CreateFramebuffer(renderPass);
 
 	BuildCommandBuffer(size.GetWidth(), size.GetHeight());
-	renderer = graphicsEngine->CreateRenderer();
+	renderer = graphicsInstance->CreateRenderer();
 
 	this->Bind(wxEVT_IDLE, &VulkanCanvas::OnIdle, this);
 }
 
 void VulkanCanvas::BuildCommandBuffer(float width, float height)
 {
-	commandBuffer = graphicsEngine->CreateCommandBuffer(framebuffer);
+	commandBuffer = graphicsInstance->CreateCommandBuffer(framebuffer);
 	commandBuffer->BeginCommandBuffer().
 		SetViewport({ 0, 0, (float)width, (float)height, 0.0, 1.0 }).
 		SetScissor({0, 0, (uint32_t)width, (uint32_t)height}).
@@ -131,15 +132,15 @@ void VulkanCanvas::Render()
 void VulkanCanvas::RecreateSwapChain(const int width, const int height)
 {
 	// setup swapchain
-	graphicsEngine->ResetPresentation({ this->GetHandle(), width, height });
+	graphicsInstance->ResetPresentation({ this->GetHandle(), width, height });
 
 	// setup framebuffer
 	framebuffer.reset();
-	framebuffer = graphicsEngine->CreateFramebuffer(renderPass);
+	framebuffer = graphicsInstance->CreateFramebuffer(renderPass);
 
 	// setup commandBuffers
 	commandBuffer.reset();
-	commandBuffer = graphicsEngine->CreateCommandBuffer(framebuffer);
+	commandBuffer = graphicsInstance->CreateCommandBuffer(framebuffer);
 	BuildCommandBuffer(width, height);
 }
 
