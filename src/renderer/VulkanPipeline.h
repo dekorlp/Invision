@@ -35,7 +35,6 @@ namespace Invision
 
 
 	private:
-		//Invision::VulkanEngine *vulkanEngine;
 		Invision::VulkanInstance *vulkanInstance;
 
 		std::vector< Invision::VulkanBaseShader> shaders;

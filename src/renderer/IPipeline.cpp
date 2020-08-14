@@ -2,7 +2,6 @@
 
 #include "IPipeline.h"
 
-#include "IGraphicsEngine.h"
 #include "IGraphicsInstance.h"
 
 namespace Invision
@@ -10,11 +9,6 @@ namespace Invision
 	IPipeline::IPipeline(IGraphicsInstance* instance) :
 		instance(instance)
 	{
-	}
-
-	IGraphicsEngine* IPipeline::engine()
-	{
-		return Engine;
 	}
 
 }

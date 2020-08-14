@@ -2,7 +2,6 @@
 
 #include "ICommandBuffer.h"
 
-#include "IGraphicsEngine.h"
 #include "IGraphicsInstance.h"
 
 namespace Invision
@@ -12,9 +11,5 @@ namespace Invision
 	{
 	}
 
-	IGraphicsEngine* ICommandBuffer::engine()
-	{
-		return Engine;
-	}
 
 }

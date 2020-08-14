@@ -2,7 +2,6 @@
 
 #include "IVertexBuffer.h"
 
-#include "IGraphicsEngine.h"
 #include "IGraphicsInstance.h"
 
 namespace Invision
@@ -11,10 +10,4 @@ namespace Invision
 		instance(instance)
 	{
 	}
-
-	IGraphicsEngine* IVertexBuffer::engine()
-	{
-		return Engine;
-	}
-
 }

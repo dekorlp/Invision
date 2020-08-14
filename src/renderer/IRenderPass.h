@@ -3,13 +3,10 @@
 
 namespace Invision
 {
-
-	class IGraphicsEngine;
 	class IGraphicsInstance;
 
 	class IRenderPass
 	{
-		IGraphicsEngine* Engine = nullptr;
 		IGraphicsInstance* instance = nullptr;
 
 	public:
@@ -17,8 +14,6 @@ namespace Invision
 		//INVISION_API IRenderPass(IGraphicsEngine* engine);
 		INVISION_API IRenderPass(IGraphicsInstance* instance);
 		INVISION_API virtual ~IRenderPass() = default;
-
-		INVISION_API IGraphicsEngine* engine();
 	};
 }
 

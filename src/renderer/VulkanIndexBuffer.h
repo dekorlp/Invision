@@ -23,7 +23,6 @@ namespace Invision
 		INVISION_API ~VulkanIndexBuffer();
 
 	private:
-		//Invision::VulkanEngine *vulkanEngine;
 		Invision::VulkanInstance *vulkanInstance;
 
 		Invision::VulkanBaseIndexBuffer indexBuffer;

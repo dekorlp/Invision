@@ -4,8 +4,6 @@
 
 namespace Invision
 {
-
-	class IGraphicsEngine;
 	class IGraphicsInstance;
 
 	class IFramebuffer;
@@ -20,7 +18,6 @@ namespace Invision
 
 	class ICommandBuffer
 	{
-		IGraphicsEngine* Engine = nullptr;
 		IGraphicsInstance* instance = nullptr;
 
 	public:
@@ -42,9 +39,6 @@ namespace Invision
 	
 
 		INVISION_API virtual ~ICommandBuffer() = default;
-		INVISION_API IGraphicsEngine* engine();
-		
-
 	};
 }
 

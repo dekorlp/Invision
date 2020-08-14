@@ -12,7 +12,6 @@
 
 namespace Invision
 {
-
 	class IGraphicsEngine;
 	struct CanvasDimensions;
 
@@ -26,8 +25,6 @@ namespace Invision
 		INVISION_API IGraphicsInstance(IGraphicsEngine* engine, CanvasDimensions* canvas);
 		INVISION_API virtual void ResetPresentation(CanvasDimensions canvas) = 0;
 
-		//CanvasDimensions canvas
-		
 		INVISION_API virtual std::shared_ptr<IRenderer> CreateRenderer() = 0;
 		INVISION_API virtual std::shared_ptr<IRenderPass> CreateRenderPass() = 0;
 		INVISION_API virtual std::shared_ptr<IVertexBuffer> CreateVertexBuffer() = 0;

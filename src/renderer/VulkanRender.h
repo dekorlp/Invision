@@ -23,7 +23,6 @@ namespace Invision
 		INVISION_API ~VulkanRenderer();
 
 	private:
-		//VulkanEngine* vulkanEngine;
 		Invision::VulkanInstance *vulkanInstance;
 
 		VulkanBaseRenderer renderer;

@@ -45,16 +45,6 @@ namespace Invision
 		
 		INVISION_API std::shared_ptr<IGraphicsInstance> CreateInstance(CanvasDimensions canvas) override;
 
-		//INVISION_API std::shared_ptr<IRenderer> CreateRenderer() override;
-		//INVISION_API std::shared_ptr<IRenderPass> CreateRenderPass() override; 
-		//INVISION_API std::shared_ptr<IVertexBuffer> CreateVertexBuffer() override;
-		//INVISION_API std::shared_ptr<IUniformBuffer> CreateUniformBuffer() override;
-		//INVISION_API std::shared_ptr<IIndexBuffer> CreateIndexBuffer() override;
-		//INVISION_API std::shared_ptr<IPipeline> CreatePipeline() override;
-		//INVISION_API std::shared_ptr<IFramebuffer> CreateFramebuffer(std::shared_ptr<Invision::IRenderPass> renderPass) override;
-		//INVISION_API std::shared_ptr<ICommandBuffer> CreateCommandBuffer(std::shared_ptr<Invision::IFramebuffer> framebuffer) override;
-
-
 		INVISION_API std::vector< PhysicalDeviceProperties> GetPhysicalDevices();
 
 		INVISION_API ~VulkanEngine();

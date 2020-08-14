@@ -35,9 +35,6 @@ namespace Invision
 		deviceProperties = ConvertPhysicalDeviceParameters(vulkInstance.physicalDeviceStruct);
 		Invision::VulkanBaseDevice().CreateLogicalDevice(vulkInstance);
 
-
-		//Invision::CreateSurface(vulkInstance, vulkanContext, canvas.hwnd);
-		//Invision::CreatePresentationSystem(vulkInstance, vulkanContext, canvas.width, canvas.height);
 		commandPool.CreateCommandPool(vulkInstance);
 	}
 
@@ -47,8 +44,6 @@ namespace Invision
 		deviceProperties = ConvertPhysicalDeviceParameters(vulkInstance.physicalDeviceStruct);
 		Invision::VulkanBaseDevice().CreateLogicalDevice(vulkInstance);
 
-		//Invision::CreateSurface(vulkInstance, vulkanContext, canvas.hwnd);
-		//Invision::CreatePresentationSystem(vulkInstance, vulkanContext, canvas.width, canvas.height);
 		commandPool.CreateCommandPool(vulkInstance);
 	}
 
@@ -56,45 +51,6 @@ namespace Invision
 	{
 		return  std::make_shared<VulkanInstance>(this, canvas);
 	}
-
-	/*std::shared_ptr <IRenderer> VulkanEngine::CreateRenderer()
-	{
-		return  std::make_shared<VulkanRenderer >(this);
-	}*/
-
-	/*std::shared_ptr<IRenderPass> VulkanEngine::CreateRenderPass()
-	{
-		return  std::make_shared<VulkanRenderPass>(this);
-	}*/
-
-	/*std::shared_ptr<IVertexBuffer> VulkanEngine::CreateVertexBuffer()
-	{
-		return  std::make_shared<VulkanVertexBuffer>(this);
-	}
-
-	std::shared_ptr<IUniformBuffer> VulkanEngine::CreateUniformBuffer()
-	{
-		return std::make_shared<VulkanUniformBuffer>(this);
-	}
-	std::shared_ptr<IIndexBuffer> VulkanEngine::CreateIndexBuffer()
-	{
-		return std::make_shared<VulkanIndexBuffer>(this);
-	}
-
-	std::shared_ptr<IPipeline> VulkanEngine::CreatePipeline()
-	{
-		return std::make_shared<VulkanPipeline>(this);
-	}
-
-	std::shared_ptr<IFramebuffer> VulkanEngine::CreateFramebuffer(std::shared_ptr<IRenderPass> renderPass)
-	{
-		return std::make_shared<VulkanFramebuffer>(this, renderPass);
-	}
-
-	std::shared_ptr<ICommandBuffer> VulkanEngine::CreateCommandBuffer(std::shared_ptr<Invision::IFramebuffer> framebuffer)
-	{
-		return std::make_shared<VulkanCommandBuffer>(this, framebuffer);
-	}*/
 
 	Invision::SVulkanBase& VulkanEngine::GetVulkanInstance()
 	{

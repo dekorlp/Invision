@@ -15,7 +15,6 @@ namespace Invision
 
 		INVISION_API VulkanInstance() = delete;
 
-		//INVISION_API VulkanInstance(VulkanEngine* engine);
 		INVISION_API VulkanInstance(VulkanEngine* engine, CanvasDimensions dimensions);
 		INVISION_API Invision::SVulkanContext& GetVulkanContext();
 		INVISION_API void ResetPresentation(CanvasDimensions canvas) override;

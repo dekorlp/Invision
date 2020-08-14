@@ -21,7 +21,6 @@ namespace Invision
 
 		INVISION_API ~VulkanFramebuffer();
 	private:
-		//Invision::VulkanEngine *vulkanEngine;
 		Invision::VulkanInstance *vulkanInstance;
 
 		Invision::VulkanBaseFramebuffer framebuffer;

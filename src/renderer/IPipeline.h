@@ -4,8 +4,6 @@
 
 namespace Invision
 {
-
-	class IGraphicsEngine;
 	class IGraphicsInstance;
 
 	class IUniformBuffer;
@@ -16,7 +14,6 @@ namespace Invision
 
 	class IPipeline
 	{
-		IGraphicsEngine* Engine = nullptr;
 		IGraphicsInstance* instance = nullptr;
 
 	public:
@@ -24,7 +21,6 @@ namespace Invision
 		INVISION_API IPipeline(IGraphicsInstance* instance);
 		INVISION_API virtual ~IPipeline() = default;
 
-		INVISION_API IGraphicsEngine* engine();
 
 		INVISION_API virtual void AddShader(const std::vector<char>& code, ShaderStage stage) = 0;
 		INVISION_API virtual void AddUniformBuffer(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer) = 0;

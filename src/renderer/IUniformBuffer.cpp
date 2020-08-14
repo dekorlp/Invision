@@ -2,7 +2,6 @@
 
 #include "IUniformBuffer.h"
 
-#include "IGraphicsEngine.h"
 #include "IGraphicsInstance.h"
 
 namespace Invision
@@ -11,10 +10,4 @@ namespace Invision
 		instance(instance)
 	{
 	}
-
-	IGraphicsEngine* IUniformBuffer::engine()
-	{
-		return Engine;
-	}
-
 }

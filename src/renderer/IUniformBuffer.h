@@ -4,17 +4,12 @@
 
 namespace Invision
 {
-
-	class IGraphicsEngine;
 	class IGraphicsInstance;
 
 	enum ShaderStage;
 	
-
-
 	class IUniformBuffer
 	{
-		IGraphicsEngine* Engine = nullptr;
 		IGraphicsInstance* instance = nullptr;
 
 	public:
@@ -24,9 +19,6 @@ namespace Invision
 		INVISION_API virtual void CreateUniformBuffer() = 0;
 		INVISION_API virtual void UpdateUniform(const void* source, size_t size, uint32_t binding) = 0;
 		INVISION_API virtual ~IUniformBuffer() = default;
-
-		INVISION_API IGraphicsEngine* engine();
-
 	};
 }
 

@@ -2,7 +2,6 @@
 
 #include "IFramebuffer.h"
 
-#include "IGraphicsEngine.h"
 #include "IGraphicsInstance.h"
 
 namespace Invision
@@ -12,9 +11,5 @@ namespace Invision
 	{
 	}
 
-	IGraphicsEngine* IFramebuffer::engine()
-	{
-		return Engine;
-	}
 
 }

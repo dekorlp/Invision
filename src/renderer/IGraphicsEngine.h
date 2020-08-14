@@ -112,8 +112,6 @@ namespace Invision
 
 		 INVISION_API virtual void Init() = 0;
 		 INVISION_API virtual void Init(unsigned int index) = 0;
-		 //INVISION_API virtual void ResetPresentation(CanvasDimensions canvas) = 0;
-
 
 		 INVISION_API EngineType::Type type() const;
 
@@ -122,16 +120,6 @@ namespace Invision
 		 INVISION_API std::string const& version() const;
 
 		 INVISION_API virtual std::shared_ptr<IGraphicsInstance> CreateInstance(CanvasDimensions canvas) = 0;
-
-		 //INVISION_API virtual std::shared_ptr<IRenderer> CreateRenderer() = 0;
-		 //INVISION_API virtual std::shared_ptr<IRenderPass> CreateRenderPass() = 0;
-		 //INVISION_API virtual std::shared_ptr<IVertexBuffer> CreateVertexBuffer() = 0;
-		 //INVISION_API virtual std::shared_ptr<IUniformBuffer> CreateUniformBuffer() = 0;
-		 //INVISION_API virtual std::shared_ptr<IIndexBuffer> CreateIndexBuffer() = 0;
-		 //INVISION_API virtual std::shared_ptr<IPipeline> CreatePipeline() = 0;
-		 //INVISION_API virtual std::shared_ptr<IFramebuffer> CreateFramebuffer(std::shared_ptr<Invision::IRenderPass> renderPass) = 0;
-		 //INVISION_API virtual std::shared_ptr<ICommandBuffer> CreateCommandBuffer(std::shared_ptr<Invision::IFramebuffer> framebuffer) = 0;
-
 		 INVISION_API virtual std::vector< PhysicalDeviceProperties> GetPhysicalDevices() = 0;
 
 

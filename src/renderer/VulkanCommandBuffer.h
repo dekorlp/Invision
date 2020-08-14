@@ -7,7 +7,6 @@
 
 namespace Invision
 {
-	//class VulkanEngine;
 	class VulkanInstance;
 
 	class VulkanCommandBuffer : public ICommandBuffer
@@ -35,11 +34,9 @@ namespace Invision
 		~VulkanCommandBuffer();
 
 	private:
-		//Invision::VulkanEngine *vulkanEngine;
 		Invision::VulkanInstance *vulkanInstance;
 
 		Invision::VulkanBaseCommandBuffer commandBuffer;
-
 	};
 
 }

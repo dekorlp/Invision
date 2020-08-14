@@ -4,18 +4,14 @@
 
 namespace Invision
 {
-
-	class IGraphicsEngine;
 	class IGraphicsInstance;
 
 	// used enumerations
 	enum VertexFormat;
 	enum VertexInputRate;
 
-
 	class IVertexBuffer
 	{
-		IGraphicsEngine* Engine = nullptr;
 		IGraphicsInstance* instance = nullptr;
 
 	public:
@@ -26,9 +22,6 @@ namespace Invision
 		INVISION_API virtual IVertexBuffer& CreateVertexBuffer(uint64_t size, const void* source, uint64_t offset) = 0;
 		INVISION_API virtual IVertexBuffer& CreateVertexInput(uint32_t binding, uint32_t stride, VertexInputRate vertexInputRate) = 0;
 		INVISION_API virtual IVertexBuffer& CreateAttribute(uint32_t location, VertexFormat format, uint32_t offset) = 0;
-
-		INVISION_API IGraphicsEngine* engine();
-
 	};
 }
 

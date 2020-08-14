@@ -24,7 +24,6 @@ namespace Invision
 		INVISION_API ~VulkanVertexBuffer();
 
 	private:
-		//Invision::VulkanEngine *vulkanEngine;
 		Invision::VulkanInstance *vulkanInstance;
 
 		Invision::VulkanBaseVertexBuffer vertexBuffer;

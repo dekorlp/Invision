@@ -27,7 +27,6 @@ namespace Invision
 		INVISION_API ~VulkanUniformBuffer();
 
 	private:
-		//Invision::VulkanEngine *vulkanEngine;
 		Invision::VulkanInstance *vulkanInstance;
 
 		Invision::VulkanBaseUniformBuffer uniformBuffer;
