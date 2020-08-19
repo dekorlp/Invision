@@ -35,7 +35,6 @@ class Ui_MainWindow
 public:
 	QAction *actionNew;
 	QAction *actionOpen;
-	QAction *actionFUCk_YOU;
 	QWidget *centralwidget;
 	QVBoxLayout *verticalLayout;
 	QVBoxLayout *verticalLayout_2;
@@ -76,8 +75,6 @@ public:
 		actionNew->setObjectName(QStringLiteral("actionNew"));
 		actionOpen = new QAction(MainWindow);
 		actionOpen->setObjectName(QStringLiteral("actionOpen"));
-		actionFUCk_YOU = new QAction(MainWindow);
-		actionFUCk_YOU->setObjectName(QStringLiteral("actionFUCk_YOU"));
 		centralwidget = new QWidget(MainWindow);
 		centralwidget->setObjectName(QStringLiteral("centralwidget"));
 		QSizePolicy sizePolicy1(QSizePolicy::Maximum, QSizePolicy::Maximum);
@@ -173,7 +170,6 @@ public:
 		MainWindow->setWindowTitle(QApplication::translate("MainWindow", "QTDemo", Q_NULLPTR));
 		actionNew->setText(QApplication::translate("MainWindow", "New", Q_NULLPTR));
 		actionOpen->setText(QApplication::translate("MainWindow", "Open", Q_NULLPTR));
-		actionFUCk_YOU->setText(QApplication::translate("MainWindow", "FUCk YOU", Q_NULLPTR));
 		btnPushButton3->setText(QApplication::translate("MainWindow", "PushButton3", Q_NULLPTR));
 		btnChangeText->setText(QApplication::translate("MainWindow", "Change Text", Q_NULLPTR));
 		btnStartStop->setText(QApplication::translate("MainWindow", "Start/Stop", Q_NULLPTR));
