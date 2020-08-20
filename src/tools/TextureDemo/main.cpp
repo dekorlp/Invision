@@ -3,6 +3,7 @@
 
 #include "InCommon.h"
 
+
 int main(int argc, char *argv[]) {
 	
 	QApplication app(argc, argv);
@@ -11,7 +12,7 @@ int main(int argc, char *argv[]) {
 	Invision::Log::SetLogger(&log);
 
 	MainWindow2 window;
-
+	
 	try
 	{
 		window.show();

@@ -153,6 +153,13 @@ function AddBoostLibrary(libpath)
 
 end
 
+function AddImageLibraries(libpath)
+	includedirs
+	{
+		libpath .. "stb/",
+	}
+end
+
 function AddQtLibrary(qtPathX64, qtPathX86, usedModules, genMocsPath)
 --QT
 
@@ -172,7 +179,7 @@ function AddQtLibrary(qtPathX64, qtPathX86, usedModules, genMocsPath)
 	filter {}
 end
 
-function AddWindowedProject(name, projectDir, argFiles, argIncludes, argLinks, argDefines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
+function AddWindowedProject(name, projectDir, argFiles, argIncludes, argLinks, argDefines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine, useImageLibs)
 	project (name)
 		kind "WindowedApp"
 		entrypoint "WinMainCRTStartup"
@@ -210,6 +217,11 @@ function AddWindowedProject(name, projectDir, argFiles, argIncludes, argLinks, a
 			AddQtLibrary(Invision.qt.pathX64, Invision.qt.pathX86,  { "core", "gui", "widgets", "opengl" }, (projectDir..name.."/genqt/"))
 		end
 
+		if(useImageLibs == true)
+		then
+			AddImageLibraries(libpath)
+		end
+
 		filter "configurations:Debug"
 			defines { "DEBUG" }
 			symbols "On"
@@ -241,7 +253,7 @@ function AddWindowedProject(name, projectDir, argFiles, argIncludes, argLinks, a
 			end
 end
 
-function AddConsoleProject(name, projectDir, argFiles, argIncludes, argLinks, argDefines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
+function AddConsoleProject(name, projectDir, argFiles, argIncludes, argLinks, argDefines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine, useImageLibs)
 	project (name)
 		kind "ConsoleApp"		
 		language "C++"
@@ -275,6 +287,11 @@ function AddConsoleProject(name, projectDir, argFiles, argIncludes, argLinks, ar
 		if(useQt == true)
 		then
 			AddQtLibrary(Invision.qt.pathX64, Invision.qt.pathX86,  { "core", "gui", "widgets", "opengl" }, (srcroot .. "tools/"..name.."/genqt/"))
+		end
+
+		if(useImageLibs == true)
+		then
+			AddImageLibraries(libpath)
 		end
 
 		filter "configurations:Debug"
@@ -381,21 +398,21 @@ AddWindowedProject(
 	"SandboxWindow", srcroot .. "tools/", {
 	srcroot .. "tools/sandboxWindow/**.h",
 	srcroot .. "tools/sandboxWindow/**.cpp"
-	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, true, false, true, true)
+	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, true, false, true, true, false)
 
 --function AddConsoleProject(name, projectDir, argFiles, argIncludes, argLinks, argDefines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
 AddConsoleProject(
 	"SandboxConsole", srcroot .. "tools/", {
 	srcroot .. "tools/sandboxConsole/**.h",
 	srcroot .. "tools/sandboxConsole/**.cpp"
-	}, srcroot, { "Invision" }, {}, true, false, false, false, true)
+	}, srcroot, { "Invision" }, {}, true, false, false, false, true, false)
 
 --function AddConsoleProject(name, projectDir, argFiles, argIncludes, argLinks, argDefines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)	
 AddConsoleProject(
 	"UnitTests", srcroot .. "tests/", {
 		srcroot .. "tests/**.h",
 		srcroot .. "tests/**.cpp"
-	}, srcroot, { "Invision" }, {}, true, false, false, false, true)
+	}, srcroot, { "Invision" }, {}, true, false, false, false, true, false)
 
 -----------------------------------------------------------------------------------------------------
 --Examples
@@ -406,7 +423,7 @@ AddWindowedProject(
 	"Triangle", srcroot .. "tools/", {
 		srcroot .. "tools/examples/triangle/**.h",
 		srcroot .. "tools/examples/triangle/**.cpp"
-	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, true, false, true, true)
+	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, true, false, true, true, false)
 
 
 --function AddWindowedProject(name, files, includes, links, defines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
@@ -414,19 +431,19 @@ AddWindowedProject(
 	"GraphicsInstance", srcroot .. "tools/" ,{
 		srcroot .. "tools/examples/GraphicsInstance/**.h",
 		srcroot .. "tools/examples/GraphicsInstance/**.cpp"
-	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, true, false, true, true)
+	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, true, false, true, true, false)
 
 --function AddWindowedProject(name, files, includes, links, defines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
 AddConsoleProject(
 	"QTDemoApp", srcroot .. "tools/", {
 		srcroot .. "tools/QTDemoApp/**.h",
 		srcroot .. "tools/QTDemoApp/**.cpp"
-	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true)
+	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, false)
 
 --function AddWindowedProject(name, files, includes, links, defines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
 AddConsoleProject(
 	"TextureDemo", srcroot .. "tools/", {
 		srcroot .. "tools/TextureDemo/**.h",
 		srcroot .. "tools/TextureDemo/**.cpp"
-	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true)
+	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true)
 
