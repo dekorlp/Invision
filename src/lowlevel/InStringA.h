@@ -20,12 +20,11 @@ namespace Invision
 	class InStringA
 	{
 	private:
-		static std::map<size_t, InBaseString<const tChar*, tChar>> mBaseTable;
-		InBaseString<const tChar*, tChar> *rBaseString;
-		//InBaseString<const char*, char> TestString;
+		/*static std::map<size_t, InBaseString<const tChar*, tChar>> mBaseTable;
+		InBaseString<const tChar*, tChar> *rBaseString;*/
 	public:
 
-		INVISION_API InStringA();
+		/*INVISION_API InStringA();
 		INVISION_API InStringA(const tChar* text);
 		INVISION_API InStringA(InBaseString<const tChar*, tChar> is);
 		INVISION_API const tChar* toString();
@@ -55,10 +54,10 @@ namespace Invision
 		INVISION_API InStringA padLeft(size_t totalWidth);
 		INVISION_API InStringA padLeft(size_t totalWidth, tChar paddingChar);
 		INVISION_API InStringA padRight(size_t totalWidth);
-		INVISION_API InStringA padRight(size_t totalWidth, tChar paddingChar);
-		INVISION_API InStringA insert(size_t startIndex, const tChar* value);
-		INVISION_API InStringA toUpper();
-		INVISION_API InStringA toLower();
+		INVISION_API InStringA padRight(size_t totalWidth, tChar paddingChar);*/
+		//INVISION_API InStringA insert(size_t startIndex, const tChar* value);
+		//INVISION_API InStringA toUpper();
+		//INVISION_API InStringA toLower();
 	};
 }
 #endif //INSTRINGA_H

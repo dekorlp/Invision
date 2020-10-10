@@ -2,7 +2,7 @@
 #include "InStringA.h"
 
 namespace Invision {
-	std::map<size_t, InBaseString<const tChar*, tChar>> InStringA::mBaseTable;
+	/*std::map<size_t, InBaseString<const tChar*, tChar>> InStringA::mBaseTable;
 
 	InStringA::InStringA()
 	{
@@ -198,10 +198,10 @@ namespace Invision {
 	{
 		InBaseString<const tChar*, tChar> baseString = rBaseString->padLeft(totalWidth, paddingChar);
 		return InStringA(baseString);
-	}
+	}*/
 
 
-	InStringA InStringA::padRight(size_t totalWidth)
+	/*InStringA InStringA::padRight(size_t totalWidth)
 	{
 		InBaseString<const tChar*, tChar> baseString = rBaseString->padRight(totalWidth, ' ');
 		return InStringA(baseString);
@@ -211,23 +211,23 @@ namespace Invision {
 	{
 		InBaseString<const tChar*, tChar> baseString = rBaseString->padRight(totalWidth, paddingChar);
 		return InStringA(baseString);
-	}
+	}*/
 
-	InStringA InStringA::insert(size_t startIndex, const tChar* value)
+	/*InStringA InStringA::insert(size_t startIndex, const tChar* value)
 	{
 		InBaseString<const tChar*, tChar> baseString = rBaseString->insert(startIndex, value);
 		return InStringA(baseString);
-	}
+	}*/
 
-	InStringA InStringA::toUpper()
-	{
-		InBaseString<const tChar*, tChar> baseString = rBaseString->toUpper(false);
-		return InStringA(baseString);
-	}
-
-	InStringA InStringA::toLower()
-	{
-		InBaseString<const tChar*, tChar> baseString = rBaseString->toLower(false);
-		return InStringA(baseString);
-	}
+//	InStringA InStringA::toUpper()
+//	{
+//		InBaseString<const tChar*, tChar> baseString = rBaseString->toUpper(false);
+//		return InStringA(baseString);
+//	}
+//
+//	InStringA InStringA::toLower()
+//	{
+//		InBaseString<const tChar*, tChar> baseString = rBaseString->toLower(false);
+//		return InStringA(baseString);
+//	}
 }

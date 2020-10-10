@@ -24,16 +24,16 @@
 #define NOMINMAX
 #include <algorithm>
 
-
-// boost shared library
-#ifdef WIN_32
-#pragma warning(disable: 4800) // disable warning 4800: 'unsigned int':forcing value to bool 'true' or 'false' (performance warning)
-#endif
-#include <boost\crc.hpp>
-#ifdef WIN_32
-#pragma warning(default: 4800)
-#endif
-#include <boost\shared_array.hpp>
+// @TODO DEPRECATED -> REMOVE AND REWORK String classes
+//// boost shared library
+//#ifdef WIN_32
+//#pragma warning(disable: 4800) // disable warning 4800: 'unsigned int':forcing value to bool 'true' or 'false' (performance warning)
+//#endif
+//#include <boost\crc.hpp>
+//#ifdef WIN_32
+//#pragma warning(default: 4800)
+//#endif
+//#include <boost\shared_array.hpp>
 
 
 
