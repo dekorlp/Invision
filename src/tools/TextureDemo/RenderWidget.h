@@ -186,6 +186,7 @@ private:
 		uniformBuffer = graphicsInstance->CreateUniformBuffer();
 		indexBuffer = graphicsInstance->CreateIndexBuffer();
 		pipeline = graphicsInstance->CreatePipeline();
+		texture = graphicsInstance->CreateTexture();
 
 
 		vertexBuffer->CreateVertexBuffer(sizeof(vertices[0]) * vertices.size(), vertices.data(), 0);
@@ -230,6 +231,7 @@ private:
 	std::shared_ptr <Invision::IFramebuffer> framebuffer;
 	std::shared_ptr <Invision::ICommandBuffer> commandBuffer;
 	std::shared_ptr <Invision::IRenderer> renderer;
+	std::shared_ptr <Invision::ITexture> texture;
 
 	// timer for frequency adjusting
 	Invision::StopWatch mTimer;
