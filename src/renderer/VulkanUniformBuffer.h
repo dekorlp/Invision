@@ -4,6 +4,7 @@
 
 #include "IUniformBuffer.h"
 #include "renderer\Vulkan\VulkanBaseUniformBuffer.h"
+#include "renderer\Vulkan\VulkanBaseTexture.h"
 
 namespace Invision
 {
@@ -17,6 +18,8 @@ namespace Invision
 		INVISION_API VulkanUniformBuffer(VulkanInstance* instance);
 
 		INVISION_API VulkanUniformBuffer& CreateUniformBinding(uint32_t binding, uint32_t descriptorCount, ShaderStage shaderStage, uint64_t bufferSize, uint64_t offset);
+
+		INVISION_API VulkanUniformBuffer& CreateImageBinding(uint32_t binding, uint32_t descriptorCount, ShaderStage shaderStage, std::shared_ptr < Invision::ITexture> texture);
 
 		INVISION_API void CreateUniformBuffer();
 

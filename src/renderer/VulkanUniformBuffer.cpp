@@ -2,6 +2,7 @@
 
 #include "VulkanEngine.h"
 #include "VulkanInstance.h"
+#include "VulkanTexture.h"
 
 #include "VulkanUniformBuffer.h"
 namespace Invision
@@ -39,6 +40,37 @@ namespace Invision
 
 		uniformBuffer.CreateUniformBinding(binding, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, descriptorCount, vkShaderStage, bufferSize, offset);
 		return *this;
+	}
+
+	INVISION_API VulkanUniformBuffer& VulkanUniformBuffer::CreateImageBinding(uint32_t binding, uint32_t descriptorCount, ShaderStage shaderStage, std::shared_ptr < Invision::ITexture> texture)
+	{
+		// VkDescriptorImageInfo*
+		VkShaderStageFlags vkShaderStage;
+
+
+		switch (shaderStage)
+		{
+		case SHADER_STAGE_VERTEX_BIT:
+			vkShaderStage = VK_SHADER_STAGE_VERTEX_BIT;
+			break;
+		case SHADER_STAGE_GEOMETRY_BIT:
+			vkShaderStage = VK_SHADER_STAGE_GEOMETRY_BIT;
+			break;
+		case SHADER_STAGE_FRAGMENT_BIT:
+			vkShaderStage = VK_SHADER_STAGE_FRAGMENT_BIT;
+			break;
+		case SHADER_STAGE_COMPUTE_BIT:
+			vkShaderStage = VK_SHADER_STAGE_COMPUTE_BIT;
+			break;
+		default:
+			throw InvisionBaseRendererException("Unknown ShaderStageFlag passed to Function CreateUniformBinding");
+
+		}
+		
+		uniformBuffer.CreateImageBinding(binding, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, descriptorCount, vkShaderStage, dynamic_pointer_cast<VulkanTexture>(texture)->GetBaseTexture().GetImageView(), dynamic_pointer_cast<VulkanTexture>(texture)->GetBaseTexture().GetImageSampler());
+		return *this;
+
+
 	}
 
 	void VulkanUniformBuffer::CreateUniformBuffer()

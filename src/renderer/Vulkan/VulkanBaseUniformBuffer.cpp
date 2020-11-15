@@ -13,7 +13,9 @@ namespace Invision
 		uint32_t descriptorCount,
 		VkShaderStageFlags stageFlags,
 		VkDeviceSize bufferSize,
-		VkDeviceSize offset)
+		VkDeviceSize offset,
+		VkImageView imageView,
+		VkSampler sampler)
 	{
 		this->mBinding = binding;
 		this->mDescriptorCount = descriptorCount;
@@ -21,6 +23,11 @@ namespace Invision
 		this->mStageFlags = stageFlags;
 		this->mBufferSize = bufferSize;
 		this->mOffset = offset;
+
+		this->mImageInfo = {};
+		this->mImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+		this->mImageInfo.imageView = imageView;
+		this->mImageInfo.sampler = sampler;
 	}
 
 	uint32_t VulkanBaseUniformBinding::GetBinding()
@@ -73,6 +80,11 @@ namespace Invision
 		return mUniformBuffer;
 	}
 
+	VkDescriptorImageInfo VulkanBaseUniformBinding::GetImageInfo()
+	{
+		return mImageInfo;
+	}
+
 	void VulkanBaseUniformBinding::ClearAndDestroyBuffers(const SVulkanBase &vulkanInstance)
 	{
 		for (unsigned int i = 0; i < mUniformBuffer.size(); i++)
@@ -94,7 +106,19 @@ namespace Invision
 		VkDeviceSize bufferSize,
 		VkDeviceSize offset)
 	{
-		VulkanBaseUniformBinding uniformBinding(binding, descriptorType, descriptorCount, stageFlags, bufferSize, offset);
+		VulkanBaseUniformBinding uniformBinding(binding, descriptorType, descriptorCount, stageFlags, bufferSize, offset, VK_NULL_HANDLE, VK_NULL_HANDLE);
+		bindings.push_back(uniformBinding);
+		return *this;
+	}
+
+	INVISION_API VulkanBaseUniformBuffer& VulkanBaseUniformBuffer::CreateImageBinding(uint32_t binding,
+		VkDescriptorType descriptorType,
+		uint32_t descriptorCount,
+		VkShaderStageFlags stageFlags,
+		VkImageView imageView,
+		VkSampler sampler)
+	{
+		VulkanBaseUniformBinding uniformBinding(binding, descriptorType, descriptorCount, stageFlags, 0, 0, imageView, sampler);
 		bindings.push_back(uniformBinding);
 		return *this;
 	}
@@ -240,49 +264,75 @@ namespace Invision
 		allocInfo.descriptorSetCount = static_cast<uint32_t>(vulkanContext.swapChainImages.size());
 		allocInfo.pSetLayouts = layouts.data();
 
-		for (unsigned int j = 0; j < bindings.size(); j++)
-		{
-			std::vector< VkWriteDescriptorSet> descriptorWrites;
-
+		
 			std::vector<VkDescriptorSet> descriptorSets;
 			descriptorSets.resize(vulkanContext.swapChainImages.size());
 
 			if (vkAllocateDescriptorSets(vulkanInstance.logicalDevice, &allocInfo, descriptorSets.data()) != VK_SUCCESS) {
 				throw std::runtime_error("failed to allocate descriptor sets!");
 			}
-			bindings[j].SetDescriptorSets(descriptorSets);
+			
+			std::vector< VkWriteDescriptorSet> descriptorWrites;
+			for (unsigned int j = 0; j < bindings.size(); j++)
+			{
 
-			for (size_t i = 0; i < vulkanContext.swapChainImages.size(); i++) {
-
-				if (bindings[j].GetDescriptorType() == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER)
-				{
-					VkDescriptorBufferInfo bufferInfo = {};
-					bufferInfo.buffer = bindings[j].GetBuffers()[i].GetBuffer();
-					bufferInfo.offset = bindings[j].GetOffset();
-					bufferInfo.range = bindings[j].GetBufferSize();
-
-					VkWriteDescriptorSet descriptorWrite = {};
-					descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-					descriptorWrite.dstSet = descriptorSets[i];
-					descriptorWrite.dstBinding = bindings[j].GetBinding();
-					descriptorWrite.dstArrayElement = 0;
-
-					descriptorWrite.descriptorType = bindings[j].GetDescriptorType();
-					descriptorWrite.descriptorCount = bindings[j].GetDescriptorCount();
-
-					descriptorWrite.pBufferInfo = &bufferInfo;
-					descriptorWrite.pImageInfo = nullptr; // Optional
-					descriptorWrite.pTexelBufferView = nullptr; // Optional
-					descriptorWrites.push_back(descriptorWrite);
-				}
+				bindings[j].SetDescriptorSets(descriptorSets);
 				
 
-				//vkUpdateDescriptorSets(vulkanInstance.logicalDevice, 1, &descriptorWrite, 0, nullptr);
-			}
 
+				for (size_t i = 0; i < vulkanContext.swapChainImages.size(); i++) {
 
-			vkUpdateDescriptorSets(vulkanInstance.logicalDevice, static_cast<uint32_t>(descriptorWrites.size()), descriptorWrites.data(), 0, nullptr);
+					if (bindings[j].GetDescriptorType() == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER)
+					{
+						VkDescriptorBufferInfo bufferInfo = {};
+						bufferInfo.buffer = bindings[j].GetBuffers()[i].GetBuffer();
+						bufferInfo.offset = bindings[j].GetOffset();
+						bufferInfo.range = bindings[j].GetBufferSize();
+
+						VkWriteDescriptorSet descriptorWrite = {};
+						descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+						descriptorWrite.dstSet = descriptorSets[i];
+						descriptorWrite.dstBinding = bindings[j].GetBinding();
+						descriptorWrite.dstArrayElement = 0;
+
+						descriptorWrite.descriptorType = bindings[j].GetDescriptorType();
+						descriptorWrite.descriptorCount = bindings[j].GetDescriptorCount();
+
+						descriptorWrite.pBufferInfo = &bufferInfo;
+						descriptorWrite.pImageInfo = nullptr; // Optional
+						descriptorWrite.pTexelBufferView = nullptr; // Optional
+					
+						descriptorWrites.push_back(descriptorWrite);
+					}
+					else if (bindings[j].GetDescriptorType() == VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER)
+					{
+						VkDescriptorImageInfo imageInfo{};
+						imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+						imageInfo.imageView = bindings[j].GetImageInfo().imageView;
+						imageInfo.sampler = bindings[j].GetImageInfo().sampler;
+
+						VkWriteDescriptorSet descriptorWrite = {};
+						descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+						descriptorWrite.dstSet = descriptorSets[i];
+						descriptorWrite.dstBinding = bindings[j].GetBinding();
+						descriptorWrite.dstArrayElement = 0;
+
+						descriptorWrite.descriptorType = bindings[j].GetDescriptorType();
+						descriptorWrite.descriptorCount = bindings[j].GetDescriptorCount();
+
+						descriptorWrite.pBufferInfo = nullptr;
+						descriptorWrite.pImageInfo = &(bindings[j].GetImageInfo()); // Optional
+						descriptorWrite.pTexelBufferView = nullptr; // Optional
+					
+						descriptorWrites.push_back(descriptorWrite);
+
+					}
+				
+
+					//vkUpdateDescriptorSets(vulkanInstance.logicalDevice, 1, &descriptorWrite, 0, nullptr);
+				}
 
 		}
+		vkUpdateDescriptorSets(vulkanInstance.logicalDevice, static_cast<uint32_t>(descriptorWrites.size()), descriptorWrites.data(), 0, nullptr);
 	}
 }

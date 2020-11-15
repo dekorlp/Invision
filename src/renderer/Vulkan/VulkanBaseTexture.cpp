@@ -180,6 +180,16 @@ namespace Invision
 		VulkanBaseBuffer::endSingleTimeCommands(vulkanInstance, commandPool, commandBuffer);
 	}
 
+	VkImageView VulkanBaseTexture::GetImageView()
+	{
+		return this->mTextureImageView;
+	}
+
+	VkSampler VulkanBaseTexture::GetImageSampler()
+	{
+		return this->mTextureSampler;
+	}
+
 	void VulkanBaseTexture::DestroyTexture(const SVulkanBase &vulkanInstance)
 	{
 		vkDestroySampler(vulkanInstance.logicalDevice, mTextureSampler, nullptr);

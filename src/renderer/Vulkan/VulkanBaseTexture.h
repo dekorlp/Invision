@@ -16,6 +16,9 @@ namespace Invision
 			void CreateTextureImageView(SVulkanBase &vulkanInstance);
 			void CreateTextureSampler(SVulkanBase &vulkanInstance);
 			void DestroyTexture(const SVulkanBase &vulkanInstance);
+
+			VkImageView GetImageView();
+			VkSampler GetImageSampler();
 		private:
 			void CreateImage(const SVulkanBase &vulkanInstance, int width, int height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties);
 			void TransitionImageLayout(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);

@@ -20,6 +20,8 @@ namespace Invision
 		INVISION_API void CreateTextureImageView();
 		INVISION_API void CreateTextureSampler();
 
+		INVISION_API VulkanBaseTexture GetBaseTexture();
+
 		~VulkanTexture();
 
 

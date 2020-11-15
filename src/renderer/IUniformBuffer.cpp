@@ -1,7 +1,6 @@
 #include "precompiled.h"
 
 #include "IUniformBuffer.h"
-
 #include "IGraphicsInstance.h"
 
 namespace Invision

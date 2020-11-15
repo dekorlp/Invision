@@ -30,6 +30,11 @@ namespace Invision
 		texture.CreateTextureSampler(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
 	}
 
+	VulkanBaseTexture VulkanTexture::GetBaseTexture()
+	{
+		 return texture;
+	}
+
 	VulkanTexture::~VulkanTexture()
 	{
 		texture.DestroyTexture(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
