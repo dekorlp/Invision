@@ -3,7 +3,7 @@
 
 
 #include "ITexture.h"
-
+#include "renderer\Vulkan\VulkanBaseTexture.h"
 
 namespace Invision
 {
@@ -14,13 +14,16 @@ namespace Invision
 	public:
 
 		INVISION_API VulkanTexture() = delete;
-
 		INVISION_API VulkanTexture(VulkanInstance* instance);
+
+		INVISION_API void LoadTexture(unsigned char* pixels, int imageSize, int width, int height);
+
+		~VulkanTexture();
 
 
 	private:
 		Invision::VulkanInstance *vulkanInstance;
-
+		Invision::VulkanBaseTexture texture;
 	};
 
 }

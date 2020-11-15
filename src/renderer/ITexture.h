@@ -16,7 +16,7 @@ namespace Invision
 		INVISION_API ITexture(IGraphicsInstance* instance);
 		INVISION_API virtual ~ITexture() = default;
 
-
+		INVISION_API virtual void LoadTexture(unsigned char* pixels, int imageSize, int width, int height) = 0;
 
 	};
 
