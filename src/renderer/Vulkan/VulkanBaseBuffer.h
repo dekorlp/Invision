@@ -16,6 +16,10 @@ namespace Invision
 
 			void CopyBuffer(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool, VulkanBaseBuffer &dstBuffer, VkDeviceSize srcOffset, VkDeviceSize dstOffset, VkDeviceSize size);
 
+			VkCommandBuffer beginSingleTimeCommands(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool);
+
+			void endSingleTimeCommands(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool, VkCommandBuffer &commandBuffer);
+
 			VkBuffer GetBuffer()
 			{
 				return mBuffer;

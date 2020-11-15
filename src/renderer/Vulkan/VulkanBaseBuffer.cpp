@@ -38,13 +38,21 @@ namespace Invision
 
 	void VulkanBaseBuffer::CopyBuffer(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool, VulkanBaseBuffer &dstBuffer, VkDeviceSize srcOffset, VkDeviceSize dstOffset, VkDeviceSize size)
 	{
-		VkCommandBufferAllocateInfo allocInfo = {};
+		VkCommandBuffer commandBuffer = beginSingleTimeCommands(vulkanInstance, commandPool);
+
+		VkBufferCopy copyRegion{};
+		copyRegion.size = size;
+		vkCmdCopyBuffer(commandBuffer, mBuffer, dstBuffer.GetBuffer(), 1, &copyRegion);
+
+		endSingleTimeCommands(vulkanInstance, commandPool, commandBuffer);
+
+		/*VkCommandBufferAllocateInfo allocInfo = {};
 		allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
 		allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 		allocInfo.commandPool = commandPool.GetCommandPool();
 		allocInfo.commandBufferCount = 1;
 
-		VkCommandBuffer commandBuffer;
+		VkCommandBuffer commandBuffer;	
 		vkAllocateCommandBuffers(vulkanInstance.logicalDevice, &allocInfo, &commandBuffer);
 
 		VkCommandBufferBeginInfo beginInfo = {};
@@ -68,8 +76,44 @@ namespace Invision
 
 		vkQueueSubmit(vulkanInstance.graphicsQueue, 1, &submitInfo, VK_NULL_HANDLE);
 		vkQueueWaitIdle(vulkanInstance.graphicsQueue);
+		vkFreeCommandBuffers(vulkanInstance.logicalDevice, commandPool.GetCommandPool(), 1, &commandBuffer);*/
+	}
+
+	VkCommandBuffer VulkanBaseBuffer::beginSingleTimeCommands(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool) 
+	{
+		VkCommandBufferAllocateInfo allocInfo{};
+		allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+		allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+		allocInfo.commandPool = commandPool.GetCommandPool();
+		allocInfo.commandBufferCount = 1;
+
+		VkCommandBuffer commandBuffer;
+		vkAllocateCommandBuffers(vulkanInstance.logicalDevice, &allocInfo, &commandBuffer);
+
+		VkCommandBufferBeginInfo beginInfo{};
+		beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+		beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+
+		vkBeginCommandBuffer(commandBuffer, &beginInfo);
+
+		return commandBuffer;
+	}
+
+	void VulkanBaseBuffer::endSingleTimeCommands(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool, VkCommandBuffer &commandBuffer)
+	{
+		vkEndCommandBuffer(commandBuffer);
+
+		VkSubmitInfo submitInfo{};
+		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+		submitInfo.commandBufferCount = 1;
+		submitInfo.pCommandBuffers = &commandBuffer;
+
+		vkQueueSubmit(vulkanInstance.graphicsQueue, 1, &submitInfo, VK_NULL_HANDLE);
+		vkQueueWaitIdle(vulkanInstance.graphicsQueue);
+
 		vkFreeCommandBuffers(vulkanInstance.logicalDevice, commandPool.GetCommandPool(), 1, &commandBuffer);
 	}
+
 
 	void VulkanBaseBuffer::DestroyBuffer(const SVulkanBase &vulkanInstance)
 	{
