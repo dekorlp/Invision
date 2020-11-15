@@ -48,7 +48,7 @@ namespace Invision
 		imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
 		if (vkCreateImage(vulkanInstance.logicalDevice, &imageInfo, nullptr, &mImage) != VK_SUCCESS) {
-			throw std::runtime_error("failed to create image!");
+			throw VulkanBaseException("failed to create image!");
 		}
 
 		VkMemoryRequirements memRequirements;
@@ -59,10 +59,40 @@ namespace Invision
 		allocInfo.allocationSize = memRequirements.size;
 		allocInfo.memoryTypeIndex = findMemoryType(vulkanInstance.physicalDeviceStruct.physicalDevice ,memRequirements.memoryTypeBits, properties);
 		if (vkAllocateMemory(vulkanInstance.logicalDevice, &allocInfo, nullptr, &mImageMemory) != VK_SUCCESS) {
-			throw std::runtime_error("failed to allocate image memory!");
+			throw VulkanBaseException("failed to allocate image memory!");
 		}
 
 		vkBindImageMemory(vulkanInstance.logicalDevice, mImage, mImageMemory, 0);
+	}
+
+	void VulkanBaseTexture::CreateTextureImageView( SVulkanBase &vulkanInstance)
+	{
+		mTextureImageView = VulkanBasePresentation::CreateImageView(vulkanInstance, mImage, VK_FORMAT_R8G8B8A8_SRGB);
+	}
+
+	void VulkanBaseTexture::CreateTextureSampler(SVulkanBase &vulkanInstance)
+	{
+		VkSamplerCreateInfo samplerInfo{};
+		samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
+		samplerInfo.magFilter = VK_FILTER_LINEAR;
+		samplerInfo.minFilter = VK_FILTER_LINEAR;
+		samplerInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+		samplerInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+		samplerInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+		samplerInfo.anisotropyEnable = VK_TRUE;
+		samplerInfo.maxAnisotropy = 16.0f;
+		samplerInfo.borderColor = VK_BORDER_COLOR_INT_OPAQUE_BLACK;
+		samplerInfo.unnormalizedCoordinates = VK_FALSE;
+		samplerInfo.compareEnable = VK_FALSE;
+		samplerInfo.compareOp = VK_COMPARE_OP_ALWAYS;
+		samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
+		samplerInfo.mipLodBias = 0.0f;
+		samplerInfo.minLod = 0.0f;
+		samplerInfo.maxLod = 0.0f;
+
+		if (vkCreateSampler(vulkanInstance.logicalDevice, &samplerInfo, nullptr, &mTextureSampler) != VK_SUCCESS) {
+			throw std::runtime_error("failed to create texture sampler!");
+		}
 	}
 
 	void VulkanBaseTexture::TransitionImageLayout(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout)
@@ -100,7 +130,8 @@ namespace Invision
 			destinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
 		}
 		else {
-			throw std::invalid_argument("unsupported layout transition!");
+
+			throw VulkanBaseException("unsupported layout transition!");
 		}
 
 		vkCmdPipelineBarrier(
@@ -151,6 +182,9 @@ namespace Invision
 
 	void VulkanBaseTexture::DestroyTexture(const SVulkanBase &vulkanInstance)
 	{
+		vkDestroySampler(vulkanInstance.logicalDevice, mTextureSampler, nullptr);
+		vkDestroyImageView(vulkanInstance.logicalDevice, mTextureImageView, nullptr);
+
 		vkDestroyImage(vulkanInstance.logicalDevice, mImage, nullptr);
 		vkFreeMemory(vulkanInstance.logicalDevice, mImageMemory, nullptr);
 	}

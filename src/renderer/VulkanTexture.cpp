@@ -19,6 +19,17 @@ namespace Invision
 		texture.CreateTextureImage(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetCoreEngine()->GetCommandPool(), pixels, imageSize, width, height, 0);
 	}
 
+	void VulkanTexture::CreateTextureImageView()
+	{
+
+		texture.CreateTextureImageView(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
+	}
+
+	void VulkanTexture::CreateTextureSampler()
+	{
+		texture.CreateTextureSampler(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
+	}
+
 	VulkanTexture::~VulkanTexture()
 	{
 		texture.DestroyTexture(vulkanInstance->GetCoreEngine()->GetVulkanInstance());

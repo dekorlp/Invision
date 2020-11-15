@@ -16,6 +16,7 @@ namespace Invision
 		public:
 			void CreatePresentation(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, unsigned int width, unsigned int height);
 			void CreateSwapChain(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, unsigned int width, unsigned int height);
+			static VkImageView CreateImageView(SVulkanBase &vulkanInstance, VkImage image, VkFormat format);
 			void CreateImageViews(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext);
 
 			bool IsDeviceSurfaceSuitable(SVulkanBasePhysicalDevice vulkanPhysicalDevice, VkSurfaceKHR surface);

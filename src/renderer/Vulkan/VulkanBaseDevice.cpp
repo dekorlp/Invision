@@ -142,6 +142,7 @@ namespace Invision
 		std::set<int> uniqueQueueFamilies = { vulkanInstance.indices.graphicsFamily, vulkanInstance.indices.computeFamily, vulkanInstance.indices.transferFamily };
 		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos = CreateQueueCreateInfos(uniqueQueueFamilies);
 		VkPhysicalDeviceFeatures deviceFeatures = {};
+		deviceFeatures.samplerAnisotropy = VK_TRUE;
 		VkDeviceCreateInfo createInfo = CreateDeviceCreateInfo(vulkanInstance, queueCreateInfos, deviceFeatures);
 
 		VkResult result = vkCreateDevice(vulkanInstance.physicalDeviceStruct.physicalDevice, &createInfo, nullptr, &(vulkanInstance.logicalDevice));
@@ -159,7 +160,11 @@ namespace Invision
 
 		SQueueFamilyIndices indices = FindQueueFamilies(physicalDevice);
 		bool extensionsSupported = CheckDeviceExtensionSupport(physicalDevice);
-		return indices.GraphicsFamilyIsSet() & extensionsSupported;
+
+		VkPhysicalDeviceFeatures supportedFeatures;
+		vkGetPhysicalDeviceFeatures(physicalDevice, &supportedFeatures);
+
+		return indices.GraphicsFamilyIsSet() & extensionsSupported && supportedFeatures.samplerAnisotropy;
 	}
 
 

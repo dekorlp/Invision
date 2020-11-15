@@ -193,6 +193,8 @@ private:
 		unsigned char* pixels = readJPG(std::string(INVISION_BASE_DIR).append("/src/tools/TextureDemo/texture.jpg"), width, height, channels);
 		texture->LoadTexture(pixels, width * height * 4, width, height);
 		freeImage(pixels);
+		texture->CreateTextureImageView();
+		texture->CreateTextureSampler();
 
 
 		vertexBuffer->CreateVertexBuffer(sizeof(vertices[0]) * vertices.size(), vertices.data(), 0);

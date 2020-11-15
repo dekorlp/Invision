@@ -17,6 +17,8 @@ namespace Invision
 		INVISION_API VulkanTexture(VulkanInstance* instance);
 
 		INVISION_API void LoadTexture(unsigned char* pixels, int imageSize, int width, int height);
+		INVISION_API void CreateTextureImageView();
+		INVISION_API void CreateTextureSampler();
 
 		~VulkanTexture();
 
