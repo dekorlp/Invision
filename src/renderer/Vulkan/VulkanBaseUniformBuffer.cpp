@@ -147,17 +147,21 @@ namespace Invision
 	{
 		for (unsigned int j = 0; j < bindings.size(); j++)
 		{
-			VkDeviceSize bufferSize = bindings.at(j).GetBufferSize();
-			VkDeviceSize offset = bindings.at(j).GetOffset();
-			std::vector<VulkanBaseBuffer> uniformBuffers;
-
-			for (unsigned int i = 0; i < vulkanContext.swapChainImages.size(); i++)
+			if (bindings[j].GetDescriptorType() == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER)
 			{
-				VulkanBaseBuffer buffer;
-				buffer.CreateBuffer(vulkanInstance, bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, VK_SHARING_MODE_EXCLUSIVE, offset);
-				uniformBuffers.push_back(buffer);
+
+				VkDeviceSize bufferSize = bindings.at(j).GetBufferSize();
+				VkDeviceSize offset = bindings.at(j).GetOffset();
+				std::vector<VulkanBaseBuffer> uniformBuffers;
+
+				for (unsigned int i = 0; i < vulkanContext.swapChainImages.size(); i++)
+				{
+					VulkanBaseBuffer buffer;
+					buffer.CreateBuffer(vulkanInstance, bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, VK_SHARING_MODE_EXCLUSIVE, offset);
+					uniformBuffers.push_back(buffer);
+				}
+				bindings.at(j).SetBuffers(uniformBuffers);
 			}
-			bindings.at(j).SetBuffers(uniformBuffers);
 		}
 	}
 
@@ -238,6 +242,8 @@ namespace Invision
 
 		for (unsigned int j = 0; j < bindings.size(); j++)
 		{
+			std::vector< VkWriteDescriptorSet> descriptorWrites;
+
 			std::vector<VkDescriptorSet> descriptorSets;
 			descriptorSets.resize(vulkanContext.swapChainImages.size());
 
@@ -247,26 +253,35 @@ namespace Invision
 			bindings[j].SetDescriptorSets(descriptorSets);
 
 			for (size_t i = 0; i < vulkanContext.swapChainImages.size(); i++) {
-				VkDescriptorBufferInfo bufferInfo = {};
-				bufferInfo.buffer = bindings[j].GetBuffers()[i].GetBuffer();
-				bufferInfo.offset = bindings[j].GetOffset();
-				bufferInfo.range = bindings[j].GetBufferSize();
 
-				VkWriteDescriptorSet descriptorWrite = {};
-				descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-				descriptorWrite.dstSet = descriptorSets[i];
-				descriptorWrite.dstBinding = bindings[j].GetBinding();
-				descriptorWrite.dstArrayElement = 0;
+				if (bindings[j].GetDescriptorType() == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER)
+				{
+					VkDescriptorBufferInfo bufferInfo = {};
+					bufferInfo.buffer = bindings[j].GetBuffers()[i].GetBuffer();
+					bufferInfo.offset = bindings[j].GetOffset();
+					bufferInfo.range = bindings[j].GetBufferSize();
 
-				descriptorWrite.descriptorType = bindings[j].GetDescriptorType();
-				descriptorWrite.descriptorCount = bindings[j].GetDescriptorCount();
+					VkWriteDescriptorSet descriptorWrite = {};
+					descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+					descriptorWrite.dstSet = descriptorSets[i];
+					descriptorWrite.dstBinding = bindings[j].GetBinding();
+					descriptorWrite.dstArrayElement = 0;
 
-				descriptorWrite.pBufferInfo = &bufferInfo;
-				descriptorWrite.pImageInfo = nullptr; // Optional
-				descriptorWrite.pTexelBufferView = nullptr; // Optional
+					descriptorWrite.descriptorType = bindings[j].GetDescriptorType();
+					descriptorWrite.descriptorCount = bindings[j].GetDescriptorCount();
 
-				vkUpdateDescriptorSets(vulkanInstance.logicalDevice, 1, &descriptorWrite, 0, nullptr);
+					descriptorWrite.pBufferInfo = &bufferInfo;
+					descriptorWrite.pImageInfo = nullptr; // Optional
+					descriptorWrite.pTexelBufferView = nullptr; // Optional
+					descriptorWrites.push_back(descriptorWrite);
+				}
+				
+
+				//vkUpdateDescriptorSets(vulkanInstance.logicalDevice, 1, &descriptorWrite, 0, nullptr);
 			}
+
+
+			vkUpdateDescriptorSets(vulkanInstance.logicalDevice, static_cast<uint32_t>(descriptorWrites.size()), descriptorWrites.data(), 0, nullptr);
 
 		}
 	}
