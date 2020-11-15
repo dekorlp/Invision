@@ -23,12 +23,14 @@ std::vector<char> readFile(const std::string& filename) {
 }
 
 
-void readJPG(const std::string& filename)
+unsigned char* readJPG(const std::string& filename, int &width, int &height, int &channels)
 {
-	int texWidth, texHeight, texChannels;
-	stbi_uc* pixels = stbi_load(filename.c_str(), &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
-	uint32_t imageSize = texWidth * texHeight * 4;
+	stbi_uc* pixels = stbi_load(filename.c_str(), &width, &height, &channels, STBI_rgb_alpha);
+	uint32_t imageSize = width * height * 4;
 	if (!pixels) {
 		throw std::runtime_error("failed to load texture image!");
 	}
+
+
+	return pixels;
 }

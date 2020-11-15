@@ -174,7 +174,9 @@ private:
 
 		auto nativeWindowHandler = winId();
 		
-		readJPG(std::string(INVISION_BASE_DIR).append("/src/tools/TextureDemo/texture.jpg"));
+		int width, height, channels;
+
+		readJPG(std::string(INVISION_BASE_DIR).append("/src/tools/TextureDemo/texture.jpg"), width, height, channels);
 
 		Invision::CanvasDimensions dim = { HWND(nativeWindowHandler), this->size().width(), this->size().height() };
 		//graphicsEngine = std::make_shared<Invision::VulkanEngine>(dim);
