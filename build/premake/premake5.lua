@@ -447,3 +447,10 @@ AddConsoleProject(
 		srcroot .. "tools/TextureDemo/**.cpp"
 	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true)
 
+--function AddWindowedProject(name, files, includes, links, defines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
+AddConsoleProject(
+	"DepthTextureDemo", srcroot .. "tools/", {
+		srcroot .. "tools/DepthTextureDemo/**.h",
+		srcroot .. "tools/DepthTextureDemo/**.cpp"
+	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true)
+
