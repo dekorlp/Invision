@@ -306,10 +306,12 @@ namespace Invision
 					}
 					else if (bindings[j].GetDescriptorType() == VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER)
 					{
-						VkDescriptorImageInfo imageInfo{};
-						imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-						imageInfo.imageView = bindings[j].GetImageInfo().imageView;
-						imageInfo.sampler = bindings[j].GetImageInfo().sampler;
+					
+
+						VkDescriptorImageInfo imageDescriptorInfo = {};
+						imageDescriptorInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+						imageDescriptorInfo.imageView = bindings[j].GetImageInfo().imageView;
+						imageDescriptorInfo.sampler = bindings[j].GetImageInfo().sampler;
 
 						VkWriteDescriptorSet descriptorWrite = {};
 						descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
@@ -321,7 +323,7 @@ namespace Invision
 						descriptorWrite.descriptorCount = bindings[j].GetDescriptorCount();
 
 						descriptorWrite.pBufferInfo = nullptr;
-						descriptorWrite.pImageInfo = &(bindings[j].GetImageInfo()); // Optional
+						descriptorWrite.pImageInfo = &imageDescriptorInfo; // Optional
 						descriptorWrite.pTexelBufferView = nullptr; // Optional
 					
 						descriptorWrites.push_back(descriptorWrite);
