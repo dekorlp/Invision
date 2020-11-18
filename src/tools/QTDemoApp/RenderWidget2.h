@@ -23,6 +23,8 @@ struct Vertex2 {
 	Invision::Vector3 color;
 };
 
+
+
 const std::vector<Vertex2> vertices2 = {
 	{ { -0.5f, -0.5f },{ 1.0f, 0.0f, 0.0f } },
 	{ { 0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f } },

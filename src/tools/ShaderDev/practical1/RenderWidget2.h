@@ -1,5 +1,5 @@
-#ifndef RENDER_WIDGET_H
-#define RENDER_WIDGET_H
+#ifndef RENDER_WIDGET2_H
+#define RENDER_WIDGET2_H
 
 #include "qwidget.h"
 #include "qapplication.h"
@@ -18,35 +18,48 @@
 #include "math\Vector3.h"
 #include "math\Matrix.h"
 
-struct Vertex {
+struct Vertex2 {
 	Invision::Vector2 position;
 	Invision::Vector3 color;
 };
 
 
 
-const std::vector<Vertex> vertices = {
+const std::vector<Vertex2> vertices2 = { { {-0.5, -0.5}, {0.0, 0.0, 1.0}},
+{{0.5, -0.5 }, {0.0, 0.0, 1.0 } },
+{{0.5, 0.5}, {0.0, 1.0, 0.0}},
+{{0.0, 1.0}, {1.0, 0.0, 0.0 }},
+{{-0.5, 0.5}, {0.0, 1.0, 0.0} }};
+
+const std::vector<uint16_t> indices2 = {
+	0, 1, 2,
+	0, 2, 4,
+	4, 2, 3
+};
+
+
+/*const std::vector<Vertex2> vertices2 = {
 	{ { -0.5f, -0.5f },{ 1.0f, 0.0f, 0.0f } },
 	{ { 0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f } },
 	{ { 0.5f, 0.5f },{ 0.0f, 0.0f, 1.0f } },
 	{ { -0.5f, 0.5f },{ 1.0f, 1.0f, 1.0f } }
 };
 
-const std::vector<uint16_t> indices = {
-	0, 1, 2, 2, 3, 0
-};
+const std::vector<uint16_t> indices2 = {
+	0, 1, 2, 0
+};*/
 
-struct UniformBufferObject {
+struct UniformBufferObject2 {
 	Invision::Matrix model;
 	Invision::Matrix view;
 	Invision::Matrix proj;
 };
 
-class RenderWidget : public QWidget
+class RenderWidget2 : public QWidget
 {
 	Q_OBJECT;
 public:
-	explicit RenderWidget(QWidget* parent, std::shared_ptr <Invision::IGraphicsEngine> engine)
+	explicit RenderWidget2(QWidget* parent, std::shared_ptr <Invision::IGraphicsEngine> engine)
 		:QWidget(parent)
 	{
 		setAttribute(Qt::WA_NativeWindow);
@@ -56,7 +69,7 @@ public:
 		graphicsEngine = engine;
 	}
 
-	virtual ~RenderWidget() = default;
+	virtual ~RenderWidget2() = default;
 
 	virtual QPaintEngine* paintEngine() const override
 	{
@@ -143,14 +156,14 @@ private:
 			return;
 
 
-		// limit framerate
+		/*// limit framerate
 		mTimer.stop();
 		if (mTimer.getElapsedMilliseconds() < 1000 / FIXED_FPS)
 		{
 			long long delta_ms = (1000 / FIXED_FPS - mTimer.getElapsedMilliseconds());
 			std::this_thread::sleep_for(std::chrono::milliseconds(delta_ms));
 		}
-		mTimer.start();
+		mTimer.start();*/
 
 		// my render code
 		bool recreateSwapchainIsNecessary = false;
@@ -185,14 +198,14 @@ private:
 		pipeline = graphicsInstance->CreatePipeline();
 
 
-		vertexBuffer->CreateVertexBuffer(sizeof(vertices[0]) * vertices.size(), vertices.data(), 0);
-		vertexBuffer->CreateVertexInput(0, sizeof(Vertex), Invision::VERTEX_INPUT_RATE_VERTEX)
-			.CreateAttribute(0, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, position))
-			.CreateAttribute(1, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color));
+		vertexBuffer->CreateVertexBuffer(sizeof(vertices2[0]) * vertices2.size(), vertices2.data(), 0);
+		vertexBuffer->CreateVertexInput(0, sizeof(Vertex2), Invision::VERTEX_INPUT_RATE_VERTEX)
+			.CreateAttribute(0, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex2, position))
+			.CreateAttribute(1, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex2, color));
 
-		indexBuffer->CreateIndexBuffer(sizeof(indices[0]) * indices.size(), indices.data(), 0);
+		indexBuffer->CreateIndexBuffer(sizeof(indices2[0]) * indices2.size(), indices2.data(), 0);
 
-		uniformBuffer->CreateUniformBinding(0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject), 0).CreateUniformBuffer();
+		uniformBuffer->CreateUniformBinding(0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject2), 0).CreateUniformBuffer();
 
 		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/examples/triangle/Shader/DrawUniformBuffer/vert.spv"));
 		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/examples/triangle/Shader/DrawUniformBuffer/frag.spv"));
@@ -232,4 +245,4 @@ private:
 	Invision::StopWatch mTimer;
 };
 
-#endif RENDER_WIDGET_H
+#endif RENDER_WIDGET2_H
