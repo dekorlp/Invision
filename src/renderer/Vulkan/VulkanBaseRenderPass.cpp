@@ -27,21 +27,21 @@ namespace Invision
 		}
 	}
 
-	void VulkanBaseRenderPass::AddAttachment(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext)
+	void VulkanBaseRenderPass::AddAttachment(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, VkFormat format, VkImageLayout finalLayout)
 	{
 		VkAttachmentDescription attachment = {};
-		attachment.format = vulkanContext.swapChainImageFormat;
+		attachment.format = format;
 		attachment.samples = VK_SAMPLE_COUNT_1_BIT;
 		attachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
 		attachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
 		attachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 		attachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
 		attachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-		attachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+		attachment.finalLayout = finalLayout;
 
 		mAttachmentDescriptions.push_back(attachment);
 	}
-	void VulkanBaseRenderPass::AddSubpass(BaseSubPass subPass)
+	void VulkanBaseRenderPass::AddSubpass(BaseSubPass subPass, bool useDepthRessource)
 	{
 		// TODO: This is the first Version
 		// This has to be refactured later
@@ -51,23 +51,36 @@ namespace Invision
 		subPass.mColorReference.push_back(attachmentRef);
 		mSubpassesReferences.push_back(subPass);
 
+		
+
 		VkSubpassDescription subpassDesc = {};
 		//VkSubpassDescription subpass = {};
 		subpassDesc.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
 		subpassDesc.colorAttachmentCount = static_cast<unsigned int>(mSubpassesReferences.at(static_cast<unsigned int>(mSubpassesReferences.size()) - 1).mColorReference.size());
 		subpassDesc.pColorAttachments = mSubpassesReferences.at(static_cast<unsigned int>(mSubpassesReferences.size()) - 1).mColorReference.data();
+
+
+		if (useDepthRessource)
+		{
+			VkAttachmentReference depthAttachmentRef{};
+			depthAttachmentRef.attachment = 1;
+			depthAttachmentRef.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+
+			subpassDesc.pDepthStencilAttachment = &depthAttachmentRef;
+		}
+
 		mSubpasses.push_back(subpassDesc);
 	}
 
-	void VulkanBaseRenderPass::AddSubpassDependency(const SVulkanBase &vulkanInstance)
+	void VulkanBaseRenderPass::AddSubpassDependency(const SVulkanBase &vulkanInstance, VkPipelineStageFlags srcStageFlags, VkAccessFlags srcAccessFlags, VkPipelineStageFlags dstStageFlags, VkAccessFlags dstAccessFlags)
 	{
 		VkSubpassDependency dependency = {};
 		dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
 		dependency.dstSubpass = 0;
-		dependency.srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-		dependency.srcAccessMask = 0;
-		dependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-		dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+		dependency.srcStageMask = srcStageFlags;
+		dependency.srcAccessMask = srcAccessFlags;
+		dependency.dstStageMask = dstStageFlags;
+		dependency.dstAccessMask = dstAccessFlags;
 
 		mDependencies.push_back(dependency);
 	}

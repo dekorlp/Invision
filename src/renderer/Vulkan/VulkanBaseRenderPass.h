@@ -20,9 +20,9 @@ namespace Invision
 	public:
 		void INVISION_API CreateRenderPass(const SVulkanBase &vulkanInstance);
 		void INVISION_API DestroyRenderPass(const SVulkanBase &vulkanInstance);
-		void INVISION_API AddAttachment(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext);
-		void INVISION_API AddSubpass(BaseSubPass subPass = {});
-		void INVISION_API AddSubpassDependency(const SVulkanBase &vulkanInstance);
+		void INVISION_API AddAttachment(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, VkFormat format, VkImageLayout finalLayout);
+		void INVISION_API AddSubpass(BaseSubPass subPass, bool useDepthRessource = false);
+		void INVISION_API AddSubpassDependency(const SVulkanBase &vulkanInstance, VkPipelineStageFlags srcStageFlags, VkAccessFlags srcAccessFlags, VkPipelineStageFlags dstStageFlags, VkAccessFlags dstAccessFlags);
 		VkRenderPass INVISION_API GetRenderPass();
 	private:
 		std::vector<VkAttachmentDescription> mAttachmentDescriptions;

@@ -65,9 +65,44 @@ namespace Invision
 		vkBindImageMemory(vulkanInstance.logicalDevice, mImage, mImageMemory, 0);
 	}
 
+	void VulkanBaseTexture::CreateImage(const SVulkanBase &vulkanInstance, int width, int height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage image, VkDeviceMemory imageMemory)
+	{
+		VkImageCreateInfo imageInfo{};
+		imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+		imageInfo.imageType = VK_IMAGE_TYPE_2D;
+		imageInfo.extent.width = width;
+		imageInfo.extent.height = height;
+		imageInfo.extent.depth = 1;
+		imageInfo.mipLevels = 1;
+		imageInfo.arrayLayers = 1;
+		imageInfo.format = format;
+		imageInfo.tiling = tiling;
+		imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+		imageInfo.usage = usage;
+		imageInfo.samples = VK_SAMPLE_COUNT_1_BIT;
+		imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+
+		if (vkCreateImage(vulkanInstance.logicalDevice, &imageInfo, nullptr, &image) != VK_SUCCESS) {
+			throw VulkanBaseException("failed to create image!");
+		}
+
+		VkMemoryRequirements memRequirements;
+		vkGetImageMemoryRequirements(vulkanInstance.logicalDevice, image, &memRequirements);
+
+		VkMemoryAllocateInfo allocInfo{};
+		allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+		allocInfo.allocationSize = memRequirements.size;
+		allocInfo.memoryTypeIndex = findMemoryType(vulkanInstance.physicalDeviceStruct.physicalDevice, memRequirements.memoryTypeBits, properties);
+		if (vkAllocateMemory(vulkanInstance.logicalDevice, &allocInfo, nullptr, &imageMemory) != VK_SUCCESS) {
+			throw VulkanBaseException("failed to allocate image memory!");
+		}
+
+		vkBindImageMemory(vulkanInstance.logicalDevice, image, imageMemory, 0);
+	}
+
 	void VulkanBaseTexture::CreateTextureImageView( SVulkanBase &vulkanInstance)
 	{
-		mTextureImageView = VulkanBasePresentation::CreateImageView(vulkanInstance, mImage, VK_FORMAT_R8G8B8A8_SRGB);
+		mTextureImageView = CreateImageView(vulkanInstance, mImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_ASPECT_COLOR_BIT);
 	}
 
 	void VulkanBaseTexture::CreateTextureSampler(SVulkanBase &vulkanInstance)

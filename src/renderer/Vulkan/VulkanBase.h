@@ -120,5 +120,7 @@ namespace Invision
 
 	SwapChainSupportDetails QuerySwapChainSupport(const VkPhysicalDevice& device, const VkSurfaceKHR surface);
 	uint32_t findMemoryType(const VkPhysicalDevice& device, uint32_t typeFilter, VkMemoryPropertyFlags properties);
+
+	VkImageView CreateImageView(SVulkanBase &vulkanInstance, VkImage image, VkFormat format, VkImageAspectFlags aspectFlags);
 }
 #endif // VULKAN_BASE_H

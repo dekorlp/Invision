@@ -19,6 +19,10 @@ namespace Invision
 
 			VkImageView GetImageView();
 			VkSampler GetImageSampler();
+
+		protected:
+			void CreateImage(const SVulkanBase &vulkanInstance, int width, int height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage image, VkDeviceMemory imageMemory);
+
 		private:
 			void CreateImage(const SVulkanBase &vulkanInstance, int width, int height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties);
 			void TransitionImageLayout(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);
