@@ -19,14 +19,16 @@ namespace Invision
 	VulkanRenderPass::VulkanRenderPass(VulkanInstance* instance)
 		:IRenderPass(instance)
 	{
-		
+		vulkanInstance = instance;
+
+
 		renderPass.AddAttachment(instance->GetCoreEngine()->GetVulkanInstance(), instance->GetVulkanContext(), instance->GetVulkanContext().swapChainImageFormat,VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
 		renderPass.AddSubpass({});
 
 		renderPass.AddSubpassDependency(instance->GetCoreEngine()->GetVulkanInstance(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, 0,
 			VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT);
 		renderPass.CreateRenderPass(instance->GetCoreEngine()->GetVulkanInstance());
-		vulkanInstance = instance;
+		
 		//vulkanEngine = instance->GetCoreEngine();
 	}
 
