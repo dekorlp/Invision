@@ -31,7 +31,7 @@ namespace Invision
 		Invision::CreateSurface(engine->GetVulkanInstance(), vulkanContext, dimensions.hwnd);
 		Invision::CreatePresentationSystem(engine->GetVulkanInstance(), vulkanContext, dimensions.width, dimensions.height);
 #ifdef USE_DEPTH_BUFFER
-		depthRessources.CreateDepthRessources(engine->GetVulkanInstance(), engine->GetCommandPool(), vulkanContext);
+		depthRessources.CreateDepthRessources(engine->GetVulkanInstance(), engine->GetCommandPool(), vulkanContext, 0.0f, 1.0f);
 #endif
 	}
 
@@ -42,7 +42,7 @@ namespace Invision
 
 #ifdef USE_DEPTH_BUFFER
 		depthRessources.DestroyDepthRessources(vulkanEngine->GetVulkanInstance());
-		depthRessources.CreateDepthRessources(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetCommandPool(), vulkanContext);
+		depthRessources.CreateDepthRessources(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetCommandPool(), vulkanContext, 0.0f, 1.0f);
 #endif
 	}
 

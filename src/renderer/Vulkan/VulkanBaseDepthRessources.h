@@ -12,6 +12,8 @@ namespace Invision
 	{
 	private:
 		bool mUseDepthRessources;
+		float mMinDepthBound;
+		float mMaxDepthBound;
 
 		VkImage mDepthImage;
 		VkDeviceMemory mDepthImageMemory;
@@ -26,9 +28,11 @@ namespace Invision
 		VulkanBaseDepthRessources();
 
 		VkFormat findDepthFormat(const SVulkanBase &vulkanInstance);
-		void CreateDepthRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, SVulkanContext &vulkanContext);
+		void CreateDepthRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, SVulkanContext &vulkanContext, float minDepthBound = 0.0f, float maxDepthBound = 1.0f);
 		bool AreDepthRessourcesActivated();
 		VkImageView GetDepthImageView();
+		float GetMinDepthBound();
+		float GetMaxDepthBound();
 
 		void DestroyDepthRessources(const SVulkanBase &vulkanInstance);
 

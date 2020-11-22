@@ -64,7 +64,7 @@ namespace Invision
 			pipeline.AddShader(shaders[i]);
 		}
 
-		pipeline.CreatePipeline(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), 0,vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated());
+		pipeline.CreatePipeline(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), 0,vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated(), vulkanInstance->GetDepthRessources().GetMinDepthBound(), vulkanInstance->GetDepthRessources().GetMaxDepthBound());
 		for(int i = 0; i < shaders.size(); i++)
 		{
 			shaders[i].Destroy(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
