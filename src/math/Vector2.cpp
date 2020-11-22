@@ -91,4 +91,14 @@ namespace Invision {
 		const float length = m128len.m128_f32[0];
 		return length;
 	}
+
+	float Vector2::getY() const
+	{
+		return y;
+	}
+
+	float Vector2::getX() const
+	{
+		return x;
+	}
 }

@@ -169,7 +169,6 @@ private:
 
 	void Init()
 	{
-	
 
 
 		auto nativeWindowHandler = winId();

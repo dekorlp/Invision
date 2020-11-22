@@ -110,6 +110,18 @@ namespace Invision
 		*/
 		INVISION_API float length() const;
 
+		/**
+		* \brief returns Y coordinate
+		* \return float
+		*/
+		INVISION_API float getY() const;
+
+		/**
+		* \brief returns X coordinate
+		* \return float
+		*/
+		INVISION_API float getX() const;
+
 
 
 	};
