@@ -191,6 +191,7 @@ QT_END_NAMESPACE
 /*
 #ifndef DESIGNERN17780_H
 #define DESIGNERN17780_H
+
 #include <QtCore/QVariant>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
@@ -204,8 +205,11 @@ QT_END_NAMESPACE
 #include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+
 #include "RenderWidget.h"
+
 QT_BEGIN_NAMESPACE
+
 class Ui_MainWindow
 {
 public:
@@ -221,6 +225,7 @@ public:
 	QPushButton *pushButton;
 	QMenuBar *menubar;
 	QStatusBar *statusbar;
+
 	void setupUi(QMainWindow *MainWindow)
 	{
 		if (MainWindow->objectName().isEmpty())
@@ -239,24 +244,36 @@ public:
 		widget->setObjectName(QStringLiteral("widget"));
 		widget->setMaximumSize(QSize(16777215, 300));
 		widget->SetContinousRender(true);
+
 		verticalLayout->addWidget(widget);
+
 		textBrowser = new QTextBrowser(verticalLayoutWidget);
 		textBrowser->setObjectName(QStringLiteral("textBrowser"));
 		textBrowser->setMaximumSize(QSize(16777215, 100));
+
 		verticalLayout->addWidget(textBrowser);
+
 		horizontalLayout = new QHBoxLayout();
 		horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
 		horizontalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
 		pushButton_2 = new QPushButton(verticalLayoutWidget);
 		pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
+
 		horizontalLayout->addWidget(pushButton_2);
+
 		pushButton_3 = new QPushButton(verticalLayoutWidget);
 		pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
+
 		horizontalLayout->addWidget(pushButton_3);
+
 		pushButton = new QPushButton(verticalLayoutWidget);
 		pushButton->setObjectName(QStringLiteral("pushButton"));
+
 		horizontalLayout->addWidget(pushButton);
+
+
 		verticalLayout->addLayout(horizontalLayout);
+
 		MainWindow->setCentralWidget(centralwidget);
 		menubar = new QMenuBar(MainWindow);
 		menubar->setObjectName(QStringLiteral("menubar"));
@@ -265,10 +282,12 @@ public:
 		statusbar = new QStatusBar(MainWindow);
 		statusbar->setObjectName(QStringLiteral("statusbar"));
 		MainWindow->setStatusBar(statusbar);
-		retranslateUi(MainWindow);
 
+		retranslateUi(MainWindow);
+		
 		QMetaObject::connectSlotsByName(MainWindow);
 	} // setupUi
+
 	void retranslateUi(QMainWindow *MainWindow)
 	{
 		MainWindow->setWindowTitle(QApplication::translate("MainWindow", "QT Vulkan Window", Q_NULLPTR));
@@ -276,12 +295,18 @@ public:
 		pushButton_3->setText(QApplication::translate("MainWindow", "Change Text", Q_NULLPTR));
 		pushButton->setText(QApplication::translate("MainWindow", "Start/Stop", Q_NULLPTR));
 	} // retranslateUi
+
 };
+
 namespace Ui {
 	class MainWindow : public Ui_MainWindow
 	{
+
+
 	};
 } // namespace Ui
+
 QT_END_NAMESPACE
+
 #endif // DESIGNERN17780_H
 */

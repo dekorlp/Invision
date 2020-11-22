@@ -83,6 +83,7 @@ const std::vector<uint32_t> indices = { 0, 1, 2,
 	{ { 0.5f, 0.5f },{ 0.0f, 0.0f, 1.0f } },
 	{ { -0.5f, 0.5f },{ 1.0f, 1.0f, 1.0f } }
 };
+
 const std::vector<uint16_t> indices = {
 	0, 1, 2, 2, 3, 0
 };*/
@@ -142,48 +143,48 @@ public:
 		return mContinousRender;
 	}
 
-protected:
-	virtual void paintEvent(QPaintEvent* paintEvent) override
-	{
-		if (mIsInit == false)
-			Init();
-		Render();
-	}
+	protected:
+		virtual void paintEvent(QPaintEvent* paintEvent) override
+		{
+			if (mIsInit == false)
+				Init();
+			Render();
+		}
 
-	virtual void showEvent(QShowEvent* showEvent) override
-	{
-		QWidget::showEvent(showEvent);
-		if (mIsInit == false)
-			Init();
-	}
+		virtual void showEvent(QShowEvent* showEvent) override
+		{
+			QWidget::showEvent(showEvent);
+			if (mIsInit == false)
+				Init();
+		}
 
-	virtual void resizeEvent(QResizeEvent* resizeEvent) override
-	{
-		QWidget::resizeEvent(resizeEvent);
-		auto sz = resizeEvent->size();
-		if ((sz.width() < 0) || (sz.height() < 0))
-			return;
+		virtual void resizeEvent(QResizeEvent* resizeEvent) override
+		{
+			QWidget::resizeEvent(resizeEvent);
+			auto sz = resizeEvent->size();
+			if ((sz.width() < 0) || (sz.height() < 0))
+				return;
 
-		// my resize Code 
-		if (mIsInit == true)
+			// my resize Code 
+			if(mIsInit == true)
 			RecreateSwapChain(sz.width(), sz.height());
 
-		// Has to be send, manually because QT does not send update request by resizing
-		Render();
-	}
-
-	virtual bool event(QEvent* event) override
-	{
-		switch (event->type())
-		{
-		case QEvent::UpdateRequest:
-			mUpdatePending = false;
-			DoRender();
-			return true;
-		default:
-			return QWidget::event(event);
+			// Has to be send, manually because QT does not send update request by resizing
+			Render();
 		}
-	}
+
+		virtual bool event(QEvent* event) override
+		{
+			switch (event->type())
+			{
+			case QEvent::UpdateRequest:
+				mUpdatePending = false;
+				DoRender();
+				return true;
+			default:
+				return QWidget::event(event);
+			}
+		}
 
 private:
 	void DoRender()
@@ -224,10 +225,10 @@ private:
 	void Init()
 	{
 		auto nativeWindowHandler = winId();
-
+		
 		Invision::CanvasDimensions dim = { HWND(nativeWindowHandler), this->size().width(), this->size().height() };
 		//graphicsEngine = std::make_shared<Invision::VulkanEngine>(dim);
-
+		
 		graphicsInstance = graphicsEngine->CreateInstance(dim);
 
 		renderPass = graphicsInstance->CreateRenderPass(); //graphicsEngine->CreateRenderPass();

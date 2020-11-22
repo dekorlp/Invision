@@ -26,7 +26,7 @@ public:
 
 	~MainWindow2()
 	{
-
+		
 	}
 
 
