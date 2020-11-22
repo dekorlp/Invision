@@ -484,7 +484,7 @@ AddConsoleProject(
 
 --function AddWindowedProject(name, files, includes, links, defines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
 AddConsoleProject(
-	"practical1", srcroot .. "tools/ShaderDev/", {
-		srcroot .. "tools/ShaderDev/practical1/**.h",
-		srcroot .. "tools/ShaderDev/practical1/**.cpp"
+	"practical1", srcroot .. "tools/", {
+		srcroot .. "tools/practical1/**.h",
+		srcroot .. "tools/practical1/**.cpp"
 	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, false, false)
