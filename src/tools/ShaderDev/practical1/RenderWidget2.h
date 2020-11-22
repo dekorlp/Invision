@@ -31,7 +31,7 @@ const std::vector<Vertex2> vertices2 = { { {-0.5, -0.5}, {0.0, 0.0, 1.0}},
 {{0.0, 1.0}, {1.0, 0.0, 0.0 }},
 {{-0.5, 0.5}, {0.0, 1.0, 0.0} }};
 
-const std::vector<uint16_t> indices2 = {
+const std::vector<uint32_t> indices2 = {
 	0, 1, 2,
 	0, 2, 4,
 	4, 2, 3

@@ -52,7 +52,7 @@ const std::vector<Vertex> vertices = {
 { { 0.9, -0.8}, {1.0, 0.0, 0.0 }}, // 23
 };
 
-const std::vector<uint16_t> indices = { 0, 1, 2,
+const std::vector<uint32_t> indices = { 0, 1, 2,
 				  0, 2, 3,
 				  3, 2, 4,
 				  3, 4, 5,

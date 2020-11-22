@@ -32,7 +32,7 @@ const std::vector<Vertex2> vertices2 = {
 	{ { -0.5f, 0.5f },{ 1.0f, 1.0f, 1.0f } }
 };
 
-const std::vector<uint16_t> indices2 = {
+const std::vector<uint32_t> indices2 = {
 	0, 1, 2, 0
 };
 
