@@ -1,11 +1,12 @@
 Platform: Windows
 
  Create Project:
-  1. start Invision/build/solutions/update-solutions.bat
-  2. Open Project: Invision/build/solutions/ vs2013 - vs2019
-  3. Run Bat /lib/win32/loadLibraries.bat
-  4. Install QT (https://www.qt.io/download?utm_referrer=https%3A%2F%2Fwww.qt.io%2F)
-  5. Insert following Code into build/premake/files.lua
+  1. Makre sure that Windows Universal CRT SDK is installed by using Windows SDK Version 8.1 (Configuration Properties/General/Windows SDK Version)
+  2. start Invision/build/solutions/update-solutions.bat
+  3. Open Project: Invision/build/solutions/ vs2013 - vs2019
+  4. Run Bat /lib/win32/loadLibraries.bat
+  5. Install QT (https://www.qt.io/download?utm_referrer=https%3A%2F%2Fwww.qt.io%2F)
+  6. Insert following Code into build/premake/files.lua
 
 -- Configuration 
 
