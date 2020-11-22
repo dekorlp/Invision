@@ -1,4 +1,8 @@
+//#include "Vertex.h"
+
 #include "RenderWidget.h"
+
+
 
 void RenderWidget::RecreateSwapChain(const int width, const int height)
 {
@@ -45,3 +49,4 @@ void RenderWidget::UpdateUniformBuffer(float width, float height)
 	ubo.proj = Invision::Matrix::PerspectiveVK(45.0, width / height, 0.1f, 10.0f);
 	uniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0);
 }
+

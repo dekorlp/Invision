@@ -101,7 +101,7 @@ namespace Invision
 
 	ICommandBuffer& VulkanCommandBuffer::BindIndexBuffer(std::shared_ptr<IIndexBuffer> indexBuffer)
 	{
-		commandBuffer.BindIndexBuffer(dynamic_pointer_cast<VulkanIndexBuffer>(indexBuffer)->GetBuffer(), VK_INDEX_TYPE_UINT16);
+		commandBuffer.BindIndexBuffer(dynamic_pointer_cast<VulkanIndexBuffer>(indexBuffer)->GetBuffer(), VK_INDEX_TYPE_UINT32);
 		return *this;
 	}
 

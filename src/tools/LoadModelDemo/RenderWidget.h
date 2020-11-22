@@ -9,7 +9,7 @@
 #define FIXED_FPS 60
 
 // Vulkan and Engine Header
-#include "AdditionalFunctions.h"
+
 #include "InCommon.h"
 #include "renderer/GraphicsFactory.h"
 #include "common/StopWatch.h"
@@ -18,28 +18,21 @@
 #include "math\Vector3.h"
 #include "math\Matrix.h"
 
-struct Vertex {
+
+
+
+/*struct Vertex {
 	Invision::Vector3 position;
 	Invision::Vector3 color;
 	Invision::Vector2 texCoord;
-};
+};*/
 
-const std::vector<Vertex> vertices = {
-	{{-0.5f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f}},
-	{{0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f}},
-	{{0.5f, 0.5f, 0.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f}},
-	{{-0.5f, 0.5f, 0.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}},
+#include "Vertex.h"
 
-	{{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},
-	{{0.5f, -0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}},
-	{{0.5f, 0.5f, -0.5f}, {0.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
-	{{-0.5f, 0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}}
-};
+#include "AdditionalFunctions.h"
 
-const std::vector<uint16_t> indices = {
-	0, 1, 2, 2, 3, 0,
-	4, 5, 6, 6, 7, 4
-};
+
+
 
 struct UniformBufferObject {
 	Invision::Matrix model;
@@ -197,7 +190,12 @@ private:
 		pipeline = graphicsInstance->CreatePipeline();
 		texture = graphicsInstance->CreateTexture();
 
-		unsigned char* pixels = readJPG(std::string(INVISION_BASE_DIR).append("/src/tools/LoadModelDemo/Textures/texture.jpg"), width, height, channels);
+		unsigned char* pixels = readPNG(std::string(INVISION_BASE_DIR).append("/src/tools/LoadModelDemo/Textures/viking_room.png"), width, height, channels);
+
+		std::vector<Invision::Vector3> positions;
+		std::vector<Invision::Vector2> texCoords;
+
+		LoadModel(std::string(INVISION_BASE_DIR).append("/src/tools/LoadModelDemo/Models/viking_room.obj"), vertices, indices);
 		texture->LoadTexture(pixels, width * height * 4, width, height);
 		freeImage(pixels);
 		texture->CreateTextureImageView();
@@ -211,7 +209,6 @@ private:
 			.CreateAttribute(2, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, texCoord));
 
 		indexBuffer->CreateIndexBuffer(sizeof(indices[0]) * indices.size(), indices.data(), 0);
-
 		uniformBuffer->CreateUniformBinding(0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject), 0).CreateImageBinding(1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, texture).CreateUniformBuffer();
 
 		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/LoadModelDemo/Shader/LoadModelDemo/vert.spv"));
@@ -248,7 +245,9 @@ private:
 	std::shared_ptr <Invision::ICommandBuffer> commandBuffer;
 	std::shared_ptr <Invision::IRenderer> renderer;
 	std::shared_ptr <Invision::ITexture> texture;
-
+	
+	std::vector<Vertex> vertices;
+	std::vector<uint32_t> indices;
 	// timer for frequency adjusting
 	Invision::StopWatch mTimer;
 };
