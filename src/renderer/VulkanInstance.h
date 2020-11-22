@@ -4,6 +4,7 @@
 
 #include "IGraphicsInstance.h"
 #include "renderer\Vulkan\VulkanBase.h"
+#include "renderer\Vulkan\VulkanBaseDepthRessources.h"
 
 namespace Invision
 {
@@ -31,12 +32,14 @@ namespace Invision
 		INVISION_API std::shared_ptr<ITexture> CreateTexture() override;
 
 		INVISION_API VulkanEngine* GetCoreEngine();
+		INVISION_API VulkanBaseDepthRessources GetDepthRessources();
 
 		INVISION_API ~VulkanInstance();
 
 	private:
 		VulkanEngine* vulkanEngine;
 		Invision::SVulkanContext vulkanContext;
+		Invision::VulkanBaseDepthRessources depthRessources;
 	};
 
 }

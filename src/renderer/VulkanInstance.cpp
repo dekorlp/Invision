@@ -30,13 +30,20 @@ namespace Invision
 		
 		Invision::CreateSurface(engine->GetVulkanInstance(), vulkanContext, dimensions.hwnd);
 		Invision::CreatePresentationSystem(engine->GetVulkanInstance(), vulkanContext, dimensions.width, dimensions.height);
-		//commandPool.CreateCommandPool(vulkInstance);
+#ifdef USE_DEPTH_BUFFER
+		depthRessources.CreateDepthRessources(engine->GetVulkanInstance(), engine->GetCommandPool(), vulkanContext);
+#endif
 	}
 
 		void VulkanInstance::ResetPresentation(CanvasDimensions canvas)
 	{
 		Invision::DestroyPresentationSystem(vulkanEngine->GetVulkanInstance(), vulkanContext);
 		Invision::CreatePresentationSystem(vulkanEngine->GetVulkanInstance(), vulkanContext, canvas.width, canvas.height);
+
+#ifdef USE_DEPTH_BUFFER
+		depthRessources.DestroyDepthRessources(vulkanEngine->GetVulkanInstance());
+		depthRessources.CreateDepthRessources(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetCommandPool(), vulkanContext);
+#endif
 	}
 
 
@@ -94,8 +101,16 @@ namespace Invision
 		return vulkanEngine;
 	}
 
+	VulkanBaseDepthRessources VulkanInstance::GetDepthRessources()
+	{
+		return depthRessources;
+	}
+
 	VulkanInstance::~VulkanInstance()
 	{
+#ifdef USE_DEPTH_BUFFER
+		depthRessources.DestroyDepthRessources(vulkanEngine->GetVulkanInstance());
+#endif
 		Invision::DestroyPresentationSystem(vulkanEngine->GetVulkanInstance(), vulkanContext);
 		Invision::DestroySurface(vulkanEngine->GetVulkanInstance(), vulkanContext);
 	}

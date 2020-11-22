@@ -7,6 +7,11 @@
 
 namespace Invision
 {
+	VulkanBaseDepthRessources::VulkanBaseDepthRessources()
+	{
+		mUseDepthRessources = false;
+	}
+
 	void VulkanBaseDepthRessources::CreateDepthRessources(SVulkanBase &vulkanInstance,  VulkanBaseCommandPool commandPool, SVulkanContext &vulkanContext)
 	{
 		VkFormat depthFormat = findDepthFormat(vulkanInstance);
@@ -50,9 +55,22 @@ namespace Invision
 		return format == VK_FORMAT_D32_SFLOAT_S8_UINT || format == VK_FORMAT_D24_UNORM_S8_UINT;
 	}
 
+	VkImageView VulkanBaseDepthRessources::GetDepthImageView()
+	{
+		return mDepthImageView;
+	}
+
 	bool VulkanBaseDepthRessources::AreDepthRessourcesActivated()
 	{
 		return mUseDepthRessources;
 	}
+
+	void VulkanBaseDepthRessources::DestroyDepthRessources(const SVulkanBase &vulkanInstance)
+	{
+		vkDestroyImageView(vulkanInstance.logicalDevice, mDepthImageView, nullptr);
+		vkDestroyImage(vulkanInstance.logicalDevice, mDepthImage, nullptr);
+		vkFreeMemory(vulkanInstance.logicalDevice, mDepthImageMemory, nullptr);
+	}
+
 
 }

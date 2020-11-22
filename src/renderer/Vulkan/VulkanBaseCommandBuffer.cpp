@@ -105,7 +105,7 @@ namespace Invision
 		return *this;
 	}
 
-	VulkanBaseCommandBuffer& VulkanBaseCommandBuffer::BeginRenderPass(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseRenderPass &renderPass, VulkanBaseFramebuffer &vulkanFramebuffer)
+	VulkanBaseCommandBuffer& VulkanBaseCommandBuffer::BeginRenderPass(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseRenderPass &renderPass, VulkanBaseFramebuffer &vulkanFramebuffer, std::vector<VkClearValue> clearValues)
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
@@ -117,10 +117,9 @@ namespace Invision
 				renderPassInfo.framebuffer = vulkanFramebuffer.GetFramebuffers()[i];
 				renderPassInfo.renderArea.offset = { 0, 0 };
 				renderPassInfo.renderArea.extent = vulkanContext.swapChainExtent;
+				renderPassInfo.clearValueCount = clearValues.size();
+				renderPassInfo.pClearValues = clearValues.data();
 
-				VkClearValue clearColor = { 0.0f, 0.0f, 0.0f, 1.0f };
-				renderPassInfo.clearValueCount = 1;
-				renderPassInfo.pClearValues = &clearColor;
 
 				vkCmdBeginRenderPass(mCommandBuffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 			}

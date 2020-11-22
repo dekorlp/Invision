@@ -27,13 +27,13 @@ namespace Invision
 		}
 	}
 
-	void VulkanBaseRenderPass::AddAttachment(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, VkFormat format, VkImageLayout finalLayout)
+	void VulkanBaseRenderPass::AddAttachment(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, VkFormat format, VkAttachmentStoreOp storeOp, VkImageLayout finalLayout)
 	{
 		VkAttachmentDescription attachment = {};
 		attachment.format = format;
 		attachment.samples = VK_SAMPLE_COUNT_1_BIT;
 		attachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-		attachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+		attachment.storeOp = storeOp;
 		attachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 		attachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
 		attachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
@@ -49,6 +49,15 @@ namespace Invision
 		attachmentRef.attachment = 0;
 		attachmentRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 		subPass.mColorReference.push_back(attachmentRef);
+
+		if (useDepthRessource)
+		{
+			VkAttachmentReference depthAttachmentRef = {};
+			depthAttachmentRef.attachment = 1;
+			depthAttachmentRef.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+			subPass.mDepthReference.push_back(depthAttachmentRef);
+		}
+
 		mSubpassesReferences.push_back(subPass);
 
 		
@@ -59,15 +68,12 @@ namespace Invision
 		subpassDesc.colorAttachmentCount = static_cast<unsigned int>(mSubpassesReferences.at(static_cast<unsigned int>(mSubpassesReferences.size()) - 1).mColorReference.size());
 		subpassDesc.pColorAttachments = mSubpassesReferences.at(static_cast<unsigned int>(mSubpassesReferences.size()) - 1).mColorReference.data();
 
-
 		if (useDepthRessource)
 		{
-			VkAttachmentReference depthAttachmentRef{};
-			depthAttachmentRef.attachment = 1;
-			depthAttachmentRef.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-
-			subpassDesc.pDepthStencilAttachment = &depthAttachmentRef;
+			subpassDesc.pDepthStencilAttachment = mSubpassesReferences.at(static_cast<unsigned int>(mSubpassesReferences.size()) - 1).mDepthReference.data();
 		}
+
+	
 
 		mSubpasses.push_back(subpassDesc);
 	}

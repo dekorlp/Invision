@@ -39,7 +39,7 @@ namespace Invision
 		VkPipeline INVISION_API GetPipeline();
 		VkPipelineLayout INVISION_API GetPipelineLayout();
 
-		void INVISION_API CreatePipeline(const SVulkanBase &vulkanInstance, VulkanBaseRenderPass &renderPass, uint32_t subpassIndex, VkPipelineCache pipelineCache = VK_NULL_HANDLE);
+		void INVISION_API CreatePipeline(const SVulkanBase &vulkanInstance, VulkanBaseRenderPass &renderPass, uint32_t subpassIndex, bool useDepthRessource, VkPipelineCache pipelineCache = VK_NULL_HANDLE);
 		void INVISION_API DestroyPipeline(const SVulkanBase &vulkanInstance);
 		
 	private:
@@ -54,7 +54,7 @@ namespace Invision
 		VkPipelineViewportStateCreateInfo mViewportState = {}; // Viewport & Scissor configuration
 		VkPipelineRasterizationStateCreateInfo mRasterizer = {}; // Rasterizer configuration
 		VkPipelineMultisampleStateCreateInfo mMultisampling = {}; // Multisampling configuration
-		VkPipelineDepthStencilStateCreateFlags mDepthStencil = {}; // Depthstencil Testing configuration
+		VkPipelineDepthStencilStateCreateInfo mDepthStencil = {}; // Depthstencil Testing configuration
 		VkPipelineColorBlendStateCreateInfo mColorBlendAttachment = {}; // Color Blending
 		VkPipelineDynamicStateCreateInfo mDynamicState = {}; // Dynamic State configuration
 		VkPipelineLayoutCreateInfo mPipelineLayoutInfo = {}; // Pipeline Layout

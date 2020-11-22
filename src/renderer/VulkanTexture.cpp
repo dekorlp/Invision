@@ -16,7 +16,8 @@ namespace Invision
 
 	void VulkanTexture::LoadTexture(unsigned char* pixels, int imageSize, int width, int height)
 	{
-		texture.CreateTextureImage(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetCoreEngine()->GetCommandPool(), pixels, imageSize, width, height, 0);
+
+		texture.CreateTextureImage(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetCoreEngine()->GetCommandPool(), pixels, imageSize, width, height, 0, vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated());
 	}
 
 	void VulkanTexture::CreateTextureImageView()

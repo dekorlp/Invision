@@ -11,6 +11,8 @@
 #include "renderer\Vulkan\VulkanBaseCommandPool.h"
 #include "Vulkan/Vulkan.h"
 
+#define USE_DEPTH_BUFFER
+
 namespace Invision
 {
 	namespace VulkanDebug

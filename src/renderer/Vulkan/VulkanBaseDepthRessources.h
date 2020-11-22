@@ -2,6 +2,7 @@
 #define VULKAN_BASE_DEPTH_RESSOURCES_H
 
 #include "vulkan\vulkan.h"
+
 #include "VulkanBase.h"
 #include "VulkanBaseTexture.h"
 
@@ -22,9 +23,15 @@ namespace Invision
 		bool hasStencilComponent(VkFormat format);
 
 	public:
+		VulkanBaseDepthRessources();
+
 		VkFormat findDepthFormat(const SVulkanBase &vulkanInstance);
 		void CreateDepthRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, SVulkanContext &vulkanContext);
 		bool AreDepthRessourcesActivated();
+		VkImageView GetDepthImageView();
+
+		void DestroyDepthRessources(const SVulkanBase &vulkanInstance);
+
 
 
 		

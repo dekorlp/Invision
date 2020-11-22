@@ -12,8 +12,16 @@ namespace Invision
 	VulkanFramebuffer::VulkanFramebuffer(VulkanInstance* instance, std::shared_ptr<Invision::IRenderPass> renderPass) :
 		IFramebuffer(instance, renderPass)
 	{
+
 		vulkanInstance = instance;
-		framebuffer.CreateFramebuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetRenderPass());
+		if (vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated())
+		{
+			framebuffer.CreateFramebuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetRenderPass(), vulkanInstance->GetDepthRessources());
+		}
+		else
+		{
+			framebuffer.CreateFramebuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetRenderPass());
+		}
 	}
 
 	VulkanBaseFramebuffer VulkanFramebuffer::GetFramebuffer()
