@@ -171,6 +171,10 @@ namespace Invision
 		 */
 		 INVISION_API static Vector3 Normalize(const Vector3& v);
 
+		 /**
+		* \brief calculates a hash
+		 * \return a unsigned long hash value
+		*/
 		 INVISION_API std::size_t GetHash() const;
 
 

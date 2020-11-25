@@ -120,6 +120,10 @@ namespace Invision
 		*/
 		INVISION_API float getX() const;
 
+		/**
+	   * \brief calculates a hash
+		* \return a unsigned long hash value
+	   */
 		INVISION_API std::size_t GetHash() const;
 
 	};
