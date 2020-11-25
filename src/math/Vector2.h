@@ -11,9 +11,7 @@
 #ifndef VECTOR2_H
 #define VECTOR2_H
 
-#include "math_config.h"
-#include "Simd_Config.h"
-#include "sse_mathfun.h"
+#include "base/SIMD.h"
 namespace Invision
 {
 

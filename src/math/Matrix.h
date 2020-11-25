@@ -11,13 +11,14 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
+#include "base/SIMD.h"
 #include "Vector3.h"
 namespace Invision
 {
 	/**
 	 * \brief Matrix
 	 */
-	_MM_ALIGN16 class INVISION_API Matrix
+	_MM_ALIGN16 class Matrix
 	{
 	private:
 		union
@@ -35,9 +36,9 @@ namespace Invision
 		/**
 		 * \brief initialize a matrix
 		 */
-		Matrix();
+		INVISION_API Matrix();
 
-		Matrix(float val);
+		INVISION_API Matrix(float val);
 		/**
 		 * \brief initialize a matrix
 		 * \param e an array with 16 float values in form of a float e11, float e12, float e13, float e14,
@@ -45,13 +46,13 @@ namespace Invision
 																float e31, float e32, float e33, float e34,
 																float e41, float e42, float e43, float e44 Matrix
 		 */
-		Matrix(float *e);
+		INVISION_API Matrix(float *e);
 
 		/**
 		 * \brief initialize a matrix
 		 * \param e11 - e44 elements of the matrix
 		 */
-		Matrix(float e11, float e12, float e13, float e14,
+		INVISION_API Matrix(float e11, float e12, float e13, float e14,
 			float e21, float e22, float e23, float e24,
 			float e31, float e32, float e33, float e34,
 			float e41, float e42, float e43, float e44);
@@ -62,88 +63,88 @@ namespace Invision
 		* \param rhs A Matrix object
 		* \return true, if both Matrices are the same and false, if both Matrices are not the same
 		*/
-		bool operator==(Matrix const& rhs) const;
+		INVISION_API bool operator==(Matrix const& rhs) const;
 
 		/**
 		* \brief multiplies the Matrix with another Matrix
 		* \param rhs a Matrix object
 		* \return the result of the multiplied Matrices
 		*/
-		Matrix operator*(Matrix const& rhs) const;
+		INVISION_API Matrix operator*(Matrix const& rhs) const;
 
 		/**
 		* \brief adds the Matrix with another Matrix
 		* \param rhs a Matrix object
 		* \return the result of the added Matrices
 		*/
-		Matrix operator+(Matrix const& rhs) const;
+		INVISION_API Matrix operator+(Matrix const& rhs) const;
 
 		/**
 		* \brief subtract the Matrix with another Matrix
 		* \param rhs a Matrix object
 		* \return the result of the subtracted Matrices
 		*/
-		Matrix operator-(Matrix const& rhs) const;
+		INVISION_API Matrix operator-(Matrix const& rhs) const;
 
 		/**
 		* \brief Adds a Matrix
 		* \param rhs A Matrix object
 		* \return A added Matrix object
 		*/
-		Matrix operator+=(Matrix const& rhs) const;
+		INVISION_API Matrix operator+=(Matrix const& rhs) const;
 
 		/**
 		* \brief Subtract a Matrix
 		* \param rhs A Matrix object
 		* \return A subtracted Matrix object
 		*/
-		Matrix operator-=(Matrix const& rhs) const;
+		INVISION_API Matrix operator-=(Matrix const& rhs) const;
 
 		/**
 		* \brief multiplies the Matrix with a scale value
 		* \param rhs a float value
 		* \return the result of the multiplication with the scale
 		*/
-		Matrix operator*(float const& rhs) const;
+		INVISION_API Matrix operator*(float const& rhs) const;
 
 		/**
 		* \brief calculates the vector transformation
 		* \param rhs a vector object
 		* \return the result of the multiplication with the vector and the matrix (transformed vector)
 		*/
-		Vector3 operator*(Vector3 const& rhs) const;
+		INVISION_API Vector3 operator*(Vector3 const& rhs) const;
 
 		/**
 		* \brief divides the Matrix with a scale value
 		* \param rhs a float value
 		* \return the result of the division with the scale
 		*/
-		Matrix operator/(float const& rhs);
+		INVISION_API Matrix operator/(float const& rhs);
 
 		/**
 		 * \brief  calculates the determinant from the matrix
 		 * \return float determinant
 		 */
-		float getDeterminant() const;
+		INVISION_API float getDeterminant() const;
 
 		/**
 		* \brief  calculates the transponse from the matrix
 		* \return the transponse matrix
 		*/
-		Matrix getTranspose() const;
+		INVISION_API Matrix getTranspose() const;
 
 		/**
 		 * \brief returns an identity matrix
 		 * \return A Matrix object
 		 */
-		static Matrix Identity();
+		INVISION_API static Matrix Identity();
 
 		/**
 		* \brief returns an translated matrix
 		* \return A Matrix object
 		*/
-		static Matrix TranslateDX(const Vector3& v);
-		static Matrix TranslateVK(const Vector3& v);
+		INVISION_API static Matrix TranslateDX(const Vector3& v);
+		INVISION_API static Matrix TranslateVK(const Vector3& v);
 
 
 		/**
@@ -151,21 +152,21 @@ namespace Invision
 		 * \param f float value
 		 * \return rotated matrix
 		 */
-		static Matrix RotateX(const float f);
+		INVISION_API static Matrix RotateX(const float f);
 
 		/**
 		* \brief rotate around Y axis
 		* \param f float value
 		* \return rotated matrix
 		*/
-		static Matrix RotateY(const float f);
+		INVISION_API static Matrix RotateY(const float f);
 
 		/**
 		* \brief rotate around Z axis
 		* \param f float value
 		* \return rotated matrix
 		*/
-		static Matrix RotateZ(const float f);
+		INVISION_API static Matrix RotateZ(const float f);
 
 		/**
 		* \brief rotate around XYZ axis
@@ -174,14 +175,14 @@ namespace Invision
 		* \param z float value
 		* \return rotated matrix
 		*/
-		static Matrix RotateXYZ(const float x, const float y, const float z);
+		INVISION_API static Matrix RotateXYZ(const float x, const float y, const float z);
 
 		/**
 		* \brief rotate around XYZ axis
 		* \param y vector object
 		* \return rotated matrix
 		*/
-		static Matrix RotateXYZ(const Vector3 &v);
+		INVISION_API static Matrix RotateXYZ(const Vector3 &v);
 
 		/**
 		* \brief rotate around any axis
@@ -189,7 +190,7 @@ namespace Invision
 		* \param f float value
 		* \return rotated matrix
 		*/
-		static Matrix RotateAxis(const Vector3 &v, const float f);
+		INVISION_API static Matrix RotateAxis(const Vector3 &v, const float f);
 
 
 		/**
@@ -197,7 +198,7 @@ namespace Invision
 		 * \param v vector object
 		 * \return a scaled matrix
 		 */
-		static Matrix Scale(const Vector3 &v);
+		INVISION_API static Matrix Scale(const Vector3 &v);
 
 
 		/**
@@ -207,7 +208,7 @@ namespace Invision
 		 * \param zAxis vector object
 		 * \return Matrix object
 		 */
-		static Matrix Axis(const Vector3 &xAxis, const Vector3 &yAxis, const Vector3 &zAxis);
+		INVISION_API static Matrix Axis(const Vector3 &xAxis, const Vector3 &yAxis, const Vector3 &zAxis);
 
 
 		/**
@@ -217,9 +218,9 @@ namespace Invision
 		 * \param vUp up Vector
 		 * \return Matrix object
 		 */
-		static Matrix CameraDX(const Vector3 &vPos, const Vector3 &vLookAt, const Vector3 &vUp);
+		INVISION_API static Matrix CameraDX(const Vector3 &vPos, const Vector3 &vLookAt, const Vector3 &vUp);
 
-		static Matrix CameraVK(const Vector3 &vPos, const Vector3 &vLookAt, const Vector3 &vUp);
+		INVISION_API static Matrix CameraVK(const Vector3 &vPos, const Vector3 &vLookAt, const Vector3 &vUp);
 
 
 		/**
@@ -230,9 +231,9 @@ namespace Invision
 		 * \aram far far plane
 		 * \return Matrix object
 		 */
-		static Matrix PerspectiveDX(const float &anglef, const float aspect, const float &nearf, const  float &farf);
+		INVISION_API static Matrix PerspectiveDX(const float &anglef, const float aspect, const float &nearf, const  float &farf);
 
-		static Matrix PerspectiveVK(const float &anglef, const float aspect, const float &nearf, const  float &farf);
+		INVISION_API static Matrix PerspectiveVK(const float &anglef, const float aspect, const float &nearf, const  float &farf);
 
 
 		/**
@@ -243,7 +244,7 @@ namespace Invision
 		 * \param fZ
 		 * \return
 		 */
-		static Matrix Orthogonal(const float &width, const float &height, const float &nZ, const float &fZ);
+		INVISION_API static Matrix Orthogonal(const float &width, const float &height, const float &nZ, const float &fZ);
 	};
 }
 #endif //MATRIX_H

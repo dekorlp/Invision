@@ -29,12 +29,16 @@ misrepresented as being the original software.
 (this is the zlib license)
 */
 
-#ifndef SSE_MATHFUN_H
-#define SSE_MATHFUN_H
+#ifndef SIMD_H
+#define SIMD_H
+
+#include "Config.h"
 
 #if _MSC_VER >= 1910 && _MSC_VER <= 1916
 #define _MM_ALIGN16 _VCRT_ALIGN(16)
 #endif
+
+
 
 #pragma warning(push)
 #pragma warning(disable:4083)
@@ -724,4 +728,4 @@ inline void sincos_ps(v4sf x, v4sf *s, v4sf *c) {
 
 #pragma warning(pop)
 
-#endif // SSE_MATHFUN_H
+#endif // SIMD_H

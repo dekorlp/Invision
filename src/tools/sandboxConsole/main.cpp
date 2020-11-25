@@ -1,35 +1,41 @@
-﻿#include "InCommon.h"
+﻿#include "Invision.h"
 
-#include <iostream>
-#include <string>
-#include "math\Vector3.h"
-#include "math\Matrix.h"
+//#include <iostream>
+//#include <string>
+//#include "math\Vector3.h"
+//#include "math\Matrix.h"
+//#include "mathnew/Vector3.h"
 
 
 using namespace std;
 
 void testCPUInfo()
 {
-	Invision::PlatformCPU platformCpu;
+	/*Invision::PlatformCPU platformCpu;
 	Invision::PlatformCPUFrequency cpufreq;
 
 	const char* name = platformCpu.GetCpuName();
 	std::cout << "Name: " << name << std::endl;
 	std::cout << "Count V-Cores: " << platformCpu.GetLogicalCpuCores() << std::endl;
-	std::cout << "Frequency: " << cpufreq.EstimateCpuSpeed() << std::endl;
+	std::cout << "Frequency: " << cpufreq.EstimateCpuSpeed() << std::endl;*/
 }
 
 void testVector(){
+
+	
+
+	Invision::Vector3 vektor1(1.0f, 4.0f, 2.0f);
+
 	Invision::Vector3 vec1(1, 4, 2);
 	//Vector3 vec2(4, 3, 1);
 	Invision::Vector3 vec2(2, 4, 2);
 	//Vector3 res = vec1 + vec2;
 	//Vector3 res = vec2 - vec1;
-	//res = vec2 + vec1;
+	Invision::Vector3 res = vec2 + vec1;
 	bool b = vec1 == vec2;
 }
 
-void testLog()
+/*void testLog()
 {
 	Invision::Log log("../../../logs/log.txt");
 	log.RawText(std::string("HalloWelt").append("RAW"));
@@ -39,9 +45,9 @@ void testLog()
 	//Log::m_pThis = &log;
 	Invision::Log::SetLogger(&log);
 	INVISION_LOG_INFO(std::string("HalloWelt").append("INFO"));
-}
+}*/
 
-void testAllocatorBlockStack()
+/*void testAllocatorBlockStack()
 {
 	//1024 * 1024
 	//void* arena = ::operator new (1);
@@ -68,9 +74,9 @@ void testAllocatorBlockStack()
 	ss2 << "Top: " << top << std::endl;
 	INVISION_LOG_RAWTEXT(ss2.str());
 
-}
+}*/
 
-void testAllocatorBlockPool()
+/*void testAllocatorBlockPool()
 {
 	//1024 * 1024
 	//void* arena = ::operator new (1);
@@ -102,9 +108,9 @@ void testAllocatorBlockPool()
 	stringstream ss;
 	ss << "Top: " << top << std::endl;
 	INVISION_LOG_RAWTEXT(ss.str());
-}
+}*/
 
-void testLinearAllocator()
+/*void testLinearAllocator()
 {
 	Invision::Log log("../../../logs/LinearAllocationLog.txt");
 	Invision::Log::SetLogger(&log);
@@ -297,7 +303,7 @@ void testPoolAllocatorStruct()
 	(*Pol1)->ptr = &Pers6;
 
 	alloc.Destroy();
-}
+}*/
 
 void testMatrix()
 {
@@ -308,7 +314,7 @@ void testMatrix()
 
 }
 
-typedef void* HANDLE;
+/*typedef void* HANDLE;
 
 class VulkanAPI
 {
@@ -332,9 +338,9 @@ public:
 		return name;
 	}
 
-};
+};*/
 
-enum GRAPHIC_API
+/*enum GRAPHIC_API
 {
 	VULKAN = 0,
 	DIRECTX = 1
@@ -362,9 +368,9 @@ public:
 			return "";
 		}
 	}
-};
+};*/
 
-class InvisionRenderer
+/*class InvisionRenderer
 {
 	private:
 		APIConfig* config;
@@ -427,7 +433,7 @@ void testCast()
 	commandBuffer.printSelectedAPI(config);
 	dx->~InvisionRenderer();
 	int test = 0;
-}
+}*/
 
 int main()
 {
@@ -442,7 +448,7 @@ int main()
 
 
 
-	//testVector();
+	testVector();
 	//testAllocators();
 	//testLog();
 
@@ -454,8 +460,8 @@ int main()
 	//testPoolAllocator();
 	//testPoolAllocatorStruct();
 	//testVector();
-	//testMatrix();
-	testCast();
+	testMatrix();
+	//testCast();
 	
 	return 0;
 }
