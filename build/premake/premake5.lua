@@ -410,13 +410,6 @@ project "Invision"
 		architecture "x86_64"
 		targetdir (rootdir.."/bin/Invision/x64/%{cfg.buildcfg}")
 
---function AddWindowedProject(name, projectDir, files, includes, links, defines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
-AddWindowedProject(
-	"SandboxWindow", srcroot .. "tools/", {
-	srcroot .. "tools/sandboxWindow/**.h",
-	srcroot .. "tools/sandboxWindow/**.cpp"
-	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, true, false, true, true, false, false)
-
 --function AddConsoleProject(name, projectDir, argFiles, argIncludes, argLinks, argDefines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
 AddConsoleProject(
 	"SandboxConsole", srcroot .. "tools/", {
@@ -434,21 +427,6 @@ AddConsoleProject(
 -----------------------------------------------------------------------------------------------------
 --Examples
 -----------------------------------------------------------------------------------------------------
-
---function AddWindowedProject(name, files, includes, links, defines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
-AddWindowedProject(
-	"Triangle", srcroot .. "tools/", {
-		srcroot .. "tools/examples/triangle/**.h",
-		srcroot .. "tools/examples/triangle/**.cpp"
-	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, true, false, true, true, false, false)
-
-
---function AddWindowedProject(name, files, includes, links, defines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
-AddWindowedProject(
-	"GraphicsInstance", srcroot .. "tools/" ,{
-		srcroot .. "tools/examples/GraphicsInstance/**.h",
-		srcroot .. "tools/examples/GraphicsInstance/**.cpp"
-	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, true, false, true, true, false, false)
 
 --function AddWindowedProject(name, files, includes, links, defines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
 AddConsoleProject(

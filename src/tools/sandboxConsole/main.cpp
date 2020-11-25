@@ -1,4 +1,6 @@
-﻿#include "Invision.h"
+﻿#include "InCommon.h"
+#include "InMath.h"
+
 
 //#include <iostream>
 //#include <string>
