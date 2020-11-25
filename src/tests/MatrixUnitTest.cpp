@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "boost\test\unit_test.hpp"
 
-#include "inMath.h"
+#include "InMath.h"
 
 BOOST_AUTO_TEST_SUITE(MatrixUnitTest);
 
