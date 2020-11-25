@@ -39,6 +39,11 @@ namespace Invision {
 		}
 	}
 
+	std::ofstream* Log::GetOutputStream()
+	{
+		return &stream;
+	}
+
 	void Log::RawText(std::string message)
 	{
 		if (Log::isSet == false)

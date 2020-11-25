@@ -29,6 +29,8 @@ namespace Invision
 		INVISION_API void Close();
 		INVISION_API ~Log();
 
+		INVISION_API std::ofstream* GetOutputStream();
+
 		INVISION_API static Log* GetLogger();
 		INVISION_API static void SetLogger(Log* log);
 		INVISION_API static Log* m_pThis;
