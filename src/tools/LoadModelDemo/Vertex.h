@@ -18,7 +18,7 @@ struct Vertex {
 	}
 };
 
-// custom hash can be a standalone function object:
+/*// custom hash can be a standalone function object:
 template <class T> struct CustomHashVektor3;
 template<> struct CustomHashVektor3<Invision::Vector3>
 {
@@ -45,7 +45,7 @@ template<> struct CustomHashVektor2<Invision::Vector2>
 		seed = h1 ^ (h2 << 1);
 		return seed; // or use boost::hash_combine
 	}
-};
+};*/
 
 
 
@@ -53,11 +53,11 @@ namespace std {
 	template<> struct hash<Vertex> {
 		size_t operator()(Vertex const& vertex) const {
 
-			CustomHashVektor3<Invision::Vector3>()(vertex.position);
+			//CustomHashVektor3<Invision::Vector3>()(vertex.position);
 
-			return ((CustomHashVektor3<Invision::Vector3>()(vertex.position) ^
-				(CustomHashVektor3<Invision::Vector3>()(vertex.color) << 1)) >> 1) ^
-				(CustomHashVektor2<Invision::Vector2>()(vertex.texCoord) << 1);
+			return ((vertex.position.GetHash() ^
+				(vertex.color.GetHash() << 1)) >> 1) ^
+				(vertex.texCoord.GetHash() << 1);
 		}
 	};
 }

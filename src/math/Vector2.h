@@ -120,7 +120,7 @@ namespace Invision
 		*/
 		INVISION_API float getX() const;
 
-
+		INVISION_API std::size_t GetHash() const;
 
 	};
 }

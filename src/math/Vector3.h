@@ -146,12 +146,32 @@ namespace Invision
 		*/
 		 INVISION_API float getX() const;
 
+		 /**
+		 * \brief returns Z coordinate
+		 * \return float
+		 */
+		 INVISION_API float getR() const;
+
+		 /**
+		 * \brief returns Y coordinate
+		 * \return float
+		 */
+		 INVISION_API float getG() const;
+
+		 /**
+		 * \brief returns X coordinate
+		 * \return float
+		 */
+		 INVISION_API float getB() const;
+
 		/**
 		 * \brief normalizes a vector
 		 * \param v a vector object
 		 * \return a normalized vector
 		 */
 		 INVISION_API static Vector3 Normalize(const Vector3& v);
+
+		 INVISION_API std::size_t GetHash() const;
 
 
 	};

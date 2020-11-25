@@ -101,4 +101,13 @@ namespace Invision {
 	{
 		return x;
 	}
+
+	std::size_t Vector2::GetHash() const
+	{
+		std::size_t h1 = std::hash<float>()(this->getX());
+		std::size_t h2 = std::hash<float>()(this->getY());
+		std::size_t seed = 0;
+		seed = h1 ^ (h2 << 1);
+		return seed;
+	}
 }

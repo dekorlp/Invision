@@ -133,6 +133,22 @@ namespace Invision {
 		return x;
 	}
 
+	float Vector3::getB() const
+	{
+		return z;
+	}
+
+	float Vector3::getG() const
+	{
+		return y;
+	}
+
+	float Vector3::getR() const
+	{
+		return x;
+	}
+
+
 	Vector3 Vector3::Normalize(const Vector3& v)
 	{
 		return v / (sqrtf(v.getX() * v.getX() + v.getY() * v.getY() + v.getZ() * v.getZ())); // 0.0000001f added, because of preventing division 0 error
@@ -145,5 +161,16 @@ namespace Invision {
 		const __m128 vec = _mm_mul_ps(lhsvec, scaleVec);
 
 		return{ vec.m128_f32[0], vec.m128_f32[1], vec.m128_f32[2] };
+	}
+
+	std::size_t Vector3::GetHash() const
+	{
+		std::size_t h1 = std::hash<float>()(this->getX());
+		std::size_t h2 = std::hash<float>()(this->getY());
+		std::size_t h3 = std::hash<float>()(this->getZ());
+		std::size_t seed = 0;
+		seed = h1 ^ (h2 << 1);
+		seed = seed ^ (h3 << 1);
+		return seed;
 	}
 }
