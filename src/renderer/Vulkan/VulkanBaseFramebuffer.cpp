@@ -25,7 +25,7 @@ namespace Invision
 			VkFramebufferCreateInfo framebufferInfo = {};
 			framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
 			framebufferInfo.renderPass = renderPass.GetRenderPass();
-			framebufferInfo.attachmentCount = attachments.size();
+			framebufferInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
 			framebufferInfo.pAttachments = attachments.data();
 			framebufferInfo.width = vulkanContext.swapChainExtent.width;
 			framebufferInfo.height = vulkanContext.swapChainExtent.height;
@@ -55,7 +55,7 @@ namespace Invision
 			VkFramebufferCreateInfo framebufferInfo = {};
 			framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
 			framebufferInfo.renderPass = renderPass.GetRenderPass();
-			framebufferInfo.attachmentCount = attachments.size();
+			framebufferInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
 			framebufferInfo.pAttachments = attachments.data();
 			framebufferInfo.width = vulkanContext.swapChainExtent.width;
 			framebufferInfo.height = vulkanContext.swapChainExtent.height;

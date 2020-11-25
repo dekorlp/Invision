@@ -117,7 +117,7 @@ namespace Invision
 				renderPassInfo.framebuffer = vulkanFramebuffer.GetFramebuffers()[i];
 				renderPassInfo.renderArea.offset = { 0, 0 };
 				renderPassInfo.renderArea.extent = vulkanContext.swapChainExtent;
-				renderPassInfo.clearValueCount = clearValues.size();
+				renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
 				renderPassInfo.pClearValues = clearValues.data();
 
 
