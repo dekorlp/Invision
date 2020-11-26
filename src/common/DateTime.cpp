@@ -658,4 +658,9 @@ std::string DateTime::printDate(std::string FormatProvider, LocalDateTimeTable d
 	return dateTime.str();
 }
 
+	double DateTime::GetTime()
+	{
+		return clock() / (double)CLOCKS_PER_SEC;
+	}
+
 }

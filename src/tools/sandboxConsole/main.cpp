@@ -25,7 +25,6 @@ void testCPUInfo()
 void testVector(){
 
 	
-
 	Invision::Vector3 vektor1(1.0f, 4.0f, 2.0f);
 
 	Invision::Vector3 vec1(1, 4, 2);
@@ -448,7 +447,10 @@ int main()
 
 	//cout << "CPU vendor = " << vendor << endl;
 
-
+	while (true)
+	{
+		std::cout << "Zeit in Sekunden" << Invision::DateTime::GetTime() << std::endl;
+	}
 
 	testVector();
 	//testAllocators();

@@ -109,6 +109,8 @@ namespace Invision
 
 		std::string ToString(std::string FormatProvider);
 		std::string ToString(std::string FormatProvider, UTC utc);
+
+		static double GetTime();
 	private:
 
 
