@@ -109,6 +109,7 @@ namespace Invision
 	{
 	public:
 		 INVISION_API IGraphicsEngine(EngineType::Type type, std::string const& name, std::string const& version);
+		 INVISION_API IGraphicsEngine(EngineType::Type type, std::string const& name, std::string const& version, std::ofstream* ofstr);
 
 		 INVISION_API virtual void Init() = 0;
 		 INVISION_API virtual void Init(unsigned int index) = 0;

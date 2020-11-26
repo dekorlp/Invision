@@ -12,14 +12,15 @@ class MainWindow2 : public QMainWindow, public Ui::MainWindow
 
 public:
 
-	MainWindow2(QMainWindow *parent = 0)
+	MainWindow2(std::ofstream* ofstr, QMainWindow *parent = 0)
 	{
-		setupUi(this);
+		setupUi(this, ofstr);
 		rtbOutput->setText("Hallo Welt");
 
 
 		QObject::connect(btnStartStop, SIGNAL(clicked()), this, SLOT(startStopEvent()));
 		QObject::connect(btnChangeText, SIGNAL(clicked()), this, SLOT(textChangeEvent()));
+
 	}
 
 

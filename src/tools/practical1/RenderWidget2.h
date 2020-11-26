@@ -207,8 +207,8 @@ private:
 
 		uniformBuffer->CreateUniformBinding(0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject2), 0).CreateUniformBuffer();
 
-		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/examples/triangle/Shader/DrawUniformBuffer/vert.spv"));
-		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/examples/triangle/Shader/DrawUniformBuffer/frag.spv"));
+		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/practical1/Shader/DrawUniformBuffer/vert.spv"));
+		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/practical1/Shader/DrawUniformBuffer/frag.spv"));
 		pipeline->AddUniformBuffer(uniformBuffer);
 		pipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
 		pipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);

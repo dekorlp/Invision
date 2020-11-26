@@ -12,9 +12,9 @@ class MainWindow2 : public QMainWindow, public Ui::MainWindow
 
 public:
 
-	MainWindow2(QMainWindow *parent = 0)
+	MainWindow2(std::ofstream* ofstr, QMainWindow *parent = 0)
 	{
-		setupUi(this);
+		setupUi(this, ofstr);
 		rtbOutput->setText("Hallo Welt");
 
 

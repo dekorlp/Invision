@@ -3,14 +3,15 @@
 
 #include "InCommon.h"
 
+
 int main(int argc, char *argv[]) {
-	
+
 	QApplication app(argc, argv);
 	Invision::Log log;
 	log.Open(std::string(INVISION_BASE_DIR).append("/logs/logQTDemo.txt"));
 	Invision::Log::SetLogger(&log);
 
-	MainWindow2 window;
+	MainWindow2 window(log.GetOutputStream());
 
 	try
 	{
@@ -48,6 +49,4 @@ int main(int argc, char *argv[]) {
 
 	return app.exec();
 }
-
-
 

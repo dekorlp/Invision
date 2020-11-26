@@ -12,4 +12,11 @@ namespace Invision
 		return std::shared_ptr<IGraphicsEngine>();
 	}
 
+	std::shared_ptr<IGraphicsEngine> create_engine(EngineType::Type type, std::ofstream* ofstr)
+	{
+		if (type == EngineType::Vulkan) return std::make_shared<Invision::VulkanEngine>(ofstr);
+		//else if (type == EngineType::Vulkan) return std::make_shared<VulkanEngine>();
+		return std::shared_ptr<IGraphicsEngine>();
+	}
+
 }

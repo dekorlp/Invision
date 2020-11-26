@@ -17,13 +17,14 @@ namespace Invision
 {
 	namespace VulkanDebug
 	{
+		static std::ofstream* g_ofstr = nullptr;
+
 		static void debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
 			VkDebugUtilsMessageTypeFlagsEXT messageType,
-			const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData)
+			const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)
 		{
-			std::stringstream ss;
-			ss << "validation layer: " << pCallbackData->pMessage;
-			INVISION_LOG_RAWTEXT(ss.str());
+			if (g_ofstr == nullptr) g_ofstr = static_cast<std::ofstream*>(pUserData);
+			*g_ofstr << "validation layer: " << pCallbackData->pMessage << std::endl;
 		}
 	}
 
@@ -38,6 +39,7 @@ namespace Invision
 
 	public:
 		INVISION_API VulkanEngine();
+		INVISION_API VulkanEngine(std::ofstream* ofstr);
 
 		INVISION_API void Init();
 		INVISION_API void Init(unsigned int index);

@@ -24,9 +24,20 @@ namespace Invision
 		std::vector<const char*> requiredExtensions = { "VK_KHR_surface", "VK_KHR_win32_surface" };
 
 		vulkInstance = vulkanInstance.Init("Hello World", "Invision", VK_MAKE_VERSION(1, 0, 0), VK_MAKE_VERSION(1, 0, 0), requiredExtensions);
-		vulkanInstance.SetDebugMessanger(VulkanDebug::debugCallback);
+		//vulkanInstance.SetDebugMessanger(nullptr, VulkanDebug::debugCallback);
 		
 		
+	}
+
+	VulkanEngine::VulkanEngine(std::ofstream* ofstr) :
+		IGraphicsEngine(EngineType::Vulkan, "Vulkan", "1.2.137")
+	{
+		std::vector<const char*> requiredExtensions = { "VK_KHR_surface", "VK_KHR_win32_surface" };
+
+		vulkInstance = vulkanInstance.Init("Hello World", "Invision", VK_MAKE_VERSION(1, 0, 0), VK_MAKE_VERSION(1, 0, 0), requiredExtensions, true);
+		vulkanInstance.SetDebugMessanger(ofstr, VulkanDebug::debugCallback);
+
+
 	}
 
 	void VulkanEngine::Init()

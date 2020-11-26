@@ -55,11 +55,16 @@ public:
 
 	std::shared_ptr <Invision::IGraphicsEngine> graphicsEngine;
 
-	void setupUi(QMainWindow *MainWindow)
+	void setupUi(QMainWindow *MainWindow, std::ofstream *ofstr)
 	{
 		// initialization Code
 		std::vector<const char*> requiredExtensions = { "VK_KHR_surface", "VK_KHR_win32_surface" };
+
+#ifdef NDEBUG
 		graphicsEngine = Invision::create_engine(Invision::EngineType::Vulkan);
+#else
+		graphicsEngine = Invision::create_engine(Invision::EngineType::Vulkan, ofstr);
+#endif
 		graphicsEngine->Init();
 
 

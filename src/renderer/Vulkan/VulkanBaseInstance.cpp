@@ -10,7 +10,7 @@ namespace Invision
 	namespace {
 		static void(*invisionDebugFunc)(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
 			VkDebugUtilsMessageTypeFlagsEXT messageType,
-			const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData);
+			const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData);
 	}
 	
 	VKAPI_ATTR VkBool32 VKAPI_CALL VulkanBaseInstance::debugCallback(
@@ -20,7 +20,7 @@ namespace Invision
 		void* pUserData) {
 		if (invisionDebugFunc != nullptr)
 		{
-			invisionDebugFunc(messageSeverity, messageType, pCallbackData);
+			invisionDebugFunc(messageSeverity, messageType, pCallbackData, pUserData);
 		}
 		else
 		{
@@ -31,15 +31,13 @@ namespace Invision
 
 	VulkanBaseInstance::VulkanBaseInstance() : mInstance(nullptr)
 	{
-#ifdef NDEBUG
-		mEnableValidationLayers = false;
-#else
-		mEnableValidationLayers = true;
-#endif
+
 	}
 
-	SVulkanBase VulkanBaseInstance::Init(const char* appName, const char* engineName, const uint32_t appVersion, const uint32_t engineVersion, const std::vector<const char*> &extensions)
+	SVulkanBase VulkanBaseInstance::Init(const char* appName, const char* engineName, const uint32_t appVersion, const uint32_t engineVersion, const std::vector<const char*> &extensions, bool debug)
 	{
+		mEnableValidationLayers = debug;
+
 		CreateInstance(appName, engineName, appVersion, engineVersion, extensions);
 		SVulkanBase vulkStruct;
 		vulkStruct.enableValidationLayers = mEnableValidationLayers;
@@ -48,9 +46,9 @@ namespace Invision
 		return vulkStruct;
 	}
 
-	void VulkanBaseInstance::SetDebugMessanger(void(*debugFunc)(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+	void VulkanBaseInstance::SetDebugMessanger(std::ofstream* ofstr, void(*debugFunc)(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
 		VkDebugUtilsMessageTypeFlagsEXT messageType,
-		const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData))
+		const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData))
 	{
 		if (!mEnableValidationLayers) return;
 
@@ -60,7 +58,8 @@ namespace Invision
 		}
 
 		VkDebugUtilsMessengerCreateInfoEXT createInfo;
-		populateDebugMessengerCreateInfo(createInfo);
+		populateDebugMessengerCreateInfo(createInfo, ofstr);
+		mOfstr = ofstr;
 
 		if (CreateDebugUtilsMessengerEXT(mInstance, &createInfo, nullptr, &mDebugMessanger) != VK_SUCCESS) {
 			throw InvisionBaseRendererException("failed to set up debug messenger!");
@@ -68,12 +67,13 @@ namespace Invision
 
 	}
 
-	void VulkanBaseInstance::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo) {
+	void VulkanBaseInstance::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo, std::ofstream* ofstr) {
 		createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
 		createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
 		createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
 		createInfo.pfnUserCallback = debugCallback;
+		createInfo.pUserData = ofstr;
 	}
 
 	void VulkanBaseInstance::Destroy()
@@ -148,7 +148,7 @@ namespace Invision
 			instanceCreateInfo.enabledLayerCount = static_cast<uint32_t>(mValidationLayers.size());
 			instanceCreateInfo.ppEnabledLayerNames = mValidationLayers.data();
 			
-			populateDebugMessengerCreateInfo(debugCreateInfo);
+			populateDebugMessengerCreateInfo(debugCreateInfo, mOfstr);
 			instanceCreateInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debugCreateInfo;
 		}
 		else

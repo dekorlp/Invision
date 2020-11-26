@@ -10,6 +10,13 @@ namespace Invision
 	{
 	}
 
+	IGraphicsEngine::IGraphicsEngine(EngineType::Type type, std::string const& name, std::string const& version, std::ofstream* ofstr) :
+		Type_(type),
+		Name_(name),
+		Version_(version)
+	{
+	}
+
 	EngineType::Type IGraphicsEngine::type() const
 	{
 		return Type_;

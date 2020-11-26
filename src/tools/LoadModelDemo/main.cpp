@@ -10,8 +10,8 @@ int main(int argc, char *argv[]) {
 	Invision::Log log;
 	log.Open(std::string(INVISION_BASE_DIR).append("/logs/logQTDemo.txt"));
 	Invision::Log::SetLogger(&log);
-
-	MainWindow2 window;
+	
+	MainWindow2 window(log.GetOutputStream());
 	
 	try
 	{
