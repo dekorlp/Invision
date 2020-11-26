@@ -38,13 +38,8 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 
 void RenderWidget::UpdateUniformBuffer(float width, float height)
 {
-	static auto startTime = std::chrono::high_resolution_clock::now();
-
-	auto currentTime = std::chrono::high_resolution_clock::now();
-	float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
-
 	UniformBufferObject ubo = {};
-	ubo.model = Invision::Matrix(1.0f) * Invision::Matrix::RotateZ(time * 90.0);
+	ubo.model = Invision::Matrix(1.0f) * Invision::Matrix::RotateZ(angle);
 	ubo.view = Invision::Matrix::CameraVK(Invision::Vector3(2.0f, 2.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 0.0f, 1.0f));
 	ubo.proj = Invision::Matrix::PerspectiveVK(45.0, width / height, 0.1f, 10.0f);
 	uniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0);

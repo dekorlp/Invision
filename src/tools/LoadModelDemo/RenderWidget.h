@@ -6,7 +6,7 @@
 #include "QResizeEvent"
 
 // minimize FPS
-#define FIXED_FPS 60
+#define FIXED_FPS 30
 
 // Vulkan and Engine Header
 
@@ -141,26 +141,29 @@ private:
 		if (mIsInit == false)
 			return;
 
-		// limit framerate
 		mTimer.stop();
-		if (mTimer.getElapsedMilliseconds() < 1000 / FIXED_FPS)
+		accumulatedTime += mTimer.getElapsedMilliseconds();
+		while (accumulatedTime >=  dt)
 		{
-			long long delta_ms = (1000 / FIXED_FPS - mTimer.getElapsedMilliseconds());
-			std::this_thread::sleep_for(std::chrono::milliseconds(delta_ms));
+			DoUpdate(dt);
+			accumulatedTime -=  dt;
 		}
-		mTimer.start();
 
+		mTimer.start();
 		DoRender();
-		DoUpdate();
+		
 	}
 
-	void DoUpdate()
+	void DoUpdate(double dt)
 	{
-		UpdateUniformBuffer(this->size().width(), this->size().height());
+		angle += 0.05f * dt ;
 	}
 
 	void DoRender()
 	{
+	
+
+
 		// my render code
 		bool recreateSwapchainIsNecessary = false;
 		recreateSwapchainIsNecessary = renderer->PrepareFrame();
@@ -169,6 +172,9 @@ private:
 
 		if (mContinousRender == true)
 			Render();
+			UpdateUniformBuffer(this->size().width(), this->size().height());
+
+		
 	}
 
 	void Init()
@@ -253,6 +259,12 @@ private:
 	std::vector<uint32_t> indices;
 	// timer for frequency adjusting
 	Invision::StopWatch mTimer;
+	const double dt = 1000 / FIXED_FPS;
+	double accumulatedTime = 0.0;
+
+	float angle = 0;
+
+
 };
 
 #endif RENDER_WIDGET_H

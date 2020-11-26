@@ -4,7 +4,7 @@
 namespace Invision {
 	StopWatch::StopWatch()
 	{
-
+		mMeasuresStartTime = 0;
 	}
 
 	void StopWatch::start()
