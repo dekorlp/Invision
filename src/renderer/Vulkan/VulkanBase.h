@@ -36,7 +36,7 @@ namespace Invision
 
 		SVulkanContext() : 
 			surface(VK_NULL_HANDLE),
-			presentQueue(VK_NULL_HANDLE), swapChain(VK_NULL_HANDLE)
+			presentQueue(VK_NULL_HANDLE), swapChain(VK_NULL_HANDLE), mImageIndex(0)
 		{
 
 		}

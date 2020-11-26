@@ -125,7 +125,7 @@ public:
 			{
 			case QEvent::UpdateRequest:
 				mUpdatePending = false;
-				DoRender();
+				Run();
 				return true;
 			default:
 				return QWidget::event(event);
@@ -133,13 +133,13 @@ public:
 		}
 
 private:
-	void DoRender()
+
+	void Run()
 	{
 		if (isVisible() == false)
 			return;
 		if (mIsInit == false)
 			return;
-
 
 		// limit framerate
 		mTimer.stop();
@@ -150,18 +150,22 @@ private:
 		}
 		mTimer.start();
 
+		DoRender();
+		DoUpdate();
+	}
+
+	void DoUpdate()
+	{
+		UpdateUniformBuffer(this->size().width(), this->size().height());
+	}
+
+	void DoRender()
+	{
 		// my render code
 		bool recreateSwapchainIsNecessary = false;
-
 		recreateSwapchainIsNecessary = renderer->PrepareFrame();
-
-		UpdateUniformBuffer(this->size().width(), this->size().height());
-
 		recreateSwapchainIsNecessary = renderer->SubmitFrame(commandBuffer);
-
-
 		if (recreateSwapchainIsNecessary) RecreateSwapChain(this->size().width(), this->size().height());
-
 
 		if (mContinousRender == true)
 			Render();
