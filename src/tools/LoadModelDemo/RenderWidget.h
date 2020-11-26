@@ -6,7 +6,8 @@
 #include "QResizeEvent"
 
 // minimize FPS
-#define FIXED_FPS 30
+#define FIXED_FPS 60
+#define LIMIT_FPS
 
 // Vulkan and Engine Header
 
@@ -149,20 +150,25 @@ private:
 			accumulatedTime -=  dt;
 		}
 
+
 		mTimer.start();
-		DoRender();
+
+#ifdef LIMIT_FPS
+		// limit to FIXED_FPS
+		long long delta_ms = (1000 / FIXED_FPS - accumulatedTime);
+		std::this_thread::sleep_for(std::chrono::milliseconds(delta_ms));
+#endif 
+
+		DoRender(accumulatedTime / dt);
 		
 	}
-
 	void DoUpdate(double dt)
 	{
 		angle += 0.05f * dt ;
 	}
 
-	void DoRender()
+	void DoRender(double dt)
 	{
-	
-
 
 		// my render code
 		bool recreateSwapchainIsNecessary = false;
@@ -172,9 +178,7 @@ private:
 
 		if (mContinousRender == true)
 			Render();
-			UpdateUniformBuffer(this->size().width(), this->size().height());
-
-		
+		UpdateUniformBuffer(this->size().width(), this->size().height());	
 	}
 
 	void Init()
