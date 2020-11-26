@@ -26,9 +26,9 @@ To compile tests, (boost unit test libs are needed):
 1. Go in libs/win32/boost
 1. start: bootstrap.bat
 1. choose correct Option for your Visual Studio Version
-    1. start: b2.exe toolset=msvc-14.0 => for Microsoft Visual Studio 2015
-    1. start: b2.exe toolset=msvc-14.1 => for Microsoft Visual Studio 2017
-    1. start: b2.exe toolset=msvc-14.2 => for Microsoft Visual Studio 2019
+    1. start: b2.exe toolset=msvc-14.0 --with-test => for Microsoft Visual Studio 2015
+    1. start: b2.exe toolset=msvc-14.1 --with-test => for Microsoft Visual Studio 2017
+    1. start: b2.exe toolset=msvc-14.2 --with-test => for Microsoft Visual Studio 2019
 
 
 To compile WxWidget GUI (deprecated, will be removed, soon):
