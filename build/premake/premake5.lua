@@ -373,6 +373,8 @@ project "Invision"
 		srcroot .. "math/**.cpp",
 		srcroot .. "renderer/**.h",
 		srcroot .. "renderer/**.cpp",
+		srcroot .. "input/**.h",
+		srcroot .. "input/**.cpp",
 		srcroot .. "InCommon.h",
 		srcroot .. "InMath.h",
 		srcroot .. "Invision.h"
@@ -391,7 +393,7 @@ project "Invision"
 		}
 	filter {}
 	
-	AddBoostLibrary(libpath)
+	--AddBoostLibrary(libpath)
 	AddVulkanLibrary(libpath)
 	
 	filter "configurations:Debug"

@@ -1,6 +1,8 @@
 ﻿#include "InCommon.h"
 #include "InMath.h"
 
+#include "input/WindowsKeyboard.h"
+#include "input/IKeyboard.h"
 
 //#include <iostream>
 //#include <string>
@@ -436,6 +438,16 @@ void testCast()
 	int test = 0;
 }*/
 
+void testKeyboardHandling()
+{
+	std::shared_ptr<Invision::IKeyboard> winKeyboard = std::make_shared<Invision::WindowsKeyboard>();
+
+	while (true)
+	{
+		winKeyboard->GetStateOfKey(7);
+	}
+}
+
 int main()
 {
 	//CPUID cpuid(0x80000004);
@@ -447,12 +459,8 @@ int main()
 
 	//cout << "CPU vendor = " << vendor << endl;
 
-	while (true)
-	{
-		std::cout << "Zeit in Sekunden" << Invision::DateTime::GetTime() << std::endl;
-	}
 
-	testVector();
+	//testVector();
 	//testAllocators();
 	//testLog();
 
@@ -464,8 +472,9 @@ int main()
 	//testPoolAllocator();
 	//testPoolAllocatorStruct();
 	//testVector();
-	testMatrix();
+	//testMatrix();
 	//testCast();
+	testKeyboardHandling();
 	
 	return 0;
 }
