@@ -26,7 +26,3 @@ Invision = {
      a. start: b2.exe toolset=msvc-14.0 --with-test => for Microsoft Visual Studio 2015
      b. start: b2.exe toolset=msvc-14.1 --with-test => for Microsoft Visual Studio 2017
      c. start: b2.exe toolset=msvc-14.2 --with-test => for Microsoft Visual Studio 2019
-
- To compile WxWidget GUI:
-  1. Open /lib/wxWidgets/build/msw/wx_vc12.sln
-  2. Compile solution for both release and debug

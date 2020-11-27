@@ -31,8 +31,3 @@ To compile tests, (boost unit test libs are needed):
     1. start: b2.exe toolset=msvc-14.2 --with-test => for Microsoft Visual Studio 2019
 
 
-To compile WxWidget GUI (deprecated, will be removed, soon):
-1. Open /lib/wxWidgets/build/msw/wx_vc12.sln
-1. Compile solution for both release and debug
-
-
