@@ -12,11 +12,12 @@ namespace Invision
 	public:
 		INVISION_API WindowsKeyboard();
 
-		INVISION_API short int GetStateOfKey(int nVirtKey) override;
+		INVISION_API bool GetStateOfKey(Invision::Key key, Invision::KeyState keystate) override;
 
 		INVISION_API ~WindowsKeyboard();
 	private:
-
+		INVISION_API SHORT TranslateKey(Invision::Key k);
+		INVISION_API unsigned int TranslateKeyState(Invision::KeyState ks);
 	};
 #endif
 }
