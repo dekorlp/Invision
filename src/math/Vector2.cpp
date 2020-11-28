@@ -102,6 +102,18 @@ namespace Invision {
 		return x;
 	}
 
+	void Vector2::SetY(float val)
+	{
+		this->y = val;
+	}
+
+
+	void Vector2::SetX(float val)
+	{
+		this->x = val;
+	}
+
+
 	std::size_t Vector2::GetHash() const
 	{
 		std::size_t h1 = std::hash<float>()(this->getX());

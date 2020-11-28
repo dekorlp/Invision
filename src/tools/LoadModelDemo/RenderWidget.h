@@ -168,19 +168,19 @@ private:
 	{	
 		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_A, Invision::INVISION_KEY_PRESSED))
 		{
-			pos.x += 0.005f * dt;
+			pos.SetX( pos.getX() + 0.005f * dt);
 		}
 		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_D, Invision::INVISION_KEY_PRESSED))
 		{
-			pos.x -= 0.005f * dt;
+			pos.SetX(pos.getX() - 0.005f * dt);
 		}
 		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_W, Invision::INVISION_KEY_PRESSED))
 		{
-			pos.y -= 0.005f * dt;
+			pos.SetY(pos.getY() - 0.005f * dt);
 		}
 		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_S, Invision::INVISION_KEY_PRESSED))
 		{
-			pos.y += 0.005f * dt;
+			pos.SetY(pos.getY() + 0.005f * dt);
 		}
 		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_ADD, Invision::INVISION_KEY_PRESSED))
 		{

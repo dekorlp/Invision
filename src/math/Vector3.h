@@ -25,9 +25,8 @@ namespace Invision
 	private:
 		
 		__m128 vec;
-	public:
-
 		float x, y, z;
+	public:
 
 		/**
 		 * \brief Initialize a three dimensional Vector
@@ -165,6 +164,36 @@ namespace Invision
 		 * \return float
 		 */
 		 INVISION_API float getB() const;
+
+		 /**
+		 * \brief set Z coordinate
+		 */
+		 INVISION_API void SetZ(float val);
+
+		 /**
+		 * \brief set Y coordinate
+		 */
+		 INVISION_API void SetY(float val);
+
+		 /**
+		 * \brief set X coordinate
+		 */
+		 INVISION_API void SetX(float val);
+
+		 /**
+		 * \brief set Z coordinate
+		 */
+		 INVISION_API void SetR(float val);
+
+		 /**
+		 * \brief set Y coordinate
+		 */
+		 INVISION_API void SetG(float val);
+
+		 /**
+		 * \brief set X coordinate
+		 */
+		 INVISION_API void SetB(float val);
 
 		/**
 		 * \brief normalizes a vector

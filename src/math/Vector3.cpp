@@ -148,6 +148,38 @@ namespace Invision {
 		return x;
 	}
 
+	void Vector3::SetZ(float val)
+	{
+		this->z = val;
+	}
+
+
+	void Vector3::SetY(float val)
+	{
+		this->y = val;
+	}
+
+
+	void Vector3::SetX(float val)
+	{
+		this->x = val;
+	}
+
+	void Vector3::SetR(float val)
+	{
+		this->x = val;
+	}
+
+	void Vector3::SetG(float val)
+	{
+		this->y = val;
+	}
+
+	void Vector3::SetB(float val)
+	{
+		this->z = val;
+	}
+
 
 	Vector3 Vector3::Normalize(const Vector3& v)
 	{

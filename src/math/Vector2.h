@@ -121,6 +121,17 @@ namespace Invision
 		INVISION_API float getX() const;
 
 		/**
+		* \brief set Y coordinate
+		*/
+		INVISION_API void SetY(float val);
+
+		/**
+		* \brief set X coordinate
+		*/
+		INVISION_API void SetX(float val);
+
+
+		/**
 	   * \brief calculates a hash
 		* \return a unsigned long hash value
 	   */
