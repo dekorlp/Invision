@@ -14,6 +14,8 @@
 #include "InCommon.h"
 #include "renderer/GraphicsFactory.h"
 #include "common/StopWatch.h"
+#include "input/IKeyboard.h"
+#include "input/WindowsKeyboard.h"
 
 #include "math\Vector2.h"
 #include "math\Vector3.h"
@@ -163,7 +165,31 @@ private:
 		
 	}
 	void DoUpdate(double dt)
-	{
+	{	
+		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_A, Invision::INVISION_KEY_PRESSED))
+		{
+			pos.x += 0.005f * dt;
+		}
+		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_D, Invision::INVISION_KEY_PRESSED))
+		{
+			pos.x -= 0.005f * dt;
+		}
+		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_W, Invision::INVISION_KEY_PRESSED))
+		{
+			pos.y -= 0.005f * dt;
+		}
+		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_S, Invision::INVISION_KEY_PRESSED))
+		{
+			pos.y += 0.005f * dt;
+		}
+		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_ADD, Invision::INVISION_KEY_PRESSED))
+		{
+			scale += 0.005f * dt;
+		}
+		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_SUBTRACT, Invision::INVISION_KEY_PRESSED))
+		{
+			scale -= 0.005f * dt;
+		}
 		angle += 0.05f * dt ;
 	}
 
@@ -189,7 +215,8 @@ private:
 		
 		int width, height, channels;
 
-		
+		pos = Invision::Vector3(0.0f, 0.0f, 0.0f);
+		keyboard = std::make_shared<Invision::WindowsKeyboard>();
 
 		Invision::CanvasDimensions dim = { HWND(nativeWindowHandler), this->size().width(), this->size().height() };
 		//graphicsEngine = std::make_shared<Invision::VulkanEngine>(dim);
@@ -258,6 +285,8 @@ private:
 	std::shared_ptr <Invision::ICommandBuffer> commandBuffer;
 	std::shared_ptr <Invision::IRenderer> renderer;
 	std::shared_ptr <Invision::ITexture> texture;
+
+	std::shared_ptr<Invision::IKeyboard> keyboard;
 	
 	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;
@@ -267,6 +296,8 @@ private:
 	double accumulatedTime = 0.0;
 
 	float angle = 0;
+	Invision::Vector3 pos;
+	float scale = 1;
 
 
 };

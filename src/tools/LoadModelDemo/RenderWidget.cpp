@@ -39,9 +39,9 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 void RenderWidget::UpdateUniformBuffer(float width, float height)
 {
 	UniformBufferObject ubo = {};
-	ubo.model = Invision::Matrix(1.0f) * Invision::Matrix::RotateZ(angle);
-	ubo.view = Invision::Matrix::CameraVK(Invision::Vector3(2.0f, 2.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 0.0f, 1.0f));
-	ubo.proj = Invision::Matrix::PerspectiveVK(45.0, width / height, 0.1f, 10.0f);
+	ubo.model = Invision::Matrix(1.0f) * Invision::Matrix::RotateZ(angle) *  Invision::Matrix::TranslateVK(pos) *  Invision::Matrix::Scale(scale);
+	ubo.view = Invision::Matrix(1.0f) * Invision::Matrix::CameraVK(Invision::Vector3(2.0f, 2.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 0.0f, 1.0f));
+	ubo.proj = Invision::Matrix(1.0f) * Invision::Matrix::PerspectiveVK(45.0, width / height, 0.1f, 10.0f);
 	uniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0);
 }
 

@@ -23,9 +23,11 @@ namespace Invision
 	_MM_ALIGN16 class Vector3
 	{
 	private:
-		float x, y, z;
+		
 		__m128 vec;
 	public:
+
+		float x, y, z;
 
 		/**
 		 * \brief Initialize a three dimensional Vector

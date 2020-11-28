@@ -248,12 +248,20 @@ namespace Invision {
 				v.getX(), v.getY(), v.getZ(), 1 };
 	}
 
-	Matrix Matrix::TranslateVK(const Vector3& v)
+	Matrix Matrix::TranslateGL(const Vector3& v)
 	{
 		return{ 1, 0, 0, v.getX(),
-			0, 1, 0, v.getY(),
-			0, 0, 1, v.getZ(),
-			0, 0, 0, 1 };
+			   0, 1, 0, v.getY(),
+			   0, 0, 1, v.getZ(),
+			   0, 0, 0, 1 };
+	}
+
+	Matrix Matrix::TranslateVK(const Vector3& v)
+	{
+		return{ 1, 0, 0, 0,
+				0, 1, 0, 0,
+				0, 0, 1, 0,
+				v.getX(), v.getY(), v.getZ(), 1 };
 	}
 
 	Matrix Matrix::RotateX(const float f)
@@ -323,6 +331,14 @@ namespace Invision {
 		return{ v.getX(), 0, 0, 0,
 				 0, v.getY(), 0, 0,
 				 0, 0, v.getZ(), 0,
+				 0, 0, 0, 1 };
+	}
+
+	Matrix Matrix::Scale(const float v)
+	{
+		return{ v, 0, 0, 0,
+				 0, v, 0, 0,
+				 0, 0, v, 0,
 				 0, 0, 0, 1 };
 	}
 

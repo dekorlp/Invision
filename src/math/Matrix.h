@@ -144,8 +144,8 @@ namespace Invision
 		* \return A Matrix object
 		*/
 		INVISION_API static Matrix TranslateDX(const Vector3& v);
+		INVISION_API static Matrix TranslateGL(const Vector3& v);
 		INVISION_API static Matrix TranslateVK(const Vector3& v);
-
 
 		/**
 		 * \brief rotate around X axis
@@ -199,6 +199,13 @@ namespace Invision
 		 * \return a scaled matrix
 		 */
 		INVISION_API static Matrix Scale(const Vector3 &v);
+
+		/**
+		 * \brief use scale transformation
+		 * \param v float object
+		 * \return a scaled matrix
+		 */
+		INVISION_API static Matrix Scale(const float v);
 
 
 		/**
