@@ -208,10 +208,16 @@ namespace Invision
 		pipelineInfo.pViewportState = &mViewportState;
 		pipelineInfo.pRasterizationState = &mRasterizer;
 		pipelineInfo.pMultisampleState = &mMultisampling;
-		pipelineInfo.pDepthStencilState = nullptr; // unused
 		pipelineInfo.pColorBlendState = &mColorBlendAttachment;
 		pipelineInfo.pDynamicState = &mDynamicState;
-		pipelineInfo.pDepthStencilState = &mDepthStencil;
+		if (useDepthRessource)
+		{
+			pipelineInfo.pDepthStencilState = &mDepthStencil;
+		}
+		else
+		{
+			pipelineInfo.pDepthStencilState = nullptr;
+		}
 		pipelineInfo.layout = mPipelineLayout;
 		pipelineInfo.renderPass = renderPass.GetRenderPass();
 		pipelineInfo.subpass = subpassIndex;
