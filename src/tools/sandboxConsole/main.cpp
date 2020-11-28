@@ -444,7 +444,9 @@ void testKeyboardHandling()
 
 	while (true)
 	{
-		if (winKeyboard->GetStateOfKey(Invision::Key::INVISION_KEY_F, Invision::INVISION_KEY_PRESSED))
+		if (winKeyboard->GetStateOfKey(Invision::INVISION_KEY_CTRL, Invision::INVISION_KEY_PRESSED) && 
+			winKeyboard->GetStateOfKey(Invision::INVISION_KEY_SHIFT, Invision::INVISION_KEY_PRESSED)&& 
+			winKeyboard->GetStateOfKey(Invision::INVISION_KEY_F, Invision::INVISION_KEY_PRESSED))
 		{
 			std::cout << "F Key is pressed!" << std::endl;
 		}
