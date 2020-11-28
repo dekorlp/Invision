@@ -11,7 +11,7 @@ namespace Invision
 #ifdef WIN_32
 	
 	WindowsKeyboard::WindowsKeyboard() :
-		IKeyboard(InputLib::INPUTLIB_WINDOWS)
+		IKeyboard(InputLib::INVISON_KEYBOARD_WINDOWS)
 	{
 		
 

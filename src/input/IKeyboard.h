@@ -7,9 +7,9 @@ namespace Invision
 	{
 		enum Type
 		{
-			INPUTLIB_WINDOWS,
-			INPUTLIB_LINUX,
-			INPUTLIB_UNKNOWN
+			INVISON_KEYBOARD_WINDOWS,
+			INVISON_KEYBOARD_LINUX,
+			INVISON_KEYBOARD_UNKNOWN
 		};
 	}
 
@@ -127,7 +127,7 @@ namespace Invision
 
 		INVISION_API ~IKeyboard();
 	protected:
-		InputLib::Type Type_ = InputLib::INPUTLIB_UNKNOWN;
+		InputLib::Type Type_ = InputLib::INVISON_KEYBOARD_UNKNOWN;
 
 	};
 }
