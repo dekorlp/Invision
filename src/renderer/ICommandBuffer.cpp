@@ -11,5 +11,8 @@ namespace Invision
 	{
 	}
 
-
+	ICommandBuffer::ICommandBuffer(IGraphicsInstance* instance, unsigned int countOfBuffers) :
+		instance(instance)
+	{
+	}
 }

@@ -23,6 +23,7 @@ namespace Invision
 	public:
 		INVISION_API ICommandBuffer() = delete;
 		INVISION_API ICommandBuffer(IGraphicsInstance* instance, std::shared_ptr<Invision::IFramebuffer> framebuffer);
+		INVISION_API ICommandBuffer(IGraphicsInstance* instance, unsigned int countOfBuffers);
 
 		INVISION_API virtual ICommandBuffer& BeginCommandBuffer() = 0;
 		INVISION_API virtual ICommandBuffer& SetViewport(Invision::Viewport viewport) = 0;

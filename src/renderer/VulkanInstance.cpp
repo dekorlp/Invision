@@ -91,6 +91,11 @@ namespace Invision
 		return std::make_shared<VulkanCommandBuffer>(this, framebuffer);
 	}
 
+	std::shared_ptr<ICommandBuffer> VulkanInstance::CreateCommandBuffer(unsigned int countOfBuffers)
+	{
+		return std::make_shared<VulkanCommandBuffer>(this, countOfBuffers);
+	}
+
 	std::shared_ptr<ITexture> VulkanInstance::CreateTexture()
 	{
 		return std::make_shared<VulkanTexture>(this);

@@ -15,6 +15,7 @@ namespace Invision
 
 		INVISION_API VulkanCommandBuffer() = delete;
 		INVISION_API VulkanCommandBuffer(VulkanInstance* instance, std::shared_ptr<Invision::IFramebuffer> framebuffer);
+		INVISION_API VulkanCommandBuffer(VulkanInstance* instance, unsigned int countOfBuffers);
 
 		ICommandBuffer& BeginCommandBuffer() override;
 		ICommandBuffer& SetViewport(Invision::Viewport viewport) override;

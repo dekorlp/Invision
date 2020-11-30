@@ -29,6 +29,7 @@ namespace Invision
 		INVISION_API std::shared_ptr<IPipeline> CreatePipeline() override;
 		INVISION_API std::shared_ptr<IFramebuffer> CreateFramebuffer(std::shared_ptr<Invision::IRenderPass> renderPass) override;
 		INVISION_API std::shared_ptr<ICommandBuffer> CreateCommandBuffer(std::shared_ptr<Invision::IFramebuffer> framebuffer) override;
+		INVISION_API std::shared_ptr<ICommandBuffer> CreateCommandBuffer(unsigned int countOfBuffers) override;
 		INVISION_API std::shared_ptr<ITexture> CreateTexture() override;
 
 		INVISION_API VulkanEngine* GetCoreEngine();
