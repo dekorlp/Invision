@@ -398,16 +398,10 @@ namespace Invision {
 
 		float f = 1.0f / tan(degrees);
 
-		float range = nearf - farf;
-		const float scale = 1.0f / tanf(anglef * 0.5f);
-		float nf = 1.0f / (nearf - farf);
-
-
-
 		return{ f / aspect, 0.0f, 0.0f, 0.0f,
 			0.0f , -f, 0.0f, 0.0f,
-			0.0f, 0.0f, farf / (nearf - farf) , -1,
-			0.0f, 0.0f, (nearf * farf) / (nearf - farf), 0.0f
+			0.0f, 0.0f, - farf / (farf -nearf) , -1,
+			0.0f, 0.0f, - (farf * nearf) / (farf - nearf), 0.0f
 		};
 	}
 
