@@ -402,6 +402,8 @@ namespace Invision {
 		const float scale = 1.0f / tanf(anglef * 0.5f);
 		float nf = 1.0f / (nearf - farf);
 
+
+
 		return{ f / aspect, 0.0f, 0.0f, 0.0f,
 			0.0f , -f, 0.0f, 0.0f,
 			0.0f, 0.0f, farf / (nearf - farf) , -1,
