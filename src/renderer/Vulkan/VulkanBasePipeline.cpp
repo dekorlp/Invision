@@ -49,11 +49,14 @@ namespace Invision
 
 	void INVISION_API VulkanBasePipeline::AddVertexBuffer(VulkanBaseVertexBuffer& vertexBuffer)
 	{
-		mVertexInputBindingDescriptions.push_back(vertexBuffer.GetBindingDescription());
+		mVertexInputAttributeDescriptions = vertexBuffer.GetAttributeDescriptions();
+		mVertexInputBindingDescriptions = vertexBuffer.GetBindingDescriptions();
+
+		/*mVertexInputBindingDescriptions.push_back(vertexBuffer.GetBindingDescription());
 		for (unsigned int i = 0; i < vertexBuffer.GetAttributeDescriptions().size(); i++)
 		{
 			mVertexInputAttributeDescriptions.push_back(vertexBuffer.GetAttributeDescriptions()[i]);
-		}
+		}*/
 	}
 
 	void VulkanBasePipeline::UpdateVertexInputConfiguration()

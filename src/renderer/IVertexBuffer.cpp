@@ -10,4 +10,16 @@ namespace Invision
 		instance(instance)
 	{
 	}
+
+	IBindingDescription::IBindingDescription(IGraphicsInstance* instance) : instance(instance)
+	{
+
+	}
+
+	
+	IAttributeDescription::IAttributeDescription(IGraphicsInstance* instance) :
+		instance(instance)
+	{
+	}
+	
 }

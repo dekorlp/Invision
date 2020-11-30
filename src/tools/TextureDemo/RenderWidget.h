@@ -198,9 +198,8 @@ private:
 		texture->CreateTextureSampler();
 
 
-		vertexBuffer->CreateVertexBuffer(sizeof(vertices[0]) * vertices.size(), vertices.data(), 0);
-		vertexBuffer->CreateVertexInput(0, sizeof(Vertex), Invision::VERTEX_INPUT_RATE_VERTEX)
-			.CreateAttribute(0, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, position))
+		vertexBuffer->CreateVertexBinding(sizeof(vertices[0]) * vertices.size(), vertices.data(), 0, sizeof(Vertex), Invision::VERTEX_INPUT_RATE_VERTEX)
+			->CreateAttribute(0, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, position))
 			.CreateAttribute(1, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color))
 			.CreateAttribute(2, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, texCoord));
 

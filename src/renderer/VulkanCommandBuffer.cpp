@@ -86,7 +86,7 @@ namespace Invision
 		std::vector<VulkanBaseVertexBuffer> baseVertexBuffer;
 		for (int i = 0; i < vertexBuffer.size(); i++)
 		{
-			baseVertexBuffer.push_back(dynamic_pointer_cast<VulkanVertexBuffer>(vertexBuffer[i])->GetBuffer());
+			baseVertexBuffer.push_back(dynamic_pointer_cast<VulkanVertexBuffer>(vertexBuffer[i])->GetBaseVertexBuffer());
 		}
 
 		commandBuffer.BindVertexBuffer(baseVertexBuffer, firstBinding, bindingCount);

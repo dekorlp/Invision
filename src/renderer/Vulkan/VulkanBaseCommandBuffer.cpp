@@ -156,13 +156,14 @@ namespace Invision
 		std::vector<VkBuffer> bindingBuffers;
 		std::vector<VkDeviceSize> bindingOffsets;
 
-		// fill binding Buffers
-		for (int i = 0; i < vertexBuffers.size(); i++)
-		{
-			bindingBuffers.push_back(vertexBuffers[i].GetBuffer());
-			bindingOffsets.push_back(vertexBuffers[i].GetOffset());
-		}
+		//VulkanBaseBuffer
 
+		// fill binding Buffers
+		for (int i = 0; i < vertexBuffers[0].GetBuffers().size(); i++)
+		{
+			bindingBuffers.push_back(vertexBuffers[0].GetBuffers()[i].GetBuffer());
+			bindingOffsets.push_back(vertexBuffers[0].GetOffset(i));
+		}
 
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
