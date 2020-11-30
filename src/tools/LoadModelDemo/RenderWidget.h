@@ -190,7 +190,24 @@ private:
 		{
 			scale -= 0.005f * dt;
 		}
-		angle += 0.05f * dt ;
+		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_LEFT_ARROW, Invision::INVISION_KEY_PRESSED))
+		{
+			phi -= 0.001f * dt;
+		}
+		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_RIGHT_ARROW, Invision::INVISION_KEY_PRESSED))
+		{
+			phi += 0.001f * dt;
+		}
+		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_UP_ARROW, Invision::INVISION_KEY_PRESSED))
+		{
+			theta -= 0.001f *dt;
+		}
+		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_DOWN_ARROW, Invision::INVISION_KEY_PRESSED))
+		{
+			theta += 0.001f *dt;
+		}
+
+		angle += 0.05f * dt;
 	}
 
 	void DoRender(double dt)
@@ -293,8 +310,14 @@ private:
 	const double dt = 1000 / FIXED_FPS;
 	double accumulatedTime = 0.0;
 
+
 	float angle = 0;
 	Invision::Vector3 pos;
+
+	float theta = 0.0f;
+	float phi = 0.0f;
+	float radius = 3.0f;
+
 	float scale = 1;
 
 
