@@ -17,7 +17,8 @@ namespace Invision
 		INVISION_API virtual ~IRenderer() = default;
 
 		INVISION_API virtual bool PrepareFrame() = 0;
-		INVISION_API virtual bool SubmitFrame(std::shared_ptr<ICommandBuffer> commandBuffer) = 0;
+		INVISION_API virtual void Draw(std::shared_ptr<ICommandBuffer> commandBuffer) = 0;
+		INVISION_API virtual bool SubmitFrame() = 0;
 	};
 }
 

@@ -38,17 +38,21 @@ namespace Invision
 		return recreateSwapchainIsNecessary;
 	}
 
-	bool VulkanRenderer::SubmitFrame(std::shared_ptr<ICommandBuffer> commandBuffer)
+	void VulkanRenderer::Draw(std::shared_ptr<ICommandBuffer> commandBuffer)
+	{
+		renderer.DrawFrame(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer());
+	}
+
+	bool VulkanRenderer::SubmitFrame()
 	{
 		bool recreateSwapchainIsNecessary = false;
 
-		//VkResult drawFrameResult = commandBuffer.DrawFrame(vulkInstance);
-		VkResult drawFrameResult = renderer.DrawFrame(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer());
-		if (drawFrameResult == VK_ERROR_OUT_OF_DATE_KHR || drawFrameResult == VK_SUBOPTIMAL_KHR) {
+		VkResult submitFrameResult = renderer.QueuePresent(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext());
+		if (submitFrameResult == VK_ERROR_OUT_OF_DATE_KHR || submitFrameResult == VK_SUBOPTIMAL_KHR) {
 			recreateSwapchainIsNecessary = true;
 			//RecreateSwapChain(m_Size.GetWidth(), m_Size.GetHeight());
 		}
-		else if (drawFrameResult != VK_SUCCESS) {
+		else if (submitFrameResult != VK_SUCCESS) {
 			throw Invision::VulkanBaseException("failed to present swap chain image!");
 		}
 

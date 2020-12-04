@@ -216,7 +216,11 @@ private:
 		// my render code
 		bool recreateSwapchainIsNecessary = false;
 		recreateSwapchainIsNecessary = renderer->PrepareFrame();
-		recreateSwapchainIsNecessary = renderer->SubmitFrame(commandBuffer);
+
+		renderer->Draw(commandBuffer);
+
+		recreateSwapchainIsNecessary = renderer->SubmitFrame();
+
 		if (recreateSwapchainIsNecessary) RecreateSwapChain(this->size().width(), this->size().height());
 
 		if (mContinousRender == true)

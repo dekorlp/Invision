@@ -13,19 +13,27 @@ namespace Invision
 	class  VulkanBaseRenderer
 	{
 	private:
-		std::vector<VkSemaphore> mImageAvailableSemaphore;
-		std::vector<VkSemaphore> mRenderFinishedSemaphore;
-		size_t mCurrentFrame = 0;
-		std::vector<VkFence> mInFlightFences;
-		std::vector<VkFence> mImagesInFlight;
-
-		PFN_vkQueuePresentKHR fpQueuePresentKHR;
 		
+		VkPipelineStageFlags waitStages = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
 
+		struct {
+			// Swap chain image presentation
+			VkSemaphore presentComplete;
+			// Command buffer submission and execution
+			VkSemaphore renderComplete;
+		} mSemaphores;
+
+		//std::vector<VkFence> mWaitFences;
+
+		VkFence renderFence = {};
+
+		VkSubmitInfo mSubmitInfo {};
+		
 	public:
 		void INVISION_API CreateSyncObjects(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext);
 		VkResult INVISION_API AquireNextImage(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext);
-		VkResult INVISION_API DrawFrame(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseCommandBuffer& commandBuffer);
+		void INVISION_API DrawFrame(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseCommandBuffer& commandBuffer);
+		VkResult INVISION_API QueuePresent(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext);
 
 		void INVISION_API DestroySemaphores(SVulkanBase &vulkanInstance);
 	};

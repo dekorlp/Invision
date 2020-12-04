@@ -18,7 +18,8 @@ namespace Invision
 		INVISION_API VulkanRenderer(VulkanInstance* instance);
 
 		INVISION_API bool PrepareFrame() override;
-		INVISION_API bool SubmitFrame(std::shared_ptr<ICommandBuffer> commandBuffer) override;
+		INVISION_API void Draw(std::shared_ptr<ICommandBuffer> commandBuffer) override;
+		INVISION_API bool SubmitFrame() override;
 
 		INVISION_API ~VulkanRenderer();
 

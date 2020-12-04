@@ -11,88 +11,82 @@
 
 namespace Invision
 {
-	const int MAX_FRAMES_IN_FLIGHT = 2;
-
 	void VulkanBaseRenderer::CreateSyncObjects(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext)
 	{
-		mImageAvailableSemaphore.resize(MAX_FRAMES_IN_FLIGHT);
-		mRenderFinishedSemaphore.resize(MAX_FRAMES_IN_FLIGHT);
-		mInFlightFences.resize(MAX_FRAMES_IN_FLIGHT);
-		mImagesInFlight.resize(vulkanContext.swapChainImages.size(), VK_NULL_HANDLE);
-
-		VkSemaphoreCreateInfo semaphoreInfo = {};
-		semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
-
+		// Fence Info Struct
 		VkFenceCreateInfo fenceInfo = {};
 		fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
 		fenceInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
 
-		for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
-			if (vkCreateSemaphore(vulkanInstance.logicalDevice, &semaphoreInfo, nullptr, &mImageAvailableSemaphore[i]) != VK_SUCCESS ||
-				vkCreateSemaphore(vulkanInstance.logicalDevice, &semaphoreInfo, nullptr, &mRenderFinishedSemaphore[i]) != VK_SUCCESS ||
-				vkCreateFence(vulkanInstance.logicalDevice, &fenceInfo, nullptr, &mInFlightFences[i]) != VK_SUCCESS) {
+		// Semaphore Info Struct
+		VkSemaphoreCreateInfo semaphoreInfo = {};
+		semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 
-				throw VulkanBaseException("failed to create synchronization objects for a frame!");
-			}
+		// Create Fence and Semaphores
+		if (vkCreateSemaphore(vulkanInstance.logicalDevice, &semaphoreInfo, nullptr, &mSemaphores.presentComplete) != VK_SUCCESS ||
+			vkCreateSemaphore(vulkanInstance.logicalDevice, &semaphoreInfo, nullptr, &mSemaphores.renderComplete) != VK_SUCCESS ||
+			vkCreateFence(vulkanInstance.logicalDevice, &fenceInfo, nullptr, &renderFence) != VK_SUCCESS) {
+
+			throw VulkanBaseException("failed to create synchronization objects for a frame!");
 		}
+
+		// Create SubmitInfo
+		mSubmitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+		mSubmitInfo.pWaitDstStageMask = &waitStages;
+		mSubmitInfo.waitSemaphoreCount = 1;
+		mSubmitInfo.pWaitSemaphores = &mSemaphores.presentComplete;
+		mSubmitInfo.signalSemaphoreCount = 1;
+		mSubmitInfo.pSignalSemaphores = &mSemaphores.renderComplete;
 	}
 
 	VkResult VulkanBaseRenderer::AquireNextImage(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext)
 	{
-		vkWaitForFences(vulkanInstance.logicalDevice, 1, &mInFlightFences[mCurrentFrame], VK_TRUE, UINT64_MAX);
 
-		vulkanContext.mImageIndex = 0;
-		VkResult result = vkAcquireNextImageKHR(vulkanInstance.logicalDevice, vulkanContext.swapChain, UINT64_MAX, mImageAvailableSemaphore[mCurrentFrame], VK_NULL_HANDLE, &vulkanContext.mImageIndex);
-		return result;
-	}
+		VkResult fenceRes;
+		do {
+			fenceRes = vkWaitForFences(vulkanInstance.logicalDevice, 1, &renderFence, VK_TRUE, 100000000);
+		} while (fenceRes == VK_TIMEOUT);
 
-	VkResult VulkanBaseRenderer::DrawFrame(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseCommandBuffer& commandBuffer)
-	{
-		
-		if (mImagesInFlight[vulkanContext.mImageIndex] != VK_NULL_HANDLE)
-		{
-			vkWaitForFences(vulkanInstance.logicalDevice, 1, &mImagesInFlight[vulkanContext.mImageIndex], VK_TRUE, UINT64_MAX);
-		}
-
-		mImagesInFlight[vulkanContext.mImageIndex] = mInFlightFences[mCurrentFrame];
-
-		VkSubmitInfo submitInfo = {};
-		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-		VkSemaphore waitSemaphores[] = { mImageAvailableSemaphore[mCurrentFrame] };
-		VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
-		submitInfo.waitSemaphoreCount = 1;
-		submitInfo.pWaitSemaphores = waitSemaphores;
-		submitInfo.pWaitDstStageMask = waitStages;
-		submitInfo.commandBufferCount = 1;
-		submitInfo.pCommandBuffers = commandBuffer.GetCommandBuffer(vulkanContext.mImageIndex);
-
-
-		VkSemaphore signalSemaphores[] = { mRenderFinishedSemaphore[mCurrentFrame] };
-		submitInfo.signalSemaphoreCount = 1;
-		submitInfo.pSignalSemaphores = signalSemaphores;
-
-		vkResetFences(vulkanInstance.logicalDevice, 1, &mInFlightFences[mCurrentFrame]);
-
-		if (vkQueueSubmit(vulkanInstance.graphicsQueue, 1, &submitInfo, mInFlightFences[mCurrentFrame]) != VK_SUCCESS) {
+		if (fenceRes) {
 			throw VulkanBaseException("failed to submit draw command buffer!");
 		}
 
+		vkResetFences(vulkanInstance.logicalDevice, 1, &renderFence);
+
+		VkResult result = vkAcquireNextImageKHR(vulkanInstance.logicalDevice, vulkanContext.swapChain, UINT64_MAX, mSemaphores.presentComplete, VK_NULL_HANDLE, &vulkanContext.mImageIndex);
+
+		return result;
+	}
+
+	void VulkanBaseRenderer::DrawFrame(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseCommandBuffer& commandBuffer)
+	{
+		mSubmitInfo.commandBufferCount = 1;
+		mSubmitInfo.pCommandBuffers = commandBuffer.GetCommandBuffer(vulkanContext.mImageIndex);
+
+		if (vkQueueSubmit(vulkanInstance.graphicsQueue, 1, &mSubmitInfo, renderFence) != VK_SUCCESS) {
+			throw VulkanBaseException("failed to submit draw command buffer!");
+		}
+	}
+
+	VkResult VulkanBaseRenderer::QueuePresent(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext)
+	{
+		VkSwapchainKHR swapChains[] = { vulkanContext.swapChain };
+
 		VkPresentInfoKHR presentInfo = {};
 		presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
-
-		presentInfo.waitSemaphoreCount = 1;
-		presentInfo.pWaitSemaphores = signalSemaphores;
-
-		VkSwapchainKHR swapChains[] = { vulkanContext.swapChain };
+		presentInfo.pNext = NULL;
 		presentInfo.swapchainCount = 1;
 		presentInfo.pSwapchains = swapChains;
 		presentInfo.pImageIndices = &vulkanContext.mImageIndex;
 		presentInfo.pResults = nullptr; // Optional
 
-
+		// Check if a wait semaphore has been specified to wait for before presenting the image
+		if (mSemaphores.renderComplete != VK_NULL_HANDLE)
+		{
+			presentInfo.pWaitSemaphores = &mSemaphores.renderComplete;
+			presentInfo.waitSemaphoreCount = 1;
+		}
 		VkResult result = vkQueuePresentKHR(vulkanContext.presentQueue, &presentInfo);
-
-		mCurrentFrame = (mCurrentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 
 		vkQueueWaitIdle(vulkanContext.presentQueue);
 
@@ -101,15 +95,8 @@ namespace Invision
 
 	void VulkanBaseRenderer::DestroySemaphores(SVulkanBase &vulkanInstance)
 	{
-		for (int i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
-		{
-			vkDestroySemaphore(vulkanInstance.logicalDevice, mImageAvailableSemaphore[i], nullptr);
-			vkDestroySemaphore(vulkanInstance.logicalDevice, mRenderFinishedSemaphore[i], nullptr);
-			vkDestroyFence(vulkanInstance.logicalDevice, mInFlightFences[i], nullptr);
-		}
-		mImageAvailableSemaphore.clear();
-		mRenderFinishedSemaphore.clear();
-		mInFlightFences.clear();
-		mImagesInFlight.clear();
+		vkDestroySemaphore(vulkanInstance.logicalDevice, mSemaphores.presentComplete, nullptr);
+		vkDestroySemaphore(vulkanInstance.logicalDevice, mSemaphores.renderComplete, nullptr);
+		vkDestroyFence(vulkanInstance.logicalDevice, renderFence, nullptr);
 	}
 }
