@@ -209,7 +209,7 @@ namespace Invision
 			{
 				for (unsigned int j = 0; j < mCommandBuffers.size(); j++)
 				{
-					vkCmdBindDescriptorSets(mCommandBuffers[j], bindPoint, pipeline.GetPipelineLayout(), 0, 1, &uniformBuffer.GetDescriptorSetsByIndex(i)[j], 0, nullptr);
+					vkCmdBindDescriptorSets(mCommandBuffers[j], bindPoint, pipeline.GetPipelineLayout(), 0, 1, &uniformBuffer.GetDescriptorSetsByIndex(i)[0], 0, nullptr);
 				}
 			}
 		}

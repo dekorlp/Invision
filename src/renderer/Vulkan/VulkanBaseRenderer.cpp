@@ -53,7 +53,7 @@ namespace Invision
 
 		vkResetFences(vulkanInstance.logicalDevice, 1, &renderFence);
 
-		VkResult result = vkAcquireNextImageKHR(vulkanInstance.logicalDevice, vulkanContext.swapChain, UINT64_MAX, mSemaphores.presentComplete, VK_NULL_HANDLE, &vulkanContext.mImageIndex);
+		VkResult result = vkAcquireNextImageKHR(vulkanInstance.logicalDevice, vulkanContext.swapChain, UINT64_MAX, mSemaphores.presentComplete, VK_NULL_HANDLE, &mImageIndex);
 
 		return result;
 	}
@@ -62,7 +62,7 @@ namespace Invision
 	{
 		mSubmitInfo.commandBufferCount = 1;
 		
-		mSubmitInfo.pCommandBuffers = commandBuffer.GetCommandBuffer(vulkanContext.mImageIndex);
+		mSubmitInfo.pCommandBuffers = commandBuffer.GetCommandBuffer(mImageIndex);
 
 		if (vkQueueSubmit(vulkanInstance.graphicsQueue, 1, &mSubmitInfo, renderFence) != VK_SUCCESS) {
 			throw VulkanBaseException("failed to submit draw command buffer!");
@@ -89,7 +89,7 @@ namespace Invision
 		presentInfo.pNext = NULL;
 		presentInfo.swapchainCount = 1;
 		presentInfo.pSwapchains = swapChains;
-		presentInfo.pImageIndices = &vulkanContext.mImageIndex;
+		presentInfo.pImageIndices = &mImageIndex;
 		presentInfo.pResults = nullptr; // Optional
 
 		// Check if a wait semaphore has been specified to wait for before presenting the image

@@ -23,6 +23,8 @@ namespace Invision
 			VkSemaphore renderComplete;
 		} mSemaphores;
 
+		uint32_t mImageIndex;
+
 		//std::vector<VkFence> mWaitFences;
 
 		VkFence renderFence = {};

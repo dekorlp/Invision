@@ -178,12 +178,10 @@ namespace Invision
 				VkDeviceSize offset = bindings.at(j).GetOffset();
 				std::vector<VulkanBaseBuffer> uniformBuffers;
 
-				for (unsigned int i = 0; i < vulkanContext.swapChainImages.size(); i++)
-				{
-					VulkanBaseBuffer buffer;
-					buffer.CreateBuffer(vulkanInstance, bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, VK_SHARING_MODE_EXCLUSIVE, offset);
-					uniformBuffers.push_back(buffer);
-				}
+				VulkanBaseBuffer buffer;
+				buffer.CreateBuffer(vulkanInstance, bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, VK_SHARING_MODE_EXCLUSIVE, offset);
+				uniformBuffers.push_back(buffer);
+
 				bindings.at(j).SetBuffers(uniformBuffers);
 			}
 		}
@@ -224,9 +222,9 @@ namespace Invision
 		}
 		
 		void* data;
-		vkMapMemory(vulkanInstance.logicalDevice, bindings.at(index).GetBuffers()[vulkanContext.mImageIndex].GetDeviceMemory(), 0, size, 0, &data);
+		vkMapMemory(vulkanInstance.logicalDevice, bindings.at(index).GetBuffers()[0].GetDeviceMemory(), 0, size, 0, &data);
 		memcpy(data, source, size);
-		vkUnmapMemory(vulkanInstance.logicalDevice, bindings.at(index).GetBuffers()[vulkanContext.mImageIndex].GetDeviceMemory());
+		vkUnmapMemory(vulkanInstance.logicalDevice, bindings.at(index).GetBuffers()[0].GetDeviceMemory());
 	}
 
 	std::vector<VkDescriptorSet> VulkanBaseUniformBuffer::GetDescriptorSets(uint32_t binding)
@@ -256,17 +254,17 @@ namespace Invision
 
 	void VulkanBaseUniformBuffer::CreateDescriptorSets(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext)
 	{
-		std::vector<VkDescriptorSetLayout> layouts(vulkanContext.swapChainImages.size(), mDescriptorSetLayout);
+		std::vector<VkDescriptorSetLayout> layouts(1, mDescriptorSetLayout);
 
 		VkDescriptorSetAllocateInfo allocInfo = {};
 		allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
 		allocInfo.descriptorPool = mDescriptorPool.GetDescriptorPool();
-		allocInfo.descriptorSetCount = static_cast<uint32_t>(vulkanContext.swapChainImages.size());
+		allocInfo.descriptorSetCount = static_cast<uint32_t>(layouts.size());
 		allocInfo.pSetLayouts = layouts.data();
 
 		
 			std::vector<VkDescriptorSet> descriptorSets;
-			descriptorSets.resize(vulkanContext.swapChainImages.size());
+			descriptorSets.resize(1);
 
 			if (vkAllocateDescriptorSets(vulkanInstance.logicalDevice, &allocInfo, descriptorSets.data()) != VK_SUCCESS) {
 				throw std::runtime_error("failed to allocate descriptor sets!");
@@ -280,18 +278,18 @@ namespace Invision
 				
 
 
-				for (size_t i = 0; i < vulkanContext.swapChainImages.size(); i++) {
+				//for (size_t i = 0; i < vulkanContext.swapChainImages.size(); i++) {
 
 					if (bindings[j].GetDescriptorType() == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER)
 					{
 						VkDescriptorBufferInfo bufferInfo = {};
-						bufferInfo.buffer = bindings[j].GetBuffers()[i].GetBuffer();
+						bufferInfo.buffer = bindings[j].GetBuffers()[0].GetBuffer();
 						bufferInfo.offset = bindings[j].GetOffset();
 						bufferInfo.range = bindings[j].GetBufferSize();
 
 						VkWriteDescriptorSet descriptorWrite = {};
 						descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-						descriptorWrite.dstSet = descriptorSets[i];
+						descriptorWrite.dstSet = descriptorSets[0];
 						descriptorWrite.dstBinding = bindings[j].GetBinding();
 						descriptorWrite.dstArrayElement = 0;
 
@@ -315,7 +313,7 @@ namespace Invision
 
 						VkWriteDescriptorSet descriptorWrite = {};
 						descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-						descriptorWrite.dstSet = descriptorSets[i];
+						descriptorWrite.dstSet = descriptorSets[0];
 						descriptorWrite.dstBinding = bindings[j].GetBinding();
 						descriptorWrite.dstArrayElement = 0;
 
@@ -332,7 +330,7 @@ namespace Invision
 				
 
 					//vkUpdateDescriptorSets(vulkanInstance.logicalDevice, 1, &descriptorWrite, 0, nullptr);
-				}
+				//}
 
 		}
 		vkUpdateDescriptorSets(vulkanInstance.logicalDevice, static_cast<uint32_t>(descriptorWrites.size()), descriptorWrites.data(), 0, nullptr);
