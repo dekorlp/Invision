@@ -33,6 +33,7 @@ namespace Invision
 		void INVISION_API CreateSyncObjects(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext);
 		VkResult INVISION_API AquireNextImage(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext);
 		void INVISION_API DrawFrame(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseCommandBuffer& commandBuffer);
+		void INVISION_API DrawFrameOffscreen(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseCommandBuffer& commandBuffer);
 		VkResult INVISION_API QueuePresent(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext);
 
 		void INVISION_API DestroySemaphores(SVulkanBase &vulkanInstance);

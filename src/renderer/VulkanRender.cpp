@@ -43,6 +43,11 @@ namespace Invision
 		renderer.DrawFrame(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer());
 	}
 
+	void VulkanRenderer::DrawOffscreen(std::shared_ptr<ICommandBuffer> commandBuffer)
+	{
+		renderer.DrawFrameOffscreen(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer());
+	}
+
 	bool VulkanRenderer::SubmitFrame()
 	{
 		bool recreateSwapchainIsNecessary = false;

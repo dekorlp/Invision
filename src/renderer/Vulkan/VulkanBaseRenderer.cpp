@@ -61,7 +61,19 @@ namespace Invision
 	void VulkanBaseRenderer::DrawFrame(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseCommandBuffer& commandBuffer)
 	{
 		mSubmitInfo.commandBufferCount = 1;
+		
 		mSubmitInfo.pCommandBuffers = commandBuffer.GetCommandBuffer(vulkanContext.mImageIndex);
+
+		if (vkQueueSubmit(vulkanInstance.graphicsQueue, 1, &mSubmitInfo, renderFence) != VK_SUCCESS) {
+			throw VulkanBaseException("failed to submit draw command buffer!");
+		}
+	}
+
+	void VulkanBaseRenderer::DrawFrameOffscreen(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseCommandBuffer& commandBuffer)
+	{
+		mSubmitInfo.commandBufferCount = 1;
+
+		mSubmitInfo.pCommandBuffers = commandBuffer.GetCommandBuffer(0); // Offscreen has only one commandBuffer
 
 		if (vkQueueSubmit(vulkanInstance.graphicsQueue, 1, &mSubmitInfo, renderFence) != VK_SUCCESS) {
 			throw VulkanBaseException("failed to submit draw command buffer!");
