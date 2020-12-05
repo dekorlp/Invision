@@ -3,9 +3,12 @@
 
 #include "InCommon.h"
 
-
 int main(int argc, char *argv[]) {
 	
+
+	//Invision::Vector4 test(2, 3, 4, 5);
+	//Invision::Matrix mat(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+	//Invision::Vector4 ergebnis =  mat * test;
 	QApplication app(argc, argv);
 	Invision::Log log;
 	log.Open(std::string(INVISION_BASE_DIR).append("/logs/logQTDemo.txt"));

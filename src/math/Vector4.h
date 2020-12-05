@@ -12,8 +12,10 @@
 #define VECTOR4_H
 
 #include "base/SIMD.h"
-#include "Vector2.h"
-#include "Vector3.h"
+
+class Vector2;
+class Vector3;
+class Matrix;
 
 namespace Invision
 {

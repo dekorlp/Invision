@@ -264,6 +264,35 @@ namespace Invision {
 		return res;
 	}
 
+	const Vector4 operator*(const Vector4& lhs, const Matrix& rhs)
+	{
+		__m128 row1 = _mm_set_ps(rhs.a11, rhs.a21, rhs.a31, rhs.a41);
+		__m128 row2 = _mm_set_ps(rhs.a12, rhs.a22, rhs.a32, rhs.a42);
+		__m128 row3 = _mm_set_ps(rhs.a13, rhs.a23, rhs.a33, rhs.a43);
+		__m128 row4 = _mm_set_ps(rhs.a14, rhs.a24, rhs.a34, rhs.a44);
+
+		__m128 vector = _mm_set_ps(lhs.getX(), lhs.getY(), lhs.getZ(), lhs.getW());
+
+		__m128 mulrow1 = _mm_mul_ps(row1, vector);
+		__m128 mulrow2 = _mm_mul_ps(row2, vector);
+		__m128 mulrow3 = _mm_mul_ps(row3, vector);
+		__m128 mulrow4 = _mm_mul_ps(row4, vector);
+
+		__m128 sum_01 = _mm_hadd_ps(mulrow1, mulrow1);
+		sum_01 = _mm_hadd_ps(sum_01, sum_01);
+		__m128 sum_02 = _mm_hadd_ps(mulrow2, mulrow2);
+		sum_02 = _mm_hadd_ps(sum_02, sum_02);
+		__m128 sum_03 = _mm_hadd_ps(mulrow3, mulrow3);
+		sum_03 = _mm_hadd_ps(sum_03, sum_03);
+		__m128 sum_04 = _mm_hadd_ps(mulrow4, mulrow4);
+		sum_04 = _mm_hadd_ps(sum_04, sum_04);
+
+		Vector4 res(sum_01.m128_f32[0], sum_02.m128_f32[0], sum_03.m128_f32[0], sum_04.m128_f32[0]);
+
+		return res;
+	}
+
+
 	float Matrix::getDeterminant() const
 	{
 		return{ a11 * (a22 * a33 - a23 * a32) -

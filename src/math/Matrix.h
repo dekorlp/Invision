@@ -132,6 +132,8 @@ namespace Invision
 		*/
 		INVISION_API Vector4 operator*(Vector4 const& rhs) const;
 
+		INVISION_API friend const Vector4 operator*(const Vector4& lhs, const Matrix& rhs);
+
 		/**
 		* \brief divides the Matrix with a scale value
 		* \param rhs a float value

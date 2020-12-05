@@ -1,5 +1,9 @@
 #include "precompiled.h"
 
+#include "Vector2.h"
+#include "Vector3.h"
+#include "Matrix.h"
+
 #include "Vector4.h"
 
 namespace Invision {
@@ -85,6 +89,7 @@ namespace Invision {
 		w = vec.m128_f32[3];
 		return *this;
 	}
+
 
 	Vector4 Vector4::operator/(const float & scalar)
 	{
