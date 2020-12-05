@@ -163,8 +163,9 @@ private:
 		recreateSwapchainIsNecessary = renderer->PrepareFrame();
 
 		UpdateUniformBuffer(this->size().width(), this->size().height());
+		renderer->Draw(commandBuffer);
 
-		recreateSwapchainIsNecessary = renderer->SubmitFrame(commandBuffer);
+		recreateSwapchainIsNecessary = renderer->SubmitFrame();
 
 
 		if (recreateSwapchainIsNecessary) RecreateSwapChain(this->size().width(), this->size().height());
@@ -220,7 +221,7 @@ private:
 		pipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
 		pipeline->AddVertexBuffer(vertexBuffer);
 		pipeline->CreatePipeline(renderPass);
-		framebuffer = graphicsInstance->CreateFramebuffer(renderPass);
+		framebuffer = graphicsInstance->CreateFramebuffer(renderPass, graphicsInstance->GetSizeSwapchainImages());
 
 		BuildCommandBuffer(this->size().width(), this->size().height());
 		renderer = graphicsInstance->CreateRenderer();

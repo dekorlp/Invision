@@ -153,6 +153,7 @@ private:
 
 		bool recreateSwapchainIsNecessary = false;
 		recreateSwapchainIsNecessary = renderer->PrepareFrame();
+		UpdateUniformBuffer(this->size().width(), this->size().height());
 
 		renderer->Draw(commandBuffer);
 

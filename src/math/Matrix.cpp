@@ -290,17 +290,19 @@ namespace Invision {
 	Matrix Matrix::Translate(const Vector3& v)
 	{
 #ifdef ROWMAJOR
-		return{ 1, 0, 0, 0,
-				0, 1, 0, 0,
-				0, 0, 1, 0,
-				v.getX(), v.getY(), v.getZ(), 1
-	};
-#else
+		
+
 		return{ 1, 0, 0, v.getX(),
 			0, 1, 0, v.getY(),
 			0, 0, 1, v.getZ(),
 			0, 0, 0, 1
-	};
+		};
+#else
+		return{ 1, 0, 0, 0,
+				0, 1, 0, 0,
+				0, 0, 1, 0,
+				v.getX(), v.getY(), v.getZ(), 1
+		};
 #endif
 	}
 

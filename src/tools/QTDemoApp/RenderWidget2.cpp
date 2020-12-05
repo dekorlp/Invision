@@ -7,7 +7,7 @@ void RenderWidget2::RecreateSwapChain(const int width, const int height)
 
 	// setup framebuffer
 	framebuffer.reset();
-	framebuffer = graphicsInstance->CreateFramebuffer(renderPass);
+	framebuffer = graphicsInstance->CreateFramebuffer(renderPass, graphicsInstance->GetSizeSwapchainImages());
 
 	// setup commandBuffers
 	commandBuffer.reset();
@@ -41,7 +41,7 @@ void RenderWidget2::UpdateUniformBuffer(float width, float height)
 
 	UniformBufferObject2 ubo = {};
 	ubo.model = Invision::Matrix(1.0f) * Invision::Matrix::RotateZ(time * 90.0);
-	ubo.view = Invision::Matrix::CameraVK(Invision::Vector3(2.0f, 2.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 0.0f, 1.0f));
-	ubo.proj = Invision::Matrix::PerspectiveVK(45.0, width / height, 0.1f, 10.0f);
+	ubo.view = Invision::Matrix::Camera(Invision::Vector3(2.0f, 2.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 0.0f, 1.0f));
+	ubo.proj = Invision::Matrix::Perspective(45.0, width / height, 0.1f, 10.0f);
 	uniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0);
 }
