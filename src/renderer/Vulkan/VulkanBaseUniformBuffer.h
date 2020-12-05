@@ -17,7 +17,7 @@ namespace Invision
 			VkShaderStageFlags mStageFlags;
 			VkDeviceSize mBufferSize;
 			VkDeviceSize mOffset;
-			std::vector<VulkanBaseBuffer> mUniformBuffer;
+			VulkanBaseBuffer mUniformBuffer;
 			VkDescriptorImageInfo mImageInfo;
 
 		public:
@@ -38,8 +38,8 @@ namespace Invision
 			INVISION_API VkDeviceSize GetOffset();
 			INVISION_API void  SetSetIndex(uint32 setIndex);
 			INVISION_API VkDeviceSize GetSetIndex();
-			INVISION_API void SetBuffers(std::vector<VulkanBaseBuffer> uniformBuffer);
-			INVISION_API std::vector<VulkanBaseBuffer> GetBuffers();
+			INVISION_API void SetBaseBuffer(VulkanBaseBuffer uniformBuffer);
+			INVISION_API VulkanBaseBuffer GetBaseBuffer();
 			INVISION_API void ClearAndDestroyBuffers(const SVulkanBase &vulkanInstance);
 			INVISION_API VkDescriptorImageInfo GetImageInfo();
 	};

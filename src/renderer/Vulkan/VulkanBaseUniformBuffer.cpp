@@ -60,12 +60,12 @@ namespace Invision
 		return mOffset;
 	}
 
-	void VulkanBaseUniformBinding::SetBuffers(std::vector<VulkanBaseBuffer> uniformBuffer)
+	void VulkanBaseUniformBinding::SetBaseBuffer(VulkanBaseBuffer uniformBuffer)
 	{
 		this->mUniformBuffer = uniformBuffer;
 	}
 
-	std::vector<VulkanBaseBuffer> VulkanBaseUniformBinding::GetBuffers()
+	VulkanBaseBuffer VulkanBaseUniformBinding::GetBaseBuffer()
 	{
 		return mUniformBuffer;
 	}
@@ -77,11 +77,7 @@ namespace Invision
 
 	void VulkanBaseUniformBinding::ClearAndDestroyBuffers(const SVulkanBase &vulkanInstance)
 	{
-		for (unsigned int i = 0; i < mUniformBuffer.size(); i++)
-		{
-			mUniformBuffer[i].DestroyBuffer(vulkanInstance);
-		}
-		mUniformBuffer.clear();
+		mUniformBuffer.DestroyBuffer(vulkanInstance);
 	}
 
 	VulkanBaseUniformBuffer::VulkanBaseUniformBuffer()
@@ -176,13 +172,13 @@ namespace Invision
 
 				VkDeviceSize bufferSize = bindings.at(j).GetBufferSize();
 				VkDeviceSize offset = bindings.at(j).GetOffset();
-				std::vector<VulkanBaseBuffer> uniformBuffers;
+				
 
 				VulkanBaseBuffer buffer;
 				buffer.CreateBuffer(vulkanInstance, bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, VK_SHARING_MODE_EXCLUSIVE, offset);
-				uniformBuffers.push_back(buffer);
 
-				bindings.at(j).SetBuffers(uniformBuffers);
+
+				bindings.at(j).SetBaseBuffer(buffer);
 			}
 		}
 	}
@@ -199,7 +195,10 @@ namespace Invision
 		mDescriptorSetLayout = VK_NULL_HANDLE;
 		for (unsigned int i = 0; i < bindings.size(); i++)
 		{
-			bindings.at(i).ClearAndDestroyBuffers(vulkanInstance);
+			if (bindings[i].GetDescriptorType() == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER) // Only Uniform Buffer have an UniformBuffer Object!
+			{
+				bindings.at(i).ClearAndDestroyBuffers(vulkanInstance);
+			}
 		}
 	
 	}
@@ -222,9 +221,9 @@ namespace Invision
 		}
 		
 		void* data;
-		vkMapMemory(vulkanInstance.logicalDevice, bindings.at(index).GetBuffers()[0].GetDeviceMemory(), 0, size, 0, &data);
+		vkMapMemory(vulkanInstance.logicalDevice, bindings.at(index).GetBaseBuffer().GetDeviceMemory(), 0, size, 0, &data);
 		memcpy(data, source, size);
-		vkUnmapMemory(vulkanInstance.logicalDevice, bindings.at(index).GetBuffers()[0].GetDeviceMemory());
+		vkUnmapMemory(vulkanInstance.logicalDevice, bindings.at(index).GetBaseBuffer().GetDeviceMemory());
 	}
 
 	std::vector<VkDescriptorSet> VulkanBaseUniformBuffer::GetDescriptorSets()
@@ -264,7 +263,7 @@ namespace Invision
 				if (bindings[j].GetDescriptorType() == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER)
 				{
 					VkDescriptorBufferInfo bufferInfo = {};
-					bufferInfo.buffer = bindings[j].GetBuffers()[0].GetBuffer();
+					bufferInfo.buffer = bindings[j].GetBaseBuffer().GetBuffer();
 					bufferInfo.offset = bindings[j].GetOffset();
 					bufferInfo.range = bindings[j].GetBufferSize();
 
@@ -278,8 +277,8 @@ namespace Invision
 					descriptorWrite.descriptorCount = bindings[j].GetDescriptorCount();
 
 					descriptorWrite.pBufferInfo = &bufferInfo;
-					descriptorWrite.pImageInfo = nullptr; // Optional
-					descriptorWrite.pTexelBufferView = nullptr; // Optional
+					descriptorWrite.pImageInfo = VK_NULL_HANDLE; // Optional
+					descriptorWrite.pTexelBufferView = VK_NULL_HANDLE; // Optional
 					
 					descriptorWrites.push_back(descriptorWrite);
 				}
@@ -301,9 +300,9 @@ namespace Invision
 					descriptorWrite.descriptorType = bindings[j].GetDescriptorType();
 					descriptorWrite.descriptorCount = bindings[j].GetDescriptorCount();
 
-					descriptorWrite.pBufferInfo = nullptr;
+					descriptorWrite.pBufferInfo = VK_NULL_HANDLE;
 					descriptorWrite.pImageInfo = &imageDescriptorInfo; // Optional
-					descriptorWrite.pTexelBufferView = nullptr; // Optional
+					descriptorWrite.pTexelBufferView = VK_NULL_HANDLE; // Optional
 					
 					descriptorWrites.push_back(descriptorWrite);
 
