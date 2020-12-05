@@ -11,7 +11,7 @@ void RenderWidget::RecreateSwapChain(const int width, const int height)
 
 	// setup framebuffer
 	framebuffer.reset();
-	framebuffer = graphicsInstance->CreateFramebuffer(renderPass);
+	framebuffer = graphicsInstance->CreateFramebuffer(renderPass, graphicsInstance->GetSizeSwapchainImages());
 
 	// setup commandBuffers
 	commandBuffer.reset();

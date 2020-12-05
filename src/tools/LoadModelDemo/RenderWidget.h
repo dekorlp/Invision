@@ -277,7 +277,8 @@ private:
 		pipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
 		pipeline->AddVertexBuffer(vertexBuffer);
 		pipeline->CreatePipeline(renderPass);
-		framebuffer = graphicsInstance->CreateFramebuffer(renderPass);
+
+		framebuffer = graphicsInstance->CreateFramebuffer(renderPass, graphicsInstance->GetSizeSwapchainImages());
 
 		BuildCommandBuffer(this->size().width(), this->size().height());
 		renderer = graphicsInstance->CreateRenderer();

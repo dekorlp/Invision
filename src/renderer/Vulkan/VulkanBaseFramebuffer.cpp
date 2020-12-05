@@ -9,11 +9,11 @@
 
 namespace Invision
 {
-	void VulkanBaseFramebuffer::CreateFramebuffer(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseRenderPass &renderPass)
+	void VulkanBaseFramebuffer::CreateFramebuffer(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseRenderPass &renderPass, unsigned int countFrameBuffers)
 	{
-		mFramebuffer.resize(vulkanContext.swapChainImageViews.size());
+		mFramebuffer.resize(countFrameBuffers);
 
-		for (unsigned int i = 0; i < vulkanContext.swapChainImageViews.size(); i++)
+		for (unsigned int i = 0; i < countFrameBuffers; i++)
 		{
 			/*VkImageView attachments[] = {
 				vulkanContext.swapChainImageViews[i]
@@ -38,11 +38,11 @@ namespace Invision
 		}
 	}
 
-	void VulkanBaseFramebuffer::CreateFramebuffer(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseRenderPass &renderPass, VulkanBaseDepthRessources &depthRessources)
+	void VulkanBaseFramebuffer::CreateFramebuffer(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseRenderPass &renderPass, VulkanBaseDepthRessources &depthRessources, unsigned int countFrameBuffers)
 	{
-		mFramebuffer.resize(vulkanContext.swapChainImageViews.size());
+		mFramebuffer.resize(countFrameBuffers);
 
-		for (unsigned int i = 0; i < vulkanContext.swapChainImageViews.size(); i++)
+		for (unsigned int i = 0; i < countFrameBuffers; i++)
 		{
 			/*VkImageView attachments[] = {
 				vulkanContext.swapChainImageViews[i]

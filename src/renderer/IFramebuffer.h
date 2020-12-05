@@ -14,7 +14,7 @@ namespace Invision
 
 	public:
 		INVISION_API IFramebuffer() = delete;
-		INVISION_API IFramebuffer(IGraphicsInstance* instance, std::shared_ptr<IRenderPass> renderPass);
+		INVISION_API IFramebuffer(IGraphicsInstance* instance, std::shared_ptr<IRenderPass> renderPass, unsigned int countFrameBuffers = 1);
 		INVISION_API virtual ~IFramebuffer() = default;
 	};
 }

@@ -13,8 +13,8 @@ namespace Invision
 	private:
 		std::vector<VkFramebuffer> mFramebuffer;
 	public:
-		void INVISION_API CreateFramebuffer(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseRenderPass &renderPass);
-		void INVISION_API CreateFramebuffer(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseRenderPass &renderPass, VulkanBaseDepthRessources &depthRessources);
+		void INVISION_API CreateFramebuffer(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseRenderPass &renderPass, unsigned int countFrameBuffers);
+		void INVISION_API CreateFramebuffer(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseRenderPass &renderPass, VulkanBaseDepthRessources &depthRessources, unsigned int countFrameBuffers);
 		void INVISION_API DestroyFramebuffer(SVulkanBase &vulkanInstance);
 		INVISION_API std::vector<VkFramebuffer> GetFramebuffers();
 	};

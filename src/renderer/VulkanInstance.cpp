@@ -81,19 +81,14 @@ namespace Invision
 		return std::make_shared<VulkanPipeline>(this);
 	}
 
-	std::shared_ptr<IFramebuffer> VulkanInstance::CreateFramebuffer(std::shared_ptr<IRenderPass> renderPass)
+	std::shared_ptr<IFramebuffer> VulkanInstance::CreateFramebuffer(std::shared_ptr<IRenderPass> renderPass, unsigned int countFrameBuffers)
 	{
-		return std::make_shared<VulkanFramebuffer>(this, renderPass);
+		return std::make_shared<VulkanFramebuffer>(this, renderPass, countFrameBuffers);
 	}
 
 	std::shared_ptr<ICommandBuffer> VulkanInstance::CreateCommandBuffer(std::shared_ptr<Invision::IFramebuffer> framebuffer)
 	{
 		return std::make_shared<VulkanCommandBuffer>(this, framebuffer);
-	}
-
-	std::shared_ptr<ICommandBuffer> VulkanInstance::CreateCommandBuffer(unsigned int countOfBuffers)
-	{
-		return std::make_shared<VulkanCommandBuffer>(this, countOfBuffers);
 	}
 
 	std::shared_ptr<ITexture> VulkanInstance::CreateTexture()
@@ -109,6 +104,11 @@ namespace Invision
 	VulkanBaseDepthRessources VulkanInstance::GetDepthRessources()
 	{
 		return depthRessources;
+	}
+
+	unsigned int VulkanInstance::GetSizeSwapchainImages()
+	{
+		return static_cast<unsigned int>(vulkanContext.swapChainImages.size());
 	}
 
 	VulkanInstance::~VulkanInstance()

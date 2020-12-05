@@ -27,13 +27,13 @@ namespace Invision
 		INVISION_API std::shared_ptr<IUniformBuffer> CreateUniformBuffer() override;
 		INVISION_API std::shared_ptr<IIndexBuffer> CreateIndexBuffer() override;
 		INVISION_API std::shared_ptr<IPipeline> CreatePipeline() override;
-		INVISION_API std::shared_ptr<IFramebuffer> CreateFramebuffer(std::shared_ptr<Invision::IRenderPass> renderPass) override;
+		INVISION_API std::shared_ptr<IFramebuffer> CreateFramebuffer(std::shared_ptr<Invision::IRenderPass> renderPass, unsigned int countFrameBuffers) override;
 		INVISION_API std::shared_ptr<ICommandBuffer> CreateCommandBuffer(std::shared_ptr<Invision::IFramebuffer> framebuffer) override;
-		INVISION_API std::shared_ptr<ICommandBuffer> CreateCommandBuffer(unsigned int countOfBuffers) override;
 		INVISION_API std::shared_ptr<ITexture> CreateTexture() override;
 
 		INVISION_API VulkanEngine* GetCoreEngine();
 		INVISION_API VulkanBaseDepthRessources GetDepthRessources();
+		INVISION_API unsigned int GetSizeSwapchainImages();
 
 		INVISION_API ~VulkanInstance();
 

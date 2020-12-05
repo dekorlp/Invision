@@ -22,15 +22,6 @@ namespace Invision
 		commandBuffer.CreateCommandBuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetCoreEngine()->GetCommandPool(), (unsigned int)dynamic_pointer_cast<Invision::VulkanFramebuffer>(framebuffer)->GetFramebuffer().GetFramebuffers().size());
 	}
 
-	VulkanCommandBuffer::VulkanCommandBuffer(VulkanInstance* instance, unsigned int countOfBuffers) :
-		ICommandBuffer(instance, countOfBuffers)
-	{
-		vulkanInstance = instance;
-
-		commandBuffer.CreateCommandBuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetCoreEngine()->GetCommandPool(), countOfBuffers);
-	}
-
-
 	ICommandBuffer& VulkanCommandBuffer::BeginCommandBuffer()
 	{
 		commandBuffer.BeginCommandBuffer();
