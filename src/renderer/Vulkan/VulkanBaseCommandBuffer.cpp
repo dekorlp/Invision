@@ -205,12 +205,9 @@ namespace Invision
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
-			for (unsigned int i = 0; i < uniformBuffer.GetSizeOfBindings(); i++)
+			for (unsigned int j = 0; j < mCommandBuffers.size(); j++)
 			{
-				for (unsigned int j = 0; j < mCommandBuffers.size(); j++)
-				{
-					vkCmdBindDescriptorSets(mCommandBuffers[j], bindPoint, pipeline.GetPipelineLayout(), 0, 1, &uniformBuffer.GetDescriptorSetsByIndex(i)[0], 0, nullptr);
-				}
+				vkCmdBindDescriptorSets(mCommandBuffers[j], bindPoint, pipeline.GetPipelineLayout(), 0, static_cast<uint32>(uniformBuffer.GetDescriptorSets().size()), uniformBuffer.GetDescriptorSets().data(), 0, nullptr);
 			}
 		}
 		else

@@ -11,13 +11,13 @@ namespace Invision
 	{
 		private:
 			uint32_t mBinding;
+			uint32_t mSetIndex;
 			VkDescriptorType mDescriptorType;
 			uint32_t mDescriptorCount;
 			VkShaderStageFlags mStageFlags;
 			VkDeviceSize mBufferSize;
 			VkDeviceSize mOffset;
 			std::vector<VulkanBaseBuffer> mUniformBuffer;
-			std::vector<VkDescriptorSet> mDescriptorSets;
 			VkDescriptorImageInfo mImageInfo;
 
 		public:
@@ -36,11 +36,11 @@ namespace Invision
 			INVISION_API VkShaderStageFlags GetStageFlags();
 			INVISION_API VkDeviceSize GetBufferSize();
 			INVISION_API VkDeviceSize GetOffset();
+			INVISION_API void  SetSetIndex(uint32 setIndex);
+			INVISION_API VkDeviceSize GetSetIndex();
 			INVISION_API void SetBuffers(std::vector<VulkanBaseBuffer> uniformBuffer);
 			INVISION_API std::vector<VulkanBaseBuffer> GetBuffers();
 			INVISION_API void ClearAndDestroyBuffers(const SVulkanBase &vulkanInstance);
-			INVISION_API void SetDescriptorSets(std::vector<VkDescriptorSet> descriptorSets);
-			INVISION_API std::vector<VkDescriptorSet> GetDescriptorSets();
 			INVISION_API VkDescriptorImageInfo GetImageInfo();
 	};
 
@@ -49,8 +49,9 @@ namespace Invision
 	{
 	private:
 		std::vector<VulkanBaseUniformBinding> bindings;
-		VkDescriptorSetLayout mDescriptorSetLayout;
+		VkDescriptorSetLayout mDescriptorSetLayout; // there is actual one supportes by Invision
 		VulkanBaseDescriptorPool mDescriptorPool;
+		std::vector<VkDescriptorSet> mDescriptorSets;// there is actual one supportes by Invision
 
 		INVISION_API void CreateUniformSet(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext);
 		INVISION_API void CreateBuffers(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext);
@@ -77,8 +78,7 @@ namespace Invision
 		INVISION_API void DestroyUniformBuffer(const SVulkanBase &vulkanInstance);
 		INVISION_API VkDescriptorSetLayout GetDescriptorSetLayout();
 		INVISION_API void UpdateUniform(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, const void* source, size_t size, uint32_t binding);
-		INVISION_API std::vector<VkDescriptorSet> GetDescriptorSets(uint32_t binding);
-		INVISION_API std::vector<VkDescriptorSet> GetDescriptorSetsByIndex(uint32_t index);
+		INVISION_API std::vector<VkDescriptorSet> GetDescriptorSets();
 		INVISION_API size_t GetSizeOfBindings();
 	};
 }
