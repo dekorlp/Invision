@@ -10,6 +10,14 @@ namespace Invision {
 		this->vec = _mm_set_ps(0, z, y, x);
 	}
 
+	Vector3::Vector3(Vector2 vec, float z)
+	{
+		this->x = vec.getX();
+		this->y = vec.getY();
+		this->z = z;
+		this->vec = _mm_set_ps(0, z, y, x);
+	}
+
 	Vector3 Vector3::operator+ (const Vector3& rhs) const
 	{
 		const __m128 res = _mm_add_ps(vec, rhs.vec);

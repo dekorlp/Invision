@@ -10,9 +10,9 @@
 
 #ifndef MATRIX_H
 #define MATRIX_H
-
 #include "base/SIMD.h"
 #include "Vector3.h"
+#include "Vector4.h"
 namespace Invision
 {
 	/**
@@ -25,10 +25,17 @@ namespace Invision
 		{
 			struct
 			{
+#ifdef ROWMAJOR
 				float a11, a12, a13, a14,
 					a21, a22, a23, a24,
 					a31, a32, a33, a34,
 					a41, a42, a43, a44;
+#else
+				float a11, a21, a31, a41,
+					a12, a22, a32, a42,
+					a13, a23, a33, a43,
+					a14, a24, a34, a44;
+#endif
 			};
 			float a[16];
 		};
@@ -41,10 +48,7 @@ namespace Invision
 		INVISION_API Matrix(float val);
 		/**
 		 * \brief initialize a matrix
-		 * \param e an array with 16 float values in form of a float e11, float e12, float e13, float e14,
-																float e21, float e22, float e23, float e24,
-																float e31, float e32, float e33, float e34,
-																float e41, float e42, float e43, float e44 Matrix
+		 * \param e an array with 16 float values in form of a matrix
 		 */
 		INVISION_API Matrix(float *e);
 
@@ -52,10 +56,17 @@ namespace Invision
 		 * \brief initialize a matrix
 		 * \param e11 - e44 elements of the matrix
 		 */
+#ifdef ROWMAJOR
 		INVISION_API Matrix(float e11, float e12, float e13, float e14,
 			float e21, float e22, float e23, float e24,
 			float e31, float e32, float e33, float e34,
 			float e41, float e42, float e43, float e44);
+#else
+		INVISION_API Matrix(float e11, float e21, float e31, float e41,
+		float e12, float e22, float e32, float e42,
+		float e13, float e23, float e33, float e43,
+		float e14, float e24, float e34, float e44);
+#endif
 
 
 		/**
@@ -112,7 +123,14 @@ namespace Invision
 		* \param rhs a vector object
 		* \return the result of the multiplication with the vector and the matrix (transformed vector)
 		*/
-		INVISION_API Vector3 operator*(Vector3 const& rhs) const;
+		//INVISION_API Vector3 operator*(Vector4 const& rhs) const;
+
+		/**
+		* \brief calculates the vector transformation
+		* \param rhs a vector object
+		* \return the result of the multiplication with the vector and the matrix (transformed vector)
+		*/
+		INVISION_API Vector4 operator*(Vector4 const& rhs) const;
 
 		/**
 		* \brief divides the Matrix with a scale value
@@ -143,9 +161,7 @@ namespace Invision
 		* \brief returns an translated matrix
 		* \return A Matrix object
 		*/
-		INVISION_API static Matrix TranslateDX(const Vector3& v);
-		INVISION_API static Matrix TranslateGL(const Vector3& v);
-		INVISION_API static Matrix TranslateVK(const Vector3& v);
+		INVISION_API static Matrix Translate(const Vector3& v);
 
 		/**
 		 * \brief rotate around X axis
@@ -225,9 +241,7 @@ namespace Invision
 		 * \param vUp up Vector
 		 * \return Matrix object
 		 */
-		INVISION_API static Matrix CameraDX(const Vector3 &vPos, const Vector3 &vLookAt, const Vector3 &vUp);
-
-		INVISION_API static Matrix CameraVK(const Vector3 &vPos, const Vector3 &vLookAt, const Vector3 &vUp);
+		INVISION_API static Matrix Camera(const Vector3 &vPos, const Vector3 &vLookAt, const Vector3 &vUp);
 
 
 		/**
@@ -238,9 +252,8 @@ namespace Invision
 		 * \aram far far plane
 		 * \return Matrix object
 		 */
-		INVISION_API static Matrix PerspectiveDX(const float &anglef, const float aspect, const float &nearf, const  float &farf);
 
-		INVISION_API static Matrix PerspectiveVK(const float &anglef, const float aspect, const float &nearf, const  float &farf);
+		INVISION_API static Matrix Perspective(const float &anglef, const float aspect, const float &nearf, const  float &farf);
 
 
 		/**
@@ -251,7 +264,7 @@ namespace Invision
 		 * \param fZ
 		 * \return
 		 */
-		INVISION_API static Matrix Orthogonal(const float &width, const float &height, const float &nZ, const float &fZ);
+		INVISION_API static Matrix Orthogonal(const float &left, const float &right, const float &bottom, const float &top, const float &nearf, const float &farf);
 	};
 }
 #endif //MATRIX_H

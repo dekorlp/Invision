@@ -8,11 +8,12 @@
 //			  All rights reserved.
 /////////////////////////////////////////////////////////////////////////////
 
-#ifndef VECTOR3_H
-#define VECTOR3_H
+#ifndef VECTOR4_H
+#define VECTOR4_H
 
 #include "base/SIMD.h"
 #include "Vector2.h"
+#include "Vector3.h"
 
 namespace Invision
 {
@@ -21,34 +22,50 @@ namespace Invision
 	/**
 	 * \brief three dimensional vector
 	 */
-	_MM_ALIGN16 class Vector3
+	_MM_ALIGN16 class Vector4
 	{
 	private:
 		
 		__m128 vec;
-		float x, y, z;
+		float x, y, z, w;
 	public:
 
 		/**
 		 * \brief Initialize a three dimensional Vector
 		 */
-		INVISION_API Vector3() : x(0), y(0), z(0), vec(_mm_setzero_ps()) {}
+		INVISION_API Vector4() : x(0), y(0), z(0), w(0), vec(_mm_setzero_ps()) {}
 
 		/**
-		* \brief Initialize a three dimensional Vector
+		* \brief Initialize a four dimensional Vector
 		* \param x X Coordinate
 		* \param y Y Coordinate
 		* \param z Z Coordinate
 		*/
-		 INVISION_API Vector3(float x, float y, float z);
+		 INVISION_API Vector4(float x, float y, float z, float w);
 
 		 /**
-		* \brief Initialize a three dimensional Vector
+		* \brief Initialize a four dimensional Vector
 		* \param x X Coordinate
 		* \param y Y Coordinate
 		* \param z Z Coordinate
 		*/
-		 INVISION_API Vector3(Vector2 vec, float z);
+		 INVISION_API Vector4(Vector3 vec, float w);
+
+		 /**
+	   * \brief Initialize a four dimensional Vector
+	   * \param x X Coordinate
+	   * \param y Y Coordinate
+	   * \param z Z Coordinate
+	   */
+		 INVISION_API Vector4(Vector2 vec, float z, float w);
+
+		 /**
+   * \brief Initialize a four dimensional Vector
+   * \param x X Coordinate
+   * \param y Y Coordinate
+   * \param z Z Coordinate
+   */
+		 INVISION_API Vector4(Vector2 left, Vector2 right);
 
 
 		/**
@@ -56,80 +73,73 @@ namespace Invision
 		 * \param rhs A Vector object
 		 * \return A added Vector object
 		 */
-		 INVISION_API Vector3 operator+ (const Vector3 &rhs) const;
+		 INVISION_API Vector4 operator+ (const Vector4 &rhs) const;
 
 		/**
 		* \brief Subtracts a Vector to another Vector
 		* \param rhs A Vector object
 		* \return A subtracted Vector object
 		*/
-		 INVISION_API Vector3 operator- (const Vector3 &rhs) const;
+		 INVISION_API Vector4 operator- (const Vector4 &rhs) const;
 
 
 		/**
 		 * \brief reverse sign
 		 * \return vector object
 		 */
-		 INVISION_API Vector3 operator-() const;
+		 INVISION_API Vector4 operator-() const;
 
 		/**
 		* \brief Adds a Vector
 		* \param lhs A Vector object
 		* \return A added Vector object
 		*/
-		 INVISION_API Vector3 operator+= (const Vector3 &lhs);
+		 INVISION_API Vector4 operator+= (const Vector4 &lhs);
 
 		/**
 		* \brief Subtracts a Vector
 		* \param lhs A Vector object
 		* \return A Subtracted Vector object
 		*/
-		 INVISION_API Vector3 operator-= (const Vector3 &lhs);
+		 INVISION_API Vector4 operator-= (const Vector4 &lhs);
 
 		/**
 		* \brief checks Vectors, whether they are equal
 		* \param rhs A Vector object
 		* \return true, if both vectors are the same and false, if both vectors are not the same
 		*/
-		 INVISION_API bool operator==(Vector3 const& rhs) const;
+		 INVISION_API bool operator==(Vector4 const& rhs) const;
 
-
-		/**
-		 * \brief calculares the vector product of two vectors
-		 * \param rhs A vector object
-		 * \return the result of the vector product calculation
-		 */
-		 INVISION_API Vector3 cross(const Vector3 &rhs) const;
 
 		/**
 		* \brief multiplies the vector with a scale
 		* \param scalar a float value
 		* \return the result of the multiplied vector with a scale
 		*/
-		 INVISION_API Vector3 operator*(const float & scalar);
+		 INVISION_API Vector4 operator*(const float & scalar);
 
-		 INVISION_API friend const Vector3 operator*(const Vector3& lhs, const float& rhs);
-
-		/**
-		* \brief divides the vector with a scale
-		* \param scalar a float value
-		* \return the result of the divided vector with a scale
-		*/
-		 INVISION_API Vector3 operator/(const float & scalar);
+		 INVISION_API friend const Vector4 operator*(const Vector4& lhs, const float& rhs);
 
 		/**
 		* \brief divides the vector with a scale
 		* \param scalar a float value
 		* \return the result of the divided vector with a scale
 		*/
-		 INVISION_API friend Vector3 operator/(const Vector3& lhs, const float& rhs);
+		 INVISION_API Vector4 operator/(const float & scalar);
+
+		/**
+		* \brief divides the vector with a scale
+		* \param scalar a float value
+		* \return the result of the divided vector with a scale
+		*/
+		 INVISION_API friend Vector4 operator/(const Vector4& lhs, const float& rhs);
 
 		/**
 		* \brief calculates the dot product of a vector
 		* \param rhs a Vector object
 		* \return the result of the dot product
 		*/
-		 INVISION_API float dot(const Vector3 &rhs) const;
+		 INVISION_API float dot(const Vector4 &rhs) const;
 
 		/**
 		* \brief calculates the length of a vector
@@ -137,6 +147,11 @@ namespace Invision
 		*/
 		 INVISION_API float length() const;
 
+		 /**
+		 * \brief returns W coordinate
+		 * \return float
+		 */
+		 INVISION_API float getW() const;
 
 		/**
 		 * \brief returns Z coordinate
@@ -157,22 +172,9 @@ namespace Invision
 		 INVISION_API float getX() const;
 
 		 /**
-		 * \brief returns Z coordinate
-		 * \return float
-		 */
-		 INVISION_API float getR() const;
-
-		 /**
-		 * \brief returns Y coordinate
-		 * \return float
-		 */
-		 INVISION_API float getG() const;
-
-		 /**
-		 * \brief returns X coordinate
-		 * \return float
-		 */
-		 INVISION_API float getB() const;
+		* \brief set W coordinate
+		*/
+		 INVISION_API void SetW(float val);
 
 		 /**
 		 * \brief set Z coordinate
@@ -189,27 +191,12 @@ namespace Invision
 		 */
 		 INVISION_API void SetX(float val);
 
-		 /**
-		 * \brief set Z coordinate
-		 */
-		 INVISION_API void SetR(float val);
-
-		 /**
-		 * \brief set Y coordinate
-		 */
-		 INVISION_API void SetG(float val);
-
-		 /**
-		 * \brief set X coordinate
-		 */
-		 INVISION_API void SetB(float val);
-
 		/**
 		 * \brief normalizes a vector
 		 * \param v a vector object
 		 * \return a normalized vector
 		 */
-		 INVISION_API static Vector3 Normalize(const Vector3& v);
+		 INVISION_API static Vector4 Normalize(const Vector4& v);
 
 		 /**
 		* \brief calculates a hash
@@ -221,4 +208,4 @@ namespace Invision
 	};
 
 }
-#endif // VECTOR3_H
+#endif // VECTOR4_H
