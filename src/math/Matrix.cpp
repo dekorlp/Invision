@@ -3,9 +3,12 @@
 #include "Matrix.h"
 namespace Invision {
 
-	Matrix::Matrix()
+	Matrix::Matrix() : a11(1), a12(0), a13(0), a14(0),
+		a21(0), a22(1), a23(0), a24(0),
+		a31(0), a32(0), a33(1), a34(0),
+		a41(0), a42(0), a43(0), a44(1)
 	{
-
+		
 	}
 
 #ifdef ROWMAJOR
@@ -465,8 +468,8 @@ namespace Invision {
 #else
 		return{ f / aspect, 0.0f, 0.0f, 0.0f,
 			0.0f , -f, 0.0f, 0.0f,
-			0.0f, 0.0f, - farf / (farf -nearf) , -1,
-			0.0f, 0.0f, - (farf * nearf) / (farf - nearf), 0.0f
+			0.0f, 0.0f,  farf / (nearf -farf) , -1,
+			0.0f, 0.0f, (nearf * farf) / (nearf - farf), 0.0f
 		};
 #endif
 	}
