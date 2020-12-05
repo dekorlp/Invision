@@ -206,6 +206,13 @@ private:
 		{
 			theta += 0.001f *dt;
 		}
+		bool spaceCurrentlyPressed = keyboard->GetStateOfKey(Invision::INVISION_KEY_SPACE, Invision::INVISION_KEY_PRESSED);
+
+		if (!spacePressed && spaceCurrentlyPressed) {
+			switchFixedCamera = !switchFixedCamera;
+		}
+		spacePressed = spaceCurrentlyPressed;
+		
 
 		angle += 0.05f * dt;
 	}
@@ -315,6 +322,8 @@ private:
 	const double dt = 1000 / FIXED_FPS;
 	double accumulatedTime = 0.0;
 
+	bool spacePressed;
+	bool switchFixedCamera = false;
 
 	float angle = 0;
 	Invision::Vector3 pos;
