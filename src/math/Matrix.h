@@ -26,10 +26,10 @@ namespace Invision
 			struct
 			{
 #ifdef ROWMAJOR
-				float a11, a21, a31, a41,
-					a12, a22, a32, a42,
-					a13, a23, a33, a43,
-					a14, a24, a34, a44;
+				float a11, a22, a13, a14,
+					a21, a22, a23, a24,
+					a31, a22, a33, a34,
+					a41, a22, a43, a44;
 #else
 				float a11, a12, a13, a14,
 					a21, a22, a23, a24,

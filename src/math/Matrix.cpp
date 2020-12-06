@@ -3,7 +3,8 @@
 #include "Matrix.h"
 namespace Invision {
 
-	Matrix::Matrix() : a11(1), a12(0), a13(0), a14(0),
+	Matrix::Matrix() : 
+		a11(1), a12(0), a13(0), a14(0),
 		a21(0), a22(1), a23(0), a24(0),
 		a31(0), a32(0), a33(1), a34(0),
 		a41(0), a42(0), a43(0), a44(1)
@@ -14,10 +15,10 @@ namespace Invision {
 #ifdef ROWMAJOR
 	
 
-	Matrix::Matrix(float e11, float e21, float e31, float e41,
-		float e12, float e22, float e32, float e42,
-		float e13, float e23, float e33, float e43,
-		float e14, float e24, float e34, float e44) : a11(e11), a12(e12), a13(e13), a14(e14),
+	Matrix::Matrix(float e11, float e12, float e13, float e14,
+		           float e21, float e22, float e23, float e24,
+		           float e31, float e32, float e33, float e34,
+		           float e41, float e42, float e43, float e44) : a11(e11), a12(e12), a13(e13), a14(e14),
 		a21(e21), a22(e22), a23(e23), a24(e24),
 		a31(e31), a32(e32), a33(e33), a34(e34),
 		a41(e41), a42(e42), a43(e43), a44(e44)
@@ -25,8 +26,10 @@ namespace Invision {
 	}
 
 #else
-	Matrix::Matrix(float e11, float e12, float e13, float e14, float e21, float e22, float e23, float e24, float e31,
-		float e32, float e33, float e34, float e41, float e42, float e43, float e44) : a11(e11), a12(e12), a13(e13), a14(e14),
+	Matrix::Matrix(float e11, float e12, float e13, float e14,
+		           float e21, float e22, float e23, float e24,
+		           float e31, float e32, float e33, float e34,
+		           float e41, float e42, float e43, float e44) : a11(e11), a12(e12), a13(e13), a14(e14),
 		a21(e21), a22(e22), a23(e23), a24(e24),
 		a31(e31), a32(e32), a33(e33), a34(e34),
 		a41(e41), a42(e42), a43(e43), a44(e44)
@@ -319,8 +322,6 @@ namespace Invision {
 	Matrix Matrix::Translate(const Vector3& v)
 	{
 #ifdef ROWMAJOR
-		
-
 		return{ 1, 0, 0, v.getX(),
 			0, 1, 0, v.getY(),
 			0, 0, 1, v.getZ(),
