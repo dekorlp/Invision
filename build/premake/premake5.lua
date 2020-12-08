@@ -351,6 +351,10 @@ srcroot = rootdir .. "/src/"
 libroot = rootdir .. "/lib/"
 invision_root = "\"" .. path.getabsolute(rootdir) .. "\""
 
+-----------------------------------------------------------------------------------------------------
+-- INVISION SOLUTION
+-----------------------------------------------------------------------------------------------------
+
 workspace "Invision"
 	configurations { "Debug" , "Release" }
 	platforms { "x86" , "x64" }
@@ -359,6 +363,11 @@ workspace "Invision"
 	filter "system:Windows"
 		libpath = libroot .. "win32/"
 	filter { }
+	
+-----------------------------------------------------------------------------------------------------
+-- Engine PROJECT
+-----------------------------------------------------------------------------------------------------
+	
 project "Invision"
 	kind "SharedLib"
 	language "C++"
@@ -415,7 +424,12 @@ project "Invision"
 	filter "platforms:x64"
 		architecture "x86_64"
 		targetdir (rootdir.."/bin/Invision/x64/%{cfg.buildcfg}")
-
+		
+		
+-----------------------------------------------------------------------------------------------------
+-- DEMO PROJECTS
+-----------------------------------------------------------------------------------------------------
+		
 --function AddConsoleProject(name, projectDir, argFiles, argIncludes, argLinks, argDefines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
 AddConsoleProject(
 	"SandboxConsole", srcroot .. "tools/", {
@@ -431,7 +445,7 @@ AddConsoleProject(
 	}, srcroot, { "Invision" }, {}, true, false, false, false, true, false, false)
 
 -----------------------------------------------------------------------------------------------------
---Examples
+-------- Examples
 -----------------------------------------------------------------------------------------------------
 
 --function AddWindowedProject(name, files, includes, links, defines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
@@ -463,7 +477,7 @@ AddConsoleProject(
 	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, true)
 
 -----------------------------------------------------------------------------------------------------
--- University Examples
+-------- University Examples
 -----------------------------------------------------------------------------------------------------
 
 --function AddWindowedProject(name, files, includes, links, defines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)

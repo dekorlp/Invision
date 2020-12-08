@@ -35,6 +35,9 @@
 *.idb
 *.pdb
 
+#configuration 
+config.lua
+
 # excluded directories
 #build folder
 build/solutions/vs2005
@@ -61,8 +64,7 @@ lib/win32/wxWidgets
 #bin folder
 bin
 
-#configuration 
-files.lua
+
 
 #vs
 .vs
