@@ -40,6 +40,7 @@ build/config.lua
 
 # excluded directories
 #build folder
+build/solutions
 build/solutions/vs2005
 build/solutions/vs2008
 build/solutions/vs2010
@@ -52,6 +53,7 @@ build/solutions/xcode3
 build/solutions/xcode4
 build/solutions/gcc
 build/solutions/codeblocks
+build/solutions/gmake
 
 #log folder
 Logs/
