@@ -5,7 +5,7 @@
 In order to deplay the Invision Engine follow these steps below:
 1. Make sure that Windows Universal CRT SDK is installed by using Windows SDK Version 8.1 (Configuration Properties/General/Windows SDK Version)
 1. [Install Qt](https://www.qt.io)
-1. Create File Invision/build/premake/files.lua
+1. Rename File /Invision/build/solutions/config_template.lua to config.lua
 1. Set the QT paths in  /Invision/build/solutions/config.lua
 1. Open a terminal and execute /Invision/build/solutions/update-solutions.bat
 
