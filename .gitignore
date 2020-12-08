@@ -36,7 +36,7 @@
 *.pdb
 
 #configuration 
-config.lua
+build/config.lua
 
 # excluded directories
 #build folder
