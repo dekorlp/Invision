@@ -1,6 +1,10 @@
 -- premake5.lua
 
-include( "files.lua" )
+--
+-- include list of modules
+--
+
+include( "../config.lua" )
 require( "qt/qt" )
 local qt = premake.extensions.qt
 
@@ -221,7 +225,7 @@ function AddWindowedProject(name, projectDir, argFiles, argIncludes, argLinks, a
 		end
 		if(useQt == true)
 		then
-			AddQtLibrary(Invision.qt.pathX64, Invision.qt.pathX86,  { "core", "gui", "widgets", "opengl" }, (projectDir..name.."/genqt/"))
+			AddQtLibrary(Invision.qt.pathX64, Invision.qt.pathX86, Invision.qt.qtModules, (projectDir..name.."/genqt/"))
 		end
 
 		if(useImageLibs == true)
@@ -298,7 +302,7 @@ function AddConsoleProject(name, projectDir, argFiles, argIncludes, argLinks, ar
 		end
 		if(useQt == true)
 		then
-			AddQtLibrary(Invision.qt.pathX64, Invision.qt.pathX86,  { "core", "gui", "widgets", "opengl" }, (srcroot .. "tools/"..name.."/genqt/"))
+			AddQtLibrary(Invision.qt.pathX64, Invision.qt.pathX86, Invision.qt.qtModules, (projectDir..name.."/genqt/"))
 		end
 
 		if(useImageLibs == true)
@@ -388,9 +392,9 @@ project "Invision"
 	filter "system:Windows"	
 		defines 
 		{
-			"INVISION_EXPORTS",
-			"_WINDLL"
+			"INVISION_EXPORTS", "_WINDLL", Invision.inMath.matrixAlignment
 		}
+		
 	filter {}
 	
 	--AddBoostLibrary(libpath)
@@ -468,3 +472,21 @@ AddConsoleProject(
 		srcroot .. "tools/practical1/**.h",
 		srcroot .. "tools/practical1/**.cpp"
 	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, false, false)
+	
+	
+	
+	
+	
+	
+	
+	
+-----------------------------------------------------------------------------------------------------
+-- Documentation
+-----------------------------------------------------------------------------------------------------	
+	
+		--function AddWindowedProject(name, files, includes, links, defines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
+--AddConsoleProject(
+--	"DepthTextureDemo1", srcroot .. "tools/Apps/", {
+--		srcroot .. "tools/Apps/DepthTextureDemo1/**.h",
+--		srcroot .. "tools/Apps/DepthTextureDemo1/**.cpp"
+--	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, false)
