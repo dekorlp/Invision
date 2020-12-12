@@ -83,7 +83,7 @@ namespace Invision
 
 	VulkanBaseUniformBuffer::VulkanBaseUniformBuffer()
 	{
-		this->mDescriptorSetLayout = VK_NULL_HANDLE;
+		//this->mDescriptorSetLayout = VK_NULL_HANDLE;
 		this->maxSet = 0;
 	}
 
@@ -135,6 +135,9 @@ namespace Invision
 
 	void VulkanBaseUniformBuffer::CreateUniformBuffer(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext)
 	{
+		// allocate DescriptorSets
+		mDescriptorSetLayout.resize(maxSet+1);
+
 		CreateUniformSet(vulkanInstance, vulkanContext);
 		CreateBuffers(vulkanInstance, vulkanContext);
 		CreateDescriptorSets(vulkanInstance, vulkanContext);
@@ -142,39 +145,52 @@ namespace Invision
 
 	void VulkanBaseUniformBuffer::CreateUniformSet(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext)
 	{
-		if (mDescriptorSetLayout != VK_NULL_HANDLE)
+		if (!mDescriptorSetLayout.empty())
 		{
-			vkDestroyDescriptorSetLayout(vulkanInstance.logicalDevice, mDescriptorSetLayout, nullptr);
+			for (int i = 0; i < mDescriptorSetLayout.size(); i++)
+			{
+				vkDestroyDescriptorSetLayout(vulkanInstance.logicalDevice, mDescriptorSetLayout[i], nullptr);
+			}			
 		}
 
-		std::vector<VkDescriptorSetLayoutBinding> uboLayoutBindings;
 		std::vector<VkDescriptorPoolSize> poolElements;
 
-		for (unsigned int j = 0; j < bindings.size(); j++)
+		for (int i = 0; i < mDescriptorSetLayout.size(); i++)
 		{
-			VkDescriptorSetLayoutBinding uboLayoutBinding = {};
-			uboLayoutBinding.binding = bindings.at(j).GetBinding();
-			uboLayoutBinding.descriptorCount = bindings.at(j).GetDescriptorCount();
-			uboLayoutBinding.descriptorType = bindings.at(j).GetDescriptorType();
-			uboLayoutBinding.stageFlags = bindings.at(j).GetStageFlags();
-			uboLayoutBinding.pImmutableSamplers = nullptr;
-			uboLayoutBindings.push_back(uboLayoutBinding);
+			std::vector<VkDescriptorSetLayoutBinding> uboLayoutBindings;
+			
 
-			VkDescriptorPoolSize poolSize = {};
-			poolSize.type = bindings.at(j).GetDescriptorType();
-			poolSize.descriptorCount = static_cast<uint32_t>(vulkanContext.swapChainImages.size());
-			poolElements.push_back(poolSize);
+			for (unsigned int j = 0; j < bindings.size(); j++)
+			{
+				if (bindings.at(j).GetSetIndex() == i)
+				{
+					VkDescriptorSetLayoutBinding uboLayoutBinding = {};
+					uboLayoutBinding.binding = bindings.at(j).GetBinding();
+					uboLayoutBinding.descriptorCount = bindings.at(j).GetDescriptorCount();
+					uboLayoutBinding.descriptorType = bindings.at(j).GetDescriptorType();
+					uboLayoutBinding.stageFlags = bindings.at(j).GetStageFlags();
+					uboLayoutBinding.pImmutableSamplers = nullptr;
+					uboLayoutBindings.push_back(uboLayoutBinding);
+
+					VkDescriptorPoolSize poolSize = {};
+					poolSize.type = bindings.at(j).GetDescriptorType();
+					poolSize.descriptorCount = static_cast<uint32_t>(vulkanContext.swapChainImages.size());
+					poolElements.push_back(poolSize);
+				}
+			}
+
+			VkDescriptorSetLayoutCreateInfo layoutInfo = {};
+			layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
+			layoutInfo.bindingCount = static_cast<uint32_t>(uboLayoutBindings.size());
+			layoutInfo.pBindings = uboLayoutBindings.data();
+
+			
+			if (vkCreateDescriptorSetLayout(vulkanInstance.logicalDevice, &layoutInfo, nullptr, &mDescriptorSetLayout[i]) != VK_SUCCESS) {
+				throw std::runtime_error("failed to create descriptor set layout!");
+			}
 		}
-
-		VkDescriptorSetLayoutCreateInfo layoutInfo = {};
-		layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-		layoutInfo.bindingCount = static_cast<uint32_t>(uboLayoutBindings.size());
-		layoutInfo.pBindings = uboLayoutBindings.data();
 
 		mDescriptorPool.CreateDescriptorPool(vulkanInstance, vulkanContext, poolElements);
-		if (vkCreateDescriptorSetLayout(vulkanInstance.logicalDevice, &layoutInfo, nullptr, &mDescriptorSetLayout) != VK_SUCCESS) {
-			throw std::runtime_error("failed to create descriptor set layout!");
-		}
 	}
 
 	void VulkanBaseUniformBuffer::CreateBuffers(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext)
@@ -205,8 +221,12 @@ namespace Invision
 
 	void VulkanBaseUniformBuffer::DestroyUniformSet(const SVulkanBase &vulkanInstance)
 	{
-		vkDestroyDescriptorSetLayout(vulkanInstance.logicalDevice, mDescriptorSetLayout, nullptr);
-		mDescriptorSetLayout = VK_NULL_HANDLE;
+		for (int i = 0; i < mDescriptorSetLayout.size(); i++)
+		{
+			vkDestroyDescriptorSetLayout(vulkanInstance.logicalDevice, mDescriptorSetLayout[i], nullptr);
+		}
+		mDescriptorSetLayout.clear();
+	
 		for (unsigned int i = 0; i < bindings.size(); i++)
 		{
 			if (bindings[i].GetDescriptorType() == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER) // Only Uniform Buffer have an UniformBuffer Object!
@@ -217,7 +237,7 @@ namespace Invision
 	
 	}
 
-	VkDescriptorSetLayout VulkanBaseUniformBuffer::GetDescriptorSetLayout()
+	std::vector<VkDescriptorSetLayout> VulkanBaseUniformBuffer::GetDescriptorSetLayout()
 	{
 		return mDescriptorSetLayout;
 	}
@@ -227,7 +247,7 @@ namespace Invision
 		unsigned int index = -1;
 		for (unsigned int i = 0; i < bindings.size(); i++)
 		{
-			if (bindings.at(i).GetBinding() == binding)
+			if (bindings.at(i).GetSetIndex() == set && bindings.at(i).GetBinding() == binding)
 			{
 				index = i;
 				break;
@@ -252,27 +272,39 @@ namespace Invision
 
 	void VulkanBaseUniformBuffer::CreateDescriptorSets(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext)
 	{
-		std::vector<VkDescriptorSetLayout> layouts(1, mDescriptorSetLayout);
-
-		VkDescriptorSetAllocateInfo allocInfo = {};
-		allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-		allocInfo.descriptorPool = mDescriptorPool.GetDescriptorPool();
-		allocInfo.descriptorSetCount = static_cast<uint32_t>(layouts.size());
-		allocInfo.pSetLayouts = layouts.data();
+		//std::vector<VkDescriptorSetLayout> layouts(1, mDescriptorSetLayout);
 
 		
-			VkDescriptorSet descriptorSet;
 
-			if (vkAllocateDescriptorSets(vulkanInstance.logicalDevice, &allocInfo, &descriptorSet) != VK_SUCCESS) {
+		
+		mDescriptorSets.resize(maxSet+1);
+
+		for (unsigned int i = 0; i < mDescriptorSets.size(); i++)
+		{
+
+			VkDescriptorSetAllocateInfo allocInfo = {};
+			allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+			allocInfo.descriptorPool = mDescriptorPool.GetDescriptorPool();
+			allocInfo.descriptorSetCount = 1;
+			allocInfo.pSetLayouts = &mDescriptorSetLayout[i];
+
+			if (vkAllocateDescriptorSets(vulkanInstance.logicalDevice, &allocInfo, &mDescriptorSets[i]) != VK_SUCCESS) {
 				throw std::runtime_error("failed to allocate descriptor sets!");
 			}
-			mDescriptorSets.push_back(descriptorSet);
+		}
+
+			//VkDescriptorSet descriptorSet;
+
+			//if (vkAllocateDescriptorSets(vulkanInstance.logicalDevice, &allocInfo, &descriptorSet) != VK_SUCCESS) {
+			//	throw std::runtime_error("failed to allocate descriptor sets!");
+			//}
+			//mDescriptorSets.push_back(descriptorSet);
 
 			std::vector< VkWriteDescriptorSet> descriptorWrites;
 			for (unsigned int j = 0; j < bindings.size(); j++)
 			{
 
-				bindings[j].SetSetIndex(static_cast<uint32>(mDescriptorSets.size()-1)); // Actually there is only one Set
+				//bindings[j].SetSetIndex(static_cast<uint32>(mDescriptorSets.size()-1)); // Actually there is only one Set
 
 				if (bindings[j].GetDescriptorType() == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER)
 				{

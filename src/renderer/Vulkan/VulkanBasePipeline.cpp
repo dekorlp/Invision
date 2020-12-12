@@ -44,7 +44,8 @@ namespace Invision
 
 	void VulkanBasePipeline::AddUniformBuffer(VulkanBaseUniformBuffer uniformBuffer)
 	{
-		mDescriptorSetLayout.push_back(uniformBuffer.GetDescriptorSetLayout());
+		//mDescriptorSetLayout.push_back(uniformBuffer.GetDescriptorSetLayout());
+		mDescriptorSetLayout = uniformBuffer.GetDescriptorSetLayout();
 	}
 
 	void INVISION_API VulkanBasePipeline::AddVertexBuffer(VulkanBaseVertexBuffer& vertexBuffer)

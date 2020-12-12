@@ -49,7 +49,7 @@ namespace Invision
 	{
 	private:
 		std::vector<VulkanBaseUniformBinding> bindings;
-		VkDescriptorSetLayout mDescriptorSetLayout; // there is actual one supportes by Invision
+		std::vector<VkDescriptorSetLayout> mDescriptorSetLayout; // there is actual one supportes by Invision
 		VulkanBaseDescriptorPool mDescriptorPool;
 		std::vector<VkDescriptorSet> mDescriptorSets;// there is actual one supportes by Invision
 
@@ -78,7 +78,7 @@ namespace Invision
 
 		INVISION_API void CreateUniformBuffer(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext);
 		INVISION_API void DestroyUniformBuffer(const SVulkanBase &vulkanInstance);
-		INVISION_API VkDescriptorSetLayout GetDescriptorSetLayout();
+		INVISION_API std::vector<VkDescriptorSetLayout> GetDescriptorSetLayout();
 		INVISION_API void UpdateUniform(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, const void* source, size_t size, uint32_t set, uint32_t binding);
 		INVISION_API std::vector<VkDescriptorSet> GetDescriptorSets();
 		INVISION_API size_t GetSizeOfBindings();
