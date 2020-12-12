@@ -8,7 +8,7 @@
 
 namespace Invision
 {
-	VulkanBaseUniformBinding::VulkanBaseUniformBinding(uint32_t binding,
+	VulkanBaseUniformBinding::VulkanBaseUniformBinding(uint32_t set, uint32_t binding,
 		VkDescriptorType descriptorType,
 		uint32_t descriptorCount,
 		VkShaderStageFlags stageFlags,
@@ -17,6 +17,7 @@ namespace Invision
 		VkImageView imageView,
 		VkSampler sampler)
 	{
+		this->mSetIndex = set;
 		this->mBinding = binding;
 		this->mDescriptorCount = descriptorCount;
 		this->mDescriptorType = descriptorType;
@@ -83,29 +84,42 @@ namespace Invision
 	VulkanBaseUniformBuffer::VulkanBaseUniformBuffer()
 	{
 		this->mDescriptorSetLayout = VK_NULL_HANDLE;
+		this->maxSet = 0;
 	}
 
-	VulkanBaseUniformBuffer& VulkanBaseUniformBuffer::CreateUniformBinding(uint32_t binding,
+	VulkanBaseUniformBuffer& VulkanBaseUniformBuffer::CreateUniformBinding(uint32_t set, uint32_t binding,
 		VkDescriptorType descriptorType,
 		uint32_t descriptorCount,
 		VkShaderStageFlags stageFlags,
 		VkDeviceSize bufferSize,
 		VkDeviceSize offset)
 	{
-		VulkanBaseUniformBinding uniformBinding(binding, descriptorType, descriptorCount, stageFlags, bufferSize, offset, VK_NULL_HANDLE, VK_NULL_HANDLE);
+		VulkanBaseUniformBinding uniformBinding(set, binding, descriptorType, descriptorCount, stageFlags, bufferSize, offset, VK_NULL_HANDLE, VK_NULL_HANDLE);
 		bindings.push_back(uniformBinding);
+
+		if (set > maxSet)
+		{
+			maxSet = set;
+		}
+
 		return *this;
 	}
 
-	INVISION_API VulkanBaseUniformBuffer& VulkanBaseUniformBuffer::CreateImageBinding(uint32_t binding,
+	INVISION_API VulkanBaseUniformBuffer& VulkanBaseUniformBuffer::CreateImageBinding(uint32_t set, uint32_t binding,
 		VkDescriptorType descriptorType,
 		uint32_t descriptorCount,
 		VkShaderStageFlags stageFlags,
 		VkImageView imageView,
 		VkSampler sampler)
 	{
-		VulkanBaseUniformBinding uniformBinding(binding, descriptorType, descriptorCount, stageFlags, 0, 0, imageView, sampler);
+		VulkanBaseUniformBinding uniformBinding(set, binding, descriptorType, descriptorCount, stageFlags, 0, 0, imageView, sampler);
 		bindings.push_back(uniformBinding);
+
+		if (set > maxSet)
+		{
+			maxSet = set;
+		}
+
 		return *this;
 	}
 
@@ -208,7 +222,7 @@ namespace Invision
 		return mDescriptorSetLayout;
 	}
 
-	void VulkanBaseUniformBuffer::UpdateUniform(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, const void* source, size_t size, uint32_t binding)
+	void VulkanBaseUniformBuffer::UpdateUniform(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, const void* source, size_t size, uint32_t set, uint32_t binding)
 	{
 		unsigned int index = -1;
 		for (unsigned int i = 0; i < bindings.size(); i++)

@@ -21,7 +21,7 @@ namespace Invision
 			VkDescriptorImageInfo mImageInfo;
 
 		public:
-			INVISION_API VulkanBaseUniformBinding(uint32_t binding,
+			INVISION_API VulkanBaseUniformBinding(uint32_t set, uint32_t binding,
 				VkDescriptorType descriptorType,
 				uint32_t descriptorCount,
 				VkShaderStageFlags stageFlags,
@@ -56,18 +56,20 @@ namespace Invision
 		INVISION_API void CreateUniformSet(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext);
 		INVISION_API void CreateBuffers(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext);
 		INVISION_API void DestroyUniformSet(const SVulkanBase &vulkanInstance);
-		INVISION_API void CreateDescriptorSets(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext);
+		INVISION_API void CreateDescriptorSets(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext); 
+
+		uint32_t maxSet;
 
 	public:
 		INVISION_API VulkanBaseUniformBuffer();
-		INVISION_API VulkanBaseUniformBuffer& CreateUniformBinding(uint32_t binding,
+		INVISION_API VulkanBaseUniformBuffer& CreateUniformBinding(uint32_t set, uint32_t binding,
 			VkDescriptorType descriptorType,
 			uint32_t descriptorCount,
 			VkShaderStageFlags stageFlags,
 			VkDeviceSize bufferSize,
 			VkDeviceSize offset);
 
-		INVISION_API VulkanBaseUniformBuffer& CreateImageBinding(uint32_t binding,
+		INVISION_API VulkanBaseUniformBuffer& CreateImageBinding(uint32_t set, uint32_t binding,
 			VkDescriptorType descriptorType,
 			uint32_t descriptorCount,
 			VkShaderStageFlags stageFlags,
@@ -77,7 +79,7 @@ namespace Invision
 		INVISION_API void CreateUniformBuffer(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext);
 		INVISION_API void DestroyUniformBuffer(const SVulkanBase &vulkanInstance);
 		INVISION_API VkDescriptorSetLayout GetDescriptorSetLayout();
-		INVISION_API void UpdateUniform(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, const void* source, size_t size, uint32_t binding);
+		INVISION_API void UpdateUniform(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, const void* source, size_t size, uint32_t set, uint32_t binding);
 		INVISION_API std::vector<VkDescriptorSet> GetDescriptorSets();
 		INVISION_API size_t GetSizeOfBindings();
 	};

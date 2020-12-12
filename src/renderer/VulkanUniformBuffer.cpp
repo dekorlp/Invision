@@ -14,7 +14,7 @@ namespace Invision
 		vulkanInstance = instance;
 	}
 
-	VulkanUniformBuffer& VulkanUniformBuffer::CreateUniformBinding(uint32_t binding, uint32_t descriptorCount, ShaderStage shaderStage, uint64_t bufferSize, uint64_t offset)
+	VulkanUniformBuffer& VulkanUniformBuffer::CreateUniformBinding(uint32_t set, uint32_t binding, uint32_t descriptorCount, ShaderStage shaderStage, uint64_t bufferSize, uint64_t offset)
 	{
 		VkShaderStageFlags vkShaderStage;
 		
@@ -38,11 +38,11 @@ namespace Invision
 			
 		}
 
-		uniformBuffer.CreateUniformBinding(binding, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, descriptorCount, vkShaderStage, bufferSize, offset);
+		uniformBuffer.CreateUniformBinding(set, binding, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, descriptorCount, vkShaderStage, bufferSize, offset);
 		return *this;
 	}
 
-	INVISION_API VulkanUniformBuffer& VulkanUniformBuffer::CreateImageBinding(uint32_t binding, uint32_t descriptorCount, ShaderStage shaderStage, std::shared_ptr < Invision::ITexture> texture)
+	INVISION_API VulkanUniformBuffer& VulkanUniformBuffer::CreateImageBinding(uint32_t set, uint32_t binding, uint32_t descriptorCount, ShaderStage shaderStage, std::shared_ptr < Invision::ITexture> texture)
 	{
 		// VkDescriptorImageInfo*
 		VkShaderStageFlags vkShaderStage;
@@ -67,7 +67,7 @@ namespace Invision
 
 		}
 		
-		uniformBuffer.CreateImageBinding(binding, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, descriptorCount, vkShaderStage, dynamic_pointer_cast<VulkanTexture>(texture)->GetBaseTexture().GetImageView(), dynamic_pointer_cast<VulkanTexture>(texture)->GetBaseTexture().GetImageSampler());
+		uniformBuffer.CreateImageBinding(set, binding, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, descriptorCount, vkShaderStage, dynamic_pointer_cast<VulkanTexture>(texture)->GetBaseTexture().GetImageView(), dynamic_pointer_cast<VulkanTexture>(texture)->GetBaseTexture().GetImageSampler());
 		return *this;
 
 
@@ -78,9 +78,9 @@ namespace Invision
 		uniformBuffer.CreateUniformBuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext());
 	}
 
-	void VulkanUniformBuffer::UpdateUniform(const void* source, size_t size, uint32_t binding)
+	void VulkanUniformBuffer::UpdateUniform(const void* source, size_t size, uint32_t set, uint32_t binding)
 	{
-		uniformBuffer.UpdateUniform(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), source, size, binding);
+		uniformBuffer.UpdateUniform(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), source, size, set, binding);
 	}
 
 	VulkanBaseUniformBuffer VulkanUniformBuffer::GetBuffer()

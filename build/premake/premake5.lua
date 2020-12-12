@@ -475,6 +475,12 @@ AddConsoleProject(
 		srcroot .. "tools/LoadModelDemo/**.h",
 		srcroot .. "tools/LoadModelDemo/**.cpp"
 	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, true)
+	
+AddConsoleProject(
+	"DescriptorSets", srcroot .. "tools/", {
+		srcroot .. "tools/DescriptorSets/**.h",
+		srcroot .. "tools/DescriptorSets/**.cpp"
+	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, true)
 
 -----------------------------------------------------------------------------------------------------
 -------- University Examples
