@@ -42,9 +42,9 @@ namespace Invision
 		mShaderStages.push_back(shaderStageInfo);
 	}
 
-	void VulkanBasePipeline::AddUniformBuffer(VulkanBaseUniformBuffer uniformBuffer)
+	void VulkanBasePipeline::AddUniformBuffer(VulkanBaseUniformBuffer& uniformBuffer)
 	{
-		//mDescriptorSetLayout.push_back(uniformBuffer.GetDescriptorSetLayout());
+		mDescriptorSetLayout.clear();
 		mDescriptorSetLayout = uniformBuffer.GetDescriptorSetLayout();
 	}
 

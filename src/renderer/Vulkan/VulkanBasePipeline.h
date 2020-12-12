@@ -18,7 +18,7 @@ namespace Invision
 	public:
 		void INVISION_API AddVertexBuffer(VulkanBaseVertexBuffer& vertexBuffer);
 		void INVISION_API AddShader(VulkanBaseShader shader);
-		void INVISION_API AddUniformBuffer(VulkanBaseUniformBuffer uniformBuffer);
+		void INVISION_API AddUniformBuffer(VulkanBaseUniformBuffer& uniformBuffer);
 		void INVISION_API UpdateVertexInputConfiguration();
 		void INVISION_API UpdateInputAssemblyConfiguration(VkPrimitiveTopology primitiveTopology);
 		/*void INVISION_API UpdateViewPortConfiguration(const SVulkan &vulkanInstance,
