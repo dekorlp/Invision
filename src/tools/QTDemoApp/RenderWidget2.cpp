@@ -43,5 +43,5 @@ void RenderWidget2::UpdateUniformBuffer(float width, float height)
 	ubo.model = Invision::Matrix(1.0f) * Invision::Matrix::RotateZ(time * 90.0);
 	ubo.view = Invision::Matrix::Camera(Invision::Vector3(2.0f, 2.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 0.0f, 1.0f));
 	ubo.proj = Invision::Matrix::Perspective(45.0, width / height, 0.1f, 10.0f);
-	uniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0);
+	uniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0, 0);
 }
