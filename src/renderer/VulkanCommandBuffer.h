@@ -19,8 +19,8 @@ namespace Invision
 		ICommandBuffer& BeginCommandBuffer() override;
 		ICommandBuffer& SetViewport(Invision::Viewport viewport) override;
 		ICommandBuffer& SetScissor(Invision::Rect rect) override;
+		ICommandBuffer& SetBackground(float r, float g, float b, float a) override;
 		ICommandBuffer& BeginRenderPass(std::shared_ptr<IRenderPass> renderPass, std::shared_ptr<Invision::IFramebuffer> framebuffer) override;
-		ICommandBuffer& BeginRenderPass(std::shared_ptr<IRenderPass> renderPass, std::shared_ptr<Invision::IFramebuffer> framebuffer, float background[4]) override;
 		ICommandBuffer& BindPipeline(std::shared_ptr<IPipeline> pipeline) override;
 		ICommandBuffer& BindVertexBuffer(std::vector< std::shared_ptr<IVertexBuffer>> vertexBuffer, uint32_t firstBinding, uint32_t bindingCount) override;
 		ICommandBuffer& BindDescriptorSets(std::shared_ptr<IUniformBuffer> uniformBuffer, std::shared_ptr<IPipeline> pipeline) override;
@@ -40,6 +40,7 @@ namespace Invision
 		Invision::VulkanInstance *vulkanInstance;
 
 		Invision::VulkanBaseCommandBuffer commandBuffer;
+		float mBackground[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 	};
 
 }
