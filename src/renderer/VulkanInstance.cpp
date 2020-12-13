@@ -4,6 +4,7 @@
 #include "VulkanRenderPass.h"
 #include "VulkanVertexBuffer.h"
 #include "VulkanUniformBuffer.h"
+#include "VulkanPushConstant.h"
 #include "VulkanIndexBuffer.h"
 #include "VulkanPipeline.h"
 #include "VulkanFramebuffer.h"
@@ -71,6 +72,12 @@ namespace Invision
 	{
 		return std::make_shared<VulkanUniformBuffer>(this);
 	}
+
+	std::shared_ptr<IPushConstant> VulkanInstance::CreatePushConstant(ShaderStage shaderStages, uint32_t offset, uint32_t size, const void* values)
+	{
+		return std::make_shared<VulkanPushConstant>(this, shaderStages, offset, size, values);
+	}
+
 	std::shared_ptr<IIndexBuffer> VulkanInstance::CreateIndexBuffer()
 	{
 		return std::make_shared<VulkanIndexBuffer>(this);

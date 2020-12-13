@@ -1,63 +1,76 @@
 #include "precompiled.h"
 
 #include "VulkanBasePushConstant.h"
-
-VulkanBasePushCommand::VulkanBasePushCommand(VkShaderStageFlagBits shaderStages, uint32_t offset, uint32_t size, const void* values)
+#include "VulkanBaseException.h"
+namespace Invision
 {
-	this->mShaderStage = shaderStages;
-	this->mOffset = offset;
-	this->mSize = size;
-	this->mValues = (void*) values;
-}
+	VulkanBasePushConstant::VulkanBasePushConstant()
+	{
+
+	}
+
+	VulkanBasePushConstant::VulkanBasePushConstant(VkShaderStageFlagBits shaderStages, uint32_t offset, uint32_t size, const void* values)
+	{
+		if (size > INVISION_GPU_SPEC_PUSH_COMMAND_SIZE)
+		{
+			throw VulkanBaseException("size is larger than push command specification. (Allowed max: 128 bytes)");
+		}
+
+		this->mShaderStage = shaderStages;
+		this->mOffset = offset;
+		this->mSize = size;
+		this->mValues = (void*)values;
+	}
 
 
-VkPushConstantRange VulkanBasePushCommand::ConstructPushCommandRange()
-{
-	VkPushConstantRange range;
+	VkPushConstantRange VulkanBasePushConstant::ConstructPushConstantRange()
+	{
+		VkPushConstantRange range;
 
-	range.stageFlags = mShaderStage;
-	range.offset = mOffset;
-	range.size = mSize;
+		range.stageFlags = mShaderStage;
+		range.offset = mOffset;
+		range.size = mSize;
 
-	return range;
-}
+		return range;
+	}
 
-VkShaderStageFlagBits VulkanBasePushCommand::GetShaderStages()
-{
-	return mShaderStage;
-}
+	VkShaderStageFlagBits VulkanBasePushConstant::GetShaderStages()
+	{
+		return mShaderStage;
+	}
 
-uint32_t VulkanBasePushCommand::GetOffset()
-{
-	return mOffset;
-}
+	uint32_t VulkanBasePushConstant::GetOffset()
+	{
+		return mOffset;
+	}
 
-uint32_t VulkanBasePushCommand::GetSize()
-{
-	return mSize;
-}
+	uint32_t VulkanBasePushConstant::GetSize()
+	{
+		return mSize;
+	}
 
-const void* VulkanBasePushCommand::GetValues()
-{
-	return mValues;
-}
+	const void* VulkanBasePushConstant::GetValues()
+	{
+		return mValues;
+	}
 
-void VulkanBasePushCommand::SetShaderStages(VkShaderStageFlagBits shaderStages)
-{
-	this->mShaderStage = shaderStages;
-}
+	void VulkanBasePushConstant::SetShaderStages(VkShaderStageFlagBits shaderStages)
+	{
+		this->mShaderStage = shaderStages;
+	}
 
-void VulkanBasePushCommand::SetOffset(uint32_t offset)
-{
-	this->mOffset = offset;
-}
+	void VulkanBasePushConstant::SetOffset(uint32_t offset)
+	{
+		this->mOffset = offset;
+	}
 
-void VulkanBasePushCommand::SetSize(uint32_t size)
-{
-	this->mSize = size;
-}
+	void VulkanBasePushConstant::SetSize(uint32_t size)
+	{
+		this->mSize = size;
+	}
 
-void VulkanBasePushCommand::SetValues(const void* values)
-{
-	this->mValues = (void*)values;
+	void VulkanBasePushConstant::SetValues(const void* values)
+	{
+		this->mValues = (void*)values;
+	}
 }

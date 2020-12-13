@@ -43,6 +43,10 @@ struct UniformBufferObject {
 	Invision::Matrix proj;
 };
 
+struct ModelObject {
+	Invision::Matrix model;
+};
+
 class RenderWidget : public QWidget
 {
 	Q_OBJECT;
@@ -254,6 +258,7 @@ private:
 		renderPass = graphicsInstance->CreateRenderPass(); //graphicsEngine->CreateRenderPass();
 		vertexBuffer = graphicsInstance->CreateVertexBuffer();
 		uniformBuffer = graphicsInstance->CreateUniformBuffer();
+		pushConstant = graphicsInstance->CreatePushConstant(Invision::SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelObject), &mModelObject);
 		indexBuffer = graphicsInstance->CreateIndexBuffer();
 		pipeline = graphicsInstance->CreatePipeline();
 		texture = graphicsInstance->CreateTexture();
@@ -306,6 +311,7 @@ private:
 	std::shared_ptr <Invision::IRenderPass> renderPass;
 	std::shared_ptr <Invision::IVertexBuffer> vertexBuffer;
 	std::shared_ptr <Invision::IUniformBuffer> uniformBuffer;
+	std::shared_ptr <Invision::IPushConstant> pushConstant;
 	std::shared_ptr <Invision::IIndexBuffer> indexBuffer;
 	std::shared_ptr <Invision::IPipeline> pipeline;
 	std::shared_ptr <Invision::IFramebuffer> framebuffer;
@@ -319,6 +325,9 @@ private:
 	std::vector<uint32_t> indices;
 	// timer for frequency adjusting
 	Invision::StopWatch mTimer;
+
+	ModelObject mModelObject;
+
 	const double dt = 1000 / FIXED_FPS;
 	double accumulatedTime = 0.0;
 
