@@ -24,29 +24,44 @@ namespace Invision
 
 	}*/
 
-	VulkanInstance::VulkanInstance(VulkanEngine* engine, CanvasDimensions dimensions)
+	VulkanInstance::VulkanInstance(VulkanEngine* engine, CanvasDimensions dimensions, bool activateDepthTest)
 		: IGraphicsInstance(engine)
 	{
 		vulkanEngine = engine;
 		
 		Invision::CreateSurface(engine->GetVulkanInstance(), vulkanContext, dimensions.hwnd);
 		Invision::CreatePresentationSystem(engine->GetVulkanInstance(), vulkanContext, dimensions.width, dimensions.height);
-#ifdef USE_DEPTH_BUFFER
-		depthRessources.CreateDepthRessources(engine->GetVulkanInstance(), engine->GetCommandPool(), vulkanContext, 0.0f, 1.0f);
-#endif
+		if (activateDepthTest)
+		{
+			depthRessources.CreateDepthRessources(engine->GetVulkanInstance(), engine->GetCommandPool(), vulkanContext);
+			mUseDepthTest = true;
+		}
 	}
 
-		void VulkanInstance::ResetPresentation(CanvasDimensions canvas)
+	void VulkanInstance::ResetPresentation(CanvasDimensions canvas)
 	{
 		Invision::DestroyPresentationSystem(vulkanEngine->GetVulkanInstance(), vulkanContext);
 		Invision::CreatePresentationSystem(vulkanEngine->GetVulkanInstance(), vulkanContext, canvas.width, canvas.height);
 
-#ifdef USE_DEPTH_BUFFER
-		depthRessources.DestroyDepthRessources(vulkanEngine->GetVulkanInstance());
-		depthRessources.CreateDepthRessources(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetCommandPool(), vulkanContext, 0.0f, 1.0f);
-#endif
+		if (mUseDepthTest)
+		{
+			depthRessources.DestroyDepthRessources(vulkanEngine->GetVulkanInstance());
+			depthRessources.CreateDepthRessources(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetCommandPool(), vulkanContext);
+		}
 	}
 
+	void VulkanInstance::ResetPresentation(CanvasDimensions canvas, bool activateDepthTest)
+	{
+		Invision::DestroyPresentationSystem(vulkanEngine->GetVulkanInstance(), vulkanContext);
+		Invision::CreatePresentationSystem(vulkanEngine->GetVulkanInstance(), vulkanContext, canvas.width, canvas.height);
+
+		if (activateDepthTest)
+		{
+			depthRessources.DestroyDepthRessources(vulkanEngine->GetVulkanInstance());
+			depthRessources.CreateDepthRessources(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetCommandPool(), vulkanContext);
+			mUseDepthTest = true;
+		}
+	}
 
 	SVulkanContext& VulkanInstance::GetVulkanContext()
 	{
@@ -120,9 +135,10 @@ namespace Invision
 
 	VulkanInstance::~VulkanInstance()
 	{
-#ifdef USE_DEPTH_BUFFER
-		depthRessources.DestroyDepthRessources(vulkanEngine->GetVulkanInstance());
-#endif
+		if (mUseDepthTest)
+		{
+			depthRessources.DestroyDepthRessources(vulkanEngine->GetVulkanInstance());
+		}
 		Invision::DestroyPresentationSystem(vulkanEngine->GetVulkanInstance(), vulkanContext);
 		Invision::DestroySurface(vulkanEngine->GetVulkanInstance(), vulkanContext);
 	}

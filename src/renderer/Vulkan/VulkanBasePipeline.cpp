@@ -151,15 +151,15 @@ namespace Invision
 		mMultisampling.alphaToOneEnable = VK_FALSE; // Optional
 	}
 
-	void VulkanBasePipeline::UpdateDepthStencilConfiguration(float minDepthBound, float maxDepthBound )
+	void VulkanBasePipeline::UpdateDepthStencilConfiguration( )
 	{
 		mDepthStencil.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
 		mDepthStencil.depthTestEnable = VK_TRUE;
 		mDepthStencil.depthWriteEnable = VK_TRUE;
-		mDepthStencil.depthCompareOp = VK_COMPARE_OP_LESS;
+		mDepthStencil.depthCompareOp = VK_COMPARE_OP_LESS_OR_EQUAL; // VK_COMPARE_OP_LESS
 		mDepthStencil.depthBoundsTestEnable = VK_FALSE;
-		mDepthStencil.minDepthBounds = minDepthBound; // Optional
-		mDepthStencil.maxDepthBounds = maxDepthBound; // Optional
+		mDepthStencil.minDepthBounds = 0.0f; // Optional
+		mDepthStencil.maxDepthBounds = 1.0f; // Optional
 		mDepthStencil.stencilTestEnable = VK_FALSE;
 		mDepthStencil.front = {}; // Optional
 		mDepthStencil.back = {}; // Optional
@@ -220,7 +220,7 @@ namespace Invision
 		UpdateViewPortConfiguration(vulkanInstance);
 		UpdateRasterizerConfiguration(VK_POLYGON_MODE_FILL, 1.0, VK_CULL_MODE_BACK_BIT, VK_FRONT_FACE_COUNTER_CLOCKWISE);
 		UpdateMultisamplingConfiguration();
-		if(useDepthRessource) UpdateDepthStencilConfiguration(minDepthBound, maxDepthBound);
+		if(useDepthRessource) UpdateDepthStencilConfiguration();
 		UpdateColorBlendingAttachmentConfiguration();
 		UpdateDynamicStatesConfiguration();
 		UpdatePipelineLayoutConfiguration();

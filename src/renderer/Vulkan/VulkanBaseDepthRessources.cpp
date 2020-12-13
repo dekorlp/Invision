@@ -7,20 +7,18 @@
 
 namespace Invision
 {
-	VulkanBaseDepthRessources::VulkanBaseDepthRessources()
+	VulkanBaseDepthRessources::VulkanBaseDepthRessources() : mDepthImageView(VK_NULL_HANDLE), mDepthImage(VK_NULL_HANDLE), mDepthImageMemory(VK_NULL_HANDLE), mUseDepthRessources(false)
 	{
 		mUseDepthRessources = false;
 	}
 
-	void VulkanBaseDepthRessources::CreateDepthRessources(SVulkanBase &vulkanInstance,  VulkanBaseCommandPool commandPool, SVulkanContext &vulkanContext, float minDepthBound, float maxDepthBound)
+	void VulkanBaseDepthRessources::CreateDepthRessources(SVulkanBase &vulkanInstance,  VulkanBaseCommandPool commandPool, SVulkanContext &vulkanContext)
 	{
 		VkFormat depthFormat = findDepthFormat(vulkanInstance);
 		
 		CreateImage(vulkanInstance, vulkanContext.swapChainExtent.width, vulkanContext.swapChainExtent.height, depthFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, mDepthImage, mDepthImageMemory);
 		mDepthImageView = CreateImageView(vulkanInstance, mDepthImage, depthFormat, VK_IMAGE_ASPECT_DEPTH_BIT);
 
-		mMinDepthBound = minDepthBound;
-		mMaxDepthBound = maxDepthBound;
 		mUseDepthRessources = true;
 	}
 	
@@ -64,16 +62,6 @@ namespace Invision
 	bool VulkanBaseDepthRessources::AreDepthRessourcesActivated()
 	{
 		return mUseDepthRessources;
-	}
-
-	float VulkanBaseDepthRessources::GetMinDepthBound()
-	{
-		return mMinDepthBound;
-	}
-
-	float VulkanBaseDepthRessources::GetMaxDepthBound()
-	{
-		return mMaxDepthBound;
 	}
 
 	void VulkanBaseDepthRessources::DestroyDepthRessources(const SVulkanBase &vulkanInstance)

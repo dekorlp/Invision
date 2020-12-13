@@ -24,8 +24,9 @@ namespace Invision
 	public:
 		INVISION_API IGraphicsInstance() = delete;
 		INVISION_API IGraphicsInstance(IGraphicsEngine* engine);
-		INVISION_API IGraphicsInstance(IGraphicsEngine* engine, CanvasDimensions* canvas);
+		INVISION_API IGraphicsInstance(IGraphicsEngine* engine, CanvasDimensions* canvas, bool activateDepthTest = true);
 		INVISION_API virtual void ResetPresentation(CanvasDimensions canvas) = 0;
+		INVISION_API virtual void ResetPresentation(CanvasDimensions canvas, bool activateDepthTest) = 0;
 
 		INVISION_API virtual std::shared_ptr<IRenderer> CreateRenderer() = 0;
 		INVISION_API virtual std::shared_ptr<IRenderPass> CreateRenderPass() = 0;

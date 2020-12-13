@@ -11,8 +11,6 @@
 #include "renderer\Vulkan\VulkanBaseCommandPool.h"
 #include "Vulkan/Vulkan.h"
 
-#define USE_DEPTH_BUFFER
-
 namespace Invision
 {
 	namespace VulkanDebug
@@ -47,7 +45,7 @@ namespace Invision
 		INVISION_API Invision::SVulkanBase& GetVulkanInstance();
 		INVISION_API Invision::VulkanBaseCommandPool GetCommandPool();
 		
-		INVISION_API std::shared_ptr<IGraphicsInstance> CreateInstance(CanvasDimensions canvas) override;
+		INVISION_API std::shared_ptr<IGraphicsInstance> CreateInstance(CanvasDimensions canvas, bool activateDepthTest = true) override;
 
 		INVISION_API std::vector< PhysicalDeviceProperties> GetPhysicalDevices();
 

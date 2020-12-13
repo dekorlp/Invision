@@ -36,7 +36,7 @@ namespace Invision
 		void INVISION_API UpdateViewPortConfiguration(const SVulkanBase &vulkanInstance);
 		void INVISION_API UpdateRasterizerConfiguration(VkPolygonMode fillMode, float lineWidth, VkCullModeFlags cullMode, VkFrontFace frontFace);
 		void INVISION_API UpdateMultisamplingConfiguration();
-		void INVISION_API UpdateDepthStencilConfiguration(float minDepthBound, float maxDepthBound);
+		void INVISION_API UpdateDepthStencilConfiguration();
 		void INVISION_API UpdateColorBlendingAttachmentConfiguration();
 		void INVISION_API UpdateDynamicStatesConfiguration();
 		void INVISION_API UpdatePipelineLayoutConfiguration();

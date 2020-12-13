@@ -16,9 +16,10 @@ namespace Invision
 
 		INVISION_API VulkanInstance() = delete;
 
-		INVISION_API VulkanInstance(VulkanEngine* engine, CanvasDimensions dimensions);
+		INVISION_API VulkanInstance(VulkanEngine* engine, CanvasDimensions dimensions, bool activateDepthTest);
 		INVISION_API Invision::SVulkanContext& GetVulkanContext();
 		INVISION_API void ResetPresentation(CanvasDimensions canvas) override;
+		INVISION_API void ResetPresentation(CanvasDimensions canvas, bool activateDepthTest) override;
 
 
 		INVISION_API std::shared_ptr<IRenderer> CreateRenderer() override;
@@ -42,6 +43,8 @@ namespace Invision
 		VulkanEngine* vulkanEngine;
 		Invision::SVulkanContext vulkanContext;
 		Invision::VulkanBaseDepthRessources depthRessources;
+
+		bool mUseDepthTest = false;
 	};
 
 }
