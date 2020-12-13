@@ -254,7 +254,7 @@ namespace Invision
 
 	void VulkanBaseUniformBuffer::UpdateUniform(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, const void* source, size_t size, uint32_t set, uint32_t binding)
 	{
-		unsigned int index = -1;
+		int index = -1;
 		for (unsigned int i = 0; i < bindings.size(); i++)
 		{
 			if (bindings.at(i).GetSetIndex() == set && bindings.at(i).GetBinding() == binding)
@@ -264,10 +264,17 @@ namespace Invision
 			}
 		}
 		
-		void* data;
-		vkMapMemory(vulkanInstance.logicalDevice, bindings.at(index).GetBaseBuffer().GetDeviceMemory(), 0, size, 0, &data);
-		memcpy(data, source, size);
-		vkUnmapMemory(vulkanInstance.logicalDevice, bindings.at(index).GetBaseBuffer().GetDeviceMemory());
+		if (index != -1)
+		{
+			void* data;
+			vkMapMemory(vulkanInstance.logicalDevice, bindings.at(index).GetBaseBuffer().GetDeviceMemory(), 0, size, 0, &data);
+			memcpy(data, source, size);
+			vkUnmapMemory(vulkanInstance.logicalDevice, bindings.at(index).GetBaseBuffer().GetDeviceMemory());
+		}
+		else
+		{
+			throw std::runtime_error("failed to update Uniform Buffer!");
+		}
 	}
 
 	size_t VulkanBaseUniformBuffer::GetSizeOfBindings()
