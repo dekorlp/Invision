@@ -135,9 +135,6 @@ namespace Invision
 
 	void VulkanBaseUniformBuffer::CreateUniformBuffer(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext)
 	{
-		// allocate DescriptorSets
-		mDescriptorSetLayout.resize(maxSet+1);
-
 		CreateUniformSet(vulkanInstance, vulkanContext);
 		CreateBuffers(vulkanInstance, vulkanContext);
 		CreateDescriptorSets(vulkanInstance, vulkanContext);
@@ -152,6 +149,9 @@ namespace Invision
 				vkDestroyDescriptorSetLayout(vulkanInstance.logicalDevice, mDescriptorSetLayout[i], nullptr);
 			}			
 		}
+
+		// allocate DescriptorSets
+		mDescriptorSetLayout.resize(maxSet + 1);
 
 		std::vector<VkDescriptorPoolSize> poolElements;
 
