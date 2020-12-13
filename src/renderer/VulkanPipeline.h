@@ -23,7 +23,9 @@ namespace Invision
 
 		INVISION_API void AddShader(const std::vector<char>& code, ShaderStage stage);
 
+		INVISION_API void ClearUniformBuffer();
 		INVISION_API void AddUniformBuffer(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer);
+		INVISION_API void AddUniformBuffer(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer, uint32_t set);
 
 		INVISION_API void AddVertexBuffer(std::shared_ptr<Invision::IVertexBuffer> vertexBuffer);
 

@@ -281,7 +281,8 @@ private:
 
 		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/DescriptorSets/Shader/DescriptorSets/vert.spv"));
 		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/DescriptorSets/Shader/DescriptorSets/frag.spv"));
-		pipeline->AddUniformBuffer(uniformBuffer);
+		pipeline->AddUniformBuffer(uniformBuffer, 0);
+		pipeline->AddUniformBuffer(uniformBuffer, 1);
 		pipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
 		pipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
 		pipeline->AddVertexBuffer(vertexBuffer);

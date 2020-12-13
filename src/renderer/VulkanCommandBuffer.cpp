@@ -100,6 +100,12 @@ namespace Invision
 		return *this;
 	}
 
+	ICommandBuffer& VulkanCommandBuffer::BindDescriptorSets(std::shared_ptr<IUniformBuffer> uniformBuffer, std::shared_ptr<IPipeline> pipeline, uint32_t set)
+	{
+		commandBuffer.BindDescriptorSets(dynamic_pointer_cast<VulkanUniformBuffer>(uniformBuffer)->GetBuffer(), dynamic_pointer_cast<VulkanPipeline>(pipeline)->GetPipeline(), VK_PIPELINE_BIND_POINT_GRAPHICS, set);
+		return *this;
+	}
+
 	ICommandBuffer& VulkanCommandBuffer::PushConstant(std::shared_ptr<IPushConstant> pushConstant, std::shared_ptr<IPipeline> pipeline, const void* data)
 	{
 		commandBuffer.PushConstant(dynamic_pointer_cast<VulkanPushConstant>(pushConstant)->GetBasePushConstant(), dynamic_pointer_cast<VulkanPipeline>(pipeline)->GetPipeline(), data);

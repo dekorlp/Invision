@@ -218,6 +218,22 @@ namespace Invision
 		return *this;
 	}
 
+	VulkanBaseCommandBuffer& VulkanBaseCommandBuffer::BindDescriptorSets(VulkanBaseUniformBuffer &uniformBuffer, VulkanBasePipeline& pipeline, VkPipelineBindPoint bindPoint, uint32_t set)
+	{
+		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
+		{
+			for (unsigned int j = 0; j < mCommandBuffers.size(); j++)
+			{
+				vkCmdBindDescriptorSets(mCommandBuffers[j], bindPoint, pipeline.GetPipelineLayout(), set, 1, &uniformBuffer.GetDescriptorSets()[set], 0, nullptr);
+			}
+		}
+		else
+		{
+			throw VulkanBaseException("Bind Descriptor Sets cannot be executed!");
+		}
+		return *this;
+	}
+
 	VulkanBaseCommandBuffer& VulkanBaseCommandBuffer::PushConstant(VulkanBasePushConstant pushConstant, VulkanBasePipeline& pipeline, const void* data)
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
