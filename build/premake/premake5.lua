@@ -482,6 +482,12 @@ AddConsoleProject(
 		srcroot .. "tools/DescriptorSets/**.cpp"
 	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, true)
 
+AddConsoleProject(
+	"PushConstantDemo", srcroot .. "tools/", {
+		srcroot .. "tools/PushConstantDemo/**.h",
+		srcroot .. "tools/PushConstantDemo/**.cpp"
+	}, srcroot, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, true)
+
 -----------------------------------------------------------------------------------------------------
 -------- University Examples
 -----------------------------------------------------------------------------------------------------
