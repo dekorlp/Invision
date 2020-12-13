@@ -39,6 +39,7 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 void RenderWidget::UpdateUniformBuffer(float width, float height)
 {
 	UniformBufferObject ubo = {};
+	UniformModelObject umo = {};
 	
 	
 	float x = radius * sin(theta) * cos(phi);
@@ -52,19 +53,19 @@ void RenderWidget::UpdateUniformBuffer(float width, float height)
 
 	if (switchFixedCamera == false)
 	{
-		ubo.model = Invision::Matrix(1.0f) * Invision::Matrix::Translate(pos) *  Invision::Matrix::Scale(scale);
+		umo.model = Invision::Matrix(1.0f) * Invision::Matrix::Translate(pos) *  Invision::Matrix::Scale(scale);
 		//ubo.model = Invision::Matrix(1.0f) * Invision::Matrix::RotateZ(angle) *  Invision::Matrix::Translate(pos) *  Invision::Matrix::Scale(scale);
 		ubo.view = Invision::Matrix(1.0f) *  Invision::Matrix::Camera(Invision::Vector3(x, y, z), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(upX, upY, upZ));
 	}
 	else
 	{
 		//Invision::Matrix::Translate(Invision::Vector3(0.0f, 0.0f, 0.0f)) * 
-		ubo.model = Invision::Matrix::RotateZ(angle + dt * 90.0);
+		umo.model = Invision::Matrix::RotateZ(angle + dt * 90.0);
 		ubo.view = Invision::Matrix(1.0f) *  Invision::Matrix::Camera(Invision::Vector3(2.0f, 2.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 0.0f, 1.0f));
 	}
 	ubo.proj = Invision::Matrix(1.0f) * Invision::Matrix::Perspective(45.0, width / height, 0.1f, 10.0f); // perspective projection
 	//uniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0, 0);
 	uniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0, 0);
-	//uniformBuffer->UpdateUniform(&uco, sizeof(uco), 0, 1);
+	uniformBuffer->UpdateUniform(&umo, sizeof(umo), 0, 1);
 }
 

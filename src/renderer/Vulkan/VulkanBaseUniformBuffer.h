@@ -19,6 +19,8 @@ namespace Invision
 			VkDeviceSize mOffset;
 			VulkanBaseBuffer mUniformBuffer;
 			VkDescriptorImageInfo mImageInfo;
+			VkDescriptorBufferInfo mBufferInfo;
+			
 
 		public:
 			INVISION_API VulkanBaseUniformBinding(uint32_t set, uint32_t binding,
@@ -38,10 +40,11 @@ namespace Invision
 			INVISION_API VkDeviceSize GetOffset();
 			INVISION_API void  SetSetIndex(uint32 setIndex);
 			INVISION_API VkDeviceSize GetSetIndex();
-			INVISION_API void SetBaseBuffer(VulkanBaseBuffer uniformBuffer);
+			INVISION_API void CreateBaseBuffer(const SVulkanBase &vulkanInstance);
 			INVISION_API VulkanBaseBuffer GetBaseBuffer();
 			INVISION_API void ClearAndDestroyBuffers(const SVulkanBase &vulkanInstance);
-			INVISION_API VkDescriptorImageInfo GetImageInfo();
+			INVISION_API VkDescriptorImageInfo& GetImageInfo();
+			INVISION_API VkDescriptorBufferInfo& GetBufferInfo();
 	};
 
 	// Binding Description

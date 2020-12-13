@@ -38,9 +38,12 @@
 
 
 struct UniformBufferObject {
-	Invision::Matrix model;
 	Invision::Matrix view;
 	Invision::Matrix proj;
+};
+
+struct UniformModelObject {
+	Invision::Matrix model;
 };
 
 class RenderWidget : public QWidget
@@ -276,6 +279,7 @@ private:
 
 		indexBuffer->CreateIndexBuffer(sizeof(indices[0]) * indices.size(), indices.data(), 0);
 		uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject), 0).
+			CreateUniformBinding(0, 1, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformModelObject), 0).
 			CreateImageBinding(1, 0, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, texture).CreateUniformBuffer();
 
 		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/DescriptorSets/Shader/DescriptorSets/vert.spv"));
