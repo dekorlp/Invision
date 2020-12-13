@@ -38,13 +38,13 @@
 
 
 struct UniformBufferObject {
-	Invision::Matrix model;
 	Invision::Matrix view;
 	Invision::Matrix proj;
+	Invision::Matrix model;
 };
 
-struct ModelObject {
-	Invision::Matrix model;
+struct ColorObject {
+	Invision::Vector3 color;
 };
 
 class RenderWidget : public QWidget
@@ -258,7 +258,7 @@ private:
 		renderPass = graphicsInstance->CreateRenderPass(); //graphicsEngine->CreateRenderPass();
 		vertexBuffer = graphicsInstance->CreateVertexBuffer();
 		uniformBuffer = graphicsInstance->CreateUniformBuffer();
-		pushConstant = graphicsInstance->CreatePushConstant(Invision::SHADER_STAGE_VERTEX_BIT, 0, sizeof(ModelObject), &mModelObject);
+		pushConstant = graphicsInstance->CreatePushConstant(Invision::SHADER_STAGE_VERTEX_BIT, 0, sizeof(ColorObject), &mColorObject);
 		indexBuffer = graphicsInstance->CreateIndexBuffer();
 		pipeline = graphicsInstance->CreatePipeline();
 		texture = graphicsInstance->CreateTexture();
@@ -282,8 +282,8 @@ private:
 		indexBuffer->CreateIndexBuffer(sizeof(indices[0]) * indices.size(), indices.data(), 0);
 		uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject), 0).CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, texture).CreateUniformBuffer();
 
-		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/PushConstantDemo/Shader/LoadModelDemo/vert.spv"));
-		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/PushConstantDemo/Shader/LoadModelDemo/frag.spv"));
+		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/PushConstantDemo/Shader/PushConstantDemo/vert.spv"));
+		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/PushConstantDemo/Shader/PushConstantDemo/frag.spv"));
 		pipeline->AddUniformBuffer(uniformBuffer);
 		pipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
 		pipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
@@ -327,7 +327,7 @@ private:
 	// timer for frequency adjusting
 	Invision::StopWatch mTimer;
 
-	ModelObject mModelObject;
+	ColorObject mColorObject;
 
 	const double dt = 1000 / FIXED_FPS;
 	double accumulatedTime = 0.0;

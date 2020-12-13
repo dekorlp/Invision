@@ -12,6 +12,7 @@ namespace Invision
 	class IVertexBuffer;
 	class IUniformBuffer;
 	class IIndexBuffer;
+	class IPushConstant;
 
 	struct Viewport;
 	struct Rect;
@@ -32,6 +33,7 @@ namespace Invision
 		INVISION_API virtual ICommandBuffer& BindVertexBuffer(std::vector< std::shared_ptr<IVertexBuffer>> vertexBuffer, uint32_t firstBinding, uint32_t bindingCount) = 0;
 		INVISION_API virtual ICommandBuffer& BindDescriptorSets(std::shared_ptr<IUniformBuffer> uniformBuffer, std::shared_ptr<IPipeline> pipeline) = 0;
 		INVISION_API virtual ICommandBuffer& BindIndexBuffer(std::shared_ptr<IIndexBuffer> indexBuffer) = 0;
+		INVISION_API virtual ICommandBuffer& PushConstant(std::shared_ptr<IPushConstant> pushConstant, std::shared_ptr<IPipeline> pipeline, const void* data) = 0;
 		INVISION_API virtual ICommandBuffer& Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex = 0, uint32_t firstInstance = 0) = 0;
 		INVISION_API virtual ICommandBuffer& DrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex = 0, uint32_t vertexOffset = 0, uint32_t firstInstance = 0) = 0;
 		INVISION_API virtual ICommandBuffer& EndRenderPass() = 0;

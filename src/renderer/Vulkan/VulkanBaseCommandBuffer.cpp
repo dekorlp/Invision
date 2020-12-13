@@ -8,6 +8,7 @@
 #include "VulkanBaseVertexBuffer.h"
 #include "VulkanBaseIndexBuffer.h"
 #include "VulkanBaseUniformBuffer.h"
+#include "VulkanBasePushConstant.h"
 #include "VulkanBaseCommandPool.h"
 #include "VulkanBaseCommandBuffer.h"
 
@@ -208,6 +209,22 @@ namespace Invision
 			for (unsigned int j = 0; j < mCommandBuffers.size(); j++)
 			{
 				vkCmdBindDescriptorSets(mCommandBuffers[j], bindPoint, pipeline.GetPipelineLayout(), 0, static_cast<uint32>(uniformBuffer.GetDescriptorSets().size()), uniformBuffer.GetDescriptorSets().data(), 0, nullptr);
+			}
+		}
+		else
+		{
+			throw VulkanBaseException("Bind Descriptor Sets cannot be executed!");
+		}
+		return *this;
+	}
+
+	VulkanBaseCommandBuffer& VulkanBaseCommandBuffer::PushConstant(VulkanBasePushConstant pushConstant, VulkanBasePipeline& pipeline, const void* data)
+	{
+		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
+		{
+			for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+			{
+				vkCmdPushConstants(mCommandBuffers[i], pipeline.GetPipelineLayout(), pushConstant.GetShaderStages(), static_cast<uint32>(pushConstant.GetOffset()), static_cast<uint32>(pushConstant.GetSize()), data);
 			}
 		}
 		else

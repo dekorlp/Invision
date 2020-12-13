@@ -21,6 +21,8 @@ void RenderWidget::RecreateSwapChain(const int width, const int height)
 
 void RenderWidget::BuildCommandBuffer(float width, float height)
 {
+	mColorObject.color = Invision::Vector3(1.0, 0.0, 0.0);
+
 	commandBuffer = graphicsInstance->CreateCommandBuffer(framebuffer);
 	commandBuffer->BeginCommandBuffer().
 		SetViewport({ 0, 0, (float)width, (float)height, 0.0, 1.0 }).
@@ -30,6 +32,7 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 		BindVertexBuffer({ vertexBuffer }, 0, 1).
 		BindDescriptorSets(uniformBuffer, pipeline).
 		BindIndexBuffer(indexBuffer).
+		PushConstant(pushConstant, pipeline, &mColorObject).
 		//Draw(static_cast<uint32_t>(vertices.size()), 1, 0, 0).
 		DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0).
 		EndRenderPass().
