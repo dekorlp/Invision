@@ -73,9 +73,9 @@ namespace Invision
 		return std::make_shared<VulkanUniformBuffer>(this);
 	}
 
-	std::shared_ptr<IPushConstant> VulkanInstance::CreatePushConstant(ShaderStage shaderStages, uint32_t offset, uint32_t size, const void* values)
+	std::shared_ptr<IPushConstant> VulkanInstance::CreatePushConstant(ShaderStage shaderStages, uint32_t offset, uint32_t size)
 	{
-		return std::make_shared<VulkanPushConstant>(this, shaderStages, offset, size, values);
+		return std::make_shared<VulkanPushConstant>(this, shaderStages, offset, size);
 	}
 
 	std::shared_ptr<IIndexBuffer> VulkanInstance::CreateIndexBuffer()

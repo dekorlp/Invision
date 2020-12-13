@@ -31,7 +31,7 @@ namespace Invision
 		INVISION_API virtual std::shared_ptr<IRenderPass> CreateRenderPass() = 0;
 		INVISION_API virtual std::shared_ptr<IVertexBuffer> CreateVertexBuffer() = 0;
 		INVISION_API virtual std::shared_ptr<IUniformBuffer> CreateUniformBuffer() = 0;
-		INVISION_API virtual std::shared_ptr<IPushConstant> CreatePushConstant(ShaderStage shaderStages, uint32_t offset, uint32_t size, const void* values) = 0;
+		INVISION_API virtual std::shared_ptr<IPushConstant> CreatePushConstant(ShaderStage shaderStages, uint32_t offset, uint32_t size) = 0;
 		INVISION_API virtual std::shared_ptr<IIndexBuffer> CreateIndexBuffer() = 0;
 		INVISION_API virtual std::shared_ptr<IPipeline> CreatePipeline() = 0;
 		INVISION_API virtual std::shared_ptr<IFramebuffer> CreateFramebuffer(std::shared_ptr<Invision::IRenderPass> renderPass, unsigned int countFrameBuffers = 1) = 0;

@@ -11,7 +11,7 @@ namespace Invision
 	{
 	}
 
-	IPushConstant::IPushConstant(IGraphicsInstance* instance, ShaderStage shaderStages, uint32_t offset, uint32_t size, const void* values) :
+	IPushConstant::IPushConstant(IGraphicsInstance* instance, ShaderStage shaderStages, uint32_t offset, uint32_t size) :
 		instance(instance)
 	{
 

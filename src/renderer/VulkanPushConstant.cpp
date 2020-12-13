@@ -13,7 +13,7 @@ namespace Invision
 		vulkanInstance = instance;
 	}
 
-	VulkanPushConstant::VulkanPushConstant(VulkanInstance* instance, ShaderStage shaderStages, uint32_t offset, uint32_t size, const void* values) :
+	VulkanPushConstant::VulkanPushConstant(VulkanInstance* instance, ShaderStage shaderStages, uint32_t offset, uint32_t size) :
 		IPushConstant(instance)
 	{
 		VkShaderStageFlagBits vkShaderStage;
@@ -37,7 +37,7 @@ namespace Invision
 
 		}
 
-		mPushConstant = VulkanBasePushConstant(vkShaderStage, offset, size, values);
+		mPushConstant = VulkanBasePushConstant(vkShaderStage, offset, size);
 	}
 
 	/*ShaderStage VulkanPushConstant::GetShaderStages()
@@ -55,10 +55,6 @@ namespace Invision
 		return mPushConstant.GetSize();
 	}
 
-	const void* VulkanPushConstant::GetValues()
-	{
-		return mPushConstant.GetValues();
-	}
 
 	void VulkanPushConstant::SetShaderStages(ShaderStage shaderStages)
 	{
@@ -95,11 +91,6 @@ namespace Invision
 	void VulkanPushConstant::SetSize(uint32_t size)
 	{
 		mPushConstant.SetSize(size);
-	}
-
-	void VulkanPushConstant::SetValues(const void* values)
-	{
-		mPushConstant.SetValues(values);
 	}
 
 	Invision::VulkanBasePushConstant VulkanPushConstant::GetBasePushConstant()

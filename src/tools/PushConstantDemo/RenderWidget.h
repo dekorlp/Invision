@@ -258,7 +258,7 @@ private:
 		renderPass = graphicsInstance->CreateRenderPass(); //graphicsEngine->CreateRenderPass();
 		vertexBuffer = graphicsInstance->CreateVertexBuffer();
 		uniformBuffer = graphicsInstance->CreateUniformBuffer();
-		pushConstant = graphicsInstance->CreatePushConstant(Invision::SHADER_STAGE_VERTEX_BIT, 0, sizeof(ColorObject), &mColorObject);
+		pushConstant = graphicsInstance->CreatePushConstant(Invision::SHADER_STAGE_VERTEX_BIT, 0, sizeof(ColorObject));
 		indexBuffer = graphicsInstance->CreateIndexBuffer();
 		pipeline = graphicsInstance->CreatePipeline();
 		texture = graphicsInstance->CreateTexture();
