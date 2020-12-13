@@ -50,12 +50,16 @@ namespace Invision
 
 	void VulkanBasePipeline::AddUniformBuffer(VulkanBaseUniformBuffer& uniformBuffer)
 	{
-		mDescriptorSetLayout = uniformBuffer.GetDescriptorSetLayout();
+		for (int i = 0; i < uniformBuffer.GetSets().size(); i++)
+		{
+			mDescriptorSetLayout.push_back(uniformBuffer.GetSets()[i].mDescriptorSetLayout);
+		}
 	}
+
 
 	void VulkanBasePipeline::AddUniformBuffer(VulkanBaseUniformBuffer& uniformBuffer, uint32_t set)
 	{
-		mDescriptorSetLayout.push_back(uniformBuffer.GetDescriptorSetLayout()[set]);
+		mDescriptorSetLayout.push_back(uniformBuffer.GetSets()[set].mDescriptorSetLayout);
 	}
 
 	void VulkanBasePipeline::AddVertexBuffer(VulkanBaseVertexBuffer& vertexBuffer)

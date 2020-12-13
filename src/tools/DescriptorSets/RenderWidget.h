@@ -43,7 +43,6 @@ struct UniformBufferObject {
 	Invision::Matrix proj;
 };
 
-
 class RenderWidget : public QWidget
 {
 	Q_OBJECT;

@@ -41,7 +41,6 @@ void RenderWidget::UpdateUniformBuffer(float width, float height)
 	UniformBufferObject ubo = {};
 	
 	
-	
 	float x = radius * sin(theta) * cos(phi);
 	float y = radius * sin(theta) * sin(phi);
 	float z = radius * cos(theta);
@@ -66,5 +65,6 @@ void RenderWidget::UpdateUniformBuffer(float width, float height)
 	ubo.proj = Invision::Matrix(1.0f) * Invision::Matrix::Perspective(45.0, width / height, 0.1f, 10.0f); // perspective projection
 	//uniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0, 0);
 	uniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0, 0);
+	//uniformBuffer->UpdateUniform(&uco, sizeof(uco), 0, 1);
 }
 

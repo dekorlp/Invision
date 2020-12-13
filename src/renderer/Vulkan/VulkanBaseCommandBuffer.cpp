@@ -204,11 +204,18 @@ namespace Invision
 	
 	VulkanBaseCommandBuffer& VulkanBaseCommandBuffer::BindDescriptorSets(VulkanBaseUniformBuffer &uniformBuffer, VulkanBasePipeline& pipeline, VkPipelineBindPoint bindPoint)
 	{
+		std::vector<VkDescriptorSet> sets;
+		for (int i = 0; i < uniformBuffer.GetSets().size(); i++)
+		{
+			sets.push_back(uniformBuffer.GetSets()[i].mDescriptorSet);
+		}
+
+
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
 			for (unsigned int j = 0; j < mCommandBuffers.size(); j++)
 			{
-				vkCmdBindDescriptorSets(mCommandBuffers[j], bindPoint, pipeline.GetPipelineLayout(), 0, static_cast<uint32>(uniformBuffer.GetDescriptorSets().size()), uniformBuffer.GetDescriptorSets().data(), 0, nullptr);
+				vkCmdBindDescriptorSets(mCommandBuffers[j], bindPoint, pipeline.GetPipelineLayout(), 0, static_cast<uint32>(sets.size()), sets.data(), 0, nullptr);
 			}
 		}
 		else
@@ -224,7 +231,7 @@ namespace Invision
 		{
 			for (unsigned int j = 0; j < mCommandBuffers.size(); j++)
 			{
-				vkCmdBindDescriptorSets(mCommandBuffers[j], bindPoint, pipeline.GetPipelineLayout(), set, 1, &uniformBuffer.GetDescriptorSets()[set], 0, nullptr);
+				vkCmdBindDescriptorSets(mCommandBuffers[j], bindPoint, pipeline.GetPipelineLayout(), set, 1, &uniformBuffer.GetSets()[set].mDescriptorSet, 0, nullptr);
 			}
 		}
 		else
