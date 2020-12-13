@@ -33,6 +33,12 @@ namespace Invision
 		case SHADER_STAGE_COMPUTE_BIT:
 			vkShaderStage = VK_SHADER_STAGE_COMPUTE_BIT;
 			break;
+		case SHADER_STAGE_TESSELLATION_CONTROL_BIT:
+			vkShaderStage = VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT;
+			break;
+		case SHADER_STAGE_TESSELLATION_EVALUATION_BIT:
+			vkShaderStage = VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT;
+			break;
 		default:
 			throw InvisionBaseRendererException("Unknown ShaderStageFlag passed to Function CreateUniformBinding");
 			
@@ -61,6 +67,12 @@ namespace Invision
 			break;
 		case SHADER_STAGE_COMPUTE_BIT:
 			vkShaderStage = VK_SHADER_STAGE_COMPUTE_BIT;
+			break;
+		case SHADER_STAGE_TESSELLATION_CONTROL_BIT:
+			vkShaderStage = VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT;
+			break;
+		case SHADER_STAGE_TESSELLATION_EVALUATION_BIT:
+			vkShaderStage = VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT;
 			break;
 		default:
 			throw InvisionBaseRendererException("Unknown ShaderStageFlag passed to Function CreateUniformBinding");
