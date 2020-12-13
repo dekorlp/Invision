@@ -5,6 +5,7 @@
 
 #include "VulkanUniformBuffer.h"
 #include "VulkanVertexBuffer.h"
+#include "VulkanPushConstant.h"
 #include "VulkanRenderPass.h"
 
 #include "VulkanPipeline.h"
@@ -55,6 +56,11 @@ namespace Invision
 	void VulkanPipeline::AddVertexBuffer(std::shared_ptr<Invision::IVertexBuffer> vertexBuffer)
 	{
 		pipeline.AddVertexBuffer(dynamic_pointer_cast<VulkanVertexBuffer>(vertexBuffer)->GetBaseVertexBuffer());
+	}
+
+	void VulkanPipeline::BindPushConstant(std::shared_ptr <Invision::IPushConstant> pushConstant)
+	{
+		pipeline.BindPushConstant(dynamic_pointer_cast<VulkanPushConstant>(pushConstant)->GetBasePushConstant());
 	}
 
 	void VulkanPipeline::CreatePipeline(std::shared_ptr<Invision::IRenderPass> renderPass)

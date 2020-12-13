@@ -9,6 +9,7 @@ namespace Invision
 	class VulkanBaseVertexBuffer;
 	class VulkanBaseRenderPass;
 	class VulkanBaseUniformBuffer;
+	class VulkanBasePushConstant;
 
 	VkPipelineCache INVISION_API CreatePipelineCache(const SVulkanBase &vulkanInstance);
 	void INVISION_API DestroyPipelineCache(const SVulkanBase &vulkanInstance, VkPipelineCache cache);
@@ -19,6 +20,7 @@ namespace Invision
 		void INVISION_API AddVertexBuffer(VulkanBaseVertexBuffer& vertexBuffer);
 		void INVISION_API AddShader(VulkanBaseShader shader);
 		void INVISION_API AddUniformBuffer(VulkanBaseUniformBuffer& uniformBuffer);
+		void INVISION_API BindPushConstant(VulkanBasePushConstant& pushConstant);
 		void INVISION_API UpdateVertexInputConfiguration();
 		void INVISION_API UpdateInputAssemblyConfiguration(VkPrimitiveTopology primitiveTopology);
 		/*void INVISION_API UpdateViewPortConfiguration(const SVulkan &vulkanInstance,
@@ -47,6 +49,7 @@ namespace Invision
 		// Configurations
 		std::vector<VkPipelineShaderStageCreateInfo> mShaderStages = {}; // Shaders
 		std::vector<VkDescriptorSetLayout> mDescriptorSetLayout = {}; // Uniform Buffers
+		std::vector<VkPushConstantRange> mPushConstRange = {}; // Push Constant
 		std::vector<VkVertexInputBindingDescription> mVertexInputBindingDescriptions = {}; // VertexInputBindingDescriptions
 		std::vector<VkVertexInputAttributeDescription> mVertexInputAttributeDescriptions = {}; // VertexInputAttributeDescriptions;
 		VkPipelineVertexInputStateCreateInfo mVertexInputConfig = {}; // Vertex configuration

@@ -27,6 +27,8 @@ namespace Invision
 
 		INVISION_API void AddVertexBuffer(std::shared_ptr<Invision::IVertexBuffer> vertexBuffer);
 
+		INVISION_API void BindPushConstant(std::shared_ptr <Invision::IPushConstant> pushConstant);
+
 		INVISION_API void CreatePipeline(std::shared_ptr<Invision::IRenderPass> renderPass);
 
 		INVISION_API VulkanBasePipeline GetPipeline();

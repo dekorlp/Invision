@@ -26,6 +26,8 @@ namespace Invision
 		INVISION_API void SetSize(uint32_t size) override;
 		INVISION_API void SetValues(const void* values) override;
 
+		INVISION_API Invision::VulkanBasePushConstant GetBasePushConstant();
+
 	private:
 		Invision::VulkanInstance *vulkanInstance;
 		Invision::VulkanBasePushConstant mPushConstant;

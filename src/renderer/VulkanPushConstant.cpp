@@ -101,4 +101,9 @@ namespace Invision
 	{
 		mPushConstant.SetValues(values);
 	}
+
+	Invision::VulkanBasePushConstant VulkanPushConstant::GetBasePushConstant()
+	{
+		return mPushConstant;
+	}
 }

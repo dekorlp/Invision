@@ -6,6 +6,7 @@
 #include "VulkanBaseRenderPass.h"
 #include "VulkanBaseVertexBuffer.h"
 #include "VulkanBaseUniformBuffer.h"
+#include "VulkanBasePushConstant.h"
 
 #include "VulkanBasePipeline.h"
 
@@ -48,7 +49,7 @@ namespace Invision
 		mDescriptorSetLayout = uniformBuffer.GetDescriptorSetLayout();
 	}
 
-	void INVISION_API VulkanBasePipeline::AddVertexBuffer(VulkanBaseVertexBuffer& vertexBuffer)
+	void VulkanBasePipeline::AddVertexBuffer(VulkanBaseVertexBuffer& vertexBuffer)
 	{
 		mVertexInputAttributeDescriptions = vertexBuffer.GetAttributeDescriptions();
 		mVertexInputBindingDescriptions = vertexBuffer.GetBindingDescriptions();
@@ -58,6 +59,18 @@ namespace Invision
 		{
 			mVertexInputAttributeDescriptions.push_back(vertexBuffer.GetAttributeDescriptions()[i]);
 		}*/
+	}
+
+	void VulkanBasePipeline::BindPushConstant(VulkanBasePushConstant& pushConstant)
+	{
+		if (mPushConstRange.size() == 0)
+		{
+			mPushConstRange.push_back(pushConstant.ConstructPushConstantRange());
+		}
+		else
+		{
+			mPushConstRange[0] = pushConstant.ConstructPushConstantRange();
+		}
 	}
 
 	void VulkanBasePipeline::UpdateVertexInputConfiguration()
@@ -173,8 +186,8 @@ namespace Invision
 		mPipelineLayoutInfo.flags = 0;
 		mPipelineLayoutInfo.setLayoutCount = static_cast<uint32_t>(mDescriptorSetLayout.size()); // Optional
 		mPipelineLayoutInfo.pSetLayouts = mDescriptorSetLayout.data(); // Optional
-		mPipelineLayoutInfo.pushConstantRangeCount = 0; // Optional
-		mPipelineLayoutInfo.pPushConstantRanges = nullptr; // Optional
+		mPipelineLayoutInfo.pushConstantRangeCount = static_cast<uint32_t>(mPushConstRange.size()); // Optional
+		mPipelineLayoutInfo.pPushConstantRanges = mPushConstRange.data(); // Optional
 	}
 
 	VkPipeline VulkanBasePipeline::GetPipeline()

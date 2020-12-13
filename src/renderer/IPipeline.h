@@ -8,6 +8,7 @@ namespace Invision
 
 	class IUniformBuffer;
 	class IVertexBuffer;
+	class IPushConstant;
 	class IRenderPass;
 
 	enum ShaderStage;
@@ -25,6 +26,7 @@ namespace Invision
 		INVISION_API virtual void AddShader(const std::vector<char>& code, ShaderStage stage) = 0;
 		INVISION_API virtual void AddUniformBuffer(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer) = 0;
 		INVISION_API virtual void AddVertexBuffer(std::shared_ptr <Invision::IVertexBuffer> vertexBuffer) = 0;
+		INVISION_API virtual void BindPushConstant(std::shared_ptr <Invision::IPushConstant> pushConstant) = 0;
 		INVISION_API virtual void CreatePipeline(std::shared_ptr<Invision::IRenderPass> renderPass) = 0;
 	};
 }
