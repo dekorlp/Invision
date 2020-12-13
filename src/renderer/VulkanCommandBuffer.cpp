@@ -76,6 +76,26 @@ namespace Invision
 		return *this;
 	}
 
+	ICommandBuffer& VulkanCommandBuffer::BeginRenderPass(std::shared_ptr<IRenderPass> renderPass, std::shared_ptr<Invision::IFramebuffer> framebuffer, float background[4])
+	{
+		std::vector< VkClearValue> clearValues = {};
+
+		if (vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated() == true)
+		{
+			clearValues.resize(2);
+			clearValues[0].color = { background[0], background[1], background[2], background[3] };
+			clearValues[1].depthStencil = { 1.0, 0 };
+		}
+		else
+		{
+			clearValues.resize(1);
+			clearValues[0].color = { background[0], background[1], background[2], background[3] };
+		}
+
+		commandBuffer.BeginRenderPass(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), dynamic_pointer_cast<VulkanFramebuffer>(framebuffer)->GetFramebuffer(), clearValues);
+		return *this;
+	}
+
 	ICommandBuffer& VulkanCommandBuffer::BindPipeline(std::shared_ptr<IPipeline> pipeline)
 	{
 		commandBuffer.BindPipeline(dynamic_pointer_cast<VulkanPipeline>(pipeline)->GetPipeline(), VK_PIPELINE_BIND_POINT_GRAPHICS);
