@@ -31,7 +31,7 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 		BindPipeline(pipeline).
 		BindVertexBuffer({ vertexBuffer }, 0, 1).
 		BindDescriptorSets(uniformBuffer, pipeline).
-		BindIndexBuffer(indexBuffer).
+		BindIndexBuffer(indexBuffer, Invision::INDEX_TYPE_UINT32).
 		PushConstant(pushConstant, pipeline, &mColorObject).
 		//Draw(static_cast<uint32_t>(vertices.size()), 1, 0, 0).
 		DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0).

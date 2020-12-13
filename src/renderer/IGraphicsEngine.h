@@ -58,6 +58,12 @@ namespace Invision
 		VERTEX_INPUT_RATE_INSTANCE = 1
 	};
 
+	enum IndexType
+	{
+		INDEX_TYPE_UINT16 = 0,
+		INDEX_TYPE_UINT32 = 1,
+	};
+
 	typedef struct PhysicalDeviceProperties
 	{
 		uint32_t index;

@@ -112,9 +112,25 @@ namespace Invision
 		return *this;
 	}
 
-	ICommandBuffer& VulkanCommandBuffer::BindIndexBuffer(std::shared_ptr<IIndexBuffer> indexBuffer)
+	ICommandBuffer& VulkanCommandBuffer::BindIndexBuffer(std::shared_ptr<IIndexBuffer> indexBuffer, IndexType indexType)
 	{
-		commandBuffer.BindIndexBuffer(dynamic_pointer_cast<VulkanIndexBuffer>(indexBuffer)->GetBuffer(), VK_INDEX_TYPE_UINT32);
+		VkIndexType vkIndexType;
+
+	
+		switch (indexType)
+		{
+		case INDEX_TYPE_UINT16:
+			vkIndexType = VK_INDEX_TYPE_UINT16;
+			break;
+		case INDEX_TYPE_UINT32:
+			vkIndexType = VK_INDEX_TYPE_UINT32;
+			break;
+		default:
+			throw InvisionBaseRendererException("Unknown Index Type passed to Function BindIndexBuffer");
+
+		}
+
+		commandBuffer.BindIndexBuffer(dynamic_pointer_cast<VulkanIndexBuffer>(indexBuffer)->GetBuffer(), vkIndexType);
 		return *this;
 	}
 
