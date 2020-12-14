@@ -261,12 +261,12 @@ private:
 		pipeline = graphicsInstance->CreatePipeline();
 		texture = graphicsInstance->CreateTexture();
 
-		unsigned char* pixels = readPNG(std::string(INVISION_BASE_DIR).append("/src/tools/DescriptorSets/Textures/viking_room.png"), width, height, channels);
+		unsigned char* pixels = readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/DescriptorSets/Textures/viking_room.png"), width, height, channels);
 
 		std::vector<Invision::Vector3> positions;
 		std::vector<Invision::Vector2> texCoords;
 
-		LoadModel(std::string(INVISION_BASE_DIR).append("/src/tools/DescriptorSets/Models/viking_room.obj"), vertices, indices);
+		LoadModel(std::string(INVISION_BASE_DIR).append("/src/Examples/DescriptorSets/Models/viking_room.obj"), vertices, indices);
 		texture->LoadTexture(pixels, width * height * 4, width, height);
 		freeImage(pixels);
 		texture->CreateTextureImageView();
@@ -282,8 +282,8 @@ private:
 			CreateUniformBinding(1, 1, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformModelObject), 0).
 			CreateImageBinding(1, 0, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, texture).CreateUniformBuffer();
 
-		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/DescriptorSets/Shader/DescriptorSets/vert.spv"));
-		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/DescriptorSets/Shader/DescriptorSets/frag.spv"));
+		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DescriptorSets/Shader/DescriptorSets/vert.spv"));
+		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DescriptorSets/Shader/DescriptorSets/frag.spv"));
 		pipeline->AddUniformBuffer(uniformBuffer, 0);
 		pipeline->AddUniformBuffer(uniformBuffer, 1);
 		pipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);

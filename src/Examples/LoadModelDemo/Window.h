@@ -25,7 +25,7 @@
 #include <QtWidgets/QWidget>
 
 #include "RenderWidget.h"
-#include "renderer/GraphicsFactory.h"
+#include "Engine/renderer/GraphicsFactory.h"
 
 QT_BEGIN_NAMESPACE
 

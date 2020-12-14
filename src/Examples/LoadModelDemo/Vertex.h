@@ -1,11 +1,11 @@
 #ifndef VERTEX_H
 #define VERTEX_H
 
-#include "InCommon.h"
+#include "Engine\InCommon.h"
 
-#include "math\Vector2.h"
-#include "math\Vector3.h"
-#include "math\Matrix.h"
+#include "Engine\math\Vector2.h"
+#include "Engine\math\Vector3.h"
+#include "Engine\math\Matrix.h"
 
 struct Vertex {
 	Invision::Vector3 position;

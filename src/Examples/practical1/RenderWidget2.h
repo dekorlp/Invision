@@ -25,16 +25,29 @@ struct Vertex2 {
 
 
 
-const std::vector<Vertex2> vertices2 = {
+const std::vector<Vertex2> vertices2 = { { {-0.5, -0.5}, {0.0, 0.0, 1.0}},
+{{0.5, -0.5 }, {0.0, 0.0, 1.0 } },
+{{0.5, 0.5}, {0.0, 1.0, 0.0}},
+{{0.0, 1.0}, {1.0, 0.0, 0.0 }},
+{{-0.5, 0.5}, {0.0, 1.0, 0.0} }};
+
+const std::vector<uint32_t> indices2 = {
+	0, 1, 2,
+	0, 2, 4,
+	4, 2, 3
+};
+
+
+/*const std::vector<Vertex2> vertices2 = {
 	{ { -0.5f, -0.5f },{ 1.0f, 0.0f, 0.0f } },
 	{ { 0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f } },
 	{ { 0.5f, 0.5f },{ 0.0f, 0.0f, 1.0f } },
 	{ { -0.5f, 0.5f },{ 1.0f, 1.0f, 1.0f } }
 };
 
-const std::vector<uint32_t> indices2 = {
+const std::vector<uint16_t> indices2 = {
 	0, 1, 2, 0
-};
+};*/
 
 struct UniformBufferObject2 {
 	Invision::Matrix model;
@@ -143,28 +156,16 @@ private:
 			return;
 
 
-		// limit framerate
-		mTimer.stop();
-		if (mTimer.getElapsedMilliseconds() < 1000 / FIXED_FPS)
-		{
-			long long delta_ms = (1000 / FIXED_FPS - mTimer.getElapsedMilliseconds());
-			std::this_thread::sleep_for(std::chrono::milliseconds(delta_ms));
-		}
-		mTimer.start();
-
 		// my render code
 		bool recreateSwapchainIsNecessary = false;
-
 		recreateSwapchainIsNecessary = renderer->PrepareFrame();
-
 		UpdateUniformBuffer(this->size().width(), this->size().height());
+
 		renderer->Draw(commandBuffer);
 
 		recreateSwapchainIsNecessary = renderer->SubmitFrame();
 
-
 		if (recreateSwapchainIsNecessary) RecreateSwapChain(this->size().width(), this->size().height());
-
 
 		if (mContinousRender == true)
 			Render();
@@ -194,8 +195,8 @@ private:
 
 		uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject2), 0).CreateUniformBuffer();
 
-		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/QTDemoApp/Shader/DrawUniformBuffer/vert.spv"));
-		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/QTDemoApp/Shader/DrawUniformBuffer/frag.spv"));
+		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/practical1/Shader/DrawUniformBuffer/vert.spv"));
+		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/practical1/Shader/DrawUniformBuffer/frag.spv"));
 		pipeline->AddUniformBuffer(uniformBuffer);
 		pipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
 		pipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);

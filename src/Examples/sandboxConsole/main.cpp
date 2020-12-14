@@ -308,15 +308,6 @@ void testPoolAllocatorStruct()
 	alloc.Destroy();
 }*/
 
-void testMatrix()
-{
-	Invision::Matrix mat = mat.RotateX(90);
-	Invision::Vector3 vec = Invision::Vector3(1, 2, 3);
-	Invision::Vector3 result =  mat * vec;
-
-
-}
-
 /*typedef void* HANDLE;
 
 class VulkanAPI

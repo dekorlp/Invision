@@ -19,74 +19,27 @@
 #include "math\Matrix.h"
 
 struct Vertex {
-	Invision::Vector2 position;
+	Invision::Vector3 position;
 	Invision::Vector3 color;
+	Invision::Vector2 texCoord;
 };
 
 const std::vector<Vertex> vertices = {
-	{{-0.8, -0.7}, {1.0, 0.0, 0.0}}, // 0
-{{-0.2, -0.4}, {1.0, 0.0, 0.0 } }, // 1
-{ { -0.6, -0.3}, {1.0, 0.0, 0.0 }}, // 2
-{ { -0.8,  0.0}, {1.0, 0.0, 0.0 }}, // 3
-{ { -0.6,  0.7}, {1.0, 0.0, 0.0 }}, // 4
-{ { -0.8,  1.0}, {1.0, 0.0, 0.0 }}, // 5
-{ { -0.5,  0.9}, {1.0, 0.0, 0.0 }}, // 6
-{ { -0.4,  0.5}, {1.0, 0.0, 0.0 }}, // 7
-{ { -0.2,  0.8}, {1.0, 0.0, 0.0 }}, // 8
-{ { -0.2,  0.4}, {1.0, 0.0, 0.0 }}, // 9
-{ { -0.4, -0.1}, {1.0, 0.0, 0.0 }}, // 10
+	{{-0.5f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f}},
+	{{0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f}},
+	{{0.5f, 0.5f, 0.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f}},
+	{{-0.5f, 0.5f, 0.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}},
 
-
-{ { 0.2, -0.8}, {1.0, 0.0, 0.0 }}, // 11
-{ { 0.35,-0.8}, {1.0, 0.0, 0.0 }}, // 12
-{ { 0.2,  0.0}, {1.0, 0.0, 0.0 }}, // 13
-{ { 0.35, 1.0}, {1.0, 0.0, 0.0 }}, // 14
-{ { 0.2,  1.0}, {1.0, 0.0, 0.0 }}, // 15
-{ { 0.35, 0.3}, {1.0, 0.0, 0.0 }}, // 16
-{ { 0.45, 0.1}, {1.0, 0.0, 0.0 }}, // 17
-{ { 0.35,-0.1}, {1.0, 0.0, 0.0 }}, // 18
-{ { 0.8,  0.87}, {1.0, 0.0, 0.0 }}, //19
-{ { 1.0,  0.8}, {1.0, 0.0, 0.0 }}, // 20
-{ { 0.9,  1.0}, {1.0, 0.0, 0.0 }}, // 21
-{ { 1.0, -0.5}, {1.0, 0.0, 0.0 }}, // 22
-{ { 0.9, -0.8}, {1.0, 0.0, 0.0 }}, // 23
+	{{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},
+	{{0.5f, -0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}},
+	{{0.5f, 0.5f, -0.5f}, {0.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
+	{{-0.5f, 0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}}
 };
 
-const std::vector<uint32_t> indices = { 0, 1, 2,
-				  0, 2, 3,
-				  3, 2, 4,
-				  3, 4, 5,
-				  4, 6, 5,
-				  4, 7, 6,
-				  7, 8, 6,
-				  7, 9, 8,
-				  7, 10, 9,
-				  10, 1, 9,
-				  2, 1, 10,
-				  1, 2, 0,
-
-
-				  11, 12, 13,
-				  13, 12, 14,
-				  13, 14, 15,
-				  16, 18, 17,
-				  17, 19, 16,
-				  17, 20, 19,
-				  20, 21, 19,
-				  18, 22, 17,
-				  18, 23, 22,
+const std::vector<uint32_t> indices = {
+	0, 1, 2, 2, 3, 0,
+	4, 5, 6, 6, 7, 4
 };
-
-/*const std::vector<Vertex> vertices = {
-	{ { -0.5f, -0.5f },{ 1.0f, 0.0f, 0.0f } },
-	{ { 0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f } },
-	{ { 0.5f, 0.5f },{ 0.0f, 0.0f, 1.0f } },
-	{ { -0.5f, 0.5f },{ 1.0f, 1.0f, 1.0f } }
-};
-
-const std::vector<uint16_t> indices = {
-	0, 1, 2, 2, 3, 0
-};*/
 
 struct UniformBufferObject {
 	Invision::Matrix model;
@@ -189,16 +142,34 @@ public:
 private:
 	void DoRender()
 	{
+		if (isVisible() == false)
+			return;
+		if (mIsInit == false)
+			return;
+
+
+		// limit framerate
+		mTimer.stop();
+		if (mTimer.getElapsedMilliseconds() < 1000 / FIXED_FPS)
+		{
+			long long delta_ms = (1000 / FIXED_FPS - mTimer.getElapsedMilliseconds());
+			std::this_thread::sleep_for(std::chrono::milliseconds(delta_ms));
+		}
+		mTimer.start();
+
 		// my render code
 		bool recreateSwapchainIsNecessary = false;
-		recreateSwapchainIsNecessary = renderer->PrepareFrame();
-		UpdateUniformBuffer(this->size().width(), this->size().height());
 
+		recreateSwapchainIsNecessary = renderer->PrepareFrame();
+
+		UpdateUniformBuffer(this->size().width(), this->size().height());
 		renderer->Draw(commandBuffer);
 
 		recreateSwapchainIsNecessary = renderer->SubmitFrame();
 
+
 		if (recreateSwapchainIsNecessary) RecreateSwapChain(this->size().width(), this->size().height());
+
 
 		if (mContinousRender == true)
 			Render();
@@ -206,8 +177,15 @@ private:
 
 	void Init()
 	{
+	
+
+
 		auto nativeWindowHandler = winId();
 		
+		int width, height, channels;
+
+		
+
 		Invision::CanvasDimensions dim = { HWND(nativeWindowHandler), this->size().width(), this->size().height() };
 		//graphicsEngine = std::make_shared<Invision::VulkanEngine>(dim);
 		
@@ -218,18 +196,26 @@ private:
 		uniformBuffer = graphicsInstance->CreateUniformBuffer();
 		indexBuffer = graphicsInstance->CreateIndexBuffer();
 		pipeline = graphicsInstance->CreatePipeline();
+		texture = graphicsInstance->CreateTexture();
+
+		unsigned char* pixels = readJPG(std::string(INVISION_BASE_DIR).append("/src/Examples/DepthTextureDemo/texture.jpg"), width, height, channels);
+		texture->LoadTexture(pixels, width * height * 4, width, height);
+		freeImage(pixels);
+		texture->CreateTextureImageView();
+		texture->CreateTextureSampler();
 
 
 		vertexBuffer->CreateVertexBinding(sizeof(vertices[0]) * vertices.size(), vertices.data(), 0, sizeof(Vertex), Invision::VERTEX_INPUT_RATE_VERTEX)
-			->CreateAttribute(0, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, position))
-			.CreateAttribute(1, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color));
+			->CreateAttribute(0, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, position))
+			.CreateAttribute(1, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color))
+			.CreateAttribute(2, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, texCoord));
 
 		indexBuffer->CreateIndexBuffer(sizeof(indices[0]) * indices.size(), indices.data(), 0);
 
-		uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject), 0).CreateUniformBuffer();
+		uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject), 0).CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, texture).CreateUniformBuffer();
 
-		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/practical1/Shader/DrawUniformBuffer/vert.spv"));
-		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/tools/practical1/Shader/DrawUniformBuffer/frag.spv"));
+		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DepthTextureDemo/Shader/DepthTextureDemo/vert.spv"));
+		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DepthTextureDemo/Shader/DepthTextureDemo/frag.spv"));
 		pipeline->AddUniformBuffer(uniformBuffer);
 		pipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
 		pipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
@@ -261,6 +247,7 @@ private:
 	std::shared_ptr <Invision::IFramebuffer> framebuffer;
 	std::shared_ptr <Invision::ICommandBuffer> commandBuffer;
 	std::shared_ptr <Invision::IRenderer> renderer;
+	std::shared_ptr <Invision::ITexture> texture;
 
 	// timer for frequency adjusting
 	Invision::StopWatch mTimer;
