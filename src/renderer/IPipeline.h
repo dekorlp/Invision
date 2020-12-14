@@ -11,7 +11,15 @@ namespace Invision
 	class IPushConstant;
 	class IRenderPass;
 
+	struct PipelineProperties;
+
 	enum ShaderStage;
+
+	enum PrimitiveTopology;
+	enum PolygoneMode;
+	enum CullMode;
+	enum FrontFaceMode;
+
 
 	class IPipeline
 	{
@@ -20,6 +28,7 @@ namespace Invision
 	public:
 		INVISION_API IPipeline() = delete;
 		INVISION_API IPipeline(IGraphicsInstance* instance);
+		INVISION_API IPipeline(IGraphicsInstance* instance, PipelineProperties* pipelineProperties);
 		INVISION_API virtual ~IPipeline() = default;
 
 

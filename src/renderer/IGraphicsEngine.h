@@ -66,6 +66,65 @@ namespace Invision
 		INDEX_TYPE_UINT32 = 1,
 	};
 
+	enum PrimitiveTopology
+	{
+		PRIMITIVE_TOPOLOGY_POINT_LIST = 0,
+		PRIMITIVE_TOPOLOGY_LINE_LIST = 1,
+		PRIMITIVE_TOPOLOGY_LINE_STRIP = 2,
+		PRIMITIVE_TOPOLOGY_TRIANGLE_LIST = 3,
+		PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP = 4,
+		PRIMITIVE_TOPOLOGY_TRIANGLE_FAN = 5
+	};
+
+	enum PolygonMode
+	{
+		POLYGON_MODE_FILL = 0,
+		POLYGON_MODE_LINE = 1,
+		POLYGON_MODE_POINT = 2
+	};
+
+	enum CullMode
+	{
+		CULL_MODE_NONE = 0,
+		CULL_MODE_FRONT_BIT = 0x00000001,
+		CULL_MODE_BACK_BIT = 0x00000002,
+		CULL_MODE_FRONT_AND_BACK = 0x00000003
+	};
+
+	enum FrontFaceMode
+	{
+		FRONT_FACE_COUNTER_CLOCKWISE = 0,
+		FRONT_FACE_CLOCKWISE = 1
+	};
+
+	struct PipelineProperties
+	{
+		PrimitiveTopology mPrimitiveTopology;
+		PolygonMode mPolygonMode;
+		CullMode mCullMode;
+		FrontFaceMode mFrontFaceMode;
+		float mLineWidth;
+
+		PipelineProperties()
+		{
+			
+		}
+
+		PipelineProperties(PrimitiveTopology primitiveTopology,
+		PolygonMode polygonMode,
+		CullMode cullMode,
+		FrontFaceMode frontFaceMode,
+		float lineWidth)
+		{
+			mPrimitiveTopology = primitiveTopology;
+			mPolygonMode = polygonMode;
+			mCullMode = cullMode;
+			mFrontFaceMode = frontFaceMode;
+			mLineWidth = lineWidth;
+		}
+	};
+	
+
 	typedef struct PhysicalDeviceProperties
 	{
 		uint32_t index;

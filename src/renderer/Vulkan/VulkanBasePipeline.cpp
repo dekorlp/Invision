@@ -43,6 +43,15 @@ namespace Invision
 		mShaderStages.push_back(shaderStageInfo);
 	}
 
+	void VulkanBasePipeline::SetRenderProperties(VkPrimitiveTopology primitiveTopology, VkPolygonMode polygonMode, VkCullModeFlags cullModeFlags, VkFrontFace frontFace, float lineWidth)
+	{
+		mPrimitiveTopology = primitiveTopology;
+		mPolygonMode = polygonMode;
+		mCullModeFlags = cullModeFlags;
+		mFrontFace = frontFace;
+		mLineWidth = lineWidth;
+	}
+
 	void VulkanBasePipeline::ClearUniformsBuffer()
 	{
 		mDescriptorSetLayout.clear();
@@ -216,9 +225,9 @@ namespace Invision
 	void VulkanBasePipeline::CreatePipeline(const SVulkanBase &vulkanInstance, VulkanBaseRenderPass &renderPass, uint32_t subpassIndex, bool useDepthRessource, float minDepthBound, float maxDepthBound, VkPipelineCache pipelineCache)
 	{
 		UpdateVertexInputConfiguration();
-		UpdateInputAssemblyConfiguration(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST);
+		UpdateInputAssemblyConfiguration(mPrimitiveTopology);
 		UpdateViewPortConfiguration(vulkanInstance);
-		UpdateRasterizerConfiguration(VK_POLYGON_MODE_FILL, 1.0, VK_CULL_MODE_BACK_BIT, VK_FRONT_FACE_COUNTER_CLOCKWISE);
+		UpdateRasterizerConfiguration(mPolygonMode, mLineWidth, mCullModeFlags, mFrontFace);
 		UpdateMultisamplingConfiguration();
 		if(useDepthRessource) UpdateDepthStencilConfiguration();
 		UpdateColorBlendingAttachmentConfiguration();

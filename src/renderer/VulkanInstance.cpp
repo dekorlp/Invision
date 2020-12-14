@@ -103,6 +103,11 @@ namespace Invision
 		return std::make_shared<VulkanPipeline>(this);
 	}
 
+	std::shared_ptr<IPipeline> VulkanInstance::CreatePipeline(PipelineProperties* pipelineProperties)
+	{
+		return std::make_shared<VulkanPipeline>(this, pipelineProperties);
+	}
+
 	std::shared_ptr<IFramebuffer> VulkanInstance::CreateFramebuffer(std::shared_ptr<IRenderPass> renderPass, unsigned int countFrameBuffers)
 	{
 		return std::make_shared<VulkanFramebuffer>(this, renderPass, countFrameBuffers);

@@ -20,6 +20,7 @@ namespace Invision
 		INVISION_API VulkanPipeline() = delete;
 
 		INVISION_API VulkanPipeline(VulkanInstance* instance);
+		INVISION_API VulkanPipeline(VulkanInstance* instance, PipelineProperties* pipelineProperties);
 
 		INVISION_API void AddShader(const std::vector<char>& code, ShaderStage stage);
 
@@ -43,6 +44,8 @@ namespace Invision
 
 		std::vector< Invision::VulkanBaseShader> shaders;
 		Invision::VulkanBasePipeline pipeline;
+
+		std::shared_ptr<PipelineProperties> mPipelineProperties = nullptr;
 
 	};
 

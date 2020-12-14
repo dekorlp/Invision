@@ -19,6 +19,7 @@ namespace Invision
 	public:
 		void INVISION_API AddVertexBuffer(VulkanBaseVertexBuffer& vertexBuffer);
 		void INVISION_API AddShader(VulkanBaseShader shader);
+		void INVISION_API SetRenderProperties(VkPrimitiveTopology primitiveTopology, VkPolygonMode polygonMode, VkCullModeFlags cullModeFlags, VkFrontFace frontFace, float lineWidth);
 		void INVISION_API ClearUniformsBuffer();
 		void INVISION_API AddUniformBuffer(VulkanBaseUniformBuffer& uniformBuffer);
 		void INVISION_API AddUniformBuffer(VulkanBaseUniformBuffer& uniformBuffer, uint32_t set);
@@ -47,6 +48,13 @@ namespace Invision
 		void INVISION_API DestroyPipeline(const SVulkanBase &vulkanInstance);
 		
 	private:
+
+		// Render Properties
+		VkPrimitiveTopology mPrimitiveTopology;
+		VkPolygonMode mPolygonMode;
+		VkCullModeFlags mCullModeFlags;
+		VkFrontFace mFrontFace;
+		float mLineWidth;
 
 		// Configurations
 		std::vector<VkPipelineShaderStageCreateInfo> mShaderStages = {}; // Shaders
