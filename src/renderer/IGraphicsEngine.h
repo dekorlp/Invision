@@ -107,7 +107,12 @@ namespace Invision
 
 		PipelineProperties()
 		{
-			
+			// Default Properties
+			mPrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+			mPolygonMode = POLYGON_MODE_FILL;
+			mCullMode = CULL_MODE_BACK_BIT;
+			mFrontFaceMode = FRONT_FACE_COUNTER_CLOCKWISE;
+			mLineWidth = 1.0f;
 		}
 
 		PipelineProperties(PrimitiveTopology primitiveTopology,

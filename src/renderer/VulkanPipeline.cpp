@@ -16,13 +16,7 @@ namespace Invision
 	{
 		vulkanInstance = instance;
 		//mPipelineProperties ;
-		mPipelineProperties = std::make_shared<PipelineProperties>();
-		mPipelineProperties->mPrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
-		mPipelineProperties->mPolygonMode = POLYGON_MODE_FILL;
-		mPipelineProperties->mCullMode = CULL_MODE_BACK_BIT;
-		mPipelineProperties->mFrontFaceMode = FRONT_FACE_COUNTER_CLOCKWISE;
-		mPipelineProperties->mLineWidth = 1.0f;
-		
+		mPipelineProperties = std::make_shared<PipelineProperties>();		
 	}
 
 	VulkanPipeline::VulkanPipeline(VulkanInstance* instance, PipelineProperties* pipelineProperties) :
