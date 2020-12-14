@@ -253,11 +253,11 @@ private:
 		//graphicsEngine = std::make_shared<Invision::VulkanEngine>(dim);
 		
 		graphicsInstance = graphicsEngine->CreateInstance(dim);
-
 		renderPass = graphicsInstance->CreateRenderPass(); //graphicsEngine->CreateRenderPass();
 		vertexBuffer = graphicsInstance->CreateVertexBuffer();
 		uniformBuffer = graphicsInstance->CreateUniformBuffer();
 		indexBuffer = graphicsInstance->CreateIndexBuffer();
+		//pipeline = graphicsInstance->CreatePipeline(&Invision::PipelineProperties(Invision::PRIMITIVE_TOPOLOGY_LINE_LIST, Invision::POLYGON_MODE_FILL, Invision::CULL_MODE_BACK_BIT, Invision::FRONT_FACE_COUNTER_CLOCKWISE, 1.0f));
 		pipeline = graphicsInstance->CreatePipeline();
 		texture = graphicsInstance->CreateTexture();
 

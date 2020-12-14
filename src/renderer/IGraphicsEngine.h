@@ -97,7 +97,7 @@ namespace Invision
 		FRONT_FACE_CLOCKWISE = 1
 	};
 
-	struct PipelineProperties
+	typedef struct PipelineProperties
 	{
 		PrimitiveTopology mPrimitiveTopology;
 		PolygonMode mPolygonMode;
@@ -127,7 +127,7 @@ namespace Invision
 			mFrontFaceMode = frontFaceMode;
 			mLineWidth = lineWidth;
 		}
-	};
+	} PipelineProperties;
 	
 
 	typedef struct PhysicalDeviceProperties
