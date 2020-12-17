@@ -14,70 +14,90 @@ namespace Invision
 		vulkanInstance = instance;
 	}
 
-	VulkanUniformBuffer& VulkanUniformBuffer::CreateUniformBinding(uint32_t set, uint32_t binding, uint32_t descriptorCount, ShaderStage shaderStage, uint64_t bufferSize, uint64_t offset)
+	VulkanUniformBuffer& VulkanUniformBuffer::CreateUniformBinding(uint32_t set, uint32_t binding, uint32_t descriptorCount, ShaderStageFlag shaderStage, uint64_t bufferSize, uint64_t offset)
 	{
-		VkShaderStageFlags vkShaderStage;
+		VkShaderStageFlags vkShaderStage = 0;
 		
 
-		switch (shaderStage)
+		if ((shaderStage & SHADER_STAGE_VERTEX_BIT) != 0)
 		{
-		case SHADER_STAGE_VERTEX_BIT:
-			vkShaderStage = VK_SHADER_STAGE_VERTEX_BIT;
-			break;
-		case SHADER_STAGE_GEOMETRY_BIT:
-			vkShaderStage = VK_SHADER_STAGE_GEOMETRY_BIT;
-			break;
-		case SHADER_STAGE_FRAGMENT_BIT:
-			vkShaderStage = VK_SHADER_STAGE_FRAGMENT_BIT;
-			break;
-		case SHADER_STAGE_COMPUTE_BIT:
-			vkShaderStage = VK_SHADER_STAGE_COMPUTE_BIT;
-			break;
-		case SHADER_STAGE_TESSELLATION_CONTROL_BIT:
-			vkShaderStage = VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT;
-			break;
-		case SHADER_STAGE_TESSELLATION_EVALUATION_BIT:
-			vkShaderStage = VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT;
-			break;
-		default:
+			vkShaderStage = vkShaderStage | VK_SHADER_STAGE_VERTEX_BIT;
+		}
+
+		if ((shaderStage & SHADER_STAGE_GEOMETRY_BIT) != 0)
+		{
+			vkShaderStage = vkShaderStage | VK_SHADER_STAGE_GEOMETRY_BIT;
+		}
+
+		if ((shaderStage & SHADER_STAGE_FRAGMENT_BIT) != 0)
+		{
+			vkShaderStage = vkShaderStage | VK_SHADER_STAGE_FRAGMENT_BIT;
+		}
+
+		if (shaderStage & SHADER_STAGE_COMPUTE_BIT)
+		{
+			vkShaderStage = vkShaderStage | VK_SHADER_STAGE_COMPUTE_BIT;
+		}
+
+		if (shaderStage & SHADER_STAGE_TESSELLATION_CONTROL_BIT)
+		{
+			vkShaderStage = vkShaderStage | VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT;
+		}
+
+		if (shaderStage & SHADER_STAGE_TESSELLATION_EVALUATION_BIT)
+		{
+			vkShaderStage = vkShaderStage | VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT;
+		}
+
+		if (shaderStage == 0)
+		{
 			throw InvisionBaseRendererException("Unknown ShaderStageFlag passed to Function CreateUniformBinding");
-			
 		}
 
 		uniformBuffer.CreateUniformBinding(set, binding, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, descriptorCount, vkShaderStage, bufferSize, offset);
 		return *this;
 	}
 
-	INVISION_API VulkanUniformBuffer& VulkanUniformBuffer::CreateImageBinding(uint32_t set, uint32_t binding, uint32_t descriptorCount, ShaderStage shaderStage, std::shared_ptr < Invision::ITexture> texture)
+	VulkanUniformBuffer& VulkanUniformBuffer::CreateImageBinding(uint32_t set, uint32_t binding, uint32_t descriptorCount, ShaderStageFlag shaderStage, std::shared_ptr < Invision::ITexture> texture)
 	{
-		// VkDescriptorImageInfo*
-		VkShaderStageFlags vkShaderStage;
+		VkShaderStageFlags vkShaderStage = 0;
 
 
-		switch (shaderStage)
+		if ((shaderStage & SHADER_STAGE_VERTEX_BIT) != 0)
 		{
-		case SHADER_STAGE_VERTEX_BIT:
-			vkShaderStage = VK_SHADER_STAGE_VERTEX_BIT;
-			break;
-		case SHADER_STAGE_GEOMETRY_BIT:
-			vkShaderStage = VK_SHADER_STAGE_GEOMETRY_BIT;
-			break;
-		case SHADER_STAGE_FRAGMENT_BIT:
-			vkShaderStage = VK_SHADER_STAGE_FRAGMENT_BIT;
-			break;
-		case SHADER_STAGE_COMPUTE_BIT:
-			vkShaderStage = VK_SHADER_STAGE_COMPUTE_BIT;
-			break;
-		case SHADER_STAGE_TESSELLATION_CONTROL_BIT:
-			vkShaderStage = VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT;
-			break;
-		case SHADER_STAGE_TESSELLATION_EVALUATION_BIT:
-			vkShaderStage = VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT;
-			break;
-		default:
-			throw InvisionBaseRendererException("Unknown ShaderStageFlag passed to Function CreateUniformBinding");
-
+			vkShaderStage = vkShaderStage | VK_SHADER_STAGE_VERTEX_BIT;
 		}
+
+		if ((shaderStage & SHADER_STAGE_GEOMETRY_BIT) != 0)
+		{
+			vkShaderStage = vkShaderStage | VK_SHADER_STAGE_GEOMETRY_BIT;
+		}
+
+		if ((shaderStage & SHADER_STAGE_FRAGMENT_BIT) != 0)
+		{
+			vkShaderStage = vkShaderStage | VK_SHADER_STAGE_FRAGMENT_BIT;
+		}
+
+		if (shaderStage & SHADER_STAGE_COMPUTE_BIT)
+		{
+			vkShaderStage = vkShaderStage | VK_SHADER_STAGE_COMPUTE_BIT;
+		}
+
+		if (shaderStage & SHADER_STAGE_TESSELLATION_CONTROL_BIT)
+		{
+			vkShaderStage = vkShaderStage | VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT;
+		}
+
+		if (shaderStage & SHADER_STAGE_TESSELLATION_EVALUATION_BIT)
+		{
+			vkShaderStage = vkShaderStage | VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT;
+		}
+
+		if (shaderStage == 0)
+		{
+			throw InvisionBaseRendererException("Unknown ShaderStageFlag passed to Function CreateUniformBinding");
+		}
+
 		
 		uniformBuffer.CreateImageBinding(set, binding, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, descriptorCount, vkShaderStage, dynamic_pointer_cast<VulkanTexture>(texture)->GetBaseTexture().GetImageView(), dynamic_pointer_cast<VulkanTexture>(texture)->GetBaseTexture().GetImageSampler());
 		return *this;

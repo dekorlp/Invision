@@ -14,13 +14,13 @@ namespace Invision
 		INVISION_API VulkanPushConstant() = delete;
 		INVISION_API VulkanPushConstant(VulkanInstance* instance);
 
-		INVISION_API VulkanPushConstant(VulkanInstance* instance, ShaderStage shaderStages, uint32_t offset, uint32_t size);
+		INVISION_API VulkanPushConstant(VulkanInstance* instance, ShaderStageFlag shaderStages, uint32_t offset, uint32_t size);
 
 		//INVISION_API ShaderStage GetShaderStages() override;
 		INVISION_API uint32_t GetOffset() override;
 		INVISION_API uint32_t GetSize() override;
 
-		INVISION_API void SetShaderStages(ShaderStage shaderStages) override;
+		INVISION_API void SetShaderStages(ShaderStageFlag shaderStages) override;
 		INVISION_API void SetOffset(uint32_t offset) override;
 		INVISION_API void SetSize(uint32_t size) override;
 

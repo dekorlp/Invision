@@ -13,34 +13,45 @@ namespace Invision
 		vulkanInstance = instance;
 	}
 
-	VulkanPushConstant::VulkanPushConstant(VulkanInstance* instance, ShaderStage shaderStages, uint32_t offset, uint32_t size) :
+	VulkanPushConstant::VulkanPushConstant(VulkanInstance* instance, ShaderStageFlag shaderStages, uint32_t offset, uint32_t size) :
 		IPushConstant(instance)
 	{
-		VkShaderStageFlagBits vkShaderStage;
+		VkShaderStageFlags vkShaderStage = 0;
 
-		switch (shaderStages)
+
+		if ((shaderStages & SHADER_STAGE_VERTEX_BIT) != 0)
 		{
-		case SHADER_STAGE_VERTEX_BIT:
-			vkShaderStage = VK_SHADER_STAGE_VERTEX_BIT;
-			break;
-		case SHADER_STAGE_GEOMETRY_BIT:
-			vkShaderStage = VK_SHADER_STAGE_GEOMETRY_BIT;
-			break;
-		case SHADER_STAGE_FRAGMENT_BIT:
-			vkShaderStage = VK_SHADER_STAGE_FRAGMENT_BIT;
-			break;
-		case SHADER_STAGE_COMPUTE_BIT:
-			vkShaderStage = VK_SHADER_STAGE_COMPUTE_BIT;
-			break;
-		case SHADER_STAGE_TESSELLATION_CONTROL_BIT:
-			vkShaderStage = VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT;
-			break;
-		case SHADER_STAGE_TESSELLATION_EVALUATION_BIT:
-			vkShaderStage = VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT;
-			break;
-		default:
-			throw InvisionBaseRendererException("Unknown ShaderStageFlag passed to Function CreateUniformBinding");
+			vkShaderStage = vkShaderStage | VK_SHADER_STAGE_VERTEX_BIT;
+		}
 
+		if ((shaderStages & SHADER_STAGE_GEOMETRY_BIT) != 0)
+		{
+			vkShaderStage = vkShaderStage | VK_SHADER_STAGE_GEOMETRY_BIT;
+		}
+
+		if ((shaderStages & SHADER_STAGE_FRAGMENT_BIT) != 0)
+		{
+			vkShaderStage = vkShaderStage | VK_SHADER_STAGE_FRAGMENT_BIT;
+		}
+
+		if (shaderStages & SHADER_STAGE_COMPUTE_BIT)
+		{
+			vkShaderStage = vkShaderStage | VK_SHADER_STAGE_COMPUTE_BIT;
+		}
+
+		if (shaderStages & SHADER_STAGE_TESSELLATION_CONTROL_BIT)
+		{
+			vkShaderStage = vkShaderStage | VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT;
+		}
+
+		if (shaderStages & SHADER_STAGE_TESSELLATION_EVALUATION_BIT)
+		{
+			vkShaderStage = vkShaderStage | VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT;
+		}
+
+		if (shaderStages == 0)
+		{
+			throw InvisionBaseRendererException("Unknown ShaderStageFlag passed to Function CreateUniformBinding");
 		}
 
 		mPushConstant = VulkanBasePushConstant(vkShaderStage, offset, size);
@@ -62,7 +73,7 @@ namespace Invision
 	}
 
 
-	void VulkanPushConstant::SetShaderStages(ShaderStage shaderStages)
+	void VulkanPushConstant::SetShaderStages(ShaderStageFlag shaderStages)
 	{
 		VkShaderStageFlagBits vkShaderStage;
 

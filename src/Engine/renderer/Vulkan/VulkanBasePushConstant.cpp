@@ -9,7 +9,7 @@ namespace Invision
 
 	}
 
-	VulkanBasePushConstant::VulkanBasePushConstant(VkShaderStageFlagBits shaderStages, uint32_t offset, uint32_t size)
+	VulkanBasePushConstant::VulkanBasePushConstant(VkShaderStageFlags shaderStages, uint32_t offset, uint32_t size)
 	{
 		if (size > INVISION_GPU_SPEC_PUSH_COMMAND_SIZE)
 		{
@@ -32,7 +32,7 @@ namespace Invision
 		return range;
 	}
 
-	VkShaderStageFlagBits VulkanBasePushConstant::GetShaderStages()
+	VkShaderStageFlags VulkanBasePushConstant::GetShaderStages()
 	{
 		return mShaderStage;
 	}
@@ -47,7 +47,7 @@ namespace Invision
 		return mSize;
 	}
 
-	void VulkanBasePushConstant::SetShaderStages(VkShaderStageFlagBits shaderStages)
+	void VulkanBasePushConstant::SetShaderStages(VkShaderStageFlags shaderStages)
 	{
 		this->mShaderStage = shaderStages;
 	}

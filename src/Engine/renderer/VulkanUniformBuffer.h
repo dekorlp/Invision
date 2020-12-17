@@ -9,6 +9,7 @@
 namespace Invision
 {
 	class VulkanInstance;
+
 	class VulkanUniformBuffer : public IUniformBuffer
 	{
 	public:
@@ -17,9 +18,9 @@ namespace Invision
 
 		INVISION_API VulkanUniformBuffer(VulkanInstance* instance);
 
-		INVISION_API VulkanUniformBuffer& CreateUniformBinding(uint32_t set, uint32_t binding, uint32_t descriptorCount, ShaderStage shaderStage, uint64_t bufferSize, uint64_t offset);
+		INVISION_API VulkanUniformBuffer& CreateUniformBinding(uint32_t set, uint32_t binding, uint32_t descriptorCount, ShaderStageFlag shaderStage, uint64_t bufferSize, uint64_t offset);
 
-		INVISION_API VulkanUniformBuffer& CreateImageBinding(uint32_t set, uint32_t binding, uint32_t descriptorCount, ShaderStage shaderStage, std::shared_ptr < Invision::ITexture> texture);
+		INVISION_API VulkanUniformBuffer& CreateImageBinding(uint32_t set, uint32_t binding, uint32_t descriptorCount, ShaderStageFlag shaderStage, std::shared_ptr < Invision::ITexture> texture);
 
 		INVISION_API void CreateUniformBuffer();
 

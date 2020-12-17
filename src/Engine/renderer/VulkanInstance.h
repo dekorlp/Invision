@@ -26,7 +26,7 @@ namespace Invision
 		INVISION_API std::shared_ptr<IRenderPass> CreateRenderPass() override;
 		INVISION_API std::shared_ptr<IVertexBuffer> CreateVertexBuffer() override;
 		INVISION_API std::shared_ptr<IUniformBuffer> CreateUniformBuffer() override;
-		INVISION_API std::shared_ptr<IPushConstant> CreatePushConstant(ShaderStage shaderStages, uint32_t offset, uint32_t size) override;
+		INVISION_API std::shared_ptr<IPushConstant> CreatePushConstant(ShaderStageFlag shaderStages, uint32_t offset, uint32_t size) override;
 		INVISION_API std::shared_ptr<IIndexBuffer> CreateIndexBuffer() override;
 		INVISION_API std::shared_ptr<IPipeline> CreatePipeline() override;
 		INVISION_API std::shared_ptr<IPipeline> CreatePipeline(PipelineProperties* pipelineProperties) override;
