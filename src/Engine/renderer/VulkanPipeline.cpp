@@ -114,6 +114,19 @@ namespace Invision
 		case PRIMITIVE_TOPOLOGY_TRIANGLE_FAN:
 			vkPrimitiveTopology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_FAN;
 			break;
+		case PRIMITIVE_TOPOLOGY_LINE_LIST_ADJ:
+			vkPrimitiveTopology = VK_PRIMITIVE_TOPOLOGY_LINE_LIST_WITH_ADJACENCY;
+			break;
+		case PRIMITIVE_TOPOLOGY_LINE_STRIP_ADJ:
+			vkPrimitiveTopology = VK_PRIMITIVE_TOPOLOGY_LINE_STRIP_WITH_ADJACENCY;
+			break;
+		case PRIMITIVE_TOPOLOGY_TRIANGLE_LIST_ADJ:
+			vkPrimitiveTopology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST_WITH_ADJACENCY;
+			break;
+		case PRIMTIVIE_TOPOLOGY_TRIANGLE_STRIP_ADJ:
+			vkPrimitiveTopology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP_WITH_ADJACENCY;
+			break;
+
 		default:
 			throw InvisionBaseRendererException("Unknown Primitive Topology passed to Pipeline");
 		}
