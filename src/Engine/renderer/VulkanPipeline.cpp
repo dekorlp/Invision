@@ -90,7 +90,7 @@ namespace Invision
 		// translate Render PipelineProperties
 		VkPrimitiveTopology vkPrimitiveTopology;
 		VkPolygonMode vkPolygonMode;
-		VkCullModeFlags vkCullMode;
+		VkCullModeFlags vkCullMode = 0;
 		VkFrontFace vkFrontface;
 		
 
@@ -146,22 +146,24 @@ namespace Invision
 			throw InvisionBaseRendererException("Unknown Polygon Mode passed to Pipeline");
 		}
 
-		switch (mPipelineProperties->mCullMode)
+		if (mPipelineProperties->mCullMode & CULL_MODE_NONE)
 		{
-		case CULL_MODE_NONE:
-			vkCullMode = VK_CULL_MODE_NONE;
-			break;
-		case CULL_MODE_FRONT_BIT:
-			vkCullMode = VK_CULL_MODE_FRONT_BIT;
-			break;
-		case CULL_MODE_BACK_BIT:
-			vkCullMode = VK_CULL_MODE_BACK_BIT;
-			break;
-		case CULL_MODE_FRONT_AND_BACK:
-			vkCullMode = VK_CULL_MODE_FRONT_AND_BACK;
-			break;
-		default:
-			throw InvisionBaseRendererException("Unknown Cull Mode passed to Pipeline");
+			vkCullMode = vkCullMode | VK_CULL_MODE_NONE;
+		}
+
+		if (mPipelineProperties->mCullMode & CULL_MODE_FRONT_BIT)
+		{
+			vkCullMode = vkCullMode | VK_CULL_MODE_FRONT_BIT;
+		}
+
+		if (mPipelineProperties->mCullMode & CULL_MODE_BACK_BIT)
+		{
+			vkCullMode = vkCullMode | VK_CULL_MODE_BACK_BIT;
+		}
+
+		if (mPipelineProperties->mCullMode & CULL_MODE_FRONT_AND_BACK)
+		{
+			vkCullMode = vkCullMode | VK_CULL_MODE_FRONT_AND_BACK;
 		}
 
 		switch (mPipelineProperties->mFrontFaceMode)

@@ -89,10 +89,10 @@ namespace Invision
 
 	enum CullMode
 	{
-		CULL_MODE_NONE = 0,
+		CULL_MODE_NONE = 0x00000000,
 		CULL_MODE_FRONT_BIT = 0x00000001,
 		CULL_MODE_BACK_BIT = 0x00000002,
-		CULL_MODE_FRONT_AND_BACK = 0x00000003
+		CULL_MODE_FRONT_AND_BACK = 0x00000004
 	};
 
 	enum FrontFaceMode
@@ -101,11 +101,13 @@ namespace Invision
 		FRONT_FACE_CLOCKWISE = 1
 	};
 
+	typedef uint32_t CullModeBits;
+
 	typedef struct PipelineProperties
 	{
 		PrimitiveTopology mPrimitiveTopology;
 		PolygonMode mPolygonMode;
-		CullMode mCullMode;
+		CullModeBits mCullMode;
 		FrontFaceMode mFrontFaceMode;
 		float mLineWidth;
 
@@ -121,7 +123,7 @@ namespace Invision
 
 		PipelineProperties(PrimitiveTopology primitiveTopology,
 		PolygonMode polygonMode,
-		CullMode cullMode,
+		CullModeBits cullMode,
 		FrontFaceMode frontFaceMode,
 		float lineWidth)
 		{
@@ -182,6 +184,7 @@ namespace Invision
 	} Rect;
 
 	typedef uint32_t ShaderStageFlag;
+	
 
 	class IGraphicsEngine
 	{
