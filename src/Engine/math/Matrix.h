@@ -11,11 +11,12 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 #include "base/SIMD.h"
-#include "Vector3.h"
-#include "Vector4.h"
 
 namespace Invision
 {
+	class Vector3;
+	class Vector4;
+
 	/**
 	 * \brief Matrix
 	 */

@@ -1,4 +1,6 @@
 #include "precompiled.h"
+#include "Vector3.h"
+
 #include "Quaternion.h"
 namespace Invision {
 	Quaternion::Quaternion()

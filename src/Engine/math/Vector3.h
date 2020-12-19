@@ -12,11 +12,10 @@
 #define VECTOR3_H
 
 #include "base/SIMD.h"
-#include "Vector2.h"
 
 namespace Invision
 {
-
+	class Vector2;
 
 	/**
 	 * \brief three dimensional vector

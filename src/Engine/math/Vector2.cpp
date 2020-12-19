@@ -1,6 +1,5 @@
 #include "precompiled.h"
 
-
 #include "Vector2.h"
 namespace Invision {
 	Vector2::Vector2(float x, float y)

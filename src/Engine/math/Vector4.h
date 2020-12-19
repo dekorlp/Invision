@@ -13,13 +13,11 @@
 
 #include "base/SIMD.h"
 
-class Vector2;
-class Vector3;
-class Matrix;
-
 namespace Invision
 {
-
+	class Vector2;
+	class Vector3;
+	class Matrix;
 
 	/**
 	 * \brief three dimensional vector

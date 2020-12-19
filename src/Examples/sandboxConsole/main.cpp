@@ -26,6 +26,7 @@ void testCPUInfo()
 
 void testVector(){
 
+	Invision::Vector4 vec4();
 	
 	Invision::Vector3 vektor1(1.0f, 4.0f, 2.0f);
 
