@@ -474,12 +474,18 @@ void testMatrix()
 
 	float det = Invision::Matrix(5.0f, 3, -1, 1, 0, 0, 2, 0, 3, 0, 4, 7, -1, 4, -2, 5).GetDeterminant();
 
+	Invision::Matrix trianglulated = Invision::Matrix(5.0f, 3, -1, 1, 0, 0, 2, 0, 3, 0, 4, 7, -1, 4, -2, 5).Triangulate();
+
 	Invision::Matrix transp = testMat2.GetTranspose();
 
 	container.view = Invision::Matrix::Camera(Invision::Vector3(2.0f, 2.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 0.0f, 1.0f));
 
 	container.proj = Invision::Matrix::Perspective(45.0, 1920 / 1080, 0.1f, 10.0f);
 
+	Invision::Matrix coVectors = Invision::Matrix(5.0f, 3, -1, 1, 0, 0, 2, 0, 3, 0, 4, 7, -1, 4, -2, 5).GetCoFactor();
+	//Invision::Matrix coVectors = Invision::Matrix(5.0f, 0, 3, -1, 3, 0, 0, 4, -1, 2, 4, -2, 1, 0, 7, 5).GetCoFactor();
+
+	Invision::Matrix invertexMatrix = Invision::Matrix(5.0f, 3, -1, 1, 0, 0, 2, 0, 3, 0, 4, 7, -1, 4, -2, 5).Invert();
 
 	int test100 = 0;
 }

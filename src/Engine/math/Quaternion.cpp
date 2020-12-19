@@ -18,10 +18,10 @@ namespace Invision {
 
 	Quaternion::Quaternion(Matrix &m)
 	{
-		float b1_squared = 0.25 * (1.0 + m.At(0, 0) + m.At(1, 1) + m.At(2, 2));
+		float b1_squared = 0.25f * (1.0f + m.At(0, 0) + m.At(1, 1) + m.At(2, 2));
 		
 		float b1 = sqrt(b1_squared);
-		float over_b1_4 = 0.25 / b1;
+		float over_b1_4 = 0.25f / b1;
 
 
 		this->w = (float)b1;

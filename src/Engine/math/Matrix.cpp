@@ -384,6 +384,98 @@ namespace Invision {
 		return (float)det;
 	}
 
+	Matrix Matrix::GetCoFactor() const
+	{
+		float subVec[3][3];
+		float subMat[4][4];
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				int p = 0;
+				for (size_t x = 0; x < 4; x++) {
+					if (x == i) {
+						continue;
+					}
+					int q = 0;
+
+					for (size_t y = 0; y < 4; y++) {
+						if (y == j) {
+							continue;
+						}
+
+						subVec[p][q] = aa[x][y];
+						q++;
+					}
+					p++;
+				}
+
+				// rule of sarrus
+				subMat[j][i] = static_cast<float>(pow(-1, i + j) * ((subVec[0][0] * subVec[1][1] * subVec[2][2]) + (subVec[0][1] * subVec[1][2] * subVec[2][0]) + (subVec[0][2] * subVec[1][0] * subVec[2][1])
+					- subVec[0][2] * subVec[1][1] * subVec[2][0] - subVec[0][0] * subVec[1][2] * subVec[2][1] - subVec[0][1] * subVec[1][0] * subVec[2][2]));
+			}
+
+
+		}
+
+		return Matrix(*subMat);
+	}
+
+	Matrix Matrix::Triangulate() const
+	{
+		// http://www32.cplusplus.com/forum/beginner/267880/
+		int n = 4;
+
+		float tempA[4][4];
+		memcpy(tempA, aa, sizeof(float) * 16);
+		// Row operations for i = 0, ,,,, n - 2 (n-1 not needed)
+		for (int i = 0; i < n - 1; i++)
+		{
+			// Partial pivot: find row r below with largest element in column i
+			int r = i;
+			float maxA = abs(tempA[i][i]);
+			for (int k = i + 1; k < n; k++)
+			{
+				float val = abs(tempA[k][i]);
+				if (val > maxA)
+				{
+					r = k;
+					maxA = val;
+				}
+			}
+			if (r != i)
+			{
+				for (int j = i; j < n; j++)
+				{
+					std::swap(tempA[i][j], tempA[r][j]);
+				}
+			}
+
+			// Row operations to make upper-triangular
+			float pivot = tempA[i][i];
+			if (abs(pivot) < INVISION_MATH_NUM_SMALL) return 0.0;              // Singular matrix
+
+			for (int r = i + 1; r < n; r++)                    // On lower rows
+			{
+				float multiple = tempA[r][i] / pivot;                // Multiple of row i to clear element in ith column
+				for (int j = i; j < n; j++) tempA[r][j] -= multiple * tempA[i][j];
+			}
+			// Determinant is product of diagonal
+		}
+
+		return Matrix(*tempA);
+	}
+
+	Matrix Matrix::Invert() const
+	{
+		float d = 1 / GetDeterminant();
+
+		Matrix coFactorMatrix = GetCoFactor();
+
+		return coFactorMatrix * d;
+
+	}
+
 	Matrix Matrix::GetTranspose() const
 	{
 		return{ a0, a4, a8, a12,

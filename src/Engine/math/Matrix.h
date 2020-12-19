@@ -144,6 +144,12 @@ namespace Invision
 		 */
 		INVISION_API float GetDeterminant() const;
 
+		INVISION_API Matrix Triangulate() const;
+
+		INVISION_API Matrix GetCoFactor() const;
+
+		INVISION_API Matrix Invert() const;
+
 		/**
 		* \brief  calculates the transponse from the matrix
 		* \return the transponse matrix
