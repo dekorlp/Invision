@@ -487,6 +487,8 @@ void testMatrix()
 
 	Invision::Matrix invertexMatrix = Invision::Matrix(5.0f, 3, -1, 1, 0, 0, 2, 0, 3, 0, 4, 7, -1, 4, -2, 5).Invert();
 
+	Invision::Matrix trianglulated2 = Invision::Matrix(1.0f, 1, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 1, 2, 0, 0).Triangulate();
+
 	int test100 = 0;
 }
 
