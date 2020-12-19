@@ -15,6 +15,8 @@
 #include "Vector4.h"
 namespace Invision
 {
+	const double SMALL = 1.0E-30;
+
 	/**
 	 * \brief Matrix
 	 */
@@ -25,19 +27,14 @@ namespace Invision
 		{
 			struct
 			{
-#ifdef ROWMAJOR
-				float a11, a21, a31, a41,
-					a12, a22, a32, a42,
-					a13, a23, a33, a43,
-					a14, a24, a34, a44;
-#else
-				float a11, a12, a13, a14,
-					a21, a22, a23, a24,
-					a31, a32, a33, a34,
-					a41, a42, a43, a44;
-#endif
+				float a0, a1, a2, a3,
+					a4, a5, a6, a7,
+					a8, a9, a10, a11,
+					a12, a13, a14, a15;
+
 			};
 			float a[16];
+			float aa[4][4];
 		};
 	public:
 		/**
@@ -111,19 +108,14 @@ namespace Invision
 		*/
 		INVISION_API Matrix operator-=(Matrix const& rhs) const;
 
+		INVISION_API Matrix operator*=(Matrix const& rhs) const;
+
 		/**
 		* \brief multiplies the Matrix with a scale value
 		* \param rhs a float value
 		* \return the result of the multiplication with the scale
 		*/
 		INVISION_API Matrix operator*(float const& rhs) const;
-
-		/**
-		* \brief calculates the vector transformation
-		* \param rhs a vector object
-		* \return the result of the multiplication with the vector and the matrix (transformed vector)
-		*/
-		//INVISION_API Vector3 operator*(Vector4 const& rhs) const;
 
 		/**
 		* \brief calculates the vector transformation
@@ -139,19 +131,19 @@ namespace Invision
 		* \param rhs a float value
 		* \return the result of the division with the scale
 		*/
-		INVISION_API Matrix operator/(float const& rhs);
+		INVISION_API Matrix operator/(float const& rhs) const;
 
 		/**
 		 * \brief  calculates the determinant from the matrix
 		 * \return float determinant
 		 */
-		INVISION_API float getDeterminant() const;
+		INVISION_API float GetDeterminant() const;
 
 		/**
 		* \brief  calculates the transponse from the matrix
 		* \return the transponse matrix
 		*/
-		INVISION_API Matrix getTranspose() const;
+		INVISION_API Matrix GetTranspose() const;
 
 		/**
 		 * \brief returns an identity matrix
