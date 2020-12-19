@@ -326,6 +326,8 @@ namespace Invision {
 	float Matrix::GetDeterminant() const
 	{
 		// http://www32.cplusplus.com/forum/beginner/267880/
+		const double SMALL = 1.0E-30;
+
 		int n = 4;
 
 		float det = 1;

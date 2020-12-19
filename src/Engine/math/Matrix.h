@@ -13,6 +13,7 @@
 #include "base/SIMD.h"
 #include "Vector3.h"
 #include "Vector4.h"
+
 namespace Invision
 {
 	/**
@@ -21,6 +22,7 @@ namespace Invision
 	_MM_ALIGN16 class Matrix
 	{
 	private:
+
 		union
 		{
 			struct
@@ -35,7 +37,7 @@ namespace Invision
 			float aa[4][4];
 		};
 
-		const double SMALL = 1.0E-30;
+		
 
 	public:
 		/**

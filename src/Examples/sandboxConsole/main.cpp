@@ -445,6 +445,13 @@ void testKeyboardHandling()
 	}
 }
 
+struct container
+{
+	Invision::Matrix view;
+	Invision::Matrix proj;
+
+} container;
+
 void testMatrix()
 {
 	Invision::Matrix testMat1(1, 2, 3, 4,
@@ -468,9 +475,10 @@ void testMatrix()
 
 	Invision::Matrix transp = testMat2.GetTranspose();
 
-	Invision::Matrix view = Invision::Matrix::Camera(Invision::Vector3(2.0f, 2.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 0.0f, 1.0f));
+	container.view = Invision::Matrix::Camera(Invision::Vector3(2.0f, 2.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 0.0f, 1.0f));
 
-	Invision::Matrix proj = Invision::Matrix::Perspective(45.0, 1920 / 1080, 0.1f, 10.0f);
+	container.proj = Invision::Matrix::Perspective(45.0, 1920 / 1080, 0.1f, 10.0f);
+
 
 	int test100 = 0;
 }
