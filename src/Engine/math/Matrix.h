@@ -69,6 +69,7 @@ namespace Invision
 		float e14, float e24, float e34, float e44);
 #endif
 
+		INVISION_API float& At(int i, int j);
 
 		/**
 		* \brief checks Matrices, whether they are equal

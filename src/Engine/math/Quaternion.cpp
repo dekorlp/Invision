@@ -1,5 +1,6 @@
 #include "precompiled.h"
 #include "Vector3.h"
+#include "Matrix.h"
 
 #include "Quaternion.h"
 namespace Invision {
@@ -13,6 +14,17 @@ namespace Invision {
 	{
 		this->v = Vector3(v.getX(), v.getY(), v.getZ());
 		this->w = a;
+	}
+
+	Quaternion::Quaternion(Matrix &m)
+	{
+		float b1_squared = 0.25 * (1.0 + m.At(0, 0) + m.At(1, 1) + m.At(2, 2));
+		float b1 = sqrt(b1_squared);
+		float over_b1_4 = 0.25 / b1;
+
+
+		this->w = (float)b1;
+		this->v = Vector3(m.At(2, 1) - m.At(1, 2) * over_b1_4, m.At(0, 2) - m.At(2, 0) * over_b1_4, m.At(1, 0) - m.At(0, 1) * over_b1_4);
 	}
 
 	const Quaternion Quaternion::invert() const
@@ -67,5 +79,25 @@ namespace Invision {
 		Quaternion qR(qv, c);
 		Vector3 res = qR * this->v;
 		return res;
+	}
+
+	Matrix Quaternion::GetMatrix()
+	{
+		float qx = v.getX();
+		float qy = v.getY();
+		float qz = v.getZ();
+		float qw = w;
+
+		
+		const float n = 1.0f / sqrt(v.getX()*v.getX() + v.getY()*v.getY() + v.getZ()*v.getZ() + w * w);
+		qx *= n;
+		qy *= n;
+		qz *= n;
+		qw *= n;
+
+		return Matrix(1.0f - 2.0f*qy*qy - 2.0f*qz*qz, 2.0f*qx*qy - 2.0f*qz*qw, 2.0f*qx*qz + 2.0f*qy*qw, 0.0f,
+			2.0f*qx*qy + 2.0f*qz*qw, 1.0f - 2.0f*qx*qx - 2.0f*qz*qz, 2.0f*qy*qz - 2.0f*qx*qw, 0.0f,
+			2.0f*qx*qz - 2.0f*qy*qw, 2.0f*qy*qz + 2.0f*qx*qw, 1.0f - 2.0f*qx*qx - 2.0f*qy*qy, 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f);
 	}
 }

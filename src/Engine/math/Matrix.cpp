@@ -50,6 +50,11 @@ namespace Invision {
 	}
 #endif 
 
+	float& Matrix::At(int i, int j)
+	{
+		return aa[i][j];
+	}
+
 	bool Matrix::operator==(Matrix const & rhs) const
 	{
 		return rhs.a0 == this->a0 && rhs.a1 == this->a1 && rhs.a2 == this->a2 && rhs.a3 == this->a3

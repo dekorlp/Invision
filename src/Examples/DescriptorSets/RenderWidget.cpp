@@ -60,6 +60,7 @@ void RenderWidget::UpdateUniformBuffer(float width, float height)
 	}
 	else
 	{
+		Invision::Quaternion(Invision::Matrix::RotateZ(angle + dt * 90.0)).GetMatrix();
 		//Invision::Matrix::Translate(Invision::Vector3(0.0f, 0.0f, 0.0f)) * 
 		umo.model = Invision::Matrix::RotateZ(angle + dt * 90.0);
 		ubo.view = Invision::Matrix(1.0f) *  Invision::Matrix::Camera(Invision::Vector3(2.0f, 2.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 0.0f, 1.0f));
