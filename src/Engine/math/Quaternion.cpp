@@ -19,12 +19,14 @@ namespace Invision {
 	Quaternion::Quaternion(Matrix &m)
 	{
 		float b1_squared = 0.25 * (1.0 + m.At(0, 0) + m.At(1, 1) + m.At(2, 2));
+		
 		float b1 = sqrt(b1_squared);
 		float over_b1_4 = 0.25 / b1;
 
 
 		this->w = (float)b1;
-		this->v = Vector3(m.At(2, 1) - m.At(1, 2) * over_b1_4, m.At(0, 2) - m.At(2, 0) * over_b1_4, m.At(1, 0) - m.At(0, 1) * over_b1_4);
+		this->v = Vector3((m.At(2, 1) - m.At(1, 2)) * over_b1_4, (m.At(0, 2) - m.At(2, 0)) * over_b1_4, (m.At(1, 0) - m.At(0, 1)) * over_b1_4);
+	
 	}
 
 	const Quaternion Quaternion::invert() const
