@@ -326,8 +326,6 @@ namespace Invision {
 	float Matrix::GetDeterminant() const
 	{
 		// http://www32.cplusplus.com/forum/beginner/267880/
-		const double SMALL = 1.0E-30;
-
 		int n = 4;
 
 		float det = 1;
@@ -360,7 +358,7 @@ namespace Invision {
 
 			// Row operations to make upper-triangular
 			float pivot = tempA[i][i];
-			if (abs(pivot) < SMALL) return 0.0;              // Singular matrix
+			if (abs(pivot) < INVISION_MATH_NUM_SMALL) return 0.0;              // Singular matrix
 
 			for (int r = i + 1; r < n; r++)                    // On lower rows
 			{

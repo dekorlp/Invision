@@ -16,6 +16,8 @@
 #define PI 3.14159265358979323846264
 #define PI_F 3.14159265358979f
 
+#define INVISION_MATH_NUM_SMALL 1.0E-30
+
 #// Include the appropriate header file for intrinsic functions
 #if SSE_INSTR_SET > 7                  // AVX2 and later
 #ifdef __GNUC__
