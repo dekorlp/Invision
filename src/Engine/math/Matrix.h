@@ -247,7 +247,7 @@ namespace Invision
 		 * \return Matrix object
 		 */
 
-		INVISION_API static Matrix Perspective(const float &anglef, const float aspect, const float &nearf, const  float &farf);
+		INVISION_API static Matrix Perspective(const float &anglef, const float aspect, const float &nearf, const  float &farf, bool flipY = true);
 
 
 		/**

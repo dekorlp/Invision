@@ -519,22 +519,25 @@ namespace Invision {
 #endif 
 	}
 
-	Matrix Matrix::Perspective(const float &anglef, const float aspect, const float &nearf, const  float &farf)
+	Matrix Matrix::Perspective(const float &anglef, const float aspect, const float &nearf, const  float &farf, bool flipY)
 	{
 		float tanCalc = 0.5f * anglef;
 		float degrees = tanCalc * 4.0f * atan(1.0f) / 180.0f;
 		float f = 1.0f / tan(degrees);
+		float y = f;
+		if (flipY) y *= -1;
+
 
 #ifdef ROWMAJOR
 		
 		return{ f / aspect, 0.0f, 0.0f, 0.0f,
-			   0.0f , -f, 0.0f, 0.0f,
+			   0.0f , y, 0.0f, 0.0f,
 			   0.0f, 0.0f,  farf / (nearf - farf) , -1,
 			   0.0f, 0.0f, (nearf * farf) / (nearf - farf), 0.0f
 		};
 #else 
 		return{ f / aspect, 0.0f, 0.0f, 0.0f,
-				 0.0f , -f, 0.0f, 0.0f,
+				 0.0f , y, 0.0f, 0.0f,
 				0.0f, 0.0f, farf / (nearf - farf) , (nearf * farf) / (nearf - farf),
 				0.0f, 0.0f, -1, 0.0f
 		};
