@@ -15,8 +15,6 @@
 #include "Vector4.h"
 namespace Invision
 {
-	const double SMALL = 1.0E-30;
-
 	/**
 	 * \brief Matrix
 	 */
@@ -36,6 +34,9 @@ namespace Invision
 			float a[16];
 			float aa[4][4];
 		};
+
+		const double SMALL = 1.0E-30;
+
 	public:
 		/**
 		 * \brief initialize a matrix
