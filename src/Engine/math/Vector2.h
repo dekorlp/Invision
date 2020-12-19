@@ -21,8 +21,13 @@ namespace Invision
 	_MM_ALIGN16 class Vector2
 	{
 	private:
-		float x, y;
-		__m128 vec;
+		union
+		{
+			struct {
+				float x, y;
+			};
+			__m128 vec;
+		};
 	public:
 
 		/**
