@@ -379,7 +379,13 @@ void testMatrix2()
 		                     3.0f, 4.0f);
 	Invision::Matrix2 mat2_2(5.0f, 6.0f,
 		7.0f, 8.0f);
-	Invision::Matrix2 mat_result = mat2_1 * mat2_2;
+	Invision::Matrix2 matMul_result = mat2_1 * mat2_2;
+	Invision::Matrix2 matAdd_result = mat2_1 + mat2_2;
+	Invision::Matrix2 matSub_result = mat2_1 - mat2_2;
+
+	//mat2_1 *= mat2_1;
+	//mat2_1 += mat2_1;
+	mat2_1 -= mat2_1;
 	int test = 0;
 
 }
@@ -387,7 +393,7 @@ void testMatrix2()
 void testMatrix3()
 {
 	Invision::Matrix3 mat3_1(1.0f, 2.0f, 3.0f,
-		5.0f, 5.0f, 6.0f,
+		4.0f, 5.0f, 6.0f,
 		7.0f, 8.0f, 9.0f);
 	Invision::Matrix3 mat3_2(10.0f, 11.0f, 12.0f,
 		13.0f, 14.0f, 15.0f,
