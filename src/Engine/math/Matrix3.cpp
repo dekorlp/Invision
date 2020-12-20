@@ -64,20 +64,23 @@ namespace Invision {
 	Matrix3 Matrix3::operator*(Matrix3 const& rhs) const
 	{
 
-		float out[9];
+		float out[16];
 
 		// Load matrix A into SSE registers
-		__m128 A0 = _mm_loadu_ps((const float*)(rhs.a + 0));
-		__m128 A1 = _mm_loadu_ps((const float*)(rhs.a + 4));
-		__m128 A2 = _mm_loadu_ps((const float*)(rhs.a + 8));
-		__m128 A3 = _mm_loadu_ps((const float*)(rhs.a + 12));
+		//__m128 A0 = _mm_loadu_ps((const float*)(rhs.a + 0));
+		//__m128 A1 = _mm_loadu_ps((const float*)(rhs.a + 4));
+		//__m128 A2 = _mm_loadu_ps((const float*)(rhs.a + 8));
+		//__m128 A3 = _mm_loadu_ps((const float*)(rhs.a + 12));
 
-		
+		__m128 A0 = _mm_set_ps(rhs.a[0], rhs.a[1], rhs.a[2], 0);
+		__m128 A1 = _mm_set_ps(rhs.a[3], rhs.a[4], rhs.a[5], 0);
+		__m128 A2 = _mm_set_ps(rhs.a[6], rhs.a[7], rhs.a[8], 0);
+		__m128 A3 = _mm_set_ps(0, 0, 0, 0);
 		
 		for (int i = 0; i < 4; i++)
 		{
 
-			__m128 x = _mm_set_ps(a[12 + i], a[8 + i], a[4 + i], a[0 + i]);
+			__m128 x = _mm_set_ps(0, a[8 + i], a[4 + i], a[0 + i]);
 
 			__m128 m0 = _mm_mul_ps(A0, x);
 			__m128 m1 = _mm_mul_ps(A1, x);

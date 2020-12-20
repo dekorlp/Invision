@@ -384,6 +384,20 @@ void testMatrix2()
 
 }
 
+void testMatrix3()
+{
+	Invision::Matrix3 mat3_1(1.0f, 2.0f, 3.0f,
+		5.0f, 5.0f, 6.0f,
+		7.0f, 8.0f, 9.0f);
+	Invision::Matrix3 mat3_2(10.0f, 11.0f, 12.0f,
+		13.0f, 14.0f, 15.0f,
+		16.0f, 17.0f, 18.0f);
+	Invision::Matrix3 mat_result = mat3_1 * mat3_2;
+	int test = 0;
+
+}
+
+
 int main()
 {
 	//CPUID cpuid(0x80000004);
@@ -413,6 +427,7 @@ int main()
 	//testKeyboardHandling();
 	
 	testMatrix2();
+	testMatrix3();
 	//testMatrix4();
 	
 	return 0;
