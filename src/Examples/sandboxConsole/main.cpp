@@ -412,6 +412,11 @@ void testMatrix3()
 		13.0f, 14.0f, 15.0f,
 		16.0f, 17.0f, 18.0f);
 	Invision::Matrix3 mat_result = mat3_1 * mat3_2;
+
+	//mat3_1 *= mat3_1;
+	//mat3_1 += mat3_1;
+	//mat3_1 -= mat3_1;
+
 	int test = 0;
 
 }

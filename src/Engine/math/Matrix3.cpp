@@ -3,7 +3,6 @@
 #include "Vector3.h"
 #include "Matrix3.h"
 
-
 namespace Invision {
 
 	Matrix3::Matrix3() :
@@ -64,48 +63,31 @@ namespace Invision {
 	Matrix3 Matrix3::operator*(Matrix3 const& rhs) const
 	{
 
-		float out[16];
+		float out[9];
 
-		// Load matrix A into SSE registers
-		//__m128 A0 = _mm_loadu_ps((const float*)(rhs.a + 0));
-		//__m128 A1 = _mm_loadu_ps((const float*)(rhs.a + 4));
-		//__m128 A2 = _mm_loadu_ps((const float*)(rhs.a + 8));
-		//__m128 A3 = _mm_loadu_ps((const float*)(rhs.a + 12));
-
-		__m128 A0 = _mm_set_ps(rhs.a[0], rhs.a[1], rhs.a[2], 0);
-		__m128 A1 = _mm_set_ps(rhs.a[3], rhs.a[4], rhs.a[5], 0);
-		__m128 A2 = _mm_set_ps(rhs.a[6], rhs.a[7], rhs.a[8], 0);
-		__m128 A3 = _mm_set_ps(0, 0, 0, 0);
+		__m128 A0 = _mm_set_ps(rhs.a[0], rhs.a[3], rhs.a[6], 0);
+		__m128 A1 = _mm_set_ps(rhs.a[1], rhs.a[4], rhs.a[7], 0);
+		__m128 A2 = _mm_set_ps(rhs.a[2], rhs.a[5], rhs.a[8], 0);
 		
-		for (int i = 0; i < 4; i++)
-		{
+		__m128 B0 = _mm_set_ps(a[0], a[1], a[2], 0);
+		__m128 B1 = _mm_set_ps(a[3], a[4], a[5], 0);
+		__m128 B2 = _mm_set_ps(a[6], a[7], a[8], 0);
 
-			__m128 x = _mm_set_ps(0, a[8 + i], a[4 + i], a[0 + i]);
+		__m128 B0A0 = _mm_mul_ps(B0, A0); __m128 B0A1 = _mm_mul_ps(B0, A1); __m128 B0A2 = _mm_mul_ps(B0, A2);
+		__m128 B1A0 = _mm_mul_ps(B1, A0); __m128 B1A1 = _mm_mul_ps(B1, A1); __m128 B1A2 = _mm_mul_ps(B1, A2);
+		__m128 B2A0 = _mm_mul_ps(B2, A0); __m128 B2A1 = _mm_mul_ps(B2, A1); __m128 B2A2 = _mm_mul_ps(B2, A2);
 
-			__m128 m0 = _mm_mul_ps(A0, x);
-			__m128 m1 = _mm_mul_ps(A1, x);
-			__m128 m2 = _mm_mul_ps(A2, x);
-			__m128 m3 = _mm_mul_ps(A3, x);
-			__m128 sum_01 = _mm_hadd_ps(m0, m1);
-			__m128 sum_23 = _mm_hadd_ps(m2, m3);
-			__m128 result = _mm_hadd_ps(sum_01, sum_23);
-			_mm_storeu_ps((float*)&out[i * 4], result);
-		}
+		__m128 HAddB0A0 = _mm_hadd_ps(B0A0, B0A0); __m128 HAddB0A1 = _mm_hadd_ps(B0A1, B0A1); __m128 HAddB0A2 = _mm_hadd_ps(B0A2, B0A2);
+		__m128 HAddB1A0 = _mm_hadd_ps(B1A0, B1A0); __m128 HAddB1A1 = _mm_hadd_ps(B1A1, B1A1); __m128 HAddB1A2 = _mm_hadd_ps(B1A2, B1A2);
+		__m128 HAddB2A0 = _mm_hadd_ps(B2A0, B2A0); __m128 HAddB2A1 = _mm_hadd_ps(B2A1, B2A1); __m128 HAddB2A2 = _mm_hadd_ps(B2A2, B2A2);
 
-		
+		out[0] = _mm_hadd_ps(HAddB0A0, HAddB0A0).m128_f32[0]; out[1] = _mm_hadd_ps(HAddB0A1, HAddB0A1).m128_f32[0]; out[2] = _mm_hadd_ps(HAddB0A2, HAddB0A2).m128_f32[0];
+		out[3] = _mm_hadd_ps(HAddB1A0, HAddB1A0).m128_f32[0]; out[4] = _mm_hadd_ps(HAddB1A1, HAddB1A1).m128_f32[0]; out[5] = _mm_hadd_ps(HAddB1A2, HAddB1A2).m128_f32[0];
+		out[6] = _mm_hadd_ps(HAddB2A0, HAddB2A0).m128_f32[0]; out[7] = _mm_hadd_ps(HAddB2A1, HAddB2A1).m128_f32[0]; out[8] = _mm_hadd_ps(HAddB2A2, HAddB2A2).m128_f32[0];
 
-#ifdef ROWMAJOR
 		return Matrix3(out[0], out[3], out[6],
 			           out[1], out[4], out[7],
 			           out[2], out[5], out[8]);
-
-#else
-		return Matrix3(out[0], out[1], out[2],
-			           out[3], out[4], out[5],
-			           out[6], out[7], out[8]);
-#endif
-
-
 	}
 
 	Matrix3 Matrix3::operator+(Matrix3 const& rhs) const
@@ -193,41 +175,32 @@ namespace Invision {
 	Matrix3 Matrix3::operator*=(Matrix3 const& rhs) const
 	{
 
-		float out[16];
+		float out[9];
 
-		__m128 A0 = _mm_loadu_ps((const float*)(rhs.a + 0));
-		__m128 A1 = _mm_loadu_ps((const float*)(rhs.a + 4));
-		__m128 A2 = _mm_loadu_ps((const float*)(rhs.a + 8));
-		__m128 A3 = _mm_loadu_ps((const float*)(rhs.a + 12));
+		__m128 A0 = _mm_set_ps(rhs.a[0], rhs.a[3], rhs.a[6], 0);
+		__m128 A1 = _mm_set_ps(rhs.a[1], rhs.a[4], rhs.a[7], 0);
+		__m128 A2 = _mm_set_ps(rhs.a[2], rhs.a[5], rhs.a[8], 0);
 
+		__m128 B0 = _mm_set_ps(a[0], a[1], a[2], 0);
+		__m128 B1 = _mm_set_ps(a[3], a[4], a[5], 0);
+		__m128 B2 = _mm_set_ps(a[6], a[7], a[8], 0);
 
-		for (int i = 0; i < 4; i++)
-		{
+		__m128 B0A0 = _mm_mul_ps(B0, A0); __m128 B0A1 = _mm_mul_ps(B0, A1); __m128 B0A2 = _mm_mul_ps(B0, A2);
+		__m128 B1A0 = _mm_mul_ps(B1, A0); __m128 B1A1 = _mm_mul_ps(B1, A1); __m128 B1A2 = _mm_mul_ps(B1, A2);
+		__m128 B2A0 = _mm_mul_ps(B2, A0); __m128 B2A1 = _mm_mul_ps(B2, A1); __m128 B2A2 = _mm_mul_ps(B2, A2);
 
-			__m128 x = _mm_set_ps(a[12 + i], a[8 + i], a[4 + i], a[0 + i]);
-			__m128 m0 = _mm_mul_ps(A0, x);
-			__m128 m1 = _mm_mul_ps(A1, x);
-			__m128 m2 = _mm_mul_ps(A2, x);
-			__m128 m3 = _mm_mul_ps(A3, x);
-			__m128 sum_01 = _mm_hadd_ps(m0, m1);
-			__m128 sum_23 = _mm_hadd_ps(m2, m3);
-			__m128 result = _mm_hadd_ps(sum_01, sum_23);
-			_mm_storeu_ps((float*)&out[i * 4], result);
-		}
+		__m128 HAddB0A0 = _mm_hadd_ps(B0A0, B0A0); __m128 HAddB0A1 = _mm_hadd_ps(B0A1, B0A1); __m128 HAddB0A2 = _mm_hadd_ps(B0A2, B0A2);
+		__m128 HAddB1A0 = _mm_hadd_ps(B1A0, B1A0); __m128 HAddB1A1 = _mm_hadd_ps(B1A1, B1A1); __m128 HAddB1A2 = _mm_hadd_ps(B1A2, B1A2);
+		__m128 HAddB2A0 = _mm_hadd_ps(B2A0, B2A0); __m128 HAddB2A1 = _mm_hadd_ps(B2A1, B2A1); __m128 HAddB2A2 = _mm_hadd_ps(B2A2, B2A2);
 
-		
+		out[0] = _mm_hadd_ps(HAddB0A0, HAddB0A0).m128_f32[0]; out[1] = _mm_hadd_ps(HAddB0A1, HAddB0A1).m128_f32[0]; out[2] = _mm_hadd_ps(HAddB0A2, HAddB0A2).m128_f32[0];
+		out[3] = _mm_hadd_ps(HAddB1A0, HAddB1A0).m128_f32[0]; out[4] = _mm_hadd_ps(HAddB1A1, HAddB1A1).m128_f32[0]; out[5] = _mm_hadd_ps(HAddB1A2, HAddB1A2).m128_f32[0];
+		out[6] = _mm_hadd_ps(HAddB2A0, HAddB2A0).m128_f32[0]; out[7] = _mm_hadd_ps(HAddB2A1, HAddB2A1).m128_f32[0]; out[8] = _mm_hadd_ps(HAddB2A2, HAddB2A2).m128_f32[0];
 
-#ifdef ROWMAJOR
 		memcpy((void*)this->a, &Matrix3(
-			out[0], out[3], out[6],
-			out[1], out[4], out[7],
+			out[0], out[3], out[6], 
+			out[1],	out[4], out[7], 
 			out[2], out[5], out[8]), sizeof(float) * 9);
-
-#else
-		memcpy((void*)this->a, &Matrix3(out[0], out[1], out[2], out[3],
-			out[4], out[5], out[6], out[7],
-			out[8]), sizeof(float) * 9);		
-#endif
 
 		return *this;
 	}
