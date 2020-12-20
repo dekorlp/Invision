@@ -383,6 +383,11 @@ void testMatrix2()
 	Invision::Matrix2 matAdd_result = mat2_1 + mat2_2;
 	Invision::Matrix2 matSub_result = mat2_1 - mat2_2;
 
+	Invision::Vector2 vec(10, 11);
+
+	Invision::Vector2 vecMatLResult = vec * mat2_1 ;
+	Invision::Vector2 vecMatRResult = mat2_1 * vec;
+
 	//mat2_1 *= mat2_1;
 	//mat2_1 += mat2_1;
 	//mat2_1 -= mat2_1;

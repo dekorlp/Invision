@@ -162,8 +162,8 @@ namespace Invision {
 		
 	Vector2 Matrix2::operator*(Vector2 const& rhs) const
 	{
-		__m128 row1 = _mm_set_ps(a0, a2, 0, 0);
-		__m128 row2 = _mm_set_ps(a1, a3, 0, 0);
+		__m128 row1 = _mm_set_ps(a0, a1, 0, 0);
+		__m128 row2 = _mm_set_ps(a2, a3, 0, 0);
 		
 		//__m128 vector = _mm_set_ps(rhs.getW(), rhs.getZ(), rhs.getY(), rhs.getX());
 		__m128 vector = _mm_set_ps(rhs.getX(), rhs.getY(), 0, 0);
