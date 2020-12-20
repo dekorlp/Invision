@@ -385,7 +385,7 @@ void testMatrix2()
 
 	//mat2_1 *= mat2_1;
 	//mat2_1 += mat2_1;
-	mat2_1 -= mat2_1;
+	//mat2_1 -= mat2_1;
 	int test = 0;
 
 }
