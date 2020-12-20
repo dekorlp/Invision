@@ -155,26 +155,6 @@ namespace Invision
 		 */
 		INVISION_API static Matrix2 Identity();
 
-		/**
-		* \brief returns an translated matrix
-		* \return A Matrix object
-		*/
-		INVISION_API static Matrix2 Translate(const Vector2& v);
-
-
-		/**
-		 * \brief use scale transformation
-		 * \param v vector object
-		 * \return a scaled matrix
-		 */
-		INVISION_API static Matrix2 Scale(const Vector2 &v);
-
-		/**
-		 * \brief use scale transformation
-		 * \param v float object
-		 * \return a scaled matrix
-		 */
-		INVISION_API static Matrix2 Scale(const float v);
 	};
 }
 #endif //MATRIX_H

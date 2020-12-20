@@ -430,29 +430,4 @@ namespace Invision {
 		return{ 1, 0,
 					0, 1 };
 	}
-
-	Matrix2 Matrix2::Translate(const Vector2& v)
-	{
-#ifdef ROWMAJOR
-		return{ 1, 0,
-				v.getX(), v.getY()
-		};
-#else
-		return{ 1, v.getX(),
-			0, v.getY()
-		};
-#endif
-	}
-
-	Matrix2 Matrix2::Scale(const Vector2 &v)
-	{
-		return{ v.getX(), 0,
-					0, v.getY()};
-	}
-		
-	Matrix2 Matrix2::Scale(const float v)
-	{
-		return{ v, 0,
-				0, 1};
-	}
 }

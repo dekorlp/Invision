@@ -196,15 +196,6 @@ namespace Invision
 		INVISION_API static Matrix3 RotateXY(const Vector3 &v);
 
 		/**
-		* \brief rotate around any axis
-		* \param v vector object
-		* \param f float value
-		* \return rotated matrix
-		*/
-		INVISION_API static Matrix3 RotateAxis(const Vector3 &v, const float f);
-
-
-		/**
 		 * \brief use scale transformation
 		 * \param v vector object
 		 * \return a scaled matrix
