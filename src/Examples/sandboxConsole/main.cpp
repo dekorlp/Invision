@@ -420,6 +420,9 @@ void testMatrix3()
 	Invision::Vector3 vecMatLResult = vec * mat3_1;
 	Invision::Vector3 vecMatRResult = mat3_1 * vec;
 
+	Invision::Matrix3 matSub_resultMulFactor = mat3_1 * 4;
+	Invision::Matrix3 matSub_resultDivFactor = mat3_1 / 2;
+
 	//mat3_1 *= mat3_1;
 	//mat3_1 += mat3_1;
 	//mat3_1 -= mat3_1;
