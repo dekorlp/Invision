@@ -391,6 +391,11 @@ void testMatrix2()
 	Invision::Matrix2 matSub_resultMulFactor = mat2_1 * 4;
 	Invision::Matrix2 matSub_resultDivFactor = mat2_1 / 2;
 
+	float det = mat2_1.GetDeterminant();
+	Invision::Matrix2 coMat = mat2_1.GetCoFactor();
+	Invision::Matrix2 invertMat = mat2_1.Invert();
+	Invision::Matrix2 transpose = mat2_1.GetTranspose();
+
 	//mat2_1 *= mat2_1;
 	//mat2_1 += mat2_1;
 	//mat2_1 -= mat2_1;

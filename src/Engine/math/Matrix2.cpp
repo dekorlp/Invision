@@ -293,18 +293,12 @@ namespace Invision {
 	Matrix2 Matrix2::GetCoFactor() const
 	{
 		float subMat[2][2];
-		for (int i = 0; i < 2; i++)
-		{
-			for (int j = 0; j < 2; j++)
-			{
-			
+		
+		subMat[0][0] = aa[1][1];
+		subMat[0][1] = -aa[0][1];
+		subMat[1][0] = -aa[1][0];
+		subMat[1][1] = aa[0][0];
 
-				// rule of sarrus
-				subMat[j][i] = 0;
-			}
-
-
-		}
 
 		return Matrix2(*subMat);
 	}
@@ -366,8 +360,8 @@ namespace Invision {
 
 	Matrix2 Matrix2::GetTranspose() const
 	{
-		return{ a0, a2,
-				a1, a3};
+		return{ a3, a1,
+				a2, a0};
 	}
 
 	Matrix2 Matrix2::Identity()
