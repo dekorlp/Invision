@@ -388,6 +388,9 @@ void testMatrix2()
 	Invision::Vector2 vecMatLResult = vec * mat2_1 ;
 	Invision::Vector2 vecMatRResult = mat2_1 * vec;
 
+	Invision::Matrix2 matSub_resultMulFactor = mat2_1 * 4;
+	Invision::Matrix2 matSub_resultDivFactor = mat2_1 / 2;
+
 	//mat2_1 *= mat2_1;
 	//mat2_1 += mat2_1;
 	//mat2_1 -= mat2_1;
