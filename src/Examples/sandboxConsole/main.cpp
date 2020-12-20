@@ -415,6 +415,11 @@ void testMatrix3()
 	Invision::Matrix3 matAdd_result = mat3_1 + mat3_2;
 	Invision::Matrix3 matSub_result = mat3_1 - mat3_2;
 
+	Invision::Vector3 vec(10, 11, 12);
+
+	Invision::Vector3 vecMatLResult = vec * mat3_1;
+	Invision::Vector3 vecMatRResult = mat3_1 * vec;
+
 	//mat3_1 *= mat3_1;
 	//mat3_1 += mat3_1;
 	//mat3_1 -= mat3_1;

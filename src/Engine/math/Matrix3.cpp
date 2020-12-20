@@ -223,9 +223,9 @@ namespace Invision {
 		
 	Vector3 Matrix3::operator*(Vector3 const& rhs) const
 	{
-		__m128 row1 = _mm_set_ps(a0, a3, a6, 0);
-		__m128 row2 = _mm_set_ps(a1, a4, a7, 0);
-		__m128 row3 = _mm_set_ps(a2, a5, a8, 0);
+		__m128 row1 = _mm_set_ps(a0, a1, a2, 0);
+		__m128 row2 = _mm_set_ps(a3, a4, a5, 0);
+		__m128 row3 = _mm_set_ps(a6, a7, a8, 0);
 		
 		//__m128 vector = _mm_set_ps(rhs.getW(), rhs.getZ(), rhs.getY(), rhs.getX());
 		__m128 vector = _mm_set_ps(rhs.getX(), rhs.getY(), rhs.getZ(), 0);
