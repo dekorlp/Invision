@@ -8,8 +8,8 @@
 //			  All rights reserved.
 /////////////////////////////////////////////////////////////////////////////
 
-#ifndef MATRIX_H
-#define MATRIX_H
+#ifndef MATRIX3_H
+#define MATRIX3_H
 #include "base/SIMD.h"
 
 namespace Invision
@@ -210,4 +210,4 @@ namespace Invision
 		INVISION_API static Matrix3 Scale(const float v);
 	};
 }
-#endif //MATRIX_H
+#endif //MATRIX3_H

@@ -309,126 +309,7 @@ void testPoolAllocatorStruct()
 	alloc.Destroy();
 }*/
 
-/*typedef void* HANDLE;
 
-class VulkanAPI
-{
-	private:
-		std::string name = "Vulklan API";
-	public:
-		std::string getName()
-		{
-			return name;
-		}
-
-};
-
-class DirectXAPI
-{
-private:
-	std::string name = "DirectX API";
-public:
-	std::string getName()
-	{
-		return name;
-	}
-
-};*/
-
-/*enum GRAPHIC_API
-{
-	VULKAN = 0,
-	DIRECTX = 1
-};
-
-class APIConfig
-{
-public:
-	VulkanAPI* apiVulkan = nullptr;
-	DirectXAPI* apiDirectx = nullptr;
-	GRAPHIC_API api;
-
-	std::string GetApi()
-	{
-		if (api == VULKAN)
-		{
-			return apiVulkan->getName();
-		}
-		else if (api == DIRECTX)
-		{
-			return apiDirectx->getName();
-		}
-		else
-		{
-			return "";
-		}
-	}
-};*/
-
-/*class InvisionRenderer
-{
-	private:
-		APIConfig* config;
-		
-public:
-	InvisionRenderer(GRAPHIC_API api, HANDLE& handle)
-	{
-		config = new APIConfig();
-		if (api == VULKAN)
-		{
-			config->apiVulkan = new VulkanAPI();
-			config->api = VULKAN;
-			handle = (HANDLE)(config);
-		}
-		else if (api == DIRECTX)
-		{
-			config->apiDirectx = new DirectXAPI();
-			config->api = DIRECTX;
-			DirectXAPI* ap = config->apiDirectx;
-			handle = (HANDLE)(config);
-		}
-		else
-		{
-			throw "undefined Handle";
-		}
-	}
-	~InvisionRenderer()
-	{
-		if (config->api == VULKAN)
-		{
-			delete config->apiVulkan;
-		}
-		else if (config->api == DIRECTX)
-		{
-			delete config->apiDirectx;
-		}
-
-		delete config;
-	 }
-
-};
-
-class InvisionCommandBuffer
-{
-	public:
-		void printSelectedAPI(void* handle)
-		{
-			std::cout << ((APIConfig*)handle)->GetApi() << std::endl;
-		}
-};
-
-void testCast()
-{
-
-	
-	HANDLE config;
-
-	InvisionRenderer *dx = new InvisionRenderer(DIRECTX, config);
-	InvisionCommandBuffer commandBuffer;
-	commandBuffer.printSelectedAPI(config);
-	dx->~InvisionRenderer();
-	int test = 0;
-}*/
 
 void testKeyboardHandling()
 {
@@ -453,7 +334,7 @@ struct container
 
 } container;
 
-void testMatrix()
+void testMatrix4()
 {
 	Invision::Matrix testMat1(1, 2, 3, 4,
 		                  5, 6, 7, 8,
@@ -492,6 +373,17 @@ void testMatrix()
 	int test100 = 0;
 }
 
+void testMatrix2()
+{
+	Invision::Matrix2 mat2_1(1.0f, 2.0f,
+		                     3.0f, 4.0f);
+	Invision::Matrix2 mat2_2(5.0f, 6.0f,
+		7.0f, 8.0f);
+	Invision::Matrix2 mat_result = mat2_1 * mat2_2;
+	int test = 0;
+
+}
+
 int main()
 {
 	//CPUID cpuid(0x80000004);
@@ -519,7 +411,9 @@ int main()
 	//testMatrix();
 	//testCast();
 	//testKeyboardHandling();
-	testMatrix();
+	
+	testMatrix2();
+	//testMatrix4();
 	
 	return 0;
 }

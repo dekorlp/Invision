@@ -30,8 +30,8 @@ namespace Invision {
 #else
 	Matrix2::Matrix2(float e00, float e01,
 		float e10, float e11)
-		: a0(e00), a2(e10), 
-		a1(e01), a3(e11)
+		: a0(e11), a1(e10), 
+		a2(e01), a3(e00)
 	{
 
 	}
@@ -58,32 +58,21 @@ namespace Invision {
 		float out[4];
 
 		// Load matrix A into SSE registers
-		__m128 A0 = _mm_loadu_ps((const float*)(rhs.a + 0));
-		__m128 A1 = _mm_loadu_ps((const float*)(rhs.a + 4));
-		__m128 A2 = _mm_loadu_ps((const float*)(rhs.a + 8));
-		__m128 A3 = _mm_loadu_ps((const float*)(rhs.a + 12));
+		__m128 A0 = _mm_set_ps(a[3], a[1], a[2], a[0]);
+		__m128 A1 = _mm_set_ps(a[1], a[0], a[3], a[2]);
 
+		__m128 B0 = _mm_set_ps( rhs.a[2], rhs.a[3], rhs.a[0], rhs.a[1]);
+		__m128 B1 = _mm_set_ps( rhs.a[0], rhs.a[1], rhs.a[2], rhs.a[3]);
 		
-		
-		for (int i = 0; i < 4; i++)
-		{
+		__m128 Mul1 = _mm_mul_ps(A0, B0);
+		__m128 Mul2 = _mm_mul_ps(A1, B1);
 
-			__m128 x = _mm_set_ps(a[12 + i], a[8 + i], a[4 + i], a[0 + i]);
-
-			__m128 m0 = _mm_mul_ps(A0, x);
-			__m128 m1 = _mm_mul_ps(A1, x);
-			__m128 m2 = _mm_mul_ps(A2, x);
-			__m128 m3 = _mm_mul_ps(A3, x);
-			__m128 sum_01 = _mm_hadd_ps(m0, m1);
-			__m128 sum_23 = _mm_hadd_ps(m2, m3);
-			__m128 result = _mm_hadd_ps(sum_01, sum_23);
-			_mm_storeu_ps((float*)&out[i * 4], result);
-		}
+		__m128 res = _mm_add_ps(Mul1, Mul2);
 
 		
 
 #ifdef ROWMAJOR
-		return Matrix(out[0], out[2]
+		return Matrix2(out[0], out[2],
 			out[1], out[3]);
 
 #else
@@ -204,7 +193,7 @@ namespace Invision {
 		
 
 #ifdef ROWMAJOR
-		memcpy((void*)this->a, &Matrix(out[0], out[2],
+		memcpy((void*)this->a, &Matrix2(out[0], out[2],
 			out[1], out[3]), sizeof(float) * 4);
 
 #else

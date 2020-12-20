@@ -8,10 +8,10 @@
 //			  All rights reserved.
 /////////////////////////////////////////////////////////////////////////////
 
-#ifndef MATRIX_H
-#define MATRIX_H
+#ifndef MATRIX2_H
+#define MATRIX2_H
 #include "base/SIMD.h"
-
+//#define ROWMAJOR
 namespace Invision
 {
 	class Vector2;
@@ -55,7 +55,7 @@ namespace Invision
 		 * \param e11 - e44 elements of the matrix
 		 */
 #ifdef ROWMAJOR
-		INVISION_API Matrix2(float e11, float e12
+		INVISION_API Matrix2(float e11, float e12,
 			float e21, float e22);
 #else
 		INVISION_API Matrix2(float e11, float e21,
@@ -157,4 +157,4 @@ namespace Invision
 
 	};
 }
-#endif //MATRIX_H
+#endif //MATRIX2_H
