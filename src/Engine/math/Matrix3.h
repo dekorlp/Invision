@@ -180,20 +180,27 @@ namespace Invision
 		INVISION_API static Matrix3 RotateY(const float f);
 
 		/**
+		* \brief rotate around Y axis
+		* \param f float value
+		* \return rotated matrix
+		*/
+		INVISION_API static Matrix3 RotateZ(const float f);
+
+		/**
 		* \brief rotate around XYZ axis
 		* \param x float value
 		* \param y float value
 		* \param z float value
 		* \return rotated matrix
 		*/
-		INVISION_API static Matrix3 RotateXY(const float x, const float y);
+		INVISION_API static Matrix3 RotateXYZ(const float x, const float y, float z);
 
 		/**
 		* \brief rotate around XYZ axis
 		* \param y vector object
 		* \return rotated matrix
 		*/
-		INVISION_API static Matrix3 RotateXY(const Vector3 &v);
+		INVISION_API static Matrix3 RotateXYZ(const Vector3 &v);
 
 		/**
 		 * \brief use scale transformation

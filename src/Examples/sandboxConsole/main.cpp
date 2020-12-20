@@ -423,6 +423,15 @@ void testMatrix3()
 	Invision::Matrix3 matSub_resultMulFactor = mat3_1 * 4;
 	Invision::Matrix3 matSub_resultDivFactor = mat3_1 / 2;
 
+	Invision::Matrix3 mat3_3(10.0f, 11.0f, 12.0f,
+		13.0f, 14.0f, 15.0f,
+		16.0f, 17.0f, 20.0f);
+
+	float det = mat3_3.GetDeterminant();
+	Invision::Matrix3 coMat = mat3_3.GetCoFactor();
+	Invision::Matrix3 invertMat = mat3_3.Invert();
+	Invision::Matrix3 transpose = mat3_2.GetTranspose();
+
 	//mat3_1 *= mat3_1;
 	//mat3_1 += mat3_1;
 	//mat3_1 -= mat3_1;

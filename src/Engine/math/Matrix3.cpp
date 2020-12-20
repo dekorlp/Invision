@@ -310,7 +310,7 @@ namespace Invision {
 	float Matrix3::GetDeterminant() const
 	{
 		// http://www32.cplusplus.com/forum/beginner/267880/
-		int n = 4;
+		int n = 3;
 
 		float det = 1;
 		
@@ -360,19 +360,17 @@ namespace Invision {
 
 	Matrix3 Matrix3::GetCoFactor() const
 	{
-		float subVec[3][3];
 		float subMat[3][3];
-		for (int i = 0; i < 3; i++)
-		{
-			for (int j = 0; j < 3; j++)
-			{
-				// rule of sarrus
-				subMat[j][i] = static_cast<float>(pow(-1, i + j) * ((aa[0][0] * aa[1][1] * aa[2][2]) + (aa[0][1] * aa[1][2] * aa[2][0]) + (aa[0][2] * aa[1][0] * aa[2][1])
-					- aa[0][2] * aa[1][1] * aa[2][0] - aa[0][0] * aa[1][2] * aa[2][1] - aa[0][1] * aa[1][0] * aa[2][2]));
-			}
-
-
-		}
+		
+		subMat[0][0] = 1 * (a[4] * a[8] - a[5] * a[7]);
+		subMat[1][0] = -1 * (a[3] * a[8] - a[5] * a[6]);
+		subMat[2][0] = 1 * (a[1] * a[5] - a[2] * a[4]);
+		subMat[0][1] = -1 * (a[1] * a[8] - a[2] * a[7]);
+		subMat[1][1] = 1 * (a[0] * a[8] - a[2] * a[6]);
+		subMat[2][1] = -1 * (a[0] * a[5] - a[2] * a[3]);
+		subMat[0][2] = 1 * (a[1] * a[5] - a[2] * a[4]);
+		subMat[1][2] = -1 * (a[0] * a[5] - a[2] * a[3]);
+		subMat[2][2] = 1 * (a[0] * a[4] - a[1] * a[3]);
 
 		return Matrix3(*subMat);
 	}
@@ -500,28 +498,46 @@ namespace Invision {
 #endif
 	}
 
-
-	Matrix3 Matrix3::RotateXY(const float x, const float y)
+	Matrix3 Matrix3::RotateZ(const float f)
 	{
-		return RotateX(x)* RotateY(y);
+		float cos = cosf(f * PI_F / 180);
+		float sin = sinf(f * PI_F / 180);
+
+
+#ifdef ROWMAJOR
+		return{ cos, sin, 0.0f,
+				-sin, cos, 0.0f,
+				0.0f, 0.0f, 1.0f
+		};
+#else
+		return{ cos, -sin, 0.0f,
+				sin, cos, 0.0f,
+				0.0f, 0.0f, 1.0f
+		};
+#endif
 	}
 
-	Matrix3 Matrix3::RotateXY(const Vector3 &v)
+	Matrix3 Matrix3::RotateXYZ(const float x, const float y , const float z)
 	{
-		return RotateX(v.getX()) * RotateY(v.getY());
+		return RotateX(x)* RotateY(y) * RotateZ(y);
+	}
+
+	Matrix3 Matrix3::RotateXYZ(const Vector3 &v)
+	{
+		return RotateX(v.getX()) * RotateY(v.getY()) * RotateZ(v.getZ());
 	}
 
 	Matrix3 Matrix3::Scale(const Vector3 &v)
 	{
 		return{ v.getX(), 0, 0,
 				0, v.getY(), 0,
-				0, 0, 1 };
+				0, 0, v.getZ() };
 	}
 		
 	Matrix3 Matrix3::Scale(const float v)
 	{
 		return{ v, 0, 0,
 					0, v, 0,
-					0, 0, 1 };
+					0, 0, v };
 	}
 }
