@@ -93,81 +93,97 @@ namespace Invision {
 	Matrix3 Matrix3::operator+(Matrix3 const& rhs) const
 	{
 		float out[9];
-		__m128 row0 = _mm_loadu_ps((const float*)(a + 0));
-		__m128 row1 = _mm_loadu_ps((const float*)(a + 4));
-		__m128 row2 = _mm_loadu_ps((const float*)(a + 8));
-		__m128 row3 = _mm_loadu_ps((const float*)(a + 12));
+		__m128 A0 = _mm_set_ps(rhs.a[0], rhs.a[1], rhs.a[2], 0);
+		__m128 A1 = _mm_set_ps(rhs.a[3], rhs.a[4], rhs.a[5], 0);
+		__m128 A2 = _mm_set_ps(rhs.a[6], rhs.a[7], rhs.a[8], 0);
 
-		__m128 rowrhs0 = _mm_loadu_ps((const float*)(rhs.a + 0));
-		__m128 rowrhs1 = _mm_loadu_ps((const float*)(rhs.a + 4));
-		__m128 rowrhs2 = _mm_loadu_ps((const float*)(rhs.a + 8));
-		__m128 rowrhs3 = _mm_loadu_ps((const float*)(rhs.a + 12));
+		__m128 B0 = _mm_set_ps(a[0], a[1], a[2], 0);
+		__m128 B1 = _mm_set_ps(a[3], a[4], a[5], 0);
+		__m128 B2 = _mm_set_ps(a[6], a[7], a[8], 0);
 
-		_mm_storeu_ps((float*)&out[0], _mm_add_ps(row0, rowrhs0));
-		_mm_storeu_ps((float*)&out[4], _mm_add_ps(row1, rowrhs1));
-		_mm_storeu_ps((float*)&out[8], _mm_add_ps(row2, rowrhs2));
-		_mm_storeu_ps((float*)&out[12], _mm_add_ps(row3, rowrhs3));
+		__m128 B0A0 = _mm_add_ps(B0, A0); 
+		__m128 B1A1 = _mm_add_ps(B1, A1); 
+		__m128 B2A2 = _mm_add_ps(B2, A2);
+
+		out[0] = B0A0.m128_f32[3]; out[1] = B0A0.m128_f32[2]; out[2] = B0A0.m128_f32[1];
+		out[3] = B1A1.m128_f32[3]; out[4] = B1A1.m128_f32[2]; out[5] = B1A1.m128_f32[1];
+		out[6] = B2A2.m128_f32[3]; out[7] = B2A2.m128_f32[2]; out[8] = B2A2.m128_f32[1];
 
 		return Matrix3((float*)out);
 	}
 
 	Matrix3 Matrix3::operator-(Matrix3 const& rhs) const
 	{
-		float out[16];
-		__m128 row0 = _mm_loadu_ps((const float*)(a + 0));
-		__m128 row1 = _mm_loadu_ps((const float*)(a + 4));
-		__m128 row2 = _mm_loadu_ps((const float*)(a + 8));
-		__m128 row3 = _mm_loadu_ps((const float*)(a + 12));
+		float out[9];
+		__m128 A0 = _mm_set_ps(rhs.a[0], rhs.a[1], rhs.a[2], 0);
+		__m128 A1 = _mm_set_ps(rhs.a[3], rhs.a[4], rhs.a[5], 0);
+		__m128 A2 = _mm_set_ps(rhs.a[6], rhs.a[7], rhs.a[8], 0);
 
-		__m128 rowrhs0 = _mm_loadu_ps((const float*)(rhs.a + 0));
-		__m128 rowrhs1 = _mm_loadu_ps((const float*)(rhs.a + 4));
-		__m128 rowrhs2 = _mm_loadu_ps((const float*)(rhs.a + 8));
-		__m128 rowrhs3 = _mm_loadu_ps((const float*)(rhs.a + 12));
+		__m128 B0 = _mm_set_ps(a[0], a[1], a[2], 0);
+		__m128 B1 = _mm_set_ps(a[3], a[4], a[5], 0);
+		__m128 B2 = _mm_set_ps(a[6], a[7], a[8], 0);
 
-		_mm_storeu_ps((float*)&out[0], _mm_sub_ps(row0, rowrhs0));
-		_mm_storeu_ps((float*)&out[4], _mm_sub_ps(row1, rowrhs1));
-		_mm_storeu_ps((float*)&out[8], _mm_sub_ps(row2, rowrhs2));
-		_mm_storeu_ps((float*)&out[12], _mm_sub_ps(row3, rowrhs3));
+		__m128 B0A0 = _mm_sub_ps(B0, A0);
+		__m128 B1A1 = _mm_sub_ps(B1, A1);
+		__m128 B2A2 = _mm_sub_ps(B2, A2);
+
+		out[0] = B0A0.m128_f32[3]; out[1] = B0A0.m128_f32[2]; out[2] = B0A0.m128_f32[1];
+		out[3] = B1A1.m128_f32[3]; out[4] = B1A1.m128_f32[2]; out[5] = B1A1.m128_f32[1];
+		out[6] = B2A2.m128_f32[3]; out[7] = B2A2.m128_f32[2]; out[8] = B2A2.m128_f32[1];
 
 		return Matrix3((float*)out);
 	}
 
 	Matrix3 Matrix3::operator+=(Matrix3 const& rhs) const
 	{
-		__m128 row0 = _mm_loadu_ps((const float*)(a + 0));
-		__m128 row1 = _mm_loadu_ps((const float*)(a + 4));
-		__m128 row2 = _mm_loadu_ps((const float*)(a + 8));
-		__m128 row3 = _mm_loadu_ps((const float*)(a + 12));
+		float out[9];
+		__m128 A0 = _mm_set_ps(rhs.a[0], rhs.a[1], rhs.a[2], 0);
+		__m128 A1 = _mm_set_ps(rhs.a[3], rhs.a[4], rhs.a[5], 0);
+		__m128 A2 = _mm_set_ps(rhs.a[6], rhs.a[7], rhs.a[8], 0);
 
-		__m128 rowrhs0 = _mm_loadu_ps((const float*)(rhs.a + 0));
-		__m128 rowrhs1 = _mm_loadu_ps((const float*)(rhs.a + 4));
-		__m128 rowrhs2 = _mm_loadu_ps((const float*)(rhs.a + 8));
-		__m128 rowrhs3 = _mm_loadu_ps((const float*)(rhs.a + 12));
+		__m128 B0 = _mm_set_ps(a[0], a[1], a[2], 0);
+		__m128 B1 = _mm_set_ps(a[3], a[4], a[5], 0);
+		__m128 B2 = _mm_set_ps(a[6], a[7], a[8], 0);
 
-		_mm_storeu_ps((float*)&a[0], _mm_add_ps(row0, rowrhs0));
-		_mm_storeu_ps((float*)&a[4], _mm_add_ps(row1, rowrhs1));
-		_mm_storeu_ps((float*)&a[8], _mm_add_ps(row2, rowrhs2));
-		_mm_storeu_ps((float*)&a[12], _mm_add_ps(row3, rowrhs3));		
+		__m128 B0A0 = _mm_add_ps(B0, A0);
+		__m128 B1A1 = _mm_add_ps(B1, A1);
+		__m128 B2A2 = _mm_add_ps(B2, A2);
+
+		out[0] = B0A0.m128_f32[3]; out[1] = B0A0.m128_f32[2]; out[2] = B0A0.m128_f32[1];
+		out[3] = B1A1.m128_f32[3]; out[4] = B1A1.m128_f32[2]; out[5] = B1A1.m128_f32[1];
+		out[6] = B2A2.m128_f32[3]; out[7] = B2A2.m128_f32[2]; out[8] = B2A2.m128_f32[1];
+
+		memcpy((void*)this->a, &Matrix3(
+			out[0], out[3], out[6],
+			out[1], out[4], out[7],
+			out[2], out[5], out[8]), sizeof(float) * 9);
 
 		return *this;
 	}
 
 	Matrix3 Matrix3::operator-=(Matrix3 const& rhs) const
 	{
-		__m128 row0 = _mm_loadu_ps((const float*)(a + 0));
-		__m128 row1 = _mm_loadu_ps((const float*)(a + 4));
-		__m128 row2 = _mm_loadu_ps((const float*)(a + 8));
-		__m128 row3 = _mm_loadu_ps((const float*)(a + 12));
+		float out[9];
+		__m128 A0 = _mm_set_ps(rhs.a[0], rhs.a[1], rhs.a[2], 0);
+		__m128 A1 = _mm_set_ps(rhs.a[3], rhs.a[4], rhs.a[5], 0);
+		__m128 A2 = _mm_set_ps(rhs.a[6], rhs.a[7], rhs.a[8], 0);
 
-		__m128 rowrhs0 = _mm_loadu_ps((const float*)(rhs.a + 0));
-		__m128 rowrhs1 = _mm_loadu_ps((const float*)(rhs.a + 4));
-		__m128 rowrhs2 = _mm_loadu_ps((const float*)(rhs.a + 8));
-		__m128 rowrhs3 = _mm_loadu_ps((const float*)(rhs.a + 12));
+		__m128 B0 = _mm_set_ps(a[0], a[1], a[2], 0);
+		__m128 B1 = _mm_set_ps(a[3], a[4], a[5], 0);
+		__m128 B2 = _mm_set_ps(a[6], a[7], a[8], 0);
 
-		_mm_storeu_ps((float*)&a[0], _mm_sub_ps(row0, rowrhs0));
-		_mm_storeu_ps((float*)&a[4], _mm_sub_ps(row1, rowrhs1));
-		_mm_storeu_ps((float*)&a[8], _mm_sub_ps(row2, rowrhs2));
-		_mm_storeu_ps((float*)&a[12], _mm_sub_ps(row3, rowrhs3));
+		__m128 B0A0 = _mm_sub_ps(B0, A0);
+		__m128 B1A1 = _mm_sub_ps(B1, A1);
+		__m128 B2A2 = _mm_sub_ps(B2, A2);
+
+		out[0] = B0A0.m128_f32[3]; out[1] = B0A0.m128_f32[2]; out[2] = B0A0.m128_f32[1];
+		out[3] = B1A1.m128_f32[3]; out[4] = B1A1.m128_f32[2]; out[5] = B1A1.m128_f32[1];
+		out[6] = B2A2.m128_f32[3]; out[7] = B2A2.m128_f32[2]; out[8] = B2A2.m128_f32[1];
+
+		memcpy((void*)this->a, &Matrix3(
+			out[0], out[3], out[6],
+			out[1], out[4], out[7],
+			out[2], out[5], out[8]), sizeof(float) * 9);
 
 		return *this;
 	}
