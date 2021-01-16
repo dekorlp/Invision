@@ -488,6 +488,13 @@ AddConsoleProject(
 		srcroot .. "Examples/PushConstantDemo/**.cpp"
 	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, true)
 
+AddConsoleProject(
+	"LoadModelDemoMipMaps", srcroot .. "Examples/", {
+		srcroot .. "Examples/LoadModelDemoMipMaps/**.h",
+		srcroot .. "Examples/LoadModelDemoMipMaps/**.cpp"
+	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, true)
+	
+
 -----------------------------------------------------------------------------------------------------
 -------- University Examples
 -----------------------------------------------------------------------------------------------------
