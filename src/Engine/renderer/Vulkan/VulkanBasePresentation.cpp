@@ -180,7 +180,7 @@ required to support other windowing systems.
 		vulkanContext.swapChainImageViews.resize(vulkanContext.swapChainImages.size());
 
 		for (uint32_t i = 0; i < vulkanContext.swapChainImages.size(); i++) {
-			vulkanContext.swapChainImageViews[i] = CreateImageView(vulkanInstance, vulkanContext.swapChainImages[i], vulkanContext.swapChainImageFormat, VK_IMAGE_ASPECT_COLOR_BIT);
+			vulkanContext.swapChainImageViews[i] = CreateImageView(vulkanInstance, vulkanContext.swapChainImages[i], vulkanContext.swapChainImageFormat, VK_IMAGE_ASPECT_COLOR_BIT, 1);
 		}
 
 		/*vulkanContext.swapChainImageViews.resize(vulkanContext.swapChainImages.size());

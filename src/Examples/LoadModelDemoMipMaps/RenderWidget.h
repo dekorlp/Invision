@@ -264,7 +264,7 @@ private:
 		std::vector<Invision::Vector2> texCoords;
 
 		LoadModel(std::string(INVISION_BASE_DIR).append("/src/Examples/LoadModelDemo/Models/viking_room.obj"), vertices, indices);
-		texture->LoadTexture(pixels, width * height * 4, width, height);
+		texture->LoadTexture(pixels, width * height * 4, width, height, true);
 		freeImage(pixels);
 		texture->CreateTextureImageView();
 		texture->CreateTextureSampler();

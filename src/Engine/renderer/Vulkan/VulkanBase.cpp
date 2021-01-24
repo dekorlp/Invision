@@ -222,7 +222,7 @@ namespace Invision
 		throw std::runtime_error("failed to find suitable memory type!");
 	}
 
-	VkImageView CreateImageView(SVulkanBase &vulkanInstance, VkImage image, VkFormat format, VkImageAspectFlags aspectFlags)
+	VkImageView CreateImageView(SVulkanBase &vulkanInstance, VkImage image, VkFormat format, VkImageAspectFlags aspectFlags, uint32_t mipLevel)
 	{
 		VkImageViewCreateInfo viewInfo{};
 		viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
@@ -231,7 +231,7 @@ namespace Invision
 		viewInfo.format = format;
 		viewInfo.subresourceRange.aspectMask = aspectFlags;
 		viewInfo.subresourceRange.baseMipLevel = 0;
-		viewInfo.subresourceRange.levelCount = 1;
+		viewInfo.subresourceRange.levelCount = mipLevel;
 		viewInfo.subresourceRange.baseArrayLayer = 0;
 		viewInfo.subresourceRange.layerCount = 1;
 
