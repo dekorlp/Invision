@@ -22,6 +22,7 @@ namespace Invision
 		INVISION_API ~VulkanRenderPass();
 
 	private:
+		unsigned int subPassIndex = 0;
 		Invision::VulkanBaseRenderPass renderPass;
 		Invision::VulkanInstance *vulkanInstance;
 
