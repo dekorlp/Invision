@@ -21,11 +21,28 @@ namespace Invision
 	{
 		vulkanInstance = instance;
 
-
-		renderPass.AddAttachment(instance->GetCoreEngine()->GetVulkanInstance(), instance->GetVulkanContext(), instance->GetVulkanContext().swapChainImageFormat, VK_ATTACHMENT_STORE_OP_STORE, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
+		renderPass.AddAttachment(instance->GetCoreEngine()->GetVulkanInstance(), 
+			instance->GetVulkanContext(), 
+			instance->GetVulkanContext().swapChainImageFormat, 
+			VK_SAMPLE_COUNT_1_BIT, 
+			VK_ATTACHMENT_LOAD_OP_CLEAR, 
+			VK_ATTACHMENT_STORE_OP_STORE,
+			VK_ATTACHMENT_LOAD_OP_DONT_CARE,
+			VK_ATTACHMENT_STORE_OP_DONT_CARE,
+			VK_IMAGE_LAYOUT_UNDEFINED,
+			VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
 		if (instance->GetDepthRessources().AreDepthRessourcesActivated() == true)
 		{
-			renderPass.AddAttachment(instance->GetCoreEngine()->GetVulkanInstance(), instance->GetVulkanContext(), instance->GetDepthRessources().findDepthFormat(instance->GetCoreEngine()->GetVulkanInstance()), VK_ATTACHMENT_STORE_OP_DONT_CARE, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
+			renderPass.AddAttachment(instance->GetCoreEngine()->GetVulkanInstance(), 
+				instance->GetVulkanContext(), 
+				instance->GetDepthRessources().findDepthFormat(instance->GetCoreEngine()->GetVulkanInstance()), 
+				VK_SAMPLE_COUNT_1_BIT,
+				VK_ATTACHMENT_LOAD_OP_CLEAR,
+				VK_ATTACHMENT_STORE_OP_DONT_CARE,
+				VK_ATTACHMENT_LOAD_OP_DONT_CARE,
+				VK_ATTACHMENT_STORE_OP_DONT_CARE,
+				VK_IMAGE_LAYOUT_UNDEFINED,
+				VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
 		}
 
 		renderPass.AddSubpass({}, instance->GetDepthRessources().AreDepthRessourcesActivated());
