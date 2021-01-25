@@ -7,11 +7,46 @@
 namespace Invision
 {
 
+	void BaseSubPass::AddAttachment(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, VkFormat format, VkSampleCountFlagBits numSamples,
+		VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreop, VkImageLayout initialLayout, VkImageLayout finalLayout
+		, VkAttachmentReference attachmentRef = {})
+	{
+		VkAttachmentDescription attachment = {};
+		attachment.format = format;
+		attachment.samples = VK_SAMPLE_COUNT_1_BIT;
+		attachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+		attachment.storeOp = storeOp;
+		attachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+		attachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+		attachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+		attachment.finalLayout = finalLayout;
+
+		mAttachmentDescriptions.push_back(attachment);
+
+		if (attachmentRef.layout == VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL)
+		{
+			mColorReference.push_back(attachmentRef);
+		}
+		else if (attachmentRef.layout == VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL)
+		{
+			mDepthReference = attachmentRef;
+			mHasDepthReference = true;
+		}
+	}
+
+	void BaseSubPass::DestroyBaseSubPass()
+	{
+		mColorReference.clear();
+		mAttachmentDescriptions.clear();
+	}
+
 	void VulkanBaseRenderPass::CreateRenderPass(const SVulkanBase &vulkanInstance)
 	{
 		/*if (subPasses.mSubpass.size() == 0) {
 			throw InvisionBaseRendererException("Subpass Descriptions are empty!");
 		}*/
+
+
 
 		VkRenderPassCreateInfo renderPassInfo = {};
 		renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
@@ -27,56 +62,21 @@ namespace Invision
 		}
 	}
 
-	void VulkanBaseRenderPass::AddAttachment(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, VkFormat format, VkSampleCountFlagBits numSamples, 
-		VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreop, VkImageLayout initialLayout, VkImageLayout finalLayout)
+	void VulkanBaseRenderPass::AddSubpass(BaseSubPass& subPass)
 	{
-		VkAttachmentDescription attachment = {};
-		attachment.format = format;
-		attachment.samples = VK_SAMPLE_COUNT_1_BIT;
-		attachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-		attachment.storeOp = storeOp;
-		attachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-		attachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-		attachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-		attachment.finalLayout = finalLayout;
-
-		mAttachmentDescriptions.push_back(attachment);
-	}
-	void VulkanBaseRenderPass::AddSubpass(BaseSubPass subPass, bool useDepthRessource)
-	{
-		// TODO: This is the first Version
-		// This has to be refactured later
-		VkAttachmentReference attachmentRef = {};
-		attachmentRef.attachment = 0;
-		attachmentRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-		subPass.mColorReference.push_back(attachmentRef);
-
-		if (useDepthRessource)
-		{
-			VkAttachmentReference depthAttachmentRef = {};
-			depthAttachmentRef.attachment = 1;
-			depthAttachmentRef.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-			subPass.mDepthReference.push_back(depthAttachmentRef);
-		}
-
-		mSubpassesReferences.push_back(subPass);
-
-		
-
 		VkSubpassDescription subpassDesc = {};
 		//VkSubpassDescription subpass = {};
 		subpassDesc.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
-		subpassDesc.colorAttachmentCount = static_cast<unsigned int>(mSubpassesReferences.at(static_cast<unsigned int>(mSubpassesReferences.size()) - 1).mColorReference.size());
-		subpassDesc.pColorAttachments = mSubpassesReferences.at(static_cast<unsigned int>(mSubpassesReferences.size()) - 1).mColorReference.data();
+		subpassDesc.colorAttachmentCount = static_cast<unsigned int>(subPass.mColorReference.size());
+		subpassDesc.pColorAttachments = subPass.mColorReference.data();
 
-		if (useDepthRessource)
+		if (subPass.mHasDepthReference)
 		{
-			subpassDesc.pDepthStencilAttachment = mSubpassesReferences.at(static_cast<unsigned int>(mSubpassesReferences.size()) - 1).mDepthReference.data();
+			subpassDesc.pDepthStencilAttachment = &subPass.mDepthReference;
 		}
 
-	
-
 		mSubpasses.push_back(subpassDesc);
+		mAttachmentDescriptions.insert(std::end(mAttachmentDescriptions), std::begin(subPass.mAttachmentDescriptions), std::end(subPass.mAttachmentDescriptions));   //push_back(subPass.mAttachmentDescriptions);
 	}
 
 	void VulkanBaseRenderPass::AddSubpassDependency(const SVulkanBase &vulkanInstance, VkPipelineStageFlags srcStageFlags, VkAccessFlags srcAccessFlags, VkPipelineStageFlags dstStageFlags, VkAccessFlags dstAccessFlags)
@@ -101,8 +101,8 @@ namespace Invision
 	{
 		vkDestroyRenderPass(vulkanInstance.logicalDevice, mRenderPass, nullptr);
 		mAttachmentDescriptions.clear();
+
 		mSubpasses.clear();
-		mSubpassesReferences.clear();
 		mDependencies.clear();
 	}
 

@@ -9,10 +9,19 @@ namespace Invision
 	struct SVulkanContext;
 
 	// TODO: Convert this later to a class
-	struct BaseSubPass
+	class BaseSubPass
 	{
+	public:
 		std::vector<VkAttachmentReference> mColorReference;
-		std::vector<VkAttachmentReference> mDepthReference;
+		VkAttachmentReference mDepthReference;
+
+		bool mHasDepthReference = false;
+
+		std::vector<VkAttachmentDescription> mAttachmentDescriptions;
+
+		void INVISION_API AddAttachment(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, VkFormat format, VkSampleCountFlagBits numSamples,
+			VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreop, VkImageLayout initialLayout, VkImageLayout finalLayout, VkAttachmentReference attachmentRef);
+		void INVISION_API DestroyBaseSubPass();
 	};
 
 
@@ -20,18 +29,16 @@ namespace Invision
 	public:
 		void INVISION_API CreateRenderPass(const SVulkanBase &vulkanInstance);
 		void INVISION_API DestroyRenderPass(const SVulkanBase &vulkanInstance);
-		void INVISION_API AddAttachment(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, VkFormat format, VkSampleCountFlagBits numSamples,
-			VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreop, VkImageLayout initialLayout, VkImageLayout finalLayout);
-		void INVISION_API AddSubpass(BaseSubPass subPass, bool useDepthRessource = false);
+		
+		void INVISION_API AddSubpass(BaseSubPass& subPass);
 		void INVISION_API AddSubpassDependency(const SVulkanBase &vulkanInstance, VkPipelineStageFlags srcStageFlags, VkAccessFlags srcAccessFlags, VkPipelineStageFlags dstStageFlags, VkAccessFlags dstAccessFlags);
 		VkRenderPass INVISION_API GetRenderPass();
 	private:
-		std::vector<VkAttachmentDescription> mAttachmentDescriptions;
 	
 		// A Render Pass Consists of multiple Subpasses  and a Subpass consists of multiple ColorReference, Depth References etc..
 		// example: mSubpassesReferences[mSubpasses.Index].mColorReference
 		std::vector<VkSubpassDescription> mSubpasses;
-		std::vector<BaseSubPass> mSubpassesReferences;
+		std::vector<VkAttachmentDescription> mAttachmentDescriptions;
 
 		VkRenderPass mRenderPass;
 		std::vector<VkSubpassDependency> mDependencies;
