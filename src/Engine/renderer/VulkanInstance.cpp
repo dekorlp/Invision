@@ -24,7 +24,7 @@ namespace Invision
 
 	}*/
 
-	VulkanInstance::VulkanInstance(VulkanEngine* engine, CanvasDimensions dimensions, bool activateDepthTest)
+	VulkanInstance::VulkanInstance(VulkanEngine* engine, CanvasDimensions dimensions, bool activateDepthTest, MSAAMode msaa)
 		: IGraphicsInstance(engine)
 	{
 		vulkanEngine = engine;
@@ -36,6 +36,48 @@ namespace Invision
 			depthRessources.CreateDepthRessources(engine->GetVulkanInstance(), engine->GetCommandPool(), vulkanContext);
 			mUseDepthTest = true;
 		}
+
+
+		switch (msaa)
+		{
+			case MSAAMODE_OFF:
+				vulkanContext.UseMSAA = false;
+				break;
+			case MSAAMODE_SAMPLE_COUNT_1:
+				vulkanContext.UseMSAA = true;
+				vulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(engine->GetVulkanInstance(), VK_SAMPLE_COUNT_1_BIT);
+				break;
+			case MSAAMODE_SAMPLE_COUNT_2:
+				vulkanContext.UseMSAA = true;
+				vulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(engine->GetVulkanInstance(), VK_SAMPLE_COUNT_2_BIT);
+				break;
+			case MSAAMODE_SAMPLE_COUNT_4:
+				vulkanContext.UseMSAA = true;
+				vulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(engine->GetVulkanInstance(), VK_SAMPLE_COUNT_4_BIT);
+				break;
+			case MSAAMODE_SAMPLE_COUNT_8:
+				vulkanContext.UseMSAA = true;
+				vulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(engine->GetVulkanInstance(), VK_SAMPLE_COUNT_8_BIT);
+				break;
+			case MSAAMODE_SAMPLE_COUNT_16:
+				vulkanContext.UseMSAA = true;
+				vulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(engine->GetVulkanInstance(), VK_SAMPLE_COUNT_16_BIT);
+				break;
+			case MSAAMODE_SAMPLE_COUNT_32:
+				vulkanContext.UseMSAA = true;
+				vulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(engine->GetVulkanInstance(), VK_SAMPLE_COUNT_32_BIT);
+				break;
+			case MSAAMODE_SAMPLE_COUNT_64:
+				vulkanContext.UseMSAA = true;
+				vulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(engine->GetVulkanInstance(), VK_SAMPLE_COUNT_64_BIT);
+				break;
+			case MSAAMODE_SAMPLE_COUNT_BEST:
+				vulkanContext.UseMSAA = true;
+				vulkanContext.MsaaFlagBits = Invision::GetMaxUsableSampleCount(engine->GetVulkanInstance());
+				break;
+
+		}
+
 	}
 
 	void VulkanInstance::ResetPresentation(CanvasDimensions canvas)

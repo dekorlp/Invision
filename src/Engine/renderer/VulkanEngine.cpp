@@ -58,9 +58,9 @@ namespace Invision
 		commandPool.CreateCommandPool(vulkInstance);
 	}
 
-	std::shared_ptr<IGraphicsInstance> VulkanEngine::CreateInstance(CanvasDimensions canvas, bool activateDepthTest)
+	std::shared_ptr<IGraphicsInstance> VulkanEngine::CreateInstance(CanvasDimensions canvas, MSAAMode mode, bool activateDepthTest)
 	{
-		return  std::make_shared<VulkanInstance>(this, canvas, activateDepthTest);
+		return  std::make_shared<VulkanInstance>(this, canvas, activateDepthTest, mode);
 	}
 
 	Invision::SVulkanBase& VulkanEngine::GetVulkanInstance()

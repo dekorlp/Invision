@@ -45,7 +45,7 @@ namespace Invision
 		INVISION_API Invision::SVulkanBase& GetVulkanInstance();
 		INVISION_API Invision::VulkanBaseCommandPool GetCommandPool();
 		
-		INVISION_API std::shared_ptr<IGraphicsInstance> CreateInstance(CanvasDimensions canvas, bool activateDepthTest = true) override;
+		INVISION_API std::shared_ptr<IGraphicsInstance> CreateInstance(CanvasDimensions canvas, MSAAMode mode, bool activateDepthTest) override;
 
 		INVISION_API std::vector< PhysicalDeviceProperties> GetPhysicalDevices();
 

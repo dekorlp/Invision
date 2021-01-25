@@ -16,7 +16,7 @@ namespace Invision
 
 		INVISION_API VulkanInstance() = delete;
 
-		INVISION_API VulkanInstance(VulkanEngine* engine, CanvasDimensions dimensions, bool activateDepthTest);
+		INVISION_API VulkanInstance(VulkanEngine* engine, CanvasDimensions dimensions, bool activateDepthTest, MSAAMode msaa);
 		INVISION_API Invision::SVulkanContext& GetVulkanContext();
 		INVISION_API void ResetPresentation(CanvasDimensions canvas) override;
 		INVISION_API void ResetPresentation(CanvasDimensions canvas, bool activateDepthTest) override;

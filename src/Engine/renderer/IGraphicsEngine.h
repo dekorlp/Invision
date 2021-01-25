@@ -111,7 +111,7 @@ namespace Invision
 		MSAAMODE_SAMPLE_COUNT_16 = 0x00000010,
 		MSAAMODE_SAMPLE_COUNT_32 = 0x00000020,
 		MSAAMODE_SAMPLE_COUNT_64 = 0x00000040,
-		MSAAMODE_SAMPLE_COUNT_BEST = 0x000000FF
+		MSAAMODE_SAMPLE_COUNT_BEST = 0x00000009F
 	};
 
 	typedef uint32_t CullModeBits;
@@ -214,7 +214,7 @@ namespace Invision
 
 		 INVISION_API std::string const& version() const;
 
-		 INVISION_API virtual std::shared_ptr<IGraphicsInstance> CreateInstance(CanvasDimensions canvas, bool activateDepthTest = true) = 0;
+		 INVISION_API virtual std::shared_ptr<IGraphicsInstance> CreateInstance(CanvasDimensions canvas, MSAAMode mode = MSAAMODE_OFF, bool activateDepthTest = true) = 0;
 		 INVISION_API virtual std::vector< PhysicalDeviceProperties> GetPhysicalDevices() = 0;
 
 

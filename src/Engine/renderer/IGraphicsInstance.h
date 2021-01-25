@@ -14,8 +14,10 @@
 
 namespace Invision
 {
+
 	class IGraphicsEngine;
 	struct CanvasDimensions;
+	enum MSAAMode;
 
 	class IGraphicsInstance
 	{
@@ -24,7 +26,7 @@ namespace Invision
 	public:
 		INVISION_API IGraphicsInstance() = delete;
 		INVISION_API IGraphicsInstance(IGraphicsEngine* engine);
-		INVISION_API IGraphicsInstance(IGraphicsEngine* engine, CanvasDimensions* canvas, bool activateDepthTest = true);
+		INVISION_API IGraphicsInstance(IGraphicsEngine* engine, CanvasDimensions* canvas, bool activateDepthTest, MSAAMode msaa);
 		INVISION_API virtual void ResetPresentation(CanvasDimensions canvas) = 0;
 		INVISION_API virtual void ResetPresentation(CanvasDimensions canvas, bool activateDepthTest) = 0;
 

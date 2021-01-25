@@ -30,6 +30,10 @@ namespace Invision
 		VkFormat swapChainImageFormat;
 		VkExtent2D swapChainExtent;
 		std::vector<VkImageView> swapChainImageViews;
+		
+		// MSAA
+		bool UseMSAA = false;
+		VkSampleCountFlagBits MsaaFlagBits = VK_SAMPLE_COUNT_1_BIT;
 
 		SVulkanContext() : 
 			surface(VK_NULL_HANDLE),
@@ -119,5 +123,9 @@ namespace Invision
 	uint32_t findMemoryType(const VkPhysicalDevice& device, uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
 	VkImageView CreateImageView(SVulkanBase &vulkanInstance, VkImage image, VkFormat format, VkImageAspectFlags aspectFlags, uint32_t mipLevel);
+
+	// check MSAA
+	VkSampleCountFlagBits GetMaxUsableSampleCount(SVulkanBase& vulkanInstance);
+	VkSampleCountFlagBits IsMSAASampleSupported(SVulkanBase& vulkanInstance, VkSampleCountFlagBits flags);
 }
 #endif // VULKAN_BASE_H
