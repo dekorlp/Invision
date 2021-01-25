@@ -22,6 +22,7 @@ namespace Invision
 		vulkanInstance = instance;
 
 		BaseSubPass basePass;
+		basePass.mIsMainSubPass = true;
 
 		basePass.AddAttachment(instance->GetCoreEngine()->GetVulkanInstance(),
 			instance->GetVulkanContext(), 

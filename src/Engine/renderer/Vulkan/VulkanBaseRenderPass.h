@@ -19,8 +19,12 @@ namespace Invision
 
 		std::vector<VkAttachmentDescription> mAttachmentDescriptions;
 
+		bool mIsMainSubPass = false;
+
 		void INVISION_API AddAttachment(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, VkFormat format, VkSampleCountFlagBits numSamples,
-			VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreop, VkImageLayout initialLayout, VkImageLayout finalLayout, VkAttachmentReference attachmentRef);
+			VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreop, 
+			VkImageLayout initialLayout, VkImageLayout finalLayout, VkAttachmentReference attachmentRef); 
+
 		void INVISION_API DestroyBaseSubPass();
 	};
 
@@ -39,7 +43,6 @@ namespace Invision
 		// example: mSubpassesReferences[mSubpasses.Index].mColorReference
 		std::vector<VkSubpassDescription> mSubpasses;
 		std::vector<VkAttachmentDescription> mAttachmentDescriptions;
-
 		VkRenderPass mRenderPass;
 		std::vector<VkSubpassDependency> mDependencies;
 	};
