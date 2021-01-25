@@ -16,10 +16,10 @@ namespace Invision
 
 		INVISION_API VulkanInstance() = delete;
 
-		INVISION_API VulkanInstance(VulkanEngine* engine, CanvasDimensions dimensions, bool activateDepthTest, MSAAMode msaa);
+		INVISION_API VulkanInstance(VulkanEngine* engine, CanvasDimensions dimensions, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, bool activateDepthTest, MSAAMode msaa);
 		INVISION_API Invision::SVulkanContext& GetVulkanContext();
-		INVISION_API void ResetPresentation(CanvasDimensions canvas) override;
-		INVISION_API void ResetPresentation(CanvasDimensions canvas, bool activateDepthTest) override;
+		INVISION_API void ResetPresentation(CanvasDimensions canvas, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer) override;
+		INVISION_API void ResetPresentation(CanvasDimensions canvas, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, bool activateDepthTest) override;
 
 
 		INVISION_API std::shared_ptr<IRenderer> CreateRenderer() override;
@@ -44,6 +44,11 @@ namespace Invision
 		VulkanEngine* vulkanEngine;
 		Invision::SVulkanContext vulkanContext;
 		Invision::VulkanBaseDepthRessources depthRessources;
+
+		// MainFramebuffer, MainRenderPass, MainCommandBuffer
+		std::shared_ptr <Invision::IRenderPass> mMainRenderPass;
+		std::shared_ptr <Invision::IFramebuffer> mMainFramebuffer;
+		std::shared_ptr <Invision::ICommandBuffer> mMainCommandBuffer;
 
 		bool mUseDepthTest = false;
 	};

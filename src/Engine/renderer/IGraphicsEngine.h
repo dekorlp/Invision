@@ -214,7 +214,7 @@ namespace Invision
 
 		 INVISION_API std::string const& version() const;
 
-		 INVISION_API virtual std::shared_ptr<IGraphicsInstance> CreateInstance(CanvasDimensions canvas, MSAAMode mode = MSAAMODE_OFF, bool activateDepthTest = true) = 0;
+		 INVISION_API virtual std::shared_ptr<IGraphicsInstance> CreateInstance(CanvasDimensions canvas, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, MSAAMode mode = MSAAMODE_OFF, bool activateDepthTest = true) = 0;
 		 INVISION_API virtual std::vector< PhysicalDeviceProperties> GetPhysicalDevices() = 0;
 
 

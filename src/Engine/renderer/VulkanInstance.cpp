@@ -24,7 +24,7 @@ namespace Invision
 
 	}*/
 
-	VulkanInstance::VulkanInstance(VulkanEngine* engine, CanvasDimensions dimensions, bool activateDepthTest, MSAAMode msaa)
+	VulkanInstance::VulkanInstance(VulkanEngine* engine, CanvasDimensions dimensions, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, bool activateDepthTest, MSAAMode msaa)
 		: IGraphicsInstance(engine)
 	{
 		vulkanEngine = engine;
@@ -37,6 +37,14 @@ namespace Invision
 			mUseDepthTest = true;
 		}
 
+		// Create Default RenderPass / FrameBuffer / CommandBuffer
+		mMainRenderPass = CreateRenderPass();
+		mMainFramebuffer = CreateFramebuffer(mMainRenderPass, static_cast<unsigned int>( vulkanContext.swapChainImageViews.size()));
+		mMainCommandBuffer = CreateCommandBuffer(mMainFramebuffer);
+
+		renderPass = mMainRenderPass;
+		framebuffer = mMainFramebuffer;
+		commandBuffer = mMainCommandBuffer;
 
 		switch (msaa)
 		{
@@ -80,7 +88,7 @@ namespace Invision
 
 	}
 
-	void VulkanInstance::ResetPresentation(CanvasDimensions canvas)
+	void VulkanInstance::ResetPresentation(CanvasDimensions canvas, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer )
 	{
 		Invision::DestroyPresentationSystem(vulkanEngine->GetVulkanInstance(), vulkanContext);
 		Invision::CreatePresentationSystem(vulkanEngine->GetVulkanInstance(), vulkanContext, canvas.width, canvas.height);
@@ -90,9 +98,19 @@ namespace Invision
 			depthRessources.DestroyDepthRessources(vulkanEngine->GetVulkanInstance());
 			depthRessources.CreateDepthRessources(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetCommandPool(), vulkanContext);
 		}
+
+		mMainFramebuffer.reset();
+		mMainFramebuffer = CreateFramebuffer(mMainRenderPass, static_cast<unsigned int>(vulkanContext.swapChainImageViews.size()));
+
+		// setup commandBuffers
+		mMainCommandBuffer.reset();
+		mMainCommandBuffer = CreateCommandBuffer(mMainFramebuffer);
+
+		framebuffer = mMainFramebuffer;
+		commandBuffer = mMainCommandBuffer;
 	}
 
-	void VulkanInstance::ResetPresentation(CanvasDimensions canvas, bool activateDepthTest)
+	void VulkanInstance::ResetPresentation(CanvasDimensions canvas, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, bool activateDepthTest)
 	{
 		Invision::DestroyPresentationSystem(vulkanEngine->GetVulkanInstance(), vulkanContext);
 		Invision::CreatePresentationSystem(vulkanEngine->GetVulkanInstance(), vulkanContext, canvas.width, canvas.height);
@@ -103,6 +121,16 @@ namespace Invision
 			depthRessources.CreateDepthRessources(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetCommandPool(), vulkanContext);
 			mUseDepthTest = true;
 		}
+
+		mMainFramebuffer.reset();
+		mMainFramebuffer = CreateFramebuffer(mMainRenderPass, static_cast<unsigned int>(vulkanContext.swapChainImageViews.size()));
+
+		// setup commandBuffers
+		mMainCommandBuffer.reset();
+		mMainCommandBuffer = CreateCommandBuffer(mMainFramebuffer);
+
+		framebuffer = mMainFramebuffer;
+		commandBuffer = mMainCommandBuffer;
 	}
 
 	SVulkanContext& VulkanInstance::GetVulkanContext()
