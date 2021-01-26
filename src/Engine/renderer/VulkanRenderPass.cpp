@@ -21,26 +21,33 @@ namespace Invision
 	{
 		vulkanInstance = instance;
 
+		
+		
+		//vulkanEngine = instance->GetCoreEngine();
+	}
+
+	void VulkanRenderPass::CreateMainRenderPass()
+	{
 		VulkanBaseSubPass basePass;
 		basePass.mIsMainSubPass = true;
 
-		basePass.AddAttachment(instance->GetCoreEngine()->GetVulkanInstance(),
-			instance->GetVulkanContext(), 
-			instance->GetVulkanContext().swapChainImageFormat, 
-			VK_SAMPLE_COUNT_1_BIT, 
-			VK_ATTACHMENT_LOAD_OP_CLEAR, 
+		basePass.AddAttachment(vulkanInstance->GetCoreEngine()->GetVulkanInstance(),
+			vulkanInstance->GetVulkanContext(),
+			vulkanInstance->GetVulkanContext().swapChainImageFormat,
+			VK_SAMPLE_COUNT_1_BIT,
+			VK_ATTACHMENT_LOAD_OP_CLEAR,
 			VK_ATTACHMENT_STORE_OP_STORE,
 			VK_ATTACHMENT_LOAD_OP_DONT_CARE,
 			VK_ATTACHMENT_STORE_OP_DONT_CARE,
 			VK_IMAGE_LAYOUT_UNDEFINED,
 			VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
-			, {subPassIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL });
+			, { subPassIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL });
 
-		if (instance->GetDepthRessources().AreDepthRessourcesActivated() == true)
+		if (vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated() == true)
 		{
-			basePass.AddAttachment(instance->GetCoreEngine()->GetVulkanInstance(),
-				instance->GetVulkanContext(), 
-				instance->GetDepthRessources().findDepthFormat(instance->GetCoreEngine()->GetVulkanInstance()), 
+			basePass.AddAttachment(vulkanInstance->GetCoreEngine()->GetVulkanInstance(),
+				vulkanInstance->GetVulkanContext(),
+				vulkanInstance->GetDepthRessources().findDepthFormat(vulkanInstance->GetCoreEngine()->GetVulkanInstance()),
 				VK_SAMPLE_COUNT_1_BIT,
 				VK_ATTACHMENT_LOAD_OP_CLEAR,
 				VK_ATTACHMENT_STORE_OP_DONT_CARE,
@@ -53,23 +60,21 @@ namespace Invision
 
 		renderPass.AddSubpass(basePass);
 
-		if (instance->GetDepthRessources().AreDepthRessourcesActivated() == true)
+		if (vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated() == true)
 		{
-			renderPass.AddSubpassDependency(instance->GetCoreEngine()->GetVulkanInstance(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT | VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT,
+			renderPass.AddSubpassDependency(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT | VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT,
 				0, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT | VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT, VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT);
 		}
 		else
 		{
-			renderPass.AddSubpassDependency(instance->GetCoreEngine()->GetVulkanInstance(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, 0,
+			renderPass.AddSubpassDependency(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, 0,
 				VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT);
 		}
 
-		
 
 
-		renderPass.CreateRenderPass(instance->GetCoreEngine()->GetVulkanInstance());
-		
-		//vulkanEngine = instance->GetCoreEngine();
+
+		renderPass.CreateRenderPass(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
 	}
 
 	VulkanBaseRenderPass VulkanRenderPass::GetRenderPass()

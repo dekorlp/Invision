@@ -39,6 +39,8 @@ namespace Invision
 
 		// Create Default RenderPass / FrameBuffer / CommandBuffer
 		mMainRenderPass = CreateRenderPass();
+		dynamic_pointer_cast<VulkanRenderPass>(mMainRenderPass)->CreateMainRenderPass(); // create main renderpass
+
 		mMainFramebuffer = CreateFramebuffer(mMainRenderPass, static_cast<unsigned int>( vulkanContext.swapChainImageViews.size()));
 		mMainCommandBuffer = CreateCommandBuffer(mMainFramebuffer);
 
