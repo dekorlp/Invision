@@ -7,7 +7,7 @@
 namespace Invision
 {
 
-	void BaseSubPass::AddAttachment(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, VkFormat format, VkSampleCountFlagBits numSamples,
+	void VulkanBaseSubPass::AddAttachment(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, VkFormat format, VkSampleCountFlagBits numSamples,
 		VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreop, VkImageLayout initialLayout, VkImageLayout finalLayout
 		, VkAttachmentReference attachmentRef = {})
 	{
@@ -34,7 +34,7 @@ namespace Invision
 		}
 	}
 
-	void BaseSubPass::DestroyBaseSubPass()
+	void VulkanBaseSubPass::DestroyBaseSubPass()
 	{
 		mColorReference.clear();
 		mAttachmentDescriptions.clear();
@@ -62,7 +62,7 @@ namespace Invision
 		}
 	}
 
-	void VulkanBaseRenderPass::AddSubpass(BaseSubPass& subPass)
+	void VulkanBaseRenderPass::AddSubpass(VulkanBaseSubPass& subPass)
 	{
 		VkSubpassDescription subpassDesc = {};
 		//VkSubpassDescription subpass = {};

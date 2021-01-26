@@ -8,8 +8,7 @@ namespace Invision
 	struct SVulkanBase;
 	struct SVulkanContext;
 
-	// TODO: Convert this later to a class
-	class BaseSubPass
+	class VulkanBaseSubPass
 	{
 	public:
 		std::vector<VkAttachmentReference> mColorReference;
@@ -34,7 +33,7 @@ namespace Invision
 		void INVISION_API CreateRenderPass(const SVulkanBase &vulkanInstance);
 		void INVISION_API DestroyRenderPass(const SVulkanBase &vulkanInstance);
 		
-		void INVISION_API AddSubpass(BaseSubPass& subPass);
+		void INVISION_API AddSubpass(VulkanBaseSubPass& subPass);
 		void INVISION_API AddSubpassDependency(const SVulkanBase &vulkanInstance, VkPipelineStageFlags srcStageFlags, VkAccessFlags srcAccessFlags, VkPipelineStageFlags dstStageFlags, VkAccessFlags dstAccessFlags);
 		VkRenderPass INVISION_API GetRenderPass();
 	private:
