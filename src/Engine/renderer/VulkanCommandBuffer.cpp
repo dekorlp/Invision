@@ -96,7 +96,7 @@ namespace Invision
 
 		for (int i = 0; i < mCommandBuffers.size(); i++)
 		{
-			mCommandBuffers[i].BeginRenderPass(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), dynamic_pointer_cast<VulkanFramebuffer>(framebuffer)->GetFramebuffer(0), clearValues);
+			mCommandBuffers[i].BeginRenderPass(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), dynamic_pointer_cast<VulkanFramebuffer>(framebuffer)->GetFramebuffer(i), clearValues);
 		}
 		
 		return *this;

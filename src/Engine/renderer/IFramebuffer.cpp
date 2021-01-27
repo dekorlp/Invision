@@ -6,7 +6,7 @@
 
 namespace Invision
 {
-	IFramebuffer::IFramebuffer(IGraphicsInstance* instance, std::shared_ptr<IRenderPass> renderPass, unsigned int countFrameBuffers) :
+	IFramebuffer::IFramebuffer(IGraphicsInstance* instance, std::shared_ptr<IRenderPass> renderPass) :
 		instance(instance)
 	{
 	}

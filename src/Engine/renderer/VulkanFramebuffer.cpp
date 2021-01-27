@@ -9,7 +9,7 @@
 namespace Invision
 {
 
-	VulkanFramebuffer::VulkanFramebuffer(VulkanInstance* instance, std::shared_ptr<Invision::IRenderPass> renderPass, unsigned int countFrameBuffers) :
+	VulkanFramebuffer::VulkanFramebuffer(VulkanInstance* instance, std::shared_ptr<Invision::IRenderPass> renderPass) :
 		IFramebuffer(instance, renderPass)
 	{
 

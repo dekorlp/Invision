@@ -72,17 +72,6 @@ namespace Invision
 		}
 	}
 
-	void VulkanBaseRenderer::DrawFrameOffscreen(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseCommandBuffer& commandBuffer)
-	{
-		mSubmitInfo.commandBufferCount = 1;
-
-		mSubmitInfo.pCommandBuffers = commandBuffer.GetCommandBuffer(); // Offscreen has only one commandBuffer
-
-		if (vkQueueSubmit(vulkanInstance.graphicsQueue, 1, &mSubmitInfo, renderFence) != VK_SUCCESS) {
-			throw VulkanBaseException("failed to submit draw command buffer!");
-		}
-	}
-
 	VkResult VulkanBaseRenderer::QueuePresent(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, unsigned int imageIndex)
 	{
 		VkSwapchainKHR swapChains[] = { vulkanContext.swapChain };

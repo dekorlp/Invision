@@ -41,7 +41,7 @@ namespace Invision
 		mMainRenderPass = CreateRenderPass();
 		dynamic_pointer_cast<VulkanRenderPass>(mMainRenderPass)->CreateMainRenderPass(); // create main renderpass
 
-		mMainFramebuffer = CreateFramebuffer(mMainRenderPass, static_cast<unsigned int>( vulkanContext.swapChainImageViews.size()));
+		mMainFramebuffer = CreateFramebuffer(mMainRenderPass);
 		dynamic_pointer_cast<VulkanFramebuffer>(mMainFramebuffer)->CreateMainFramebuffer(mMainRenderPass);
 		mMainCommandBuffer = CreateCommandBuffer(mMainFramebuffer);
 
@@ -103,7 +103,7 @@ namespace Invision
 		}
 
 		mMainFramebuffer.reset();
-		mMainFramebuffer = CreateFramebuffer(mMainRenderPass, static_cast<unsigned int>(vulkanContext.swapChainImageViews.size()));
+		mMainFramebuffer = CreateFramebuffer(mMainRenderPass);
 		dynamic_pointer_cast<VulkanFramebuffer>(mMainFramebuffer)->CreateMainFramebuffer(mMainRenderPass);
 
 		// setup commandBuffers
@@ -127,7 +127,7 @@ namespace Invision
 		}
 
 		mMainFramebuffer.reset();
-		mMainFramebuffer = CreateFramebuffer(mMainRenderPass, static_cast<unsigned int>(vulkanContext.swapChainImageViews.size()));
+		mMainFramebuffer = CreateFramebuffer(mMainRenderPass);
 		dynamic_pointer_cast<VulkanFramebuffer>(mMainFramebuffer)->CreateMainFramebuffer(mMainRenderPass);
 
 		// setup commandBuffers
@@ -183,9 +183,9 @@ namespace Invision
 		return std::make_shared<VulkanPipeline>(this, pipelineProperties);
 	}
 
-	std::shared_ptr<IFramebuffer> VulkanInstance::CreateFramebuffer(std::shared_ptr<IRenderPass> renderPass, unsigned int countFrameBuffers)
+	std::shared_ptr<IFramebuffer> VulkanInstance::CreateFramebuffer(std::shared_ptr<IRenderPass> renderPass)
 	{
-		return std::make_shared<VulkanFramebuffer>(this, renderPass, countFrameBuffers);
+		return std::make_shared<VulkanFramebuffer>(this, renderPass);
 	}
 
 	std::shared_ptr<ICommandBuffer> VulkanInstance::CreateCommandBuffer(std::shared_ptr<Invision::IFramebuffer> framebuffer)
