@@ -42,6 +42,7 @@ namespace Invision
 		dynamic_pointer_cast<VulkanRenderPass>(mMainRenderPass)->CreateMainRenderPass(); // create main renderpass
 
 		mMainFramebuffer = CreateFramebuffer(mMainRenderPass, static_cast<unsigned int>( vulkanContext.swapChainImageViews.size()));
+		dynamic_pointer_cast<VulkanFramebuffer>(mMainFramebuffer)->CreateMainFramebuffer(mMainRenderPass);
 		mMainCommandBuffer = CreateCommandBuffer(mMainFramebuffer);
 
 		renderPass = mMainRenderPass;
@@ -103,6 +104,7 @@ namespace Invision
 
 		mMainFramebuffer.reset();
 		mMainFramebuffer = CreateFramebuffer(mMainRenderPass, static_cast<unsigned int>(vulkanContext.swapChainImageViews.size()));
+		dynamic_pointer_cast<VulkanFramebuffer>(mMainFramebuffer)->CreateMainFramebuffer(mMainRenderPass);
 
 		// setup commandBuffers
 		mMainCommandBuffer.reset();
@@ -126,6 +128,7 @@ namespace Invision
 
 		mMainFramebuffer.reset();
 		mMainFramebuffer = CreateFramebuffer(mMainRenderPass, static_cast<unsigned int>(vulkanContext.swapChainImageViews.size()));
+		dynamic_pointer_cast<VulkanFramebuffer>(mMainFramebuffer)->CreateMainFramebuffer(mMainRenderPass);
 
 		// setup commandBuffers
 		mMainCommandBuffer.reset();

@@ -14,24 +14,52 @@ namespace Invision
 	{
 
 		vulkanInstance = instance;
+		
+	}
+
+	void VulkanFramebuffer::CreateMainFramebuffer(std::shared_ptr<Invision::IRenderPass> renderPass)
+	{
+		mFramebuffers.resize(vulkanInstance->GetVulkanContext().swapChainImageViews.size());
+
 		if (vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated())
 		{
-			framebuffer.CreateFramebuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetRenderPass(), vulkanInstance->GetDepthRessources(), countFrameBuffers);
+			for (int i = 0; i < vulkanInstance->GetVulkanContext().swapChainImageViews.size(); i++)
+			{
+				std::vector< VkImageView> attachments;
+				attachments.push_back(vulkanInstance->GetVulkanContext().swapChainImageViews[i]);
+				attachments.push_back(vulkanInstance->GetDepthRessources().GetDepthImageView());
+
+				mFramebuffers[i].CreateFramebuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(),  dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetRenderPass(), attachments);
+			}
 		}
 		else
 		{
-			framebuffer.CreateFramebuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetRenderPass(), countFrameBuffers);
+			for (int i = 0; i < vulkanInstance->GetVulkanContext().swapChainImageViews.size(); i++)
+			{
+				std::vector< VkImageView> attachments;
+				attachments.push_back(vulkanInstance->GetVulkanContext().swapChainImageViews[i]);
+
+				mFramebuffers[i].CreateFramebuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetRenderPass(), attachments);
+			}
 		}
 	}
 
-	VulkanBaseFramebuffer VulkanFramebuffer::GetFramebuffer()
+	VulkanBaseFramebuffer VulkanFramebuffer::GetFramebuffer(unsigned int index)
 	{
-		return framebuffer;
+		return mFramebuffers[index];
+	}
+
+	std::vector < VulkanBaseFramebuffer> VulkanFramebuffer::GetFramebuffers()
+	{
+		return mFramebuffers;
 	}
 
 	VulkanFramebuffer::~VulkanFramebuffer()
 	{
-		framebuffer.DestroyFramebuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
+		for (int i = 0; i < mFramebuffers.size(); i++)
+		{
+			mFramebuffers[i].DestroyFramebuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
+		}
 	}
 
 }

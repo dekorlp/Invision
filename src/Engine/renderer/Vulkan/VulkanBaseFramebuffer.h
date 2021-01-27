@@ -11,12 +11,11 @@ namespace Invision
 	class  VulkanBaseFramebuffer
 	{
 	private:
-		std::vector<VkFramebuffer> mFramebuffer;
+		VkFramebuffer mFramebuffer;
 	public:
-		void INVISION_API CreateFramebuffer(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseRenderPass &renderPass, unsigned int countFrameBuffers);
-		void INVISION_API CreateFramebuffer(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseRenderPass &renderPass, VulkanBaseDepthRessources &depthRessources, unsigned int countFrameBuffers);
+		void INVISION_API CreateFramebuffer(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseRenderPass &renderPass, std::vector< VkImageView>& attachments);
 		void INVISION_API DestroyFramebuffer(SVulkanBase &vulkanInstance);
-		INVISION_API std::vector<VkFramebuffer> GetFramebuffers();
+		INVISION_API VkFramebuffer GetFramebuffers();
 	};
 }
 

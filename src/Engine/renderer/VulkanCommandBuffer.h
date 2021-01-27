@@ -8,6 +8,7 @@
 namespace Invision
 {
 	class VulkanInstance;
+	class VulkanFramebuffer;
 
 	class VulkanCommandBuffer : public ICommandBuffer
 	{
@@ -32,14 +33,15 @@ namespace Invision
 		ICommandBuffer& EndRenderPass() override;
 		ICommandBuffer& EndCommandBuffer() override;
 
-		VulkanBaseCommandBuffer GetCommandBuffer();
+		VulkanBaseCommandBuffer GetCommandBuffer(unsigned int index = 0);
 
 		~VulkanCommandBuffer();
 
 	private:
 		Invision::VulkanInstance *vulkanInstance;
+		bool mIsMainCommandBuffer = false; 
 
-		Invision::VulkanBaseCommandBuffer commandBuffer;
+		std::vector<Invision::VulkanBaseCommandBuffer> mCommandBuffers;
 		float mBackground[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 	};
 

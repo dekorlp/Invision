@@ -18,7 +18,7 @@ namespace Invision
 	class  VulkanBaseCommandBuffer
 	{
 	private:
-		std::vector<VkCommandBuffer> mCommandBuffers;
+		VkCommandBuffer mCommandBuffer;
 		bool mCommandBufferIsInitialized;
 		bool mIsCommandBufferRecording;
 		bool mIsRenderPassStarted;
@@ -45,8 +45,8 @@ namespace Invision
 		INVISION_API VulkanBaseCommandBuffer& EndCommandBuffer();
 		INVISION_API void DestroyCommandBuffer(SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool);
 
-		std::vector<VkCommandBuffer> INVISION_API GetCommandBuffers();
-		VkCommandBuffer* GetCommandBuffer(int index);
+		INVISION_API const VkCommandBuffer* GetCommandBuffer();
+		//VkCommandBuffer* GetCommandBuffer(int index);
 	};
 }
 

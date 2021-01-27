@@ -32,16 +32,16 @@ namespace Invision
 
 	VulkanBaseCommandBuffer& VulkanBaseCommandBuffer::CreateCommandBuffer(SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool, unsigned int countOfBuffers)
 	{
-		mCommandBuffers.clear();
-		mCommandBuffers.resize(countOfBuffers);
+		//mCommandBuffers.clear();
+		//mCommandBuffers.resize(countOfBuffers);
 
 		VkCommandBufferAllocateInfo allocInfo = {};
 		allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
 		allocInfo.commandPool = commandPool.GetCommandPool();
 		allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-		allocInfo.commandBufferCount = (uint32)mCommandBuffers.size();
+		allocInfo.commandBufferCount = 1;
 
-		if (vkAllocateCommandBuffers(vulkanInstance.logicalDevice, &allocInfo, mCommandBuffers.data()) != VK_SUCCESS)
+		if (vkAllocateCommandBuffers(vulkanInstance.logicalDevice, &allocInfo, &mCommandBuffer) != VK_SUCCESS)
 		{
 			throw VulkanBaseException("failed to create command buffers!");
 		}
@@ -55,18 +55,18 @@ namespace Invision
 
 	VulkanBaseCommandBuffer& VulkanBaseCommandBuffer::BeginCommandBuffer()
 	{
-		for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
-		{
+		//for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+		//{
 			VkCommandBufferBeginInfo beginInfo = {};
 			beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 			beginInfo.flags = 0;
 			beginInfo.pInheritanceInfo = nullptr;
 
-			if (vkBeginCommandBuffer(mCommandBuffers[i], &beginInfo) != VK_SUCCESS)
+			if (vkBeginCommandBuffer(mCommandBuffer, &beginInfo) != VK_SUCCESS)
 			{
 				throw VulkanBaseException("failed to begin recording command buffer!");
 			}
-		}
+		//}
 		mIsCommandBufferRecording = true;
 
 		return *this;
@@ -76,10 +76,10 @@ namespace Invision
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
-			for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
-			{
-				vkCmdSetViewport(mCommandBuffers[i], 0, 1, &viewport);
-			}
+			//for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+			//{
+				vkCmdSetViewport(mCommandBuffer, 0, 1, &viewport);
+			//}
 		}
 		else
 		{
@@ -93,10 +93,10 @@ namespace Invision
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
-			for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
-			{
-				vkCmdSetScissor(mCommandBuffers[i], 0, 1, &scissor);
-			}
+			//for (unsigned int i = 0; i < mCommandBuffer.size(); i++)
+			//{
+				vkCmdSetScissor(mCommandBuffer, 0, 1, &scissor);
+			//}
 		}
 		else
 		{
@@ -110,20 +110,20 @@ namespace Invision
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
-			for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
-			{
+			//for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+			//{
 				VkRenderPassBeginInfo renderPassInfo = {};
 				renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 				renderPassInfo.renderPass = renderPass.GetRenderPass();
-				renderPassInfo.framebuffer = vulkanFramebuffer.GetFramebuffers()[i];
+				renderPassInfo.framebuffer = vulkanFramebuffer.GetFramebuffers();
 				renderPassInfo.renderArea.offset = { 0, 0 };
 				renderPassInfo.renderArea.extent = vulkanContext.swapChainExtent;
 				renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
 				renderPassInfo.pClearValues = clearValues.data();
 
 
-				vkCmdBeginRenderPass(mCommandBuffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
-			}
+				vkCmdBeginRenderPass(mCommandBuffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+			//}
 
 			mIsRenderPassStarted = true;
 		}
@@ -139,10 +139,10 @@ namespace Invision
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
-			for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
-			{
-				vkCmdBindPipeline(mCommandBuffers[i], bindPoint, pipeline.GetPipeline());
-			}
+			//for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+			//{
+				vkCmdBindPipeline(mCommandBuffer, bindPoint, pipeline.GetPipeline());
+			//}
 		}
 		else
 		{
@@ -168,10 +168,10 @@ namespace Invision
 
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
-			for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
-			{
-				vkCmdBindVertexBuffers(mCommandBuffers[i], firstBinding, bindingCount, bindingBuffers.data(), bindingOffsets.data());
-			}
+			//for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+			//{
+				vkCmdBindVertexBuffers(mCommandBuffer, firstBinding, bindingCount, bindingBuffers.data(), bindingOffsets.data());
+			//}
 		}
 		else
 		{
@@ -187,10 +187,10 @@ namespace Invision
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
-			for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
-			{
-				vkCmdBindIndexBuffer(mCommandBuffers[i], indexBuffer.GetBuffer(), indexBuffer.GetOffset(), indexType);
-			}
+			//for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+			//{
+				vkCmdBindIndexBuffer(mCommandBuffer, indexBuffer.GetBuffer(), indexBuffer.GetOffset(), indexType);
+			//}
 		}
 		else
 		{
@@ -213,10 +213,10 @@ namespace Invision
 
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
-			for (unsigned int j = 0; j < mCommandBuffers.size(); j++)
-			{
-				vkCmdBindDescriptorSets(mCommandBuffers[j], bindPoint, pipeline.GetPipelineLayout(), 0, static_cast<uint32>(sets.size()), sets.data(), 0, nullptr);
-			}
+			//for (unsigned int j = 0; j < mCommandBuffers.size(); j++)
+			//{
+				vkCmdBindDescriptorSets(mCommandBuffer, bindPoint, pipeline.GetPipelineLayout(), 0, static_cast<uint32>(sets.size()), sets.data(), 0, nullptr);
+			//}
 		}
 		else
 		{
@@ -229,10 +229,10 @@ namespace Invision
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
-			for (unsigned int j = 0; j < mCommandBuffers.size(); j++)
-			{
-				vkCmdBindDescriptorSets(mCommandBuffers[j], bindPoint, pipeline.GetPipelineLayout(), set, 1, &uniformBuffer.GetSets()[set].mDescriptorSet, 0, nullptr);
-			}
+			//for (unsigned int j = 0; j < mCommandBuffers.size(); j++)
+			//{
+				vkCmdBindDescriptorSets(mCommandBuffer, bindPoint, pipeline.GetPipelineLayout(), set, 1, &uniformBuffer.GetSets()[set].mDescriptorSet, 0, nullptr);
+			//}
 		}
 		else
 		{
@@ -245,10 +245,10 @@ namespace Invision
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
-			for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
-			{
-				vkCmdPushConstants(mCommandBuffers[i], pipeline.GetPipelineLayout(), pushConstant.GetShaderStages(), static_cast<uint32>(pushConstant.GetOffset()), static_cast<uint32>(pushConstant.GetSize()), data);
-			}
+			//for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+			//{
+				vkCmdPushConstants(mCommandBuffer, pipeline.GetPipelineLayout(), pushConstant.GetShaderStages(), static_cast<uint32>(pushConstant.GetOffset()), static_cast<uint32>(pushConstant.GetSize()), data);
+			//}
 		}
 		else
 		{
@@ -261,10 +261,10 @@ namespace Invision
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording && mIsRenderPassStarted && mIsVertexBufferBinded)
 		{
-			for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
-			{
-				vkCmdDraw(mCommandBuffers[i], vertexCount, instanceCount, firstVertex, firstInstance);
-			}
+			//for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+			//{
+				vkCmdDraw(mCommandBuffer, vertexCount, instanceCount, firstVertex, firstInstance);
+			//}
 		}
 		else
 		{
@@ -285,10 +285,10 @@ namespace Invision
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording && mIsRenderPassStarted && mIsIndexBufferBinded && mIsVertexBufferBinded)
 		{
-			for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
-			{
-				vkCmdDrawIndexed(mCommandBuffers[i], indexCount, instanceCount, firstIndex, vertexOffset, firstInstance);
-			}
+			//for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+			//{
+				vkCmdDrawIndexed(mCommandBuffer, indexCount, instanceCount, firstIndex, vertexOffset, firstInstance);
+			//}
 		}
 		else
 		{
@@ -313,10 +313,10 @@ namespace Invision
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording && mIsRenderPassStarted)
 		{
-			for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
-			{
-				vkCmdEndRenderPass(mCommandBuffers[i]);
-			}
+			//for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+			//{
+				vkCmdEndRenderPass(mCommandBuffer);
+			//}
 		}
 		else
 		{
@@ -330,13 +330,13 @@ namespace Invision
 	{
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
 		{
-			for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
-			{
-				if (vkEndCommandBuffer(mCommandBuffers[i]) != VK_SUCCESS)
+			//for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
+			//{
+				if (vkEndCommandBuffer(mCommandBuffer) != VK_SUCCESS)
 				{
 					throw VulkanBaseException("failed to record command buffer!");
 				}
-			}
+			//}
 		}
 		else
 		{
@@ -346,18 +346,13 @@ namespace Invision
 		return *this;
 	}
 
-	std::vector<VkCommandBuffer> VulkanBaseCommandBuffer::GetCommandBuffers()
+	const VkCommandBuffer* VulkanBaseCommandBuffer::GetCommandBuffer()
 	{
-		return mCommandBuffers;
-	}
-
-	VkCommandBuffer* VulkanBaseCommandBuffer::GetCommandBuffer(int index)
-	{
-		return &mCommandBuffers[index];
+		return &mCommandBuffer;
 	}
 
 	void VulkanBaseCommandBuffer::DestroyCommandBuffer(SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool)
 	{
-		vkFreeCommandBuffers(vulkanInstance.logicalDevice, commandPool.GetCommandPool(), (uint32_t)mCommandBuffers.size(), mCommandBuffers.data());
+		vkFreeCommandBuffers(vulkanInstance.logicalDevice, commandPool.GetCommandPool(), 1, &mCommandBuffer);
 	}
 }

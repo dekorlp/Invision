@@ -8,6 +8,8 @@
 namespace Invision
 {
 	class VulkanInstance;
+	class VulkanRenderPass;
+
 	class VulkanFramebuffer : public IFramebuffer
 	{
 	public:
@@ -16,14 +18,18 @@ namespace Invision
 
 		INVISION_API VulkanFramebuffer(VulkanInstance* instance, std::shared_ptr<Invision::IRenderPass> renderPass, unsigned int countFrameBuffers);
 
-		INVISION_API VulkanBaseFramebuffer GetFramebuffer();
+		INVISION_API void CreateMainFramebuffer(std::shared_ptr<Invision::IRenderPass> renderPass);
+
+		INVISION_API VulkanBaseFramebuffer GetFramebuffer(unsigned int index = 0);
+
+		INVISION_API std::vector < VulkanBaseFramebuffer> GetFramebuffers();
 
 
 		INVISION_API ~VulkanFramebuffer();
 	private:
 		Invision::VulkanInstance *vulkanInstance;
 
-		Invision::VulkanBaseFramebuffer framebuffer;
+		std::vector<Invision::VulkanBaseFramebuffer> mFramebuffers;
 
 	};
 

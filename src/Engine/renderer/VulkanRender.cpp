@@ -25,7 +25,7 @@ namespace Invision
 		bool recreateSwapchainIsNecessary = false;
 
 		//VkResult nextImageResult = commandBuffer.AquireNextImage(vulkInstance);
-		VkResult nextImageResult = renderer.AquireNextImage(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext());
+		VkResult nextImageResult = renderer.AquireNextImage(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), mImageIndex);
 		if (nextImageResult == VK_ERROR_OUT_OF_DATE_KHR) {
 			recreateSwapchainIsNecessary = true;
 			//RecreateSwapChain(m_Size.GetWidth(), m_Size.GetHeight());
@@ -40,19 +40,19 @@ namespace Invision
 
 	void VulkanRenderer::Draw(std::shared_ptr<ICommandBuffer> commandBuffer)
 	{
-		renderer.DrawFrame(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer());
+		renderer.DrawFrame(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(mImageIndex));
 	}
 
 	void VulkanRenderer::DrawOffscreen(std::shared_ptr<ICommandBuffer> commandBuffer)
 	{
-		renderer.DrawFrameOffscreen(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer());
+		renderer.DrawFrameOffscreen(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(mImageIndex));
 	}
 
 	bool VulkanRenderer::SubmitFrame()
 	{
 		bool recreateSwapchainIsNecessary = false;
 
-		VkResult submitFrameResult = renderer.QueuePresent(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext());
+		VkResult submitFrameResult = renderer.QueuePresent(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), mImageIndex);
 		if (submitFrameResult == VK_ERROR_OUT_OF_DATE_KHR || submitFrameResult == VK_SUBOPTIMAL_KHR) {
 			recreateSwapchainIsNecessary = true;
 			//RecreateSwapChain(m_Size.GetWidth(), m_Size.GetHeight());

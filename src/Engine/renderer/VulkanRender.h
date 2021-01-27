@@ -25,6 +25,7 @@ namespace Invision
 		INVISION_API ~VulkanRenderer();
 
 	private:
+		unsigned int mImageIndex = 0;
 		Invision::VulkanInstance *vulkanInstance;
 
 		VulkanBaseRenderer renderer;

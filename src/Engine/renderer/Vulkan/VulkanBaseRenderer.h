@@ -23,8 +23,6 @@ namespace Invision
 			VkSemaphore renderComplete;
 		} mSemaphores;
 
-		uint32_t mImageIndex;
-
 		//std::vector<VkFence> mWaitFences;
 
 		VkFence renderFence = {};
@@ -33,10 +31,10 @@ namespace Invision
 		
 	public:
 		void INVISION_API CreateSyncObjects(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext);
-		VkResult INVISION_API AquireNextImage(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext);
+		VkResult INVISION_API AquireNextImage(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, unsigned int& imageIndex);
 		void INVISION_API DrawFrame(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseCommandBuffer& commandBuffer);
 		void INVISION_API DrawFrameOffscreen(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseCommandBuffer& commandBuffer);
-		VkResult INVISION_API QueuePresent(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext);
+		VkResult INVISION_API QueuePresent(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, unsigned int imageIndex);
 
 		void INVISION_API DestroySemaphores(SVulkanBase &vulkanInstance);
 	};
