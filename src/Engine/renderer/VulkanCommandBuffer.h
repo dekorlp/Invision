@@ -34,6 +34,7 @@ namespace Invision
 		ICommandBuffer& EndCommandBuffer() override;
 
 		VulkanBaseCommandBuffer GetCommandBuffer(unsigned int index = 0);
+		unsigned int GetCountOfCommandBuffers();
 
 		~VulkanCommandBuffer();
 

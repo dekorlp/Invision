@@ -229,6 +229,11 @@ namespace Invision
 		return mCommandBuffers[index];
 	}
 
+	unsigned int VulkanCommandBuffer::GetCountOfCommandBuffers()
+	{
+		return static_cast<unsigned int>(mCommandBuffers.size());
+	}
+
 	VulkanCommandBuffer::~VulkanCommandBuffer()
 	{
 		for (int i = 0; i < mCommandBuffers.size(); i++)

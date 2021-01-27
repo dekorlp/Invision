@@ -40,12 +40,19 @@ namespace Invision
 
 	void VulkanRenderer::Draw(std::shared_ptr<ICommandBuffer> commandBuffer)
 	{
-		renderer.DrawFrame(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(mImageIndex));
-	}
+		// check if it is main CommandBuffer or not
+		if (dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCountOfCommandBuffers() > 1)
+		{
+			// main Command Buffer
+			renderer.DrawFrame(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(mImageIndex));
+		}
+		else
+		{
+			// secondary Command Buffer for offscreen rendering
+			renderer.DrawFrame(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(0));
+		}
 
-	void VulkanRenderer::DrawOffscreen(std::shared_ptr<ICommandBuffer> commandBuffer)
-	{
-		renderer.DrawFrame(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(mImageIndex));
+		
 	}
 
 	bool VulkanRenderer::SubmitFrame()
