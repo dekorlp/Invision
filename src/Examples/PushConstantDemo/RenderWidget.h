@@ -253,9 +253,9 @@ private:
 		Invision::CanvasDimensions dim = { HWND(nativeWindowHandler), this->size().width(), this->size().height() };
 		//graphicsEngine = std::make_shared<Invision::VulkanEngine>(dim);
 		
-		graphicsInstance = graphicsEngine->CreateInstance(dim);
+		graphicsInstance = graphicsEngine->CreateInstance(dim, renderPass, framebuffer, commandBuffer);
 
-		renderPass = graphicsInstance->CreateRenderPass(); //graphicsEngine->CreateRenderPass();
+		//renderPass = graphicsInstance->CreateRenderPass(); //graphicsEngine->CreateRenderPass();
 		vertexBuffer = graphicsInstance->CreateVertexBuffer();
 		uniformBuffer = graphicsInstance->CreateUniformBuffer();
 		pushConstant = graphicsInstance->CreatePushConstant(Invision::SHADER_STAGE_VERTEX_BIT, 0, sizeof(ColorObject));
@@ -291,7 +291,7 @@ private:
 		pipeline->BindPushConstant(pushConstant);
 		pipeline->CreatePipeline(renderPass);
 
-		framebuffer = graphicsInstance->CreateFramebuffer(renderPass, graphicsInstance->GetSizeSwapchainImages());
+		//framebuffer = graphicsInstance->CreateFramebuffer(renderPass, graphicsInstance->GetSizeSwapchainImages());
 
 		BuildCommandBuffer(this->size().width(), this->size().height());
 		renderer = graphicsInstance->CreateRenderer();

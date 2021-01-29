@@ -21,7 +21,7 @@ void RenderWidget::RecreateSwapChain(const int width, const int height)
 
 void RenderWidget::BuildCommandBuffer(float width, float height)
 {
-	commandBuffer = graphicsInstance->CreateCommandBuffer(framebuffer);
+	//commandBuffer = graphicsInstance->CreateCommandBuffer(framebuffer);
 	commandBuffer->BeginCommandBuffer().
 		SetViewport({ 0, 0, (float)width, (float)height, 0.0, 1.0 }).
 		SetScissor({ 0, 0, (uint32_t)width, (uint32_t)height }).
