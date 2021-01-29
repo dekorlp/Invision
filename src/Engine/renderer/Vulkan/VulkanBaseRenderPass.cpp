@@ -13,12 +13,12 @@ namespace Invision
 	{
 		VkAttachmentDescription attachment = {};
 		attachment.format = format;
-		attachment.samples = VK_SAMPLE_COUNT_1_BIT;
-		attachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+		attachment.samples = numSamples;
+		attachment.loadOp = loadOp;
 		attachment.storeOp = storeOp;
-		attachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-		attachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-		attachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+		attachment.stencilLoadOp = stencilLoadOp;
+		attachment.stencilStoreOp = stencilStoreop;
+		attachment.initialLayout = initialLayout;
 		attachment.finalLayout = finalLayout;
 
 		mAttachmentDescriptions.push_back(attachment);
