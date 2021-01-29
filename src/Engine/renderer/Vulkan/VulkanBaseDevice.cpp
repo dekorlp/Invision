@@ -143,6 +143,12 @@ namespace Invision
 		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos = CreateQueueCreateInfos(uniqueQueueFamilies);
 		VkPhysicalDeviceFeatures deviceFeatures = {};
 		deviceFeatures.samplerAnisotropy = VK_TRUE;
+
+		if (vulkanInstance.UseMSAA)
+		{
+			deviceFeatures.sampleRateShading = VK_TRUE;
+		}
+
 		VkDeviceCreateInfo createInfo = CreateDeviceCreateInfo(vulkanInstance, queueCreateInfos, deviceFeatures);
 
 		VkResult result = vkCreateDevice(vulkanInstance.physicalDeviceStruct.physicalDevice, &createInfo, nullptr, &(vulkanInstance.logicalDevice));

@@ -36,7 +36,7 @@ namespace Invision
 			VkOffset2D scissorOffset);*/
 		void INVISION_API UpdateViewPortConfiguration(const SVulkanBase &vulkanInstance);
 		void INVISION_API UpdateRasterizerConfiguration(VkPolygonMode fillMode, float lineWidth, VkCullModeFlags cullMode, VkFrontFace frontFace);
-		void INVISION_API UpdateMultisamplingConfiguration(VkSampleCountFlagBits numSamples = VK_SAMPLE_COUNT_1_BIT);
+		void INVISION_API UpdateMultisamplingConfiguration(VkSampleCountFlagBits numSamples = VK_SAMPLE_COUNT_1_BIT, VkBool32 sampleShadingEnable = VK_FALSE, float minSampleShading = 1.0f);
 		void INVISION_API UpdateDepthStencilConfiguration();
 		void INVISION_API UpdateColorBlendingAttachmentConfiguration();
 		void INVISION_API UpdateDynamicStatesConfiguration();
