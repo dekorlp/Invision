@@ -21,26 +21,17 @@ namespace Invision
 	{
 		mFramebuffers.resize(vulkanInstance->GetVulkanContext().swapChainImageViews.size());
 
-		if (vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated())
+		
+		for (int i = 0; i < vulkanInstance->GetVulkanContext().swapChainImageViews.size(); i++)
 		{
-			for (int i = 0; i < vulkanInstance->GetVulkanContext().swapChainImageViews.size(); i++)
+			std::vector< VkImageView> attachments;
+			attachments.push_back(vulkanInstance->GetVulkanContext().swapChainImageViews[i]);
+			if (vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated())
 			{
-				std::vector< VkImageView> attachments;
-				attachments.push_back(vulkanInstance->GetVulkanContext().swapChainImageViews[i]);
 				attachments.push_back(vulkanInstance->GetDepthRessources().GetDepthImageView());
-
-				mFramebuffers[i].CreateFramebuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(),  dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetRenderPass(), attachments);
 			}
-		}
-		else
-		{
-			for (int i = 0; i < vulkanInstance->GetVulkanContext().swapChainImageViews.size(); i++)
-			{
-				std::vector< VkImageView> attachments;
-				attachments.push_back(vulkanInstance->GetVulkanContext().swapChainImageViews[i]);
 
-				mFramebuffers[i].CreateFramebuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetRenderPass(), attachments);
-			}
+			mFramebuffers[i].CreateFramebuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(),  dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetRenderPass(), attachments);
 		}
 	}
 
