@@ -27,7 +27,8 @@ namespace Invision
 
 			std::vector< VkImageView> attachments;
 
-			if (vulkanInstance->GetVulkanContext().UseMSAA == false)
+			
+			if (vulkanInstance->GetCoreEngine()->GetVulkanInstance().UseMSAA == false)
 			{
 				attachments.push_back(vulkanInstance->GetVulkanContext().swapChainImageViews[i]);
 				if (vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated())

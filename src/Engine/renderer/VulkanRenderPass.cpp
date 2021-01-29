@@ -30,8 +30,8 @@ namespace Invision
 	{
 		VulkanBaseSubPass basePass;
 		basePass.mIsMainSubPass = true;
-
-		if (vulkanInstance->GetVulkanContext().UseMSAA == false) // MSAA is inactive
+		
+		if (vulkanInstance->GetCoreEngine()->GetVulkanInstance().UseMSAA == false) // MSAA is inactive
 		{
 
 			basePass.AddAttachment(vulkanInstance->GetCoreEngine()->GetVulkanInstance(),
@@ -67,7 +67,7 @@ namespace Invision
 			basePass.AddAttachment(vulkanInstance->GetCoreEngine()->GetVulkanInstance(),
 				vulkanInstance->GetVulkanContext(),
 				vulkanInstance->GetVulkanContext().swapChainImageFormat,
-				vulkanInstance->GetVulkanContext().MsaaFlagBits,
+				vulkanInstance->GetCoreEngine()->GetVulkanInstance().MsaaFlagBits,
 				VK_ATTACHMENT_LOAD_OP_CLEAR,
 				VK_ATTACHMENT_STORE_OP_STORE,
 				VK_ATTACHMENT_LOAD_OP_DONT_CARE,
@@ -81,7 +81,7 @@ namespace Invision
 				basePass.AddAttachment(vulkanInstance->GetCoreEngine()->GetVulkanInstance(),
 					vulkanInstance->GetVulkanContext(),
 					vulkanInstance->GetDepthRessources().findDepthFormat(vulkanInstance->GetCoreEngine()->GetVulkanInstance()),
-					vulkanInstance->GetVulkanContext().MsaaFlagBits,
+					vulkanInstance->GetCoreEngine()->GetVulkanInstance().MsaaFlagBits,
 					VK_ATTACHMENT_LOAD_OP_CLEAR,
 					VK_ATTACHMENT_STORE_OP_DONT_CARE,
 					VK_ATTACHMENT_LOAD_OP_DONT_CARE,

@@ -65,7 +65,7 @@ public:
 #endif
 
 		
-		graphicsEngine->Init();
+		graphicsEngine->Init(Invision::MSAAMODE_SAMPLE_COUNT_BEST);
 
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));

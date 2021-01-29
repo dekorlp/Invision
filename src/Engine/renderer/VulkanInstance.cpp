@@ -24,52 +24,13 @@ namespace Invision
 
 	}*/
 
-	VulkanInstance::VulkanInstance(VulkanEngine* engine, CanvasDimensions dimensions, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, bool activateDepthTest, MSAAMode msaa)
+	VulkanInstance::VulkanInstance(VulkanEngine* engine, CanvasDimensions dimensions, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, bool activateDepthTest)
 		: IGraphicsInstance(engine)
 	{
 		vulkanEngine = engine;
 		
 		Invision::CreateSurface(engine->GetVulkanInstance(), vulkanContext, dimensions.hwnd);
 		Invision::CreatePresentationSystem(engine->GetVulkanInstance(), vulkanContext, dimensions.width, dimensions.height);
-
-		switch (msaa)
-		{
-			case MSAAMODE_OFF:
-				vulkanContext.UseMSAA = false;
-				break;
-			case MSAAMODE_SAMPLE_COUNT_1:
-				vulkanContext.UseMSAA = true;
-				vulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(engine->GetVulkanInstance(), VK_SAMPLE_COUNT_1_BIT);
-				break;
-			case MSAAMODE_SAMPLE_COUNT_2:
-				vulkanContext.UseMSAA = true;
-				vulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(engine->GetVulkanInstance(), VK_SAMPLE_COUNT_2_BIT);
-				break;
-			case MSAAMODE_SAMPLE_COUNT_4:
-				vulkanContext.UseMSAA = true;
-				vulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(engine->GetVulkanInstance(), VK_SAMPLE_COUNT_4_BIT);
-				break;
-			case MSAAMODE_SAMPLE_COUNT_8:
-				vulkanContext.UseMSAA = true;
-				vulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(engine->GetVulkanInstance(), VK_SAMPLE_COUNT_8_BIT);
-				break;
-			case MSAAMODE_SAMPLE_COUNT_16:
-				vulkanContext.UseMSAA = true;
-				vulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(engine->GetVulkanInstance(), VK_SAMPLE_COUNT_16_BIT);
-				break;
-			case MSAAMODE_SAMPLE_COUNT_32:
-				vulkanContext.UseMSAA = true;
-				vulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(engine->GetVulkanInstance(), VK_SAMPLE_COUNT_32_BIT);
-				break;
-			case MSAAMODE_SAMPLE_COUNT_64:
-				vulkanContext.UseMSAA = true;
-				vulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(engine->GetVulkanInstance(), VK_SAMPLE_COUNT_64_BIT);
-				break;
-			case MSAAMODE_SAMPLE_COUNT_BEST:
-				vulkanContext.UseMSAA = true;
-				vulkanContext.MsaaFlagBits = Invision::GetMaxUsableSampleCount(engine->GetVulkanInstance());
-				break;
-		}
 
 		// Create Depth Ressources
 		if (activateDepthTest)
@@ -79,7 +40,7 @@ namespace Invision
 		}
 
 		// Create Color Ressources for Multisampling
-		if (vulkanContext.UseMSAA)
+		if (engine->GetVulkanInstance().UseMSAA)
 		{
 			mColorRessources.CreateColorRessources(engine->GetVulkanInstance(), engine->GetCommandPool(), vulkanContext);
 		}
@@ -102,7 +63,7 @@ namespace Invision
 		Invision::DestroyPresentationSystem(vulkanEngine->GetVulkanInstance(), vulkanContext);
 		Invision::CreatePresentationSystem(vulkanEngine->GetVulkanInstance(), vulkanContext, canvas.width, canvas.height);
 
-		if (vulkanContext.UseMSAA == true)
+		if (vulkanEngine->GetVulkanInstance().UseMSAA == true)
 		{
 			mColorRessources.DestroyColorRessources(vulkanEngine->GetVulkanInstance());
 			mColorRessources.CreateColorRessources(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetCommandPool(), vulkanContext);
@@ -131,7 +92,7 @@ namespace Invision
 		Invision::DestroyPresentationSystem(vulkanEngine->GetVulkanInstance(), vulkanContext);
 		Invision::CreatePresentationSystem(vulkanEngine->GetVulkanInstance(), vulkanContext, canvas.width, canvas.height);
 
-		if (vulkanContext.UseMSAA == true)
+		if (vulkanEngine->GetVulkanInstance().UseMSAA == true)
 		{
 			mColorRessources.DestroyColorRessources(vulkanEngine->GetVulkanInstance());
 			mColorRessources.CreateColorRessources(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetCommandPool(), vulkanContext);
@@ -238,7 +199,7 @@ namespace Invision
 
 	VulkanInstance::~VulkanInstance()
 	{
-		if (vulkanContext.UseMSAA == true)
+		if (vulkanEngine->GetVulkanInstance().UseMSAA == true)
 		{
 			mColorRessources.DestroyColorRessources(vulkanEngine->GetVulkanInstance());
 		}

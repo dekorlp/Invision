@@ -30,10 +30,6 @@ namespace Invision
 		VkFormat swapChainImageFormat;
 		VkExtent2D swapChainExtent;
 		std::vector<VkImageView> swapChainImageViews;
-		
-		// MSAA
-		bool UseMSAA = false;
-		VkSampleCountFlagBits MsaaFlagBits = VK_SAMPLE_COUNT_1_BIT;
 
 		SVulkanContext() : 
 			surface(VK_NULL_HANDLE),
@@ -96,6 +92,9 @@ namespace Invision
 		VkQueue computeQueue;
 		VkQueue transferQueue;
 
+		// MSAA
+		bool UseMSAA = false;
+		VkSampleCountFlagBits MsaaFlagBits = VK_SAMPLE_COUNT_1_BIT;
 		
 		SVulkanBase() : logicalDevice(VK_NULL_HANDLE), graphicsQueue(VK_NULL_HANDLE)
 		{

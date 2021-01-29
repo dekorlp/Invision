@@ -40,27 +40,107 @@ namespace Invision
 
 	}
 
-	void VulkanEngine::Init()
+	void VulkanEngine::Init(MSAAMode msaa)
 	{
 		Invision::VulkanBaseDevice().PickPhysicalDevice(vulkInstance);
 		deviceProperties = ConvertPhysicalDeviceParameters(vulkInstance.physicalDeviceStruct);
+
+		switch (msaa)
+		{
+		case MSAAMODE_OFF:
+			vulkInstance.UseMSAA = false;
+			break;
+		case MSAAMODE_SAMPLE_COUNT_1:
+			vulkInstance.UseMSAA = true;
+			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_1_BIT);
+			break;
+		case MSAAMODE_SAMPLE_COUNT_2:
+			vulkInstance.UseMSAA = true;
+			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_2_BIT);
+			break;
+		case MSAAMODE_SAMPLE_COUNT_4:
+			vulkInstance.UseMSAA = true;
+			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_4_BIT);
+			break;
+		case MSAAMODE_SAMPLE_COUNT_8:
+			vulkInstance.UseMSAA = true;
+			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_8_BIT);
+			break;
+		case MSAAMODE_SAMPLE_COUNT_16:
+			vulkInstance.UseMSAA = true;
+			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_16_BIT);
+			break;
+		case MSAAMODE_SAMPLE_COUNT_32:
+			vulkInstance.UseMSAA = true;
+			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_32_BIT);
+			break;
+		case MSAAMODE_SAMPLE_COUNT_64:
+			vulkInstance.UseMSAA = true;
+			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_64_BIT);
+			break;
+		case MSAAMODE_SAMPLE_COUNT_BEST:
+			vulkInstance.UseMSAA = true;
+			vulkInstance.MsaaFlagBits = Invision::GetMaxUsableSampleCount(vulkInstance);
+			break;
+		}
+
 		Invision::VulkanBaseDevice().CreateLogicalDevice(vulkInstance);
 
 		commandPool.CreateCommandPool(vulkInstance);
 	}
 
-	void VulkanEngine::Init(unsigned int index)
+	void VulkanEngine::Init(unsigned int index, MSAAMode msaa)
 	{
 		Invision::VulkanBaseDevice().PickPhysicalDevice(vulkInstance, index);
 		deviceProperties = ConvertPhysicalDeviceParameters(vulkInstance.physicalDeviceStruct);
+
+		switch (msaa)
+		{
+		case MSAAMODE_OFF:
+			vulkInstance.UseMSAA = false;
+			break;
+		case MSAAMODE_SAMPLE_COUNT_1:
+			vulkInstance.UseMSAA = true;
+			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_1_BIT);
+			break;
+		case MSAAMODE_SAMPLE_COUNT_2:
+			vulkInstance.UseMSAA = true;
+			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_2_BIT);
+			break;
+		case MSAAMODE_SAMPLE_COUNT_4:
+			vulkInstance.UseMSAA = true;
+			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_4_BIT);
+			break;
+		case MSAAMODE_SAMPLE_COUNT_8:
+			vulkInstance.UseMSAA = true;
+			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_8_BIT);
+			break;
+		case MSAAMODE_SAMPLE_COUNT_16:
+			vulkInstance.UseMSAA = true;
+			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_16_BIT);
+			break;
+		case MSAAMODE_SAMPLE_COUNT_32:
+			vulkInstance.UseMSAA = true;
+			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_32_BIT);
+			break;
+		case MSAAMODE_SAMPLE_COUNT_64:
+			vulkInstance.UseMSAA = true;
+			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_64_BIT);
+			break;
+		case MSAAMODE_SAMPLE_COUNT_BEST:
+			vulkInstance.UseMSAA = true;
+			vulkInstance.MsaaFlagBits = Invision::GetMaxUsableSampleCount(vulkInstance);
+			break;
+		}
+
 		Invision::VulkanBaseDevice().CreateLogicalDevice(vulkInstance);
 
 		commandPool.CreateCommandPool(vulkInstance);
 	}
 
-	std::shared_ptr<IGraphicsInstance> VulkanEngine::CreateInstance(CanvasDimensions canvas, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, MSAAMode mode, bool activateDepthTest)
+	std::shared_ptr<IGraphicsInstance> VulkanEngine::CreateInstance(CanvasDimensions canvas, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, bool activateDepthTest)
 	{
-		return  std::make_shared<VulkanInstance>(this, canvas, renderPass, framebuffer, commandBuffer, activateDepthTest, mode);
+		return  std::make_shared<VulkanInstance>(this, canvas, renderPass, framebuffer, commandBuffer, activateDepthTest);
 	}
 
 	Invision::SVulkanBase& VulkanEngine::GetVulkanInstance()
