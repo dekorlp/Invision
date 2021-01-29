@@ -24,12 +24,29 @@ namespace Invision
 		
 		for (int i = 0; i < vulkanInstance->GetVulkanContext().swapChainImageViews.size(); i++)
 		{
+
 			std::vector< VkImageView> attachments;
-			attachments.push_back(vulkanInstance->GetVulkanContext().swapChainImageViews[i]);
-			if (vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated())
+
+			if (vulkanInstance->GetVulkanContext().UseMSAA == false)
 			{
-				attachments.push_back(vulkanInstance->GetDepthRessources().GetDepthImageView());
+				attachments.push_back(vulkanInstance->GetVulkanContext().swapChainImageViews[i]);
+				if (vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated())
+				{
+					attachments.push_back(vulkanInstance->GetDepthRessources().GetDepthImageView());
+				}
 			}
+			else
+			{
+				attachments.push_back(vulkanInstance->GetColorRessources().GetColorImageView());
+
+				if (vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated())
+				{
+					attachments.push_back(vulkanInstance->GetDepthRessources().GetDepthImageView());
+				}
+				attachments.push_back(vulkanInstance->GetVulkanContext().swapChainImageViews[i]);
+			}
+
+
 
 			mFramebuffers[i].CreateFramebuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(),  dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetRenderPass(), attachments);
 		}

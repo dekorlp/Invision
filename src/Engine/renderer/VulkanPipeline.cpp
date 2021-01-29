@@ -184,9 +184,9 @@ namespace Invision
 		{
 			pipeline.AddShader(shaders[i]);
 		}
-
+		
 		pipeline.SetRenderProperties(vkPrimitiveTopology, vkPolygonMode, vkCullMode, vkFrontface, mPipelineProperties->mLineWidth);
-		pipeline.CreatePipeline(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), 0,vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated());
+		pipeline.CreatePipeline(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), 0,vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated(), vulkanInstance->GetVulkanContext().MsaaFlagBits);
 		for(int i = 0; i < shaders.size(); i++)
 		{
 			shaders[i].Destroy(vulkanInstance->GetCoreEngine()->GetVulkanInstance());

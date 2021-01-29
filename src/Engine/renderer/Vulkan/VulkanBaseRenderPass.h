@@ -13,8 +13,10 @@ namespace Invision
 	public:
 		std::vector<VkAttachmentReference> mColorReference;
 		VkAttachmentReference mDepthReference;
+		VkAttachmentReference mResolveReference;
 
 		bool mHasDepthReference = false;
+		bool mHasResolveReference = false;
 
 		std::vector<VkAttachmentDescription> mAttachmentDescriptions;
 
@@ -22,7 +24,7 @@ namespace Invision
 
 		void INVISION_API AddAttachment(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, VkFormat format, VkSampleCountFlagBits numSamples,
 			VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreop, 
-			VkImageLayout initialLayout, VkImageLayout finalLayout, VkAttachmentReference attachmentRef); 
+			VkImageLayout initialLayout, VkImageLayout finalLayout, VkAttachmentReference attachmentRef, bool isResolveAttachment = false); 
 
 		void INVISION_API DestroyBaseSubPass();
 	};

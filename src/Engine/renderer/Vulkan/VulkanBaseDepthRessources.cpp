@@ -16,7 +16,7 @@ namespace Invision
 	{
 		VkFormat depthFormat = findDepthFormat(vulkanInstance);
 		
-		CreateImage(vulkanInstance, vulkanContext.swapChainExtent.width, vulkanContext.swapChainExtent.height, 1, depthFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, mDepthImage, mDepthImageMemory);
+		CreateImage(vulkanInstance, vulkanContext.swapChainExtent.width, vulkanContext.swapChainExtent.height, 1, vulkanContext.MsaaFlagBits, depthFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, mDepthImage, mDepthImageMemory);
 		mDepthImageView = CreateImageView(vulkanInstance, mDepthImage, depthFormat, VK_IMAGE_ASPECT_DEPTH_BIT, 1);
 
 		mUseDepthRessources = true;

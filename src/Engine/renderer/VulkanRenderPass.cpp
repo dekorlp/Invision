@@ -31,31 +31,77 @@ namespace Invision
 		VulkanBaseSubPass basePass;
 		basePass.mIsMainSubPass = true;
 
-		basePass.AddAttachment(vulkanInstance->GetCoreEngine()->GetVulkanInstance(),
-			vulkanInstance->GetVulkanContext(),
-			vulkanInstance->GetVulkanContext().swapChainImageFormat,
-			VK_SAMPLE_COUNT_1_BIT,
-			VK_ATTACHMENT_LOAD_OP_CLEAR,
-			VK_ATTACHMENT_STORE_OP_STORE,
-			VK_ATTACHMENT_LOAD_OP_DONT_CARE,
-			VK_ATTACHMENT_STORE_OP_DONT_CARE,
-			VK_IMAGE_LAYOUT_UNDEFINED,
-			VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
-			, { subPassIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL });
-
-		if (vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated() == true)
+		if (vulkanInstance->GetVulkanContext().UseMSAA == false) // MSAA is inactive
 		{
+
 			basePass.AddAttachment(vulkanInstance->GetCoreEngine()->GetVulkanInstance(),
 				vulkanInstance->GetVulkanContext(),
-				vulkanInstance->GetDepthRessources().findDepthFormat(vulkanInstance->GetCoreEngine()->GetVulkanInstance()),
+				vulkanInstance->GetVulkanContext().swapChainImageFormat,
 				VK_SAMPLE_COUNT_1_BIT,
 				VK_ATTACHMENT_LOAD_OP_CLEAR,
-				VK_ATTACHMENT_STORE_OP_DONT_CARE,
+				VK_ATTACHMENT_STORE_OP_STORE,
 				VK_ATTACHMENT_LOAD_OP_DONT_CARE,
 				VK_ATTACHMENT_STORE_OP_DONT_CARE,
 				VK_IMAGE_LAYOUT_UNDEFINED,
-				VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
-				{ subPassIndex++, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL });
+				VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
+				, { subPassIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL });
+
+			if (vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated() == true)
+			{
+				basePass.AddAttachment(vulkanInstance->GetCoreEngine()->GetVulkanInstance(),
+					vulkanInstance->GetVulkanContext(),
+					vulkanInstance->GetDepthRessources().findDepthFormat(vulkanInstance->GetCoreEngine()->GetVulkanInstance()),
+					VK_SAMPLE_COUNT_1_BIT,
+					VK_ATTACHMENT_LOAD_OP_CLEAR,
+					VK_ATTACHMENT_STORE_OP_DONT_CARE,
+					VK_ATTACHMENT_LOAD_OP_DONT_CARE,
+					VK_ATTACHMENT_STORE_OP_DONT_CARE,
+					VK_IMAGE_LAYOUT_UNDEFINED,
+					VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
+					{ subPassIndex++, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL });
+			}
+
+		}
+		else // MSAA is active
+		{
+			basePass.AddAttachment(vulkanInstance->GetCoreEngine()->GetVulkanInstance(),
+				vulkanInstance->GetVulkanContext(),
+				vulkanInstance->GetVulkanContext().swapChainImageFormat,
+				vulkanInstance->GetVulkanContext().MsaaFlagBits,
+				VK_ATTACHMENT_LOAD_OP_CLEAR,
+				VK_ATTACHMENT_STORE_OP_STORE,
+				VK_ATTACHMENT_LOAD_OP_DONT_CARE,
+				VK_ATTACHMENT_STORE_OP_DONT_CARE,
+				VK_IMAGE_LAYOUT_UNDEFINED,
+				VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL
+				, { subPassIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL });
+
+			if (vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated() == true)
+			{
+				basePass.AddAttachment(vulkanInstance->GetCoreEngine()->GetVulkanInstance(),
+					vulkanInstance->GetVulkanContext(),
+					vulkanInstance->GetDepthRessources().findDepthFormat(vulkanInstance->GetCoreEngine()->GetVulkanInstance()),
+					vulkanInstance->GetVulkanContext().MsaaFlagBits,
+					VK_ATTACHMENT_LOAD_OP_CLEAR,
+					VK_ATTACHMENT_STORE_OP_DONT_CARE,
+					VK_ATTACHMENT_LOAD_OP_DONT_CARE,
+					VK_ATTACHMENT_STORE_OP_DONT_CARE,
+					VK_IMAGE_LAYOUT_UNDEFINED,
+					VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
+					{ subPassIndex++, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL });
+			}
+
+			basePass.AddAttachment(vulkanInstance->GetCoreEngine()->GetVulkanInstance(),
+				vulkanInstance->GetVulkanContext(),
+				vulkanInstance->GetVulkanContext().swapChainImageFormat,
+				VK_SAMPLE_COUNT_1_BIT,
+				VK_ATTACHMENT_LOAD_OP_DONT_CARE,
+				VK_ATTACHMENT_STORE_OP_STORE,
+				VK_ATTACHMENT_LOAD_OP_DONT_CARE,
+				VK_ATTACHMENT_STORE_OP_DONT_CARE,
+				VK_IMAGE_LAYOUT_UNDEFINED,
+				VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
+				, { subPassIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL }, true);
 		}
 
 		renderPass.AddSubpass(basePass);

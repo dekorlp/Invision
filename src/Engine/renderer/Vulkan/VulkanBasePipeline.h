@@ -36,7 +36,7 @@ namespace Invision
 			VkOffset2D scissorOffset);*/
 		void INVISION_API UpdateViewPortConfiguration(const SVulkanBase &vulkanInstance);
 		void INVISION_API UpdateRasterizerConfiguration(VkPolygonMode fillMode, float lineWidth, VkCullModeFlags cullMode, VkFrontFace frontFace);
-		void INVISION_API UpdateMultisamplingConfiguration();
+		void INVISION_API UpdateMultisamplingConfiguration(VkSampleCountFlagBits numSamples = VK_SAMPLE_COUNT_1_BIT);
 		void INVISION_API UpdateDepthStencilConfiguration();
 		void INVISION_API UpdateColorBlendingAttachmentConfiguration();
 		void INVISION_API UpdateDynamicStatesConfiguration();
@@ -44,7 +44,7 @@ namespace Invision
 		VkPipeline INVISION_API GetPipeline();
 		VkPipelineLayout INVISION_API GetPipelineLayout();
 
-		void INVISION_API CreatePipeline(const SVulkanBase &vulkanInstance, VulkanBaseRenderPass &renderPass, uint32_t subpassIndex, bool useDepthRessource, float minDepthBound = 0.0f, float maxDepthBound = 1.0f, VkPipelineCache pipelineCache = VK_NULL_HANDLE);
+		void INVISION_API CreatePipeline(const SVulkanBase &vulkanInstance, VulkanBaseRenderPass &renderPass, uint32_t subpassIndex, bool useDepthRessource, VkSampleCountFlagBits numSamples = VK_SAMPLE_COUNT_1_BIT, float minDepthBound = 0.0f, float maxDepthBound = 1.0f, VkPipelineCache pipelineCache = VK_NULL_HANDLE);
 		void INVISION_API DestroyPipeline(const SVulkanBase &vulkanInstance);
 		
 	private:

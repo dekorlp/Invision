@@ -149,11 +149,11 @@ namespace Invision
 		mRasterizer.depthBiasSlopeFactor = 0.0f;
 	}
 
-	void VulkanBasePipeline::UpdateMultisamplingConfiguration()
+	void VulkanBasePipeline::UpdateMultisamplingConfiguration(VkSampleCountFlagBits numSamples)
 	{
 		mMultisampling.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
 		mMultisampling.sampleShadingEnable = VK_FALSE;
-		mMultisampling.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
+		mMultisampling.rasterizationSamples = numSamples;
 		mMultisampling.minSampleShading = 1.0f; // Optional
 		mMultisampling.pSampleMask = nullptr; // Optional
 		mMultisampling.alphaToCoverageEnable = VK_FALSE; // Optional
@@ -222,13 +222,13 @@ namespace Invision
 		return mPipelineLayout;
 	}
 
-	void VulkanBasePipeline::CreatePipeline(const SVulkanBase &vulkanInstance, VulkanBaseRenderPass &renderPass, uint32_t subpassIndex, bool useDepthRessource, float minDepthBound, float maxDepthBound, VkPipelineCache pipelineCache)
+	void VulkanBasePipeline::CreatePipeline(const SVulkanBase &vulkanInstance, VulkanBaseRenderPass &renderPass, uint32_t subpassIndex, bool useDepthRessource, VkSampleCountFlagBits numSamples, float minDepthBound, float maxDepthBound, VkPipelineCache pipelineCache)
 	{
 		UpdateVertexInputConfiguration();
 		UpdateInputAssemblyConfiguration(mPrimitiveTopology);
 		UpdateViewPortConfiguration(vulkanInstance);
 		UpdateRasterizerConfiguration(mPolygonMode, mLineWidth, mCullModeFlags, mFrontFace);
-		UpdateMultisamplingConfiguration();
+		UpdateMultisamplingConfiguration(numSamples);
 		if(useDepthRessource) UpdateDepthStencilConfiguration();
 		UpdateColorBlendingAttachmentConfiguration();
 		UpdateDynamicStatesConfiguration();

@@ -5,6 +5,7 @@
 #include "IGraphicsInstance.h"
 #include "renderer\Vulkan\VulkanBase.h"
 #include "renderer\Vulkan\VulkanBaseDepthRessources.h"
+#include "renderer\Vulkan\VulkanBaseColorRessources.h"
 
 namespace Invision
 {
@@ -36,6 +37,7 @@ namespace Invision
 
 		INVISION_API VulkanEngine* GetCoreEngine();
 		INVISION_API VulkanBaseDepthRessources GetDepthRessources();
+		INVISION_API VulkanBaseColorRessources GetColorRessources();
 		INVISION_API unsigned int GetSizeSwapchainImages();
 
 		INVISION_API ~VulkanInstance();
@@ -44,6 +46,7 @@ namespace Invision
 		VulkanEngine* vulkanEngine;
 		Invision::SVulkanContext vulkanContext;
 		Invision::VulkanBaseDepthRessources depthRessources;
+		Invision::VulkanBaseColorRessources mColorRessources;
 
 		// MainFramebuffer, MainRenderPass, MainCommandBuffer
 		std::shared_ptr <Invision::IRenderPass> mMainRenderPass;

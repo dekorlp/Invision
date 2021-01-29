@@ -9,7 +9,7 @@ namespace Invision
 
 	void VulkanBaseSubPass::AddAttachment(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, VkFormat format, VkSampleCountFlagBits numSamples,
 		VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreop, VkImageLayout initialLayout, VkImageLayout finalLayout
-		, VkAttachmentReference attachmentRef = {})
+		, VkAttachmentReference attachmentRef = {}, bool isResolveAttachment)
 	{
 		VkAttachmentDescription attachment = {};
 		attachment.format = format;
@@ -23,9 +23,15 @@ namespace Invision
 
 		mAttachmentDescriptions.push_back(attachment);
 
-		if (attachmentRef.layout == VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL)
+		if (attachmentRef.layout == VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL  && isResolveAttachment == false)
 		{
 			mColorReference.push_back(attachmentRef);
+		}
+		else if(attachmentRef.layout == VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL && isResolveAttachment == true)
+		{
+			mResolveReference = attachmentRef;
+			mHasResolveReference = true;
+
 		}
 		else if (attachmentRef.layout == VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL)
 		{
@@ -73,6 +79,11 @@ namespace Invision
 		if (subPass.mHasDepthReference)
 		{
 			subpassDesc.pDepthStencilAttachment = &subPass.mDepthReference;
+		}
+
+		if (subPass.mHasResolveReference)
+		{
+			subpassDesc.pResolveAttachments = &subPass.mResolveReference;
 		}
 
 		mSubpasses.push_back(subpassDesc);
