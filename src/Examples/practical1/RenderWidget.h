@@ -211,9 +211,9 @@ private:
 		Invision::CanvasDimensions dim = { HWND(nativeWindowHandler), this->size().width(), this->size().height() };
 		//graphicsEngine = std::make_shared<Invision::VulkanEngine>(dim);
 		
-		graphicsInstance = graphicsEngine->CreateInstance(dim);
+		graphicsInstance = graphicsEngine->CreateInstance(dim, renderPass, framebuffer, commandBuffer);
 
-		renderPass = graphicsInstance->CreateRenderPass(); //graphicsEngine->CreateRenderPass();
+		//renderPass = graphicsInstance->CreateRenderPass(); //graphicsEngine->CreateRenderPass();
 		vertexBuffer = graphicsInstance->CreateVertexBuffer();
 		uniformBuffer = graphicsInstance->CreateUniformBuffer();
 		indexBuffer = graphicsInstance->CreateIndexBuffer();
@@ -235,7 +235,7 @@ private:
 		pipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
 		pipeline->AddVertexBuffer(vertexBuffer);
 		pipeline->CreatePipeline(renderPass);
-		framebuffer = graphicsInstance->CreateFramebuffer(renderPass, graphicsInstance->GetSizeSwapchainImages());
+		//framebuffer = graphicsInstance->CreateFramebuffer(renderPass, graphicsInstance->GetSizeSwapchainImages());
 
 		BuildCommandBuffer(this->size().width(), this->size().height());
 		renderer = graphicsInstance->CreateRenderer();

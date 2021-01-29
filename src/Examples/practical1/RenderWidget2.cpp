@@ -3,21 +3,21 @@
 void RenderWidget2::RecreateSwapChain(const int width, const int height)
 {
 	// setup swapchain
-	graphicsInstance->ResetPresentation({ HWND(winId()), width, height });
+	graphicsInstance->ResetPresentation({ HWND(winId()), width, height }, renderPass, framebuffer, commandBuffer);
 
 	// setup framebuffer
-	framebuffer.reset();
-	framebuffer = graphicsInstance->CreateFramebuffer(renderPass, graphicsInstance->GetSizeSwapchainImages());
+	//framebuffer.reset();
+	//framebuffer = graphicsInstance->CreateFramebuffer(renderPass, graphicsInstance->GetSizeSwapchainImages());
 
 	// setup commandBuffers
-	commandBuffer.reset();
-	commandBuffer = graphicsInstance->CreateCommandBuffer(framebuffer);
+	//commandBuffer.reset();
+	//commandBuffer = graphicsInstance->CreateCommandBuffer(framebuffer);
 	BuildCommandBuffer(width, height);
 }
 
 void RenderWidget2::BuildCommandBuffer(float width, float height)
 {
-	commandBuffer = graphicsInstance->CreateCommandBuffer(framebuffer);
+	//commandBuffer = graphicsInstance->CreateCommandBuffer(framebuffer);
 	commandBuffer->BeginCommandBuffer().
 		SetViewport({ 0, 0, (float)width, (float)height, 0.0, 1.0 }).
 		SetScissor({ 0, 0, (uint32_t)width, (uint32_t)height }).
