@@ -114,6 +114,20 @@ namespace Invision
 		MSAAMODE_SAMPLE_COUNT_BEST = 0x00000009F
 	};
 
+	enum SamplerAddressMode
+	{
+		SAMPLER_ADDRESS_MODE_REPEAT = 0x00,
+		SAMPLER_ADDRESS_MODE_CLAMP = 0x01,
+		SAMPLER_ADDRESS_MODE_MIRRORED_REPEAT = 0x02,
+		VK_SAMPLER_ADDRESS_MODE_MIRRORED_ONCE = 0x03
+	};
+
+	enum SamplerFilterMode
+	{
+		SAMPLER_FILTER_MODE_LINEAR = 0x00,
+		SAMPLER_FILTER_MODE_NEAREST = 0x01
+	};
+
 	typedef uint32_t CullModeBits;
 
 	typedef struct PipelineProperties

@@ -14,7 +14,7 @@ namespace Invision
 		public:
 			void CreateTextureImage(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, unsigned char* pixels, int imageSize, int width, int height, VkDeviceSize offset, bool useDepthRessource, bool generateMipMaps = false);
 			void CreateTextureImageView(SVulkanBase &vulkanInstance);
-			void CreateTextureSampler(SVulkanBase &vulkanInstance);
+			void CreateTextureSampler(SVulkanBase &vulkanInstance, VkFilter minFilter, VkFilter magFilter, VkSamplerAddressMode addressU, VkSamplerAddressMode addressV, VkSamplerAddressMode addressW, float MipLodBias, float minLod);
 			void DestroyTexture(const SVulkanBase &vulkanInstance);
 
 			VkImageView GetImageView();

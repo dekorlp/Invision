@@ -272,7 +272,7 @@ private:
 		texture->LoadTexture(pixels, width * height * 4, width, height);
 		freeImage(pixels);
 		texture->CreateTextureImageView();
-		texture->CreateTextureSampler();
+		texture->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT);
 
 		vertexBuffer->CreateVertexBinding(sizeof(vertices[0]) * vertices.size(), vertices.data(), 0, sizeof(Vertex), Invision::VERTEX_INPUT_RATE_VERTEX)
 			->CreateAttribute(0, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, position))
