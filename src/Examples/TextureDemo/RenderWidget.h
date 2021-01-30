@@ -191,7 +191,6 @@ private:
 		unsigned char* pixels = readJPG(std::string(INVISION_BASE_DIR).append("/src/Examples/TextureDemo/texture.jpg"), width, height, channels);
 		texture->LoadTexture(pixels, width * height * 4, width, height);
 		freeImage(pixels);
-		texture->CreateTextureImageView();
 		texture->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT);
 
 

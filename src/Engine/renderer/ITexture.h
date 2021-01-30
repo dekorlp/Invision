@@ -18,7 +18,6 @@ namespace Invision
 		INVISION_API virtual ~ITexture() = default;
 
 		INVISION_API virtual void LoadTexture(unsigned char* pixels, int imageSize, int width, int height, bool generateMipMaps = false) = 0;
-		INVISION_API virtual void CreateTextureImageView() = 0;
 		INVISION_API virtual void CreateTextureSampler(SamplerFilterMode minFilter, SamplerFilterMode magFilter, SamplerAddressMode addressU, SamplerAddressMode addressV, SamplerAddressMode addressW, float MipLodBias = 0.0f, float minLod = 0.0f) = 0;
 
 	};

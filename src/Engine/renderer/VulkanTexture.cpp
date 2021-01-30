@@ -18,6 +18,7 @@ namespace Invision
 	{
 
 		texture.CreateTextureImage(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetCoreEngine()->GetCommandPool(), pixels, imageSize, width, height, 0, vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated(), generateMipMaps);
+		texture.CreateTextureImageView(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
 	}
 
 	void VulkanTexture::CreateTextureImageView()
