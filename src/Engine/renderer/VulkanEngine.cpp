@@ -87,6 +87,8 @@ namespace Invision
 		Invision::VulkanBaseDevice().CreateLogicalDevice(vulkInstance);
 
 		commandPool.CreateCommandPool(vulkInstance);
+
+		mMemoryManager.Init(vulkInstance, 2 * 1024 * 1024 * 1024); // Allocate 2GB
 	}
 
 	void VulkanEngine::Init(unsigned int index, MSAAMode msaa)
@@ -245,6 +247,7 @@ namespace Invision
 
 	VulkanEngine::~VulkanEngine()
 	{
+		mMemoryManager.Destroy(vulkInstance);
 		commandPool.DestroyCommandPool(vulkInstance);
 		//Invision::DestroyPresentationSystem(vulkInstance, vulkanContext);
 		Invision::DestroyVulkanDevice(vulkInstance);

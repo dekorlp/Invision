@@ -19,21 +19,21 @@ namespace Invision {
 		SHeaderPool tempHeaderPool = {};
 
 
-#ifdef _DEBUG
-		std::stringstream ss;
-		ss << std::endl << "Call Method: CreateMemoryBlock(position = 0x" << position
-			<< ", ..." << ")";
-		INVISION_LOG_RAWTEXT(ss.str());
-#endif
+//#ifdef _DEBUG
+//		std::stringstream ss;
+//		ss << std::endl << "Call Method: CreateMemoryBlock(position = 0x" << position
+//			<< ", ..." << ")";
+//		INVISION_LOG_RAWTEXT(ss.str());
+//#endif
 
 
 
 		void* currentPosition = position;
 
-#ifdef _DEBUG
-		Log::GetLogger()->WriteToLog("Memory Block Start: ", position);
-		Log::GetLogger()->WriteToLog("Allocation Size: ", size);
-#endif
+//#ifdef _DEBUG
+//		Log::GetLogger()->WriteToLog("Memory Block Start: ", position);
+//		Log::GetLogger()->WriteToLog("Allocation Size: ", size);
+//#endif
 
 		if (boundsChecking == INVISION_STANDARD_BOUNDS_CHECKING)
 		{
@@ -44,9 +44,9 @@ namespace Invision {
 			unsigned int *bound = (unsigned int*)currentPosition;
 			*bound = 0xFAFFB;
 
-#ifdef _DEBUG
-			Log::GetLogger()->WriteToLog("    Front Boundary: ", currentPosition);
-#endif
+//#ifdef _DEBUG
+//			Log::GetLogger()->WriteToLog("    Front Boundary: ", currentPosition);
+//#endif
 			currentPosition = Add(currentPosition, FRONT_SIZE);
 
 
@@ -63,9 +63,9 @@ namespace Invision {
 			((SMemoryTracking*)PtrHeader)->filename = filename;
 			((SMemoryTracking*)PtrHeader)->lineOfFile = lineOfFile;
 			currentPosition = (void*)PtrHeader;
-#ifdef _DEBUG
-			Log::GetLogger()->WriteToLog("    TrackingHeader: ", PtrHeader);
-#endif
+//#ifdef _DEBUG
+//			Log::GetLogger()->WriteToLog("    TrackingHeader: ", PtrHeader);
+//#endif
 
 			currentPosition = Add(currentPosition, sizeof(SMemoryTracking));
 		}
@@ -81,9 +81,9 @@ namespace Invision {
 			((SHeaderStack*)PtrHeaderStack)->frontOffset = position;
 			currentPosition = (void*)PtrHeaderStack;
 
-#ifdef _DEBUG
-			Log::GetLogger()->WriteToLog("    StackHeader: ", PtrHeaderStack);
-#endif
+//#ifdef _DEBUG
+//			Log::GetLogger()->WriteToLog("    StackHeader: ", PtrHeaderStack);
+//#endif
 
 			currentPosition = Add(currentPosition, sizeof(SHeaderStack));
 
@@ -99,9 +99,9 @@ namespace Invision {
 			((SHeaderPool*)PtrHeaderPool)->next = nullptr;
 			currentPosition = (void*)PtrHeaderPool;
 
-#ifdef _DEBUG
-			Log::GetLogger()->WriteToLog("    PoolHeader: ", PtrHeaderPool);
-#endif
+//#ifdef _DEBUG
+//			Log::GetLogger()->WriteToLog("    PoolHeader: ", PtrHeaderPool);
+//#endif
 
 			currentPosition = Add(currentPosition, sizeof(SHeaderPool));
 
@@ -109,7 +109,9 @@ namespace Invision {
 
 		unsigned int adjustmentSize = ForwardAlignment(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT);
 		void* p = (void*)Add(currentPosition, adjustmentSize);
-		Log::GetLogger()->WriteToLog("    Payload Address: ", currentPosition);
+//#ifdef _DEBUG
+//		Log::GetLogger()->WriteToLog("    Payload Address: ", currentPosition);
+//#endif
 
 		//int* p1 = (int*)p;
 		currentPosition = (void*)Add(p, size);
@@ -121,9 +123,9 @@ namespace Invision {
 			currentPosition = Add(currentPosition, adjustmentSize);
 			unsigned int *bound = (unsigned int*)currentPosition;
 			*bound = 0xFAFFB;
-#ifdef _DEBUG
-			Log::GetLogger()->WriteToLog("    Back Boundary: ", currentPosition);
-#endif
+//#ifdef _DEBUG
+//			Log::GetLogger()->WriteToLog("    Back Boundary: ", currentPosition);
+//#endif
 			currentPosition = Add(currentPosition, BACK_SIZE);
 		}
 
@@ -141,10 +143,10 @@ namespace Invision {
 		}
 		*endposition = currentPosition;
 
-#ifdef _DEBUG
-		Log::GetLogger()->WriteToLog("Block Size: ", memBlockSize);
-		Log::GetLogger()->WriteToLog("Memory Block End:", currentPosition);
-#endif
+//#ifdef _DEBUG
+//		Log::GetLogger()->WriteToLog("Block Size: ", memBlockSize);
+//		Log::GetLogger()->WriteToLog("Memory Block End:", currentPosition);
+//#endif
 
 		return p;
 	}
@@ -157,14 +159,14 @@ namespace Invision {
 		unsigned int sHeaderAdjustment = BackwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SHeaderStack));
 		currentPosition = Subtract(currentPosition, sHeaderAdjustment);
 
-#ifdef _DEBUG
-		std::stringstream ss;
-		ss << std::endl << "Call Method: GetStackHeader(memoryBlock = 0x" << memoryBlock << ")";
-		INVISION_LOG_RAWTEXT(ss.str());
-		Log::GetLogger()->WriteToLog("Front Offset: ", ((SHeaderStack*)currentPosition)->frontOffset);
-		Log::GetLogger()->WriteToLog("Back Offset: ", ((SHeaderStack*)currentPosition)->backOffset);
-		Log::GetLogger()->WriteToLog("Size: ", ((SHeaderStack*)currentPosition)->size);
-#endif
+//#ifdef _DEBUG
+//		std::stringstream ss;
+//		ss << std::endl << "Call Method: GetStackHeader(memoryBlock = 0x" << memoryBlock << ")";
+//		INVISION_LOG_RAWTEXT(ss.str());
+//		Log::GetLogger()->WriteToLog("Front Offset: ", ((SHeaderStack*)currentPosition)->frontOffset);
+//		Log::GetLogger()->WriteToLog("Back Offset: ", ((SHeaderStack*)currentPosition)->backOffset);
+//		Log::GetLogger()->WriteToLog("Size: ", ((SHeaderStack*)currentPosition)->size);
+//#endif
 
 		return (SHeaderStack*)currentPosition;
 	}
@@ -177,12 +179,12 @@ namespace Invision {
 		unsigned int sHeaderAdjustment = BackwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SHeaderPool));
 		currentPosition = Subtract(currentPosition, sHeaderAdjustment);
 
-#ifdef _DEBUG
-		std::stringstream ss;
-		ss << std::endl << "Call Method: GetPoolHeader(memoryBlock = 0x" << memoryBlock << ")";
-		INVISION_LOG_RAWTEXT(ss.str());
-		Log::GetLogger()->WriteToLog("Pointer to next Object: ", ((SHeaderPool*)currentPosition)->next);
-#endif
+//#ifdef _DEBUG
+//		std::stringstream ss;
+//		ss << std::endl << "Call Method: GetPoolHeader(memoryBlock = 0x" << memoryBlock << ")";
+//		INVISION_LOG_RAWTEXT(ss.str());
+//		Log::GetLogger()->WriteToLog("Pointer to next Object: ", ((SHeaderPool*)currentPosition)->next);
+//#endif
 
 		return (SHeaderPool*)currentPosition;
 	}
@@ -309,17 +311,17 @@ namespace Invision {
 		unsigned int sTrackingAdjustment = BackwardAlignmentWithHeader(currentPosition, INVISION_MEM_ALLOCATION_ALLIGNMENT, sizeof(SMemoryTracking));
 		currentPosition = Subtract(currentPosition, sTrackingAdjustment);
 
-#ifdef _DEBUG
-		std::stringstream ss;
-		ss << std::endl << "Call Method: GetMemoryTracking(memoryBlock = 0x" << memoryBlock << ", header = " << header << ")";
-		INVISION_LOG_RAWTEXT(ss.str());
-
-		std::stringstream ssFilename;
-		ssFilename << "Filename: " << (char*)((SMemoryTracking*)currentPosition)->filename;
-
-		INVISION_LOG_RAWTEXT(ssFilename.str());
-		Log::GetLogger()->WriteToLog("Line: ", ((SMemoryTracking*)currentPosition)->lineOfFile);
-#endif
+//#ifdef _DEBUG
+//		std::stringstream ss;
+//		ss << std::endl << "Call Method: GetMemoryTracking(memoryBlock = 0x" << memoryBlock << ", header = " << header << ")";
+//		INVISION_LOG_RAWTEXT(ss.str());
+//
+//		std::stringstream ssFilename;
+//		ssFilename << "Filename: " << (char*)((SMemoryTracking*)currentPosition)->filename;
+//
+//		INVISION_LOG_RAWTEXT(ssFilename.str());
+//		Log::GetLogger()->WriteToLog("Line: ", ((SMemoryTracking*)currentPosition)->lineOfFile);
+//#endif
 
 		return (SMemoryTracking*)currentPosition;
 	}
@@ -359,41 +361,41 @@ namespace Invision {
 		unsigned int adjustmentSize = ForwardAlignment(pCurrentBack, INVISION_MEM_ALLOCATION_ALLIGNMENT);
 		unsigned int *BackBoundary = (unsigned int*)Add(pCurrentBack, adjustmentSize);
 
-#ifdef _DEBUG
-
-		std::stringstream ss;
-		ss << std::endl << "Call Method: CheckBoundaries(memoryBlock = 0x" << memoryBlock << ", payloadSize = " << payloudSize << ", header = " << header << ", memTracking = " << memTracking << ")";
-		INVISION_LOG_RAWTEXT(ss.str());
-
-		if (*FrontBoundary == 0xFAFFB)
-		{
-			INVISION_LOG_RAWTEXT("Front Boundary: DETECTED");
-		}
-		else
-		{
-			//INVISION_LOG_RAWTEXT("Front Boundary: NOT DETECTED");
-			INVISION_LOG_ERROR("Front Boundary : NOT DETECTED");
-		}
-
-		if (*BackBoundary == 0xFAFFB)
-		{
-			INVISION_LOG_RAWTEXT("Back Boundary: DETECTED");
-		}
-		else
-		{
-			INVISION_LOG_ERROR("Back Boundary : NOT DETECTED");
-		}
-#endif
+//#ifdef _DEBUG
+//
+//		std::stringstream ss;
+//		ss << std::endl << "Call Method: CheckBoundaries(memoryBlock = 0x" << memoryBlock << ", payloadSize = " << payloudSize << ", header = " << header << ", memTracking = " << memTracking << ")";
+//		INVISION_LOG_RAWTEXT(ss.str());
+//
+//		if (*FrontBoundary == 0xFAFFB)
+//		{
+//			INVISION_LOG_RAWTEXT("Front Boundary: DETECTED");
+//		}
+//		else
+//		{
+//			//INVISION_LOG_RAWTEXT("Front Boundary: NOT DETECTED");
+//			INVISION_LOG_ERROR("Front Boundary : NOT DETECTED");
+//		}
+//
+//		if (*BackBoundary == 0xFAFFB)
+//		{
+//			INVISION_LOG_RAWTEXT("Back Boundary: DETECTED");
+//		}
+//		else
+//		{
+//			INVISION_LOG_ERROR("Back Boundary : NOT DETECTED");
+//		}
+//#endif
 
 		if (*FrontBoundary == 0xFAFFB && *BackBoundary == 0xFAFFB)
 		{
 			return true;
 		}
 
-#ifdef _DEBUG
-		INVISION_LOG_ERROR("EXCEPTION OCCURED: Memory is corrupted!");
-		throw InvisionOutOfMemory("Memory is corrupted!");
-#endif 
+//#ifdef _DEBUG
+//		INVISION_LOG_ERROR("EXCEPTION OCCURED: Memory is corrupted!");
+//		throw InvisionOutOfMemory("Memory is corrupted!");
+//#endif 
 
 		return false;
 	}
@@ -401,13 +403,13 @@ namespace Invision {
 	// apply a forward alignment to the address
 	uint8 MemoryBlock::ForwardAlignment(void* address, uint8 alignment)
 	{
-#ifdef _DEBUG
-		if (!isPowerOfTwo(alignment))
-		{
-			INVISION_LOG_WARNING("Allignment is not a power of two");
-			throw InvisionMemoryHasWrongAlignment("Alignment has not a Power of Two!");
-		}
-#endif
+//#ifdef _DEBUG
+//		if (!isPowerOfTwo(alignment))
+//		{
+//			INVISION_LOG_WARNING("Allignment is not a power of two");
+//			throw InvisionMemoryHasWrongAlignment("Alignment has not a Power of Two!");
+//		}
+//#endif
 
 		// faster than adjustment = alignment - (address % alignment);
 		uint8 adjustment = alignment - (reinterpret_cast<size_t>(address) & static_cast<size_t>(alignment - 1));
@@ -421,13 +423,13 @@ namespace Invision {
 	// apply a backward alignment to the address
 	uint8 MemoryBlock::BackwardAlignment(void* address, uint8 alignment)
 	{
-#ifdef _DEBUG
-		if (!isPowerOfTwo(alignment))
-		{
-			INVISION_LOG_WARNING("Allignment is not a power of two");
-			throw InvisionMemoryHasWrongAlignment("Alignment has not a Power of Two!");
-		}
-#endif
+//#ifdef _DEBUG
+//		if (!isPowerOfTwo(alignment))
+//		{
+//			INVISION_LOG_WARNING("Allignment is not a power of two");
+//			throw InvisionMemoryHasWrongAlignment("Alignment has not a Power of Two!");
+//		}
+//#endif
 
 		// faster than adjustment = address % alignment;
 		uint8 adjustment = reinterpret_cast<size_t>(address) & static_cast<size_t>(alignment - 1);
@@ -441,13 +443,13 @@ namespace Invision {
 	// apply a forward alignment including header to the address
 	uint8 MemoryBlock::ForwardAlignmentWithHeader(void* address, uint8 alignment, uint8 headersize)
 	{
-#ifdef _DEBUG
-		if (!isPowerOfTwo(alignment))
-		{
-			INVISION_LOG_WARNING("Allignment is not a power of two");
-			throw InvisionMemoryHasWrongAlignment("Alignment has not a Power of Two!");
-		}
-#endif
+//#ifdef _DEBUG
+//		if (!isPowerOfTwo(alignment))
+//		{
+//			INVISION_LOG_WARNING("Allignment is not a power of two");
+//			throw InvisionMemoryHasWrongAlignment("Alignment has not a Power of Two!");
+//		}
+//#endif
 
 		uint8 adjustment = ForwardAlignment(address, alignment);
 
@@ -470,13 +472,13 @@ namespace Invision {
 	uint8 MemoryBlock::BackwardAlignmentWithHeader(void* address, uint8 alignment, uint8 headersize)
 	{
 
-#ifdef _DEBUG
-		if (!isPowerOfTwo(alignment))
-		{
-			INVISION_LOG_WARNING("Allignment is not a power of two");
-			throw InvisionMemoryHasWrongAlignment("Alignment has not a Power of Two!");
-		}
-#endif
+//#ifdef _DEBUG
+//		if (!isPowerOfTwo(alignment))
+//		{
+//			INVISION_LOG_WARNING("Allignment is not a power of two");
+//			throw InvisionMemoryHasWrongAlignment("Alignment has not a Power of Two!");
+//		}
+//#endif
 
 		uint8 adjustment = BackwardAlignment(address, alignment);
 

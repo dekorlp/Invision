@@ -9,6 +9,7 @@
 #include "renderer\Vulkan\VulkanBaseDevice.h"
 #include "renderer\Vulkan\VulkanBasePresentation.h"
 #include "renderer\Vulkan\VulkanBaseCommandPool.h"
+#include "renderer\Vulkan\VulkanBaseMemoryManager.h"
 #include "Vulkan/Vulkan.h"
 
 namespace Invision
@@ -32,6 +33,7 @@ namespace Invision
 		Invision::VulkanBaseInstance vulkanInstance;
 		Invision::SVulkanBase vulkInstance;
 		Invision::VulkanBaseCommandPool commandPool;
+		Invision::VulkanBaseMemoryManager mMemoryManager;
 
 		PhysicalDeviceProperties ConvertPhysicalDeviceParameters(SVulkanBasePhysicalDevice physicalDeviceStruct);
 
