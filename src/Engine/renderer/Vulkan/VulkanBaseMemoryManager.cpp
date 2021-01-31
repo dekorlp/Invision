@@ -44,14 +44,23 @@ namespace Invision
 	{
 		// Allocate dedicated Memory
 		uint32_t pageSize = static_cast<uint32_t>(vulkanInstance.physicalDeviceStruct.deviceProperties.limits.bufferImageGranularity * 10);
-		mAllocLocalMemory.Init(size / pageSize, sizeof(VulkanBaseBuffer2));
+		mAllocLocalMemory.Init(((size / pageSize) + 1) * (sizeof(VulkanBaseBuffer2) + mAllocLocalMemory.GetLayoutSize()), sizeof(VulkanBaseBuffer2));
 		AllocateMemory(vulkanInstance, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, size, mLocalMemory);
+		for (int i = 0; i < ((size / pageSize) + 1); i++)
+		{
+			mAllocLocalMemory.Allocate();
+		}
+
 
 		// Allocate shared Memory
 		uint32_t sizeShared = 512 * 1024 * 1024;
-		mAllocLocalMemory.Init(sizeShared / pageSize, sizeof(VulkanBaseBuffer2));
+		mAllocSharedMemory.Init((sizeShared / pageSize + 1) * (sizeof(VulkanBaseBuffer2) + mAllocLocalMemory.GetLayoutSize()), sizeof(VulkanBaseBuffer2));
 		AllocateMemory(vulkanInstance, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, sizeShared, mSharedMemory);
 		
+		for (int i = 0; i < ((sizeShared / pageSize) + 1); i++)
+		{
+			mAllocSharedMemory.Allocate();
+		}
 	}
 
 	void VulkanBaseMemoryManager::Destroy(const SVulkanBase &vulkanInstance)

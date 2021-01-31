@@ -190,6 +190,7 @@ void testPoolAllocator()
 
 	alloc.Destroy();
 }
+*/
 
 struct Person
 {
@@ -307,7 +308,7 @@ void testPoolAllocatorStruct()
 	(*Pol1)->ptr = &Pers6;
 
 	alloc.Destroy();
-}*/
+}
 
 
 
@@ -463,7 +464,7 @@ int main()
 	//testLinearAllocator();
 	//testStackAllocator();
 	//testPoolAllocator();
-	//testPoolAllocatorStruct();
+	testPoolAllocatorStruct();
 	//testVector();
 	//testMatrix();
 	//testCast();
