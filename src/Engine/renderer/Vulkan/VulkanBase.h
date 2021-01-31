@@ -11,6 +11,7 @@ namespace Invision
 		bool extensionSupported;
 		VkPhysicalDeviceProperties deviceProperties;
 		VkPhysicalDeviceFeatures deviceFeatures;
+		VkPhysicalDeviceMemoryProperties memoryProperties;
 		unsigned int index;
 
 

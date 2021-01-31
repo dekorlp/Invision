@@ -109,6 +109,7 @@ namespace Invision
 		
 		vkGetPhysicalDeviceProperties(physicalDevice, &(vulkanInstance.physicalDeviceStruct.deviceProperties));
 		vkGetPhysicalDeviceFeatures(physicalDevice, &vulkanInstance.physicalDeviceStruct.deviceFeatures);
+		vkGetPhysicalDeviceMemoryProperties(physicalDevice, &vulkanInstance.physicalDeviceStruct.memoryProperties);
 
 	}
 
