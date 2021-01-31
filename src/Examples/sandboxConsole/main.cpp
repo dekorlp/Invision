@@ -286,7 +286,10 @@ void testPoolAllocatorStruct()
 	alloc.Init(6 * (sizeof(Person) + alloc.GetLayoutSize()), sizeof(Person));
 	//alloc.InitBlocks(6 , sizeof(Person));
 	
-	Person** Pol1 = (Person**)alloc.Allocate();
+	int address = 0;
+
+	void* PolPol = (void*)alloc.Allocate();
+	Person** Pol1 = reinterpret_cast<Person**>(PolPol);
 	*Pol1 = &Pers1;
 	Person** Pol2 = (Person**)alloc.Allocate();
 	*Pol2 = &Pers2;
@@ -304,8 +307,7 @@ void testPoolAllocatorStruct()
 	*Pol7 = &Pers7;
 	Person** Pol8 = (Person**)alloc.Allocate();
 	*Pol8 = &Pers8;
-
-	(*Pol1)->ptr = &Pers6;
+	(*Pol1) = &Pers6;
 
 	alloc.Destroy();
 }
