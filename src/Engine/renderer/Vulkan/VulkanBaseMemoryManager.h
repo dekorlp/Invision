@@ -41,9 +41,6 @@ namespace Invision
 		PoolAllocator mAllocLocalMemory;
 		PoolAllocator mAllocSharedMemory;
 
-		std::vector<void*> mappedLocalMemory;
-		std::vector<void*> mappedSharedMemory;
-
 		VkDeviceMemory mLocalMemory;
 		VkDeviceMemory mSharedMemory;
 	};
