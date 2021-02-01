@@ -54,7 +54,7 @@ namespace Invision
 			((VulkanBaseBuffer2*)(actualLocalMemPosition))->inUse = false;
 			((VulkanBaseBuffer2*)(actualLocalMemPosition))->mSize = 0;
 			((VulkanBaseBuffer2*)(actualLocalMemPosition))->mBuffer = VK_NULL_HANDLE;
-			((VulkanBaseBuffer2*)(actualLocalMemPosition))->mOffset = ((size / pageSize) + 1) * i;
+			((VulkanBaseBuffer2*)(actualLocalMemPosition))->mOffset = pageSize * i;
 
 			if (i == 0)
 			{
@@ -65,26 +65,41 @@ namespace Invision
 
 		// Allocate shared Memory
 		uint32_t sizeShared = 512 * 1024 * 1024;
-		mSharedMemory.mMappedMemory.Init(((size / pageSize) + 1) * (sizeof(VulkanBaseBuffer2) + mSharedMemory.mMappedMemory.GetLayoutSize()), sizeof(VulkanBaseBuffer2));
-		AllocateMemory(vulkanInstance, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, size, mSharedMemory.mMemory);
+		mSharedMemory.mMappedMemory.Init(((sizeShared / pageSize) + 1) * (sizeof(VulkanBaseBuffer2) + mSharedMemory.mMappedMemory.GetLayoutSize()), sizeof(VulkanBaseBuffer2));
+		AllocateMemory(vulkanInstance, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, sizeShared, mSharedMemory.mMemory);
 
-		for (int i = 0; i < ((size / pageSize) + 1); i++)
+		for (int i = 0; i < ((sizeShared / pageSize) + 1); i++)
 		{
-			void* actualLocalMemPosition = mSharedMemory.mMappedMemory.Allocate();
+			void* actualSharedMemPosition = mSharedMemory.mMappedMemory.Allocate();
 
-			((VulkanBaseBuffer2*)(actualLocalMemPosition))->inUse = false;
-			((VulkanBaseBuffer2*)(actualLocalMemPosition))->mSize = 0;
-			((VulkanBaseBuffer2*)(actualLocalMemPosition))->mBuffer = VK_NULL_HANDLE;
-			((VulkanBaseBuffer2*)(actualLocalMemPosition))->mOffset = ((size / pageSize) + 1) * i;
+			((VulkanBaseBuffer2*)(actualSharedMemPosition))->inUse = false;
+			((VulkanBaseBuffer2*)(actualSharedMemPosition))->mSize = 0;
+			((VulkanBaseBuffer2*)(actualSharedMemPosition))->mBuffer = VK_NULL_HANDLE;
+			((VulkanBaseBuffer2*)(actualSharedMemPosition))->mOffset = ((sizeShared / pageSize) + 1 ) * i;
 
 			if (i == 0)
 			{
-				mSharedMemory.mStartPosition = actualLocalMemPosition;
+				mSharedMemory.mStartPosition = actualSharedMemPosition;
 			}
 		}
 		
+
+		
 		VulkanBaseBuffer2* test = reinterpret_cast<VulkanBaseBuffer2*>(MemoryBlock::GetPoolHeader(mLocalMemory.mStartPosition)->next);
 		VulkanBaseBuffer2* test2 = reinterpret_cast<VulkanBaseBuffer2*>(MemoryBlock::GetPoolHeader(test)->next);
+		
+		void* currPos = mLocalMemory.mStartPosition;
+		while(currPos != nullptr)
+		{
+			VulkanBaseBuffer2* test2 = reinterpret_cast<VulkanBaseBuffer2*>(currPos);
+			
+			if (MemoryBlock::GetPoolHeader(currPos)->next == nullptr)
+			{
+				int test = 0;
+			}
+
+			currPos = MemoryBlock::GetPoolHeader(currPos)->next;
+		};
 	}
 	
 
