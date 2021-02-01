@@ -19,6 +19,8 @@ namespace Invision
 		VkDeviceSize  mOffset;
 		VkBuffer mBuffer;
 		MemoryType mMemType;
+		std::vector<void*> allocatedPages;
+		bool inUse = false;
 	};
 
 	class  VulkanBaseMemoryManager
@@ -27,14 +29,20 @@ namespace Invision
 		VulkanBaseMemoryManager();
 		void Init(const SVulkanBase &vulkanInstance, uint32_t size);
 		void Destroy(const SVulkanBase &vulkanInstance);
+		void BindToSharedMemory(const SVulkanBase &vulkanInstance, VkDeviceSize size, VkBufferUsageFlags usage, VkSharingMode sharingMode, VkDeviceSize memoryOffset);
 
 	private:
 
 		uint32_t findMemoryType(const VkPhysicalDevice& device, VkMemoryPropertyFlags properties);
 		void AllocateMemory(const SVulkanBase &vulkanInstance, VkMemoryPropertyFlags properties, uint32_t size, VkDeviceMemory &memory);
+		void CreateBuffer(const SVulkanBase &vulkanInstance, VkBuffer& buffer, VkDeviceMemory& memory, VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkSharingMode sharingMode, VkDeviceSize memoryOffset);
+
 
 		PoolAllocator mAllocLocalMemory;
 		PoolAllocator mAllocSharedMemory;
+
+		std::vector<void*> mappedLocalMemory;
+		std::vector<void*> mappedSharedMemory;
 
 		VkDeviceMemory mLocalMemory;
 		VkDeviceMemory mSharedMemory;
