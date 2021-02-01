@@ -44,40 +44,46 @@ namespace Invision
 	{
 		// Allocate dedicated Memory
 		uint32_t pageSize = static_cast<uint32_t>(vulkanInstance.physicalDeviceStruct.deviceProperties.limits.bufferImageGranularity * 10);
-		mAllocLocalMemory.Init(((size / pageSize) + 1) * (sizeof(VulkanBaseBuffer2) + mAllocLocalMemory.GetLayoutSize()), sizeof(VulkanBaseBuffer2));
-		AllocateMemory(vulkanInstance, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, size, mLocalMemory);
+		mLocalMemory.mMappedMemory.Init(((size / pageSize) + 1) * (sizeof(VulkanBaseBuffer2) + mLocalMemory.mMappedMemory.GetLayoutSize()), sizeof(VulkanBaseBuffer2));
+		AllocateMemory(vulkanInstance, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, size, mLocalMemory.mMemory);
+
 		for (int i = 0; i < ((size / pageSize) + 1); i++)
 		{
-			VulkanBaseBuffer2* buffer = (VulkanBaseBuffer2*)mAllocLocalMemory.Allocate();
-			buffer->inUse = false;
-			buffer->mSize = 0;
-			buffer->mBuffer = VK_NULL_HANDLE;
-			buffer->mOffset = ((size / pageSize) + 1) * i;
-			
+			void* actualLocalMemPosition = mLocalMemory.mMappedMemory.Allocate();
+
+			((VulkanBaseBuffer2*)(actualLocalMemPosition))->inUse = false;
+			((VulkanBaseBuffer2*)(actualLocalMemPosition))->mSize = 0;
+			((VulkanBaseBuffer2*)(actualLocalMemPosition))->mBuffer = VK_NULL_HANDLE;
+			((VulkanBaseBuffer2*)(actualLocalMemPosition))->mOffset = ((size / pageSize) + 1) * i;
+
+			if (i == 0)
+			{
+				mLocalMemory.mStartPosition = actualLocalMemPosition;
+			}
 		}
-	
+		
 
 		// Allocate shared Memory
 		uint32_t sizeShared = 512 * 1024 * 1024;
-		mAllocSharedMemory.Init((sizeShared / pageSize + 1) * (sizeof(VulkanBaseBuffer2) + mAllocLocalMemory.GetLayoutSize()), sizeof(VulkanBaseBuffer2));
-		AllocateMemory(vulkanInstance, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, sizeShared, mSharedMemory);
-		
-		void* start;
+		mSharedMemory.mMappedMemory.Init(((size / pageSize) + 1) * (sizeof(VulkanBaseBuffer2) + mSharedMemory.mMappedMemory.GetLayoutSize()), sizeof(VulkanBaseBuffer2));
+		AllocateMemory(vulkanInstance, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, size, mSharedMemory.mMemory);
 
-		for (int i = 0; i < ((sizeShared / pageSize) + 1); i++)
+		for (int i = 0; i < ((size / pageSize) + 1); i++)
 		{
-			VulkanBaseBuffer2* buffer = (VulkanBaseBuffer2*)mAllocSharedMemory.Allocate();
+			void* actualLocalMemPosition = mSharedMemory.mMappedMemory.Allocate();
+
+			((VulkanBaseBuffer2*)(actualLocalMemPosition))->inUse = false;
+			((VulkanBaseBuffer2*)(actualLocalMemPosition))->mSize = 0;
+			((VulkanBaseBuffer2*)(actualLocalMemPosition))->mBuffer = VK_NULL_HANDLE;
+			((VulkanBaseBuffer2*)(actualLocalMemPosition))->mOffset = ((size / pageSize) + 1) * i;
+
 			if (i == 0)
 			{
-				start = buffer;
+				mSharedMemory.mStartPosition = actualLocalMemPosition;
 			}
-			buffer->inUse = false;
-			buffer->mSize = 0;
-			buffer->mBuffer = VK_NULL_HANDLE;
-			buffer->mOffset = ((sizeShared / pageSize) + 1) * i;
 		}
 		
-		VulkanBaseBuffer2* test = reinterpret_cast<VulkanBaseBuffer2*>(MemoryBlock::GetPoolHeader(start)->next);
+		VulkanBaseBuffer2* test = reinterpret_cast<VulkanBaseBuffer2*>(MemoryBlock::GetPoolHeader(mLocalMemory.mStartPosition)->next);
 		VulkanBaseBuffer2* test2 = reinterpret_cast<VulkanBaseBuffer2*>(MemoryBlock::GetPoolHeader(test)->next);
 	}
 	
@@ -85,13 +91,13 @@ namespace Invision
 	void VulkanBaseMemoryManager::BindToSharedMemory(const SVulkanBase &vulkanInstance, VkDeviceSize size, VkBufferUsageFlags usage, VkSharingMode sharingMode, VkDeviceSize memoryOffset)
 	{
 		VkBuffer* buffer;
-		CreateBuffer(vulkanInstance, *buffer, mSharedMemory, size, usage, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, sharingMode, memoryOffset);
+		CreateBuffer(vulkanInstance, *buffer, mSharedMemory.mMemory, size, usage, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, sharingMode, memoryOffset);
 	}
 
 	void VulkanBaseMemoryManager::Destroy(const SVulkanBase &vulkanInstance)
 	{
-		vkFreeMemory(vulkanInstance.logicalDevice, mLocalMemory, nullptr);
-		vkFreeMemory(vulkanInstance.logicalDevice, mSharedMemory, nullptr);
+		vkFreeMemory(vulkanInstance.logicalDevice, mLocalMemory.mMemory, nullptr);
+		vkFreeMemory(vulkanInstance.logicalDevice, mSharedMemory.mMemory, nullptr);
 	}
 
 	void VulkanBaseMemoryManager::AllocateMemory(const SVulkanBase &vulkanInstance, VkMemoryPropertyFlags properties, uint32_t size, VkDeviceMemory &memory)

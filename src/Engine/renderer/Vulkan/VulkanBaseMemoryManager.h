@@ -13,6 +13,13 @@ namespace Invision
 		MEMORY_TYPE_SHARED = 0x02
 	};
 
+	struct VulkanBaseMemory
+	{
+		VkDeviceMemory mMemory;
+		PoolAllocator mMappedMemory;
+		void* mStartPosition;
+	};
+
 	struct VulkanBaseBuffer2
 	{
 		VkDeviceSize mSize;
@@ -38,11 +45,14 @@ namespace Invision
 		void CreateBuffer(const SVulkanBase &vulkanInstance, VkBuffer& buffer, VkDeviceMemory& memory, VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkSharingMode sharingMode, VkDeviceSize memoryOffset);
 
 
-		PoolAllocator mAllocLocalMemory;
-		PoolAllocator mAllocSharedMemory;
+		//PoolAllocator mAllocLocalMemory;
+		//PoolAllocator mAllocSharedMemory;
 
-		VkDeviceMemory mLocalMemory;
-		VkDeviceMemory mSharedMemory;
+		//VkDeviceMemory mLocalMemory;
+		//VkDeviceMemory mSharedMemory;
+
+		VulkanBaseMemory mLocalMemory;
+		VulkanBaseMemory mSharedMemory;
 	};
 }
 
