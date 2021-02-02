@@ -38,6 +38,7 @@ namespace Invision
 		void Destroy(const SVulkanBase &vulkanInstance);
 		void* BindToSharedMemory(const SVulkanBase &vulkanInstance, VkDeviceSize size, VkBufferUsageFlags usage, VkSharingMode sharingMode);
 		void Unbind(const SVulkanBase &vulkanInstance, void* memory);
+		void CopyDataToMemory(const SVulkanBase &vulkanInstance, void* memory, const void* data);
 
 	private:
 

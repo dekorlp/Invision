@@ -33,6 +33,8 @@ namespace Invision
 		////////////////////
 		// Memory Manager Test
 		void* mem = memoryManager.BindToSharedMemory(vulkanInstance, size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_SHARING_MODE_EXCLUSIVE);
+		memoryManager.CopyDataToMemory(vulkanInstance, mem, source);
+
 		memoryManager.Unbind(vulkanInstance, mem);
 
 

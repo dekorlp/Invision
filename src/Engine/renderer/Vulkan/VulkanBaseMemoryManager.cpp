@@ -204,6 +204,25 @@ namespace Invision
 		}
 	}
 
+	void VulkanBaseMemoryManager::CopyDataToMemory(const SVulkanBase &vulkanInstance, void* memory, const void* data)
+	{
+		VkDeviceMemory deviceMemory = VK_NULL_HANDLE;
+
+		if (((VulkanBaseBuffer2*)(memory))->mMemType == MEMPORY_TYPE_DEDICATED)
+		{
+			deviceMemory = mLocalMemory.mMemory;
+		}
+		else // MEMORY_TYPE_SHARED
+		{
+			deviceMemory = mSharedMemory.mMemory;
+		}
+
+		void* dataUnused;
+		vkMapMemory(vulkanInstance.logicalDevice, deviceMemory, ((VulkanBaseBuffer2*)(memory))->mOffset, ((VulkanBaseBuffer2*)(memory))->mSize, 0, &dataUnused);
+		memcpy(dataUnused, data, (size_t)((VulkanBaseBuffer2*)(memory))->mSize);
+		vkUnmapMemory(vulkanInstance.logicalDevice, deviceMemory);
+	}
+
 	void VulkanBaseMemoryManager::Destroy(const SVulkanBase &vulkanInstance)
 	{
 		vkFreeMemory(vulkanInstance.logicalDevice, mLocalMemory.mMemory, nullptr);
