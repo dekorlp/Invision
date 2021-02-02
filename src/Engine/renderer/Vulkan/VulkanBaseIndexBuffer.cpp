@@ -32,11 +32,13 @@ namespace Invision
 
 		////////////////////
 		// Memory Manager Test
-		void* mem = memoryManager.BindToSharedMemory(vulkanInstance, size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_SHARING_MODE_EXCLUSIVE);
-		memoryManager.CopyDataToMemory(vulkanInstance, mem, source);
+		void* shared = memoryManager.BindToSharedMemory(vulkanInstance, size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_SHARING_MODE_EXCLUSIVE);
+		memoryManager.CopyDataToMemory(vulkanInstance, shared, source);
+		void* dedicated = memoryManager.BindToDedicatedMemory(vulkanInstance, size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT, VK_SHARING_MODE_EXCLUSIVE);
+		memoryManager.CopyMemoryToMemory(vulkanInstance, commandPool, shared, dedicated);
+		memoryManager.Unbind(vulkanInstance, shared);
 
-		memoryManager.Unbind(vulkanInstance, mem);
-
+		memoryManager.Unbind(vulkanInstance, dedicated);
 
 		return *this;
 	}
