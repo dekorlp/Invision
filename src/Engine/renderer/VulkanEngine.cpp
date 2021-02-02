@@ -244,6 +244,10 @@ namespace Invision
 		return physicalDevices;
 	}
 
+	VulkanBaseMemoryManager& VulkanEngine::GetMemoryManager()
+	{
+		return mMemoryManager;
+	}
 
 	VulkanEngine::~VulkanEngine()
 	{

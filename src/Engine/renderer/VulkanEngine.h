@@ -50,6 +50,7 @@ namespace Invision
 		INVISION_API std::shared_ptr<IGraphicsInstance> CreateInstance(CanvasDimensions canvas, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, bool activateDepthTest) override;
 
 		INVISION_API std::vector< PhysicalDeviceProperties> GetPhysicalDevices();
+		INVISION_API Invision::VulkanBaseMemoryManager& GetMemoryManager();
 
 		INVISION_API ~VulkanEngine();
 
