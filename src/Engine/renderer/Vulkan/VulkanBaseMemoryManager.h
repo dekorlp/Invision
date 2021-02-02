@@ -37,6 +37,7 @@ namespace Invision
 		void Init(const SVulkanBase &vulkanInstance, uint32_t size);
 		void Destroy(const SVulkanBase &vulkanInstance);
 		void* BindToSharedMemory(const SVulkanBase &vulkanInstance, VkDeviceSize size, VkBufferUsageFlags usage, VkSharingMode sharingMode);
+		void Unbind(const SVulkanBase &vulkanInstance, void* memory);
 
 	private:
 

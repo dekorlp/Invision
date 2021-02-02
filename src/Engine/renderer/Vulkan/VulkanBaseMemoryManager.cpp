@@ -170,6 +170,40 @@ namespace Invision
 		return selectedPage;
 	}
 
+	void VulkanBaseMemoryManager::Unbind(const SVulkanBase &vulkanInstance, void* memory)
+	{
+		// free allocated pages
+		unsigned int countOfPages = 0;
+
+		((VulkanBaseBuffer2*)(memory))->inUse = false;
+		countOfPages = ((VulkanBaseBuffer2*)(memory))->mAllocatedPages;
+
+		unsigned int iterator = 0;
+		void* currPos = memory;
+		while (currPos != nullptr)
+		{
+			currPos = MemoryBlock::GetPoolHeader(currPos)->next;
+
+			if (iterator <= countOfPages)
+			{
+				((VulkanBaseBuffer2*)(currPos))->inUse = false;
+			}
+			else
+			{
+				break;
+			}
+
+			iterator++;
+		}
+
+		// free buffer
+		if (((VulkanBaseBuffer2*)(memory))->mBuffer != VK_NULL_HANDLE)
+		{
+			vkDestroyBuffer(vulkanInstance.logicalDevice, ((VulkanBaseBuffer2*)(memory))->mBuffer, nullptr);
+			((VulkanBaseBuffer2*)(memory))->mBuffer = VK_NULL_HANDLE;
+		}
+	}
+
 	void VulkanBaseMemoryManager::Destroy(const SVulkanBase &vulkanInstance)
 	{
 		vkFreeMemory(vulkanInstance.logicalDevice, mLocalMemory.mMemory, nullptr);
