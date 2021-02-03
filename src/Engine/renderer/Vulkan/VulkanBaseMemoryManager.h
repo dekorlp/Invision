@@ -41,9 +41,12 @@ namespace Invision
 		void Destroy(const SVulkanBase &vulkanInstance);
 		void* BindToSharedMemory(const SVulkanBase &vulkanInstance, VkDeviceSize size, VkBufferUsageFlags usage, VkSharingMode sharingMode);
 		void* BindToDedicatedMemory(const SVulkanBase &vulkanInstance, VkDeviceSize size, VkBufferUsageFlags usage, VkSharingMode sharingMode);
+		void* BindImageToDedicatedMemory(const SVulkanBase &vulkanInstance, VkImage &image, VkDeviceSize size);
 		void Unbind(const SVulkanBase &vulkanInstance, void* memory);
 		void CopyDataToBuffer(const SVulkanBase &vulkanInstance, void* memory, const void* data);
 		void CopyBufferToBuffer(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, void* src, void* dest);
+		void CopyBufferToImage(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, void* src, VkImage& image, uint32_t width, uint32_t height);
+
 
 		VkBuffer GetBuffer(void* handle)
 		{
@@ -65,6 +68,7 @@ namespace Invision
 		static void endSingleTimeCommands(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool, VkCommandBuffer &commandBuffer);
 
 		void* BindBufferToMemory(const SVulkanBase &vulkanInstance, VulkanBaseMemory &memory, VkDeviceSize size, VkBufferUsageFlags usage, VkSharingMode sharingMode, MemoryType memType);
+		void* BindBufferToMemory(const SVulkanBase &vulkanInstance, VulkanBaseMemory &memory, VkDeviceSize size, MemoryType memType);
 
 		VulkanBaseMemory mLocalMemory;
 		VulkanBaseMemory mSharedMemory;

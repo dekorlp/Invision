@@ -80,7 +80,79 @@ namespace Invision
 		return selectedPage;
 	}
 
+	void* VulkanBaseMemoryManager::BindImageToDedicatedMemory(const SVulkanBase &vulkanInstance, VkImage &image, VkDeviceSize size)
+	{
+		void* selectedPage = BindBufferToMemory(vulkanInstance, mLocalMemory, size, MEMORY_TYPE_DEDICATED);
+
+		vkBindImageMemory(vulkanInstance.logicalDevice, image, mLocalMemory.mMemory, ((VulkanBaseBuffer2*)(selectedPage))->mOffset);
+		return selectedPage;
+	}
+
 	void* VulkanBaseMemoryManager::BindBufferToMemory(const SVulkanBase &vulkanInstance, VulkanBaseMemory &memory, VkDeviceSize size, VkBufferUsageFlags usage, VkSharingMode sharingMode, MemoryType memType)
+	{
+		uint32_t pageSize = static_cast<uint32_t>(vulkanInstance.physicalDeviceStruct.deviceProperties.limits.bufferImageGranularity * 10);
+		VkDeviceSize countOfPages = ((size / pageSize) + 1);
+		unsigned int iterator = 0;
+
+		//
+		VulkanBaseBuffer2 *selectedPage = nullptr;
+
+		// find space in allocation table
+		void* currPos = memory.mStartPosition;
+		while (currPos != nullptr)
+		{
+			if (iterator <= countOfPages)
+			{
+				//VulkanBaseBuffer2* buffer = reinterpret_cast<VulkanBaseBuffer2*>(currPos);
+				if (((VulkanBaseBuffer2*)(currPos))->inUse == false)
+				{
+					if (selectedPage == nullptr)
+					{
+
+						((VulkanBaseBuffer2*)(currPos))->inUse = true;
+						((VulkanBaseBuffer2*)(currPos))->mSize = size;
+						((VulkanBaseBuffer2*)(currPos))->mAllocatedPages = countOfPages - 1;
+						((VulkanBaseBuffer2*)(currPos))->mMemType = memType;
+						((VulkanBaseBuffer2*)(currPos))->mBufferOffset = 0;
+						selectedPage = ((VulkanBaseBuffer2*)(currPos));
+
+					}
+					else
+					{
+						((VulkanBaseBuffer2*)(currPos))->inUse = true;
+						((VulkanBaseBuffer2*)(currPos))->mSize = size;
+						((VulkanBaseBuffer2*)(currPos))->mSize = memType;
+
+					}
+
+					iterator++;
+				}
+				else
+				{
+					if (selectedPage != nullptr)
+					{
+						selectedPage->mAllocatedPages = 0;
+						selectedPage->inUse = false;
+						selectedPage = nullptr;
+						iterator = 0;
+					}
+				}
+
+				if (iterator == countOfPages)
+				{
+					break;
+				}
+
+
+			}
+
+			currPos = MemoryBlock::GetPoolHeader(currPos)->next;
+		};
+
+		return selectedPage;
+	}
+
+	void* VulkanBaseMemoryManager::BindBufferToMemory(const SVulkanBase &vulkanInstance, VulkanBaseMemory &memory, VkDeviceSize size, MemoryType memType)
 	{
 		uint32_t pageSize = static_cast<uint32_t>(vulkanInstance.physicalDeviceStruct.deviceProperties.limits.bufferImageGranularity * 10);
 		VkDeviceSize countOfPages = ((size / pageSize) + 1);
@@ -160,6 +232,39 @@ namespace Invision
 		copyRegion.srcOffset = 0;
 		copyRegion.dstOffset = 0;
 		vkCmdCopyBuffer(commandBuffer, ((VulkanBaseBuffer2*)(src))->mBuffer, ((VulkanBaseBuffer2*)(dest))->mBuffer, 1, &copyRegion);
+
+		endSingleTimeCommands(vulkanInstance, commandPool, commandBuffer);
+	}
+
+	void VulkanBaseMemoryManager::CopyBufferToImage(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, void* src, VkImage& image, uint32_t width, uint32_t height)
+	{
+		VkCommandBuffer commandBuffer = beginSingleTimeCommands(vulkanInstance, commandPool);
+
+		VkBufferImageCopy region{};
+		region.bufferOffset = 0;
+		region.bufferRowLength = 0;
+		region.bufferImageHeight = 0;
+
+		region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+		region.imageSubresource.mipLevel = 0;
+		region.imageSubresource.baseArrayLayer = 0;
+		region.imageSubresource.layerCount = 1;
+
+		region.imageOffset = { 0, 0, 0 };
+		region.imageExtent = {
+			width,
+			height,
+			1
+		};
+
+		vkCmdCopyBufferToImage(
+			commandBuffer,
+			((VulkanBaseBuffer2*)(src))->mBuffer,
+			image,
+			VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+			1,
+			&region
+		);
 
 		endSingleTimeCommands(vulkanInstance, commandPool, commandBuffer);
 	}
