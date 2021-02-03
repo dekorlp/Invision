@@ -2,7 +2,6 @@
 #define VULKAN_BASE_UNIFORM_BUFFER_H
 
 #include "vulkan\vulkan.h"
-#include "VulkanBaseBuffer.h"
 #include "VulkanBaseDescriptorPool.h"
 
 namespace Invision
@@ -19,7 +18,6 @@ namespace Invision
 			VkShaderStageFlags mStageFlags;
 			VkDeviceSize mBufferSize;
 			VkDeviceSize mOffset;
-			//VulkanBaseBuffer mUniformBuffer;
 			void* mBufferHandle;
 			VkDescriptorImageInfo mImageInfo;
 			VkDescriptorBufferInfo mBufferInfo;

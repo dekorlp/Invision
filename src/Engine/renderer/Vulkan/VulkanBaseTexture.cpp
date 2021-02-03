@@ -147,7 +147,7 @@ namespace Invision
 
 	void VulkanBaseTexture::TransitionImageLayout(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout, bool useDepthRessource, uint32_t mipLevels)
 	{
-		VkCommandBuffer commandBuffer = VulkanBaseBuffer::beginSingleTimeCommands(vulkanInstance, commandPool);
+		VkCommandBuffer commandBuffer = VulkanBaseMemoryManager::beginSingleTimeCommands(vulkanInstance, commandPool);
 
 		VkImageMemoryBarrier barrier{};
 		barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
@@ -225,40 +225,7 @@ namespace Invision
 		);
 
 
-		VulkanBaseBuffer::endSingleTimeCommands(vulkanInstance, commandPool, commandBuffer);
-	}
-
-	void VulkanBaseTexture::CopyBufferToImage(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VkBuffer buffer, uint32_t width, uint32_t height)
-	{
-		VkCommandBuffer commandBuffer = VulkanBaseBuffer::beginSingleTimeCommands(vulkanInstance, commandPool);
-
-		VkBufferImageCopy region{};
-		region.bufferOffset = 0;
-		region.bufferRowLength = 0;
-		region.bufferImageHeight = 0;
-
-		region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-		region.imageSubresource.mipLevel = 0;
-		region.imageSubresource.baseArrayLayer = 0;
-		region.imageSubresource.layerCount = 1;
-
-		region.imageOffset = { 0, 0, 0 };
-		region.imageExtent = {
-			width,
-			height,
-			1
-		};
-
-		vkCmdCopyBufferToImage(
-			commandBuffer,
-			buffer,
-			mImage,
-			VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-			1,
-			&region
-		);
-
-		VulkanBaseBuffer::endSingleTimeCommands(vulkanInstance, commandPool, commandBuffer);
+		VulkanBaseMemoryManager::endSingleTimeCommands(vulkanInstance, commandPool, commandBuffer);
 	}
 
 	void VulkanBaseTexture::GenerateMipmaps(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VkFormat imageFormat, int width, int height, uint32_t mipLevels)
@@ -272,7 +239,7 @@ namespace Invision
 			throw VulkanBaseException("texture image format does not support linear blitting!");
 		}
 
-		VkCommandBuffer commandBuffer = VulkanBaseBuffer::beginSingleTimeCommands(vulkanInstance, commandPool);
+		VkCommandBuffer commandBuffer = VulkanBaseMemoryManager::beginSingleTimeCommands(vulkanInstance, commandPool);
 
 		VkImageMemoryBarrier barrier{};
 		barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
@@ -349,7 +316,7 @@ namespace Invision
 
 
 
-		VulkanBaseBuffer::endSingleTimeCommands(vulkanInstance, commandPool, commandBuffer);
+		VulkanBaseMemoryManager::endSingleTimeCommands(vulkanInstance, commandPool, commandBuffer);
 
 	}
 

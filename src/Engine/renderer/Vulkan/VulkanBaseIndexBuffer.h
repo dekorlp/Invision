@@ -2,7 +2,6 @@
 #define VULKAN_BASE_INDEX_BUFFER_H
 
 #include "vulkan\vulkan.h"
-#include "VulkanBaseBuffer.h"
 
 namespace Invision
 {

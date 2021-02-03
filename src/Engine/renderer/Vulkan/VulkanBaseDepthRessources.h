@@ -9,6 +9,8 @@
 namespace Invision
 {
 	class VulkanBaseMemoryManager;
+	class VulkanBaseCommandPool;
+
 	class VulkanBaseDepthRessources : VulkanBaseTexture
 	{
 	private:

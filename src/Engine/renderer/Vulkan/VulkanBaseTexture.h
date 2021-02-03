@@ -3,12 +3,13 @@
 
 #include "vulkan\vulkan.h"
 #include "VulkanBasePresentation.h"
-#include "VulkanBaseBuffer.h"
 
 namespace Invision
 {
 
 	class VulkanBaseMemoryManager;
+	class VulkanBaseCommandPool;
+
 	class  VulkanBaseTexture
 	{
 		public:
