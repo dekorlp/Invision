@@ -63,71 +63,15 @@ namespace Invision
 
 	void* VulkanBaseMemoryManager::BindToSharedMemory(const SVulkanBase &vulkanInstance, VkDeviceSize size, VkBufferUsageFlags usage, VkSharingMode sharingMode)
 	{
-		uint32_t pageSize = static_cast<uint32_t>(vulkanInstance.physicalDeviceStruct.deviceProperties.limits.bufferImageGranularity * 10);
-		VkDeviceSize countOfPages = ((size / pageSize) + 1);
-		unsigned int iterator = 0;
-
-		//
-		VulkanBaseBuffer2 *selectedPage = nullptr;
-
-		// find space in allocation table
-		void* currPos = mSharedMemory.mStartPosition;
-		while (currPos != nullptr)
-		{
-			if (iterator <= countOfPages)
-			{
-				//VulkanBaseBuffer2* buffer = reinterpret_cast<VulkanBaseBuffer2*>(currPos);
-				if (((VulkanBaseBuffer2*)(currPos))->inUse == false)
-				{
-					if (selectedPage == nullptr)
-					{
-
-						((VulkanBaseBuffer2*)(currPos))->inUse = true;
-						((VulkanBaseBuffer2*)(currPos))->mSize = size;
-						((VulkanBaseBuffer2*)(currPos))->mAllocatedPages = countOfPages - 1;
-						((VulkanBaseBuffer2*)(currPos))->mMemType = MEMORY_TYPE_SHARED;
-						selectedPage = ((VulkanBaseBuffer2*)(currPos));
-						
-					}
-					else
-					{
-						((VulkanBaseBuffer2*)(currPos))->inUse = true;
-						((VulkanBaseBuffer2*)(currPos))->mSize = size;
-						((VulkanBaseBuffer2*)(currPos))->mSize = MEMORY_TYPE_SHARED;
-						
-					}
-
-					iterator++;
-				}
-				else
-				{
-					if (selectedPage != nullptr)
-					{
-						selectedPage->mAllocatedPages = 0;
-						selectedPage->inUse = false;
-						selectedPage = nullptr;
-						iterator = 0;
-					}
-				}
-
-				if (iterator == countOfPages)
-				{
-					break;
-				}
-
-				
-			}
-
-			currPos = MemoryBlock::GetPoolHeader(currPos)->next;
-		};
-
-		// create Vulkan Buffer
-		CreateBuffer(vulkanInstance, selectedPage->mBuffer, mSharedMemory.mMemory, size, usage, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, sharingMode, selectedPage->mOffset);
-
-		return selectedPage;
+		return BindBufferToMemory(vulkanInstance, mSharedMemory, size, usage, sharingMode, MEMORY_TYPE_SHARED);
 	}
 
 	void* VulkanBaseMemoryManager::BindToDedicatedMemory(const SVulkanBase &vulkanInstance, VkDeviceSize size, VkBufferUsageFlags usage, VkSharingMode sharingMode)
+	{
+		return BindBufferToMemory(vulkanInstance, mLocalMemory, size, usage, sharingMode, MEMORY_TYPE_DEDICATED);
+	}
+
+	void* VulkanBaseMemoryManager::BindBufferToMemory(const SVulkanBase &vulkanInstance, VulkanBaseMemory &memory, VkDeviceSize size, VkBufferUsageFlags usage, VkSharingMode sharingMode, MemoryType memType)
 	{
 		uint32_t pageSize = static_cast<uint32_t>(vulkanInstance.physicalDeviceStruct.deviceProperties.limits.bufferImageGranularity * 10);
 		VkDeviceSize countOfPages = ((size / pageSize) + 1);
@@ -137,7 +81,7 @@ namespace Invision
 		VulkanBaseBuffer2 *selectedPage = nullptr;
 
 		// find space in allocation table
-		void* currPos = mLocalMemory.mStartPosition;
+		void* currPos = memory.mStartPosition;
 		while (currPos != nullptr)
 		{
 			if (iterator <= countOfPages)
@@ -151,7 +95,7 @@ namespace Invision
 						((VulkanBaseBuffer2*)(currPos))->inUse = true;
 						((VulkanBaseBuffer2*)(currPos))->mSize = size;
 						((VulkanBaseBuffer2*)(currPos))->mAllocatedPages = countOfPages - 1;
-						((VulkanBaseBuffer2*)(currPos))->mMemType = MEMORY_TYPE_DEDICATED;
+						((VulkanBaseBuffer2*)(currPos))->mMemType = memType;
 						((VulkanBaseBuffer2*)(currPos))->mBufferOffset = 0;
 						selectedPage = ((VulkanBaseBuffer2*)(currPos));
 
@@ -160,7 +104,7 @@ namespace Invision
 					{
 						((VulkanBaseBuffer2*)(currPos))->inUse = true;
 						((VulkanBaseBuffer2*)(currPos))->mSize = size;
-						((VulkanBaseBuffer2*)(currPos))->mSize = MEMORY_TYPE_DEDICATED;
+						((VulkanBaseBuffer2*)(currPos))->mSize = memType;
 
 					}
 
@@ -182,14 +126,21 @@ namespace Invision
 					break;
 				}
 
-				
+
 			}
 
 			currPos = MemoryBlock::GetPoolHeader(currPos)->next;
 		};
 
 		// create Vulkan Buffer
-		CreateBuffer(vulkanInstance, selectedPage->mBuffer, mLocalMemory.mMemory, size, usage, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, sharingMode, selectedPage->mOffset);
+		if (memType == MEMORY_TYPE_DEDICATED)
+		{
+			CreateBuffer(vulkanInstance, selectedPage->mBuffer, memory.mMemory, size, usage, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, sharingMode, selectedPage->mOffset);
+		}
+		else // MEMORY_TYPE_SHARED
+		{
+			CreateBuffer(vulkanInstance, selectedPage->mBuffer, memory.mMemory, size, usage, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, sharingMode, selectedPage->mOffset);
+		}
 
 		return selectedPage;
 	}
