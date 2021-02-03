@@ -15,17 +15,17 @@ namespace Invision
 	{
 		// Allocate dedicated Memory
 		uint32_t pageSize = static_cast<uint32_t>(vulkanInstance.physicalDeviceStruct.deviceProperties.limits.bufferImageGranularity * 10);
-		mLocalMemory.mMappedMemory.Init(((size / pageSize) + 1) * (sizeof(VulkanBaseBuffer2) + mLocalMemory.mMappedMemory.GetLayoutSize()), sizeof(VulkanBaseBuffer2));
+		mLocalMemory.mMappedMemory.Init(((size / pageSize) + 1) * (sizeof(VulkanBaseBuffer) + mLocalMemory.mMappedMemory.GetLayoutSize()), sizeof(VulkanBaseBuffer));
 
 		for (unsigned int i = 0; i < ((size / pageSize) + 1); i++)
 		{
 			void* actualLocalMemPosition = mLocalMemory.mMappedMemory.Allocate();
 
-			((VulkanBaseBuffer2*)(actualLocalMemPosition))->inUse = false;
-			((VulkanBaseBuffer2*)(actualLocalMemPosition))->mSize = 0;
-			((VulkanBaseBuffer2*)(actualLocalMemPosition))->mBuffer = VK_NULL_HANDLE;
-			((VulkanBaseBuffer2*)(actualLocalMemPosition))->mAllocatedPages = 0;
-			((VulkanBaseBuffer2*)(actualLocalMemPosition))->mOffset = pageSize * i;
+			((VulkanBaseBuffer*)(actualLocalMemPosition))->inUse = false;
+			((VulkanBaseBuffer*)(actualLocalMemPosition))->mSize = 0;
+			((VulkanBaseBuffer*)(actualLocalMemPosition))->mBuffer = VK_NULL_HANDLE;
+			((VulkanBaseBuffer*)(actualLocalMemPosition))->mAllocatedPages = 0;
+			((VulkanBaseBuffer*)(actualLocalMemPosition))->mOffset = pageSize * i;
 
 			if (i == 0)
 			{
@@ -37,7 +37,7 @@ namespace Invision
 
 		// Allocate shared Memory
 		uint32_t sizeShared = 512 * 1024 * 1024;
-		mSharedMemory.mMappedMemory.Init(((sizeShared / pageSize) + 1) * (sizeof(VulkanBaseBuffer2) + mSharedMemory.mMappedMemory.GetLayoutSize()), sizeof(VulkanBaseBuffer2));
+		mSharedMemory.mMappedMemory.Init(((sizeShared / pageSize) + 1) * (sizeof(VulkanBaseBuffer) + mSharedMemory.mMappedMemory.GetLayoutSize()), sizeof(VulkanBaseBuffer));
 
 		
 
@@ -45,11 +45,11 @@ namespace Invision
 		{
 			void* actualSharedMemPosition = mSharedMemory.mMappedMemory.Allocate();
 
-			((VulkanBaseBuffer2*)(actualSharedMemPosition))->inUse = false;
-			((VulkanBaseBuffer2*)(actualSharedMemPosition))->mSize = 0;
-			((VulkanBaseBuffer2*)(actualSharedMemPosition))->mBuffer = VK_NULL_HANDLE;
-			((VulkanBaseBuffer2*)(actualSharedMemPosition))->mAllocatedPages = 0;
-			((VulkanBaseBuffer2*)(actualSharedMemPosition))->mOffset = pageSize * i;
+			((VulkanBaseBuffer*)(actualSharedMemPosition))->inUse = false;
+			((VulkanBaseBuffer*)(actualSharedMemPosition))->mSize = 0;
+			((VulkanBaseBuffer*)(actualSharedMemPosition))->mBuffer = VK_NULL_HANDLE;
+			((VulkanBaseBuffer*)(actualSharedMemPosition))->mAllocatedPages = 0;
+			((VulkanBaseBuffer*)(actualSharedMemPosition))->mOffset = pageSize * i;
 
 			if (i == 0)
 			{
@@ -65,7 +65,7 @@ namespace Invision
 	{
 		void* selectedPage = BindBufferToMemory(vulkanInstance, mSharedMemory, size, usage, sharingMode, MEMORY_TYPE_SHARED);
 
-		CreateBuffer(vulkanInstance, ((VulkanBaseBuffer2*)(selectedPage))->mBuffer, mSharedMemory.mMemory, size, usage, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, sharingMode, ((VulkanBaseBuffer2*)(selectedPage))->mOffset);
+		CreateBuffer(vulkanInstance, ((VulkanBaseBuffer*)(selectedPage))->mBuffer, mSharedMemory.mMemory, size, usage, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, sharingMode, ((VulkanBaseBuffer*)(selectedPage))->mOffset);
 	
 		return selectedPage;
 	}
@@ -75,7 +75,7 @@ namespace Invision
 		void* selectedPage = BindBufferToMemory(vulkanInstance, mLocalMemory, size, usage, sharingMode, MEMORY_TYPE_DEDICATED);
 
 
-		CreateBuffer(vulkanInstance, ((VulkanBaseBuffer2*)(selectedPage))->mBuffer, mLocalMemory.mMemory, size, usage, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, sharingMode, ((VulkanBaseBuffer2*)(selectedPage))->mOffset);
+		CreateBuffer(vulkanInstance, ((VulkanBaseBuffer*)(selectedPage))->mBuffer, mLocalMemory.mMemory, size, usage, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, sharingMode, ((VulkanBaseBuffer*)(selectedPage))->mOffset);
 
 		return selectedPage;
 	}
@@ -84,7 +84,7 @@ namespace Invision
 	{
 		void* selectedPage = BindBufferToMemory(vulkanInstance, mLocalMemory, size, MEMORY_TYPE_DEDICATED);
 
-		vkBindImageMemory(vulkanInstance.logicalDevice, image, mLocalMemory.mMemory, ((VulkanBaseBuffer2*)(selectedPage))->mOffset);
+		vkBindImageMemory(vulkanInstance.logicalDevice, image, mLocalMemory.mMemory, ((VulkanBaseBuffer*)(selectedPage))->mOffset);
 		return selectedPage;
 	}
 
@@ -95,7 +95,7 @@ namespace Invision
 		unsigned int iterator = 0;
 
 		//
-		VulkanBaseBuffer2 *selectedPage = nullptr;
+		VulkanBaseBuffer *selectedPage = nullptr;
 
 		// find space in allocation table
 		void* currPos = memory.mStartPosition;
@@ -104,24 +104,24 @@ namespace Invision
 			if (iterator <= countOfPages)
 			{
 				//VulkanBaseBuffer2* buffer = reinterpret_cast<VulkanBaseBuffer2*>(currPos);
-				if (((VulkanBaseBuffer2*)(currPos))->inUse == false)
+				if (((VulkanBaseBuffer*)(currPos))->inUse == false)
 				{
 					if (selectedPage == nullptr)
 					{
 
-						((VulkanBaseBuffer2*)(currPos))->inUse = true;
-						((VulkanBaseBuffer2*)(currPos))->mSize = size;
-						((VulkanBaseBuffer2*)(currPos))->mAllocatedPages = countOfPages - 1;
-						((VulkanBaseBuffer2*)(currPos))->mMemType = memType;
-						((VulkanBaseBuffer2*)(currPos))->mBufferOffset = 0;
-						selectedPage = ((VulkanBaseBuffer2*)(currPos));
+						((VulkanBaseBuffer*)(currPos))->inUse = true;
+						((VulkanBaseBuffer*)(currPos))->mSize = size;
+						((VulkanBaseBuffer*)(currPos))->mAllocatedPages = countOfPages - 1;
+						((VulkanBaseBuffer*)(currPos))->mMemType = memType;
+						((VulkanBaseBuffer*)(currPos))->mBufferOffset = 0;
+						selectedPage = ((VulkanBaseBuffer*)(currPos));
 
 					}
 					else
 					{
-						((VulkanBaseBuffer2*)(currPos))->inUse = true;
-						((VulkanBaseBuffer2*)(currPos))->mSize = size;
-						((VulkanBaseBuffer2*)(currPos))->mSize = memType;
+						((VulkanBaseBuffer*)(currPos))->inUse = true;
+						((VulkanBaseBuffer*)(currPos))->mSize = size;
+						((VulkanBaseBuffer*)(currPos))->mSize = memType;
 
 					}
 
@@ -159,7 +159,7 @@ namespace Invision
 		unsigned int iterator = 0;
 
 		//
-		VulkanBaseBuffer2 *selectedPage = nullptr;
+		VulkanBaseBuffer *selectedPage = nullptr;
 
 		// find space in allocation table
 		void* currPos = memory.mStartPosition;
@@ -168,24 +168,24 @@ namespace Invision
 			if (iterator <= countOfPages)
 			{
 				//VulkanBaseBuffer2* buffer = reinterpret_cast<VulkanBaseBuffer2*>(currPos);
-				if (((VulkanBaseBuffer2*)(currPos))->inUse == false)
+				if (((VulkanBaseBuffer*)(currPos))->inUse == false)
 				{
 					if (selectedPage == nullptr)
 					{
 
-						((VulkanBaseBuffer2*)(currPos))->inUse = true;
-						((VulkanBaseBuffer2*)(currPos))->mSize = size;
-						((VulkanBaseBuffer2*)(currPos))->mAllocatedPages = countOfPages - 1;
-						((VulkanBaseBuffer2*)(currPos))->mMemType = memType;
-						((VulkanBaseBuffer2*)(currPos))->mBufferOffset = 0;
-						selectedPage = ((VulkanBaseBuffer2*)(currPos));
+						((VulkanBaseBuffer*)(currPos))->inUse = true;
+						((VulkanBaseBuffer*)(currPos))->mSize = size;
+						((VulkanBaseBuffer*)(currPos))->mAllocatedPages = countOfPages - 1;
+						((VulkanBaseBuffer*)(currPos))->mMemType = memType;
+						((VulkanBaseBuffer*)(currPos))->mBufferOffset = 0;
+						selectedPage = ((VulkanBaseBuffer*)(currPos));
 
 					}
 					else
 					{
-						((VulkanBaseBuffer2*)(currPos))->inUse = true;
-						((VulkanBaseBuffer2*)(currPos))->mSize = size;
-						((VulkanBaseBuffer2*)(currPos))->mSize = memType;
+						((VulkanBaseBuffer*)(currPos))->inUse = true;
+						((VulkanBaseBuffer*)(currPos))->mSize = size;
+						((VulkanBaseBuffer*)(currPos))->mSize = memType;
 
 					}
 
@@ -219,7 +219,7 @@ namespace Invision
 	void VulkanBaseMemoryManager::CopyBufferToBuffer(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, void* src, void* dest)
 	{
 		// check size
-		if (((VulkanBaseBuffer2*)(dest))->mSize < ((VulkanBaseBuffer2*)(src))->mSize)
+		if (((VulkanBaseBuffer*)(dest))->mSize < ((VulkanBaseBuffer*)(src))->mSize)
 		{
 			throw std::runtime_error("Destination size is smaller than source size!");
 		}
@@ -228,10 +228,10 @@ namespace Invision
 		VkCommandBuffer commandBuffer = beginSingleTimeCommands(vulkanInstance, commandPool);
 
 		VkBufferCopy copyRegion{};
-		copyRegion.size = ((VulkanBaseBuffer2*)(src))->mSize;
+		copyRegion.size = ((VulkanBaseBuffer*)(src))->mSize;
 		copyRegion.srcOffset = 0;
 		copyRegion.dstOffset = 0;
-		vkCmdCopyBuffer(commandBuffer, ((VulkanBaseBuffer2*)(src))->mBuffer, ((VulkanBaseBuffer2*)(dest))->mBuffer, 1, &copyRegion);
+		vkCmdCopyBuffer(commandBuffer, ((VulkanBaseBuffer*)(src))->mBuffer, ((VulkanBaseBuffer*)(dest))->mBuffer, 1, &copyRegion);
 
 		endSingleTimeCommands(vulkanInstance, commandPool, commandBuffer);
 	}
@@ -259,7 +259,7 @@ namespace Invision
 
 		vkCmdCopyBufferToImage(
 			commandBuffer,
-			((VulkanBaseBuffer2*)(src))->mBuffer,
+			((VulkanBaseBuffer*)(src))->mBuffer,
 			image,
 			VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
 			1,
@@ -274,8 +274,8 @@ namespace Invision
 		// free allocated pages
 		VkDeviceSize countOfPages = 0;
 
-		((VulkanBaseBuffer2*)(memory))->inUse = false;
-		countOfPages = ((VulkanBaseBuffer2*)(memory))->mAllocatedPages;
+		((VulkanBaseBuffer*)(memory))->inUse = false;
+		countOfPages = ((VulkanBaseBuffer*)(memory))->mAllocatedPages;
 
 		unsigned int iterator = 0;
 		void* currPos = memory;
@@ -285,7 +285,7 @@ namespace Invision
 
 			if (iterator <= countOfPages)
 			{
-				((VulkanBaseBuffer2*)(currPos))->inUse = false;
+				((VulkanBaseBuffer*)(currPos))->inUse = false;
 			}
 			else
 			{
@@ -296,10 +296,10 @@ namespace Invision
 		}
 
 		// free buffer
-		if (((VulkanBaseBuffer2*)(memory))->mBuffer != VK_NULL_HANDLE)
+		if (((VulkanBaseBuffer*)(memory))->mBuffer != VK_NULL_HANDLE)
 		{
-			vkDestroyBuffer(vulkanInstance.logicalDevice, ((VulkanBaseBuffer2*)(memory))->mBuffer, nullptr);
-			((VulkanBaseBuffer2*)(memory))->mBuffer = VK_NULL_HANDLE;
+			vkDestroyBuffer(vulkanInstance.logicalDevice, ((VulkanBaseBuffer*)(memory))->mBuffer, nullptr);
+			((VulkanBaseBuffer*)(memory))->mBuffer = VK_NULL_HANDLE;
 		}
 	}
 
@@ -307,7 +307,7 @@ namespace Invision
 	{
 		VkDeviceMemory deviceMemory = VK_NULL_HANDLE;
 
-		if (((VulkanBaseBuffer2*)(memory))->mMemType == MEMORY_TYPE_DEDICATED)
+		if (((VulkanBaseBuffer*)(memory))->mMemType == MEMORY_TYPE_DEDICATED)
 		{
 			deviceMemory = mLocalMemory.mMemory;
 		}
@@ -317,8 +317,8 @@ namespace Invision
 		}
 
 		void* dataUnused;
-		vkMapMemory(vulkanInstance.logicalDevice, deviceMemory, ((VulkanBaseBuffer2*)(memory))->mOffset, ((VulkanBaseBuffer2*)(memory))->mSize, 0, &dataUnused);
-		memcpy(dataUnused, data, (size_t)((VulkanBaseBuffer2*)(memory))->mSize);
+		vkMapMemory(vulkanInstance.logicalDevice, deviceMemory, ((VulkanBaseBuffer*)(memory))->mOffset, ((VulkanBaseBuffer*)(memory))->mSize, 0, &dataUnused);
+		memcpy(dataUnused, data, (size_t)((VulkanBaseBuffer*)(memory))->mSize);
 		vkUnmapMemory(vulkanInstance.logicalDevice, deviceMemory);
 	}
 

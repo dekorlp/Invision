@@ -22,7 +22,7 @@ namespace Invision
 		void* mStartPosition;
 	};
 
-	struct VulkanBaseBuffer2
+	struct VulkanBaseBuffer
 	{
 		VkDeviceSize mSize;
 		VkDeviceSize mOffset;
@@ -52,12 +52,12 @@ namespace Invision
 
 		VkBuffer GetBuffer(void* handle)
 		{
-			return ((VulkanBaseBuffer2*)(handle))->mBuffer;
+			return ((VulkanBaseBuffer*)(handle))->mBuffer;
 		}
 
 		VkDeviceSize GetOffset(void* handle)
 		{
-			return ((VulkanBaseBuffer2*)(handle))->mBufferOffset;
+			return ((VulkanBaseBuffer*)(handle))->mBufferOffset;
 		}
 
 	private:
