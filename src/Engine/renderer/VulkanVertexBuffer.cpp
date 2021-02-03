@@ -74,7 +74,7 @@ namespace Invision
 		{
 			throw InvisionBaseRendererException("Unknown VertexInputRate passed to Function CreateVertexInput");
 		}
-		mBaseBindingDesc = baseVertexBuffer.CreateBinding(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetCoreEngine()->GetCommandPool(), size, source, offset, stride, inputRate);
+		mBaseBindingDesc = baseVertexBuffer.CreateBinding(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetCoreEngine()->GetCommandPool(), vulkanInstance->GetCoreEngine()->GetMemoryManager(), size, source, offset, stride, inputRate);
 		mBaseVertexBuffer = &baseVertexBuffer;
 	}
 }

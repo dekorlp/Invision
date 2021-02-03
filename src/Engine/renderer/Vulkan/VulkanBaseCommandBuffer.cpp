@@ -11,6 +11,7 @@
 #include "VulkanBasePushConstant.h"
 #include "VulkanBaseCommandPool.h"
 #include "VulkanBaseCommandBuffer.h"
+#include "VulkanBaseMemoryManager.h"
 
 namespace Invision
 {
@@ -152,18 +153,17 @@ namespace Invision
 		return *this;
 	}
 
-	VulkanBaseCommandBuffer& VulkanBaseCommandBuffer::BindVertexBuffer(std::vector<VulkanBaseVertexBuffer> vertexBuffers,  uint32_t firstBinding, uint32_t bindingCount)
+	VulkanBaseCommandBuffer& VulkanBaseCommandBuffer::BindVertexBuffer(std::vector<VulkanBaseVertexBuffer> vertexBuffers, VulkanBaseMemoryManager& memoryManager, uint32_t firstBinding, uint32_t bindingCount)
 	{
 		std::vector<VkBuffer> bindingBuffers;
 		std::vector<VkDeviceSize> bindingOffsets;
 
 		//VulkanBaseBuffer
-
 		// fill binding Buffers
 		for (int i = 0; i < vertexBuffers[0].GetBuffers().size(); i++)
 		{
-			bindingBuffers.push_back(vertexBuffers[0].GetBuffers()[i].GetBuffer());
-			bindingOffsets.push_back(vertexBuffers[0].GetOffset(i));
+			bindingBuffers.push_back(memoryManager.GetBuffer(vertexBuffers[0].GetBuffers()[i]));
+			bindingOffsets.push_back(memoryManager.GetOffset(vertexBuffers[0].GetBuffers()[i]));
 		}
 
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)

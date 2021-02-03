@@ -122,7 +122,8 @@ namespace Invision
 
 		for (int i = 0; i < mCommandBuffers.size(); i++)
 		{
-			mCommandBuffers[i].BindVertexBuffer(baseVertexBuffer, firstBinding, bindingCount);
+			
+			mCommandBuffers[i].BindVertexBuffer(baseVertexBuffer, vulkanInstance->GetCoreEngine()->GetMemoryManager(), firstBinding, bindingCount);
 		}
 
 		return *this;

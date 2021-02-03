@@ -96,12 +96,18 @@ namespace Invision
 						((VulkanBaseBuffer2*)(currPos))->mSize = MEMORY_TYPE_SHARED;
 						
 					}
+
+					iterator++;
 				}
 				else
 				{
-					selectedPage->mAllocatedPages = 0;
-					selectedPage->inUse = false;
-					selectedPage = nullptr;
+					if (selectedPage != nullptr)
+					{
+						selectedPage->mAllocatedPages = 0;
+						selectedPage->inUse = false;
+						selectedPage = nullptr;
+						iterator = 0;
+					}
 				}
 
 				if (iterator == countOfPages)
@@ -109,7 +115,7 @@ namespace Invision
 					break;
 				}
 
-				iterator++;
+				
 			}
 
 			currPos = MemoryBlock::GetPoolHeader(currPos)->next;
@@ -146,6 +152,7 @@ namespace Invision
 						((VulkanBaseBuffer2*)(currPos))->mSize = size;
 						((VulkanBaseBuffer2*)(currPos))->mAllocatedPages = countOfPages - 1;
 						((VulkanBaseBuffer2*)(currPos))->mMemType = MEMORY_TYPE_DEDICATED;
+						((VulkanBaseBuffer2*)(currPos))->mBufferOffset = 0;
 						selectedPage = ((VulkanBaseBuffer2*)(currPos));
 
 					}
@@ -156,12 +163,18 @@ namespace Invision
 						((VulkanBaseBuffer2*)(currPos))->mSize = MEMORY_TYPE_DEDICATED;
 
 					}
+
+					iterator++;
 				}
 				else
 				{
-					selectedPage->mAllocatedPages = 0;
-					selectedPage->inUse = false;
-					selectedPage = nullptr;
+					if (selectedPage != nullptr)
+					{
+						selectedPage->mAllocatedPages = 0;
+						selectedPage->inUse = false;
+						selectedPage = nullptr;
+						iterator = 0;
+					}
 				}
 
 				if (iterator == countOfPages)
@@ -169,7 +182,7 @@ namespace Invision
 					break;
 				}
 
-				iterator++;
+				
 			}
 
 			currPos = MemoryBlock::GetPoolHeader(currPos)->next;
@@ -194,8 +207,8 @@ namespace Invision
 
 		VkBufferCopy copyRegion{};
 		copyRegion.size = ((VulkanBaseBuffer2*)(src))->mSize;
-		copyRegion.srcOffset = ((VulkanBaseBuffer2*)(src))->mOffset;
-		copyRegion.dstOffset = ((VulkanBaseBuffer2*)(dest))->mOffset;
+		copyRegion.srcOffset = 0;
+		copyRegion.dstOffset = 0;
 		vkCmdCopyBuffer(commandBuffer, ((VulkanBaseBuffer2*)(src))->mBuffer, ((VulkanBaseBuffer2*)(dest))->mBuffer, 1, &copyRegion);
 
 		endSingleTimeCommands(vulkanInstance, commandPool, commandBuffer);

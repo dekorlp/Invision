@@ -14,6 +14,7 @@ namespace Invision
 	class VulkanBasePipeline;
 	class VulkanBaseRenderPass;
 	class VulkanBaseFramebuffer;
+	class VulkanBaseMemoryManager;
 
 	class  VulkanBaseCommandBuffer
 	{
@@ -34,7 +35,7 @@ namespace Invision
 		INVISION_API VulkanBaseCommandBuffer& SetScissor(VkRect2D& rect);
 		INVISION_API VulkanBaseCommandBuffer& BeginRenderPass(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseRenderPass &renderPass, VulkanBaseFramebuffer &vulkanFramebuffer, std::vector<VkClearValue> clearValues = {});
 		INVISION_API VulkanBaseCommandBuffer& BindPipeline(VulkanBasePipeline& pipeline, VkPipelineBindPoint bindPoint);
-		INVISION_API VulkanBaseCommandBuffer& BindVertexBuffer(std::vector<VulkanBaseVertexBuffer> vertexBuffers, uint32_t firstBinding, uint32_t bindingCount);
+		INVISION_API VulkanBaseCommandBuffer& BindVertexBuffer(std::vector<VulkanBaseVertexBuffer> vertexBuffers, VulkanBaseMemoryManager& memoryManager, uint32_t firstBinding, uint32_t bindingCount);
 		INVISION_API VulkanBaseCommandBuffer& BindIndexBuffer(VulkanBaseIndexBuffer &indexBuffer, VkIndexType indexType);
 		INVISION_API VulkanBaseCommandBuffer& BindDescriptorSets(VulkanBaseUniformBuffer &uniformBuffer, VulkanBasePipeline& pipeline, VkPipelineBindPoint bindPoint);
 		INVISION_API VulkanBaseCommandBuffer& BindDescriptorSets(VulkanBaseUniformBuffer &uniformBuffer, VulkanBasePipeline& pipeline, VkPipelineBindPoint bindPoint, uint32_t set);

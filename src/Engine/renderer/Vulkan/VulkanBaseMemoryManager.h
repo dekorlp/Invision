@@ -25,7 +25,8 @@ namespace Invision
 	struct VulkanBaseBuffer2
 	{
 		VkDeviceSize mSize;
-		VkDeviceSize  mOffset;
+		VkDeviceSize mOffset;
+		VkDeviceSize mBufferOffset;
 		VkBuffer mBuffer;
 		MemoryType mMemType;
 		VkDeviceSize mAllocatedPages;
@@ -51,7 +52,7 @@ namespace Invision
 
 		VkDeviceSize GetOffset(void* handle)
 		{
-			return ((VulkanBaseBuffer2*)(handle))->mOffset;
+			return ((VulkanBaseBuffer2*)(handle))->mBufferOffset;
 		}
 
 	private:

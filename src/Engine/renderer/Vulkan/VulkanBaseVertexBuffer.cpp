@@ -2,7 +2,8 @@
 
 #include "VulkanBase.h"
 #include "VulkanBaseException.h"
-
+#include "VulkanBaseMemoryManager.h"
+#include "VulkanBaseCommandPool.h"
 
 #include "VulkanBaseVertexBuffer.h"
 
@@ -14,9 +15,10 @@ namespace Invision
 
 	}
 
-	VulkanBaseBindingDescription& VulkanBaseVertexBuffer::CreateBinding(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, uint64_t size, const void *source, uint64_t offset, uint32_t stride, VkVertexInputRate inputRate)
+	VulkanBaseBindingDescription& VulkanBaseVertexBuffer::CreateBinding(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, uint64_t size, const void *source, uint64_t offset, uint32_t stride, VkVertexInputRate inputRate)
 	{
-		VulkanBaseBindingDescription description(vulkanInstance, commandPool, mAttributeDescriptions, mBindingDescriptions,  mVertexBuffers, maxAllocatedBinding, size, source, offset, stride, inputRate);
+		mMemoryManager = &memoryManager;
+		VulkanBaseBindingDescription description(vulkanInstance, commandPool, memoryManager, mAttributeDescriptions, mBindingDescriptions,  mVertexBuffers, maxAllocatedBinding, size, source, offset, stride, inputRate);
 		maxAllocatedBinding++;
 		mBaseBindingDescriptions.push_back(description);
 
@@ -33,7 +35,7 @@ namespace Invision
 		return mBindingDescriptions;
 	}
 
-	std::vector<VulkanBaseBuffer>& VulkanBaseVertexBuffer::GetBuffers()
+	std::vector<void*>& VulkanBaseVertexBuffer::GetBuffers()
 	{
 		return mVertexBuffers;
 	}
@@ -47,7 +49,8 @@ namespace Invision
 	{
 		for (int  i = 0; i < mVertexBuffers.size(); i++)
 		{
-			mVertexBuffers[i].DestroyBuffer(vulkanInstance);
+
+			mMemoryManager->Unbind(vulkanInstance, mVertexBuffers[i]);
 		}
 		mVertexBuffers.clear();
 	}
@@ -58,7 +61,7 @@ namespace Invision
 
 	}
 
-	VulkanBaseBindingDescription::VulkanBaseBindingDescription(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, std::vector<VkVertexInputAttributeDescription> &attributeDescriptions,	std::vector<VkVertexInputBindingDescription> &bindingDescriptions, std::vector<VulkanBaseBuffer> &vertexBuffers, uint32_t binding, uint64_t size, const void *source, uint64_t offset, uint32_t stride, VkVertexInputRate inputRate)
+	VulkanBaseBindingDescription::VulkanBaseBindingDescription(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, std::vector<VkVertexInputAttributeDescription> &attributeDescriptions,	std::vector<VkVertexInputBindingDescription> &bindingDescriptions, std::vector<void*> &vertexBuffers, uint32_t binding, uint64_t size, const void *source, uint64_t offset, uint32_t stride, VkVertexInputRate inputRate)
 	{
 
 		mBindingDescription.binding = binding;
@@ -67,10 +70,10 @@ namespace Invision
 
 		mOffset = offset;
 		mAttributeDescriptions = &attributeDescriptions;
-		AllocateMemory(vulkanInstance, commandPool, size, source, offset);
+		AllocateMemory(vulkanInstance, commandPool, memoryManager, size, source, offset);
 
 		bindingDescriptions.push_back(mBindingDescription);
-		vertexBuffers.push_back(mBuffer);
+		vertexBuffers.push_back(mVertexBuffer);
 
 	
 	}
@@ -85,23 +88,13 @@ namespace Invision
 		return mOffset;
 	}
 
-	void VulkanBaseBindingDescription::AllocateMemory(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, uint64_t size, const void *source, uint64_t offset)
+	void VulkanBaseBindingDescription::AllocateMemory(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, uint64_t size, const void *source, uint64_t offset)
 	{
-		VulkanBaseBuffer stagingBuffer;
-		stagingBuffer.CreateBuffer(vulkanInstance, size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, VK_SHARING_MODE_EXCLUSIVE);
-
-
-		void* data;
-		vkMapMemory(vulkanInstance.logicalDevice, stagingBuffer.GetDeviceMemory(), 0, size, 0, &data);
-		memcpy(data, source, (size_t)size);
-		vkUnmapMemory(vulkanInstance.logicalDevice, stagingBuffer.GetDeviceMemory());
-
-		mBuffer.CreateBuffer(vulkanInstance, size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, VK_SHARING_MODE_EXCLUSIVE);
-
-		stagingBuffer.CopyBuffer(vulkanInstance, commandPool, mBuffer, 0, 0, size);
-
-		stagingBuffer.DestroyBuffer(vulkanInstance);
-
+		void* stagingBuffer = memoryManager.BindToSharedMemory(vulkanInstance, size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_SHARING_MODE_EXCLUSIVE);
+		memoryManager.CopyDataToBuffer(vulkanInstance, stagingBuffer, source);
+		mVertexBuffer = memoryManager.BindToDedicatedMemory(vulkanInstance, size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_SHARING_MODE_EXCLUSIVE);
+		memoryManager.CopyBufferToBuffer(vulkanInstance, commandPool, stagingBuffer, mVertexBuffer);
+		memoryManager.Unbind(vulkanInstance, stagingBuffer);
 	}
 
 
