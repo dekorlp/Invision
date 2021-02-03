@@ -76,7 +76,7 @@ namespace Invision
 
 	}
 
-	void VulkanBaseTexture::CreateImage(const SVulkanBase &vulkanInstance, int width, int height, uint32_t mipLevels, VkSampleCountFlagBits numSamples, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory)
+	void* VulkanBaseTexture::CreateImage(const SVulkanBase &vulkanInstance, VulkanBaseMemoryManager& memoryManager, int width, int height, uint32_t mipLevels, VkSampleCountFlagBits numSamples, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image)
 	{
 		VkImageCreateInfo imageInfo{};
 		imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
@@ -100,7 +100,7 @@ namespace Invision
 		VkMemoryRequirements memRequirements;
 		vkGetImageMemoryRequirements(vulkanInstance.logicalDevice, image, &memRequirements);
 
-		VkMemoryAllocateInfo allocInfo{};
+		/*VkMemoryAllocateInfo allocInfo{};
 		allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 		allocInfo.allocationSize = memRequirements.size;
 		allocInfo.memoryTypeIndex = findMemoryType(vulkanInstance.physicalDeviceStruct.physicalDevice, memRequirements.memoryTypeBits, properties);
@@ -108,7 +108,9 @@ namespace Invision
 			throw VulkanBaseException("failed to allocate image memory!");
 		}
 
-		vkBindImageMemory(vulkanInstance.logicalDevice, image, imageMemory, 0);
+		vkBindImageMemory(vulkanInstance.logicalDevice, image, imageMemory, 0);*/
+
+		return memoryManager.BindImageToDedicatedMemory(vulkanInstance, image, memRequirements.size);
 
 	}
 

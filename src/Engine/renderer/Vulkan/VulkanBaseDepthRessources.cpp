@@ -2,21 +2,23 @@
 
 
 #include "VulkanBaseException.h"
+#include "VulkanBaseMemoryManager.h"
 
 #include "VulkanBaseDepthRessources.h"
 
 namespace Invision
 {
-	VulkanBaseDepthRessources::VulkanBaseDepthRessources() : mDepthImageView(VK_NULL_HANDLE), mDepthImage(VK_NULL_HANDLE), mDepthImageMemory(VK_NULL_HANDLE), mUseDepthRessources(false)
+	VulkanBaseDepthRessources::VulkanBaseDepthRessources() : mDepthImageView(VK_NULL_HANDLE), mDepthImage(VK_NULL_HANDLE), mUseDepthRessources(false)
 	{
 		mUseDepthRessources = false;
 	}
 
-	void VulkanBaseDepthRessources::CreateDepthRessources(SVulkanBase &vulkanInstance,  VulkanBaseCommandPool commandPool, SVulkanContext &vulkanContext)
+	void VulkanBaseDepthRessources::CreateDepthRessources(SVulkanBase &vulkanInstance,  VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext)
 	{
+		mMemoryManager = &memoryManager;
 		VkFormat depthFormat = findDepthFormat(vulkanInstance);
-		
-		CreateImage(vulkanInstance, vulkanContext.swapChainExtent.width, vulkanContext.swapChainExtent.height, 1, vulkanInstance.MsaaFlagBits, depthFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, mDepthImage, mDepthImageMemory);
+
+		mpImage = CreateImage(vulkanInstance, memoryManager, vulkanContext.swapChainExtent.width, vulkanContext.swapChainExtent.height, 1, vulkanInstance.MsaaFlagBits, depthFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, mDepthImage);
 		mDepthImageView = CreateImageView(vulkanInstance, mDepthImage, depthFormat, VK_IMAGE_ASPECT_DEPTH_BIT, 1);
 
 		mUseDepthRessources = true;
@@ -68,7 +70,7 @@ namespace Invision
 	{
 		vkDestroyImageView(vulkanInstance.logicalDevice, mDepthImageView, nullptr);
 		vkDestroyImage(vulkanInstance.logicalDevice, mDepthImage, nullptr);
-		vkFreeMemory(vulkanInstance.logicalDevice, mDepthImageMemory, nullptr);
+		mMemoryManager->Unbind(vulkanInstance, mpImage);
 	}
 
 

@@ -138,6 +138,8 @@ namespace Invision
 		Invision::VulkanBaseDevice().CreateLogicalDevice(vulkInstance);
 
 		commandPool.CreateCommandPool(vulkInstance);
+
+		mMemoryManager.Init(vulkInstance, 2147483648); // Allocate 2GB
 	}
 
 	std::shared_ptr<IGraphicsInstance> VulkanEngine::CreateInstance(CanvasDimensions canvas, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, bool activateDepthTest)

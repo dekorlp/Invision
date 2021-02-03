@@ -35,14 +35,14 @@ namespace Invision
 		// Create Depth Ressources
 		if (activateDepthTest)
 		{
-			depthRessources.CreateDepthRessources(engine->GetVulkanInstance(), engine->GetCommandPool(), vulkanContext);
+			depthRessources.CreateDepthRessources(engine->GetVulkanInstance(), engine->GetCommandPool(), engine->GetMemoryManager(), vulkanContext);
 			mUseDepthTest = true;
 		}
 
 		// Create Color Ressources for Multisampling
 		if (engine->GetVulkanInstance().UseMSAA)
 		{
-			mColorRessources.CreateColorRessources(engine->GetVulkanInstance(), engine->GetCommandPool(), vulkanContext);
+			mColorRessources.CreateColorRessources(engine->GetVulkanInstance(), engine->GetCommandPool(), engine->GetMemoryManager(), vulkanContext);
 		}
 
 		// Create Default RenderPass / FrameBuffer / CommandBuffer
@@ -66,13 +66,13 @@ namespace Invision
 		if (vulkanEngine->GetVulkanInstance().UseMSAA == true)
 		{
 			mColorRessources.DestroyColorRessources(vulkanEngine->GetVulkanInstance());
-			mColorRessources.CreateColorRessources(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetCommandPool(), vulkanContext);
+			mColorRessources.CreateColorRessources(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetCommandPool(), vulkanEngine->GetMemoryManager(), vulkanContext);
 		}
 
 		if (mUseDepthTest)
 		{
 			depthRessources.DestroyDepthRessources(vulkanEngine->GetVulkanInstance());
-			depthRessources.CreateDepthRessources(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetCommandPool(), vulkanContext);
+			depthRessources.CreateDepthRessources(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetCommandPool(), vulkanEngine->GetMemoryManager(), vulkanContext);
 		}
 
 		mMainFramebuffer.reset();
@@ -95,13 +95,13 @@ namespace Invision
 		if (vulkanEngine->GetVulkanInstance().UseMSAA == true)
 		{
 			mColorRessources.DestroyColorRessources(vulkanEngine->GetVulkanInstance());
-			mColorRessources.CreateColorRessources(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetCommandPool(), vulkanContext);
+			mColorRessources.CreateColorRessources(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetCommandPool(), vulkanEngine->GetMemoryManager(), vulkanContext);
 		}
 
 		if (activateDepthTest)
 		{
 			depthRessources.DestroyDepthRessources(vulkanEngine->GetVulkanInstance());
-			depthRessources.CreateDepthRessources(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetCommandPool(), vulkanContext);
+			depthRessources.CreateDepthRessources(vulkanEngine->GetVulkanInstance(), vulkanEngine->GetCommandPool(), vulkanEngine->GetMemoryManager(), vulkanContext);
 			mUseDepthTest = true;
 		}
 

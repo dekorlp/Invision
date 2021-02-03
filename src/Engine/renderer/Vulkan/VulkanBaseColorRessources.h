@@ -8,15 +8,19 @@
 
 namespace Invision
 {
+
+	class VulkanBaseMemoryManager;
 	class VulkanBaseColorRessources : VulkanBaseTexture
 	{
 	private:
+		VulkanBaseMemoryManager *mMemoryManager;
+
 		VkImage mColorImage;
-		VkDeviceMemory mColorImageMemory;
+		void* mpImage;
 		VkImageView mColorImageView;
 	public:
 
-		void CreateColorRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, SVulkanContext &vulkanContext);
+		void CreateColorRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext);
 
 		void DestroyColorRessources(const SVulkanBase &vulkanInstance);
 

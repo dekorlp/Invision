@@ -8,13 +8,17 @@
 
 namespace Invision
 {
+	class VulkanBaseMemoryManager;
 	class VulkanBaseDepthRessources : VulkanBaseTexture
 	{
 	private:
+		VulkanBaseMemoryManager *mMemoryManager;
+
 		bool mUseDepthRessources;
 
 		VkImage mDepthImage;
-		VkDeviceMemory mDepthImageMemory;
+		void* mpImage;
+
 		VkImageView mDepthImageView;
 		VkImageAspectFlags mAspectFlags;
 
@@ -26,7 +30,7 @@ namespace Invision
 		VulkanBaseDepthRessources();
 
 		VkFormat findDepthFormat(const SVulkanBase &vulkanInstance);
-		void CreateDepthRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, SVulkanContext &vulkanContext);
+		void CreateDepthRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext);
 		bool AreDepthRessourcesActivated();
 		VkImageView GetDepthImageView();
 

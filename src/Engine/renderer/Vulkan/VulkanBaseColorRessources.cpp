@@ -2,17 +2,19 @@
 
 
 #include "VulkanBaseException.h"
+#include "VulkanBaseMemoryManager.h"
 
 #include "VulkanBaseColorRessources.h"
 
 namespace Invision
 {
 
-	void VulkanBaseColorRessources::CreateColorRessources(SVulkanBase &vulkanInstance,  VulkanBaseCommandPool commandPool, SVulkanContext &vulkanContext)
+	void VulkanBaseColorRessources::CreateColorRessources(SVulkanBase &vulkanInstance,  VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext)
 	{
+		mMemoryManager = &memoryManager;
 		VkFormat colorFormat = vulkanContext.swapChainImageFormat;
 
-		CreateImage(vulkanInstance, vulkanContext.swapChainExtent.width, vulkanContext.swapChainExtent.height, 1, vulkanInstance.MsaaFlagBits, colorFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT | VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, mColorImage, mColorImageMemory);
+		mpImage = CreateImage(vulkanInstance, memoryManager, vulkanContext.swapChainExtent.width, vulkanContext.swapChainExtent.height, 1, vulkanInstance.MsaaFlagBits, colorFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT | VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, mColorImage);
 		mColorImageView = CreateImageView(vulkanInstance, mColorImage, colorFormat, VK_IMAGE_ASPECT_COLOR_BIT, 1);
 	}
 
@@ -20,7 +22,7 @@ namespace Invision
 	{
 		vkDestroyImageView(vulkanInstance.logicalDevice, mColorImageView, nullptr);
 		vkDestroyImage(vulkanInstance.logicalDevice, mColorImage, nullptr);
-		vkFreeMemory(vulkanInstance.logicalDevice, mColorImageMemory, nullptr);
+		mMemoryManager->Unbind(vulkanInstance, mpImage);
 	}
 
 	VkImageView VulkanBaseColorRessources::GetColorImageView()
