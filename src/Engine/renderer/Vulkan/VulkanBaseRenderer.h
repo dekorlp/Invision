@@ -14,7 +14,7 @@ namespace Invision
 	{
 	private:
 		
-		VkPipelineStageFlags waitStages = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+		VkPipelineStageFlags mWaitStages = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
 
 		struct {
 			// Swap chain image presentation
@@ -25,7 +25,7 @@ namespace Invision
 
 		//std::vector<VkFence> mWaitFences;
 
-		VkFence renderFence = {};
+		VkFence mRenderFence = {};
 
 		VkSubmitInfo mSubmitInfo {};
 		

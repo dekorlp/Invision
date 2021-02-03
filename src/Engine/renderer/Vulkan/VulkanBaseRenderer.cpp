@@ -25,14 +25,14 @@ namespace Invision
 		// Create Fence and Semaphores
 		if (vkCreateSemaphore(vulkanInstance.logicalDevice, &semaphoreInfo, nullptr, &mSemaphores.presentComplete) != VK_SUCCESS ||
 			vkCreateSemaphore(vulkanInstance.logicalDevice, &semaphoreInfo, nullptr, &mSemaphores.renderComplete) != VK_SUCCESS ||
-			vkCreateFence(vulkanInstance.logicalDevice, &fenceInfo, nullptr, &renderFence) != VK_SUCCESS) {
+			vkCreateFence(vulkanInstance.logicalDevice, &fenceInfo, nullptr, &mRenderFence) != VK_SUCCESS) {
 
 			throw VulkanBaseException("failed to create synchronization objects for a frame!");
 		}
 
 		// Create SubmitInfo
 		mSubmitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-		mSubmitInfo.pWaitDstStageMask = &waitStages;
+		mSubmitInfo.pWaitDstStageMask = &mWaitStages;
 		mSubmitInfo.waitSemaphoreCount = 1;
 		mSubmitInfo.pWaitSemaphores = &mSemaphores.presentComplete;
 		mSubmitInfo.signalSemaphoreCount = 1;
@@ -44,14 +44,14 @@ namespace Invision
 
 		VkResult fenceRes;
 		do {
-			fenceRes = vkWaitForFences(vulkanInstance.logicalDevice, 1, &renderFence, VK_TRUE, 100000000);
+			fenceRes = vkWaitForFences(vulkanInstance.logicalDevice, 1, &mRenderFence, VK_TRUE, 100000000);
 		} while (fenceRes == VK_TIMEOUT);
 
 		if (fenceRes) {
 			throw VulkanBaseException("failed to submit draw command buffer!");
 		}
 
-		vkResetFences(vulkanInstance.logicalDevice, 1, &renderFence);
+		vkResetFences(vulkanInstance.logicalDevice, 1, &mRenderFence);
 
 		VkResult result = vkAcquireNextImageKHR(vulkanInstance.logicalDevice, vulkanContext.swapChain, UINT64_MAX, mSemaphores.presentComplete, VK_NULL_HANDLE, &imageIndex);
 
@@ -67,7 +67,7 @@ namespace Invision
 		
 		mSubmitInfo.pCommandBuffers = commandBuffer.GetCommandBuffer();
 
-		if (vkQueueSubmit(vulkanInstance.graphicsQueue, 1, &mSubmitInfo, renderFence) != VK_SUCCESS) {
+		if (vkQueueSubmit(vulkanInstance.graphicsQueue, 1, &mSubmitInfo, mRenderFence) != VK_SUCCESS) {
 			throw VulkanBaseException("failed to submit draw command buffer!");
 		}
 	}
@@ -101,6 +101,6 @@ namespace Invision
 	{
 		vkDestroySemaphore(vulkanInstance.logicalDevice, mSemaphores.presentComplete, nullptr);
 		vkDestroySemaphore(vulkanInstance.logicalDevice, mSemaphores.renderComplete, nullptr);
-		vkDestroyFence(vulkanInstance.logicalDevice, renderFence, nullptr);
+		vkDestroyFence(vulkanInstance.logicalDevice, mRenderFence, nullptr);
 	}
 }

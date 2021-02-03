@@ -14,8 +14,8 @@ namespace Invision
 		INVISION_API virtual ~VulkanBaseException();
 		INVISION_API const std::string GetStatus() const;
 	private:
-		const VkResult m_status;
-		static std::map<VkResult, std::string> m_statuses;
+		const VkResult mStatus;
+		static std::map<VkResult, std::string> mStatuses;
 	};
 
 }

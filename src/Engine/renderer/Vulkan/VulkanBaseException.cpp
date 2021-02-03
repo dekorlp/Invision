@@ -5,13 +5,13 @@
 namespace Invision
 {
 
-	std::map<VkResult, std::string> VulkanBaseException::m_statuses;
+	std::map<VkResult, std::string> VulkanBaseException::mStatuses;
 
 	VulkanBaseException::VulkanBaseException(const VkResult status, const std::string& msg)
-		: m_status(status)
+		: mStatus(status)
 	{
-		if (m_statuses.size() == 0) {
-			m_statuses = { { VkResult::VK_SUCCESS, "VK_SUCCESS: Command completed successfully" },
+		if (mStatuses.size() == 0) {
+			mStatuses = { { VkResult::VK_SUCCESS, "VK_SUCCESS: Command completed successfully" },
 			{ VkResult::VK_NOT_READY, "VK_NOT_READY: A fence or query has not yet completed" },
 			{ VkResult::VK_TIMEOUT, "VK_TIMEOUT: a wait operation has not completed in the specified time" },
 			{ VkResult::VK_EVENT_SET, "VK_EVENT_SET: An event is signaled" },
@@ -36,7 +36,7 @@ namespace Invision
 		}
 	}
 
-	VulkanBaseException::VulkanBaseException(const std::string& msg) : m_status(VkResult::VK_SUCCESS)
+	VulkanBaseException::VulkanBaseException(const std::string& msg) : mStatus(VkResult::VK_SUCCESS)
 	{
 	}
 
@@ -48,13 +48,13 @@ namespace Invision
 	const std::string VulkanBaseException::GetStatus() const
 	{
 		std::string statusString;
-		auto iter = m_statuses.find(m_status);
-		if (iter != m_statuses.end()) {
+		auto iter = mStatuses.find(mStatus);
+		if (iter != mStatuses.end()) {
 			statusString = iter->second;
 		}
 		else {
 			std::stringstream ss;
-			ss << "Invalid status: " << m_status;
+			ss << "Invalid status: " << mStatus;
 			statusString = ss.str();
 		}
 		return statusString;

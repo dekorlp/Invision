@@ -61,7 +61,7 @@ namespace Invision
 			VkDescriptorSet mDescriptorSet;
 		};
 
-		std::vector<VulkanBaseUniformBinding> bindings;
+		std::vector<VulkanBaseUniformBinding> mBindings;
 		//std::vector<VkDescriptorSetLayout> mDescriptorSetLayout; // there is actual one supportes by Invision
 		//std::vector<VulkanBaseDescriptorPool> mDescriptorPool;
 		//std::vector<VkDescriptorSet> mDescriptorSets;// there is actual one supportes by Invision
