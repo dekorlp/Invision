@@ -12,12 +12,10 @@ namespace Invision
 	{
 	}
 
-	VulkanBaseIndexBuffer& VulkanBaseIndexBuffer::CreateIndexBuffer(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, VkDeviceSize size,  const void* source, VkDeviceSize offset)
+	VulkanBaseIndexBuffer& VulkanBaseIndexBuffer::CreateIndexBuffer(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, VkDeviceSize size,  const void* source)
 	{
 		mMemoryManager = &memoryManager;
 
-		////////////////////
-		// Memory Manager Test
 		void* shared = memoryManager.BindToSharedMemory(vulkanInstance, size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_SHARING_MODE_EXCLUSIVE);
 		memoryManager.CopyDataToBuffer(vulkanInstance, shared, source);
 		mDedicatedIndexBuffer = memoryManager.BindToDedicatedMemory(vulkanInstance, size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT, VK_SHARING_MODE_EXCLUSIVE);

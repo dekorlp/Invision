@@ -190,7 +190,7 @@ private:
 			->CreateAttribute(0, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex2, position))
 			.CreateAttribute(1, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex2, color));
 
-		indexBuffer->CreateIndexBuffer(sizeof(indices2[0]) * indices2.size(), indices2.data(), 0);
+		indexBuffer->CreateIndexBuffer(sizeof(indices2[0]) * indices2.size(), indices2.data());
 
 		uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject2), 0).CreateUniformBuffer();
 

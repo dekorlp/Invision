@@ -16,7 +16,7 @@ namespace Invision
 
 		INVISION_API VulkanIndexBuffer(VulkanInstance* instance);
 
-		INVISION_API void CreateIndexBuffer(uint64_t size, const void* source, uint64_t offset);
+		INVISION_API void CreateIndexBuffer(uint64_t size, const void* source);
 
 		INVISION_API VulkanBaseIndexBuffer GetBuffer();
 

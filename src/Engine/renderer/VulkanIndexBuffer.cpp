@@ -13,9 +13,9 @@ namespace Invision
 		vulkanInstance = instance;
 	}
 
-	void VulkanIndexBuffer::CreateIndexBuffer(uint64_t size, const void* source, uint64_t offset)
+	void VulkanIndexBuffer::CreateIndexBuffer(uint64_t size, const void* source)
 	{
-		indexBuffer.CreateIndexBuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetCoreEngine()->GetCommandPool(), vulkanInstance->GetCoreEngine()->GetMemoryManager(), size, source, offset);
+		indexBuffer.CreateIndexBuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetCoreEngine()->GetCommandPool(), vulkanInstance->GetCoreEngine()->GetMemoryManager(), size, source);
 	}
 
 	VulkanBaseIndexBuffer VulkanIndexBuffer::GetBuffer()
