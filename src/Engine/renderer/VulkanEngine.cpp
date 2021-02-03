@@ -88,7 +88,7 @@ namespace Invision
 
 		commandPool.CreateCommandPool(vulkInstance);
 
-		mMemoryManager.Init(vulkInstance, 2 * 1024 * 1024 * 1024); // Allocate 2GB
+		mMemoryManager.Init(vulkInstance, 2147483648); // Allocate 2GB
 	}
 
 	void VulkanEngine::Init(unsigned int index, MSAAMode msaa)

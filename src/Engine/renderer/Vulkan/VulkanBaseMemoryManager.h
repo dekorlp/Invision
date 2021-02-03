@@ -28,7 +28,7 @@ namespace Invision
 		VkDeviceSize  mOffset;
 		VkBuffer mBuffer;
 		MemoryType mMemType;
-		unsigned int mAllocatedPages;
+		VkDeviceSize mAllocatedPages;
 		bool inUse = false;
 	};
 
@@ -36,28 +36,32 @@ namespace Invision
 	{
 	public:
 		VulkanBaseMemoryManager();
-		void Init(const SVulkanBase &vulkanInstance, uint32_t size);
+		void Init(const SVulkanBase &vulkanInstance, size_t size);
 		void Destroy(const SVulkanBase &vulkanInstance);
 		void* BindToSharedMemory(const SVulkanBase &vulkanInstance, VkDeviceSize size, VkBufferUsageFlags usage, VkSharingMode sharingMode);
 		void* BindToDedicatedMemory(const SVulkanBase &vulkanInstance, VkDeviceSize size, VkBufferUsageFlags usage, VkSharingMode sharingMode);
 		void Unbind(const SVulkanBase &vulkanInstance, void* memory);
-		void CopyDataToMemory(const SVulkanBase &vulkanInstance, void* memory, const void* data);
-		void CopyMemoryToMemory(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, void* src, void* dest);
+		void CopyDataToBuffer(const SVulkanBase &vulkanInstance, void* memory, const void* data);
+		void CopyBufferToBuffer(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, void* src, void* dest);
+
+		VkBuffer GetBuffer(void* handle)
+		{
+			return ((VulkanBaseBuffer2*)(handle))->mBuffer;
+		}
+
+		VkDeviceSize GetOffset(void* handle)
+		{
+			return ((VulkanBaseBuffer2*)(handle))->mOffset;
+		}
 
 	private:
 
 		uint32_t findMemoryType(const VkPhysicalDevice& device, VkMemoryPropertyFlags properties);
-		void AllocateMemory(const SVulkanBase &vulkanInstance, VkMemoryPropertyFlags properties, uint32_t size, VkDeviceMemory &memory);
+		void AllocateMemory(const SVulkanBase &vulkanInstance, VkMemoryPropertyFlags properties, size_t size, VkDeviceMemory &memory);
 		void CreateBuffer(const SVulkanBase &vulkanInstance, VkBuffer& buffer, VkDeviceMemory& memory, VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkSharingMode sharingMode, VkDeviceSize memoryOffset);
 
 		static VkCommandBuffer beginSingleTimeCommands(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool);
 		static void endSingleTimeCommands(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool, VkCommandBuffer &commandBuffer);
-
-		//PoolAllocator mAllocLocalMemory;
-		//PoolAllocator mAllocSharedMemory;
-
-		//VkDeviceMemory mLocalMemory;
-		//VkDeviceMemory mSharedMemory;
 
 		VulkanBaseMemory mLocalMemory;
 		VulkanBaseMemory mSharedMemory;

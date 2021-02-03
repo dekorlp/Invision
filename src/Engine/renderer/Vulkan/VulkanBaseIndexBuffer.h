@@ -20,9 +20,9 @@ namespace Invision
 
 
 	private:
-		VkDeviceSize mOffset;
-
-		VulkanBaseBuffer mIndexBuffer;
+		VulkanBaseMemoryManager *mMemoryManager;
+		void* mDedicatedIndexBuffer;
+		
 
 	};
 }
