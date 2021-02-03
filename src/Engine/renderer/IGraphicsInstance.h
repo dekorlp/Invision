@@ -45,7 +45,7 @@ namespace Invision
 
 		INVISION_API virtual ~IGraphicsInstance() = default;
 
-		INVISION_API IGraphicsEngine* engine();
+		INVISION_API IGraphicsEngine* GetEngine();
 	};
 }
 

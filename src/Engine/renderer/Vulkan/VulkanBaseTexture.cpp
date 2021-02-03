@@ -147,7 +147,7 @@ namespace Invision
 
 	void VulkanBaseTexture::TransitionImageLayout(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout, bool useDepthRessource, uint32_t mipLevels)
 	{
-		VkCommandBuffer commandBuffer = VulkanBaseMemoryManager::beginSingleTimeCommands(vulkanInstance, commandPool);
+		VkCommandBuffer commandBuffer = VulkanBaseMemoryManager::BeginSingleTimeCommands(vulkanInstance, commandPool);
 
 		VkImageMemoryBarrier barrier{};
 		barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
@@ -225,7 +225,7 @@ namespace Invision
 		);
 
 
-		VulkanBaseMemoryManager::endSingleTimeCommands(vulkanInstance, commandPool, commandBuffer);
+		VulkanBaseMemoryManager::EndSingleTimeCommands(vulkanInstance, commandPool, commandBuffer);
 	}
 
 	void VulkanBaseTexture::GenerateMipmaps(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VkFormat imageFormat, int width, int height, uint32_t mipLevels)
@@ -239,7 +239,7 @@ namespace Invision
 			throw VulkanBaseException("texture image format does not support linear blitting!");
 		}
 
-		VkCommandBuffer commandBuffer = VulkanBaseMemoryManager::beginSingleTimeCommands(vulkanInstance, commandPool);
+		VkCommandBuffer commandBuffer = VulkanBaseMemoryManager::BeginSingleTimeCommands(vulkanInstance, commandPool);
 
 		VkImageMemoryBarrier barrier{};
 		barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
@@ -316,7 +316,7 @@ namespace Invision
 
 
 
-		VulkanBaseMemoryManager::endSingleTimeCommands(vulkanInstance, commandPool, commandBuffer);
+		VulkanBaseMemoryManager::EndSingleTimeCommands(vulkanInstance, commandPool, commandBuffer);
 
 	}
 

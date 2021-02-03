@@ -18,7 +18,7 @@ namespace Invision
 		INVISION_API void CreateInstance(const char* appName, const char* engineName, const uint32_t appVersion, const uint32_t engineVersion, const std::vector<const char*> &extensions);
 		INVISION_API void CheckExtensions(std::vector<const char*> &requiredExtensions);
 		INVISION_API bool CheckValidationLayerSupport(std::vector<const char*> validationLayers);
-		INVISION_API void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo, std::ofstream* ofstr);
+		INVISION_API void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo, std::ofstream* ofstr);
 		INVISION_API VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger);
 		INVISION_API void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator);
 		INVISION_API static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(

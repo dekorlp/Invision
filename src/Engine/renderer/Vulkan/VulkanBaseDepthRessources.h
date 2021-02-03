@@ -24,14 +24,14 @@ namespace Invision
 		VkImageView mDepthImageView;
 		VkImageAspectFlags mAspectFlags;
 
-		VkFormat findSupportedFormat(const SVulkanBase &vulkanInstance, const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
+		VkFormat FindSupportedFormat(const SVulkanBase &vulkanInstance, const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
 	
-		bool hasStencilComponent(VkFormat format);
+		bool HasStencilComponent(VkFormat format);
 
 	public:
 		VulkanBaseDepthRessources();
 
-		VkFormat findDepthFormat(const SVulkanBase &vulkanInstance);
+		VkFormat FindDepthFormat(const SVulkanBase &vulkanInstance);
 		void CreateDepthRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext);
 		bool AreDepthRessourcesActivated();
 		VkImageView GetDepthImageView();

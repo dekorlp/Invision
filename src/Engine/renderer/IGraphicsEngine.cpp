@@ -17,17 +17,17 @@ namespace Invision
 	{
 	}
 
-	EngineType::Type IGraphicsEngine::type() const
+	EngineType::Type IGraphicsEngine::GetType() const
 	{
 		return mType;
 	}
 
-	std::string const& IGraphicsEngine::name() const
+	std::string const& IGraphicsEngine::GetName() const
 	{
 		return mName;
 	}
 
-	std::string const& IGraphicsEngine::version() const
+	std::string const& IGraphicsEngine::GetVersion() const
 	{
 		return mVersion;
 	}

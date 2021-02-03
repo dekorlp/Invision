@@ -18,7 +18,7 @@ namespace Invision
 		
 	}
 
-	IGraphicsEngine* IGraphicsInstance::engine()
+	IGraphicsEngine* IGraphicsInstance::GetEngine()
 	{
 		return mEngine;
 	}

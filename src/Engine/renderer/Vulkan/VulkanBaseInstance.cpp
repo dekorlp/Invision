@@ -58,7 +58,7 @@ namespace Invision
 		}
 
 		VkDebugUtilsMessengerCreateInfoEXT createInfo;
-		populateDebugMessengerCreateInfo(createInfo, ofstr);
+		PopulateDebugMessengerCreateInfo(createInfo, ofstr);
 		mOfstr = ofstr;
 
 		if (CreateDebugUtilsMessengerEXT(mInstance, &createInfo, nullptr, &mDebugMessanger) != VK_SUCCESS) {
@@ -67,7 +67,7 @@ namespace Invision
 
 	}
 
-	void VulkanBaseInstance::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo, std::ofstream* ofstr) {
+	void VulkanBaseInstance::PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo, std::ofstream* ofstr) {
 		createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
 		createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
@@ -148,7 +148,7 @@ namespace Invision
 			instanceCreateInfo.enabledLayerCount = static_cast<uint32_t>(mValidationLayers.size());
 			instanceCreateInfo.ppEnabledLayerNames = mValidationLayers.data();
 			
-			populateDebugMessengerCreateInfo(debugCreateInfo, mOfstr);
+			PopulateDebugMessengerCreateInfo(debugCreateInfo, mOfstr);
 			instanceCreateInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debugCreateInfo;
 		}
 		else

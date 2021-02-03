@@ -225,7 +225,7 @@ namespace Invision
 		}
 
 
-		VkCommandBuffer commandBuffer = beginSingleTimeCommands(vulkanInstance, commandPool);
+		VkCommandBuffer commandBuffer = BeginSingleTimeCommands(vulkanInstance, commandPool);
 
 		VkBufferCopy copyRegion{};
 		copyRegion.size = ((VulkanBaseBuffer*)(src))->mSize;
@@ -233,12 +233,12 @@ namespace Invision
 		copyRegion.dstOffset = 0;
 		vkCmdCopyBuffer(commandBuffer, ((VulkanBaseBuffer*)(src))->mBuffer, ((VulkanBaseBuffer*)(dest))->mBuffer, 1, &copyRegion);
 
-		endSingleTimeCommands(vulkanInstance, commandPool, commandBuffer);
+		EndSingleTimeCommands(vulkanInstance, commandPool, commandBuffer);
 	}
 
 	void VulkanBaseMemoryManager::CopyBufferToImage(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, void* src, VkImage& image, uint32_t width, uint32_t height)
 	{
-		VkCommandBuffer commandBuffer = beginSingleTimeCommands(vulkanInstance, commandPool);
+		VkCommandBuffer commandBuffer = BeginSingleTimeCommands(vulkanInstance, commandPool);
 
 		VkBufferImageCopy region{};
 		region.bufferOffset = 0;
@@ -266,7 +266,7 @@ namespace Invision
 			&region
 		);
 
-		endSingleTimeCommands(vulkanInstance, commandPool, commandBuffer);
+		EndSingleTimeCommands(vulkanInstance, commandPool, commandBuffer);
 	}
 
 	void VulkanBaseMemoryManager::Unbind(const SVulkanBase &vulkanInstance, void* memory)
@@ -368,7 +368,7 @@ namespace Invision
 		vkBindBufferMemory(vulkanInstance.logicalDevice, buffer, memory, memoryOffset);
 	}
 
-	VkCommandBuffer VulkanBaseMemoryManager::beginSingleTimeCommands(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool)
+	VkCommandBuffer VulkanBaseMemoryManager::BeginSingleTimeCommands(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool)
 	{
 		VkCommandBufferAllocateInfo allocInfo{};
 		allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -388,7 +388,7 @@ namespace Invision
 		return commandBuffer;
 	}
 
-	void VulkanBaseMemoryManager::endSingleTimeCommands(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool, VkCommandBuffer &commandBuffer)
+	void VulkanBaseMemoryManager::EndSingleTimeCommands(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool, VkCommandBuffer &commandBuffer)
 	{
 		vkEndCommandBuffer(commandBuffer);
 

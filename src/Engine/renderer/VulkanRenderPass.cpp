@@ -50,7 +50,7 @@ namespace Invision
 			{
 				basePass.AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(),
 					mVulkanInstance->GetVulkanContext(),
-					mVulkanInstance->GetDepthRessources().findDepthFormat(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct()),
+					mVulkanInstance->GetDepthRessources().FindDepthFormat(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct()),
 					VK_SAMPLE_COUNT_1_BIT,
 					VK_ATTACHMENT_LOAD_OP_CLEAR,
 					VK_ATTACHMENT_STORE_OP_DONT_CARE,
@@ -80,7 +80,7 @@ namespace Invision
 			{
 				basePass.AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(),
 					mVulkanInstance->GetVulkanContext(),
-					mVulkanInstance->GetDepthRessources().findDepthFormat(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct()),
+					mVulkanInstance->GetDepthRessources().FindDepthFormat(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct()),
 					mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct().MsaaFlagBits,
 					VK_ATTACHMENT_LOAD_OP_CLEAR,
 					VK_ATTACHMENT_STORE_OP_DONT_CARE,

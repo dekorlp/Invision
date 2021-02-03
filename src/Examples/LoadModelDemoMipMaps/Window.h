@@ -61,7 +61,7 @@ public:
 #ifdef NDEBUG
 		graphicsEngine = Invision::create_engine(Invision::EngineType::Vulkan);
 #else
-		graphicsEngine = Invision::create_engine(Invision::EngineType::Vulkan, ofstr);
+		graphicsEngine = Invision::Create_engine(Invision::EngineType::Vulkan, ofstr);
 #endif
 
 		
