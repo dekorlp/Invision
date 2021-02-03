@@ -63,12 +63,21 @@ namespace Invision
 
 	void* VulkanBaseMemoryManager::BindToSharedMemory(const SVulkanBase &vulkanInstance, VkDeviceSize size, VkBufferUsageFlags usage, VkSharingMode sharingMode)
 	{
-		return BindBufferToMemory(vulkanInstance, mSharedMemory, size, usage, sharingMode, MEMORY_TYPE_SHARED);
+		void* selectedPage = BindBufferToMemory(vulkanInstance, mSharedMemory, size, usage, sharingMode, MEMORY_TYPE_SHARED);
+
+		CreateBuffer(vulkanInstance, ((VulkanBaseBuffer2*)(selectedPage))->mBuffer, mSharedMemory.mMemory, size, usage, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, sharingMode, ((VulkanBaseBuffer2*)(selectedPage))->mOffset);
+	
+		return selectedPage;
 	}
 
 	void* VulkanBaseMemoryManager::BindToDedicatedMemory(const SVulkanBase &vulkanInstance, VkDeviceSize size, VkBufferUsageFlags usage, VkSharingMode sharingMode)
 	{
-		return BindBufferToMemory(vulkanInstance, mLocalMemory, size, usage, sharingMode, MEMORY_TYPE_DEDICATED);
+		void* selectedPage = BindBufferToMemory(vulkanInstance, mLocalMemory, size, usage, sharingMode, MEMORY_TYPE_DEDICATED);
+
+
+		CreateBuffer(vulkanInstance, ((VulkanBaseBuffer2*)(selectedPage))->mBuffer, mLocalMemory.mMemory, size, usage, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, sharingMode, ((VulkanBaseBuffer2*)(selectedPage))->mOffset);
+
+		return selectedPage;
 	}
 
 	void* VulkanBaseMemoryManager::BindBufferToMemory(const SVulkanBase &vulkanInstance, VulkanBaseMemory &memory, VkDeviceSize size, VkBufferUsageFlags usage, VkSharingMode sharingMode, MemoryType memType)
@@ -131,16 +140,6 @@ namespace Invision
 
 			currPos = MemoryBlock::GetPoolHeader(currPos)->next;
 		};
-
-		// create Vulkan Buffer
-		if (memType == MEMORY_TYPE_DEDICATED)
-		{
-			CreateBuffer(vulkanInstance, selectedPage->mBuffer, memory.mMemory, size, usage, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, sharingMode, selectedPage->mOffset);
-		}
-		else // MEMORY_TYPE_SHARED
-		{
-			CreateBuffer(vulkanInstance, selectedPage->mBuffer, memory.mMemory, size, usage, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, sharingMode, selectedPage->mOffset);
-		}
 
 		return selectedPage;
 	}
