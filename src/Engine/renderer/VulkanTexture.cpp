@@ -17,14 +17,14 @@ namespace Invision
 	void VulkanTexture::LoadTexture(unsigned char* pixels, int imageSize, int width, int height, bool generateMipMaps)
 	{
 
-		mTexture.CreateTextureImage(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), pixels, imageSize, width, height, mVulkanInstance->GetDepthRessources().AreDepthRessourcesActivated(), generateMipMaps);
-		mTexture.CreateTextureImageView(mVulkanInstance->GetCoreEngine()->GetVulkanInstance());
+		mTexture.CreateTextureImage(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), pixels, imageSize, width, height, mVulkanInstance->GetDepthRessources().AreDepthRessourcesActivated(), generateMipMaps);
+		mTexture.CreateTextureImageView(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
 	}
 
 	void VulkanTexture::CreateTextureImageView()
 	{
 
-		mTexture.CreateTextureImageView(mVulkanInstance->GetCoreEngine()->GetVulkanInstance());
+		mTexture.CreateTextureImageView(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
 	}
 
 	void VulkanTexture::CreateTextureSampler(SamplerFilterMode minFilter, SamplerFilterMode magFilter, SamplerAddressMode addressU, SamplerAddressMode addressV, SamplerAddressMode addressW, float MipLodBias, float minLod)
@@ -104,7 +104,7 @@ namespace Invision
 		 }
 
 
-		mTexture.CreateTextureSampler(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(), minFilterVk, magFilterVk, addressModeUVk, addressModeVVk, addressModeWVk, MipLodBias, minLod);
+		mTexture.CreateTextureSampler(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), minFilterVk, magFilterVk, addressModeUVk, addressModeVVk, addressModeWVk, MipLodBias, minLod);
 	}
 
 	VulkanBaseTexture VulkanTexture::GetBaseTexture()
@@ -114,7 +114,7 @@ namespace Invision
 
 	VulkanTexture::~VulkanTexture()
 	{
-		mTexture.DestroyTexture(mVulkanInstance->GetCoreEngine()->GetVulkanInstance());
+		mTexture.DestroyTexture(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
 	}
 
 }

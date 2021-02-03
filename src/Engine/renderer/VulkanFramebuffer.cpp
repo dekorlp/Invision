@@ -28,7 +28,7 @@ namespace Invision
 			std::vector< VkImageView> attachments;
 
 			
-			if (mVulkanInstance->GetCoreEngine()->GetVulkanInstance().UseMSAA == false)
+			if (mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct().UseMSAA == false)
 			{
 				attachments.push_back(mVulkanInstance->GetVulkanContext().swapChainImageViews[i]);
 				if (mVulkanInstance->GetDepthRessources().AreDepthRessourcesActivated())
@@ -49,7 +49,7 @@ namespace Invision
 
 
 
-			mFramebuffers[i].CreateFramebuffer(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(), mVulkanInstance->GetVulkanContext(),  dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetRenderPass(), attachments);
+			mFramebuffers[i].CreateFramebuffer(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(),  dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetRenderPass(), attachments);
 		}
 	}
 
@@ -67,7 +67,7 @@ namespace Invision
 	{
 		for (int i = 0; i < mFramebuffers.size(); i++)
 		{
-			mFramebuffers[i].DestroyFramebuffer(mVulkanInstance->GetCoreEngine()->GetVulkanInstance());
+			mFramebuffers[i].DestroyFramebuffer(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
 		}
 	}
 

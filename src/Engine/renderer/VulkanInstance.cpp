@@ -29,20 +29,20 @@ namespace Invision
 	{
 		mVulkanEngine = engine;
 		
-		Invision::CreateSurface(engine->GetVulkanInstance(), mVulkanContext, dimensions.hwnd);
-		Invision::CreatePresentationSystem(engine->GetVulkanInstance(), mVulkanContext, dimensions.width, dimensions.height);
+		Invision::CreateSurface(engine->GetVulkanBaseStruct(), mVulkanContext, dimensions.hwnd);
+		Invision::CreatePresentationSystem(engine->GetVulkanBaseStruct(), mVulkanContext, dimensions.width, dimensions.height);
 
 		// Create Depth Ressources
 		if (activateDepthTest)
 		{
-			mDepthRessources.CreateDepthRessources(engine->GetVulkanInstance(), engine->GetCommandPool(), engine->GetMemoryManager(), mVulkanContext);
+			mDepthRessources.CreateDepthRessources(engine->GetVulkanBaseStruct(), engine->GetCommandPool(), engine->GetMemoryManager(), mVulkanContext);
 			mUseDepthTest = true;
 		}
 
 		// Create Color Ressources for Multisampling
-		if (engine->GetVulkanInstance().UseMSAA)
+		if (engine->GetVulkanBaseStruct().UseMSAA)
 		{
-			mColorRessources.CreateColorRessources(engine->GetVulkanInstance(), engine->GetCommandPool(), engine->GetMemoryManager(), mVulkanContext);
+			mColorRessources.CreateColorRessources(engine->GetVulkanBaseStruct(), engine->GetCommandPool(), engine->GetMemoryManager(), mVulkanContext);
 		}
 
 		// Create Default RenderPass / FrameBuffer / CommandBuffer
@@ -60,19 +60,19 @@ namespace Invision
 
 	void VulkanInstance::ResetPresentation(CanvasDimensions canvas, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer )
 	{
-		Invision::DestroyPresentationSystem(mVulkanEngine->GetVulkanInstance(), mVulkanContext);
-		Invision::CreatePresentationSystem(mVulkanEngine->GetVulkanInstance(), mVulkanContext, canvas.width, canvas.height);
+		Invision::DestroyPresentationSystem(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext);
+		Invision::CreatePresentationSystem(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext, canvas.width, canvas.height);
 
-		if (mVulkanEngine->GetVulkanInstance().UseMSAA == true)
+		if (mVulkanEngine->GetVulkanBaseStruct().UseMSAA == true)
 		{
-			mColorRessources.DestroyColorRessources(mVulkanEngine->GetVulkanInstance());
-			mColorRessources.CreateColorRessources(mVulkanEngine->GetVulkanInstance(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext);
+			mColorRessources.DestroyColorRessources(mVulkanEngine->GetVulkanBaseStruct());
+			mColorRessources.CreateColorRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext);
 		}
 
 		if (mUseDepthTest)
 		{
-			mDepthRessources.DestroyDepthRessources(mVulkanEngine->GetVulkanInstance());
-			mDepthRessources.CreateDepthRessources(mVulkanEngine->GetVulkanInstance(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext);
+			mDepthRessources.DestroyDepthRessources(mVulkanEngine->GetVulkanBaseStruct());
+			mDepthRessources.CreateDepthRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext);
 		}
 
 		mMainFramebuffer.reset();
@@ -89,19 +89,19 @@ namespace Invision
 
 	void VulkanInstance::ResetPresentation(CanvasDimensions canvas, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, bool activateDepthTest)
 	{
-		Invision::DestroyPresentationSystem(mVulkanEngine->GetVulkanInstance(), mVulkanContext);
-		Invision::CreatePresentationSystem(mVulkanEngine->GetVulkanInstance(), mVulkanContext, canvas.width, canvas.height);
+		Invision::DestroyPresentationSystem(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext);
+		Invision::CreatePresentationSystem(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext, canvas.width, canvas.height);
 
-		if (mVulkanEngine->GetVulkanInstance().UseMSAA == true)
+		if (mVulkanEngine->GetVulkanBaseStruct().UseMSAA == true)
 		{
-			mColorRessources.DestroyColorRessources(mVulkanEngine->GetVulkanInstance());
-			mColorRessources.CreateColorRessources(mVulkanEngine->GetVulkanInstance(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext);
+			mColorRessources.DestroyColorRessources(mVulkanEngine->GetVulkanBaseStruct());
+			mColorRessources.CreateColorRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext);
 		}
 
 		if (activateDepthTest)
 		{
-			mDepthRessources.DestroyDepthRessources(mVulkanEngine->GetVulkanInstance());
-			mDepthRessources.CreateDepthRessources(mVulkanEngine->GetVulkanInstance(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext);
+			mDepthRessources.DestroyDepthRessources(mVulkanEngine->GetVulkanBaseStruct());
+			mDepthRessources.CreateDepthRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext);
 			mUseDepthTest = true;
 		}
 
@@ -199,16 +199,16 @@ namespace Invision
 
 	VulkanInstance::~VulkanInstance()
 	{
-		if (mVulkanEngine->GetVulkanInstance().UseMSAA == true)
+		if (mVulkanEngine->GetVulkanBaseStruct().UseMSAA == true)
 		{
-			mColorRessources.DestroyColorRessources(mVulkanEngine->GetVulkanInstance());
+			mColorRessources.DestroyColorRessources(mVulkanEngine->GetVulkanBaseStruct());
 		}
 
 		if (mUseDepthTest)
 		{
-			mDepthRessources.DestroyDepthRessources(mVulkanEngine->GetVulkanInstance());
+			mDepthRessources.DestroyDepthRessources(mVulkanEngine->GetVulkanBaseStruct());
 		}
-		Invision::DestroyPresentationSystem(mVulkanEngine->GetVulkanInstance(), mVulkanContext);
-		Invision::DestroySurface(mVulkanEngine->GetVulkanInstance(), mVulkanContext);
+		Invision::DestroyPresentationSystem(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext);
+		Invision::DestroySurface(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext);
 	}
 }

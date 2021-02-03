@@ -31,7 +31,7 @@ namespace Invision
 	{
 	private:
 		Invision::VulkanBaseInstance mVulkanInstance;
-		Invision::SVulkanBase mVulkInstance;
+		Invision::SVulkanBase mBaseStruct;
 		Invision::VulkanBaseCommandPool mCommandPool;
 		Invision::VulkanBaseMemoryManager mMemoryManager;
 
@@ -44,7 +44,7 @@ namespace Invision
 		INVISION_API void Init(MSAAMode msaa = MSAAMODE_OFF);
 		INVISION_API void Init(unsigned int index, MSAAMode msaa = MSAAMODE_OFF);
 		
-		INVISION_API Invision::SVulkanBase& GetVulkanInstance();
+		INVISION_API Invision::SVulkanBase& GetVulkanBaseStruct();
 		INVISION_API Invision::VulkanBaseCommandPool GetCommandPool();
 		
 		INVISION_API std::shared_ptr<IGraphicsInstance> CreateInstance(CanvasDimensions canvas, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, bool activateDepthTest) override;

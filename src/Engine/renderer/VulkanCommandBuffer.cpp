@@ -23,7 +23,7 @@ namespace Invision
 
 		for (int i = 0; i < mCommandBuffers.size(); i++)
 		{
-			mCommandBuffers[i].CreateCommandBuffer(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), (unsigned int)dynamic_pointer_cast<Invision::VulkanFramebuffer>(framebuffer)->GetFramebuffers().size());
+			mCommandBuffers[i].CreateCommandBuffer(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), (unsigned int)dynamic_pointer_cast<Invision::VulkanFramebuffer>(framebuffer)->GetFramebuffers().size());
 		}
 	}
 
@@ -96,7 +96,7 @@ namespace Invision
 
 		for (int i = 0; i < mCommandBuffers.size(); i++)
 		{
-			mCommandBuffers[i].BeginRenderPass(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(), mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), dynamic_pointer_cast<VulkanFramebuffer>(framebuffer)->GetFramebuffer(i), clearValues);
+			mCommandBuffers[i].BeginRenderPass(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), dynamic_pointer_cast<VulkanFramebuffer>(framebuffer)->GetFramebuffer(i), clearValues);
 		}
 		
 		return *this;
@@ -239,7 +239,7 @@ namespace Invision
 	{
 		for (int i = 0; i < mCommandBuffers.size(); i++)
 		{
-			mCommandBuffers[i].DestroyCommandBuffer(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(), mVulkanInstance->GetCoreEngine()->GetCommandPool());
+			mCommandBuffers[i].DestroyCommandBuffer(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool());
 		}
 	}
 

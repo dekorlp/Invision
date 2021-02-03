@@ -17,7 +17,7 @@ namespace Invision
 		: IRenderer(instance)
 	{
 		mVulkanInstance = instance;
-		mRenderer.CreateSyncObjects(instance->GetCoreEngine()->GetVulkanInstance(), instance->GetVulkanContext());
+		mRenderer.CreateSyncObjects(instance->GetCoreEngine()->GetVulkanBaseStruct(), instance->GetVulkanContext());
 	}
 
 	bool VulkanRenderer::PrepareFrame()
@@ -25,7 +25,7 @@ namespace Invision
 		bool recreateSwapchainIsNecessary = false;
 
 		//VkResult nextImageResult = commandBuffer.AquireNextImage(vulkInstance);
-		VkResult nextImageResult = mRenderer.AquireNextImage(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(), mVulkanInstance->GetVulkanContext(), mImageIndex);
+		VkResult nextImageResult = mRenderer.AquireNextImage(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(), mImageIndex);
 		if (nextImageResult == VK_ERROR_OUT_OF_DATE_KHR) {
 			recreateSwapchainIsNecessary = true;
 			//RecreateSwapChain(m_Size.GetWidth(), m_Size.GetHeight());
@@ -44,12 +44,12 @@ namespace Invision
 		if (dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCountOfCommandBuffers() > 1)
 		{
 			// main Command Buffer
-			mRenderer.DrawFrame(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(), mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(mImageIndex));
+			mRenderer.DrawFrame(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(mImageIndex));
 		}
 		else
 		{
 			// secondary Command Buffer for offscreen rendering
-			mRenderer.DrawFrame(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(), mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(0));
+			mRenderer.DrawFrame(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(0));
 		}
 
 		
@@ -59,7 +59,7 @@ namespace Invision
 	{
 		bool recreateSwapchainIsNecessary = false;
 
-		VkResult submitFrameResult = mRenderer.QueuePresent(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(), mVulkanInstance->GetVulkanContext(), mImageIndex);
+		VkResult submitFrameResult = mRenderer.QueuePresent(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(), mImageIndex);
 		if (submitFrameResult == VK_ERROR_OUT_OF_DATE_KHR || submitFrameResult == VK_SUBOPTIMAL_KHR) {
 			recreateSwapchainIsNecessary = true;
 			//RecreateSwapChain(m_Size.GetWidth(), m_Size.GetHeight());
@@ -73,6 +73,6 @@ namespace Invision
 
 	VulkanRenderer::~VulkanRenderer()
 	{
-		mRenderer.DestroySemaphores(mVulkanInstance->GetCoreEngine()->GetVulkanInstance());
+		mRenderer.DestroySemaphores(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
 	}
 }
