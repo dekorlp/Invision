@@ -31,7 +31,6 @@ namespace Invision
 				uint32_t descriptorCount,
 				VkShaderStageFlags stageFlags,
 				VkDeviceSize bufferSize,
-				VkDeviceSize offset,
 				VkImageView imageView,
 				VkSampler sampler);
 
@@ -83,8 +82,7 @@ namespace Invision
 			VkDescriptorType descriptorType,
 			uint32_t descriptorCount,
 			VkShaderStageFlags stageFlags,
-			VkDeviceSize bufferSize,
-			VkDeviceSize offset);
+			VkDeviceSize bufferSize);
 
 		INVISION_API VulkanBaseUniformBuffer& CreateImageBinding(uint32_t set, uint32_t binding,
 			VkDescriptorType descriptorType,

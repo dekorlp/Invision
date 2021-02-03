@@ -192,7 +192,7 @@ private:
 
 		indexBuffer->CreateIndexBuffer(sizeof(indices2[0]) * indices2.size(), indices2.data());
 
-		uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject2), 0).CreateUniformBuffer();
+		uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject2)).CreateUniformBuffer();
 
 		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/QTDemoApp/Shader/DrawUniformBuffer/vert.spv"));
 		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/QTDemoApp/Shader/DrawUniformBuffer/frag.spv"));

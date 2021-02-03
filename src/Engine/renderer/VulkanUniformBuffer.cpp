@@ -14,7 +14,7 @@ namespace Invision
 		vulkanInstance = instance;
 	}
 
-	VulkanUniformBuffer& VulkanUniformBuffer::CreateUniformBinding(uint32_t set, uint32_t binding, uint32_t descriptorCount, ShaderStageFlag shaderStage, uint64_t bufferSize, uint64_t offset)
+	VulkanUniformBuffer& VulkanUniformBuffer::CreateUniformBinding(uint32_t set, uint32_t binding, uint32_t descriptorCount, ShaderStageFlag shaderStage, uint64_t bufferSize)
 	{
 		VkShaderStageFlags vkShaderStage = 0;
 		
@@ -54,7 +54,7 @@ namespace Invision
 			throw InvisionBaseRendererException("Unknown ShaderStageFlag passed to Function CreateUniformBinding");
 		}
 
-		uniformBuffer.CreateUniformBinding(set, binding, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, descriptorCount, vkShaderStage, bufferSize, offset);
+		uniformBuffer.CreateUniformBinding(set, binding, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, descriptorCount, vkShaderStage, bufferSize);
 		return *this;
 	}
 
