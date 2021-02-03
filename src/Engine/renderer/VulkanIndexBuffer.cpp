@@ -10,21 +10,21 @@ namespace Invision
 	VulkanIndexBuffer::VulkanIndexBuffer(VulkanInstance* instance) :
 		IIndexBuffer(instance)
 	{
-		vulkanInstance = instance;
+		mVulkanInstance = instance;
 	}
 
 	void VulkanIndexBuffer::CreateIndexBuffer(uint64_t size, const void* source)
 	{
-		indexBuffer.CreateIndexBuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetCoreEngine()->GetCommandPool(), vulkanInstance->GetCoreEngine()->GetMemoryManager(), size, source);
+		mIndexBuffer.CreateIndexBuffer(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), size, source);
 	}
 
 	VulkanBaseIndexBuffer VulkanIndexBuffer::GetBuffer()
 	{
-		return indexBuffer;
+		return mIndexBuffer;
 	}
 
 	VulkanIndexBuffer::~VulkanIndexBuffer()
 	{
-		indexBuffer.DestroyIndexBuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
+		mIndexBuffer.DestroyIndexBuffer(mVulkanInstance->GetCoreEngine()->GetVulkanInstance());
 	}
 }

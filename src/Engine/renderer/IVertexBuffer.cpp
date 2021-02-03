@@ -7,18 +7,18 @@
 namespace Invision
 {
 	IVertexBuffer::IVertexBuffer(IGraphicsInstance* instance) :
-		instance(instance)
+		mInstance(instance)
 	{
 	}
 
-	IBindingDescription::IBindingDescription(IGraphicsInstance* instance) : instance(instance)
+	IBindingDescription::IBindingDescription(IGraphicsInstance* instance) : mInstance(instance)
 	{
 
 	}
 
 	
 	IAttributeDescription::IAttributeDescription(IGraphicsInstance* instance) :
-		instance(instance)
+		mInstance(instance)
 	{
 	}
 	

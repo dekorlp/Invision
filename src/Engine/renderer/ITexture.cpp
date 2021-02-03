@@ -8,7 +8,7 @@
 namespace Invision
 {
 	ITexture::ITexture(IGraphicsInstance* instance) :
-		instance(instance)
+		mInstance(instance)
 	{
 
 	}

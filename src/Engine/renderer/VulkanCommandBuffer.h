@@ -39,7 +39,7 @@ namespace Invision
 		~VulkanCommandBuffer();
 
 	private:
-		Invision::VulkanInstance *vulkanInstance;
+		Invision::VulkanInstance *mVulkanInstance;
 		bool mIsMainCommandBuffer = false; 
 
 		std::vector<Invision::VulkanBaseCommandBuffer> mCommandBuffers;

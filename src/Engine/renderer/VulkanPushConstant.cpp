@@ -10,7 +10,7 @@ namespace Invision
 	VulkanPushConstant::VulkanPushConstant(VulkanInstance* instance) :
 		IPushConstant(instance)
 	{
-		vulkanInstance = instance;
+		mVulkanInstance = instance;
 	}
 
 	VulkanPushConstant::VulkanPushConstant(VulkanInstance* instance, ShaderStageFlag shaderStages, uint32_t offset, uint32_t size) :

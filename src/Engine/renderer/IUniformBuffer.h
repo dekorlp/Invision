@@ -13,7 +13,7 @@ namespace Invision
 	
 	class IUniformBuffer
 	{
-		IGraphicsInstance* instance = nullptr;
+		IGraphicsInstance* mInstance = nullptr;
 
 	public:
 		INVISION_API IUniformBuffer() = delete;

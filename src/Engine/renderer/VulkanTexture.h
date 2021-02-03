@@ -29,8 +29,8 @@ namespace Invision
 
 
 	private:
-		Invision::VulkanInstance *vulkanInstance;
-		Invision::VulkanBaseTexture texture;
+		Invision::VulkanInstance *mVulkanInstance;
+		Invision::VulkanBaseTexture mTexture;
 	};
 
 }

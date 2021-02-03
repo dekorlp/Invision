@@ -8,7 +8,7 @@ namespace Invision
 
 	class IIndexBuffer
 	{
-		IGraphicsInstance* instance = nullptr;
+		IGraphicsInstance* mInstance = nullptr;
 
 	public:
 		INVISION_API IIndexBuffer() = delete;

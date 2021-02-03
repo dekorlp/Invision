@@ -13,43 +13,43 @@ namespace Invision
 		IFramebuffer(instance, renderPass)
 	{
 
-		vulkanInstance = instance;
+		mVulkanInstance = instance;
 		
 	}
 
 	void VulkanFramebuffer::CreateMainFramebuffer(std::shared_ptr<Invision::IRenderPass> renderPass)
 	{
-		mFramebuffers.resize(vulkanInstance->GetVulkanContext().swapChainImageViews.size());
+		mFramebuffers.resize(mVulkanInstance->GetVulkanContext().swapChainImageViews.size());
 
 		
-		for (int i = 0; i < vulkanInstance->GetVulkanContext().swapChainImageViews.size(); i++)
+		for (int i = 0; i < mVulkanInstance->GetVulkanContext().swapChainImageViews.size(); i++)
 		{
 
 			std::vector< VkImageView> attachments;
 
 			
-			if (vulkanInstance->GetCoreEngine()->GetVulkanInstance().UseMSAA == false)
+			if (mVulkanInstance->GetCoreEngine()->GetVulkanInstance().UseMSAA == false)
 			{
-				attachments.push_back(vulkanInstance->GetVulkanContext().swapChainImageViews[i]);
-				if (vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated())
+				attachments.push_back(mVulkanInstance->GetVulkanContext().swapChainImageViews[i]);
+				if (mVulkanInstance->GetDepthRessources().AreDepthRessourcesActivated())
 				{
-					attachments.push_back(vulkanInstance->GetDepthRessources().GetDepthImageView());
+					attachments.push_back(mVulkanInstance->GetDepthRessources().GetDepthImageView());
 				}
 			}
 			else
 			{
-				attachments.push_back(vulkanInstance->GetColorRessources().GetColorImageView());
+				attachments.push_back(mVulkanInstance->GetColorRessources().GetColorImageView());
 
-				if (vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated())
+				if (mVulkanInstance->GetDepthRessources().AreDepthRessourcesActivated())
 				{
-					attachments.push_back(vulkanInstance->GetDepthRessources().GetDepthImageView());
+					attachments.push_back(mVulkanInstance->GetDepthRessources().GetDepthImageView());
 				}
-				attachments.push_back(vulkanInstance->GetVulkanContext().swapChainImageViews[i]);
+				attachments.push_back(mVulkanInstance->GetVulkanContext().swapChainImageViews[i]);
 			}
 
 
 
-			mFramebuffers[i].CreateFramebuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(),  dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetRenderPass(), attachments);
+			mFramebuffers[i].CreateFramebuffer(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(), mVulkanInstance->GetVulkanContext(),  dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetRenderPass(), attachments);
 		}
 	}
 
@@ -67,7 +67,7 @@ namespace Invision
 	{
 		for (int i = 0; i < mFramebuffers.size(); i++)
 		{
-			mFramebuffers[i].DestroyFramebuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
+			mFramebuffers[i].DestroyFramebuffer(mVulkanInstance->GetCoreEngine()->GetVulkanInstance());
 		}
 	}
 

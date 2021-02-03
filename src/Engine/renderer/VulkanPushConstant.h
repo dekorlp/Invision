@@ -27,7 +27,7 @@ namespace Invision
 		INVISION_API Invision::VulkanBasePushConstant GetBasePushConstant();
 
 	private:
-		Invision::VulkanInstance *vulkanInstance;
+		Invision::VulkanInstance *mVulkanInstance;
 		Invision::VulkanBasePushConstant mPushConstant;
 	};
 

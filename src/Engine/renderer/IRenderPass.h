@@ -7,7 +7,7 @@ namespace Invision
 
 	class IRenderPass
 	{
-		IGraphicsInstance* instance = nullptr;
+		IGraphicsInstance* mInstance = nullptr;
 
 	public:
 		INVISION_API IRenderPass() = delete;

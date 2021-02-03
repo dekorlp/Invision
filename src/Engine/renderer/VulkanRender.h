@@ -25,9 +25,9 @@ namespace Invision
 
 	private:
 		unsigned int mImageIndex = 0;
-		Invision::VulkanInstance *vulkanInstance;
+		Invision::VulkanInstance *mVulkanInstance;
 
-		VulkanBaseRenderer renderer;
+		VulkanBaseRenderer mRenderer;
 	};
 
 }

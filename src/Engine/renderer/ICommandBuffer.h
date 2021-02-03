@@ -21,7 +21,7 @@ namespace Invision
 
 	class ICommandBuffer
 	{
-		IGraphicsInstance* instance = nullptr;
+		IGraphicsInstance* mInstance = nullptr;
 
 	public:
 		INVISION_API ICommandBuffer() = delete;

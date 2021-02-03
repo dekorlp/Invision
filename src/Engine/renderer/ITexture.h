@@ -10,7 +10,7 @@ namespace Invision
 
 	class ITexture
 	{
-		IGraphicsInstance* instance = nullptr;
+		IGraphicsInstance* mInstance = nullptr;
 
 		public:
 		INVISION_API ITexture() = delete;

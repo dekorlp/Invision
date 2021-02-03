@@ -10,7 +10,7 @@ namespace Invision
 
 	class IFramebuffer
 	{
-		IGraphicsInstance* instance = nullptr;
+		IGraphicsInstance* mInstance = nullptr;
 
 	public:
 		INVISION_API IFramebuffer() = delete;

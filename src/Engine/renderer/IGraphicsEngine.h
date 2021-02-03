@@ -234,10 +234,10 @@ namespace Invision
 
 		 INVISION_API ~IGraphicsEngine();
 	protected:
-		EngineType::Type Type_ = EngineType::Unknown;
-		PhysicalDeviceProperties deviceProperties;
-		std::string const Name_;
-		std::string const Version_;
+		EngineType::Type mType = EngineType::Unknown;
+		PhysicalDeviceProperties mDeviceProperties;
+		std::string const mName;
+		std::string const mVersion;
 	};
 
 }

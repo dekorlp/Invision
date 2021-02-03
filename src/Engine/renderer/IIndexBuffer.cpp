@@ -7,7 +7,7 @@
 namespace Invision
 {
 	IIndexBuffer::IIndexBuffer(IGraphicsInstance* instance) :
-		instance(instance)
+		mInstance(instance)
 	{
 	}
 

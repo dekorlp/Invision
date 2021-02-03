@@ -16,7 +16,7 @@ namespace Invision
 		INVISION_API VulkanAttributeDescription(VulkanInstance* instance, VulkanBaseVertexBuffer &baseVertexBuffer, VulkanBaseBindingDescription& baseBindingDesc, uint32_t location, VertexFormat format, uint32_t offset);
 
 	private:
-		Invision::VulkanInstance *vulkanInstance;
+		Invision::VulkanInstance *mVulkanInstance;
 	};
 
 	class VulkanBindingDescription : public IBindingDescription
@@ -28,7 +28,7 @@ namespace Invision
 		INVISION_API IBindingDescription& CreateAttribute(uint32_t location, VertexFormat format, uint32_t offset);
 
 	private:
-		Invision::VulkanInstance *vulkanInstance;
+		Invision::VulkanInstance *mVulkanInstance;
 		VulkanBaseVertexBuffer *mBaseVertexBuffer;
 		VulkanBaseBindingDescription mBaseBindingDesc;
 		std::vector<VulkanAttributeDescription> mAttributeDesc;
@@ -47,7 +47,7 @@ namespace Invision
 		INVISION_API ~VulkanVertexBuffer();
 
 	private:
-		Invision::VulkanInstance *vulkanInstance;
+		Invision::VulkanInstance *mVulkanInstance;
 
 		VulkanBaseVertexBuffer mBaseVertexBuffer;
 	};

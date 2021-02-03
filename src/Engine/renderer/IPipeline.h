@@ -23,7 +23,7 @@ namespace Invision
 
 	class IPipeline
 	{
-		IGraphicsInstance* instance = nullptr;
+		IGraphicsInstance* mInstance = nullptr;
 
 	public:
 		INVISION_API IPipeline() = delete;

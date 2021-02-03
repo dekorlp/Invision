@@ -11,7 +11,7 @@ namespace Invision
 
 	class IPushConstant
 	{
-		IGraphicsInstance* instance = nullptr;
+		IGraphicsInstance* mInstance = nullptr;
 	public:
 		INVISION_API IPushConstant() = delete;
 		INVISION_API IPushConstant(IGraphicsInstance* instance);

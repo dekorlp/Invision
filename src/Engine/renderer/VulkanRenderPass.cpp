@@ -19,7 +19,7 @@ namespace Invision
 	VulkanRenderPass::VulkanRenderPass(VulkanInstance* instance)
 		:IRenderPass(instance)
 	{
-		vulkanInstance = instance;
+		mVulkanInstance = instance;
 
 		
 		
@@ -31,12 +31,12 @@ namespace Invision
 		VulkanBaseSubPass basePass;
 		basePass.mIsMainSubPass = true;
 		
-		if (vulkanInstance->GetCoreEngine()->GetVulkanInstance().UseMSAA == false) // MSAA is inactive
+		if (mVulkanInstance->GetCoreEngine()->GetVulkanInstance().UseMSAA == false) // MSAA is inactive
 		{
 
-			basePass.AddAttachment(vulkanInstance->GetCoreEngine()->GetVulkanInstance(),
-				vulkanInstance->GetVulkanContext(),
-				vulkanInstance->GetVulkanContext().swapChainImageFormat,
+			basePass.AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(),
+				mVulkanInstance->GetVulkanContext(),
+				mVulkanInstance->GetVulkanContext().swapChainImageFormat,
 				VK_SAMPLE_COUNT_1_BIT,
 				VK_ATTACHMENT_LOAD_OP_CLEAR,
 				VK_ATTACHMENT_STORE_OP_STORE,
@@ -44,13 +44,13 @@ namespace Invision
 				VK_ATTACHMENT_STORE_OP_DONT_CARE,
 				VK_IMAGE_LAYOUT_UNDEFINED,
 				VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
-				, { subPassIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL });
+				, { mSubPassIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL });
 
-			if (vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated() == true)
+			if (mVulkanInstance->GetDepthRessources().AreDepthRessourcesActivated() == true)
 			{
-				basePass.AddAttachment(vulkanInstance->GetCoreEngine()->GetVulkanInstance(),
-					vulkanInstance->GetVulkanContext(),
-					vulkanInstance->GetDepthRessources().findDepthFormat(vulkanInstance->GetCoreEngine()->GetVulkanInstance()),
+				basePass.AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(),
+					mVulkanInstance->GetVulkanContext(),
+					mVulkanInstance->GetDepthRessources().findDepthFormat(mVulkanInstance->GetCoreEngine()->GetVulkanInstance()),
 					VK_SAMPLE_COUNT_1_BIT,
 					VK_ATTACHMENT_LOAD_OP_CLEAR,
 					VK_ATTACHMENT_STORE_OP_DONT_CARE,
@@ -58,42 +58,42 @@ namespace Invision
 					VK_ATTACHMENT_STORE_OP_DONT_CARE,
 					VK_IMAGE_LAYOUT_UNDEFINED,
 					VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
-					{ subPassIndex++, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL });
+					{ mSubPassIndex++, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL });
 			}
 
 		}
 		else // MSAA is active
 		{
-			basePass.AddAttachment(vulkanInstance->GetCoreEngine()->GetVulkanInstance(),
-				vulkanInstance->GetVulkanContext(),
-				vulkanInstance->GetVulkanContext().swapChainImageFormat,
-				vulkanInstance->GetCoreEngine()->GetVulkanInstance().MsaaFlagBits,
+			basePass.AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(),
+				mVulkanInstance->GetVulkanContext(),
+				mVulkanInstance->GetVulkanContext().swapChainImageFormat,
+				mVulkanInstance->GetCoreEngine()->GetVulkanInstance().MsaaFlagBits,
 				VK_ATTACHMENT_LOAD_OP_CLEAR,
 				VK_ATTACHMENT_STORE_OP_STORE,
 				VK_ATTACHMENT_LOAD_OP_DONT_CARE,
 				VK_ATTACHMENT_STORE_OP_DONT_CARE,
 				VK_IMAGE_LAYOUT_UNDEFINED,
 				VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL
-				, { subPassIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL });
+				, { mSubPassIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL });
 
-			if (vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated() == true)
+			if (mVulkanInstance->GetDepthRessources().AreDepthRessourcesActivated() == true)
 			{
-				basePass.AddAttachment(vulkanInstance->GetCoreEngine()->GetVulkanInstance(),
-					vulkanInstance->GetVulkanContext(),
-					vulkanInstance->GetDepthRessources().findDepthFormat(vulkanInstance->GetCoreEngine()->GetVulkanInstance()),
-					vulkanInstance->GetCoreEngine()->GetVulkanInstance().MsaaFlagBits,
+				basePass.AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(),
+					mVulkanInstance->GetVulkanContext(),
+					mVulkanInstance->GetDepthRessources().findDepthFormat(mVulkanInstance->GetCoreEngine()->GetVulkanInstance()),
+					mVulkanInstance->GetCoreEngine()->GetVulkanInstance().MsaaFlagBits,
 					VK_ATTACHMENT_LOAD_OP_CLEAR,
 					VK_ATTACHMENT_STORE_OP_DONT_CARE,
 					VK_ATTACHMENT_LOAD_OP_DONT_CARE,
 					VK_ATTACHMENT_STORE_OP_DONT_CARE,
 					VK_IMAGE_LAYOUT_UNDEFINED,
 					VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
-					{ subPassIndex++, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL });
+					{ mSubPassIndex++, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL });
 			}
 
-			basePass.AddAttachment(vulkanInstance->GetCoreEngine()->GetVulkanInstance(),
-				vulkanInstance->GetVulkanContext(),
-				vulkanInstance->GetVulkanContext().swapChainImageFormat,
+			basePass.AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(),
+				mVulkanInstance->GetVulkanContext(),
+				mVulkanInstance->GetVulkanContext().swapChainImageFormat,
 				VK_SAMPLE_COUNT_1_BIT,
 				VK_ATTACHMENT_LOAD_OP_DONT_CARE,
 				VK_ATTACHMENT_STORE_OP_STORE,
@@ -101,35 +101,35 @@ namespace Invision
 				VK_ATTACHMENT_STORE_OP_DONT_CARE,
 				VK_IMAGE_LAYOUT_UNDEFINED,
 				VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
-				, { subPassIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL }, true);
+				, { mSubPassIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL }, true);
 		}
 
-		renderPass.AddSubpass(basePass);
+		mRenderPass.AddSubpass(basePass);
 
-		if (vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated() == true)
+		if (mVulkanInstance->GetDepthRessources().AreDepthRessourcesActivated() == true)
 		{
-			renderPass.AddSubpassDependency(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT | VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT,
+			mRenderPass.AddSubpassDependency(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT | VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT,
 				0, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT | VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT, VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT);
 		}
 		else
 		{
-			renderPass.AddSubpassDependency(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, 0,
+			mRenderPass.AddSubpassDependency(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(), VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, 0,
 				VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT);
 		}
 
 
 
 
-		renderPass.CreateRenderPass(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
+		mRenderPass.CreateRenderPass(mVulkanInstance->GetCoreEngine()->GetVulkanInstance());
 	}
 
 	VulkanBaseRenderPass VulkanRenderPass::GetRenderPass()
 	{
-		return renderPass;
+		return mRenderPass;
 	}
 
 	VulkanRenderPass::~VulkanRenderPass()
 	{
-		renderPass.DestroyRenderPass(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
+		mRenderPass.DestroyRenderPass(mVulkanInstance->GetCoreEngine()->GetVulkanInstance());
 	}
 }

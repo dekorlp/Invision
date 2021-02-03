@@ -17,7 +17,7 @@ namespace Invision
 	
 	class IBindingDescription
 	{
-		IGraphicsInstance* instance = nullptr;
+		IGraphicsInstance* mInstance = nullptr;
 	public:
 
 		INVISION_API IBindingDescription() = delete;
@@ -27,7 +27,7 @@ namespace Invision
 	
 	class IAttributeDescription
 	{
-		IGraphicsInstance* instance = nullptr;
+		IGraphicsInstance* mInstance = nullptr;
 	
 		public:
 			INVISION_API IAttributeDescription() = delete;
@@ -36,7 +36,7 @@ namespace Invision
 	
 	class IVertexBuffer
 	{
-		IGraphicsInstance* instance = nullptr;
+		IGraphicsInstance* mInstance = nullptr;
 
 	public:
 		INVISION_API IVertexBuffer() = delete;

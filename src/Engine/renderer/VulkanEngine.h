@@ -30,9 +30,9 @@ namespace Invision
 	class VulkanEngine : public IGraphicsEngine
 	{
 	private:
-		Invision::VulkanBaseInstance vulkanInstance;
-		Invision::SVulkanBase vulkInstance;
-		Invision::VulkanBaseCommandPool commandPool;
+		Invision::VulkanBaseInstance mVulkanInstance;
+		Invision::SVulkanBase mVulkInstance;
+		Invision::VulkanBaseCommandPool mCommandPool;
 		Invision::VulkanBaseMemoryManager mMemoryManager;
 
 		PhysicalDeviceProperties ConvertPhysicalDeviceParameters(SVulkanBasePhysicalDevice physicalDeviceStruct);

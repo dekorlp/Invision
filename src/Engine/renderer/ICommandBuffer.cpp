@@ -7,7 +7,7 @@
 namespace Invision
 {
 	ICommandBuffer::ICommandBuffer(IGraphicsInstance* instance, std::shared_ptr<Invision::IFramebuffer> framebuffer) :
-		instance(instance)
+		mInstance(instance)
 	{
 	}
 }

@@ -6,7 +6,7 @@
 namespace Invision
 {
 	IUniformBuffer::IUniformBuffer(IGraphicsInstance* instance) :
-		instance(instance)
+		mInstance(instance)
 	{
 	}
 }

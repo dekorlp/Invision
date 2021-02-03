@@ -11,20 +11,20 @@ namespace Invision
 	VulkanTexture::VulkanTexture(VulkanInstance* instance) :
 		ITexture(instance)
 	{
-		vulkanInstance = instance;
+		mVulkanInstance = instance;
 	}
 
 	void VulkanTexture::LoadTexture(unsigned char* pixels, int imageSize, int width, int height, bool generateMipMaps)
 	{
 
-		texture.CreateTextureImage(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetCoreEngine()->GetCommandPool(), vulkanInstance->GetCoreEngine()->GetMemoryManager(), pixels, imageSize, width, height, vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated(), generateMipMaps);
-		texture.CreateTextureImageView(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
+		mTexture.CreateTextureImage(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), pixels, imageSize, width, height, mVulkanInstance->GetDepthRessources().AreDepthRessourcesActivated(), generateMipMaps);
+		mTexture.CreateTextureImageView(mVulkanInstance->GetCoreEngine()->GetVulkanInstance());
 	}
 
 	void VulkanTexture::CreateTextureImageView()
 	{
 
-		texture.CreateTextureImageView(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
+		mTexture.CreateTextureImageView(mVulkanInstance->GetCoreEngine()->GetVulkanInstance());
 	}
 
 	void VulkanTexture::CreateTextureSampler(SamplerFilterMode minFilter, SamplerFilterMode magFilter, SamplerAddressMode addressU, SamplerAddressMode addressV, SamplerAddressMode addressW, float MipLodBias, float minLod)
@@ -104,17 +104,17 @@ namespace Invision
 		 }
 
 
-		texture.CreateTextureSampler(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), minFilterVk, magFilterVk, addressModeUVk, addressModeVVk, addressModeWVk, MipLodBias, minLod);
+		mTexture.CreateTextureSampler(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(), minFilterVk, magFilterVk, addressModeUVk, addressModeVVk, addressModeWVk, MipLodBias, minLod);
 	}
 
 	VulkanBaseTexture VulkanTexture::GetBaseTexture()
 	{
-		 return texture;
+		 return mTexture;
 	}
 
 	VulkanTexture::~VulkanTexture()
 	{
-		texture.DestroyTexture(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
+		mTexture.DestroyTexture(mVulkanInstance->GetCoreEngine()->GetVulkanInstance());
 	}
 
 }

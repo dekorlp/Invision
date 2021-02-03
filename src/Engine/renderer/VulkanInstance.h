@@ -43,9 +43,9 @@ namespace Invision
 		INVISION_API ~VulkanInstance();
 
 	private:
-		VulkanEngine* vulkanEngine;
-		Invision::SVulkanContext vulkanContext;
-		Invision::VulkanBaseDepthRessources depthRessources;
+		VulkanEngine* mVulkanEngine;
+		Invision::SVulkanContext mVulkanContext;
+		Invision::VulkanBaseDepthRessources mDepthRessources;
 		Invision::VulkanBaseColorRessources mColorRessources;
 
 		// MainFramebuffer, MainRenderPass, MainCommandBuffer

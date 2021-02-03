@@ -21,7 +21,7 @@ namespace Invision
 
 	class IGraphicsInstance
 	{
-		IGraphicsEngine* Engine = nullptr;
+		IGraphicsEngine* mEngine = nullptr;
 
 	public:
 		INVISION_API IGraphicsInstance() = delete;

@@ -8,7 +8,7 @@
 namespace Invision
 {
 	IRenderPass::IRenderPass(IGraphicsInstance* instance) :
-		instance(instance)
+		mInstance(instance)
 	{
 		
 	}

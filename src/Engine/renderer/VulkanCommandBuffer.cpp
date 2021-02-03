@@ -18,12 +18,12 @@ namespace Invision
 	VulkanCommandBuffer::VulkanCommandBuffer(VulkanInstance* instance, std::shared_ptr<Invision::IFramebuffer> framebuffer) :
 		ICommandBuffer(instance, framebuffer)
 	{
-		vulkanInstance = instance;
+		mVulkanInstance = instance;
 		mCommandBuffers.resize(dynamic_pointer_cast<VulkanFramebuffer>(framebuffer)->GetFramebuffers().size());
 
 		for (int i = 0; i < mCommandBuffers.size(); i++)
 		{
-			mCommandBuffers[i].CreateCommandBuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetCoreEngine()->GetCommandPool(), (unsigned int)dynamic_pointer_cast<Invision::VulkanFramebuffer>(framebuffer)->GetFramebuffers().size());
+			mCommandBuffers[i].CreateCommandBuffer(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), (unsigned int)dynamic_pointer_cast<Invision::VulkanFramebuffer>(framebuffer)->GetFramebuffers().size());
 		}
 	}
 
@@ -82,7 +82,7 @@ namespace Invision
 	{
 		std::vector< VkClearValue> clearValues = {};
 
-		if (vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated() == true)
+		if (mVulkanInstance->GetDepthRessources().AreDepthRessourcesActivated() == true)
 		{
 			clearValues.resize(2);
 			clearValues[0].color = { mBackground[0], mBackground[1], mBackground[2], mBackground[3] };
@@ -96,7 +96,7 @@ namespace Invision
 
 		for (int i = 0; i < mCommandBuffers.size(); i++)
 		{
-			mCommandBuffers[i].BeginRenderPass(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), dynamic_pointer_cast<VulkanFramebuffer>(framebuffer)->GetFramebuffer(i), clearValues);
+			mCommandBuffers[i].BeginRenderPass(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(), mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), dynamic_pointer_cast<VulkanFramebuffer>(framebuffer)->GetFramebuffer(i), clearValues);
 		}
 		
 		return *this;
@@ -123,7 +123,7 @@ namespace Invision
 		for (int i = 0; i < mCommandBuffers.size(); i++)
 		{
 			
-			mCommandBuffers[i].BindVertexBuffer(baseVertexBuffer, vulkanInstance->GetCoreEngine()->GetMemoryManager(), firstBinding, bindingCount);
+			mCommandBuffers[i].BindVertexBuffer(baseVertexBuffer, mVulkanInstance->GetCoreEngine()->GetMemoryManager(), firstBinding, bindingCount);
 		}
 
 		return *this;
@@ -239,7 +239,7 @@ namespace Invision
 	{
 		for (int i = 0; i < mCommandBuffers.size(); i++)
 		{
-			mCommandBuffers[i].DestroyCommandBuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetCoreEngine()->GetCommandPool());
+			mCommandBuffers[i].DestroyCommandBuffer(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(), mVulkanInstance->GetCoreEngine()->GetCommandPool());
 		}
 	}
 

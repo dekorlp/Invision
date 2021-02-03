@@ -23,7 +23,7 @@ namespace Invision
 	{
 		std::vector<const char*> requiredExtensions = { "VK_KHR_surface", "VK_KHR_win32_surface" };
 
-		vulkInstance = vulkanInstance.Init("Hello World", "Invision", VK_MAKE_VERSION(1, 0, 0), VK_MAKE_VERSION(1, 0, 0), requiredExtensions);
+		mVulkInstance = mVulkanInstance.Init("Hello World", "Invision", VK_MAKE_VERSION(1, 0, 0), VK_MAKE_VERSION(1, 0, 0), requiredExtensions);
 		//vulkanInstance.SetDebugMessanger(nullptr, VulkanDebug::debugCallback);
 		
 		
@@ -34,112 +34,112 @@ namespace Invision
 	{
 		std::vector<const char*> requiredExtensions = { "VK_KHR_surface", "VK_KHR_win32_surface" };
 
-		vulkInstance = vulkanInstance.Init("Hello World", "Invision", VK_MAKE_VERSION(1, 0, 0), VK_MAKE_VERSION(1, 0, 0), requiredExtensions, true);
-		vulkanInstance.SetDebugMessanger(ofstr, VulkanDebug::debugCallback);
+		mVulkInstance = mVulkanInstance.Init("Hello World", "Invision", VK_MAKE_VERSION(1, 0, 0), VK_MAKE_VERSION(1, 0, 0), requiredExtensions, true);
+		mVulkanInstance.SetDebugMessanger(ofstr, VulkanDebug::debugCallback);
 
 
 	}
 
 	void VulkanEngine::Init(MSAAMode msaa)
 	{
-		Invision::VulkanBaseDevice().PickPhysicalDevice(vulkInstance);
-		deviceProperties = ConvertPhysicalDeviceParameters(vulkInstance.physicalDeviceStruct);
+		Invision::VulkanBaseDevice().PickPhysicalDevice(mVulkInstance);
+		mDeviceProperties = ConvertPhysicalDeviceParameters(mVulkInstance.physicalDeviceStruct);
 
 		switch (msaa)
 		{
 		case MSAAMODE_OFF:
-			vulkInstance.UseMSAA = false;
+			mVulkInstance.UseMSAA = false;
 			break;
 		case MSAAMODE_SAMPLE_COUNT_1:
-			vulkInstance.UseMSAA = true;
-			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_1_BIT);
+			mVulkInstance.UseMSAA = true;
+			mVulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkInstance, VK_SAMPLE_COUNT_1_BIT);
 			break;
 		case MSAAMODE_SAMPLE_COUNT_2:
-			vulkInstance.UseMSAA = true;
-			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_2_BIT);
+			mVulkInstance.UseMSAA = true;
+			mVulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkInstance, VK_SAMPLE_COUNT_2_BIT);
 			break;
 		case MSAAMODE_SAMPLE_COUNT_4:
-			vulkInstance.UseMSAA = true;
-			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_4_BIT);
+			mVulkInstance.UseMSAA = true;
+			mVulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkInstance, VK_SAMPLE_COUNT_4_BIT);
 			break;
 		case MSAAMODE_SAMPLE_COUNT_8:
-			vulkInstance.UseMSAA = true;
-			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_8_BIT);
+			mVulkInstance.UseMSAA = true;
+			mVulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkInstance, VK_SAMPLE_COUNT_8_BIT);
 			break;
 		case MSAAMODE_SAMPLE_COUNT_16:
-			vulkInstance.UseMSAA = true;
-			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_16_BIT);
+			mVulkInstance.UseMSAA = true;
+			mVulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkInstance, VK_SAMPLE_COUNT_16_BIT);
 			break;
 		case MSAAMODE_SAMPLE_COUNT_32:
-			vulkInstance.UseMSAA = true;
-			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_32_BIT);
+			mVulkInstance.UseMSAA = true;
+			mVulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkInstance, VK_SAMPLE_COUNT_32_BIT);
 			break;
 		case MSAAMODE_SAMPLE_COUNT_64:
-			vulkInstance.UseMSAA = true;
-			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_64_BIT);
+			mVulkInstance.UseMSAA = true;
+			mVulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkInstance, VK_SAMPLE_COUNT_64_BIT);
 			break;
 		case MSAAMODE_SAMPLE_COUNT_BEST:
-			vulkInstance.UseMSAA = true;
-			vulkInstance.MsaaFlagBits = Invision::GetMaxUsableSampleCount(vulkInstance);
+			mVulkInstance.UseMSAA = true;
+			mVulkInstance.MsaaFlagBits = Invision::GetMaxUsableSampleCount(mVulkInstance);
 			break;
 		}
 
-		Invision::VulkanBaseDevice().CreateLogicalDevice(vulkInstance);
+		Invision::VulkanBaseDevice().CreateLogicalDevice(mVulkInstance);
 
-		commandPool.CreateCommandPool(vulkInstance);
+		mCommandPool.CreateCommandPool(mVulkInstance);
 
-		mMemoryManager.Init(vulkInstance, 2147483648); // Allocate 2GB
+		mMemoryManager.Init(mVulkInstance, 2147483648); // Allocate 2GB
 	}
 
 	void VulkanEngine::Init(unsigned int index, MSAAMode msaa)
 	{
-		Invision::VulkanBaseDevice().PickPhysicalDevice(vulkInstance, index);
-		deviceProperties = ConvertPhysicalDeviceParameters(vulkInstance.physicalDeviceStruct);
+		Invision::VulkanBaseDevice().PickPhysicalDevice(mVulkInstance, index);
+		mDeviceProperties = ConvertPhysicalDeviceParameters(mVulkInstance.physicalDeviceStruct);
 
 		switch (msaa)
 		{
 		case MSAAMODE_OFF:
-			vulkInstance.UseMSAA = false;
+			mVulkInstance.UseMSAA = false;
 			break;
 		case MSAAMODE_SAMPLE_COUNT_1:
-			vulkInstance.UseMSAA = true;
-			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_1_BIT);
+			mVulkInstance.UseMSAA = true;
+			mVulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkInstance, VK_SAMPLE_COUNT_1_BIT);
 			break;
 		case MSAAMODE_SAMPLE_COUNT_2:
-			vulkInstance.UseMSAA = true;
-			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_2_BIT);
+			mVulkInstance.UseMSAA = true;
+			mVulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkInstance, VK_SAMPLE_COUNT_2_BIT);
 			break;
 		case MSAAMODE_SAMPLE_COUNT_4:
-			vulkInstance.UseMSAA = true;
-			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_4_BIT);
+			mVulkInstance.UseMSAA = true;
+			mVulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkInstance, VK_SAMPLE_COUNT_4_BIT);
 			break;
 		case MSAAMODE_SAMPLE_COUNT_8:
-			vulkInstance.UseMSAA = true;
-			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_8_BIT);
+			mVulkInstance.UseMSAA = true;
+			mVulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkInstance, VK_SAMPLE_COUNT_8_BIT);
 			break;
 		case MSAAMODE_SAMPLE_COUNT_16:
-			vulkInstance.UseMSAA = true;
-			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_16_BIT);
+			mVulkInstance.UseMSAA = true;
+			mVulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkInstance, VK_SAMPLE_COUNT_16_BIT);
 			break;
 		case MSAAMODE_SAMPLE_COUNT_32:
-			vulkInstance.UseMSAA = true;
-			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_32_BIT);
+			mVulkInstance.UseMSAA = true;
+			mVulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkInstance, VK_SAMPLE_COUNT_32_BIT);
 			break;
 		case MSAAMODE_SAMPLE_COUNT_64:
-			vulkInstance.UseMSAA = true;
-			vulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(vulkInstance, VK_SAMPLE_COUNT_64_BIT);
+			mVulkInstance.UseMSAA = true;
+			mVulkInstance.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkInstance, VK_SAMPLE_COUNT_64_BIT);
 			break;
 		case MSAAMODE_SAMPLE_COUNT_BEST:
-			vulkInstance.UseMSAA = true;
-			vulkInstance.MsaaFlagBits = Invision::GetMaxUsableSampleCount(vulkInstance);
+			mVulkInstance.UseMSAA = true;
+			mVulkInstance.MsaaFlagBits = Invision::GetMaxUsableSampleCount(mVulkInstance);
 			break;
 		}
 
-		Invision::VulkanBaseDevice().CreateLogicalDevice(vulkInstance);
+		Invision::VulkanBaseDevice().CreateLogicalDevice(mVulkInstance);
 
-		commandPool.CreateCommandPool(vulkInstance);
+		mCommandPool.CreateCommandPool(mVulkInstance);
 
-		mMemoryManager.Init(vulkInstance, 2147483648); // Allocate 2GB
+		mMemoryManager.Init(mVulkInstance, 2147483648); // Allocate 2GB
 	}
 
 	std::shared_ptr<IGraphicsInstance> VulkanEngine::CreateInstance(CanvasDimensions canvas, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, bool activateDepthTest)
@@ -149,12 +149,12 @@ namespace Invision
 
 	Invision::SVulkanBase& VulkanEngine::GetVulkanInstance()
 	{
-		return vulkInstance;
+		return mVulkInstance;
 	}
 
 	Invision::VulkanBaseCommandPool VulkanEngine::GetCommandPool()
 	{
-		return commandPool;
+		return mCommandPool;
 	}
 
 	PhysicalDeviceProperties VulkanEngine::ConvertPhysicalDeviceParameters(SVulkanBasePhysicalDevice physicalDeviceStruct)
@@ -220,17 +220,17 @@ namespace Invision
 	{
 		std::vector< PhysicalDeviceProperties> physicalDevices;
 
-		if (!vulkInstance.instance) {
+		if (!mVulkInstance.instance) {
 			throw InvisionBaseRendererException("Programming Error:\n"
 				"Attempted to get a Vulkan physical device before the Vulkan instance was created.");
 		}
 		uint32_t deviceCount = 0;
-		vkEnumeratePhysicalDevices(vulkInstance.instance, &deviceCount, nullptr);
+		vkEnumeratePhysicalDevices(mVulkInstance.instance, &deviceCount, nullptr);
 		if (deviceCount == 0) {
 			throw InvisionBaseRendererException("Failed to find a GPU with Vulkan support.");
 		}
 		std::vector<VkPhysicalDevice> devices(deviceCount);
-		vkEnumeratePhysicalDevices(vulkInstance.instance, &deviceCount, devices.data());
+		vkEnumeratePhysicalDevices(mVulkInstance.instance, &deviceCount, devices.data());
 		int index = 0;
 		for (const auto& device : devices) {
 			SVulkanBasePhysicalDevice deviceProperties;
@@ -253,12 +253,12 @@ namespace Invision
 
 	VulkanEngine::~VulkanEngine()
 	{
-		mMemoryManager.Destroy(vulkInstance);
-		commandPool.DestroyCommandPool(vulkInstance);
+		mMemoryManager.Destroy(mVulkInstance);
+		mCommandPool.DestroyCommandPool(mVulkInstance);
 		//Invision::DestroyPresentationSystem(vulkInstance, vulkanContext);
-		Invision::DestroyVulkanDevice(vulkInstance);
+		Invision::DestroyVulkanDevice(mVulkInstance);
 		//Invision::DestroySurface(vulkInstance, vulkanContext);
-		vulkanInstance.Destroy();
+		mVulkanInstance.Destroy();
 	}
 
 }

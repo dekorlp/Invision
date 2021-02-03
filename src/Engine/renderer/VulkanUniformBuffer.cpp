@@ -11,7 +11,7 @@ namespace Invision
 	VulkanUniformBuffer::VulkanUniformBuffer(VulkanInstance* instance) :
 		IUniformBuffer(instance)
 	{
-		vulkanInstance = instance;
+		mVulkanInstance = instance;
 	}
 
 	VulkanUniformBuffer& VulkanUniformBuffer::CreateUniformBinding(uint32_t set, uint32_t binding, uint32_t descriptorCount, ShaderStageFlag shaderStage, uint64_t bufferSize)
@@ -54,7 +54,7 @@ namespace Invision
 			throw InvisionBaseRendererException("Unknown ShaderStageFlag passed to Function CreateUniformBinding");
 		}
 
-		uniformBuffer.CreateUniformBinding(set, binding, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, descriptorCount, vkShaderStage, bufferSize);
+		mUniformBuffer.CreateUniformBinding(set, binding, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, descriptorCount, vkShaderStage, bufferSize);
 		return *this;
 	}
 
@@ -99,7 +99,7 @@ namespace Invision
 		}
 
 		
-		uniformBuffer.CreateImageBinding(set, binding, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, descriptorCount, vkShaderStage, dynamic_pointer_cast<VulkanTexture>(texture)->GetBaseTexture().GetImageView(), dynamic_pointer_cast<VulkanTexture>(texture)->GetBaseTexture().GetImageSampler());
+		mUniformBuffer.CreateImageBinding(set, binding, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, descriptorCount, vkShaderStage, dynamic_pointer_cast<VulkanTexture>(texture)->GetBaseTexture().GetImageView(), dynamic_pointer_cast<VulkanTexture>(texture)->GetBaseTexture().GetImageSampler());
 		return *this;
 
 
@@ -107,21 +107,21 @@ namespace Invision
 
 	void VulkanUniformBuffer::CreateUniformBuffer()
 	{
-		uniformBuffer.CreateUniformBuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), vulkanInstance->GetCoreEngine()->GetMemoryManager());
+		mUniformBuffer.CreateUniformBuffer(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(), mVulkanInstance->GetVulkanContext(), mVulkanInstance->GetCoreEngine()->GetMemoryManager());
 	}
 
 	void VulkanUniformBuffer::UpdateUniform(const void* source, size_t size, uint32_t set, uint32_t binding)
 	{
-		uniformBuffer.UpdateUniform(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), vulkanInstance->GetCoreEngine()->GetMemoryManager(),  source, size, set, binding);
+		mUniformBuffer.UpdateUniform(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(), mVulkanInstance->GetVulkanContext(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(),  source, size, set, binding);
 	}
 
 	VulkanBaseUniformBuffer VulkanUniformBuffer::GetBuffer()
 	{
-		return uniformBuffer;
+		return mUniformBuffer;
 	}
 
 	VulkanUniformBuffer::~VulkanUniformBuffer()
 	{
-		uniformBuffer.DestroyUniformBuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetCoreEngine()->GetMemoryManager());
+		mUniformBuffer.DestroyUniformBuffer(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(), mVulkanInstance->GetCoreEngine()->GetMemoryManager());
 	}
 }

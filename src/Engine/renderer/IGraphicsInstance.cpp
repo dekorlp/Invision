@@ -8,19 +8,19 @@
 namespace Invision
 {
 	IGraphicsInstance::IGraphicsInstance(IGraphicsEngine* engine) :
-		Engine(engine)
+		mEngine(engine)
 	{
 	}
 	
 	IGraphicsInstance::IGraphicsInstance(IGraphicsEngine* engine, CanvasDimensions* canvas, bool activateDepthTest) :
-		Engine(engine)
+		mEngine(engine)
 	{
 		
 	}
 
 	IGraphicsEngine* IGraphicsInstance::engine()
 	{
-		return Engine;
+		return mEngine;
 	}
 
 }

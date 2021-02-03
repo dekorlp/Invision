@@ -9,7 +9,7 @@ namespace Invision
 
 	class IRenderer
 	{
-		IGraphicsInstance* instance = nullptr;
+		IGraphicsInstance* mInstance = nullptr;
 
 	public:
 		INVISION_API IRenderer() = delete;

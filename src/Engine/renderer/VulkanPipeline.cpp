@@ -14,7 +14,7 @@ namespace Invision
 	VulkanPipeline::VulkanPipeline(VulkanInstance* instance) :
 		IPipeline(instance)
 	{
-		vulkanInstance = instance;
+		mVulkanInstance = instance;
 		//mPipelineProperties ;
 		mPipelineProperties = std::make_shared<PipelineProperties>();		
 	}
@@ -22,7 +22,7 @@ namespace Invision
 	VulkanPipeline::VulkanPipeline(VulkanInstance* instance, PipelineProperties* pipelineProperties) :
 		IPipeline(instance, pipelineProperties)
 	{
-		vulkanInstance = instance;
+		mVulkanInstance = instance;
 		mPipelineProperties = std::make_shared<PipelineProperties>(*pipelineProperties);
 	}
 
@@ -56,33 +56,33 @@ namespace Invision
 
 		}
 
-		shaders.push_back(VulkanBaseShader(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), code, vkShaderStage));
+		mShaders.push_back(VulkanBaseShader(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(), code, vkShaderStage));
 	}
 
 	void VulkanPipeline::ClearUniformBuffer()
 	{
-		pipeline.ClearUniformsBuffer();
+		mPipeline.ClearUniformsBuffer();
 	}
 
 	void VulkanPipeline::AddUniformBuffer(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer)
 	{
-		pipeline.AddUniformBuffer(dynamic_pointer_cast<VulkanUniformBuffer>(uniformBuffer)->GetBuffer());
+		mPipeline.AddUniformBuffer(dynamic_pointer_cast<VulkanUniformBuffer>(uniformBuffer)->GetBuffer());
 	}
 
 	void VulkanPipeline::AddUniformBuffer(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer, uint32_t set)
 	{
-		pipeline.AddUniformBuffer(dynamic_pointer_cast<VulkanUniformBuffer>(uniformBuffer)->GetBuffer(), set);
+		mPipeline.AddUniformBuffer(dynamic_pointer_cast<VulkanUniformBuffer>(uniformBuffer)->GetBuffer(), set);
 	}
 
 
 	void VulkanPipeline::AddVertexBuffer(std::shared_ptr<Invision::IVertexBuffer> vertexBuffer)
 	{
-		pipeline.AddVertexBuffer(dynamic_pointer_cast<VulkanVertexBuffer>(vertexBuffer)->GetBaseVertexBuffer());
+		mPipeline.AddVertexBuffer(dynamic_pointer_cast<VulkanVertexBuffer>(vertexBuffer)->GetBaseVertexBuffer());
 	}
 
 	void VulkanPipeline::BindPushConstant(std::shared_ptr <Invision::IPushConstant> pushConstant)
 	{
-		pipeline.BindPushConstant(dynamic_pointer_cast<VulkanPushConstant>(pushConstant)->GetBasePushConstant());
+		mPipeline.BindPushConstant(dynamic_pointer_cast<VulkanPushConstant>(pushConstant)->GetBasePushConstant());
 	}
 
 	void VulkanPipeline::CreatePipeline(std::shared_ptr<Invision::IRenderPass> renderPass)
@@ -180,28 +180,28 @@ namespace Invision
 
 		///////////////////////////////////////////////////
 
-		for (int i = 0; i < shaders.size(); i++)
+		for (int i = 0; i < mShaders.size(); i++)
 		{
-			pipeline.AddShader(shaders[i]);
+			mPipeline.AddShader(mShaders[i]);
 		}
 		
-		pipeline.SetRenderProperties(vkPrimitiveTopology, vkPolygonMode, vkCullMode, vkFrontface, mPipelineProperties->mLineWidth);
-		pipeline.CreatePipeline(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), 0,vulkanInstance->GetDepthRessources().AreDepthRessourcesActivated(), vulkanInstance->GetCoreEngine()->GetVulkanInstance().MsaaFlagBits);
-		for(int i = 0; i < shaders.size(); i++)
+		mPipeline.SetRenderProperties(vkPrimitiveTopology, vkPolygonMode, vkCullMode, vkFrontface, mPipelineProperties->mLineWidth);
+		mPipeline.CreatePipeline(mVulkanInstance->GetCoreEngine()->GetVulkanInstance(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), 0,mVulkanInstance->GetDepthRessources().AreDepthRessourcesActivated(), mVulkanInstance->GetCoreEngine()->GetVulkanInstance().MsaaFlagBits);
+		for(int i = 0; i < mShaders.size(); i++)
 		{
-			shaders[i].Destroy(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
+			mShaders[i].Destroy(mVulkanInstance->GetCoreEngine()->GetVulkanInstance());
 		}
 
 	}
 
 	VulkanBasePipeline VulkanPipeline::GetPipeline()
 	{
-		return pipeline;
+		return mPipeline;
 	}
 
 	VulkanPipeline::~VulkanPipeline()
 	{
-		pipeline.DestroyPipeline(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
+		mPipeline.DestroyPipeline(mVulkanInstance->GetCoreEngine()->GetVulkanInstance());
 	}
 
 }

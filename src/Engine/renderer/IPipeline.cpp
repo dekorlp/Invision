@@ -8,12 +8,12 @@
 namespace Invision
 {
 	IPipeline::IPipeline(IGraphicsInstance* instance) :
-		instance(instance)
+		mInstance(instance)
 	{
 	}
 
 	IPipeline::IPipeline(IGraphicsInstance* instance, PipelineProperties* pipelineProperties) :
-		instance(instance)
+		mInstance(instance)
 	{
 	}
 

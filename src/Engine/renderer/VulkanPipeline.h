@@ -40,10 +40,10 @@ namespace Invision
 
 
 	private:
-		Invision::VulkanInstance *vulkanInstance;
+		Invision::VulkanInstance *mVulkanInstance;
 
-		std::vector< Invision::VulkanBaseShader> shaders;
-		Invision::VulkanBasePipeline pipeline;
+		std::vector< Invision::VulkanBaseShader> mShaders;
+		Invision::VulkanBasePipeline mPipeline;
 
 		std::shared_ptr<PipelineProperties> mPipelineProperties = nullptr;
 
