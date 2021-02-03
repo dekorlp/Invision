@@ -107,12 +107,12 @@ namespace Invision
 
 	void VulkanUniformBuffer::CreateUniformBuffer()
 	{
-		uniformBuffer.CreateUniformBuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext());
+		uniformBuffer.CreateUniformBuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), vulkanInstance->GetCoreEngine()->GetMemoryManager());
 	}
 
 	void VulkanUniformBuffer::UpdateUniform(const void* source, size_t size, uint32_t set, uint32_t binding)
 	{
-		uniformBuffer.UpdateUniform(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), source, size, set, binding);
+		uniformBuffer.UpdateUniform(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetVulkanContext(), vulkanInstance->GetCoreEngine()->GetMemoryManager(),  source, size, set, binding);
 	}
 
 	VulkanBaseUniformBuffer VulkanUniformBuffer::GetBuffer()
@@ -122,6 +122,6 @@ namespace Invision
 
 	VulkanUniformBuffer::~VulkanUniformBuffer()
 	{
-		uniformBuffer.DestroyUniformBuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
+		uniformBuffer.DestroyUniformBuffer(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetCoreEngine()->GetMemoryManager());
 	}
 }

@@ -7,6 +7,8 @@
 
 namespace Invision
 {
+	class VulkanBaseMemoryManager;
+
 	class VulkanBaseUniformBinding
 	{
 		private:
@@ -17,7 +19,8 @@ namespace Invision
 			VkShaderStageFlags mStageFlags;
 			VkDeviceSize mBufferSize;
 			VkDeviceSize mOffset;
-			VulkanBaseBuffer mUniformBuffer;
+			//VulkanBaseBuffer mUniformBuffer;
+			void* mBufferHandle;
 			VkDescriptorImageInfo mImageInfo;
 			VkDescriptorBufferInfo mBufferInfo;
 			
@@ -40,9 +43,10 @@ namespace Invision
 			INVISION_API VkDeviceSize GetOffset();
 			INVISION_API void  SetSetIndex(uint32 setIndex);
 			INVISION_API VkDeviceSize GetSetIndex();
-			INVISION_API void CreateBaseBuffer(const SVulkanBase &vulkanInstance);
-			INVISION_API VulkanBaseBuffer GetBaseBuffer();
-			INVISION_API void ClearAndDestroyBuffers(const SVulkanBase &vulkanInstance);
+			INVISION_API void CreateBaseBuffer(const SVulkanBase &vulkanInstance, VulkanBaseMemoryManager& memoryManager);
+			INVISION_API VkBuffer GetBuffer(VulkanBaseMemoryManager& memoryManager);
+			INVISION_API void* GetBufferHandle(VulkanBaseMemoryManager& memoryManager);
+			INVISION_API void ClearAndDestroyBuffers(const SVulkanBase &vulkanInstance, VulkanBaseMemoryManager& memoryManager);
 			INVISION_API VkDescriptorImageInfo& GetImageInfo();
 			INVISION_API VkDescriptorBufferInfo& GetBufferInfo();
 	};
@@ -67,8 +71,8 @@ namespace Invision
 		std::vector<SetProperties> mSets;
 
 		INVISION_API void CreateUniformSet(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext);
-		INVISION_API void CreateBuffers(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext);
-		INVISION_API void DestroyUniformSet(const SVulkanBase &vulkanInstance);
+		INVISION_API void CreateBuffers(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, VulkanBaseMemoryManager& memoryManager);
+		INVISION_API void DestroyUniformSet(const SVulkanBase &vulkanInstance, VulkanBaseMemoryManager& memoryManager);
 		INVISION_API void CreateDescriptorSets(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext); 
 
 		uint32_t maxSet;
@@ -89,10 +93,10 @@ namespace Invision
 			VkImageView imageView,
 			VkSampler sampler);
 
-		INVISION_API void CreateUniformBuffer(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext);
-		INVISION_API void DestroyUniformBuffer(const SVulkanBase &vulkanInstance);
+		INVISION_API void CreateUniformBuffer(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, VulkanBaseMemoryManager& memoryManager);
+		INVISION_API void DestroyUniformBuffer(const SVulkanBase &vulkanInstance, VulkanBaseMemoryManager& memoryManager);
 		//INVISION_API std::vector<VkDescriptorSetLayout> GetDescriptorSetLayout();
-		INVISION_API void UpdateUniform(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, const void* source, size_t size, uint32_t set, uint32_t binding);
+		INVISION_API void UpdateUniform(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, VulkanBaseMemoryManager& memoryManager, const void* source, size_t size, uint32_t set, uint32_t binding);
 		INVISION_API std::vector<SetProperties> GetSets();
 		INVISION_API size_t GetSizeOfBindings();
 	};

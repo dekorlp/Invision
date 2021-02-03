@@ -3,7 +3,7 @@
 #include "VulkanBase.h"
 #include "VulkanBaseException.h"
 
-
+#include "VulkanBaseMemoryManager.h"
 #include "VulkanBaseUniformBuffer.h"
 
 namespace Invision
@@ -68,15 +68,21 @@ namespace Invision
 		return mOffset;
 	}
 
-	void VulkanBaseUniformBinding::CreateBaseBuffer(const SVulkanBase &vulkanInstance)
+	void VulkanBaseUniformBinding::CreateBaseBuffer(const SVulkanBase &vulkanInstance, VulkanBaseMemoryManager& memoryManager)
 	{
-		this->mUniformBuffer.CreateBuffer(vulkanInstance, mBufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, VK_SHARING_MODE_EXCLUSIVE, mOffset);
-		this->mBufferInfo.buffer = mUniformBuffer.GetBuffer();
+		mBufferHandle = memoryManager.BindToSharedMemory(vulkanInstance, mBufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_SHARING_MODE_EXCLUSIVE);
+		
+		this->mBufferInfo.buffer = memoryManager.GetBuffer(mBufferHandle);
 	}
 
-	VulkanBaseBuffer VulkanBaseUniformBinding::GetBaseBuffer()
+	VkBuffer VulkanBaseUniformBinding::GetBuffer(VulkanBaseMemoryManager& memoryManager)
 	{
-		return mUniformBuffer;
+		return memoryManager.GetBuffer(mBufferHandle);
+	}
+
+	void* VulkanBaseUniformBinding::GetBufferHandle(VulkanBaseMemoryManager& memoryManager)
+	{
+		return mBufferHandle;
 	}
 
 	VkDescriptorImageInfo& VulkanBaseUniformBinding::GetImageInfo()
@@ -89,9 +95,9 @@ namespace Invision
 		return mBufferInfo;
 	}
 
-	void VulkanBaseUniformBinding::ClearAndDestroyBuffers(const SVulkanBase &vulkanInstance)
+	void VulkanBaseUniformBinding::ClearAndDestroyBuffers(const SVulkanBase &vulkanInstance, VulkanBaseMemoryManager& memoryManager)
 	{
-		mUniformBuffer.DestroyBuffer(vulkanInstance);
+		memoryManager.Unbind(vulkanInstance, mBufferHandle);
 	}
 
 	VulkanBaseUniformBuffer::VulkanBaseUniformBuffer()
@@ -147,10 +153,10 @@ namespace Invision
 		return mSetIndex;
 	}
 
-	void VulkanBaseUniformBuffer::CreateUniformBuffer(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext)
+	void VulkanBaseUniformBuffer::CreateUniformBuffer(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, VulkanBaseMemoryManager& memoryManager)
 	{
 		CreateUniformSet(vulkanInstance, vulkanContext);
-		CreateBuffers(vulkanInstance, vulkanContext);
+		CreateBuffers(vulkanInstance, vulkanContext, memoryManager);
 		CreateDescriptorSets(vulkanInstance, vulkanContext);
 	}
 
@@ -208,20 +214,20 @@ namespace Invision
 		
 	}
 
-	void VulkanBaseUniformBuffer::CreateBuffers(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext)
+	void VulkanBaseUniformBuffer::CreateBuffers(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, VulkanBaseMemoryManager& memoryManager)
 	{
 		for (unsigned int j = 0; j < bindings.size(); j++)
 		{
 			if (bindings[j].GetDescriptorType() == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER)
 			{
-				bindings.at(j).CreateBaseBuffer(vulkanInstance);
+				bindings.at(j).CreateBaseBuffer(vulkanInstance, memoryManager);
 			}
 		}
 	}
 
-	void VulkanBaseUniformBuffer::DestroyUniformBuffer(const SVulkanBase &vulkanInstance)
+	void VulkanBaseUniformBuffer::DestroyUniformBuffer(const SVulkanBase &vulkanInstance, VulkanBaseMemoryManager& memoryManager)
 	{
-		DestroyUniformSet(vulkanInstance);
+		DestroyUniformSet(vulkanInstance, memoryManager);
 		for (int i = 0; i < mSets.size(); i++)
 		{
 			mSets[i].mDescriptorPool.DestroyDescriptorPool(vulkanInstance);
@@ -230,7 +236,7 @@ namespace Invision
 		mSets.clear();
 	}
 
-	void VulkanBaseUniformBuffer::DestroyUniformSet(const SVulkanBase &vulkanInstance)
+	void VulkanBaseUniformBuffer::DestroyUniformSet(const SVulkanBase &vulkanInstance, VulkanBaseMemoryManager& memoryManager)
 	{
 		for (int i = 0; i < mSets.size(); i++)
 		{
@@ -241,7 +247,7 @@ namespace Invision
 		{
 			if (bindings[i].GetDescriptorType() == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER) // Only Uniform Buffer have an UniformBuffer Object!
 			{
-				bindings.at(i).ClearAndDestroyBuffers(vulkanInstance);
+				bindings.at(i).ClearAndDestroyBuffers(vulkanInstance, memoryManager);
 			}
 		}
 
@@ -252,7 +258,7 @@ namespace Invision
 		return mSets;
 	}
 
-	void VulkanBaseUniformBuffer::UpdateUniform(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, const void* source, size_t size, uint32_t set, uint32_t binding)
+	void VulkanBaseUniformBuffer::UpdateUniform(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, VulkanBaseMemoryManager& memoryManager, const void* source, size_t size, uint32_t set, uint32_t binding)
 	{
 		int index = -1;
 		for (unsigned int i = 0; i < bindings.size(); i++)
@@ -266,10 +272,7 @@ namespace Invision
 		
 		if (index != -1)
 		{
-			void* data;
-			vkMapMemory(vulkanInstance.logicalDevice, bindings.at(index).GetBaseBuffer().GetDeviceMemory(), 0, size, 0, &data);
-			memcpy(data, source, size);
-			vkUnmapMemory(vulkanInstance.logicalDevice, bindings.at(index).GetBaseBuffer().GetDeviceMemory());
+			memoryManager.CopyDataToBuffer(vulkanInstance, bindings.at(index).GetBufferHandle(memoryManager), source);
 		}
 		else
 		{
