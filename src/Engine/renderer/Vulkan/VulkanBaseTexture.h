@@ -12,7 +12,7 @@ namespace Invision
 	class  VulkanBaseTexture
 	{
 		public:
-			void CreateTextureImage(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, unsigned char* pixels, int imageSize, int width, int height, VkDeviceSize offset, bool useDepthRessource, bool generateMipMaps = false);
+			void CreateTextureImage(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, unsigned char* pixels, int imageSize, int width, int height, bool useDepthRessource, bool generateMipMaps = false);
 			void CreateTextureImageView(SVulkanBase &vulkanInstance);
 			void CreateTextureSampler(SVulkanBase &vulkanInstance, VkFilter minFilter, VkFilter magFilter, VkSamplerAddressMode addressU, VkSamplerAddressMode addressV, VkSamplerAddressMode addressW, float MipLodBias, float minLod);
 			void DestroyTexture(const SVulkanBase &vulkanInstance);
@@ -31,7 +31,6 @@ namespace Invision
 
 			//VulkanBaseBuffer mTextureBuffer;
 			VulkanBaseMemoryManager *mMemoryManager;
-			VkDeviceSize mOffset;
 
 			uint32_t mMipLevels;
 			VkDeviceMemory mImageMemory;
