@@ -30,7 +30,7 @@ namespace Invision
 		VkBuffer mBuffer;
 		MemoryType mMemType;
 		VkDeviceSize mAllocatedPages;
-		bool inUse = false;
+		bool mInUse = false;
 	};
 
 	class  VulkanBaseMemoryManager

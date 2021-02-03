@@ -21,7 +21,7 @@ namespace Invision
 		{
 			void* actualLocalMemPosition = mLocalMemory.mMappedMemory.Allocate();
 
-			((VulkanBaseBuffer*)(actualLocalMemPosition))->inUse = false;
+			((VulkanBaseBuffer*)(actualLocalMemPosition))->mInUse = false;
 			((VulkanBaseBuffer*)(actualLocalMemPosition))->mSize = 0;
 			((VulkanBaseBuffer*)(actualLocalMemPosition))->mBuffer = VK_NULL_HANDLE;
 			((VulkanBaseBuffer*)(actualLocalMemPosition))->mAllocatedPages = 0;
@@ -45,7 +45,7 @@ namespace Invision
 		{
 			void* actualSharedMemPosition = mSharedMemory.mMappedMemory.Allocate();
 
-			((VulkanBaseBuffer*)(actualSharedMemPosition))->inUse = false;
+			((VulkanBaseBuffer*)(actualSharedMemPosition))->mInUse = false;
 			((VulkanBaseBuffer*)(actualSharedMemPosition))->mSize = 0;
 			((VulkanBaseBuffer*)(actualSharedMemPosition))->mBuffer = VK_NULL_HANDLE;
 			((VulkanBaseBuffer*)(actualSharedMemPosition))->mAllocatedPages = 0;
@@ -104,12 +104,12 @@ namespace Invision
 			if (iterator <= countOfPages)
 			{
 				//VulkanBaseBuffer2* buffer = reinterpret_cast<VulkanBaseBuffer2*>(currPos);
-				if (((VulkanBaseBuffer*)(currPos))->inUse == false)
+				if (((VulkanBaseBuffer*)(currPos))->mInUse == false)
 				{
 					if (selectedPage == nullptr)
 					{
 
-						((VulkanBaseBuffer*)(currPos))->inUse = true;
+						((VulkanBaseBuffer*)(currPos))->mInUse = true;
 						((VulkanBaseBuffer*)(currPos))->mSize = size;
 						((VulkanBaseBuffer*)(currPos))->mAllocatedPages = countOfPages - 1;
 						((VulkanBaseBuffer*)(currPos))->mMemType = memType;
@@ -119,7 +119,7 @@ namespace Invision
 					}
 					else
 					{
-						((VulkanBaseBuffer*)(currPos))->inUse = true;
+						((VulkanBaseBuffer*)(currPos))->mInUse = true;
 						((VulkanBaseBuffer*)(currPos))->mSize = size;
 						((VulkanBaseBuffer*)(currPos))->mSize = memType;
 
@@ -132,7 +132,7 @@ namespace Invision
 					if (selectedPage != nullptr)
 					{
 						selectedPage->mAllocatedPages = 0;
-						selectedPage->inUse = false;
+						selectedPage->mInUse = false;
 						selectedPage = nullptr;
 						iterator = 0;
 					}
@@ -168,12 +168,12 @@ namespace Invision
 			if (iterator <= countOfPages)
 			{
 				//VulkanBaseBuffer2* buffer = reinterpret_cast<VulkanBaseBuffer2*>(currPos);
-				if (((VulkanBaseBuffer*)(currPos))->inUse == false)
+				if (((VulkanBaseBuffer*)(currPos))->mInUse == false)
 				{
 					if (selectedPage == nullptr)
 					{
 
-						((VulkanBaseBuffer*)(currPos))->inUse = true;
+						((VulkanBaseBuffer*)(currPos))->mInUse = true;
 						((VulkanBaseBuffer*)(currPos))->mSize = size;
 						((VulkanBaseBuffer*)(currPos))->mAllocatedPages = countOfPages - 1;
 						((VulkanBaseBuffer*)(currPos))->mMemType = memType;
@@ -183,7 +183,7 @@ namespace Invision
 					}
 					else
 					{
-						((VulkanBaseBuffer*)(currPos))->inUse = true;
+						((VulkanBaseBuffer*)(currPos))->mInUse = true;
 						((VulkanBaseBuffer*)(currPos))->mSize = size;
 						((VulkanBaseBuffer*)(currPos))->mSize = memType;
 
@@ -196,7 +196,7 @@ namespace Invision
 					if (selectedPage != nullptr)
 					{
 						selectedPage->mAllocatedPages = 0;
-						selectedPage->inUse = false;
+						selectedPage->mInUse = false;
 						selectedPage = nullptr;
 						iterator = 0;
 					}
@@ -274,7 +274,7 @@ namespace Invision
 		// free allocated pages
 		VkDeviceSize countOfPages = 0;
 
-		((VulkanBaseBuffer*)(memory))->inUse = false;
+		((VulkanBaseBuffer*)(memory))->mInUse = false;
 		countOfPages = ((VulkanBaseBuffer*)(memory))->mAllocatedPages;
 
 		unsigned int iterator = 0;
@@ -285,7 +285,7 @@ namespace Invision
 
 			if (iterator <= countOfPages)
 			{
-				((VulkanBaseBuffer*)(currPos))->inUse = false;
+				((VulkanBaseBuffer*)(currPos))->mInUse = false;
 			}
 			else
 			{
