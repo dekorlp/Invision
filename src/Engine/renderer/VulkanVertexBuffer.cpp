@@ -45,9 +45,9 @@ namespace Invision
 		return mBaseVertexBuffer;
 	}
 
-	std::shared_ptr < IBindingDescription> VulkanVertexBuffer::CreateVertexBinding(uint64_t size, const void *source, uint64_t offset, uint32_t stride, VertexInputRate vertexInputRate)
+	std::shared_ptr < IBindingDescription> VulkanVertexBuffer::CreateVertexBinding(uint64_t size, const void *source, uint32_t stride, VertexInputRate vertexInputRate)
 	{
-		std::shared_ptr<VulkanBindingDescription> desc = std::make_shared<VulkanBindingDescription>(vulkanInstance, mBaseVertexBuffer, size, source, offset, stride, vertexInputRate);
+		std::shared_ptr<VulkanBindingDescription> desc = std::make_shared<VulkanBindingDescription>(vulkanInstance, mBaseVertexBuffer, size, source, stride, vertexInputRate);
 		
 		return desc;
 	}
@@ -57,7 +57,7 @@ namespace Invision
 		mBaseVertexBuffer.DestroyVertexBuffers(vulkanInstance->GetCoreEngine()->GetVulkanInstance());
 	}
 	
-	VulkanBindingDescription::VulkanBindingDescription(VulkanInstance* instance, VulkanBaseVertexBuffer &baseVertexBuffer, uint64_t size, const void *source, uint64_t offset, uint32_t stride, VertexInputRate vertexInputRate) : IBindingDescription(instance)
+	VulkanBindingDescription::VulkanBindingDescription(VulkanInstance* instance, VulkanBaseVertexBuffer &baseVertexBuffer, uint64_t size, const void *source, uint32_t stride, VertexInputRate vertexInputRate) : IBindingDescription(instance)
 	{
 		vulkanInstance = instance;
 		VkVertexInputRate inputRate;
@@ -74,7 +74,7 @@ namespace Invision
 		{
 			throw InvisionBaseRendererException("Unknown VertexInputRate passed to Function CreateVertexInput");
 		}
-		mBaseBindingDesc = baseVertexBuffer.CreateBinding(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetCoreEngine()->GetCommandPool(), vulkanInstance->GetCoreEngine()->GetMemoryManager(), size, source, offset, stride, inputRate);
+		mBaseBindingDesc = baseVertexBuffer.CreateBinding(vulkanInstance->GetCoreEngine()->GetVulkanInstance(), vulkanInstance->GetCoreEngine()->GetCommandPool(), vulkanInstance->GetCoreEngine()->GetMemoryManager(), size, source, stride, inputRate);
 		mBaseVertexBuffer = &baseVertexBuffer;
 	}
 }

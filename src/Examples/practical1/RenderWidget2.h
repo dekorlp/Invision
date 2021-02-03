@@ -187,7 +187,7 @@ private:
 		pipeline = graphicsInstance->CreatePipeline();
 
 
-		vertexBuffer->CreateVertexBinding(sizeof(vertices2[0]) * vertices2.size(), vertices2.data(), 0, sizeof(Vertex2), Invision::VERTEX_INPUT_RATE_VERTEX)
+		vertexBuffer->CreateVertexBinding(sizeof(vertices2[0]) * vertices2.size(), vertices2.data(), sizeof(Vertex2), Invision::VERTEX_INPUT_RATE_VERTEX)
 			->CreateAttribute(0, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex2, position))
 			.CreateAttribute(1, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex2, color));
 
