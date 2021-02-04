@@ -43,6 +43,12 @@ struct UniformBufferObject {
 	Invision::Matrix proj;
 };
 
+struct UniformLightBuffer {
+	Invision::Vector3 lightPos;
+	Invision::Vector3 lightColor;
+	Invision::Vector3 viewPos;
+};
+
 class RenderWidget : public QWidget
 {
 	Q_OBJECT;
@@ -258,12 +264,12 @@ private:
 		pipeline = graphicsInstance->CreatePipeline();
 		texture = graphicsInstance->CreateTexture();
 
-		unsigned char* pixels = readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/LoadModelDemo/Textures/viking_room.png"), width, height, channels);
+		unsigned char* pixels = readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/LoadModelDemoMipMaps/Textures/viking_room.png"), width, height, channels);
 
 		std::vector<Invision::Vector3> positions;
 		std::vector<Invision::Vector2> texCoords;
 
-		LoadModel(std::string(INVISION_BASE_DIR).append("/src/Examples/LoadModelDemo/Models/viking_room.obj"), vertices, indices);
+		LoadModel(std::string(INVISION_BASE_DIR).append("/src/Examples/LoadModelDemoMipMaps/Models/viking_room.obj"), vertices, indices);
 		texture->LoadTexture(pixels, width * height * 4, width, height, true);
 		freeImage(pixels);
 		texture->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT);
@@ -275,10 +281,12 @@ private:
 		.CreateAttribute(3, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, normal));
 
 		indexBuffer->CreateIndexBuffer(sizeof(indices[0]) * indices.size(), indices.data());
-		uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject)).CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, texture).CreateUniformBuffer();
+		uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject))
+			.CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, texture).
+			CreateUniformBinding(0, 2, 1, Invision::SHADER_STAGE_VERTEX_BIT | Invision::SHADER_STAGE_FRAGMENT_BIT, sizeof(UniformLightBuffer)).CreateUniformBuffer();
 
-		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/LoadModelDemo/Shader/LoadModelDemo/vert.spv"));
-		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/LoadModelDemo/Shader/LoadModelDemo/frag.spv"));
+		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/LoadModelDemoMipMaps/Shader/LoadModelDemoMipMaps/vert.spv"));
+		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/LoadModelDemoMipMaps/Shader/LoadModelDemoMipMaps/frag.spv"));
 		pipeline->AddUniformBuffer(uniformBuffer);
 		pipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
 		pipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
@@ -290,6 +298,12 @@ private:
 		BuildCommandBuffer(this->size().width(), this->size().height());
 		renderer = graphicsInstance->CreateRenderer();
 
+		// set light
+		UniformLightBuffer light;
+		light.lightColor = { 1.0, 1.0, 1.0 };
+		light.lightPos = { 1.2f, 1.0f, 2.0f };
+		light.viewPos = { 0.0f, 0.0f, 0.0f };
+		uniformBuffer->UpdateUniform(&light, sizeof(light), 0, 2);
 
 		mIsInit = true;
 
