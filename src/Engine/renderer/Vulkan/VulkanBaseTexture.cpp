@@ -33,6 +33,15 @@ namespace Invision
 		GenerateMipmaps(vulkanInstance, commandPool, VK_FORMAT_R8G8B8A8_SRGB, width, height, mMipLevels);
 	}
 
+	void VulkanBaseTexture::CreateColorRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext)
+	{
+		mMemoryManager = &memoryManager;
+		VkFormat colorFormat = vulkanContext.swapChainImageFormat;
+
+		mpImage = CreateImage(vulkanInstance, memoryManager, vulkanContext.swapChainExtent.width, vulkanContext.swapChainExtent.height, 1, vulkanInstance.MsaaFlagBits, colorFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT | VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, mImage);
+		mTextureImageView = CreateImageView(vulkanInstance, mImage, colorFormat, VK_IMAGE_ASPECT_COLOR_BIT, 1);
+	}
+
 	void VulkanBaseTexture::CreateImage(const SVulkanBase &vulkanInstance, VulkanBaseMemoryManager& memoryManager, int width, int height, uint32_t mipLevels, VkSampleCountFlagBits numSamples, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage,  VkMemoryPropertyFlags properties)
 	{
 		VkImageCreateInfo imageInfo{};
@@ -332,9 +341,12 @@ namespace Invision
 
 	void VulkanBaseTexture::DestroyTexture(const SVulkanBase &vulkanInstance)
 	{
-		vkDestroySampler(vulkanInstance.logicalDevice, mTextureSampler, nullptr);
-		vkDestroyImageView(vulkanInstance.logicalDevice, mTextureImageView, nullptr);
+		if (mTextureSampler != VK_NULL_HANDLE)
+		{
+			vkDestroySampler(vulkanInstance.logicalDevice, mTextureSampler, nullptr);
+		}
 
+		vkDestroyImageView(vulkanInstance.logicalDevice, mTextureImageView, nullptr);
 		vkDestroyImage(vulkanInstance.logicalDevice, mImage, nullptr);
 		mMemoryManager->Unbind(vulkanInstance, mpImage);
 		//vkFreeMemory(vulkanInstance.logicalDevice, mImageMemory, nullptr);

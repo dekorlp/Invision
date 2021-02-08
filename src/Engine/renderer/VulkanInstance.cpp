@@ -65,7 +65,7 @@ namespace Invision
 
 		if (mVulkanEngine->GetVulkanBaseStruct().UseMSAA == true)
 		{
-			mColorRessources.DestroyColorRessources(mVulkanEngine->GetVulkanBaseStruct());
+			mColorRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
 			mColorRessources.CreateColorRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext);
 		}
 
@@ -94,7 +94,7 @@ namespace Invision
 
 		if (mVulkanEngine->GetVulkanBaseStruct().UseMSAA == true)
 		{
-			mColorRessources.DestroyColorRessources(mVulkanEngine->GetVulkanBaseStruct());
+			mColorRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
 			mColorRessources.CreateColorRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext);
 		}
 
@@ -187,7 +187,7 @@ namespace Invision
 		return mDepthRessources;
 	}
 
-	VulkanBaseColorRessources VulkanInstance::GetColorRessources()
+	VulkanBaseTexture VulkanInstance::GetColorRessources()
 	{
 		return mColorRessources;
 	}
@@ -201,7 +201,7 @@ namespace Invision
 	{
 		if (mVulkanEngine->GetVulkanBaseStruct().UseMSAA == true)
 		{
-			mColorRessources.DestroyColorRessources(mVulkanEngine->GetVulkanBaseStruct());
+			mColorRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
 		}
 
 		if (mUseDepthTest)

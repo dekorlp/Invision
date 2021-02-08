@@ -38,7 +38,7 @@ namespace Invision
 			}
 			else
 			{
-				attachments.push_back(mVulkanInstance->GetColorRessources().GetColorImageView());
+				attachments.push_back(mVulkanInstance->GetColorRessources().GetImageView());
 
 				if (mVulkanInstance->GetDepthRessources().AreDepthRessourcesActivated())
 				{
