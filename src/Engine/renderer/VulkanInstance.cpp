@@ -37,6 +37,7 @@ namespace Invision
 		{
 			mDepthRessources.CreateDepthRessources(engine->GetVulkanBaseStruct(), engine->GetCommandPool(), engine->GetMemoryManager(), mVulkanContext);
 			mUseDepthTest = true;
+			mVulkanContext.mUseDepthRessources = true;
 		}
 
 		// Create Color Ressources for Multisampling
@@ -71,8 +72,9 @@ namespace Invision
 
 		if (mUseDepthTest)
 		{
-			mDepthRessources.DestroyDepthRessources(mVulkanEngine->GetVulkanBaseStruct());
+			mDepthRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
 			mDepthRessources.CreateDepthRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext);
+			mVulkanContext.mUseDepthRessources = true;
 		}
 
 		mMainFramebuffer.reset();
@@ -100,9 +102,10 @@ namespace Invision
 
 		if (activateDepthTest)
 		{
-			mDepthRessources.DestroyDepthRessources(mVulkanEngine->GetVulkanBaseStruct());
+			mDepthRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
 			mDepthRessources.CreateDepthRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext);
 			mUseDepthTest = true;
+			mVulkanContext.mUseDepthRessources = true;
 		}
 
 		mMainFramebuffer.reset();
@@ -182,7 +185,7 @@ namespace Invision
 		return mVulkanEngine;
 	}
 
-	VulkanBaseDepthRessources VulkanInstance::GetDepthRessources()
+	VulkanBaseTexture VulkanInstance::GetDepthRessources()
 	{
 		return mDepthRessources;
 	}
@@ -206,7 +209,7 @@ namespace Invision
 
 		if (mUseDepthTest)
 		{
-			mDepthRessources.DestroyDepthRessources(mVulkanEngine->GetVulkanBaseStruct());
+			mDepthRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
 		}
 		Invision::DestroyPresentationSystem(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext);
 		Invision::DestroySurface(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext);

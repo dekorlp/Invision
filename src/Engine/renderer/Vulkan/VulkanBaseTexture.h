@@ -15,9 +15,15 @@ namespace Invision
 		public:
 			void CreateTextureImage(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, unsigned char* pixels, int imageSize, int width, int height, bool useDepthRessource, bool generateMipMaps = false);
 			void CreateColorRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext);
+			void CreateDepthRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext);
+
+			VkFormat FindDepthFormat(const SVulkanBase &vulkanInstance);
+
 			void CreateTextureImageView(SVulkanBase &vulkanInstance);
 			void CreateTextureSampler(SVulkanBase &vulkanInstance, VkFilter minFilter, VkFilter magFilter, VkSamplerAddressMode addressU, VkSamplerAddressMode addressV, VkSamplerAddressMode addressW, float MipLodBias, float minLod);
 			void DestroyTexture(const SVulkanBase &vulkanInstance);
+
+
 
 			VkImageView GetImageView();
 			VkSampler GetImageSampler();
@@ -30,6 +36,11 @@ namespace Invision
 			void TransitionImageLayout(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout, bool useDepthRessource, uint32_t mipLevels);
 			void CopyBufferToImage(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VkBuffer buffer, uint32_t width, uint32_t height);
 			void GenerateMipmaps(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VkFormat imageFormat, int width, int height, uint32_t mipLevels);
+
+			// Depth Texture Methods
+			VkFormat FindSupportedFormat(const SVulkanBase &vulkanInstance, const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
+			
+			bool HasStencilComponent(VkFormat format);
 
 			//VulkanBaseBuffer mTextureBuffer;
 			VulkanBaseMemoryManager *mMemoryManager;

@@ -42,6 +42,16 @@ namespace Invision
 		mTextureImageView = CreateImageView(vulkanInstance, mImage, colorFormat, VK_IMAGE_ASPECT_COLOR_BIT, 1);
 	}
 
+	void VulkanBaseTexture::CreateDepthRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext)
+	{
+		mMemoryManager = &memoryManager;
+		VkFormat depthFormat = FindDepthFormat(vulkanInstance);
+
+		mpImage = CreateImage(vulkanInstance, memoryManager, vulkanContext.swapChainExtent.width, vulkanContext.swapChainExtent.height, 1, vulkanInstance.MsaaFlagBits, depthFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, mImage);
+		mTextureImageView = CreateImageView(vulkanInstance, mImage, depthFormat, VK_IMAGE_ASPECT_DEPTH_BIT, 1);
+	}
+
+
 	void VulkanBaseTexture::CreateImage(const SVulkanBase &vulkanInstance, VulkanBaseMemoryManager& memoryManager, int width, int height, uint32_t mipLevels, VkSampleCountFlagBits numSamples, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage,  VkMemoryPropertyFlags properties)
 	{
 		VkImageCreateInfo imageInfo{};
@@ -338,6 +348,41 @@ namespace Invision
 	{
 		return this->mTextureSampler;
 	}
+
+	// Depth Texture Methods
+
+	VkFormat VulkanBaseTexture::FindSupportedFormat(const SVulkanBase &vulkanInstance, const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features)
+	{
+		for (VkFormat format : candidates) {
+			VkFormatProperties props;
+
+			vkGetPhysicalDeviceFormatProperties(vulkanInstance.physicalDeviceStruct.physicalDevice, format, &props);
+
+			if (tiling == VK_IMAGE_TILING_LINEAR && (props.linearTilingFeatures & features) == features) {
+				return format;
+			}
+			else if (tiling == VK_IMAGE_TILING_OPTIMAL && (props.optimalTilingFeatures & features) == features) {
+				return format;
+			}
+		}
+
+		throw VulkanBaseException("failed to find supported format!");
+	}
+
+	VkFormat VulkanBaseTexture::FindDepthFormat(const SVulkanBase &vulkanInstance)
+	{
+		return FindSupportedFormat(vulkanInstance,
+			{ VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT },
+			VK_IMAGE_TILING_OPTIMAL,
+			VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT
+		);
+	}
+
+	bool VulkanBaseTexture::HasStencilComponent(VkFormat format)
+	{
+		return format == VK_FORMAT_D32_SFLOAT_S8_UINT || format == VK_FORMAT_D24_UNORM_S8_UINT;
+	}
+
 
 	void VulkanBaseTexture::DestroyTexture(const SVulkanBase &vulkanInstance)
 	{

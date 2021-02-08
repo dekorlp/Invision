@@ -31,18 +31,18 @@ namespace Invision
 			if (mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct().UseMSAA == false)
 			{
 				attachments.push_back(mVulkanInstance->GetVulkanContext().swapChainImageViews[i]);
-				if (mVulkanInstance->GetDepthRessources().AreDepthRessourcesActivated())
+				if (mVulkanInstance->GetVulkanContext().mUseDepthRessources)
 				{
-					attachments.push_back(mVulkanInstance->GetDepthRessources().GetDepthImageView());
+					attachments.push_back(mVulkanInstance->GetDepthRessources().GetImageView());
 				}
 			}
 			else
 			{
 				attachments.push_back(mVulkanInstance->GetColorRessources().GetImageView());
 
-				if (mVulkanInstance->GetDepthRessources().AreDepthRessourcesActivated())
+				if (mVulkanInstance->GetVulkanContext().mUseDepthRessources)
 				{
-					attachments.push_back(mVulkanInstance->GetDepthRessources().GetDepthImageView());
+					attachments.push_back(mVulkanInstance->GetDepthRessources().GetImageView());
 				}
 				attachments.push_back(mVulkanInstance->GetVulkanContext().swapChainImageViews[i]);
 			}

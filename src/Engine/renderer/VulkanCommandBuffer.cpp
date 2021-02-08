@@ -82,7 +82,8 @@ namespace Invision
 	{
 		std::vector< VkClearValue> clearValues = {};
 
-		if (mVulkanInstance->GetDepthRessources().AreDepthRessourcesActivated() == true)
+		
+		if (mVulkanInstance->GetVulkanContext().mUseDepthRessources == true)
 		{
 			clearValues.resize(2);
 			clearValues[0].color = { mBackground[0], mBackground[1], mBackground[2], mBackground[3] };

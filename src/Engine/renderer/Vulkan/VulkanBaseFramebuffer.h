@@ -6,7 +6,6 @@
 namespace Invision
 {
 	class VulkanBaseRenderPass;
-	class VulkanBaseDepthRessources;
 
 	class  VulkanBaseFramebuffer
 	{

@@ -2,7 +2,6 @@
 
 #include "VulkanBaseException.h"
 #include "VulkanBaseRenderPass.h"
-#include "VulkanBaseDepthRessources.h"
 #include "VulkanBase.h"
 
 #include "VulkanBaseFramebuffer.h"
