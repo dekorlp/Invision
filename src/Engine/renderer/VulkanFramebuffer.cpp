@@ -27,8 +27,22 @@ namespace Invision
 
 			std::vector< VkImageView> attachments;
 
-			
 			if (mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct().UseMSAA == false)
+			{
+				attachments.push_back(mVulkanInstance->GetVulkanContext().swapChainImageViews[i]);
+			}
+
+			for (unsigned int j = 0; j < dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetAttachmentTextures().size(); j++)
+			{
+				attachments.push_back((*dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetAttachmentTextures()[j]).GetImageView());
+			}
+
+			if (mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct().UseMSAA == true)
+			{
+				attachments.push_back(mVulkanInstance->GetVulkanContext().swapChainImageViews[i]);
+			}
+
+			/*if (mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct().UseMSAA == false)
 			{
 				attachments.push_back(mVulkanInstance->GetVulkanContext().swapChainImageViews[i]);
 				if (mVulkanInstance->GetVulkanContext().mUseDepthRessources)
@@ -45,7 +59,7 @@ namespace Invision
 					attachments.push_back(mVulkanInstance->GetDepthRessources().GetImageView());
 				}
 				attachments.push_back(mVulkanInstance->GetVulkanContext().swapChainImageViews[i]);
-			}
+			}*/
 
 
 

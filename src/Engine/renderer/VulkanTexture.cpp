@@ -121,6 +121,11 @@ namespace Invision
 		 return mTexture;
 	}
 
+	void VulkanTexture::SetBaseTexture(VulkanBaseTexture baseTexure)
+	{
+		mTexture = baseTexure;
+	}
+
 	VulkanTexture::~VulkanTexture()
 	{
 		mTexture.DestroyTexture(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());

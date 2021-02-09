@@ -32,6 +32,9 @@ namespace Invision
 		Invision::CreateSurface(engine->GetVulkanBaseStruct(), mVulkanContext, dimensions.hwnd);
 		Invision::CreatePresentationSystem(engine->GetVulkanBaseStruct(), mVulkanContext, dimensions.width, dimensions.height);
 
+		// Create Default RenderPass / FrameBuffer / CommandBuffer
+		mMainRenderPass = CreateRenderPass();
+		std::vector<Invision::VulkanBaseTexture> frameBufferAttachments;
 		// Create Depth Ressources
 		if (activateDepthTest)
 		{
@@ -44,11 +47,15 @@ namespace Invision
 		if (engine->GetVulkanBaseStruct().UseMSAA)
 		{
 			mColorRessources.CreateColorRessources(engine->GetVulkanBaseStruct(), engine->GetCommandPool(), engine->GetMemoryManager(), mVulkanContext);
+			dynamic_pointer_cast<VulkanRenderPass>(mMainRenderPass)->CreateMainRenderPass(mDepthRessources, mColorRessources); // create main renderpass
+		}
+		else
+		{
+			dynamic_pointer_cast<VulkanRenderPass>(mMainRenderPass)->CreateMainRenderPass(mDepthRessources); // create main renderpass
 		}
 
-		// Create Default RenderPass / FrameBuffer / CommandBuffer
-		mMainRenderPass = CreateRenderPass();
-		dynamic_pointer_cast<VulkanRenderPass>(mMainRenderPass)->CreateMainRenderPass(); // create main renderpass
+	
+	
 
 		mMainFramebuffer = CreateFramebuffer(mMainRenderPass);
 		dynamic_pointer_cast<VulkanFramebuffer>(mMainFramebuffer)->CreateMainFramebuffer(mMainRenderPass);

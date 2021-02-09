@@ -25,6 +25,7 @@ namespace Invision
 		INVISION_API void CreateTextureSampler(SamplerFilterMode minFilter, SamplerFilterMode magFilter, SamplerAddressMode addressU, SamplerAddressMode addressV, SamplerAddressMode addressW, float MipLodBias = 0.0f, float minLod = 0.0f);
 
 		INVISION_API VulkanBaseTexture GetBaseTexture();
+		INVISION_API void SetBaseTexture(VulkanBaseTexture baseTexure);
 
 		~VulkanTexture();
 
