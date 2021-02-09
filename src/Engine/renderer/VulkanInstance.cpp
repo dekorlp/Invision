@@ -226,28 +226,6 @@ namespace Invision
 		return std::make_shared<VulkanTexture>(this);
 	}
 
-	void VulkanInstance::ActivateDepthTesting(bool activateDepthTesting)
-	{
-		if (activateDepthTesting == false)
-		{
-			if (mDepthRessources.GetImageView() != VK_NULL_HANDLE)
-			{
-				mDepthRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
-			}
-			mUseDepthTest = false;
-			mVulkanContext.mUseDepthRessources = false;
-		}
-		else
-		{
-			UpdateDepthTexture();
-		}
-	}
-
-	void VulkanInstance::ActivateMSAASampler(MSAAMode msaa)
-	{
-
-	}
-
 	std::shared_ptr<ITexture> VulkanInstance::CreateTexture(unsigned char* pixels, int width, int height, bool generateMipMaps)
 	{
 		return std::make_shared<VulkanTexture>(this, pixels, width, height, generateMipMaps);

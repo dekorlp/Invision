@@ -212,11 +212,6 @@ private:
 		{
 			theta += 0.001f *dt;
 		}
-		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_P, Invision::INVISION_KEY_PRESSED))
-		{
-			activateDepthTesting = !activateDepthTesting;
-			graphicsInstance->ActivateDepthTesting(activateDepthTesting);
-		}
 		bool spaceCurrentlyPressed = keyboard->GetStateOfKey(Invision::INVISION_KEY_SPACE, Invision::INVISION_KEY_PRESSED);
 
 		if (!spacePressed && spaceCurrentlyPressed) {
