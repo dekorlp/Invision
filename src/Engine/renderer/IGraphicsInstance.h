@@ -44,7 +44,7 @@ namespace Invision
 		INVISION_API virtual unsigned int GetSizeSwapchainImages() = 0;
 
 		INVISION_API virtual void ActivateDepthTesting(bool activateDepthTesting) = 0;
-		INVISION_API virtual void ActivateDepthTesting(MSAAMode msaa) = 0;
+		INVISION_API virtual void ActivateMSAASampler(MSAAMode msaa) = 0;
 
 		INVISION_API virtual ~IGraphicsInstance() = default;
 

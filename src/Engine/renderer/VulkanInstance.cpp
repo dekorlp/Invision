@@ -243,7 +243,7 @@ namespace Invision
 		}
 	}
 
-	void VulkanInstance::ActivateDepthTesting(MSAAMode msaa)
+	void VulkanInstance::ActivateMSAASampler(MSAAMode msaa)
 	{
 
 	}
