@@ -15,6 +15,7 @@ namespace Invision
 		public:
 		INVISION_API ITexture() = delete;
 		INVISION_API ITexture(IGraphicsInstance* instance);
+		INVISION_API ITexture(IGraphicsInstance* instance, unsigned char* pixels, int width, int height, bool generateMipMaps);
 		INVISION_API virtual ~ITexture() = default;
 
 		INVISION_API virtual void CreateTexture(unsigned char* pixels, int width, int height, bool generateMipMaps = false) = 0;

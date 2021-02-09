@@ -14,6 +14,15 @@ namespace Invision
 		mVulkanInstance = instance;
 	}
 
+	VulkanTexture::VulkanTexture(VulkanInstance* instance, unsigned char* pixels, int width, int height, bool generateMipMaps) :
+		ITexture(instance)
+	{
+		mVulkanInstance = instance;
+
+		mTexture.CreateTextureImage(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), pixels, width, height, mVulkanInstance->GetVulkanContext().mUseDepthRessources, generateMipMaps);
+		mTexture.CreateTextureImageView(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
+	}
+
 	void VulkanTexture::CreateTexture(unsigned char* pixels,  int width, int height, bool generateMipMaps)
 	{
 

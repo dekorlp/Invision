@@ -180,6 +180,11 @@ namespace Invision
 		return std::make_shared<VulkanTexture>(this);
 	}
 
+	std::shared_ptr<ITexture> VulkanInstance::CreateTexture(unsigned char* pixels, int width, int height, bool generateMipMaps)
+	{
+		return std::make_shared<VulkanTexture>(this, pixels, width, height, generateMipMaps);
+	}
+
 	VulkanEngine* VulkanInstance::GetCoreEngine()
 	{
 		return mVulkanEngine;

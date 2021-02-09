@@ -12,4 +12,10 @@ namespace Invision
 	{
 
 	}
+
+	ITexture::ITexture(IGraphicsInstance* instance, unsigned char* pixels, int width, int height, bool generateMipMaps) :
+		mInstance(instance)
+	{
+
+	}
 }
