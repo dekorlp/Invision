@@ -28,7 +28,7 @@ namespace Invision
 		INVISION_API ~VulkanRenderPass();
 
 	private:
-		unsigned int mSubPassIndex = 0;
+		unsigned int mAttachmentIndex = 0;
 		Invision::VulkanBaseRenderPass mRenderPass;
 		std::vector<Invision::VulkanBaseTexture*> mAttachmentTextures;
 		Invision::VulkanInstance *mVulkanInstance;

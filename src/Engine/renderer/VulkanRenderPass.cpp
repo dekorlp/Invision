@@ -44,7 +44,7 @@ namespace Invision
 			VK_ATTACHMENT_STORE_OP_DONT_CARE,
 			VK_IMAGE_LAYOUT_UNDEFINED,
 			VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL
-			, { mSubPassIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL });
+			, { mAttachmentIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL });
 		mAttachmentTextures.push_back(&colorTexture);
 
 		if (mVulkanInstance->GetVulkanContext().mUseDepthRessources == true)
@@ -59,7 +59,7 @@ namespace Invision
 				VK_ATTACHMENT_STORE_OP_DONT_CARE,
 				VK_IMAGE_LAYOUT_UNDEFINED,
 				VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
-				{ mSubPassIndex++, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL });
+				{ mAttachmentIndex++, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL });
 			mAttachmentTextures.push_back(&depthTexture);
 		}
 
@@ -73,7 +73,7 @@ namespace Invision
 			VK_ATTACHMENT_STORE_OP_DONT_CARE,
 			VK_IMAGE_LAYOUT_UNDEFINED,
 			VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
-			, { mSubPassIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL }, true);
+			, { mAttachmentIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL }, true);
 		
 
 		mRenderPass.AddSubpass(basePass);
@@ -115,7 +115,7 @@ namespace Invision
 			VK_ATTACHMENT_STORE_OP_DONT_CARE,
 			VK_IMAGE_LAYOUT_UNDEFINED,
 			VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
-			, { mSubPassIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL });
+			, { mAttachmentIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL });
 
 		if (mVulkanInstance->GetVulkanContext().mUseDepthRessources == true)
 		{
@@ -129,7 +129,7 @@ namespace Invision
 				VK_ATTACHMENT_STORE_OP_DONT_CARE,
 				VK_IMAGE_LAYOUT_UNDEFINED,
 				VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
-				{ mSubPassIndex++, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL });
+				{ mAttachmentIndex++, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL });
 			mAttachmentTextures.push_back(&depthTexture);
 		}
 
