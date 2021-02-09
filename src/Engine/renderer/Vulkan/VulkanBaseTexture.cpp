@@ -8,8 +8,10 @@
 
 namespace Invision
 {
-	void VulkanBaseTexture::CreateTextureImage(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, unsigned char* pixels, int imageSize, int width, int height, bool useDepthRessource, bool generateMipMaps)
+	void VulkanBaseTexture::CreateTextureImage(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, unsigned char* pixels, int width, int height, bool useDepthRessource, bool generateMipMaps)
 	{
+		int imageSize = width * height * 4; //4 four channels for RGBA -> Color Formats of RGB are motly not supported by modern GPU Devices
+
 		mMemoryManager = &memoryManager;
 
 		// mip map Generation

@@ -19,7 +19,7 @@ namespace Invision
 		INVISION_API VulkanTexture() = delete;
 		INVISION_API VulkanTexture(VulkanInstance* instance);
 
-		INVISION_API void LoadTexture(unsigned char* pixels, int imageSize, int width, int height, bool generateMipMaps);
+		INVISION_API void LoadTexture(unsigned char* pixels, int width, int height, bool generateMipMaps);
 		INVISION_API void CreateTextureImageView();
 		INVISION_API void CreateTextureSampler(SamplerFilterMode minFilter, SamplerFilterMode magFilter, SamplerAddressMode addressU, SamplerAddressMode addressV, SamplerAddressMode addressW, float MipLodBias = 0.0f, float minLod = 0.0f);
 
