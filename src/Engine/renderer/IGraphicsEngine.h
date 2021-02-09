@@ -219,8 +219,8 @@ namespace Invision
 		 INVISION_API IGraphicsEngine(EngineType::Type type, std::string const& name, std::string const& version);
 		 INVISION_API IGraphicsEngine(EngineType::Type type, std::string const& name, std::string const& version, std::ofstream* ofstr);
 
-		 INVISION_API virtual void Init(MSAAMode msaa = MSAAMODE_OFF) = 0;
-		 INVISION_API virtual void Init(unsigned int index, MSAAMode msaa = MSAAMODE_OFF) = 0;
+		 INVISION_API virtual void Init() = 0;
+		 INVISION_API virtual void Init(unsigned int index) = 0;
 
 		 INVISION_API EngineType::Type GetType() const;
 
@@ -228,7 +228,7 @@ namespace Invision
 
 		 INVISION_API std::string const& GetVersion() const;
 
-		 INVISION_API virtual std::shared_ptr<IGraphicsInstance> CreateInstance(CanvasDimensions canvas, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, bool activateDepthTest = true) = 0;
+		 INVISION_API virtual std::shared_ptr<IGraphicsInstance> CreateInstance(CanvasDimensions canvas, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, bool activateDepthTest = true, MSAAMode msaaMode = MSAAMode::MSAAMODE_SAMPLE_COUNT_BEST) = 0;
 		 INVISION_API virtual std::vector< PhysicalDeviceProperties> GetPhysicalDevices() = 0;
 
 

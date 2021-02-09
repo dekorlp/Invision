@@ -24,10 +24,12 @@ namespace Invision
 
 	}*/
 
-	VulkanInstance::VulkanInstance(VulkanEngine* engine, CanvasDimensions dimensions, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, bool activateDepthTest)
+	VulkanInstance::VulkanInstance(VulkanEngine* engine, CanvasDimensions dimensions, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, bool activateDepthTest, MSAAMode msaaMode)
 		: IGraphicsInstance(engine)
 	{
 		mVulkanEngine = engine;
+
+		ActivateMSAA(msaaMode);
 		
 		Invision::CreateSurface(engine->GetVulkanBaseStruct(), mVulkanContext, dimensions.hwnd);
 		Invision::CreatePresentationSystem(engine->GetVulkanBaseStruct(), mVulkanContext, dimensions.width, dimensions.height);
@@ -38,15 +40,13 @@ namespace Invision
 		// Create Depth Ressources
 		if (activateDepthTest)
 		{
-			mDepthRessources.CreateDepthRessources(engine->GetVulkanBaseStruct(), engine->GetCommandPool(), engine->GetMemoryManager(), mVulkanContext);
-			mUseDepthTest = true;
-			mVulkanContext.mUseDepthRessources = true;
+			UpdateDepthTexture();
 		}
 
 		// Create Color Ressources for Multisampling
 		if (engine->GetVulkanBaseStruct().UseMSAA)
 		{
-			mColorRessources.CreateColorRessources(engine->GetVulkanBaseStruct(), engine->GetCommandPool(), engine->GetMemoryManager(), mVulkanContext);
+			UpdateMSAATexture();
 			dynamic_pointer_cast<VulkanRenderPass>(mMainRenderPass)->CreateMainRenderPass(mDepthRessources, mColorRessources); // create main renderpass
 		}
 		else
@@ -73,15 +73,12 @@ namespace Invision
 
 		if (mVulkanEngine->GetVulkanBaseStruct().UseMSAA == true)
 		{
-			mColorRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
-			mColorRessources.CreateColorRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext);
+			UpdateMSAATexture();
 		}
 
 		if (mUseDepthTest)
 		{
-			mDepthRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
-			mDepthRessources.CreateDepthRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext);
-			mVulkanContext.mUseDepthRessources = true;
+			UpdateDepthTexture();
 		}
 
 		mMainFramebuffer.reset();
@@ -96,35 +93,76 @@ namespace Invision
 		commandBuffer = mMainCommandBuffer;
 	}
 
-	void VulkanInstance::ResetPresentation(CanvasDimensions canvas, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, bool activateDepthTest)
+	void VulkanInstance::ActivateMSAA(MSAAMode msaa)
 	{
-		Invision::DestroyPresentationSystem(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext);
-		Invision::CreatePresentationSystem(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext, canvas.width, canvas.height);
-
-		if (mVulkanEngine->GetVulkanBaseStruct().UseMSAA == true)
+		if (mVulkanEngine->GetVulkanBaseStruct().physicalDeviceStruct.deviceFeatures.sampleRateShading == VK_TRUE)
 		{
-			mColorRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
-			mColorRessources.CreateColorRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext);
+			switch (msaa)
+			{
+			case MSAAMODE_OFF:
+				mVulkanEngine->GetVulkanBaseStruct().UseMSAA = false;
+				break;
+			case MSAAMODE_SAMPLE_COUNT_1:
+				mVulkanEngine->GetVulkanBaseStruct().UseMSAA = true;
+				mVulkanEngine->GetVulkanBaseStruct().MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_1_BIT);
+				break;
+			case MSAAMODE_SAMPLE_COUNT_2:
+				mVulkanEngine->GetVulkanBaseStruct().UseMSAA = true;
+				mVulkanEngine->GetVulkanBaseStruct().MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_2_BIT);
+				break;
+			case MSAAMODE_SAMPLE_COUNT_4:
+				mVulkanEngine->GetVulkanBaseStruct().UseMSAA = true;
+				mVulkanEngine->GetVulkanBaseStruct().MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_4_BIT);
+				break;
+			case MSAAMODE_SAMPLE_COUNT_8:
+				mVulkanEngine->GetVulkanBaseStruct().UseMSAA = true;
+				mVulkanEngine->GetVulkanBaseStruct().MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_8_BIT);
+				break;
+			case MSAAMODE_SAMPLE_COUNT_16:
+				mVulkanEngine->GetVulkanBaseStruct().UseMSAA = true;
+				mVulkanEngine->GetVulkanBaseStruct().MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_16_BIT);
+				break;
+			case MSAAMODE_SAMPLE_COUNT_32:
+				mVulkanEngine->GetVulkanBaseStruct().UseMSAA = true;
+				mVulkanEngine->GetVulkanBaseStruct().MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_32_BIT);
+				break;
+			case MSAAMODE_SAMPLE_COUNT_64:
+				mVulkanEngine->GetVulkanBaseStruct().UseMSAA = true;
+				mVulkanEngine->GetVulkanBaseStruct().MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_64_BIT);
+				break;
+			case MSAAMODE_SAMPLE_COUNT_BEST:
+				mVulkanEngine->GetVulkanBaseStruct().UseMSAA = true;
+				mVulkanEngine->GetVulkanBaseStruct().MsaaFlagBits = Invision::GetMaxUsableSampleCount(mVulkanEngine->GetVulkanBaseStruct());
+				break;
+			}
+		}
+		else
+		{
+			mVulkanEngine->GetVulkanBaseStruct().UseMSAA = false;
 		}
 
-		if (activateDepthTest)
+	}
+
+	void VulkanInstance::UpdateDepthTexture()
+	{
+		if (mDepthRessources.GetImageView() != VK_NULL_HANDLE)
 		{
 			mDepthRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
-			mDepthRessources.CreateDepthRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext);
-			mUseDepthTest = true;
-			mVulkanContext.mUseDepthRessources = true;
 		}
 
-		mMainFramebuffer.reset();
-		mMainFramebuffer = CreateFramebuffer(mMainRenderPass);
-		dynamic_pointer_cast<VulkanFramebuffer>(mMainFramebuffer)->CreateMainFramebuffer(mMainRenderPass);
+		mDepthRessources.CreateDepthRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext);
+		mUseDepthTest = true;
+		mVulkanContext.mUseDepthRessources = true;
+	}
 
-		// setup commandBuffers
-		mMainCommandBuffer.reset();
-		mMainCommandBuffer = CreateCommandBuffer(mMainFramebuffer);
+	void VulkanInstance::UpdateMSAATexture()
+	{
+		if (mColorRessources.GetImageView() != VK_NULL_HANDLE)
+		{
+			mColorRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
+		}
 
-		framebuffer = mMainFramebuffer;
-		commandBuffer = mMainCommandBuffer;
+		mColorRessources.CreateColorRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext);
 	}
 
 	SVulkanContext& VulkanInstance::GetVulkanContext()

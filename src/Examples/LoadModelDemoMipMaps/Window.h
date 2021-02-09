@@ -65,7 +65,7 @@ public:
 #endif
 
 		
-		graphicsEngine->Init(Invision::MSAAMODE_OFF);
+		graphicsEngine->Init();
 
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));

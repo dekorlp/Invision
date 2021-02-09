@@ -145,7 +145,7 @@ namespace Invision
 		VkPhysicalDeviceFeatures deviceFeatures = {};
 		deviceFeatures.samplerAnisotropy = VK_TRUE;
 
-		if (vulkanInstance.UseMSAA)
+		if (vulkanInstance.physicalDeviceStruct.deviceFeatures.sampleRateShading == VK_TRUE)
 		{
 			deviceFeatures.sampleRateShading = VK_TRUE;
 		}
