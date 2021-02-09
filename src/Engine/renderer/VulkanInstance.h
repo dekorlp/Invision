@@ -33,7 +33,9 @@ namespace Invision
 		INVISION_API std::shared_ptr<ICommandBuffer> CreateCommandBuffer(std::shared_ptr<Invision::IFramebuffer> framebuffer) override;
 		INVISION_API std::shared_ptr<ITexture> CreateTexture() override;
 		INVISION_API std::shared_ptr<ITexture> CreateTexture(unsigned char* pixels, int width, int height, bool generateMipMaps) override;
-	
+
+		INVISION_API void ActivateDepthTesting(bool activateDepthTesting) override;
+		INVISION_API void ActivateDepthTesting(MSAAMode msaa) override;
 
 		INVISION_API VulkanEngine* GetCoreEngine();
 		INVISION_API VulkanBaseTexture GetDepthRessources();

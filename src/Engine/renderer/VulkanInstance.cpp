@@ -153,6 +153,7 @@ namespace Invision
 		mDepthRessources.CreateDepthRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext);
 		mUseDepthTest = true;
 		mVulkanContext.mUseDepthRessources = true;
+
 	}
 
 	void VulkanInstance::UpdateMSAATexture()
@@ -223,6 +224,28 @@ namespace Invision
 	std::shared_ptr<ITexture> VulkanInstance::CreateTexture()
 	{
 		return std::make_shared<VulkanTexture>(this);
+	}
+
+	void VulkanInstance::ActivateDepthTesting(bool activateDepthTesting)
+	{
+		if (activateDepthTesting == false)
+		{
+			if (mDepthRessources.GetImageView() != VK_NULL_HANDLE)
+			{
+				mDepthRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
+			}
+			mUseDepthTest = false;
+			mVulkanContext.mUseDepthRessources = false;
+		}
+		else
+		{
+			UpdateDepthTexture();
+		}
+	}
+
+	void VulkanInstance::ActivateDepthTesting(MSAAMode msaa)
+	{
+
 	}
 
 	std::shared_ptr<ITexture> VulkanInstance::CreateTexture(unsigned char* pixels, int width, int height, bool generateMipMaps)

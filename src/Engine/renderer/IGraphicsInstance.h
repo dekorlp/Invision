@@ -43,6 +43,9 @@ namespace Invision
 		INVISION_API virtual std::shared_ptr<ITexture> CreateTexture(unsigned char* pixels, int width, int height, bool generateMipMaps = false) = 0;
 		INVISION_API virtual unsigned int GetSizeSwapchainImages() = 0;
 
+		INVISION_API virtual void ActivateDepthTesting(bool activateDepthTesting) = 0;
+		INVISION_API virtual void ActivateDepthTesting(MSAAMode msaa) = 0;
+
 		INVISION_API virtual ~IGraphicsInstance() = default;
 
 		INVISION_API IGraphicsEngine* GetEngine();
