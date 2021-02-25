@@ -265,4 +265,164 @@ namespace Invision
 		Invision::DestroyPresentationSystem(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext);
 		Invision::DestroySurface(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext);
 	}
+
+	VkFormat VulkanInstance::ConvertInvisionFormatToVkFormat(GfxFormat format)
+	{
+
+		VkFormat vkformat;
+
+		switch (format)
+		{
+		case FORMAT_UNEDFINED:
+			vkformat = VK_FORMAT_UNDEFINED;
+			break;
+		case FORMAT_R32G32B32A32_SFLOAT:
+			vkformat = VK_FORMAT_R32G32B32A32_SFLOAT;
+			break;
+		case FORMAT_R32G32B32A32_UINT:
+			vkformat = VK_FORMAT_R32G32B32A32_UINT;
+			break;
+		case FORMAT_R32G32B32A32_SINT:
+			vkformat = VK_FORMAT_R32G32B32A32_SINT;
+			break;
+		case FORMAT_R32G32B32_SFLOAT:
+			vkformat = VK_FORMAT_R32G32B32_SFLOAT;
+			break;
+		case FORMAT_R32G32B32_UINT:
+			vkformat = VK_FORMAT_R32G32B32_UINT;
+			break;
+		case FORMAT_R32G32B32_SINT:
+			vkformat = VK_FORMAT_R32G32B32_SINT;
+			break;
+		case FORMAT_R16G16B16A16_SFLOAT:
+			vkformat = VK_FORMAT_R16G16B16A16_SFLOAT;
+			break;
+		case FORMAT_R16G16B16A16_UNORM:
+			vkformat = VK_FORMAT_R16G16B16A16_UNORM;
+			break;
+		case FORMAT_R16G16B16A16_UINT:
+			vkformat = VK_FORMAT_R16G16B16A16_UINT;
+			break;
+		case FORMAT_R16G16B16A16_SNORM:
+			vkformat = VK_FORMAT_R16G16B16A16_SNORM;
+			break;
+		case FORMAT_R16G16B16A16_SINT:
+			vkformat = VK_FORMAT_R16G16B16A16_SINT;
+			break;
+		case FORMAT_R32G32_SFLOAT:
+			vkformat = VK_FORMAT_R32G32_SFLOAT;
+			break;
+		case FORMAT_R32G32_UINT:
+			vkformat = VK_FORMAT_R32G32_UINT;
+			break;
+		case FORMAT_R32G32_SINT:
+			vkformat = VK_FORMAT_R32G32_SINT;
+			break;
+		case FORMAT_R8G8B8A8_UNORM:
+			vkformat = VK_FORMAT_R8G8B8A8_UNORM;
+			break;
+		case FORMAT_R8G8B8A8_SRGB:
+			vkformat = VK_FORMAT_R8G8B8A8_SRGB;
+			break;
+		case FORMAT_R8G8B8A8_UINT:
+			vkformat = VK_FORMAT_R8G8B8A8_UINT;
+			break;
+		case FORMAT_R8G8B8A8_SNORM:
+			vkformat = VK_FORMAT_R8G8B8A8_SNORM;
+			break;
+		case FORMAT_R8G8B8A8_SINT:
+			vkformat = VK_FORMAT_R8G8B8A8_SINT;
+			break;
+		case FORMAT_R16G16_SFLOAT:
+			vkformat = VK_FORMAT_R16G16_SFLOAT;
+			break;
+		case FORMAT_R16G16_UNORM:
+			vkformat = VK_FORMAT_R16G16_UNORM;
+			break;
+		case FORMAT_R16G16_UINT:
+			vkformat = VK_FORMAT_R16G16_UINT;
+			break;
+		case FORMAT_R16G16_SNORM:
+			vkformat = VK_FORMAT_R16G16_SNORM;
+			break;
+		case FORMAT_R16G16_SINT:
+			vkformat = VK_FORMAT_R16G16_SINT;
+			break;
+		case FORMAT_D32_SFLOAT:
+			vkformat = VK_FORMAT_D32_SFLOAT;
+			break;
+		case FORMAT_R32_SFLOAT:
+			vkformat = VK_FORMAT_R32_SFLOAT;
+			break;
+		case FORMAT_R32_UINT:
+			vkformat = VK_FORMAT_R32_UINT;
+			break;
+		case FORMAT_R32_SINT:
+			vkformat = VK_FORMAT_R32_SINT;
+			break;
+		case FORMAT_D24_UNORM_S8_UINT:
+			vkformat = VK_FORMAT_D24_UNORM_S8_UINT;
+			break;
+		case FORMAT_R8G8_UNORM:
+			vkformat = VK_FORMAT_R8G8_UNORM;
+			break;
+		case FORMAT_R8G8_UINT:
+			vkformat = VK_FORMAT_R8G8_UINT;
+			break;
+		case FORMAT_R8G8_SNORM:
+			vkformat = VK_FORMAT_R8G8_SNORM;
+			break;
+		case FORMAT_R8G8_SINT:
+			vkformat = VK_FORMAT_R8G8_SINT;
+			break;
+		case FORMAT_R16_SFLOAT:
+			vkformat = VK_FORMAT_R16_SFLOAT;
+			break;
+		case FORMAT_D16_UNORM:
+			vkformat = VK_FORMAT_D16_UNORM;
+			break;
+		case FORMAT_R16_UNORM:
+			vkformat = VK_FORMAT_R16_UNORM;
+			break;
+		case FORMAT_R16_UINT:
+			vkformat = VK_FORMAT_R16_UINT;
+			break;
+		case FORMAT_R16_SNORM:
+			vkformat = VK_FORMAT_R16_SNORM;
+			break;
+		case FORMAT_R16_SINT:
+			vkformat = VK_FORMAT_R16_SINT;
+			break;
+		case FORMAT_R8_UNORM:
+			vkformat = VK_FORMAT_R8_UNORM;
+			break;
+		case FORMAT_R8_UINT:
+			vkformat = VK_FORMAT_R8_UINT;
+			break;
+		case FORMAT_R8_SNORM:
+			vkformat = VK_FORMAT_R8_SNORM;
+			break;
+		case FORMAT_R8_SINT:
+			vkformat = VK_FORMAT_R8_SINT;
+			break;
+		case FORMAT_BC6H_UFLOAT:
+			vkformat = VK_FORMAT_BC6H_UFLOAT_BLOCK;
+			break;
+		case FORMAT_BC6H_SFLOAT:
+			vkformat = VK_FORMAT_BC6H_SFLOAT_BLOCK;
+			break;
+		case FORMAT_BC7_UNORM:
+			vkformat = VK_FORMAT_BC7_UNORM_BLOCK;
+			break;
+		case FORMAT_BC7_SRGB:
+			vkformat = VK_FORMAT_BC7_SRGB_BLOCK;
+			break;
+		default:
+			vkformat = VK_FORMAT_UNDEFINED;
+		}
+
+
+		return vkformat;
+	}
+
 }

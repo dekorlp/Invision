@@ -6,7 +6,7 @@
 #include "VulkanVertexBuffer.h"
 namespace Invision
 {
-	IBindingDescription& VulkanBindingDescription::CreateAttribute(uint32_t location, VertexFormat format, uint32_t offset)
+	IBindingDescription& VulkanBindingDescription::CreateAttribute(uint32_t location, GfxFormat format, uint32_t offset)
 	{
 		mAttributeDesc.push_back(VulkanAttributeDescription(mVulkanInstance, *mBaseVertexBuffer, mBaseBindingDesc, location, format, offset));
 
@@ -14,23 +14,9 @@ namespace Invision
 	}
 	
 
-	VulkanAttributeDescription::VulkanAttributeDescription(VulkanInstance* instance, VulkanBaseVertexBuffer &baseVertexBuffer, VulkanBaseBindingDescription& baseBindingDesc, uint32_t location, VertexFormat format, uint32_t offset) : IAttributeDescription(instance)
+	VulkanAttributeDescription::VulkanAttributeDescription(VulkanInstance* instance, VulkanBaseVertexBuffer &baseVertexBuffer, VulkanBaseBindingDescription& baseBindingDesc, uint32_t location, GfxFormat format, uint32_t offset) : IAttributeDescription(instance)
 	{
-		VkFormat vkFormat = VK_FORMAT_UNDEFINED;
-
-		switch (format)
-		{
-		case FORMAT_R32G32_SFLOAT:
-			vkFormat = VK_FORMAT_R32G32_SFLOAT;
-			break;
-		case FORMAT_R32G32B32_SFLOAT:
-			vkFormat = VK_FORMAT_R32G32B32_SFLOAT;
-			break;
-		default:
-			vkFormat = VK_FORMAT_UNDEFINED;
-		}
-
-		baseBindingDesc.CreateAttributeDescription(baseVertexBuffer.GetAttributeDescriptions(), baseBindingDesc.GetBindingDescription().binding, location, vkFormat, offset);
+		baseBindingDesc.CreateAttributeDescription(baseVertexBuffer.GetAttributeDescriptions(), baseBindingDesc.GetBindingDescription().binding, location, instance->ConvertInvisionFormatToVkFormat(format), offset);
 	}
 
 	

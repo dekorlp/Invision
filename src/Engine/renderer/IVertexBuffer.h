@@ -10,7 +10,7 @@ namespace Invision
 	class IAttributeDescription;
 
 	// used enumerations
-	enum VertexFormat;
+	enum GfxFormat;
 	enum VertexInputRate;
 
 
@@ -22,7 +22,7 @@ namespace Invision
 
 		INVISION_API IBindingDescription() = delete;
 		INVISION_API IBindingDescription(IGraphicsInstance* instance);
-		INVISION_API virtual IBindingDescription& CreateAttribute(uint32_t location, VertexFormat format, uint32_t offset) = 0;
+		INVISION_API virtual IBindingDescription& CreateAttribute(uint32_t location, GfxFormat format, uint32_t offset) = 0;
 	};
 	
 	class IAttributeDescription

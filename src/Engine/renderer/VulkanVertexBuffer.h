@@ -13,7 +13,7 @@ namespace Invision
 	{
 	public:
 		INVISION_API VulkanAttributeDescription() = delete;
-		INVISION_API VulkanAttributeDescription(VulkanInstance* instance, VulkanBaseVertexBuffer &baseVertexBuffer, VulkanBaseBindingDescription& baseBindingDesc, uint32_t location, VertexFormat format, uint32_t offset);
+		INVISION_API VulkanAttributeDescription(VulkanInstance* instance, VulkanBaseVertexBuffer &baseVertexBuffer, VulkanBaseBindingDescription& baseBindingDesc, uint32_t location, GfxFormat format, uint32_t offset);
 
 	private:
 		Invision::VulkanInstance *mVulkanInstance;
@@ -25,7 +25,7 @@ namespace Invision
 
 		INVISION_API VulkanBindingDescription() = delete;
 		INVISION_API VulkanBindingDescription(VulkanInstance* instance, VulkanBaseVertexBuffer &baseVertexBuffer, uint64_t size, const void *source, uint32_t stride, VertexInputRate vertexInputRate);
-		INVISION_API IBindingDescription& CreateAttribute(uint32_t location, VertexFormat format, uint32_t offset);
+		INVISION_API IBindingDescription& CreateAttribute(uint32_t location, GfxFormat format, uint32_t offset);
 
 	private:
 		Invision::VulkanInstance *mVulkanInstance;

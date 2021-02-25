@@ -10,6 +10,7 @@ namespace Invision
 {
 	class VulkanEngine;
 	enum MSAA;
+	enum GfxFormat;
 
 	class VulkanInstance : public IGraphicsInstance
 	{
@@ -38,6 +39,9 @@ namespace Invision
 		INVISION_API VulkanBaseTexture GetDepthRessources();
 		INVISION_API VulkanBaseTexture GetColorRessources();
 		INVISION_API unsigned int GetSizeSwapchainImages();
+
+		// Helper Methods
+		VkFormat ConvertInvisionFormatToVkFormat(GfxFormat format);
 
 		INVISION_API ~VulkanInstance();
 
