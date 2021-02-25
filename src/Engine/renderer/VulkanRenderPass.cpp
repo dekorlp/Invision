@@ -152,6 +152,41 @@ namespace Invision
 		mRenderPass.CreateRenderPass(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
 	}
 
+	void VulkanRenderPass::AddAttachment(AttachmentType attachmentType, std::shared_ptr < Invision::ITexture> attachmentTexture)
+	{
+		VulkanBaseSubPass basePass;
+		if (attachmentType == ATTACHMENT_TYPE_COLOR)
+		{
+			basePass.AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(),
+				mVulkanInstance->GetVulkanContext(),
+				mVulkanInstance->GetVulkanContext().swapChainImageFormat,
+				mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct().MsaaFlagBits,
+				VK_ATTACHMENT_LOAD_OP_CLEAR,
+				VK_ATTACHMENT_STORE_OP_STORE,
+				VK_ATTACHMENT_LOAD_OP_DONT_CARE,
+				VK_ATTACHMENT_STORE_OP_DONT_CARE,
+				VK_IMAGE_LAYOUT_UNDEFINED,
+				VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL
+				, { mAttachmentIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL });
+			mAttachmentTextures.push_back(&(dynamic_pointer_cast<VulkanTexture>(attachmentTexture)->GetBaseTexture()));
+		}
+		else // ATTACHMENT_TYPE_DEPTH
+		{
+			basePass.AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(),
+				mVulkanInstance->GetVulkanContext(),
+				mVulkanInstance->GetDepthRessources().FindDepthFormat(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct()),
+				mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct().MsaaFlagBits,
+				VK_ATTACHMENT_LOAD_OP_CLEAR,
+				VK_ATTACHMENT_STORE_OP_DONT_CARE,
+				VK_ATTACHMENT_LOAD_OP_DONT_CARE,
+				VK_ATTACHMENT_STORE_OP_DONT_CARE,
+				VK_IMAGE_LAYOUT_UNDEFINED,
+				VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
+				{ mAttachmentIndex++, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL });
+		}
+		
+	}
+
 	VulkanBaseRenderPass VulkanRenderPass::GetRenderPass()
 	{
 		return mRenderPass;

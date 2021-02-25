@@ -14,6 +14,8 @@
 
 namespace Invision
 {
+	class VulkanTexture;
+
 	enum PhysicalDeviceType
 	{
 		PHYSICAL_DEVICE_TYPE_OTHER = 0,
@@ -254,6 +256,13 @@ namespace Invision
 		uint32_t right;
 		uint32_t bottom;
 	} Rect;
+
+
+	enum AttachmentType
+	{
+		ATTACHMENT_TYPE_COLOR,
+		ATTACHMENT_TYPE_DEPTH
+	};
 
 	typedef uint32_t ShaderStageFlag;
 	
