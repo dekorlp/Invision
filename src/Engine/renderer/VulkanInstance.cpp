@@ -54,14 +54,12 @@ namespace Invision
 			dynamic_pointer_cast<VulkanRenderPass>(mMainRenderPass)->CreateMainRenderPass(mDepthRessources); // create main renderpass
 		}
 
+		renderPass = mMainRenderPass;
 	
-	
-
-		mMainFramebuffer = CreateFramebuffer(mMainRenderPass);
-		dynamic_pointer_cast<VulkanFramebuffer>(mMainFramebuffer)->CreateMainFramebuffer(mMainRenderPass);
+		mMainFramebuffer = std::make_shared<VulkanFramebuffer>(this, renderPass, true);
 		mMainCommandBuffer = CreateCommandBuffer(mMainFramebuffer);
 
-		renderPass = mMainRenderPass;
+		
 		framebuffer = mMainFramebuffer;
 		commandBuffer = mMainCommandBuffer;
 	}
@@ -82,8 +80,7 @@ namespace Invision
 		}
 
 		mMainFramebuffer.reset();
-		mMainFramebuffer = CreateFramebuffer(mMainRenderPass);
-		dynamic_pointer_cast<VulkanFramebuffer>(mMainFramebuffer)->CreateMainFramebuffer(mMainRenderPass);
+		mMainFramebuffer = std::make_shared<VulkanFramebuffer>(this, renderPass, true);
 
 		// setup commandBuffers
 		mMainCommandBuffer.reset();

@@ -11,5 +11,10 @@ namespace Invision
 	{
 	}
 
+	IFramebuffer::IFramebuffer(IGraphicsInstance* instance, std::shared_ptr<IRenderPass> renderPass, bool isMainFramebuffer)
+		: mInstance(instance)
+	{
+
+	}
 
 }

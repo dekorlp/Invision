@@ -17,6 +17,13 @@ namespace Invision
 		
 	}
 
+	VulkanFramebuffer::VulkanFramebuffer(VulkanInstance* instance, std::shared_ptr<Invision::IRenderPass> renderPass, bool isMainFrameBuffer)
+		: IFramebuffer(instance, renderPass)
+	{
+		mVulkanInstance = instance;
+		CreateMainFramebuffer(renderPass);
+	}
+
 	void VulkanFramebuffer::CreateMainFramebuffer(std::shared_ptr<Invision::IRenderPass> renderPass)
 	{
 		mFramebuffers.resize(mVulkanInstance->GetVulkanContext().swapChainImageViews.size());

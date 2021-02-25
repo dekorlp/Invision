@@ -18,6 +18,8 @@ namespace Invision
 
 		INVISION_API VulkanFramebuffer(VulkanInstance* instance, std::shared_ptr<Invision::IRenderPass> renderPass);
 
+		INVISION_API VulkanFramebuffer(VulkanInstance* instance, std::shared_ptr<Invision::IRenderPass> renderPass, bool isMainFrameBuffer);
+
 		INVISION_API void CreateMainFramebuffer(std::shared_ptr<Invision::IRenderPass> renderPass);
 
 		INVISION_API VulkanBaseFramebuffer GetFramebuffer(unsigned int index = 0);
