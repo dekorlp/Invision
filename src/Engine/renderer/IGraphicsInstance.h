@@ -40,7 +40,7 @@ namespace Invision
 		INVISION_API virtual std::shared_ptr<IFramebuffer> CreateFramebuffer(std::shared_ptr<Invision::IRenderPass> renderPass) = 0;
 		INVISION_API virtual std::shared_ptr<ICommandBuffer> CreateCommandBuffer(std::shared_ptr<Invision::IFramebuffer> framebuffer) = 0;
 		INVISION_API virtual std::shared_ptr<ITexture> CreateTexture() = 0;
-		INVISION_API virtual std::shared_ptr<ITexture> CreateTexture(unsigned char* pixels, int width, int height, bool generateMipMaps = false) = 0;
+		INVISION_API virtual std::shared_ptr<ITexture> CreateTexture(unsigned char* pixels, int width, int height, GfxFormat format, bool generateMipMaps = false) = 0;
 		INVISION_API virtual unsigned int GetSizeSwapchainImages() = 0;
 
 		INVISION_API virtual ~IGraphicsInstance() = default;

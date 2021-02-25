@@ -263,7 +263,7 @@ private:
 		indexBuffer = graphicsInstance->CreateIndexBuffer();
 		pipeline = graphicsInstance->CreatePipeline();
 		unsigned char* pixels = readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/LoadModelDemoMipMaps/Textures/viking_room.png"), width, height, channels);
-		texture = graphicsInstance->CreateTexture(pixels, width, height, true);
+		texture = graphicsInstance->CreateTexture(pixels, width, height, Invision::FORMAT_R8G8B8A8_SRGB, true);
 		freeImage(pixels);
 		texture->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT);
 

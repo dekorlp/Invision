@@ -7,6 +7,7 @@ namespace Invision
 	class IGraphicsInstance;
 	enum SamplerAddressMode;
 	enum SamplerFilterMode;
+	enum GfxFormat;
 
 	class ITexture
 	{
@@ -15,10 +16,10 @@ namespace Invision
 		public:
 		INVISION_API ITexture() = delete;
 		INVISION_API ITexture(IGraphicsInstance* instance);
-		INVISION_API ITexture(IGraphicsInstance* instance, unsigned char* pixels, int width, int height, bool generateMipMaps);
+		INVISION_API ITexture(IGraphicsInstance* instance, unsigned char* pixels, int width, int height, GfxFormat format, bool generateMipMaps);
 		INVISION_API virtual ~ITexture() = default;
 
-		INVISION_API virtual void CreateTexture(unsigned char* pixels, int width, int height, bool generateMipMaps = false) = 0;
+		INVISION_API virtual void CreateTexture(unsigned char* pixels, int width, int height, GfxFormat format, bool generateMipMaps = false) = 0;
 		INVISION_API virtual void CreateTextureSampler(SamplerFilterMode minFilter, SamplerFilterMode magFilter, SamplerAddressMode addressU, SamplerAddressMode addressV, SamplerAddressMode addressW, float MipLodBias = 0.0f, float minLod = 0.0f) = 0;
 
 	};

@@ -13,7 +13,7 @@ namespace Invision
 
 	}
 
-	ITexture::ITexture(IGraphicsInstance* instance, unsigned char* pixels, int width, int height, bool generateMipMaps) :
+	ITexture::ITexture(IGraphicsInstance* instance, unsigned char* pixels, int width, int height, GfxFormat format, bool generateMipMaps) :
 		mInstance(instance)
 	{
 

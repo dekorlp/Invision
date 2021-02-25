@@ -14,19 +14,19 @@ namespace Invision
 		mVulkanInstance = instance;
 	}
 
-	VulkanTexture::VulkanTexture(VulkanInstance* instance, unsigned char* pixels, int width, int height, bool generateMipMaps) :
+	VulkanTexture::VulkanTexture(VulkanInstance* instance, unsigned char* pixels, int width, int height, GfxFormat format, bool generateMipMaps) :
 		ITexture(instance)
 	{
 		mVulkanInstance = instance;
 
-		mTexture.CreateTextureImage(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), pixels, width, height, mVulkanInstance->GetVulkanContext().mUseDepthRessources, generateMipMaps);
+		mTexture.CreateTextureImage(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), pixels, width, height, mVulkanInstance->GetVulkanContext().mUseDepthRessources, instance->ConvertInvisionFormatToVkFormat(format) , generateMipMaps);
 		mTexture.CreateTextureImageView(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
 	}
 
-	void VulkanTexture::CreateTexture(unsigned char* pixels,  int width, int height, bool generateMipMaps)
+	void VulkanTexture::CreateTexture(unsigned char* pixels,  int width, int height, GfxFormat format, bool generateMipMaps)
 	{
 
-		mTexture.CreateTextureImage(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), pixels, width, height, mVulkanInstance->GetVulkanContext().mUseDepthRessources, generateMipMaps);
+		mTexture.CreateTextureImage(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), pixels, width, height, mVulkanInstance->GetVulkanContext().mUseDepthRessources, mVulkanInstance->ConvertInvisionFormatToVkFormat(format), generateMipMaps);
 		mTexture.CreateTextureImageView(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
 	}
 

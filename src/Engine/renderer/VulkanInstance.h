@@ -33,7 +33,7 @@ namespace Invision
 		INVISION_API std::shared_ptr<IFramebuffer> CreateFramebuffer(std::shared_ptr<Invision::IRenderPass> renderPass) override;
 		INVISION_API std::shared_ptr<ICommandBuffer> CreateCommandBuffer(std::shared_ptr<Invision::IFramebuffer> framebuffer) override;
 		INVISION_API std::shared_ptr<ITexture> CreateTexture() override;
-		INVISION_API std::shared_ptr<ITexture> CreateTexture(unsigned char* pixels, int width, int height, bool generateMipMaps) override;
+		INVISION_API std::shared_ptr<ITexture> CreateTexture(unsigned char* pixels, int width, int height, GfxFormat format, bool generateMipMaps) override;
 
 		INVISION_API VulkanEngine* GetCoreEngine();
 		INVISION_API VulkanBaseTexture GetDepthRessources();

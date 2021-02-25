@@ -8,7 +8,7 @@
 
 namespace Invision
 {
-	void VulkanBaseTexture::CreateTextureImage(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, unsigned char* pixels, int width, int height, bool useDepthRessource, bool generateMipMaps)
+	void VulkanBaseTexture::CreateTextureImage(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, unsigned char* pixels, int width, int height, bool useDepthRessource, VkFormat format, bool generateMipMaps)
 	{
 		int imageSize = width * height * 4; //4 four channels for RGBA -> Color Formats of RGB are motly not supported by modern GPU Devices
 
@@ -27,12 +27,12 @@ namespace Invision
 
 		void* pStagingBuffer = memoryManager.BindToSharedMemory(vulkanInstance, imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_SHARING_MODE_EXCLUSIVE);
 		memoryManager.CopyDataToBuffer(vulkanInstance, pStagingBuffer, pixels);
-		CreateImage(vulkanInstance, memoryManager, width, height, mMipLevels, VK_SAMPLE_COUNT_1_BIT, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-		TransitionImageLayout(vulkanInstance, commandPool, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, useDepthRessource, mMipLevels);
+		CreateImage(vulkanInstance, memoryManager, width, height, mMipLevels, VK_SAMPLE_COUNT_1_BIT, format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+		TransitionImageLayout(vulkanInstance, commandPool, format, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, useDepthRessource, mMipLevels);
 		memoryManager.CopyBufferToImage(vulkanInstance, commandPool, pStagingBuffer, mImage, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
 		memoryManager.Unbind(vulkanInstance, pStagingBuffer);
 
-		GenerateMipmaps(vulkanInstance, commandPool, VK_FORMAT_R8G8B8A8_SRGB, width, height, mMipLevels);
+		GenerateMipmaps(vulkanInstance, commandPool, format, width, height, mMipLevels);
 	}
 
 	void VulkanBaseTexture::CreateColorRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext)

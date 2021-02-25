@@ -13,7 +13,7 @@ namespace Invision
 	class  VulkanBaseTexture
 	{
 		public:
-			void CreateTextureImage(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, unsigned char* pixels, int width, int height, bool useDepthRessource, bool generateMipMaps = false);
+			void CreateTextureImage(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, unsigned char* pixels, int width, int height, bool useDepthRessource, VkFormat format, bool generateMipMaps = false);
 			void CreateColorRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext);
 			void CreateDepthRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext);
 

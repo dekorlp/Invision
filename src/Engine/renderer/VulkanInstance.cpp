@@ -226,9 +226,9 @@ namespace Invision
 		return std::make_shared<VulkanTexture>(this);
 	}
 
-	std::shared_ptr<ITexture> VulkanInstance::CreateTexture(unsigned char* pixels, int width, int height, bool generateMipMaps)
+	std::shared_ptr<ITexture> VulkanInstance::CreateTexture(unsigned char* pixels, int width, int height, GfxFormat format, bool generateMipMaps)
 	{
-		return std::make_shared<VulkanTexture>(this, pixels, width, height, generateMipMaps);
+		return std::make_shared<VulkanTexture>(this, pixels, width, height, format, generateMipMaps);
 	}
 
 	VulkanEngine* VulkanInstance::GetCoreEngine()
