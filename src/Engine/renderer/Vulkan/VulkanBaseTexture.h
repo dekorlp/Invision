@@ -19,7 +19,7 @@ namespace Invision
 
 			VkFormat FindDepthFormat(const SVulkanBase &vulkanInstance);
 
-			void CreateTextureImageView(SVulkanBase &vulkanInstance);
+			void CreateTextureImageView(SVulkanBase &vulkanInstance, VkFormat format);
 			void CreateTextureSampler(SVulkanBase &vulkanInstance, VkFilter minFilter, VkFilter magFilter, VkSamplerAddressMode addressU, VkSamplerAddressMode addressV, VkSamplerAddressMode addressW, float MipLodBias, float minLod);
 			void DestroyTexture(const SVulkanBase &vulkanInstance);
 

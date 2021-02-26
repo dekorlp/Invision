@@ -269,10 +269,10 @@ private:
 
 		// gPass
 		gPass = graphicsInstance->CreateRenderPass();
-		//gPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, Invision::FORMAT_R16G16B16A16_SFLOAT); // world Space Positions
-		//gPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, Invision::FORMAT_R16G16B16A16_SFLOAT); // Normals
-		//gPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, Invision::FORMAT_R16G16B16A16_SFLOAT); // Albedo
-		//gPass->AddAttachment(Invision::ATTACHMENT_TYPE_DEPTH, Invision::FORMAT_R16G16B16A16_SFLOAT); // world Space Positions
+		gPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, Invision::FORMAT_R16G16B16A16_SFLOAT); // world Space Positions
+		gPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, Invision::FORMAT_R16G16B16A16_SFLOAT); // Normals
+		gPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, Invision::FORMAT_R16G16B16A16_SFLOAT); // Albedo
+		gPass->AddAttachment(Invision::ATTACHMENT_TYPE_DEPTH, Invision::FORMAT_R16G16B16A16_SFLOAT); // world Space Positions
 
 		std::vector<Invision::Vector3> positions;
 		std::vector<Invision::Vector2> texCoords;

@@ -134,9 +134,9 @@ namespace Invision
 
 	}
 
-	void VulkanBaseTexture::CreateTextureImageView( SVulkanBase &vulkanInstance)
+	void VulkanBaseTexture::CreateTextureImageView( SVulkanBase &vulkanInstance, VkFormat format)
 	{
-		mTextureImageView = CreateImageView(vulkanInstance, mImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_ASPECT_COLOR_BIT, mMipLevels);
+		mTextureImageView = CreateImageView(vulkanInstance, mImage, format, VK_IMAGE_ASPECT_COLOR_BIT, mMipLevels);
 	}
 
 	void VulkanBaseTexture::CreateTextureSampler(SVulkanBase &vulkanInstance, VkFilter minFilter, VkFilter magFilter, VkSamplerAddressMode addressU, VkSamplerAddressMode addressV, VkSamplerAddressMode addressW, float MipLodBias, float minLod)
