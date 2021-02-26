@@ -20,6 +20,8 @@ namespace Invision
 		INVISION_API virtual ~ITexture() = default;
 
 		INVISION_API virtual void CreateTexture(unsigned char* pixels, int width, int height, GfxFormat format, bool generateMipMaps = false) = 0;
+		INVISION_API virtual void CreateColorAttachment(int width, int height, GfxFormat format) = 0;
+		INVISION_API virtual void CreateDepthAttachment(int width, int height) = 0;
 		INVISION_API virtual void CreateTextureSampler(SamplerFilterMode minFilter, SamplerFilterMode magFilter, SamplerAddressMode addressU, SamplerAddressMode addressV, SamplerAddressMode addressW, float MipLodBias = 0.0f, float minLod = 0.0f) = 0;
 
 	};

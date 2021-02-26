@@ -157,7 +157,7 @@ namespace Invision
 		if (attachmentType == ATTACHMENT_TYPE_COLOR)
 		{
 			VulkanBaseTexture texture;
-			texture.CreateColorRessources(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), mVulkanInstance->GetVulkanContext(), mVulkanInstance->GetVulkanContext().swapChainImageFormat);
+			//texture.CreateColorRessources(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), mVulkanInstance->GetVulkanContext(), mVulkanInstance->GetVulkanContext().swapChainImageFormat);
 			mAttachmentTextures.push_back(texture);
 
 			basePass.AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(),
@@ -176,7 +176,7 @@ namespace Invision
 		else // ATTACHMENT_TYPE_DEPTH
 		{
 			VulkanBaseTexture texture;
-			texture.CreateDepthRessources(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), mVulkanInstance->GetVulkanContext());
+			//texture.CreateDepthRessources(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), mVulkanInstance->GetVulkanContext());
 			mAttachmentTextures.push_back(texture);
 
 			basePass.AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(),

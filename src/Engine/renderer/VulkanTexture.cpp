@@ -30,6 +30,16 @@ namespace Invision
 		mTexture.CreateTextureImageView(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->ConvertInvisionFormatToVkFormat(format));
 	}
 
+	void VulkanTexture::CreateColorAttachment(int width, int height, GfxFormat format)
+	{
+		mTexture.CreateColorRessources(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), mVulkanInstance->GetVulkanContext(), width, height, mVulkanInstance->ConvertInvisionFormatToVkFormat(format));
+	}
+
+	void VulkanTexture::CreateDepthAttachment(int width, int height)
+	{
+		mTexture.CreateDepthRessources(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), mVulkanInstance->GetVulkanContext(), width, height);
+	}
+
 	void VulkanTexture::CreateTextureImageView(GfxFormat format)
 	{
 

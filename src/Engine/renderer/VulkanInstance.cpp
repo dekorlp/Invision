@@ -147,7 +147,7 @@ namespace Invision
 			mDepthRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
 		}
 
-		mDepthRessources.CreateDepthRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext);
+		mDepthRessources.CreateDepthRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext, mVulkanContext.swapChainExtent.width, mVulkanContext.swapChainExtent.height);
 		mUseDepthTest = true;
 		mVulkanContext.mUseDepthRessources = true;
 
@@ -160,7 +160,7 @@ namespace Invision
 			mColorRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
 		}
 
-		mColorRessources.CreateColorRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext, mVulkanContext.swapChainImageFormat);
+		mColorRessources.CreateColorRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext, mVulkanContext.swapChainExtent.width, mVulkanContext.swapChainExtent.height, mVulkanContext.swapChainImageFormat);
 	}
 
 	SVulkanContext& VulkanInstance::GetVulkanContext()
@@ -226,6 +226,22 @@ namespace Invision
 	std::shared_ptr<ITexture> VulkanInstance::CreateTexture(unsigned char* pixels, int width, int height, GfxFormat format, bool generateMipMaps)
 	{
 		return std::make_shared<VulkanTexture>(this, pixels, width, height, format, generateMipMaps);
+	}
+
+	std::shared_ptr<ITexture> VulkanInstance::CreateColorAttachment(int width, int height, GfxFormat format)
+	{
+		std::shared_ptr<ITexture> colorAttachment = std::make_shared<VulkanTexture>(this);
+		colorAttachment->CreateColorAttachment(width, height, format);
+		return colorAttachment;
+
+
+	}
+
+	std::shared_ptr<ITexture> VulkanInstance::CreateDepthAttachment(int width, int height)
+	{
+		std::shared_ptr<ITexture> depthAttachment = std::make_shared<VulkanTexture>(this);
+		depthAttachment->CreateDepthAttachment(width, height);
+		return depthAttachment;
 	}
 
 	VulkanEngine* VulkanInstance::GetCoreEngine()
