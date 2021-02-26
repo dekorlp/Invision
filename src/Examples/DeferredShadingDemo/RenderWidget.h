@@ -49,6 +49,16 @@ struct UniformLightBuffer {
 	Invision::Vector3 viewPos;
 };
 
+struct GBuffer
+{
+	std::shared_ptr <Invision::IRenderPass> gRenderPass;
+	std::shared_ptr <Invision::ITexture> positionsAttachment;
+	std::shared_ptr <Invision::ITexture> albedoAttachment;
+	std::shared_ptr <Invision::ITexture> normalAttachment;
+	std::shared_ptr <Invision::ITexture> depthAttachment;
+
+};
+
 class RenderWidget : public QWidget
 {
 	Q_OBJECT;
@@ -268,11 +278,17 @@ private:
 		texture->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT);
 
 		// gPass
-		gPass = graphicsInstance->CreateRenderPass();
-		gPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, Invision::FORMAT_R16G16B16A16_SFLOAT); // world Space Positions
-		gPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, Invision::FORMAT_R16G16B16A16_SFLOAT); // Normals
-		gPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, Invision::FORMAT_R16G16B16A16_SFLOAT); // Albedo
-		gPass->AddAttachment(Invision::ATTACHMENT_TYPE_DEPTH, Invision::FORMAT_R16G16B16A16_SFLOAT); // world Space Positions
+		mGBuffer.gRenderPass = graphicsInstance->CreateRenderPass();
+		mGBuffer.positionsAttachment = graphicsInstance->CreateColorAttachment(width, height, Invision::FORMAT_R16G16B16A16_SFLOAT);
+		mGBuffer.albedoAttachment = graphicsInstance->CreateColorAttachment(width, height, Invision::FORMAT_R16G16B16A16_SFLOAT);
+		mGBuffer.normalAttachment = graphicsInstance->CreateColorAttachment(width, height, Invision::FORMAT_R16G16B16A16_SFLOAT);
+		mGBuffer.depthAttachment = graphicsInstance->CreateDepthAttachment(width, height);
+
+
+		//gPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, Invision::FORMAT_R16G16B16A16_SFLOAT); // world Space Positions
+		//gPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, Invision::FORMAT_R16G16B16A16_SFLOAT); // Normals
+		//gPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, Invision::FORMAT_R16G16B16A16_SFLOAT); // Albedo
+		//gPass->AddAttachment(Invision::ATTACHMENT_TYPE_DEPTH, Invision::FORMAT_R16G16B16A16_SFLOAT); // world Space Positions
 
 		std::vector<Invision::Vector3> positions;
 		std::vector<Invision::Vector2> texCoords;
@@ -322,7 +338,6 @@ private:
 	// Vulkan Variables
 	std::shared_ptr <Invision::IGraphicsEngine> graphicsEngine;
 	std::shared_ptr <Invision::IGraphicsInstance> graphicsInstance;
-	std::shared_ptr <Invision::IRenderPass> gPass;
 	std::shared_ptr <Invision::IRenderPass> renderPass;
 	std::shared_ptr <Invision::IVertexBuffer> vertexBuffer;
 	std::shared_ptr <Invision::IUniformBuffer> uniformBuffer;
@@ -335,6 +350,8 @@ private:
 
 	std::shared_ptr<Invision::IKeyboard> keyboard;
 	
+	GBuffer mGBuffer;
+
 	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;
 	// timer for frequency adjusting
