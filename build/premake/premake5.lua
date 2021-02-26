@@ -494,6 +494,14 @@ AddConsoleProject(
 		srcroot .. "Examples/LoadModelDemoMipMaps/**.cpp"
 	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, true)
 	
+AddConsoleProject(
+	"DeferredShadingDemo", srcroot .. "Examples/", {
+		srcroot .. "Examples/DeferredShadingDemo/**.h",
+		srcroot .. "Examples/DeferredShadingDemo/**.cpp"
+	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, true)
+	
+
+
 
 -----------------------------------------------------------------------------------------------------
 -------- University Examples
