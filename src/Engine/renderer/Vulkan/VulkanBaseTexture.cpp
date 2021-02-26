@@ -35,13 +35,13 @@ namespace Invision
 		GenerateMipmaps(vulkanInstance, commandPool, format, width, height, mMipLevels);
 	}
 
-	void VulkanBaseTexture::CreateColorRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext)
+	void VulkanBaseTexture::CreateColorRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext, VkFormat format)
 	{
 		mMemoryManager = &memoryManager;
-		VkFormat colorFormat = vulkanContext.swapChainImageFormat;
+		//VkFormat colorFormat = vulkanContext.swapChainImageFormat;
 
-		mpImage = CreateImage(vulkanInstance, memoryManager, vulkanContext.swapChainExtent.width, vulkanContext.swapChainExtent.height, 1, vulkanInstance.MsaaFlagBits, colorFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT | VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, mImage);
-		mTextureImageView = CreateImageView(vulkanInstance, mImage, colorFormat, VK_IMAGE_ASPECT_COLOR_BIT, 1);
+		mpImage = CreateImage(vulkanInstance, memoryManager, vulkanContext.swapChainExtent.width, vulkanContext.swapChainExtent.height, 1, vulkanInstance.MsaaFlagBits, format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT | VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, mImage);
+		mTextureImageView = CreateImageView(vulkanInstance, mImage, format, VK_IMAGE_ASPECT_COLOR_BIT, 1);
 	}
 
 	void VulkanBaseTexture::CreateDepthRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext)

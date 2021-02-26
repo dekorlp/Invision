@@ -160,7 +160,7 @@ namespace Invision
 			mColorRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
 		}
 
-		mColorRessources.CreateColorRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext);
+		mColorRessources.CreateColorRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext, mVulkanContext.swapChainImageFormat);
 	}
 
 	SVulkanContext& VulkanInstance::GetVulkanContext()

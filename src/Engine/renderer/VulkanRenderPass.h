@@ -33,7 +33,8 @@ namespace Invision
 		unsigned int mAttachmentIndex = 0;
 		Invision::VulkanBaseRenderPass mRenderPass;
 		std::vector<VulkanBaseSubPass> mSubPass;
-		std::vector<Invision::VulkanBaseTexture*> mAttachmentTextures;
+		std::vector<Invision::VulkanBaseTexture> mAttachmentTextures;
+		std::vector<Invision::VulkanBaseTexture*> mAttachmentRefTextures;
 		Invision::VulkanInstance *mVulkanInstance;
 
 	};

@@ -110,7 +110,10 @@ namespace Invision
 
 	void VulkanBaseRenderPass::DestroyRenderPass(const SVulkanBase &vulkanInstance)
 	{
-		vkDestroyRenderPass(vulkanInstance.logicalDevice, mRenderPass, nullptr);
+		if (mRenderPass != VK_NULL_HANDLE)
+		{
+			vkDestroyRenderPass(vulkanInstance.logicalDevice, mRenderPass, nullptr);
+		}
 		mAttachmentDescriptions.clear();
 
 		mSubpasses.clear();

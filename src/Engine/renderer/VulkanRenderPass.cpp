@@ -45,7 +45,7 @@ namespace Invision
 			VK_IMAGE_LAYOUT_UNDEFINED,
 			VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL
 			, { mAttachmentIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL });
-		mAttachmentTextures.push_back(&colorTexture);
+		mAttachmentRefTextures.push_back(&colorTexture);
 
 		if (mVulkanInstance->GetVulkanContext().mUseDepthRessources == true)
 		{
@@ -60,7 +60,7 @@ namespace Invision
 				VK_IMAGE_LAYOUT_UNDEFINED,
 				VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
 				{ mAttachmentIndex++, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL });
-			mAttachmentTextures.push_back(&depthTexture);
+			mAttachmentRefTextures.push_back(&depthTexture);
 		}
 
 		basePass.AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(),
@@ -93,7 +93,6 @@ namespace Invision
 
 
 		mRenderPass.CreateRenderPass(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
-
 	}
 
 	void VulkanRenderPass::CreateMainRenderPass(VulkanBaseTexture& depthTexture)
@@ -130,7 +129,7 @@ namespace Invision
 				VK_IMAGE_LAYOUT_UNDEFINED,
 				VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
 				{ mAttachmentIndex++, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL });
-			mAttachmentTextures.push_back(&depthTexture);
+			mAttachmentRefTextures.push_back(&depthTexture);
 		}
 
 		mRenderPass.AddSubpass(basePass);
@@ -154,16 +153,12 @@ namespace Invision
 
 	void VulkanRenderPass::AddAttachment(AttachmentType attachmentType, GfxFormat format)
 	{
-		
-
 		VulkanBaseSubPass basePass;
 		if (attachmentType == ATTACHMENT_TYPE_COLOR)
 		{
-			
-			
 			VulkanBaseTexture texture;
-			texture.CreateColorRessources(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), mVulkanInstance->GetVulkanContext());
-
+			texture.CreateColorRessources(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), mVulkanInstance->GetVulkanContext(), mVulkanInstance->GetVulkanContext().swapChainImageFormat);
+			mAttachmentTextures.push_back(texture);
 
 			basePass.AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(),
 				mVulkanInstance->GetVulkanContext(),
@@ -176,12 +171,13 @@ namespace Invision
 				VK_IMAGE_LAYOUT_UNDEFINED,
 				VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL
 				, { mAttachmentIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL });
-			mAttachmentTextures.push_back(&texture);
+			mAttachmentRefTextures.push_back(&mAttachmentTextures[mAttachmentTextures.size() - 1]);
 		}
 		else // ATTACHMENT_TYPE_DEPTH
 		{
 			VulkanBaseTexture texture;
 			texture.CreateDepthRessources(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), mVulkanInstance->GetVulkanContext());
+			mAttachmentTextures.push_back(texture);
 
 			basePass.AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(),
 				mVulkanInstance->GetVulkanContext(),
@@ -194,7 +190,10 @@ namespace Invision
 				VK_IMAGE_LAYOUT_UNDEFINED,
 				VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
 				{ mAttachmentIndex++, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL });
+			mAttachmentRefTextures.push_back(&mAttachmentTextures[mAttachmentTextures.size() - 1]);
 		}
+
+		mRenderPass.AddSubpass(basePass);
 		
 	}
 
@@ -205,7 +204,7 @@ namespace Invision
 
 	std::vector<Invision::VulkanBaseTexture*> VulkanRenderPass::GetAttachmentTextures()
 	{
-		return mAttachmentTextures;
+		return mAttachmentRefTextures;
 	}
 
 	VulkanRenderPass::~VulkanRenderPass()

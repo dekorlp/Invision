@@ -267,6 +267,12 @@ private:
 		freeImage(pixels);
 		texture->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT);
 
+		// gPass
+		gPass = graphicsInstance->CreateRenderPass();
+		//gPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, Invision::FORMAT_R16G16B16A16_SFLOAT); // world Space Positions
+		//gPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, Invision::FORMAT_R16G16B16A16_SFLOAT); // Normals
+		//gPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, Invision::FORMAT_R16G16B16A16_SFLOAT); // Albedo
+		//gPass->AddAttachment(Invision::ATTACHMENT_TYPE_DEPTH, Invision::FORMAT_R16G16B16A16_SFLOAT); // world Space Positions
 
 		std::vector<Invision::Vector3> positions;
 		std::vector<Invision::Vector2> texCoords;
@@ -316,6 +322,7 @@ private:
 	// Vulkan Variables
 	std::shared_ptr <Invision::IGraphicsEngine> graphicsEngine;
 	std::shared_ptr <Invision::IGraphicsInstance> graphicsInstance;
+	std::shared_ptr <Invision::IRenderPass> gPass;
 	std::shared_ptr <Invision::IRenderPass> renderPass;
 	std::shared_ptr <Invision::IVertexBuffer> vertexBuffer;
 	std::shared_ptr <Invision::IUniformBuffer> uniformBuffer;

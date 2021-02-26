@@ -44,7 +44,7 @@ namespace Invision
 		// example: mSubpassesReferences[mSubpasses.Index].mColorReference
 		std::vector<VkSubpassDescription> mSubpasses;
 		std::vector<VkAttachmentDescription> mAttachmentDescriptions;
-		VkRenderPass mRenderPass;
+		VkRenderPass mRenderPass = VK_NULL_HANDLE;
 		std::vector<VkSubpassDependency> mDependencies;
 	};
 
