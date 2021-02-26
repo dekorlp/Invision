@@ -151,16 +151,21 @@ namespace Invision
 		mRenderPass.CreateRenderPass(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
 	}
 
-	void VulkanRenderPass::AddAttachment(AttachmentType attachmentType, GfxFormat format)
+	void VulkanRenderPass::AddAttachment(AttachmentType attachmentType, std::shared_ptr<ITexture>& attachment)
 	{
-		VulkanBaseSubPass basePass;
+		// !!! Actually there is only one Subpass supported !!!
+		// More than one subpasses are usefull for smartphone devices!
+		if (mSubPass.size() == 0)
+		{
+			VulkanBaseSubPass basePass;
+			mSubPass.push_back(basePass);
+		}
+
+		VulkanBaseTexture test = dynamic_pointer_cast<VulkanTexture>(attachment)->GetBaseTexture();
+		
 		if (attachmentType == ATTACHMENT_TYPE_COLOR)
 		{
-			VulkanBaseTexture texture;
-			//texture.CreateColorRessources(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), mVulkanInstance->GetVulkanContext(), mVulkanInstance->GetVulkanContext().swapChainImageFormat);
-			mAttachmentTextures.push_back(texture);
-
-			basePass.AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(),
+			mSubPass[0].AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(),
 				mVulkanInstance->GetVulkanContext(),
 				mVulkanInstance->GetVulkanContext().swapChainImageFormat,
 				mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct().MsaaFlagBits,
@@ -171,15 +176,11 @@ namespace Invision
 				VK_IMAGE_LAYOUT_UNDEFINED,
 				VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL
 				, { mAttachmentIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL });
-			mAttachmentRefTextures.push_back(&mAttachmentTextures[mAttachmentTextures.size() - 1]);
+			mAttachmentRefTextures.push_back(&test);
 		}
 		else // ATTACHMENT_TYPE_DEPTH
 		{
-			VulkanBaseTexture texture;
-			//texture.CreateDepthRessources(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), mVulkanInstance->GetVulkanContext());
-			mAttachmentTextures.push_back(texture);
-
-			basePass.AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(),
+			mSubPass[0].AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(),
 				mVulkanInstance->GetVulkanContext(),
 				mVulkanInstance->GetDepthRessources().FindDepthFormat(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct()),
 				mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct().MsaaFlagBits,
@@ -190,10 +191,10 @@ namespace Invision
 				VK_IMAGE_LAYOUT_UNDEFINED,
 				VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
 				{ mAttachmentIndex++, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL });
-			mAttachmentRefTextures.push_back(&mAttachmentTextures[mAttachmentTextures.size() - 1]);
+			mAttachmentRefTextures.push_back(&test);
 		}
 
-		mRenderPass.AddSubpass(basePass);
+		int testet = 0;
 		
 	}
 

@@ -25,15 +25,14 @@ namespace Invision
 
 		INVISION_API void CreateMainRenderPass(VulkanBaseTexture& depthTexture, VulkanBaseTexture& colorTexture); // without MSAA
 		INVISION_API void CreateMainRenderPass(VulkanBaseTexture& depthTexture); // with MSAA
-		INVISION_API void AddAttachment(AttachmentType attachmentType, GfxFormat format) override;
-		INVISION_API std::vector<Invision::VulkanBaseTexture*> GetAttachmentTextures();
+		INVISION_API void AddAttachment(AttachmentType attachmentType, std::shared_ptr<ITexture>& attachment) override;
+		INVISION_API std::vector< Invision::VulkanBaseTexture*> GetAttachmentTextures();
 		INVISION_API ~VulkanRenderPass();
 
 	private:
 		unsigned int mAttachmentIndex = 0;
 		Invision::VulkanBaseRenderPass mRenderPass;
 		std::vector<VulkanBaseSubPass> mSubPass;
-		std::vector<Invision::VulkanBaseTexture> mAttachmentTextures;
 		std::vector<Invision::VulkanBaseTexture*> mAttachmentRefTextures;
 		Invision::VulkanInstance *mVulkanInstance;
 

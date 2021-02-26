@@ -277,18 +277,24 @@ private:
 		freeImage(pixels);
 		texture->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT);
 
-		// gPass
+		// gPass Initialization
 		mGBuffer.gRenderPass = graphicsInstance->CreateRenderPass();
 		mGBuffer.positionsAttachment = graphicsInstance->CreateColorAttachment(width, height, Invision::FORMAT_R16G16B16A16_SFLOAT);
 		mGBuffer.albedoAttachment = graphicsInstance->CreateColorAttachment(width, height, Invision::FORMAT_R16G16B16A16_SFLOAT);
 		mGBuffer.normalAttachment = graphicsInstance->CreateColorAttachment(width, height, Invision::FORMAT_R16G16B16A16_SFLOAT);
 		mGBuffer.depthAttachment = graphicsInstance->CreateDepthAttachment(width, height);
 
+		// gPass Sampler Settings
+		mGBuffer.positionsAttachment->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT);
+		mGBuffer.albedoAttachment->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT);
+		mGBuffer.normalAttachment->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT);
+		mGBuffer.depthAttachment->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT);
 
-		//gPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, Invision::FORMAT_R16G16B16A16_SFLOAT); // world Space Positions
-		//gPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, Invision::FORMAT_R16G16B16A16_SFLOAT); // Normals
-		//gPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, Invision::FORMAT_R16G16B16A16_SFLOAT); // Albedo
-		//gPass->AddAttachment(Invision::ATTACHMENT_TYPE_DEPTH, Invision::FORMAT_R16G16B16A16_SFLOAT); // world Space Positions
+		// gPass to RenderPass
+		mGBuffer.gRenderPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, mGBuffer.positionsAttachment); // world Space Positions
+		mGBuffer.gRenderPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, mGBuffer.normalAttachment); // Normals
+		mGBuffer.gRenderPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, mGBuffer.albedoAttachment); // Albedo
+		mGBuffer.gRenderPass->AddAttachment(Invision::ATTACHMENT_TYPE_DEPTH, mGBuffer.depthAttachment); // Depth
 
 		std::vector<Invision::Vector3> positions;
 		std::vector<Invision::Vector2> texCoords;
