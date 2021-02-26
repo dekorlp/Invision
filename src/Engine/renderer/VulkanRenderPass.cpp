@@ -152,11 +152,19 @@ namespace Invision
 		mRenderPass.CreateRenderPass(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
 	}
 
-	void VulkanRenderPass::AddAttachment(AttachmentType attachmentType, std::shared_ptr < Invision::ITexture> attachmentTexture)
+	void VulkanRenderPass::AddAttachment(AttachmentType attachmentType, GfxFormat format)
 	{
+		
+
 		VulkanBaseSubPass basePass;
 		if (attachmentType == ATTACHMENT_TYPE_COLOR)
 		{
+			
+			
+			VulkanBaseTexture texture;
+			texture.CreateColorRessources(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), mVulkanInstance->GetVulkanContext());
+
+
 			basePass.AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(),
 				mVulkanInstance->GetVulkanContext(),
 				mVulkanInstance->GetVulkanContext().swapChainImageFormat,
@@ -168,10 +176,13 @@ namespace Invision
 				VK_IMAGE_LAYOUT_UNDEFINED,
 				VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL
 				, { mAttachmentIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL });
-			mAttachmentTextures.push_back(&(dynamic_pointer_cast<VulkanTexture>(attachmentTexture)->GetBaseTexture()));
+			mAttachmentTextures.push_back(&texture);
 		}
 		else // ATTACHMENT_TYPE_DEPTH
 		{
+			VulkanBaseTexture texture;
+			texture.CreateDepthRessources(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), mVulkanInstance->GetVulkanContext());
+
 			basePass.AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(),
 				mVulkanInstance->GetVulkanContext(),
 				mVulkanInstance->GetDepthRessources().FindDepthFormat(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct()),
