@@ -207,6 +207,12 @@ namespace Invision
 		
 	}
 
+	void VulkanRenderPass::CreateRenderPass()
+	{
+		mRenderPass.AddSubpass(mSubPass[0]);
+		mRenderPass.CreateRenderPass(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
+	}
+
 	VulkanBaseRenderPass VulkanRenderPass::GetRenderPass()
 	{
 		return mRenderPass;

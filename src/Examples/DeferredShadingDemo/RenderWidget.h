@@ -52,10 +52,13 @@ struct UniformLightBuffer {
 struct GBuffer
 {
 	std::shared_ptr <Invision::IRenderPass> gRenderPass;
+	std::shared_ptr <Invision::IFramebuffer> gFramebuffer;
+	std::shared_ptr <Invision::ICommandBuffer> gCommandbuffer;
 	std::shared_ptr <Invision::ITexture> positionsAttachment;
 	std::shared_ptr <Invision::ITexture> albedoAttachment;
 	std::shared_ptr <Invision::ITexture> normalAttachment;
 	std::shared_ptr <Invision::ITexture> depthAttachment;
+	
 
 };
 
@@ -295,6 +298,10 @@ private:
 		mGBuffer.gRenderPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, mGBuffer.normalAttachment); // Normals
 		mGBuffer.gRenderPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, mGBuffer.albedoAttachment); // Albedo
 		mGBuffer.gRenderPass->AddAttachment(Invision::ATTACHMENT_TYPE_DEPTH, mGBuffer.depthAttachment); // Depth
+		mGBuffer.gRenderPass->CreateRenderPass();
+
+		mGBuffer.gFramebuffer = graphicsInstance->CreateFramebuffer(mGBuffer.gRenderPass);
+		mGBuffer.gCommandbuffer = graphicsInstance->CreateCommandBuffer(mGBuffer.gFramebuffer);
 
 		std::vector<Invision::Vector3> positions;
 		std::vector<Invision::Vector2> texCoords;

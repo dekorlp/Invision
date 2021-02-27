@@ -17,6 +17,7 @@ namespace Invision
 		//INVISION_API IRenderPass(IGraphicsEngine* engine);
 		INVISION_API IRenderPass(IGraphicsInstance* instance);
 		INVISION_API virtual void AddAttachment(AttachmentType attachmentType, std::shared_ptr<ITexture>& attachment) = 0;
+		INVISION_API virtual void CreateRenderPass() = 0;
 		INVISION_API virtual ~IRenderPass() = default;
 	};
 }

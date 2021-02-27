@@ -14,7 +14,17 @@ namespace Invision
 	{
 
 		mVulkanInstance = instance;
-		
+
+		// Create Framebuffer
+		std::vector< VkImageView> attachments;
+		mFramebuffers.resize(1);
+
+		for (unsigned int j = 0; j < dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetAttachmentTextures().size(); j++)
+		{
+			attachments.push_back((*dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetAttachmentTextures()[j]).GetImageView());
+		}
+
+		mFramebuffers[0].CreateFramebuffer(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetRenderPass(), attachments);
 	}
 
 	VulkanFramebuffer::VulkanFramebuffer(VulkanInstance* instance, std::shared_ptr<Invision::IRenderPass> renderPass, bool isMainFrameBuffer)
