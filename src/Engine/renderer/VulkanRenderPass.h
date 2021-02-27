@@ -30,6 +30,8 @@ namespace Invision
 		INVISION_API ~VulkanRenderPass();
 
 	private:
+
+		bool mIsMainRenderpass = false; // needed for clearing mAttachmentRefTextures
 		unsigned int mAttachmentIndex = 0;
 		Invision::VulkanBaseRenderPass mRenderPass;
 		std::vector<VulkanBaseSubPass> mSubPass;

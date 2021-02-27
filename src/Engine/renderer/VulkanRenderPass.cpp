@@ -29,6 +29,8 @@ namespace Invision
 
 	void VulkanRenderPass::CreateMainRenderPass(VulkanBaseTexture& depthTexture, VulkanBaseTexture& colorTexture)
 	{
+		mIsMainRenderpass = true;
+
 		// Create RenderPass with MSAA
 
 		VulkanBaseSubPass basePass;
@@ -97,6 +99,8 @@ namespace Invision
 
 	void VulkanRenderPass::CreateMainRenderPass(VulkanBaseTexture& depthTexture)
 	{
+		mIsMainRenderpass = true;
+
 		// Create RenderPass without MSAA
 
 		std::vector<Invision::VulkanBaseTexture> baseTextures;
@@ -161,7 +165,7 @@ namespace Invision
 			mSubPass.push_back(basePass);
 		}
 
-		VulkanBaseTexture test = dynamic_pointer_cast<VulkanTexture>(attachment)->GetBaseTexture();
+		VulkanBaseTexture *baseTexture = new VulkanBaseTexture(dynamic_pointer_cast<VulkanTexture>(attachment)->GetBaseTexture());
 		
 		if (attachmentType == ATTACHMENT_TYPE_COLOR)
 		{
@@ -176,7 +180,7 @@ namespace Invision
 				VK_IMAGE_LAYOUT_UNDEFINED,
 				VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL
 				, { mAttachmentIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL });
-			mAttachmentRefTextures.push_back(&test);
+			mAttachmentRefTextures.push_back(baseTexture);
 		}
 		else // ATTACHMENT_TYPE_DEPTH
 		{
@@ -191,7 +195,7 @@ namespace Invision
 				VK_IMAGE_LAYOUT_UNDEFINED,
 				VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
 				{ mAttachmentIndex++, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL });
-			mAttachmentRefTextures.push_back(&test);
+			mAttachmentRefTextures.push_back(baseTexture);
 		}
 
 		int testet = 0;
@@ -211,5 +215,13 @@ namespace Invision
 	VulkanRenderPass::~VulkanRenderPass()
 	{
 		mRenderPass.DestroyRenderPass(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
+		if (!mIsMainRenderpass) // these are attachmentes -> they are allocated with new
+		{
+			for (int i= 0; i < mAttachmentRefTextures.size(); i++)
+			{
+				delete mAttachmentRefTextures[i];
+			}
+			mAttachmentRefTextures.clear();
+		}
 	}
 }
