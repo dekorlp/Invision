@@ -90,11 +90,11 @@ namespace Invision
 		mAttachmentDescriptions.insert(std::end(mAttachmentDescriptions), std::begin(subPass.mAttachmentDescriptions), std::end(subPass.mAttachmentDescriptions));   //push_back(subPass.mAttachmentDescriptions);
 	}
 
-	void VulkanBaseRenderPass::AddSubpassDependency(const SVulkanBase &vulkanInstance, VkPipelineStageFlags srcStageFlags, VkAccessFlags srcAccessFlags, VkPipelineStageFlags dstStageFlags, VkAccessFlags dstAccessFlags)
+	void VulkanBaseRenderPass::AddSubpassDependency(const SVulkanBase &vulkanInstance, uint32_t srcSubpass, uint32_t dstSubpass, VkPipelineStageFlags srcStageFlags, VkAccessFlags srcAccessFlags, VkPipelineStageFlags dstStageFlags, VkAccessFlags dstAccessFlags)
 	{
 		VkSubpassDependency dependency = {};
-		dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
-		dependency.dstSubpass = 0;
+		dependency.srcSubpass = srcSubpass;// VK_SUBPASS_EXTERNAL;
+		dependency.dstSubpass = dstSubpass;// 0
 		dependency.srcStageMask = srcStageFlags;
 		dependency.srcAccessMask = srcAccessFlags;
 		dependency.dstStageMask = dstStageFlags;

@@ -36,7 +36,7 @@ namespace Invision
 		void INVISION_API DestroyRenderPass(const SVulkanBase &vulkanInstance);
 		
 		void INVISION_API AddSubpass(VulkanBaseSubPass& subPass);
-		void INVISION_API AddSubpassDependency(const SVulkanBase &vulkanInstance, VkPipelineStageFlags srcStageFlags, VkAccessFlags srcAccessFlags, VkPipelineStageFlags dstStageFlags, VkAccessFlags dstAccessFlags);
+		void INVISION_API AddSubpassDependency(const SVulkanBase &vulkanInstance, uint32_t srcSubpass, uint32_t dstSubpass, VkPipelineStageFlags srcStageFlags, VkAccessFlags srcAccessFlags, VkPipelineStageFlags dstStageFlags, VkAccessFlags dstAccessFlags);
 		VkRenderPass INVISION_API GetRenderPass();
 	private:
 	
