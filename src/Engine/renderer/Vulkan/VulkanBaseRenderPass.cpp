@@ -103,6 +103,19 @@ namespace Invision
 		mDependencies.push_back(dependency);
 	}
 
+	void VulkanBaseRenderPass::AddSubpassDependency(const SVulkanBase &vulkanInstance, uint32_t srcSubpass, uint32_t dstSubpass, VkPipelineStageFlags srcStageFlags, VkAccessFlags srcAccessFlags, VkPipelineStageFlags dstStageFlags, VkAccessFlags dstAccessFlags, VkDependencyFlags dependencyFlags)
+	{
+		VkSubpassDependency dependency = {};
+		dependency.srcSubpass = srcSubpass;// VK_SUBPASS_EXTERNAL;
+		dependency.dstSubpass = dstSubpass;// 0
+		dependency.srcStageMask = srcStageFlags;
+		dependency.srcAccessMask = srcAccessFlags;
+		dependency.dstStageMask = dstStageFlags;
+		dependency.dstAccessMask = dstAccessFlags;
+
+		mDependencies.push_back(dependency);
+	}
+
 	VkRenderPass VulkanBaseRenderPass::GetRenderPass()
 	{
 		return mRenderPass;
