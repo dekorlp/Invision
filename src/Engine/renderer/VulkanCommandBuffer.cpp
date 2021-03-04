@@ -82,24 +82,51 @@ namespace Invision
 	{
 		std::vector< VkClearValue> clearValues = {};
 
-		
-		if (mVulkanInstance->GetVulkanContext().mUseDepthRessources == true)
+		if (dynamic_pointer_cast<VulkanRenderPass>(renderPass)->IsMainRenderPass())
 		{
-			clearValues.resize(2);
-			clearValues[0].color = { mBackground[0], mBackground[1], mBackground[2], mBackground[3] };
-			clearValues[1].depthStencil = { 1.0, 0 };
+
+			if (mVulkanInstance->GetVulkanContext().mUseDepthRessources == true)
+			{
+				clearValues.resize(2);
+				clearValues[0].color = { mBackground[0], mBackground[1], mBackground[2], mBackground[3] };
+				clearValues[1].depthStencil = { 1.0, 0 };
+			}
+			else
+			{
+				clearValues.resize(1);
+				clearValues[0].color = { mBackground[0], mBackground[1], mBackground[2], mBackground[3] };
+			}
+
+			for (int i = 0; i < mCommandBuffers.size(); i++)
+			{
+				mCommandBuffers[i].BeginRenderPass(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), dynamic_pointer_cast<VulkanFramebuffer>(framebuffer)->GetFramebuffer(i), clearValues);
+			}
+
 		}
 		else
 		{
-			clearValues.resize(1);
-			clearValues[0].color = { mBackground[0], mBackground[1], mBackground[2], mBackground[3] };
+
+
+
+			clearValues.resize(dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetAttachmentTextures().size());
+
+			for (unsigned int i = 0; i < dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetAttachmentTextures().size(); i++)
+			{
+				if (dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetSubpasses()[0].GetAttachmentDescription(i).finalLayout == VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL) // Color Format
+				{
+					clearValues[0].color = { mBackground[0], mBackground[1], mBackground[2], mBackground[3] };
+				}
+				else if(dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetSubpasses()[0].GetAttachmentDescription(i).finalLayout == VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL) // Depth Format
+				{
+					clearValues[1].depthStencil = { 1.0, 0 };
+				}
+				else
+				{
+
+				}
+			}
 		}
 
-		for (int i = 0; i < mCommandBuffers.size(); i++)
-		{
-			mCommandBuffers[i].BeginRenderPass(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), dynamic_pointer_cast<VulkanFramebuffer>(framebuffer)->GetFramebuffer(i), clearValues);
-		}
-		
 		return *this;
 	}
 

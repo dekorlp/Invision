@@ -201,10 +201,7 @@ namespace Invision
 				VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
 				{ mAttachmentIndex++, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL });
 			mAttachmentRefTextures.push_back(baseTexture);
-		}
-
-		int testet = 0;
-		
+		}		
 	}
 
 	void VulkanRenderPass::CreateRenderPass()
@@ -218,9 +215,19 @@ namespace Invision
 		return mRenderPass;
 	}
 
+	std::vector<VulkanBaseSubPass> VulkanRenderPass::GetSubpasses()
+	{
+		return mSubPass;
+	}
+
 	std::vector<Invision::VulkanBaseTexture*> VulkanRenderPass::GetAttachmentTextures()
 	{
 		return mAttachmentRefTextures;
+	}
+
+	bool VulkanRenderPass::IsMainRenderPass()
+	{
+		return mIsMainRenderpass;
 	}
 
 	VulkanRenderPass::~VulkanRenderPass()

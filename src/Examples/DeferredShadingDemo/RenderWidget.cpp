@@ -15,6 +15,7 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 {
 	// gBuffer command Buffer
 	mGBuffer.gCommandbuffer->BeginCommandBuffer().
+		BeginRenderPass(mGBuffer.gRenderPass, mGBuffer.gFramebuffer).
 		EndCommandBuffer();
 
 	// main command Buffer

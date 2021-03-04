@@ -46,6 +46,11 @@ namespace Invision
 		mAttachmentDescriptions.clear();
 	}
 
+	VkAttachmentDescription VulkanBaseSubPass::GetAttachmentDescription(uint32_t index)
+	{
+		return mAttachmentDescriptions[index];
+	}
+
 	void VulkanBaseRenderPass::CreateRenderPass(const SVulkanBase &vulkanInstance)
 	{
 		/*if (subPasses.mSubpass.size() == 0) {

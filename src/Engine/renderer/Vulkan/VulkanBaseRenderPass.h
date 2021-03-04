@@ -26,6 +26,8 @@ namespace Invision
 			VkAttachmentLoadOp loadOp, VkAttachmentStoreOp storeOp, VkAttachmentLoadOp stencilLoadOp, VkAttachmentStoreOp stencilStoreop, 
 			VkImageLayout initialLayout, VkImageLayout finalLayout, VkAttachmentReference attachmentRef, bool isResolveAttachment = false); 
 
+		VkAttachmentDescription GetAttachmentDescription(uint32_t index);
+
 		void INVISION_API DestroyBaseSubPass();
 	};
 
