@@ -174,18 +174,16 @@ namespace Invision
 		
 		if (attachmentType == ATTACHMENT_TYPE_COLOR)
 		{
-			VkFormat form = baseTexture->GetFormat();
-
 			mSubPass[0].AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(),
 				mVulkanInstance->GetVulkanContext(),
-				mVulkanInstance->GetVulkanContext().swapChainImageFormat,
-				mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct().MsaaFlagBits,
+				baseTexture->GetFormat(),
+				VK_SAMPLE_COUNT_1_BIT, //mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct().MsaaFlagBits,
 				VK_ATTACHMENT_LOAD_OP_CLEAR,
 				VK_ATTACHMENT_STORE_OP_STORE,
 				VK_ATTACHMENT_LOAD_OP_DONT_CARE,
 				VK_ATTACHMENT_STORE_OP_DONT_CARE,
 				VK_IMAGE_LAYOUT_UNDEFINED,
-				VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL
+				VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL
 				, { mAttachmentIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL });
 			mAttachmentRefTextures.push_back(baseTexture);
 		}
@@ -194,7 +192,7 @@ namespace Invision
 			mSubPass[0].AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(),
 				mVulkanInstance->GetVulkanContext(),
 				mVulkanInstance->GetDepthRessources().FindDepthFormat(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct()),
-				mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct().MsaaFlagBits,
+				VK_SAMPLE_COUNT_1_BIT, //mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct().MsaaFlagBits,
 				VK_ATTACHMENT_LOAD_OP_CLEAR,
 				VK_ATTACHMENT_STORE_OP_DONT_CARE,
 				VK_ATTACHMENT_LOAD_OP_DONT_CARE,
