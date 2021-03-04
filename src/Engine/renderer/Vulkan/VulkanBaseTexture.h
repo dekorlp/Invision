@@ -27,6 +27,7 @@ namespace Invision
 
 			VkImageView GetImageView();
 			VkSampler GetImageSampler();
+			VkFormat GetFormat();
 
 		protected:
 			void* CreateImage(const SVulkanBase &vulkanInstance, VulkanBaseMemoryManager& memoryManager, int width, int height, uint32_t mipLevels, VkSampleCountFlagBits numSamples, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image);
@@ -40,6 +41,7 @@ namespace Invision
 			// Depth Texture Methods
 			VkFormat FindSupportedFormat(const SVulkanBase &vulkanInstance, const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
 			
+			
 			bool HasStencilComponent(VkFormat format);
 
 			//VulkanBaseBuffer mTextureBuffer;
@@ -47,7 +49,8 @@ namespace Invision
 
 			uint32_t mMipLevels;
 			VkDeviceMemory mImageMemory;
-
+			
+			VkFormat mFormat = VK_FORMAT_UNDEFINED;
 			VkImage mImage = VK_NULL_HANDLE;
 			void* mpImage;
 

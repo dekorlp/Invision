@@ -174,6 +174,8 @@ namespace Invision
 		
 		if (attachmentType == ATTACHMENT_TYPE_COLOR)
 		{
+			VkFormat form = baseTexture->GetFormat();
+
 			mSubPass[0].AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(),
 				mVulkanInstance->GetVulkanContext(),
 				mVulkanInstance->GetVulkanContext().swapChainImageFormat,

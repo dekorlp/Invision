@@ -10,6 +10,7 @@ namespace Invision
 {
 	void VulkanBaseTexture::CreateTextureImage(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, unsigned char* pixels, int width, int height, bool useDepthRessource, VkFormat format, bool generateMipMaps)
 	{
+		mFormat = format;
 		int imageSize = width * height * 4; //4 four channels for RGBA -> Color Formats of RGB are motly not supported by modern GPU Devices
 
 		mMemoryManager = &memoryManager;
@@ -38,6 +39,7 @@ namespace Invision
 	void VulkanBaseTexture::CreateColorRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext, int width, int height, VkFormat format)
 	{
 		mMemoryManager = &memoryManager;
+		mFormat = format;
 		//VkFormat colorFormat = vulkanContext.swapChainImageFormat;
 
 		mpImage = CreateImage(vulkanInstance, memoryManager, width, height, 1, vulkanInstance.MsaaFlagBits, format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT | VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, mImage);
@@ -48,7 +50,7 @@ namespace Invision
 	{
 		mMemoryManager = &memoryManager;
 		VkFormat depthFormat = FindDepthFormat(vulkanInstance);
-
+		mFormat = depthFormat;
 		mpImage = CreateImage(vulkanInstance, memoryManager, width, height, 1, vulkanInstance.MsaaFlagBits, depthFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, mImage);
 		mTextureImageView = CreateImageView(vulkanInstance, mImage, depthFormat, VK_IMAGE_ASPECT_DEPTH_BIT, 1);
 	}
@@ -349,6 +351,11 @@ namespace Invision
 	VkSampler VulkanBaseTexture::GetImageSampler()
 	{
 		return this->mTextureSampler;
+	}
+
+	VkFormat VulkanBaseTexture::GetFormat()
+	{
+		return mFormat;
 	}
 
 	// Depth Texture Methods
