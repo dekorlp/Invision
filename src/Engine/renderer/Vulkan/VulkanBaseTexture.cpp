@@ -36,22 +36,22 @@ namespace Invision
 		GenerateMipmaps(vulkanInstance, commandPool, format, width, height, mMipLevels);
 	}
 
-	void VulkanBaseTexture::CreateColorRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext, int width, int height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags memoryPropertyFlags, VkImageAspectFlags aspectFlags)
+	void VulkanBaseTexture::CreateColorRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext, int width, int height, VkSampleCountFlagBits sampleCountFlags, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags memoryPropertyFlags, VkImageAspectFlags aspectFlags)
 	{
 		mMemoryManager = &memoryManager;
 		mFormat = format;
 		//VkFormat colorFormat = vulkanContext.swapChainImageFormat;
 
-		mpImage = CreateImage(vulkanInstance, memoryManager, width, height, 1, vulkanInstance.MsaaFlagBits, format, tiling, usage, memoryPropertyFlags, mImage);
+		mpImage = CreateImage(vulkanInstance, memoryManager, width, height, 1, sampleCountFlags, format, tiling, usage, memoryPropertyFlags, mImage);
 		mTextureImageView = CreateImageView(vulkanInstance, mImage, format, aspectFlags, 1);
 	}
 
-	void VulkanBaseTexture::CreateDepthRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext, int width, int height, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags memoryPropertyFlags, VkImageAspectFlags aspectFlags)
+	void VulkanBaseTexture::CreateDepthRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext, int width, int height, VkSampleCountFlagBits sampleCountFlags, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags memoryPropertyFlags, VkImageAspectFlags aspectFlags)
 	{
 		mMemoryManager = &memoryManager;
 		VkFormat depthFormat = FindDepthFormat(vulkanInstance);
 		mFormat = depthFormat;
-		mpImage = CreateImage(vulkanInstance, memoryManager, width, height, 1, vulkanInstance.MsaaFlagBits, depthFormat, tiling, usage, memoryPropertyFlags, mImage);
+		mpImage = CreateImage(vulkanInstance, memoryManager, width, height, 1, sampleCountFlags, depthFormat, tiling, usage, memoryPropertyFlags, mImage);
 		mTextureImageView = CreateImageView(vulkanInstance, mImage, depthFormat, aspectFlags, 1);
 	}
 
