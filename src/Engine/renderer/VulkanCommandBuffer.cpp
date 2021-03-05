@@ -96,18 +96,9 @@ namespace Invision
 				clearValues.resize(1);
 				clearValues[0].color = { mBackground[0], mBackground[1], mBackground[2], mBackground[3] };
 			}
-
-			for (int i = 0; i < mCommandBuffers.size(); i++)
-			{
-				mCommandBuffers[i].BeginRenderPass(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), dynamic_pointer_cast<VulkanFramebuffer>(framebuffer)->GetFramebuffer(i), clearValues);
-			}
-
 		}
 		else
 		{
-
-
-
 			clearValues.resize(dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetAttachmentTextures().size());
 
 			for (unsigned int i = 0; i < dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetAttachmentTextures().size(); i++)
@@ -125,6 +116,11 @@ namespace Invision
 
 				}
 			}
+		}
+
+		for (int i = 0; i < mCommandBuffers.size(); i++)
+		{
+			mCommandBuffers[i].BeginRenderPass(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), dynamic_pointer_cast<VulkanFramebuffer>(framebuffer)->GetFramebuffer(i), clearValues);
 		}
 
 		return *this;

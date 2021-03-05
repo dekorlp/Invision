@@ -36,17 +36,17 @@ namespace Invision
 		GenerateMipmaps(vulkanInstance, commandPool, format, width, height, mMipLevels);
 	}
 
-	void VulkanBaseTexture::CreateColorRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext, int width, int height, VkFormat format)
+	void VulkanBaseTexture::CreateColorRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext, int width, int height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags memoryPropertyFlags, VkImageAspectFlags aspectFlags)
 	{
 		mMemoryManager = &memoryManager;
 		mFormat = format;
 		//VkFormat colorFormat = vulkanContext.swapChainImageFormat;
 
-		mpImage = CreateImage(vulkanInstance, memoryManager, width, height, 1, vulkanInstance.MsaaFlagBits, format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT | VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, mImage);
-		mTextureImageView = CreateImageView(vulkanInstance, mImage, format, VK_IMAGE_ASPECT_COLOR_BIT, 1);
+		mpImage = CreateImage(vulkanInstance, memoryManager, width, height, 1, vulkanInstance.MsaaFlagBits, format, tiling, usage, memoryPropertyFlags, mImage);
+		mTextureImageView = CreateImageView(vulkanInstance, mImage, format, aspectFlags, 1);
 	}
 
-	void VulkanBaseTexture::CreateDepthRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext, int width, int height)
+	void VulkanBaseTexture::CreateDepthRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext, int width, int height, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags memoryPropertyFlags, VkImageAspectFlags aspectFlags)
 	{
 		mMemoryManager = &memoryManager;
 		VkFormat depthFormat = FindDepthFormat(vulkanInstance);

@@ -16,6 +16,9 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 	// gBuffer command Buffer
 	mGBuffer.gCommandbuffer->BeginCommandBuffer().
 		BeginRenderPass(mGBuffer.gRenderPass, mGBuffer.gFramebuffer).
+		SetViewport({ 0, 0, (float)width, (float)height, 0.0, 1.0 }).
+		SetScissor({ 0, 0, (uint32_t)width, (uint32_t)height }).
+		EndRenderPass().
 		EndCommandBuffer();
 
 	// main command Buffer
