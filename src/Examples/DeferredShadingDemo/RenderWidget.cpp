@@ -8,6 +8,11 @@ void RenderWidget::RecreateSwapChain(const int width, const int height)
 {
 	// setup swapchain
 	graphicsInstance->ResetPresentation({ HWND(winId()), width, height }, renderPass, framebuffer, commandBuffer);
+
+	// Reset GBuffer (Framebuffer and Commandbuffer)
+	mGBuffer.gCommandbuffer.reset();
+	mGBuffer.gCommandbuffer = graphicsInstance->CreateCommandBuffer(mGBuffer.gFramebuffer);
+
 	BuildCommandBuffer(width, height);
 }
 
@@ -15,10 +20,11 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 {
 	// gBuffer command Buffer
 	mGBuffer.gCommandbuffer->BeginCommandBuffer().
-		BeginRenderPass(mGBuffer.gRenderPass, mGBuffer.gFramebuffer).
 		SetViewport({ 0, 0, (float)width, (float)height, 0.0, 1.0 }).
 		SetScissor({ 0, 0, (uint32_t)width, (uint32_t)height }).
-		EndRenderPass().
+		//BeginRenderPass(mGBuffer.gRenderPass, mGBuffer.gFramebuffer).
+		
+		//EndRenderPass().
 		EndCommandBuffer();
 
 	// main command Buffer
