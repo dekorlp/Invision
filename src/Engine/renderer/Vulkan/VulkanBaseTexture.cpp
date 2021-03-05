@@ -51,8 +51,8 @@ namespace Invision
 		mMemoryManager = &memoryManager;
 		VkFormat depthFormat = FindDepthFormat(vulkanInstance);
 		mFormat = depthFormat;
-		mpImage = CreateImage(vulkanInstance, memoryManager, width, height, 1, vulkanInstance.MsaaFlagBits, depthFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, mImage);
-		mTextureImageView = CreateImageView(vulkanInstance, mImage, depthFormat, VK_IMAGE_ASPECT_DEPTH_BIT, 1);
+		mpImage = CreateImage(vulkanInstance, memoryManager, width, height, 1, vulkanInstance.MsaaFlagBits, depthFormat, tiling, usage, memoryPropertyFlags, mImage);
+		mTextureImageView = CreateImageView(vulkanInstance, mImage, depthFormat, aspectFlags, 1);
 	}
 
 
