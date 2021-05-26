@@ -25,8 +25,8 @@ namespace Invision
 			framebufferInfo.renderPass = renderPass.GetRenderPass();
 			framebufferInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
 			framebufferInfo.pAttachments = attachments.data();
-			framebufferInfo.width = vulkanContext.swapChainExtent.width;
-			framebufferInfo.height = vulkanContext.swapChainExtent.height;
+			framebufferInfo.width = width;
+			framebufferInfo.height = height;
 			framebufferInfo.layers = 1;
 
 			if (vkCreateFramebuffer(vulkanInstance.logicalDevice, &framebufferInfo, nullptr, &mFramebuffer) != VK_SUCCESS)
