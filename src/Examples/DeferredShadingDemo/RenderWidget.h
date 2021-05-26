@@ -62,6 +62,8 @@ struct GBuffer
 
 };
 
+#define FRAMEBUFFER_SIZE 2048
+
 class RenderWidget : public QWidget
 {
 	Q_OBJECT;
@@ -282,10 +284,10 @@ private:
 
 		// gPass Initialization
 		mGBuffer.gRenderPass = graphicsInstance->CreateRenderPass();
-		mGBuffer.positionsAttachment = graphicsInstance->CreateColorAttachment(width, height, Invision::FORMAT_R16G16B16A16_SFLOAT);
-		mGBuffer.albedoAttachment = graphicsInstance->CreateColorAttachment(width, height, Invision::FORMAT_R16G16B16A16_SFLOAT);
-		mGBuffer.normalAttachment = graphicsInstance->CreateColorAttachment(width, height, Invision::FORMAT_R16G16B16A16_SFLOAT);
-		mGBuffer.depthAttachment = graphicsInstance->CreateDepthAttachment(width, height);
+		mGBuffer.positionsAttachment = graphicsInstance->CreateColorAttachment(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE, Invision::FORMAT_R16G16B16A16_SFLOAT);
+		mGBuffer.albedoAttachment = graphicsInstance->CreateColorAttachment(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE, Invision::FORMAT_R16G16B16A16_SFLOAT);
+		mGBuffer.normalAttachment = graphicsInstance->CreateColorAttachment(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE, Invision::FORMAT_R16G16B16A16_SFLOAT);
+		mGBuffer.depthAttachment = graphicsInstance->CreateDepthAttachment(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE);
 
 		// gPass Sampler Settings
 		mGBuffer.positionsAttachment->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT);
