@@ -8,7 +8,7 @@
 
 namespace Invision
 {
-	void VulkanBaseFramebuffer::CreateFramebuffer(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseRenderPass &renderPass, std::vector< VkImageView>& attachments)
+	void VulkanBaseFramebuffer::CreateFramebuffer(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseRenderPass &renderPass, std::vector< VkImageView>& attachments, int width, int height)
 	{
 
 		//for (unsigned int i = 0; i < 3; i++)

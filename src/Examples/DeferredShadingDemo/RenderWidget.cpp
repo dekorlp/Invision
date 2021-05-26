@@ -18,6 +18,8 @@ void RenderWidget::RecreateSwapChain(const int width, const int height)
 
 void RenderWidget::BuildCommandBuffer(float width, float height)
 {
+	
+
 	// gBuffer command Buffer
 	mGBuffer.gCommandbuffer->BeginCommandBuffer().
 		

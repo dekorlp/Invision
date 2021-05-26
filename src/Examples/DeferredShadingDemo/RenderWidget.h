@@ -302,7 +302,7 @@ private:
 		mGBuffer.gRenderPass->AddAttachment(Invision::ATTACHMENT_TYPE_DEPTH, mGBuffer.depthAttachment); // Depth
 		mGBuffer.gRenderPass->CreateRenderPass();
 
-		mGBuffer.gFramebuffer = graphicsInstance->CreateFramebuffer(mGBuffer.gRenderPass);
+		mGBuffer.gFramebuffer = graphicsInstance->CreateFramebuffer(mGBuffer.gRenderPass, FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE);
 		mGBuffer.gCommandbuffer = graphicsInstance->CreateCommandBuffer(mGBuffer.gFramebuffer);
 
 		std::vector<Invision::Vector3> positions;
