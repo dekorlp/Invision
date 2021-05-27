@@ -30,7 +30,7 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 		BeginRenderPass(renderPass, framebuffer).
 		BindPipeline(pipeline).
 		//BindVertexBuffer({ deferredVertexBuffer }, 0, 1).
-		Draw(3, 1, 0, 0).
+		Draw(6, 1, 0, 0).
 		EndRenderPass().
 		EndCommandBuffer();
 
