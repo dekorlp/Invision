@@ -357,7 +357,7 @@ private:
 		light.lightColor = { 1.0, 1.0, 1.0 };
 		light.lightPos = { 1.2f, 1.0f, 2.0f };
 		light.viewPos = { 0.0f, 0.0f, 0.0f };
-		//uniformBuffer->UpdateUniform(&light, sizeof(light), 0, 2);
+		uniformBuffer->UpdateUniform(&light, sizeof(light), 0, 2);
 
 		mIsInit = true;
 
