@@ -24,10 +24,11 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 
 	// main command Buffer
 	commandBuffer->BeginCommandBuffer().
-		
+
 		SetViewport({ 0, 0, (float)width, (float)height, 0.0, 1.0 }).
 		SetScissor({ 0, 0, (uint32_t)width, (uint32_t)height }).
 		BeginRenderPass(renderPass, framebuffer).
+		BindDescriptorSets(DeferredUniformBuffer, pipeline).
 		BindPipeline(pipeline).
 		Draw(6, 1, 0, 0).
 		EndRenderPass().

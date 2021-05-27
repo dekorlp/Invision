@@ -199,7 +199,7 @@ private:
 		texture = graphicsInstance->CreateTexture();
 
 		unsigned char* pixels = readJPG(std::string(INVISION_BASE_DIR).append("/src/Examples/DepthTextureDemo/texture.jpg"), width, height, channels);
-		texture->CreateTexture(pixels, width, height, true);
+		texture->CreateTexture(pixels, width, height, Invision::FORMAT_R8G8B8A8_SRGB, true);
 		freeImage(pixels);
 		texture->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT);
 

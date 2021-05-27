@@ -272,13 +272,20 @@ private:
 		graphicsInstance = graphicsEngine->CreateInstance(dim, renderPass, framebuffer, commandBuffer, true);
 
 		// Deferred Shading Initialization
-
+		unsigned char* pixels = readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/DepthTextureDemo/texture.jpg"), width, height, channels);
+		debugTexture = graphicsInstance->CreateTexture(pixels, width, height, Invision::FORMAT_R8G8B8A8_SRGB, true);
+		freeImage(pixels);
+		debugTexture->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT);
 		pipeline = graphicsInstance->CreatePipeline();
+
+		DeferredUniformBuffer = graphicsInstance->CreateUniformBuffer();
+		DeferredUniformBuffer->CreateImageBinding(0, 0, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, debugTexture).CreateUniformBuffer();
 
 		auto deferredVertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadingDemo/Shader/DeferredShading/deferred.vert.spv"));
 		auto deferredFragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadingDemo/Shader/DeferredShading/deferred.frag.spv"));
 		pipeline->AddShader(deferredVertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
 		pipeline->AddShader(deferredFragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
+		pipeline->AddUniformBuffer(DeferredUniformBuffer);
 		pipeline->CreatePipeline(renderPass);
 
 		/*//renderPass = graphicsInstance->CreateRenderPass(); //graphicsEngine->CreateRenderPass();
@@ -366,7 +373,7 @@ private:
 	std::shared_ptr <Invision::IGraphicsInstance> graphicsInstance;
 	std::shared_ptr <Invision::IRenderPass> renderPass;
 	std::shared_ptr <Invision::IVertexBuffer> vertexBuffer;
-	std::shared_ptr <Invision::IVertexBuffer> deferredVertexBuffer;
+	std::shared_ptr <Invision::IUniformBuffer> DeferredUniformBuffer;
 	std::shared_ptr <Invision::IUniformBuffer> uniformBuffer;
 	std::shared_ptr <Invision::IIndexBuffer> indexBuffer;
 	std::shared_ptr <Invision::IPipeline> pipeline;
@@ -376,6 +383,8 @@ private:
 	std::shared_ptr <Invision::ITexture> texture;
 
 	std::shared_ptr<Invision::IKeyboard> keyboard;
+
+	std::shared_ptr <Invision::ITexture> debugTexture;
 	
 	GBuffer mGBuffer;
 
