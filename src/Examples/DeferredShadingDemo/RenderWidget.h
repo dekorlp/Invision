@@ -288,15 +288,15 @@ private:
 		pipeline->AddUniformBuffer(DeferredUniformBuffer);
 		pipeline->CreatePipeline(renderPass);
 
-		/*//renderPass = graphicsInstance->CreateRenderPass(); //graphicsEngine->CreateRenderPass();
+		//renderPass = graphicsInstance->CreateRenderPass(); //graphicsEngine->CreateRenderPass();
 		vertexBuffer = graphicsInstance->CreateVertexBuffer();
 		uniformBuffer = graphicsInstance->CreateUniformBuffer();
 		indexBuffer = graphicsInstance->CreateIndexBuffer();
 	
 
-		unsigned char* pixels = readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadingDemo/Textures/viking_room.png"), width, height, channels);
-		texture = graphicsInstance->CreateTexture(pixels, width, height, Invision::FORMAT_R8G8B8A8_SRGB, true);
-		freeImage(pixels);
+		unsigned char* pixelsVikingRoom = readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadingDemo/Textures/viking_room.png"), width, height, channels);
+		texture = graphicsInstance->CreateTexture(pixelsVikingRoom, width, height, Invision::FORMAT_R8G8B8A8_SRGB, true);
+		freeImage(pixelsVikingRoom);
 		texture->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT);
 
 		// gPass Initialization
@@ -345,7 +345,7 @@ private:
 		mGBuffer.gPipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
 		mGBuffer.gPipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
 		mGBuffer.gPipeline->AddVertexBuffer(vertexBuffer);
-		mGBuffer.gPipeline->CreatePipeline(mGBuffer.gRenderPass);*/
+		mGBuffer.gPipeline->CreatePipeline(mGBuffer.gRenderPass);
 
 	
 
