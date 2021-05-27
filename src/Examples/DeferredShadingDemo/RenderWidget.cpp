@@ -30,7 +30,7 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 		BeginRenderPass(renderPass, framebuffer).
 		BindDescriptorSets(DeferredUniformBuffer, pipeline).
 		BindPipeline(pipeline).
-		Draw(6, 1, 0, 0).
+		Draw(3, 1, 0, 0).
 		EndRenderPass().
 		EndCommandBuffer();
 
