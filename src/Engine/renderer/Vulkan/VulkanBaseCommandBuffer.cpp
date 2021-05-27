@@ -259,7 +259,7 @@ namespace Invision
 
 	VulkanBaseCommandBuffer& VulkanBaseCommandBuffer::Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance)
 	{
-		if (mCommandBufferIsInitialized && mIsCommandBufferRecording && mIsRenderPassStarted && mIsVertexBufferBinded)
+		if (mCommandBufferIsInitialized && mIsCommandBufferRecording && mIsRenderPassStarted)
 		{
 			//for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
 			//{

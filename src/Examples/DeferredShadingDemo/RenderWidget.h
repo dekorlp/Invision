@@ -51,6 +51,7 @@ struct UniformLightBuffer {
 
 struct GBuffer
 {
+	std::shared_ptr <Invision::IPipeline> gPipeline;
 	std::shared_ptr <Invision::IRenderPass> gRenderPass;
 	std::shared_ptr <Invision::IFramebuffer> gFramebuffer;
 	std::shared_ptr <Invision::ICommandBuffer> gCommandbuffer;
@@ -58,8 +59,6 @@ struct GBuffer
 	std::shared_ptr <Invision::ITexture> albedoAttachment;
 	std::shared_ptr <Invision::ITexture> normalAttachment;
 	std::shared_ptr <Invision::ITexture> depthAttachment;
-	
-
 };
 
 #define FRAMEBUFFER_SIZE 2048
@@ -272,17 +271,29 @@ private:
 		
 		graphicsInstance = graphicsEngine->CreateInstance(dim, renderPass, framebuffer, commandBuffer, true);
 
-		//renderPass = graphicsInstance->CreateRenderPass(); //graphicsEngine->CreateRenderPass();
+		// Deferred Shading Initialization
+
+		pipeline = graphicsInstance->CreatePipeline();
+
+		auto deferredVertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadingDemo/Shader/DeferredShading/deferred.vert.spv"));
+		auto deferredFragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadingDemo/Shader/DeferredShading/deferred.frag.spv"));
+		pipeline->AddShader(deferredVertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
+		pipeline->AddShader(deferredFragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
+		pipeline->CreatePipeline(renderPass);
+
+		/*//renderPass = graphicsInstance->CreateRenderPass(); //graphicsEngine->CreateRenderPass();
 		vertexBuffer = graphicsInstance->CreateVertexBuffer();
 		uniformBuffer = graphicsInstance->CreateUniformBuffer();
 		indexBuffer = graphicsInstance->CreateIndexBuffer();
-		pipeline = graphicsInstance->CreatePipeline();
+	
+
 		unsigned char* pixels = readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadingDemo/Textures/viking_room.png"), width, height, channels);
 		texture = graphicsInstance->CreateTexture(pixels, width, height, Invision::FORMAT_R8G8B8A8_SRGB, true);
 		freeImage(pixels);
 		texture->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT);
 
 		// gPass Initialization
+		mGBuffer.gPipeline = graphicsInstance->CreatePipeline();
 		mGBuffer.gRenderPass = graphicsInstance->CreateRenderPass();
 		mGBuffer.positionsAttachment = graphicsInstance->CreateColorAttachment(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE, Invision::FORMAT_R16G16B16A16_SFLOAT);
 		mGBuffer.albedoAttachment = graphicsInstance->CreateColorAttachment(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE, Invision::FORMAT_R16G16B16A16_SFLOAT);
@@ -321,15 +332,15 @@ private:
 			.CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, texture).
 			CreateUniformBinding(0, 2, 1, Invision::SHADER_STAGE_VERTEX_BIT | Invision::SHADER_STAGE_FRAGMENT_BIT, sizeof(UniformLightBuffer)).CreateUniformBuffer();
 
-		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadingDemo/Shader/DeferredShading/vert.spv"));
-		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadingDemo/Shader/DeferredShading/frag.spv"));
-		pipeline->AddUniformBuffer(uniformBuffer);
-		pipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
-		pipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
-		pipeline->AddVertexBuffer(vertexBuffer);
-		pipeline->CreatePipeline(renderPass);
+		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadingDemo/Shader/DeferredShading/gbuffer.vert.spv"));
+		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadingDemo/Shader/DeferredShading/gbuffer.frag.spv"));
+		mGBuffer.gPipeline->AddUniformBuffer(uniformBuffer);
+		mGBuffer.gPipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
+		mGBuffer.gPipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
+		mGBuffer.gPipeline->AddVertexBuffer(vertexBuffer);
+		mGBuffer.gPipeline->CreatePipeline(mGBuffer.gRenderPass);*/
 
-		//framebuffer = graphicsInstance->CreateFramebuffer(renderPass, graphicsInstance->GetSizeSwapchainImages());
+	
 
 		BuildCommandBuffer(this->size().width(), this->size().height());
 		renderer = graphicsInstance->CreateRenderer();
@@ -339,7 +350,7 @@ private:
 		light.lightColor = { 1.0, 1.0, 1.0 };
 		light.lightPos = { 1.2f, 1.0f, 2.0f };
 		light.viewPos = { 0.0f, 0.0f, 0.0f };
-		uniformBuffer->UpdateUniform(&light, sizeof(light), 0, 2);
+		//uniformBuffer->UpdateUniform(&light, sizeof(light), 0, 2);
 
 		mIsInit = true;
 
@@ -355,6 +366,7 @@ private:
 	std::shared_ptr <Invision::IGraphicsInstance> graphicsInstance;
 	std::shared_ptr <Invision::IRenderPass> renderPass;
 	std::shared_ptr <Invision::IVertexBuffer> vertexBuffer;
+	std::shared_ptr <Invision::IVertexBuffer> deferredVertexBuffer;
 	std::shared_ptr <Invision::IUniformBuffer> uniformBuffer;
 	std::shared_ptr <Invision::IIndexBuffer> indexBuffer;
 	std::shared_ptr <Invision::IPipeline> pipeline;

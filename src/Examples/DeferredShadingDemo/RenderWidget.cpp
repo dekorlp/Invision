@@ -10,8 +10,8 @@ void RenderWidget::RecreateSwapChain(const int width, const int height)
 	graphicsInstance->ResetPresentation({ HWND(winId()), width, height }, renderPass, framebuffer, commandBuffer);
 
 	// Reset GBuffer (Framebuffer and Commandbuffer)
-	mGBuffer.gCommandbuffer.reset();
-	mGBuffer.gCommandbuffer = graphicsInstance->CreateCommandBuffer(mGBuffer.gFramebuffer);
+	//mGBuffer.gCommandbuffer.reset();
+	//mGBuffer.gCommandbuffer = graphicsInstance->CreateCommandBuffer(mGBuffer.gFramebuffer);
 
 	BuildCommandBuffer(width, height);
 }
@@ -20,28 +20,35 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 {
 	
 
-	// gBuffer command Buffer
-	mGBuffer.gCommandbuffer->BeginCommandBuffer().
-		
-		BeginRenderPass(mGBuffer.gRenderPass, mGBuffer.gFramebuffer).
-		SetViewport({ 0, 0, (float)FRAMEBUFFER_SIZE, (float)FRAMEBUFFER_SIZE, 0.0, 1.0 }).
-		SetScissor({ 0, 0, (uint32_t)FRAMEBUFFER_SIZE, (uint32_t)FRAMEBUFFER_SIZE }).
-		EndRenderPass().
-		EndCommandBuffer();
+
 
 	// main command Buffer
 	commandBuffer->BeginCommandBuffer().
+		
 		SetViewport({ 0, 0, (float)width, (float)height, 0.0, 1.0 }).
 		SetScissor({ 0, 0, (uint32_t)width, (uint32_t)height }).
 		BeginRenderPass(renderPass, framebuffer).
 		BindPipeline(pipeline).
+		//BindVertexBuffer({ deferredVertexBuffer }, 0, 1).
+		Draw(3, 1, 0, 0).
+		EndRenderPass().
+		EndCommandBuffer();
+
+
+	/*// gBuffer command Buffer
+	mGBuffer.gCommandbuffer->BeginCommandBuffer().
+
+		BeginRenderPass(mGBuffer.gRenderPass, mGBuffer.gFramebuffer).
+		SetViewport({ 0, 0, (float)FRAMEBUFFER_SIZE, (float)FRAMEBUFFER_SIZE, 0.0, 1.0 }).
+		SetScissor({ 0, 0, (uint32_t)FRAMEBUFFER_SIZE, (uint32_t)FRAMEBUFFER_SIZE }).
+		BindPipeline(mGBuffer.gPipeline).
 		BindVertexBuffer({ vertexBuffer }, 0, 1).
-		BindDescriptorSets(uniformBuffer, pipeline).
+		BindDescriptorSets(uniformBuffer, mGBuffer.gPipeline).
 		BindIndexBuffer(indexBuffer, Invision::INDEX_TYPE_UINT32).
 		//Draw(static_cast<uint32_t>(vertices.size()), 1, 0, 0).
 		DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0).
 		EndRenderPass().
-		EndCommandBuffer();
+		EndCommandBuffer();	*/
 }
 
 void RenderWidget::UpdateUniformBuffer(float width, float height)
@@ -72,6 +79,6 @@ void RenderWidget::UpdateUniformBuffer(float width, float height)
 		ubo.view = Invision::Matrix(1.0f) *  Invision::Matrix::Camera(Invision::Vector3(2.0f, 2.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 0.0f, 1.0f));
 	}
 	ubo.proj = Invision::Matrix(1.0f) * Invision::Matrix::Perspective(45.0, width / height, 0.1f, 10.0f); // perspective projection
-	uniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0, 0);
+	//uniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0, 0);
 }
 
