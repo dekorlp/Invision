@@ -29,7 +29,6 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 		SetScissor({ 0, 0, (uint32_t)width, (uint32_t)height }).
 		BeginRenderPass(renderPass, framebuffer).
 		BindPipeline(pipeline).
-		//BindVertexBuffer({ deferredVertexBuffer }, 0, 1).
 		Draw(6, 1, 0, 0).
 		EndRenderPass().
 		EndCommandBuffer();
