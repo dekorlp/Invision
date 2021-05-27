@@ -63,6 +63,7 @@ namespace Invision
 		//if(commandBuffer.GetCommandBuffers().size() < vulkanContext.swapChainImages.size())
 		//	throw VulkanBaseException("failed to submit draw command buffer! Create more CommandBuffers to DrawOnScreen");
 
+
 		mSubmitInfo.commandBufferCount = 1;
 		
 		mSubmitInfo.pCommandBuffers = commandBuffer.GetCommandBuffer();

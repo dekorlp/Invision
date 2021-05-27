@@ -185,8 +185,20 @@ namespace Invision
 			mPipeline.AddShader(mShaders[i]);
 		}
 		
+		// Multisampling is only used for Display Output, Secondary CommandBuffers does not uses Multisampling
+		VkSampleCountFlagBits usedMultisampleState;
+		if (renderPass->IsMainRenderPass())
+		{
+			usedMultisampleState = mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct().MsaaFlagBits;
+		}
+		else
+		{
+			usedMultisampleState = VK_SAMPLE_COUNT_1_BIT;
+		}
+
+
 		mPipeline.SetRenderProperties(vkPrimitiveTopology, vkPolygonMode, vkCullMode, vkFrontface, mPipelineProperties->mLineWidth);
-		mPipeline.CreatePipeline(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), 0, mVulkanInstance->GetVulkanContext().mUseDepthRessources, mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct().MsaaFlagBits);
+		mPipeline.CreatePipeline(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), 0, mVulkanInstance->GetVulkanContext().mUseDepthRessources, usedMultisampleState);
 		for(int i = 0; i < mShaders.size(); i++)
 		{
 			mShaders[i].Destroy(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());

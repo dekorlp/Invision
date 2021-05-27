@@ -243,7 +243,7 @@ private:
 		// my render code
 		bool recreateSwapchainIsNecessary = false;
 		recreateSwapchainIsNecessary = renderer->PrepareFrame();
-
+		renderer->Draw(mGBuffer.gCommandbuffer);
 		renderer->Draw(commandBuffer);
 
 		recreateSwapchainIsNecessary = renderer->SubmitFrame();
