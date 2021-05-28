@@ -30,6 +30,7 @@ namespace Invision
 		INVISION_API void CreateRenderPass() override;
 		INVISION_API std::vector< Invision::VulkanBaseTexture*> GetAttachmentTextures();
 		INVISION_API bool IsMainRenderPass();
+		INVISION_API unsigned int GetCountOfColorAttachments();
 		INVISION_API ~VulkanRenderPass();
 
 	private:
@@ -40,6 +41,7 @@ namespace Invision
 		std::vector<VulkanBaseSubPass> mSubPass;
 		std::vector<Invision::VulkanBaseTexture*> mAttachmentRefTextures;
 		Invision::VulkanInstance *mVulkanInstance;
+		unsigned int mColorAttachmentCount = 0;
 
 	};
 

@@ -38,13 +38,13 @@ namespace Invision
 		void INVISION_API UpdateRasterizerConfiguration(VkPolygonMode fillMode, float lineWidth, VkCullModeFlags cullMode, VkFrontFace frontFace);
 		void INVISION_API UpdateMultisamplingConfiguration(VkSampleCountFlagBits numSamples = VK_SAMPLE_COUNT_1_BIT, VkBool32 sampleShadingEnable = VK_FALSE, float minSampleShading = 1.0f);
 		void INVISION_API UpdateDepthStencilConfiguration();
-		void INVISION_API UpdateColorBlendingAttachmentConfiguration();
+		void INVISION_API UpdateColorBlendingAttachmentConfiguration(unsigned int colorAttachmentCount);
 		void INVISION_API UpdateDynamicStatesConfiguration();
 		void INVISION_API UpdatePipelineLayoutConfiguration();
 		VkPipeline INVISION_API GetPipeline();
 		VkPipelineLayout INVISION_API GetPipelineLayout();
 
-		void INVISION_API CreatePipeline(const SVulkanBase &vulkanInstance, VulkanBaseRenderPass &renderPass, uint32_t subpassIndex, bool useDepthRessource, VkSampleCountFlagBits numSamples = VK_SAMPLE_COUNT_1_BIT, float minDepthBound = 0.0f, float maxDepthBound = 1.0f, VkPipelineCache pipelineCache = VK_NULL_HANDLE);
+		void INVISION_API CreatePipeline(const SVulkanBase &vulkanInstance, VulkanBaseRenderPass &renderPass, uint32_t subpassIndex, bool useDepthRessource, unsigned int colorAttachmentCount, VkSampleCountFlagBits numSamples = VK_SAMPLE_COUNT_1_BIT, float minDepthBound = 0.0f, float maxDepthBound = 1.0f, VkPipelineCache pipelineCache = VK_NULL_HANDLE);
 		void INVISION_API DestroyPipeline(const SVulkanBase &vulkanInstance);
 		
 	private:
@@ -73,7 +73,7 @@ namespace Invision
 		VkPipelineLayoutCreateInfo mPipelineLayoutInfo = {}; // Pipeline Layout
 
 		// states
-		VkPipelineColorBlendAttachmentState mColorBlendAttachmentState = {};
+		std::vector<VkPipelineColorBlendAttachmentState> mColorBlendAttachmentStates = {};
 		VkViewport mViewport = {};
 		VkRect2D mScissor = {};
 		std::vector<VkDynamicState> mDynamicStateEnables = {};

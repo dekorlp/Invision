@@ -175,16 +175,22 @@ namespace Invision
 
 	}
 
-	void VulkanBasePipeline::UpdateColorBlendingAttachmentConfiguration()
+	void VulkanBasePipeline::UpdateColorBlendingAttachmentConfiguration(unsigned int colorAttachmentCount)
 	{
+		VkPipelineColorBlendAttachmentState mColorBlendAttachmentState = {};
 		mColorBlendAttachmentState.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
 		mColorBlendAttachmentState.blendEnable = VK_FALSE;
+		
+		for (unsigned int i = 0; i < colorAttachmentCount; i++)
+		{
+			mColorBlendAttachmentStates.push_back(mColorBlendAttachmentState);
+		}
 
 		mColorBlendAttachment.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
 		mColorBlendAttachment.logicOpEnable = VK_FALSE;
 		mColorBlendAttachment.logicOp = VK_LOGIC_OP_COPY;
-		mColorBlendAttachment.attachmentCount = 1;
-		mColorBlendAttachment.pAttachments = &mColorBlendAttachmentState;
+		mColorBlendAttachment.attachmentCount = static_cast<unsigned int>(mColorBlendAttachmentStates.size());
+		mColorBlendAttachment.pAttachments = mColorBlendAttachmentStates.data();
 		mColorBlendAttachment.blendConstants[0] = 0.0f;
 		mColorBlendAttachment.blendConstants[1] = 0.0f;
 		mColorBlendAttachment.blendConstants[2] = 0.0f;
@@ -222,7 +228,7 @@ namespace Invision
 		return mPipelineLayout;
 	}
 
-	void VulkanBasePipeline::CreatePipeline(const SVulkanBase &vulkanInstance, VulkanBaseRenderPass &renderPass, uint32_t subpassIndex, bool useDepthRessource, VkSampleCountFlagBits numSamples, float minDepthBound, float maxDepthBound, VkPipelineCache pipelineCache)
+	void VulkanBasePipeline::CreatePipeline(const SVulkanBase &vulkanInstance, VulkanBaseRenderPass &renderPass, uint32_t subpassIndex, bool useDepthRessource, unsigned int colorAttachmentCount, VkSampleCountFlagBits numSamples, float minDepthBound, float maxDepthBound, VkPipelineCache pipelineCache)
 	{
 		UpdateVertexInputConfiguration();
 		UpdateInputAssemblyConfiguration(mPrimitiveTopology);
@@ -239,7 +245,7 @@ namespace Invision
 		}
 
 		if(useDepthRessource) UpdateDepthStencilConfiguration();
-		UpdateColorBlendingAttachmentConfiguration();
+		UpdateColorBlendingAttachmentConfiguration(colorAttachmentCount);
 		UpdateDynamicStatesConfiguration();
 		UpdatePipelineLayoutConfiguration();
 		

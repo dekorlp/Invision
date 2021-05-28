@@ -19,6 +19,7 @@ namespace Invision
 		INVISION_API virtual void AddAttachment(AttachmentType attachmentType, std::shared_ptr<ITexture>& attachment) = 0;
 		INVISION_API virtual void CreateRenderPass() = 0;
 		INVISION_API virtual bool IsMainRenderPass() = 0;
+		INVISION_API virtual unsigned int GetCountOfColorAttachments() = 0;
 		INVISION_API virtual ~IRenderPass() = default;
 	};
 }

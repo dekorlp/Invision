@@ -77,6 +77,8 @@ namespace Invision
 			VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
 			, { mAttachmentIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL }, true);
 		
+		mColorAttachmentCount = 1;
+		
 
 		mRenderPass.AddSubpass(basePass);
 
@@ -119,6 +121,8 @@ namespace Invision
 			VK_IMAGE_LAYOUT_UNDEFINED,
 			VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
 			, { mAttachmentIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL });
+
+		mColorAttachmentCount = 1;
 
 		if (mVulkanInstance->GetVulkanContext().mUseDepthRessources == true)
 		{
@@ -186,6 +190,8 @@ namespace Invision
 				VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL
 				, { mAttachmentIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL });
 			mAttachmentRefTextures.push_back(baseTexture);
+
+			mColorAttachmentCount++;
 		}
 		else // ATTACHMENT_TYPE_DEPTH
 		{
@@ -228,6 +234,11 @@ namespace Invision
 	bool VulkanRenderPass::IsMainRenderPass()
 	{
 		return mIsMainRenderpass;
+	}
+
+	unsigned int VulkanRenderPass::GetCountOfColorAttachments()
+	{
+		return mColorAttachmentCount;
 	}
 
 	VulkanRenderPass::~VulkanRenderPass()

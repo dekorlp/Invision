@@ -198,7 +198,7 @@ namespace Invision
 
 
 		mPipeline.SetRenderProperties(vkPrimitiveTopology, vkPolygonMode, vkCullMode, vkFrontface, mPipelineProperties->mLineWidth);
-		mPipeline.CreatePipeline(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), 0, mVulkanInstance->GetVulkanContext().mUseDepthRessources, usedMultisampleState);
+		mPipeline.CreatePipeline(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), 0, mVulkanInstance->GetVulkanContext().mUseDepthRessources, renderPass->GetCountOfColorAttachments(), usedMultisampleState);
 		for(int i = 0; i < mShaders.size(); i++)
 		{
 			mShaders[i].Destroy(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
