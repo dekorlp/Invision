@@ -105,11 +105,11 @@ namespace Invision
 			{
 				if (dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetSubpasses()[0].GetAttachmentDescription(i).finalLayout == VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL) // Color Format
 				{
-					clearValues[0].color = { mBackground[0], mBackground[1], mBackground[2], mBackground[3] };
+					clearValues[i].color = { mBackground[0], mBackground[1], mBackground[2], mBackground[3] };
 				}
 				else if(dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetSubpasses()[0].GetAttachmentDescription(i).finalLayout == VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL) // Depth Format
 				{
-					clearValues[1].depthStencil = { 1.0, 0 };
+					clearValues[i].depthStencil = { 1.0, 0 };
 				}
 				else
 				{
