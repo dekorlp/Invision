@@ -24,9 +24,11 @@ layout(location = 2) out vec3 fragNormal;
 layout(location = 3) out vec3 fragPos;
 
 void main() {
-    gl_Position = ubo.proj * ubo.view * ubo.model * vec4(inPosition, 1.0);
-    fragColor = inColor;
-	fragNormal = mat3(transpose(inverse(ubo.model))) * inNormal;
-    fragTexCoord = inTexCoord;
-	fragPos = vec3(ubo.model * vec4(inPosition, 1.0));
+	vec4 worldPos = ubo.model * vec4(inPosition, 1.0);
+	fragPos = worldPos.xyz;
+	fragTexCoord = inTexCoord;
+	fragNormal = vec3(transpose(inverse(ubo.model))* vec4(inNormal, 1.0)).xyz;
+
+	gl_Position = ubo.proj * ubo.view * worldPos;
+
 }
