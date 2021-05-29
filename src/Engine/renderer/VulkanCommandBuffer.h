@@ -21,7 +21,7 @@ namespace Invision
 		ICommandBuffer& SetViewport(Invision::Viewport viewport) override;
 		ICommandBuffer& SetScissor(Invision::Rect rect) override;
 		ICommandBuffer& SetBackground(float r, float g, float b, float a) override;
-		ICommandBuffer& BeginRenderPass(std::shared_ptr<IRenderPass> renderPass, std::shared_ptr<Invision::IFramebuffer> framebuffer) override;
+		ICommandBuffer& BeginRenderPass(std::shared_ptr<IRenderPass> renderPass, std::shared_ptr<Invision::IFramebuffer> framebuffer, unsigned int offsetX, unsigned int offsetY, unsigned int width, unsigned int height) override;
 		ICommandBuffer& BindPipeline(std::shared_ptr<IPipeline> pipeline) override;
 		ICommandBuffer& BindVertexBuffer(std::vector< std::shared_ptr<IVertexBuffer>> vertexBuffer, uint32_t firstBinding, uint32_t bindingCount) override;
 		ICommandBuffer& BindDescriptorSets(std::shared_ptr<IUniformBuffer> uniformBuffer, std::shared_ptr<IPipeline> pipeline) override;

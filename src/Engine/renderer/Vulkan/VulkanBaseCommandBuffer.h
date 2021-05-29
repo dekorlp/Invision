@@ -33,7 +33,7 @@ namespace Invision
 		INVISION_API VulkanBaseCommandBuffer& BeginCommandBuffer();
 		INVISION_API VulkanBaseCommandBuffer& SetViewport(VkViewport& viewport);
 		INVISION_API VulkanBaseCommandBuffer& SetScissor(VkRect2D& rect);
-		INVISION_API VulkanBaseCommandBuffer& BeginRenderPass(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseRenderPass &renderPass, VulkanBaseFramebuffer &vulkanFramebuffer, std::vector<VkClearValue> clearValues = {});
+		INVISION_API VulkanBaseCommandBuffer& BeginRenderPass(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseRenderPass &renderPass, VulkanBaseFramebuffer &vulkanFramebuffer, unsigned int offsetX, unsigned int offsetY, unsigned int width, unsigned int height, std::vector<VkClearValue> clearValues = {});
 		INVISION_API VulkanBaseCommandBuffer& BindPipeline(VulkanBasePipeline& pipeline, VkPipelineBindPoint bindPoint);
 		INVISION_API VulkanBaseCommandBuffer& BindVertexBuffer(std::vector<VulkanBaseVertexBuffer> vertexBuffers, VulkanBaseMemoryManager& memoryManager, uint32_t firstBinding, uint32_t bindingCount);
 		INVISION_API VulkanBaseCommandBuffer& BindIndexBuffer(VulkanBaseIndexBuffer &indexBuffer, VkIndexType indexType);

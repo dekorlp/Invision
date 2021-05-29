@@ -78,7 +78,7 @@ namespace Invision
 		return *this;
 	}
 
-	ICommandBuffer& VulkanCommandBuffer::BeginRenderPass(std::shared_ptr<IRenderPass> renderPass, std::shared_ptr<Invision::IFramebuffer> framebuffer)
+	ICommandBuffer& VulkanCommandBuffer::BeginRenderPass(std::shared_ptr<IRenderPass> renderPass, std::shared_ptr<Invision::IFramebuffer> framebuffer, unsigned int offsetX, unsigned int offsetY, unsigned int width, unsigned int height)
 	{
 		std::vector< VkClearValue> clearValues = {};
 
@@ -120,7 +120,7 @@ namespace Invision
 
 		for (int i = 0; i < mCommandBuffers.size(); i++)
 		{
-			mCommandBuffers[i].BeginRenderPass(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), dynamic_pointer_cast<VulkanFramebuffer>(framebuffer)->GetFramebuffer(i), clearValues);
+			mCommandBuffers[i].BeginRenderPass(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), dynamic_pointer_cast<VulkanFramebuffer>(framebuffer)->GetFramebuffer(i), offsetX, offsetY, width, height, clearValues);
 		}
 
 		return *this;

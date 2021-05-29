@@ -31,7 +31,7 @@ namespace Invision
 		INVISION_API virtual ICommandBuffer& SetViewport(Invision::Viewport viewport) = 0;
 		INVISION_API virtual ICommandBuffer& SetScissor(Invision::Rect rect) = 0;
 		INVISION_API virtual ICommandBuffer& SetBackground(float r, float g, float b, float a) = 0;
-		INVISION_API virtual ICommandBuffer& BeginRenderPass(std::shared_ptr<IRenderPass> renderPass, std::shared_ptr<Invision::IFramebuffer> framebuffer) = 0;
+		INVISION_API virtual ICommandBuffer& BeginRenderPass(std::shared_ptr<IRenderPass> renderPass, std::shared_ptr<Invision::IFramebuffer> framebuffer, unsigned int offsetX, unsigned int offsetY, unsigned int width, unsigned int height) = 0;
 		INVISION_API virtual ICommandBuffer& BindPipeline(std::shared_ptr<IPipeline> pipeline) = 0;
 		INVISION_API virtual ICommandBuffer& BindVertexBuffer(std::vector< std::shared_ptr<IVertexBuffer>> vertexBuffer, uint32_t firstBinding, uint32_t bindingCount) = 0;
 		INVISION_API virtual ICommandBuffer& BindDescriptorSets(std::shared_ptr<IUniformBuffer> uniformBuffer, std::shared_ptr<IPipeline> pipeline) = 0;

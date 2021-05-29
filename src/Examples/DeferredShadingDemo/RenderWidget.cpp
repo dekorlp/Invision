@@ -27,7 +27,7 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 
 		SetViewport({ 0, 0, (float)width, (float)height, 0.0, 1.0 }).
 		SetScissor({ 0, 0, (uint32_t)width, (uint32_t)height }).
-		BeginRenderPass(renderPass, framebuffer).
+		BeginRenderPass(renderPass, framebuffer, 0, 0, (uint32_t)width, (uint32_t)height).
 		BindDescriptorSets(DeferredUniformBuffer, pipeline).
 		BindPipeline(pipeline).
 		Draw(3, 1, 0, 0).
@@ -38,7 +38,7 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 	// gBuffer command Buffer
 	mGBuffer.gCommandbuffer->BeginCommandBuffer().
 
-		BeginRenderPass(mGBuffer.gRenderPass, mGBuffer.gFramebuffer).
+		BeginRenderPass(mGBuffer.gRenderPass, mGBuffer.gFramebuffer, 0, 0, FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE).
 		SetViewport({ 0, 0, (float)FRAMEBUFFER_SIZE, (float)FRAMEBUFFER_SIZE, 0.0, 1.0 }).
 		SetScissor({ 0, 0, (uint32_t)FRAMEBUFFER_SIZE, (uint32_t)FRAMEBUFFER_SIZE }).
 		BindPipeline(mGBuffer.gPipeline).
