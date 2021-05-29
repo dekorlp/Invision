@@ -123,8 +123,8 @@ public:
 		virtual void showEvent(QShowEvent* showEvent) override
 		{
 			QWidget::showEvent(showEvent);
-			if (mIsInit == false)
-				Init();
+			//if (mIsInit == false)
+				//Init();
 		}
 
 		virtual void resizeEvent(QResizeEvent* resizeEvent) override
