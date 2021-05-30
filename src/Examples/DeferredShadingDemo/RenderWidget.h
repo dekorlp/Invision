@@ -49,6 +49,10 @@ struct UniformLightBuffer {
 	Invision::Vector3 viewPos;
 };
 
+struct UniformOptionsBuffer {
+	int option;
+};
+
 struct GBuffer
 {
 	std::shared_ptr <Invision::IPipeline> gPipeline;
@@ -226,6 +230,31 @@ private:
 		{
 			theta += 0.001f *dt;
 		}
+
+		// options configuration
+		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_NUM_1, Invision::INVISION_KEY_PRESSED))
+		{
+			// Set Options
+			UniformOptionsBuffer uob;
+			uob.option = 1;
+			DeferredUniformBuffer->UpdateUniform(&uob, sizeof(uob), 0, 3);
+		}
+		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_NUM_2, Invision::INVISION_KEY_PRESSED))
+		{
+			// Set Options
+			UniformOptionsBuffer uob;
+			uob.option = 2;
+			DeferredUniformBuffer->UpdateUniform(&uob, sizeof(uob), 0, 3);
+		}
+		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_NUM_3, Invision::INVISION_KEY_PRESSED))
+		{
+			// Set Options
+			UniformOptionsBuffer uob;
+			uob.option = 3;
+			DeferredUniformBuffer->UpdateUniform(&uob, sizeof(uob), 0, 3);
+		}
+
+
 		bool spaceCurrentlyPressed = keyboard->GetStateOfKey(Invision::INVISION_KEY_SPACE, Invision::INVISION_KEY_PRESSED);
 
 		if (!spacePressed && spaceCurrentlyPressed) {
@@ -320,7 +349,7 @@ private:
 		indexBuffer->CreateIndexBuffer(sizeof(indices[0]) * indices.size(), indices.data());
 		uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject))
 			.CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, texture).
-			CreateUniformBinding(0, 2, 1, Invision::SHADER_STAGE_VERTEX_BIT | Invision::SHADER_STAGE_FRAGMENT_BIT, sizeof(UniformLightBuffer)).CreateUniformBuffer();
+			CreateUniformBuffer();
 
 		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadingDemo/Shader/DeferredShading/gbuffer.vert.spv"));
 		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadingDemo/Shader/DeferredShading/gbuffer.frag.spv"));
@@ -334,7 +363,7 @@ private:
 		pipeline = graphicsInstance->CreatePipeline(&Invision::PipelineProperties(Invision::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, Invision::POLYGON_MODE_FILL, Invision::CULL_MODE_FRONT_BIT, Invision::FRONT_FACE_COUNTER_CLOCKWISE, 1.0f));
 
 		DeferredUniformBuffer = graphicsInstance->CreateUniformBuffer();
-		DeferredUniformBuffer->CreateImageBinding(0, 0, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, mGBuffer.albedoAttachment).CreateUniformBuffer();
+		DeferredUniformBuffer->CreateImageBinding(0, 0, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, mGBuffer.albedoAttachment).CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, mGBuffer.normalAttachment).CreateImageBinding(0, 2, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, mGBuffer.positionsAttachment).CreateUniformBinding(0, 3, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, sizeof(UniformOptionsBuffer)).CreateUniformBinding(0, 4, 1, Invision::SHADER_STAGE_VERTEX_BIT | Invision::SHADER_STAGE_FRAGMENT_BIT, sizeof(UniformLightBuffer)).CreateUniformBuffer();
 
 		auto deferredVertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadingDemo/Shader/DeferredShading/deferred.vert.spv"));
 		auto deferredFragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadingDemo/Shader/DeferredShading/deferred.frag.spv"));
@@ -354,7 +383,12 @@ private:
 		light.lightColor = { 1.0, 1.0, 1.0 };
 		light.lightPos = { 1.2f, 1.0f, 2.0f };
 		light.viewPos = { 0.0f, 0.0f, 0.0f };
-		uniformBuffer->UpdateUniform(&light, sizeof(light), 0, 2);
+		DeferredUniformBuffer->UpdateUniform(&light, sizeof(light), 0, 4);
+
+		// Set Options
+		UniformOptionsBuffer uob;
+		uob.option = 1;
+		DeferredUniformBuffer->UpdateUniform(&uob, sizeof(uob), 0, 3);
 
 		mIsInit = true;
 
