@@ -31,6 +31,7 @@ namespace Invision
 		
 	public:
 		void INVISION_API CreateSyncObjects(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext);
+		void INVISION_API AlterSubmitInfo(const uint32_t waitSemaphoreCount, const VkSemaphore* pWaitSemaphores, const VkPipelineStageFlags* pWaitDstStageMask, uint32_t commandBufferCount, const VkCommandBuffer* pCommandBuffers, uint32_t signalSemaphoreCount, const VkSemaphore* pSignalSemaphores);
 		VkResult INVISION_API AquireNextImage(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, unsigned int& imageIndex);
 		void INVISION_API DrawFrame(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseCommandBuffer& commandBuffer);
 		VkResult INVISION_API QueuePresent(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, unsigned int imageIndex);

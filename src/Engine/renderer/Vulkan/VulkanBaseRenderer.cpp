@@ -39,6 +39,17 @@ namespace Invision
 		mSubmitInfo.pSignalSemaphores = &mSemaphores.renderComplete;
 	}
 
+	void VulkanBaseRenderer::AlterSubmitInfo(const uint32_t waitSemaphoreCount, const VkSemaphore* pWaitSemaphores, const VkPipelineStageFlags* pWaitDstStageMask, uint32_t commandBufferCount, const VkCommandBuffer* pCommandBuffers, uint32_t signalSemaphoreCount, const VkSemaphore* pSignalSemaphores)
+	{
+		mSubmitInfo.waitSemaphoreCount = waitSemaphoreCount;
+		mSubmitInfo.pWaitSemaphores = pWaitSemaphores;
+		mSubmitInfo.pWaitDstStageMask = pWaitDstStageMask;
+		mSubmitInfo.commandBufferCount = commandBufferCount;
+		mSubmitInfo.pCommandBuffers = pCommandBuffers;
+		mSubmitInfo.signalSemaphoreCount = signalSemaphoreCount;
+		mSubmitInfo.pSignalSemaphores = pSignalSemaphores;
+	}
+
 	VkResult VulkanBaseRenderer::AquireNextImage(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, unsigned int& imageIndex)
 	{
 
