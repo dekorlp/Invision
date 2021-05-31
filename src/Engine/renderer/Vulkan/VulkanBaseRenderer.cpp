@@ -50,6 +50,12 @@ namespace Invision
 		mSubmitInfo.pSignalSemaphores = pSignalSemaphores;
 	}
 
+	void VulkanBaseRenderer::AlterSubmitInfo(uint32_t commandBufferCount, const VkCommandBuffer* pCommandBuffers)
+	{
+		mSubmitInfo.commandBufferCount = commandBufferCount;
+		mSubmitInfo.pCommandBuffers = pCommandBuffers;
+	}
+
 	VkResult VulkanBaseRenderer::AquireNextImage(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, unsigned int& imageIndex)
 	{
 
@@ -71,14 +77,6 @@ namespace Invision
 
 	void VulkanBaseRenderer::DrawFrame(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseCommandBuffer& commandBuffer)
 	{
-		//if(commandBuffer.GetCommandBuffers().size() < vulkanContext.swapChainImages.size())
-		//	throw VulkanBaseException("failed to submit draw command buffer! Create more CommandBuffers to DrawOnScreen");
-
-
-		mSubmitInfo.commandBufferCount = 1;
-		
-		mSubmitInfo.pCommandBuffers = commandBuffer.GetCommandBuffer();
-
 		if (vkQueueSubmit(vulkanInstance.graphicsQueue, 1, &mSubmitInfo, mRenderFence) != VK_SUCCESS) {
 			throw VulkanBaseException("failed to submit draw command buffer!");
 		}

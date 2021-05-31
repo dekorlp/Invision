@@ -44,11 +44,13 @@ namespace Invision
 		if (dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCountOfCommandBuffers() > 1)
 		{
 			// main Command Buffer
+			mRenderer.AlterSubmitInfo(1, dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(mImageIndex).GetCommandBuffer());
 			mRenderer.DrawFrame(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(mImageIndex));
 		}
 		else
 		{
 			// secondary Command Buffer for offscreen rendering
+			mRenderer.AlterSubmitInfo(1, dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(0).GetCommandBuffer());
 			mRenderer.DrawFrame(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(0));
 		}
 
