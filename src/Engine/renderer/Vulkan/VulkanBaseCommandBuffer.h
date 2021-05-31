@@ -48,7 +48,7 @@ namespace Invision
 		INVISION_API void DestroyCommandBuffer(SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool);
 
 		INVISION_API const VkCommandBuffer* GetCommandBuffer();
-		INVISION_API const VkSemaphore GetSemaphore();
+		INVISION_API VkSemaphore GetSemaphore();
 		//VkCommandBuffer* GetCommandBuffer(int index);
 	};
 }

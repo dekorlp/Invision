@@ -354,10 +354,12 @@ namespace Invision
 		return *this;
 	}
 
-	const VkSemaphore VulkanBaseCommandBuffer::GetSemaphore()
+	VkSemaphore VulkanBaseCommandBuffer::GetSemaphore()
 	{
 		return mCommandBufferSemaphore;
 	}
+
+
 
 	const VkCommandBuffer* VulkanBaseCommandBuffer::GetCommandBuffer()
 	{

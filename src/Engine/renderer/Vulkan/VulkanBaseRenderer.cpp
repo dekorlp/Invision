@@ -56,10 +56,22 @@ namespace Invision
 		mSubmitInfo.pCommandBuffers = pCommandBuffers;
 	}
 
+	void VulkanBaseRenderer::AlterSubmitInfoSignalSemaphore(uint32_t signalSemaphoreCount, const VkSemaphore* pSignalSemaphores)
+	{
+		mSubmitInfo.signalSemaphoreCount = signalSemaphoreCount;
+		mSubmitInfo.pSignalSemaphores = pSignalSemaphores;
+	}
+
+	void VulkanBaseRenderer::AlterSubmitInfoWaitSemaphore(uint32_t waitSemaphoreCount, const VkSemaphore* pWaitSemaphores)
+	{
+		mSubmitInfo.waitSemaphoreCount = waitSemaphoreCount;
+		mSubmitInfo.pWaitSemaphores = pWaitSemaphores;
+	}
+
 	VkResult VulkanBaseRenderer::AquireNextImage(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, unsigned int& imageIndex)
 	{
 
-		VkResult fenceRes;
+		/*VkResult fenceRes;
 		do {
 			fenceRes = vkWaitForFences(vulkanInstance.logicalDevice, 1, &mRenderFence, VK_TRUE, 100000000);
 		} while (fenceRes == VK_TIMEOUT);
@@ -68,7 +80,7 @@ namespace Invision
 			throw VulkanBaseException("failed to submit draw command buffer!");
 		}
 
-		vkResetFences(vulkanInstance.logicalDevice, 1, &mRenderFence);
+		vkResetFences(vulkanInstance.logicalDevice, 1, &mRenderFence);*/
 
 		VkResult result = vkAcquireNextImageKHR(vulkanInstance.logicalDevice, vulkanContext.swapChain, UINT64_MAX, mSemaphores.presentComplete, VK_NULL_HANDLE, &imageIndex);
 
@@ -77,7 +89,7 @@ namespace Invision
 
 	void VulkanBaseRenderer::DrawFrame(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseCommandBuffer& commandBuffer)
 	{
-		if (vkQueueSubmit(vulkanInstance.graphicsQueue, 1, &mSubmitInfo, mRenderFence) != VK_SUCCESS) {
+		if (vkQueueSubmit(vulkanInstance.graphicsQueue, 1, &mSubmitInfo, VK_NULL_HANDLE) != VK_SUCCESS) {
 			throw VulkanBaseException("failed to submit draw command buffer!");
 		}
 	}
@@ -105,6 +117,16 @@ namespace Invision
 		vkQueueWaitIdle(vulkanContext.presentQueue);
 
 		return result;
+	}
+
+	VkSemaphore* VulkanBaseRenderer::GetSemaphoresPresentComplete()
+	{
+		return &mSemaphores.presentComplete;
+	}
+
+	VkSemaphore* VulkanBaseRenderer::GetSemaphoresRenderComplete()
+	{
+		return &mSemaphores.renderComplete;
 	}
 
 	void VulkanBaseRenderer::DestroySemaphores(SVulkanBase &vulkanInstance)

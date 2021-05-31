@@ -35,6 +35,8 @@ namespace Invision
 			throw Invision::VulkanBaseException("failed to acquire swap chain image!");
 		}
 
+		
+
 		return recreateSwapchainIsNecessary;
 	}
 
@@ -43,15 +45,21 @@ namespace Invision
 		// check if it is main CommandBuffer or not
 		if (dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCountOfCommandBuffers() > 1)
 		{
+			mRenderer.AlterSubmitInfoWaitSemaphore(1, &mSelectedSemaphore);
+			mRenderer.AlterSubmitInfoSignalSemaphore(1, mRenderer.GetSemaphoresRenderComplete());
 			// main Command Buffer
 			mRenderer.AlterSubmitInfo(1, dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(mImageIndex).GetCommandBuffer());
 			mRenderer.DrawFrame(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(mImageIndex));
 		}
 		else
 		{
+			mSelectedSemaphore = dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(0).GetSemaphore();
+
+			mRenderer.AlterSubmitInfoWaitSemaphore(1, mRenderer.GetSemaphoresPresentComplete());
+			mRenderer.AlterSubmitInfoSignalSemaphore(1, &mSelectedSemaphore);
 			// secondary Command Buffer for offscreen rendering
 			mRenderer.AlterSubmitInfo(1, dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(0).GetCommandBuffer());
-			mRenderer.DrawFrame(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(0));
+			mRenderer.DrawFrame(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(0));	
 		}
 
 		
