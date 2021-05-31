@@ -33,9 +33,16 @@ namespace Invision
 
 	VulkanBaseCommandBuffer& VulkanBaseCommandBuffer::CreateCommandBuffer(SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool, unsigned int countOfBuffers)
 	{
-		//mCommandBuffers.clear();
-		//mCommandBuffers.resize(countOfBuffers);
+		// Create Command Buffer Semaphore
+		VkSemaphoreCreateInfo semaphoreCreateInfo = {};
+		semaphoreCreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 
+		if (vkCreateSemaphore(vulkanInstance.logicalDevice, &semaphoreCreateInfo, nullptr, &mCommandBufferSemaphore) != VK_SUCCESS)
+		{
+			throw VulkanBaseException("failed to create Command Buffer Semaphore!");
+		}
+
+		// Allocate Commandbufer
 		VkCommandBufferAllocateInfo allocInfo = {};
 		allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
 		allocInfo.commandPool = commandPool.GetCommandPool();
@@ -56,18 +63,17 @@ namespace Invision
 
 	VulkanBaseCommandBuffer& VulkanBaseCommandBuffer::BeginCommandBuffer()
 	{
-		//for (unsigned int i = 0; i < mCommandBuffers.size(); i++)
-		//{
-			VkCommandBufferBeginInfo beginInfo = {};
-			beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-			beginInfo.flags = 0;
-			beginInfo.pInheritanceInfo = nullptr;
+		// Create Command Buffer
+		VkCommandBufferBeginInfo beginInfo = {};
+		beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+		beginInfo.flags = 0;
+		beginInfo.pInheritanceInfo = nullptr;
 
-			if (vkBeginCommandBuffer(mCommandBuffer, &beginInfo) != VK_SUCCESS)
-			{
-				throw VulkanBaseException("failed to begin recording command buffer!");
-			}
-		//}
+		if (vkBeginCommandBuffer(mCommandBuffer, &beginInfo) != VK_SUCCESS)
+		{
+			throw VulkanBaseException("failed to begin recording command buffer!");
+		}
+
 		mIsCommandBufferRecording = true;
 
 		return *this;
@@ -348,6 +354,11 @@ namespace Invision
 		return *this;
 	}
 
+	const VkSemaphore VulkanBaseCommandBuffer::GetSemaphore()
+	{
+		return mCommandBufferSemaphore;
+	}
+
 	const VkCommandBuffer* VulkanBaseCommandBuffer::GetCommandBuffer()
 	{
 		return &mCommandBuffer;
@@ -356,5 +367,6 @@ namespace Invision
 	void VulkanBaseCommandBuffer::DestroyCommandBuffer(SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool)
 	{
 		vkFreeCommandBuffers(vulkanInstance.logicalDevice, commandPool.GetCommandPool(), 1, &mCommandBuffer);
+		vkDestroySemaphore(vulkanInstance.logicalDevice, mCommandBufferSemaphore, nullptr);
 	}
 }

@@ -20,6 +20,7 @@ namespace Invision
 	{
 	private:
 		VkCommandBuffer mCommandBuffer;
+		VkSemaphore mCommandBufferSemaphore = VK_NULL_HANDLE;
 		bool mCommandBufferIsInitialized;
 		bool mIsCommandBufferRecording;
 		bool mIsRenderPassStarted;
@@ -47,6 +48,7 @@ namespace Invision
 		INVISION_API void DestroyCommandBuffer(SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool);
 
 		INVISION_API const VkCommandBuffer* GetCommandBuffer();
+		INVISION_API const VkSemaphore GetSemaphore();
 		//VkCommandBuffer* GetCommandBuffer(int index);
 	};
 }
