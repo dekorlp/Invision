@@ -45,7 +45,10 @@ namespace Invision
 		// check if it is main CommandBuffer or not
 		if (dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCountOfCommandBuffers() > 1)
 		{
-			mRenderer.AlterSubmitInfoWaitSemaphore(1, &mSelectedSemaphore);
+			if (mSelectedSemaphore != VK_NULL_HANDLE)
+			{
+				mRenderer.AlterSubmitInfoWaitSemaphore(1, &mSelectedSemaphore);
+			}
 			mRenderer.AlterSubmitInfoSignalSemaphore(1, mRenderer.GetSemaphoresRenderComplete());
 			// main Command Buffer
 			mRenderer.AlterSubmitInfo(1, dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(mImageIndex).GetCommandBuffer());
@@ -57,6 +60,7 @@ namespace Invision
 
 			mRenderer.AlterSubmitInfoWaitSemaphore(1, mRenderer.GetSemaphoresPresentComplete());
 			mRenderer.AlterSubmitInfoSignalSemaphore(1, &mSelectedSemaphore);
+
 			// secondary Command Buffer for offscreen rendering
 			mRenderer.AlterSubmitInfo(1, dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(0).GetCommandBuffer());
 			mRenderer.DrawFrame(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(0));	

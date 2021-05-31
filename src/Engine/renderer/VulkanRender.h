@@ -26,7 +26,7 @@ namespace Invision
 	private:
 		unsigned int mImageIndex = 0;
 		Invision::VulkanInstance *mVulkanInstance;
-		VkSemaphore mSelectedSemaphore;
+		VkSemaphore mSelectedSemaphore = VK_NULL_HANDLE;
 
 		VulkanBaseRenderer mRenderer;
 	};
