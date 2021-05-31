@@ -107,8 +107,8 @@ public:
 		virtual void showEvent(QShowEvent* showEvent) override
 		{
 			QWidget::showEvent(showEvent);
-			if (mIsInit == false)
-				Init();
+			//if (mIsInit == false)
+				//Init();
 		}
 
 		virtual void resizeEvent(QResizeEvent* resizeEvent) override
@@ -260,7 +260,7 @@ private:
 		indexBuffer = graphicsInstance->CreateIndexBuffer();
 		//pipeline = graphicsInstance->CreatePipeline(&Invision::PipelineProperties(Invision::PRIMITIVE_TOPOLOGY_LINE_LIST, Invision::POLYGON_MODE_FILL, Invision::CULL_MODE_BACK_BIT, Invision::FRONT_FACE_COUNTER_CLOCKWISE, 1.0f));
 		pipeline = graphicsInstance->CreatePipeline();
-		texture = graphicsInstance->CreateTexture();
+		//texture = graphicsInstance->CreateTexture();
 
 		unsigned char* pixels = readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/DescriptorSets/Textures/viking_room.png"), width, height, channels);
 
@@ -268,7 +268,7 @@ private:
 		std::vector<Invision::Vector2> texCoords;
 
 		LoadModel(std::string(INVISION_BASE_DIR).append("/src/Examples/DescriptorSets/Models/viking_room.obj"), vertices, indices);
-		texture->LoadTexture(pixels, width * height * 4, width, height);
+		texture = graphicsInstance->CreateTexture(pixels, width, height, Invision::FORMAT_R8G8B8A8_SRGB, true);
 		freeImage(pixels);
 		texture->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT);
 

@@ -26,7 +26,7 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 		SetViewport({ 0, 0, (float)width, (float)height, 0.0, 1.0 }).
 		SetScissor({ 0, 0, (uint32_t)width, (uint32_t)height }).
 		//SetBackground(1.0f, 1.0f, 1.0f, 1.0f).
-		BeginRenderPass(renderPass, framebuffer).
+		BeginRenderPass(renderPass, framebuffer, 0, 0, width, height).
 		BindPipeline(pipeline).
 		BindVertexBuffer({ vertexBuffer }, 0, 1).
 		BindDescriptorSets(uniformBuffer, pipeline).

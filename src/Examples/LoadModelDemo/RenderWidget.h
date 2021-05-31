@@ -103,8 +103,8 @@ public:
 		virtual void showEvent(QShowEvent* showEvent) override
 		{
 			QWidget::showEvent(showEvent);
-			if (mIsInit == false)
-				Init();
+			//if (mIsInit == false)
+			//	Init();
 		}
 
 		virtual void resizeEvent(QResizeEvent* resizeEvent) override
@@ -256,7 +256,7 @@ private:
 		uniformBuffer = graphicsInstance->CreateUniformBuffer();
 		indexBuffer = graphicsInstance->CreateIndexBuffer();
 		pipeline = graphicsInstance->CreatePipeline();
-		texture = graphicsInstance->CreateTexture();
+		//texture = graphicsInstance->CreateTexture();
 
 		unsigned char* pixels = readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/LoadModelDemo/Textures/viking_room.png"), width, height, channels);
 
@@ -264,7 +264,7 @@ private:
 		std::vector<Invision::Vector2> texCoords;
 
 		LoadModel(std::string(INVISION_BASE_DIR).append("/src/Examples/LoadModelDemo/Models/viking_room.obj"), vertices, indices);
-		texture->CreateTexture(pixels, width, height, true);
+		texture = graphicsInstance->CreateTexture(pixels, width, height, Invision::FORMAT_R8G8B8A8_SRGB, true);
 		freeImage(pixels);
 		texture->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT);
 

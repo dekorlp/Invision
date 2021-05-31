@@ -49,6 +49,7 @@ namespace Invision
 			{
 				mRenderer.AlterSubmitInfoWaitSemaphore(1, &mSelectedSemaphore);
 			}
+
 			mRenderer.AlterSubmitInfoSignalSemaphore(1, mRenderer.GetSemaphoresRenderComplete());
 			// main Command Buffer
 			mRenderer.AlterSubmitInfo(1, dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(mImageIndex).GetCommandBuffer());
