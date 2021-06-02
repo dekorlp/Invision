@@ -19,7 +19,7 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 		SetScissor({ 0, 0, (uint32_t)width, (uint32_t)height }).
 		BeginRenderPass(renderPass, framebuffer, 0, 0, width, height).
 		BindPipeline(pipeline).
-		BindVertexBuffer({ vertexBuffer }, 0, 1).
+		BindVertexBuffer({ vertexBuffer, instanceBuffer }, 0, 1).
 		BindVertexBuffer({ instanceBuffer }, 1, 1).
 		BindDescriptorSets(uniformBuffer, pipeline).
 		BindIndexBuffer(indexBuffer, Invision::INDEX_TYPE_UINT32).

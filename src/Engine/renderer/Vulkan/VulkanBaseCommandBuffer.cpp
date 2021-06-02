@@ -168,10 +168,13 @@ namespace Invision
 
 		//VulkanBaseBuffer
 		// fill binding Buffers
-		for (int i = 0; i < vertexBuffers[0].GetBuffers().size(); i++)
+		for (unsigned int i = 0; i < vertexBuffers.size(); i++)
 		{
-			bindingBuffers.push_back(memoryManager.GetBuffer(vertexBuffers[0].GetBuffers()[i]));
-			bindingOffsets.push_back(memoryManager.GetOffset(vertexBuffers[0].GetBuffers()[i]));
+			for (int j = 0; j < vertexBuffers[i].GetBuffers().size(); j++)
+			{
+				bindingBuffers.push_back(memoryManager.GetBuffer(vertexBuffers[i].GetBuffers()[j]));
+				bindingOffsets.push_back(memoryManager.GetOffset(vertexBuffers[i].GetBuffers()[j]));
+			}
 		}
 
 		if (mCommandBufferIsInitialized && mIsCommandBufferRecording)
