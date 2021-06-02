@@ -20,6 +20,7 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 		BeginRenderPass(renderPass, framebuffer, 0, 0, width, height).
 		BindPipeline(pipeline).
 		BindVertexBuffer({ vertexBuffer }, 0, 1).
+		BindVertexBuffer({ instanceBuffer }, 1, 1).
 		BindDescriptorSets(uniformBuffer, pipeline).
 		BindIndexBuffer(indexBuffer, Invision::INDEX_TYPE_UINT32).
 		//Draw(static_cast<uint32_t>(vertices.size()), 1, 0, 0).

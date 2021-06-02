@@ -73,14 +73,17 @@ namespace Invision
 
 	void VulkanBasePipeline::AddVertexBuffer(VulkanBaseVertexBuffer& vertexBuffer)
 	{
-		mVertexInputAttributeDescriptions = vertexBuffer.GetAttributeDescriptions();
-		mVertexInputBindingDescriptions = vertexBuffer.GetBindingDescriptions();
-
-		/*mVertexInputBindingDescriptions.push_back(vertexBuffer.GetBindingDescription());
+		// Insert Attribute Descriptions
 		for (unsigned int i = 0; i < vertexBuffer.GetAttributeDescriptions().size(); i++)
 		{
 			mVertexInputAttributeDescriptions.push_back(vertexBuffer.GetAttributeDescriptions()[i]);
-		}*/
+		}
+
+		// Insert Binding Descriptions
+		for (unsigned int i = 0; i < vertexBuffer.GetBindingDescriptions().size(); i++)
+		{
+			mVertexInputBindingDescriptions.push_back(vertexBuffer.GetBindingDescriptions()[i]);
+		}
 	}
 
 	void VulkanBasePipeline::BindPushConstant(VulkanBasePushConstant& pushConstant)

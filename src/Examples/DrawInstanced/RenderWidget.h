@@ -275,6 +275,23 @@ private:
 		freeImage(pixels);
 		texture->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT);
 
+		// instance Data Filling
+		std::vector<InstanceData> instanceData;
+		instanceData.resize(INSTANCE_COUNT);
+		instanceData[0].pos = Invision::Vector3(-1.0, 0.0, 0.0);
+		instanceData[0].rot = Invision::Vector3(0.0, 0.0, 0.0);
+		instanceData[0].scale = 0.75f;
+
+		instanceData[1].pos = Invision::Vector3(0.0, 0.0, 0.0);
+		instanceData[1].rot = Invision::Vector3(0.0, 0.0, 0.0);
+		instanceData[1].scale = 1.0f;
+
+		instanceData[2].pos = Invision::Vector3(1.0, 0.0, 0.0);
+		instanceData[2].rot = Invision::Vector3(0.0, 0.0, 0.0);
+		instanceData[2].scale = 1.25f;
+
+		////////////////////////
+
 
 		std::vector<Invision::Vector3> positions;
 		std::vector<Invision::Vector2> texCoords;
@@ -303,6 +320,7 @@ private:
 		pipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
 		pipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
 		pipeline->AddVertexBuffer(vertexBuffer);
+		pipeline->AddVertexBuffer(instanceBuffer);
 		pipeline->CreatePipeline(renderPass);
 
 		//framebuffer = graphicsInstance->CreateFramebuffer(renderPass, graphicsInstance->GetSizeSwapchainImages());
@@ -344,7 +362,6 @@ private:
 	
 	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;
-	std::vector<InstanceData> instanceData;
 	// timer for frequency adjusting
 	Invision::StopWatch mTimer;
 	const double dt = 1000 / FIXED_FPS;
