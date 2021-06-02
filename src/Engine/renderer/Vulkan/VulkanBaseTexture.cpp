@@ -43,7 +43,7 @@ namespace Invision
 		//VkFormat colorFormat = vulkanContext.swapChainImageFormat;
 
 		mpImage = CreateImage(vulkanInstance, memoryManager, width, height, false, 1, 1, sampleCountFlags, format, tiling, usage, memoryPropertyFlags, mImage);
-		mTextureImageView = CreateImageView(vulkanInstance, mImage, format, aspectFlags, 1);
+		mTextureImageView = CreateImageView(vulkanInstance, mImage, VK_IMAGE_VIEW_TYPE_2D, format, aspectFlags, 1);
 	}
 
 	void VulkanBaseTexture::CreateDepthRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext, int width, int height, VkSampleCountFlagBits sampleCountFlags, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags memoryPropertyFlags, VkImageAspectFlags aspectFlags)
@@ -52,7 +52,7 @@ namespace Invision
 		VkFormat depthFormat = FindDepthFormat(vulkanInstance);
 		mFormat = depthFormat;
 		mpImage = CreateImage(vulkanInstance, memoryManager, width, height, false, 1, 1, sampleCountFlags, depthFormat, tiling, usage, memoryPropertyFlags, mImage);
-		mTextureImageView = CreateImageView(vulkanInstance, mImage, depthFormat, aspectFlags, 1);
+		mTextureImageView = CreateImageView(vulkanInstance, mImage, VK_IMAGE_VIEW_TYPE_2D, depthFormat, aspectFlags, 1);
 	}
 
 
@@ -138,9 +138,9 @@ namespace Invision
 
 	}
 
-	void VulkanBaseTexture::CreateTextureImageView( SVulkanBase &vulkanInstance, VkFormat format)
+	void VulkanBaseTexture::CreateTextureImageView( SVulkanBase &vulkanInstance, VkImageViewType viewType, VkFormat format)
 	{
-		mTextureImageView = CreateImageView(vulkanInstance, mImage, format, VK_IMAGE_ASPECT_COLOR_BIT, mMipLevels);
+		mTextureImageView = CreateImageView(vulkanInstance, mImage, viewType, format, VK_IMAGE_ASPECT_COLOR_BIT, mMipLevels);
 	}
 
 	void VulkanBaseTexture::CreateTextureSampler(SVulkanBase &vulkanInstance, VkFilter minFilter, VkFilter magFilter, VkSamplerAddressMode addressU, VkSamplerAddressMode addressV, VkSamplerAddressMode addressW, float MipLodBias, float minLod)
