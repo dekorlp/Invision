@@ -31,9 +31,9 @@ namespace Invision
 		return mBaseVertexBuffer;
 	}
 
-	std::shared_ptr < IBindingDescription> VulkanVertexBuffer::CreateVertexBinding(uint64_t size, const void *source, uint32_t stride, VertexInputRate vertexInputRate)
+	std::shared_ptr < IBindingDescription> VulkanVertexBuffer::CreateVertexBinding(uint32_t binding, uint64_t size, const void *source, uint32_t stride, VertexInputRate vertexInputRate)
 	{
-		std::shared_ptr<VulkanBindingDescription> desc = std::make_shared<VulkanBindingDescription>(mVulkanInstance, mBaseVertexBuffer, size, source, stride, vertexInputRate);
+		std::shared_ptr<VulkanBindingDescription> desc = std::make_shared<VulkanBindingDescription>(mVulkanInstance, mBaseVertexBuffer, binding, size, source, stride, vertexInputRate);
 		
 		return desc;
 	}
@@ -43,7 +43,7 @@ namespace Invision
 		mBaseVertexBuffer.DestroyVertexBuffers(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
 	}
 	
-	VulkanBindingDescription::VulkanBindingDescription(VulkanInstance* instance, VulkanBaseVertexBuffer &baseVertexBuffer, uint64_t size, const void *source, uint32_t stride, VertexInputRate vertexInputRate) : IBindingDescription(instance)
+	VulkanBindingDescription::VulkanBindingDescription(VulkanInstance* instance, VulkanBaseVertexBuffer &baseVertexBuffer, uint32_t binding, uint64_t size, const void *source, uint32_t stride, VertexInputRate vertexInputRate) : IBindingDescription(instance)
 	{
 		mVulkanInstance = instance;
 		VkVertexInputRate inputRate;
@@ -60,7 +60,7 @@ namespace Invision
 		{
 			throw InvisionBaseRendererException("Unknown VertexInputRate passed to Function CreateVertexInput");
 		}
-		mBaseBindingDesc = baseVertexBuffer.CreateBinding(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), size, source, stride, inputRate);
+		mBaseBindingDesc = baseVertexBuffer.CreateBinding(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), binding, size, source, stride, inputRate);
 		mBaseVertexBuffer = &baseVertexBuffer;
 	}
 }

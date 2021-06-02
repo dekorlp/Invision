@@ -36,7 +36,7 @@ namespace Invision
 	{
 	public:
 		INVISION_API VulkanBaseVertexBuffer();
-		INVISION_API VulkanBaseBindingDescription& CreateBinding(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, uint64_t size, const void *source, uint32_t stride, VkVertexInputRate inputRate);
+		INVISION_API VulkanBaseBindingDescription& CreateBinding(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, uint32_t binding, uint64_t size, const void *source, uint32_t stride, VkVertexInputRate inputRate);
 		INVISION_API std::vector<VkVertexInputAttributeDescription>& GetAttributeDescriptions();
 		INVISION_API std::vector<VkVertexInputBindingDescription>& GetBindingDescriptions();
 
@@ -46,7 +46,6 @@ namespace Invision
 		
 	private:
 		VulkanBaseMemoryManager *mMemoryManager;
-		uint32_t maxAllocatedBinding = 0;
 		std::vector<void*> mVertexBuffers; // index is Binding ID
 		std::vector<VkVertexInputAttributeDescription> mAttributeDescriptions;
 		std::vector<VkVertexInputBindingDescription> mBindingDescriptions; // index is Binding ID

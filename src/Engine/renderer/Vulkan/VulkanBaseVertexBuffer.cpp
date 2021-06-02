@@ -15,11 +15,10 @@ namespace Invision
 
 	}
 
-	VulkanBaseBindingDescription& VulkanBaseVertexBuffer::CreateBinding(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, uint64_t size, const void *source, uint32_t stride, VkVertexInputRate inputRate)
+	VulkanBaseBindingDescription& VulkanBaseVertexBuffer::CreateBinding(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, uint32_t binding, uint64_t size, const void *source, uint32_t stride, VkVertexInputRate inputRate)
 	{
 		mMemoryManager = &memoryManager;
-		VulkanBaseBindingDescription description(vulkanInstance, commandPool, memoryManager, mAttributeDescriptions, mBindingDescriptions,  mVertexBuffers, maxAllocatedBinding, size, source, stride, inputRate);
-		maxAllocatedBinding++;
+		VulkanBaseBindingDescription description(vulkanInstance, commandPool, memoryManager, mAttributeDescriptions, mBindingDescriptions,  mVertexBuffers, binding, size, source, stride, inputRate);
 		mBaseBindingDescriptions.push_back(description);
 
 		return mBaseBindingDescriptions.at(mBaseBindingDescriptions.size() - 1);

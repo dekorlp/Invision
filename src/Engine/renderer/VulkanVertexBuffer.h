@@ -24,7 +24,7 @@ namespace Invision
 	public:
 
 		INVISION_API VulkanBindingDescription() = delete;
-		INVISION_API VulkanBindingDescription(VulkanInstance* instance, VulkanBaseVertexBuffer &baseVertexBuffer, uint64_t size, const void *source, uint32_t stride, VertexInputRate vertexInputRate);
+		INVISION_API VulkanBindingDescription(VulkanInstance* instance, VulkanBaseVertexBuffer &baseVertexBuffer, uint32_t binding, uint64_t size, const void *source, uint32_t stride, VertexInputRate vertexInputRate);
 		INVISION_API IBindingDescription& CreateAttribute(uint32_t location, GfxFormat format, uint32_t offset);
 
 	private:
@@ -40,7 +40,7 @@ namespace Invision
 		INVISION_API VulkanVertexBuffer() = delete;
 		INVISION_API VulkanVertexBuffer(VulkanInstance* instance);
 		
-		std::shared_ptr < IBindingDescription> CreateVertexBinding(uint64_t size, const void *source, uint32_t stride, VertexInputRate vertexInputRate);
+		std::shared_ptr < IBindingDescription> CreateVertexBinding(uint32_t binding, uint64_t size, const void *source, uint32_t stride, VertexInputRate vertexInputRate);
 
 		INVISION_API VulkanBaseVertexBuffer  GetBaseVertexBuffer();
 
