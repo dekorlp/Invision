@@ -16,7 +16,8 @@ namespace Invision
 		INVISION_API void CreateAttributeDescription(std::vector<VkVertexInputAttributeDescription> &attributeDescriptions, uint32_t binding, uint32_t location, VkFormat format, uint32_t offset);
 		INVISION_API VkVertexInputBindingDescription GetBindingDescription();
 	private:
-		INVISION_API void AllocateMemory(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, uint64_t size, const void *source);
+		INVISION_API void AllocateDedicatedMemory(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, uint64_t size, const void *source);
+		INVISION_API void AllocateSharedMemory(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, uint64_t size, const void *source);
 
 		VkVertexInputBindingDescription mBindingDescription;
 		void* mVertexBuffer;

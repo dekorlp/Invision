@@ -63,7 +63,14 @@ namespace Invision
 		mBindingDescription.stride = stride;
 
 		mAttributeDescriptions = &attributeDescriptions;
-		AllocateMemory(vulkanInstance, commandPool, memoryManager, size, source);
+		if (inputRate == VK_VERTEX_INPUT_RATE_VERTEX)
+		{
+			AllocateDedicatedMemory(vulkanInstance, commandPool, memoryManager, size, source);
+		}
+		else // inputRate == VK_VERTEX_INPUT_RATE_INSTANCE
+		{
+			AllocateSharedMemory(vulkanInstance, commandPool, memoryManager, size, source);
+		}
 
 		bindingDescriptions.push_back(mBindingDescription);
 		vertexBuffers.push_back(mVertexBuffer);
@@ -76,7 +83,7 @@ namespace Invision
 		return mBindingDescription;
 	}
 
-	void VulkanBaseBindingDescription::AllocateMemory(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, uint64_t size, const void *source)
+	void VulkanBaseBindingDescription::AllocateDedicatedMemory(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, uint64_t size, const void *source)
 	{
 		void* stagingBuffer = memoryManager.BindToSharedMemory(vulkanInstance, size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_SHARING_MODE_EXCLUSIVE);
 		memoryManager.CopyDataToBuffer(vulkanInstance, stagingBuffer, source);
@@ -85,6 +92,11 @@ namespace Invision
 		memoryManager.Unbind(vulkanInstance, stagingBuffer);
 	}
 
+	void VulkanBaseBindingDescription::AllocateSharedMemory(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, uint64_t size, const void *source)
+	{
+		mVertexBuffer = memoryManager.BindToSharedMemory(vulkanInstance, size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_SHARING_MODE_EXCLUSIVE);
+		memoryManager.CopyDataToBuffer(vulkanInstance, mVertexBuffer, source);
+	}
 
 	void VulkanBaseBindingDescription::CreateAttributeDescription(std::vector<VkVertexInputAttributeDescription> &attributeDescriptions, uint32_t binding, uint32_t location, VkFormat format, uint32_t offset)
 	{

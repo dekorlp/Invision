@@ -8,6 +8,7 @@
 // minimize FPS
 #define FIXED_FPS 60
 #define LIMIT_FPS
+#define INSTANCE_COUNT 3
 
 // Vulkan and Engine Header
 
@@ -47,6 +48,12 @@ struct UniformLightBuffer {
 	Invision::Vector3 lightPos;
 	Invision::Vector3 lightColor;
 	Invision::Vector3 viewPos;
+};
+
+struct InstanceData {
+	Invision::Vector3 pos;
+	Invision::Vector3 rot;
+	float scale;
 };
 
 class RenderWidget : public QWidget
@@ -259,6 +266,7 @@ private:
 
 		//renderPass = graphicsInstance->CreateRenderPass(); //graphicsEngine->CreateRenderPass();
 		vertexBuffer = graphicsInstance->CreateVertexBuffer();
+		instanceBuffer = graphicsInstance->CreateVertexBuffer();
 		uniformBuffer = graphicsInstance->CreateUniformBuffer();
 		indexBuffer = graphicsInstance->CreateIndexBuffer();
 		pipeline = graphicsInstance->CreatePipeline();
@@ -278,6 +286,11 @@ private:
 		.CreateAttribute(1, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color))
 		.CreateAttribute(2, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, texCoord))
 		.CreateAttribute(3, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, normal));
+
+		instanceBuffer->CreateVertexBinding(1, instanceData.size() * sizeof(InstanceData), &instanceData, sizeof(InstanceData), Invision::VERTEX_INPUT_RATE_INSTANCE)
+			->CreateAttribute(4, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(InstanceData, pos))
+			.CreateAttribute(5, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(InstanceData, rot))
+			.CreateAttribute(6, Invision::FORMAT_R32_SINT, offsetof(InstanceData, scale));
 
 		indexBuffer->CreateIndexBuffer(sizeof(indices[0]) * indices.size(), indices.data());
 		uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject))
@@ -318,6 +331,7 @@ private:
 	std::shared_ptr <Invision::IGraphicsInstance> graphicsInstance;
 	std::shared_ptr <Invision::IRenderPass> renderPass;
 	std::shared_ptr <Invision::IVertexBuffer> vertexBuffer;
+	std::shared_ptr <Invision::IVertexBuffer> instanceBuffer;
 	std::shared_ptr <Invision::IUniformBuffer> uniformBuffer;
 	std::shared_ptr <Invision::IIndexBuffer> indexBuffer;
 	std::shared_ptr <Invision::IPipeline> pipeline;
@@ -330,6 +344,7 @@ private:
 	
 	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;
+	std::vector<InstanceData> instanceData;
 	// timer for frequency adjusting
 	Invision::StopWatch mTimer;
 	const double dt = 1000 / FIXED_FPS;
