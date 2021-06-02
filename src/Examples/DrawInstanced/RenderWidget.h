@@ -307,15 +307,15 @@ private:
 		instanceBuffer->CreateVertexBinding(1, instanceData.size() * sizeof(InstanceData), &instanceData, sizeof(InstanceData), Invision::VERTEX_INPUT_RATE_INSTANCE)
 			->CreateAttribute(4, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(InstanceData, pos))
 			.CreateAttribute(5, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(InstanceData, rot))
-			.CreateAttribute(6, Invision::FORMAT_R32_SINT, offsetof(InstanceData, scale));
+			.CreateAttribute(6, Invision::FORMAT_R32_SFLOAT, offsetof(InstanceData, scale));
 
 		indexBuffer->CreateIndexBuffer(sizeof(indices[0]) * indices.size(), indices.data());
 		uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject))
 			.CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, texture).
 			CreateUniformBinding(0, 2, 1, Invision::SHADER_STAGE_VERTEX_BIT | Invision::SHADER_STAGE_FRAGMENT_BIT, sizeof(UniformLightBuffer)).CreateUniformBuffer();
 
-		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DrawInstanced/Shader/LoadModelDemoMipMaps/vert.spv"));
-		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DrawInstanced/Shader/LoadModelDemoMipMaps/frag.spv"));
+		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DrawInstanced/Shader/DrawInstanced/vert.spv"));
+		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DrawInstanced/Shader/DrawInstanced/frag.spv"));
 		pipeline->AddUniformBuffer(uniformBuffer);
 		pipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
 		pipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
