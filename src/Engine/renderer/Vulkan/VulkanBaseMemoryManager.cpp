@@ -236,7 +236,7 @@ namespace Invision
 		EndSingleTimeCommands(vulkanInstance, commandPool, commandBuffer);
 	}
 
-	void VulkanBaseMemoryManager::CopyBufferToImage(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, void* src, VkImage& image, uint32_t width, uint32_t height)
+	void VulkanBaseMemoryManager::CopyBufferToImage(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, void* src, VkImage& image, uint32_t baseArrayLayer, uint32_t width, uint32_t height)
 	{
 		VkCommandBuffer commandBuffer = BeginSingleTimeCommands(vulkanInstance, commandPool);
 
@@ -247,7 +247,7 @@ namespace Invision
 
 		region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 		region.imageSubresource.mipLevel = 0;
-		region.imageSubresource.baseArrayLayer = 0;
+		region.imageSubresource.baseArrayLayer = baseArrayLayer;
 		region.imageSubresource.layerCount = 1;
 
 		region.imageOffset = { 0, 0, 0 };

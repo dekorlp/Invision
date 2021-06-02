@@ -30,7 +30,7 @@ namespace Invision
 		void* pStagingBuffer = memoryManager.BindToSharedMemory(vulkanInstance, imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_SHARING_MODE_EXCLUSIVE);
 		memoryManager.CopyDataToBuffer(vulkanInstance, pStagingBuffer, pixels);
 		TransitionImageLayout(vulkanInstance, commandPool, format, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, useDepthRessource, mMipLevels);
-		memoryManager.CopyBufferToImage(vulkanInstance, commandPool, pStagingBuffer, mImage, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
+		memoryManager.CopyBufferToImage(vulkanInstance, commandPool, pStagingBuffer, mImage, 0, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
 		memoryManager.Unbind(vulkanInstance, pStagingBuffer);
 
 		GenerateMipmaps(vulkanInstance, commandPool, format, width, height, mMipLevels);
