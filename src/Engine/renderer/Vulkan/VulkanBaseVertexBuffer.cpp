@@ -63,14 +63,14 @@ namespace Invision
 		mBindingDescription.stride = stride;
 
 		mAttributeDescriptions = &attributeDescriptions;
-		if (inputRate == VK_VERTEX_INPUT_RATE_VERTEX)
-		{
+		//if (inputRate == VK_VERTEX_INPUT_RATE_VERTEX)
+		//{
 			AllocateDedicatedMemory(vulkanInstance, commandPool, memoryManager, size, source);
-		}
-		else // inputRate == VK_VERTEX_INPUT_RATE_INSTANCE
-		{
-			AllocateSharedMemory(vulkanInstance, commandPool, memoryManager, size, source);
-		}
+		//}
+		//else // inputRate == VK_VERTEX_INPUT_RATE_INSTANCE
+		//{
+			//AllocateSharedMemory(vulkanInstance, commandPool, memoryManager, size, source);
+		//}
 
 		bindingDescriptions.push_back(mBindingDescription);
 		vertexBuffers.push_back(mVertexBuffer);
