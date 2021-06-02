@@ -278,17 +278,17 @@ private:
 		// instance Data Filling
 		std::vector<InstanceData> instanceData;
 		instanceData.resize(INSTANCE_COUNT);
-		instanceData[0].pos = Invision::Vector3(-1.0, 0.0, 0.0);
+		instanceData[0].pos = Invision::Vector3(0.0, 1.5, 0.0);
 		instanceData[0].rot = Invision::Vector3(0.0, 0.0, 0.0);
 		instanceData[0].scale = 0.75f;
 
 		instanceData[1].pos = Invision::Vector3(0.0, 0.0, 0.0);
 		instanceData[1].rot = Invision::Vector3(0.0, 0.0, 0.0);
-		instanceData[1].scale = 1.0f;
+		instanceData[1].scale = 0.75f;
 
-		instanceData[2].pos = Invision::Vector3(1.0, 0.0, 0.0);
+		instanceData[2].pos = Invision::Vector3(0.0, -1.5, 0.0);
 		instanceData[2].rot = Invision::Vector3(0.0, 0.0, 0.0);
-		instanceData[2].scale = 1.25f;
+		instanceData[2].scale = 0.75f;
 
 		////////////////////////
 
@@ -304,7 +304,7 @@ private:
 		.CreateAttribute(2, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, texCoord))
 		.CreateAttribute(3, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, normal));
 
-		instanceBuffer->CreateVertexBinding(1, instanceData.size() * sizeof(InstanceData), &instanceData, sizeof(InstanceData), Invision::VERTEX_INPUT_RATE_INSTANCE)
+		instanceBuffer->CreateVertexBinding(1, sizeof(instanceData[0]) * instanceData.size(), instanceData.data(), sizeof(InstanceData), Invision::VERTEX_INPUT_RATE_INSTANCE)
 			->CreateAttribute(4, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(InstanceData, pos))
 			.CreateAttribute(5, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(InstanceData, rot))
 			.CreateAttribute(6, Invision::FORMAT_R32_SFLOAT, offsetof(InstanceData, scale));
