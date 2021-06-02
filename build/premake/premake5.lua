@@ -500,6 +500,12 @@ AddConsoleProject(
 		srcroot .. "Examples/DeferredShadingDemo/**.cpp"
 	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, true)
 	
+AddConsoleProject(
+	"DrawInstanced", srcroot .. "Examples/", {
+		srcroot .. "Examples/DrawInstanced/**.h",
+		srcroot .. "Examples/DrawInstanced/**.cpp"
+	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, true)
+	
 
 
 
