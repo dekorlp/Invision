@@ -25,7 +25,7 @@ namespace Invision
 			mMipLevels = 1;
 		}
 
-		CreateImage(vulkanInstance, memoryManager, width, height, mMipLevels, 1, VK_SAMPLE_COUNT_1_BIT, format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+		CreateImage(vulkanInstance, memoryManager, width, height, false, mMipLevels, 1, VK_SAMPLE_COUNT_1_BIT, format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
 		void* pStagingBuffer = memoryManager.BindToSharedMemory(vulkanInstance, imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_SHARING_MODE_EXCLUSIVE);
 		memoryManager.CopyDataToBuffer(vulkanInstance, pStagingBuffer, pixels);
@@ -42,7 +42,7 @@ namespace Invision
 		mFormat = format;
 		//VkFormat colorFormat = vulkanContext.swapChainImageFormat;
 
-		mpImage = CreateImage(vulkanInstance, memoryManager, width, height, 1, 1, sampleCountFlags, format, tiling, usage, memoryPropertyFlags, mImage);
+		mpImage = CreateImage(vulkanInstance, memoryManager, width, height, false, 1, 1, sampleCountFlags, format, tiling, usage, memoryPropertyFlags, mImage);
 		mTextureImageView = CreateImageView(vulkanInstance, mImage, format, aspectFlags, 1);
 	}
 
@@ -51,12 +51,12 @@ namespace Invision
 		mMemoryManager = &memoryManager;
 		VkFormat depthFormat = FindDepthFormat(vulkanInstance);
 		mFormat = depthFormat;
-		mpImage = CreateImage(vulkanInstance, memoryManager, width, height, 1, 1, sampleCountFlags, depthFormat, tiling, usage, memoryPropertyFlags, mImage);
+		mpImage = CreateImage(vulkanInstance, memoryManager, width, height, false, 1, 1, sampleCountFlags, depthFormat, tiling, usage, memoryPropertyFlags, mImage);
 		mTextureImageView = CreateImageView(vulkanInstance, mImage, depthFormat, aspectFlags, 1);
 	}
 
 
-	void VulkanBaseTexture::CreateImage(const SVulkanBase &vulkanInstance, VulkanBaseMemoryManager& memoryManager, int width, int height, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits numSamples, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage,  VkMemoryPropertyFlags properties)
+	void VulkanBaseTexture::CreateImage(const SVulkanBase &vulkanInstance, VulkanBaseMemoryManager& memoryManager, int width, int height, bool isCubemap, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits numSamples, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage,  VkMemoryPropertyFlags properties)
 	{
 		VkImageCreateInfo imageInfo{};
 		imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
@@ -65,13 +65,14 @@ namespace Invision
 		imageInfo.extent.height = height;
 		imageInfo.extent.depth = 1;
 		imageInfo.mipLevels = mipLevels;
-		imageInfo.arrayLayers = arrayLayers;
+		imageInfo.arrayLayers = isCubemap ? 6 * arrayLayers : arrayLayers;
 		imageInfo.format = format;
 		imageInfo.tiling = tiling;
 		imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 		imageInfo.usage = usage;
 		imageInfo.samples = numSamples;
 		imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+		imageInfo.flags = isCubemap ? VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT : 0u;
 
 		if (vkCreateImage(vulkanInstance.logicalDevice, &imageInfo, nullptr, &mImage) != VK_SUCCESS) {
 			throw VulkanBaseException("failed to create image!");
@@ -98,7 +99,7 @@ namespace Invision
 
 	}
 
-	void* VulkanBaseTexture::CreateImage(const SVulkanBase &vulkanInstance, VulkanBaseMemoryManager& memoryManager, int width, int height, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits numSamples, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image)
+	void* VulkanBaseTexture::CreateImage(const SVulkanBase &vulkanInstance, VulkanBaseMemoryManager& memoryManager, int width, int height, bool isCubemap, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits numSamples, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image)
 	{
 		VkImageCreateInfo imageInfo{};
 		imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
@@ -107,13 +108,14 @@ namespace Invision
 		imageInfo.extent.height = height;
 		imageInfo.extent.depth = 1;
 		imageInfo.mipLevels = mipLevels;
-		imageInfo.arrayLayers = arrayLayers;
+		imageInfo.arrayLayers = isCubemap ? 6 * arrayLayers : arrayLayers;
 		imageInfo.format = format;
 		imageInfo.tiling = tiling;
 		imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 		imageInfo.usage = usage;
 		imageInfo.samples = numSamples;
 		imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+		imageInfo.flags = isCubemap ? VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT : 0u;
 
 		if (vkCreateImage(vulkanInstance.logicalDevice, &imageInfo, nullptr, &image) != VK_SUCCESS) {
 			throw VulkanBaseException("failed to create image!");
