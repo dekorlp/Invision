@@ -24,6 +24,13 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 		BindIndexBuffer(indexBuffer, Invision::INDEX_TYPE_UINT32).
 		//Draw(static_cast<uint32_t>(vertices.size()), 1, 0, 0).
 		DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0).
+
+		// Draw Cubemap
+		BindPipeline(cubemapPipeline).
+		BindVertexBuffer({ cubemapVBuffer }, 0, 1).
+		Draw(32, 1, 0, 0).
+
+
 		EndRenderPass().
 		EndCommandBuffer();
 }
@@ -53,9 +60,9 @@ void RenderWidget::UpdateUniformBuffer(float width, float height)
 	{
 		//Invision::Matrix::Translate(Invision::Vector3(0.0f, 0.0f, 0.0f)) * 
 		ubo.model = Invision::Matrix::RotateZ(angle + dt * 90.0);
-		ubo.view = Invision::Matrix(1.0f) *  Invision::Matrix::Camera(Invision::Vector3(2.0f, 2.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 0.0f, 1.0f));
+		ubo.view = Invision::Matrix(1.0f) *  Invision::Matrix::Camera(Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 0.0f, 1.0f));
 	}
-	ubo.proj = Invision::Matrix(1.0f) * Invision::Matrix::Perspective(45.0, width / height, 0.1f, 10.0f); // perspective projection
+	ubo.proj = Invision::Matrix(1.0f) * Invision::Matrix::Perspective(45.0, width / height, 0.1f, 100.0f); // perspective projection
 	uniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0, 0);
 }
 

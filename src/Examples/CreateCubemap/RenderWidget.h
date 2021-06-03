@@ -259,9 +259,11 @@ private:
 
 		//renderPass = graphicsInstance->CreateRenderPass(); //graphicsEngine->CreateRenderPass();
 		vertexBuffer = graphicsInstance->CreateVertexBuffer();
+		cubemapVBuffer = graphicsInstance->CreateVertexBuffer();
 		uniformBuffer = graphicsInstance->CreateUniformBuffer();
 		indexBuffer = graphicsInstance->CreateIndexBuffer();
 		pipeline = graphicsInstance->CreatePipeline();
+		cubemapPipeline = graphicsInstance->CreatePipeline(&Invision::PipelineProperties(Invision::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, Invision::POLYGON_MODE_FILL, Invision::CULL_MODE_FRONT_BIT, Invision::FRONT_FACE_COUNTER_CLOCKWISE, 1.0f));
 		unsigned char* pixels = readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/CreateCubemap/Textures/viking_room.png"), width, height, channels);
 		texture = graphicsInstance->CreateTexture(pixels, width, height, Invision::FORMAT_R8G8B8A8_SRGB, true);
 		freeImage(pixels);
@@ -292,6 +294,18 @@ private:
 		pipeline->AddVertexBuffer(vertexBuffer);
 		pipeline->CreatePipeline(renderPass);
 
+		// cubemap Creation		
+		cubemapVBuffer->CreateVertexBinding(0, sizeof(CubemapVertices[0]) * CubemapVertices.size(), CubemapVertices.data(), sizeof(CubemapVertex), Invision::VERTEX_INPUT_RATE_VERTEX)
+			->CreateAttribute(0, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(CubemapVertex, position));
+
+		auto cubemapVertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/CreateCubemap/Shader/CreateCubemap/cubemap.vert.spv"));
+		auto cubemapFragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/CreateCubemap/Shader/CreateCubemap/cubemap.frag.spv"));
+		cubemapPipeline->AddUniformBuffer(uniformBuffer);
+		cubemapPipeline->AddShader(cubemapVertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
+		cubemapPipeline->AddShader(cubemapFragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
+		cubemapPipeline->AddVertexBuffer(cubemapVBuffer);
+		cubemapPipeline->CreatePipeline(renderPass);
+
 		//framebuffer = graphicsInstance->CreateFramebuffer(renderPass, graphicsInstance->GetSizeSwapchainImages());
 
 		BuildCommandBuffer(this->size().width(), this->size().height());
@@ -318,9 +332,11 @@ private:
 	std::shared_ptr <Invision::IGraphicsInstance> graphicsInstance;
 	std::shared_ptr <Invision::IRenderPass> renderPass;
 	std::shared_ptr <Invision::IVertexBuffer> vertexBuffer;
+	std::shared_ptr <Invision::IVertexBuffer> cubemapVBuffer;
 	std::shared_ptr <Invision::IUniformBuffer> uniformBuffer;
 	std::shared_ptr <Invision::IIndexBuffer> indexBuffer;
 	std::shared_ptr <Invision::IPipeline> pipeline;
+	std::shared_ptr <Invision::IPipeline> cubemapPipeline;
 	std::shared_ptr <Invision::IFramebuffer> framebuffer;
 	std::shared_ptr <Invision::ICommandBuffer> commandBuffer;
 	std::shared_ptr <Invision::IRenderer> renderer;
