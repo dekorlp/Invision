@@ -29,11 +29,11 @@ namespace Invision
 
 		void* pStagingBuffer = memoryManager.BindToSharedMemory(vulkanInstance, imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_SHARING_MODE_EXCLUSIVE);
 		memoryManager.CopyDataToBuffer(vulkanInstance, pStagingBuffer, pixels);
-		TransitionImageLayout(vulkanInstance, commandPool, format, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, useDepthRessource, mMipLevels, 1);
+		TransitionImageLayout(vulkanInstance, commandPool, format, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, useDepthRessource, mMipLevels, 0, 1);
 		memoryManager.CopyBufferToImage(vulkanInstance, commandPool, pStagingBuffer, mImage, 0, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
 		memoryManager.Unbind(vulkanInstance, pStagingBuffer);
 
-		GenerateMipmaps(vulkanInstance, commandPool, format, width, height, mMipLevels);
+		GenerateMipmaps(vulkanInstance, commandPool, format, width, height, mMipLevels, 0);
 	}
 
 	void VulkanBaseTexture::CreateTextureCubemap(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, unsigned char* posx, unsigned char* negx, unsigned char* posy, unsigned char* negy, unsigned char* posz, unsigned char* negz, int width, int height, bool useDepthRessource, VkFormat format, bool generateMipMaps )
@@ -64,12 +64,13 @@ namespace Invision
 		{
 			void* pStagingBuffer = memoryManager.BindToSharedMemory(vulkanInstance, imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_SHARING_MODE_EXCLUSIVE);
 			memoryManager.CopyDataToBuffer(vulkanInstance, pStagingBuffer, cubemap_images[i]);
-			TransitionImageLayout(vulkanInstance, commandPool, format, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, useDepthRessource, VK_REMAINING_MIP_LEVELS, VK_REMAINING_ARRAY_LAYERS);
+			TransitionImageLayout(vulkanInstance, commandPool, format, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, useDepthRessource, mMipLevels, i, 1);
 			memoryManager.CopyBufferToImage(vulkanInstance, commandPool, pStagingBuffer, mImage, i, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
 			memoryManager.Unbind(vulkanInstance, pStagingBuffer);
+			GenerateMipmaps(vulkanInstance, commandPool, format, width, height, mMipLevels, i);
 		}
 
-		GenerateMipmaps(vulkanInstance, commandPool, format, width, height, mMipLevels);
+	
 
 	}
 
@@ -207,7 +208,7 @@ namespace Invision
 		}
 	}
 
-	void VulkanBaseTexture::TransitionImageLayout(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout, bool useDepthRessource, uint32_t mipLevels, uint32_t layerCount)
+	void VulkanBaseTexture::TransitionImageLayout(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout, bool useDepthRessource, uint32_t mipLevels, uint32_t baseArrayLayer, uint32_t layerCount)
 	{
 		VkCommandBuffer commandBuffer = VulkanBaseMemoryManager::BeginSingleTimeCommands(vulkanInstance, commandPool);
 
@@ -221,7 +222,7 @@ namespace Invision
 		barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 		barrier.subresourceRange.baseMipLevel = 0;
 		barrier.subresourceRange.levelCount = mipLevels;
-		barrier.subresourceRange.baseArrayLayer = 0;
+		barrier.subresourceRange.baseArrayLayer = baseArrayLayer;
 		barrier.subresourceRange.layerCount = layerCount;
 	
 		VkPipelineStageFlags sourceStage;
@@ -290,7 +291,7 @@ namespace Invision
 		VulkanBaseMemoryManager::EndSingleTimeCommands(vulkanInstance, commandPool, commandBuffer);
 	}
 
-	void VulkanBaseTexture::GenerateMipmaps(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VkFormat imageFormat, int width, int height, uint32_t mipLevels)
+	void VulkanBaseTexture::GenerateMipmaps(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VkFormat imageFormat, int width, int height, uint32_t mipLevels, uint32_t baseArrayLayer)
 	{
 
 		// Check if image format supports linear blitting
@@ -309,7 +310,7 @@ namespace Invision
 		barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
 		barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
 		barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-		barrier.subresourceRange.baseArrayLayer = 0;
+		barrier.subresourceRange.baseArrayLayer = baseArrayLayer;
 		barrier.subresourceRange.layerCount = 1;
 		barrier.subresourceRange.levelCount = 1;
 
@@ -334,13 +335,13 @@ namespace Invision
 			blit.srcOffsets[1] = { mipWidth, mipHeight, 1 };
 			blit.srcSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 			blit.srcSubresource.mipLevel = i - 1;
-			blit.srcSubresource.baseArrayLayer = 0;
+			blit.srcSubresource.baseArrayLayer = baseArrayLayer;
 			blit.srcSubresource.layerCount = 1;
 			blit.dstOffsets[0] = { 0, 0, 0 };
 			blit.dstOffsets[1] = { mipWidth > 1 ? mipWidth / 2 : 1, mipHeight > 1 ? mipHeight / 2 : 1, 1 };
 			blit.dstSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 			blit.dstSubresource.mipLevel = i;
-			blit.dstSubresource.baseArrayLayer = 0;
+			blit.dstSubresource.baseArrayLayer = baseArrayLayer;
 			blit.dstSubresource.layerCount = 1;
 
 			vkCmdBlitImage(commandBuffer,
