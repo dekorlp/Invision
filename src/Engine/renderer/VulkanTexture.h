@@ -21,6 +21,7 @@ namespace Invision
 		INVISION_API VulkanTexture(VulkanInstance* instance, unsigned char* pixels, int width, int height, GfxFormat format, bool generateMipMaps);
 
 		INVISION_API void CreateTexture(unsigned char* pixels, int width, int height, GfxFormat format, bool generateMipMaps);
+		INVISION_API void CreateTextureCubemap(unsigned char* posx, unsigned char* negx, unsigned char* posy, unsigned char* negy, unsigned char* posz, unsigned char* negz, int width, int height, GfxFormat format, bool generateMipMaps);
 		INVISION_API void CreateColorAttachment(int width, int height, GfxFormat format) override;
 		INVISION_API void CreateDepthAttachment(int width, int height) override;
 		INVISION_API void CreateTextureImageView(GfxFormat format);
