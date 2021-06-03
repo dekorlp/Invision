@@ -98,48 +98,48 @@ public:
 		return mContinousRender;
 	}
 
-	protected:
-		virtual void paintEvent(QPaintEvent* paintEvent) override
-		{
-			if (mIsInit == false)
-				Init();
-			Render();
-		}
+protected:
+	virtual void paintEvent(QPaintEvent* paintEvent) override
+	{
+		if (mIsInit == false)
+			Init();
+		Render();
+	}
 
-		virtual void showEvent(QShowEvent* showEvent) override
-		{
-			QWidget::showEvent(showEvent);
-			//if (mIsInit == false)
-			//	Init();
-		}
+	virtual void showEvent(QShowEvent* showEvent) override
+	{
+		QWidget::showEvent(showEvent);
+		//if (mIsInit == false)
+		//	Init();
+	}
 
-		virtual void resizeEvent(QResizeEvent* resizeEvent) override
-		{
-			QWidget::resizeEvent(resizeEvent);
-			auto sz = resizeEvent->size();
-			if ((sz.width() < 0) || (sz.height() < 0))
-				return;
+	virtual void resizeEvent(QResizeEvent* resizeEvent) override
+	{
+		QWidget::resizeEvent(resizeEvent);
+		auto sz = resizeEvent->size();
+		if ((sz.width() < 0) || (sz.height() < 0))
+			return;
 
-			// my resize Code 
-			if(mIsInit == true)
+		// my resize Code 
+		if (mIsInit == true)
 			RecreateSwapChain(sz.width(), sz.height());
 
-			// Has to be send, manually because QT does not send update request by resizing
-			Render();
-		}
+		// Has to be send, manually because QT does not send update request by resizing
+		Render();
+	}
 
-		virtual bool event(QEvent* event) override
+	virtual bool event(QEvent* event) override
+	{
+		switch (event->type())
 		{
-			switch (event->type())
-			{
-			case QEvent::UpdateRequest:
-				mUpdatePending = false;
-				Run();
-				return true;
-			default:
-				return QWidget::event(event);
-			}
+		case QEvent::UpdateRequest:
+			mUpdatePending = false;
+			Run();
+			return true;
+		default:
+			return QWidget::event(event);
 		}
+	}
 
 private:
 
@@ -152,10 +152,10 @@ private:
 
 		mTimer.stop();
 		accumulatedTime += mTimer.getElapsedMilliseconds();
-		while (accumulatedTime >=  dt)
+		while (accumulatedTime >= dt)
 		{
 			DoUpdate(dt);
-			accumulatedTime -=  dt;
+			accumulatedTime -= dt;
 		}
 
 
@@ -168,13 +168,13 @@ private:
 #endif 
 
 		DoRender(accumulatedTime / dt);
-		
+
 	}
 	void DoUpdate(double dt)
-	{	
+	{
 		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_A, Invision::INVISION_KEY_PRESSED))
 		{
-			pos.SetY( pos.getY() + 0.005f * dt);
+			pos.SetY(pos.getY() + 0.005f * dt);
 		}
 		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_D, Invision::INVISION_KEY_PRESSED))
 		{
@@ -218,7 +218,7 @@ private:
 			switchFixedCamera = !switchFixedCamera;
 		}
 		spacePressed = spaceCurrentlyPressed;
-		
+
 
 		angle += 0.05f * dt;
 	}
@@ -238,7 +238,7 @@ private:
 
 		if (mContinousRender == true)
 			Render();
-		UpdateUniformBuffer(this->size().width(), this->size().height());	
+		UpdateUniformBuffer(this->size().width(), this->size().height());
 	}
 
 	void Init()
@@ -246,7 +246,7 @@ private:
 
 
 		auto nativeWindowHandler = winId();
-		
+
 		int width, height, channels;
 
 		pos = Invision::Vector3(0.0f, 0.0f, 0.0f);
@@ -254,7 +254,7 @@ private:
 
 		Invision::CanvasDimensions dim = { HWND(nativeWindowHandler), this->size().width(), this->size().height() };
 		//graphicsEngine = std::make_shared<Invision::VulkanEngine>(dim);
-		
+
 		graphicsInstance = graphicsEngine->CreateInstance(dim, renderPass, framebuffer, commandBuffer, true);
 
 		//renderPass = graphicsInstance->CreateRenderPass(); //graphicsEngine->CreateRenderPass();
@@ -274,12 +274,12 @@ private:
 		std::vector<Invision::Vector2> texCoords;
 
 		LoadModel(std::string(INVISION_BASE_DIR).append("/src/Examples/CreateCubemap/Models/viking_room.obj"), vertices, indices);
-		
+
 		vertexBuffer->CreateVertexBinding(0, sizeof(vertices[0]) * vertices.size(), vertices.data(), sizeof(Vertex), Invision::VERTEX_INPUT_RATE_VERTEX)
 			->CreateAttribute(0, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, position))
-		.CreateAttribute(1, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color))
-		.CreateAttribute(2, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, texCoord))
-		.CreateAttribute(3, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, normal));
+			.CreateAttribute(1, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color))
+			.CreateAttribute(2, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, texCoord))
+			.CreateAttribute(3, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, normal));
 
 		indexBuffer->CreateIndexBuffer(sizeof(indices[0]) * indices.size(), indices.data());
 		uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject))
@@ -294,7 +294,21 @@ private:
 		pipeline->AddVertexBuffer(vertexBuffer);
 		pipeline->CreatePipeline(renderPass);
 
-		// cubemap Creation		
+		// cubemap Creation
+		std::vector<unsigned char*> pixelsCubemap;
+
+		pixelsCubemap.push_back(readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/CreateCubemap/Textures/posx.jpg"), width, height, channels));
+		pixelsCubemap.push_back(readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/CreateCubemap/Textures/negx.jpg"), width, height, channels));
+		pixelsCubemap.push_back(readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/CreateCubemap/Textures/posy.jpg"), width, height, channels));
+		pixelsCubemap.push_back(readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/CreateCubemap/Textures/negy.jpg"), width, height, channels));
+		pixelsCubemap.push_back(readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/CreateCubemap/Textures/posz.jpg"), width, height, channels));
+		pixelsCubemap.push_back(readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/CreateCubemap/Textures/negz.jpg"), width, height, channels));
+
+		textureCubemap = graphicsInstance->CreateTexture();
+		textureCubemap->CreateTextureCubemap(pixelsCubemap[0], pixelsCubemap[1], pixelsCubemap[2], pixelsCubemap[3], pixelsCubemap[4], pixelsCubemap[5], 2048, 2048, Invision::FORMAT_R8G8B8A8_SRGB, true);
+		textureCubemap->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_ADDRESS_MODE_CLAMP, Invision::SAMPLER_ADDRESS_MODE_CLAMP, Invision::SAMPLER_ADDRESS_MODE_CLAMP);
+
+
 		cubemapVBuffer->CreateVertexBinding(0, sizeof(CubemapVertices[0]) * CubemapVertices.size(), CubemapVertices.data(), sizeof(CubemapVertex), Invision::VERTEX_INPUT_RATE_VERTEX)
 			->CreateAttribute(0, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(CubemapVertex, position));
 
@@ -341,6 +355,7 @@ private:
 	std::shared_ptr <Invision::ICommandBuffer> commandBuffer;
 	std::shared_ptr <Invision::IRenderer> renderer;
 	std::shared_ptr <Invision::ITexture> texture;
+	std::shared_ptr <Invision::ITexture> textureCubemap;
 
 	std::shared_ptr<Invision::IKeyboard> keyboard;
 	

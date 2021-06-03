@@ -20,7 +20,7 @@ namespace Invision
 
 			VkFormat FindDepthFormat(const SVulkanBase &vulkanInstance);
 
-			void CreateTextureImageView(SVulkanBase &vulkanInstance, VkImageViewType viewType, VkFormat format);
+			void CreateTextureImageView(SVulkanBase &vulkanInstance, VkImageViewType viewType, VkFormat format, uint32_t layerCount);
 			void CreateTextureSampler(SVulkanBase &vulkanInstance, VkFilter minFilter, VkFilter magFilter, VkSamplerAddressMode addressU, VkSamplerAddressMode addressV, VkSamplerAddressMode addressW, float MipLodBias, float minLod);
 			void DestroyTexture(const SVulkanBase &vulkanInstance);
 
@@ -35,7 +35,7 @@ namespace Invision
 
 		private:
 			void CreateImage(const SVulkanBase &vulkanInstance, VulkanBaseMemoryManager& memoryManager, int width, int height, bool isCubemap, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits numSamples, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties);
-			void TransitionImageLayout(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout, bool useDepthRessource, uint32_t mipLevels);
+			void TransitionImageLayout(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout, bool useDepthRessource, uint32_t mipLevels, uint32_t layerCount);
 			void CopyBufferToImage(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VkBuffer buffer, uint32_t width, uint32_t height);
 			void GenerateMipmaps(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VkFormat imageFormat, int width, int height, uint32_t mipLevels);
 

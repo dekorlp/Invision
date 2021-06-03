@@ -29,7 +29,7 @@ namespace Invision
 
 		void* pStagingBuffer = memoryManager.BindToSharedMemory(vulkanInstance, imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_SHARING_MODE_EXCLUSIVE);
 		memoryManager.CopyDataToBuffer(vulkanInstance, pStagingBuffer, pixels);
-		TransitionImageLayout(vulkanInstance, commandPool, format, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, useDepthRessource, mMipLevels);
+		TransitionImageLayout(vulkanInstance, commandPool, format, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, useDepthRessource, mMipLevels, 1);
 		memoryManager.CopyBufferToImage(vulkanInstance, commandPool, pStagingBuffer, mImage, 0, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
 		memoryManager.Unbind(vulkanInstance, pStagingBuffer);
 
@@ -64,7 +64,7 @@ namespace Invision
 		{
 			void* pStagingBuffer = memoryManager.BindToSharedMemory(vulkanInstance, imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_SHARING_MODE_EXCLUSIVE);
 			memoryManager.CopyDataToBuffer(vulkanInstance, pStagingBuffer, cubemap_images[i]);
-			TransitionImageLayout(vulkanInstance, commandPool, format, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, useDepthRessource, mMipLevels);
+			TransitionImageLayout(vulkanInstance, commandPool, format, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, useDepthRessource, VK_REMAINING_MIP_LEVELS, VK_REMAINING_ARRAY_LAYERS);
 			memoryManager.CopyBufferToImage(vulkanInstance, commandPool, pStagingBuffer, mImage, i, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
 			memoryManager.Unbind(vulkanInstance, pStagingBuffer);
 		}
@@ -80,7 +80,7 @@ namespace Invision
 		//VkFormat colorFormat = vulkanContext.swapChainImageFormat;
 
 		mpImage = CreateImage(vulkanInstance, memoryManager, width, height, false, 1, 1, sampleCountFlags, format, tiling, usage, memoryPropertyFlags, mImage);
-		mTextureImageView = CreateImageView(vulkanInstance, mImage, VK_IMAGE_VIEW_TYPE_2D, format, aspectFlags, 1);
+		mTextureImageView = CreateImageView(vulkanInstance, mImage, VK_IMAGE_VIEW_TYPE_2D, format, aspectFlags, 1, 1);
 	}
 
 	void VulkanBaseTexture::CreateDepthRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext, int width, int height, VkSampleCountFlagBits sampleCountFlags, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags memoryPropertyFlags, VkImageAspectFlags aspectFlags)
@@ -89,7 +89,7 @@ namespace Invision
 		VkFormat depthFormat = FindDepthFormat(vulkanInstance);
 		mFormat = depthFormat;
 		mpImage = CreateImage(vulkanInstance, memoryManager, width, height, false, 1, 1, sampleCountFlags, depthFormat, tiling, usage, memoryPropertyFlags, mImage);
-		mTextureImageView = CreateImageView(vulkanInstance, mImage, VK_IMAGE_VIEW_TYPE_2D, depthFormat, aspectFlags, 1);
+		mTextureImageView = CreateImageView(vulkanInstance, mImage, VK_IMAGE_VIEW_TYPE_2D, depthFormat, aspectFlags, 1, 1);
 	}
 
 
@@ -175,9 +175,9 @@ namespace Invision
 
 	}
 
-	void VulkanBaseTexture::CreateTextureImageView( SVulkanBase &vulkanInstance, VkImageViewType viewType, VkFormat format)
+	void VulkanBaseTexture::CreateTextureImageView( SVulkanBase &vulkanInstance, VkImageViewType viewType, VkFormat format, uint32_t layerCount)
 	{
-		mTextureImageView = CreateImageView(vulkanInstance, mImage, viewType, format, VK_IMAGE_ASPECT_COLOR_BIT, mMipLevels);
+		mTextureImageView = CreateImageView(vulkanInstance, mImage, viewType, format, VK_IMAGE_ASPECT_COLOR_BIT, mMipLevels, layerCount);
 	}
 
 	void VulkanBaseTexture::CreateTextureSampler(SVulkanBase &vulkanInstance, VkFilter minFilter, VkFilter magFilter, VkSamplerAddressMode addressU, VkSamplerAddressMode addressV, VkSamplerAddressMode addressW, float MipLodBias, float minLod)
@@ -207,7 +207,7 @@ namespace Invision
 		}
 	}
 
-	void VulkanBaseTexture::TransitionImageLayout(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout, bool useDepthRessource, uint32_t mipLevels)
+	void VulkanBaseTexture::TransitionImageLayout(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout, bool useDepthRessource, uint32_t mipLevels, uint32_t layerCount)
 	{
 		VkCommandBuffer commandBuffer = VulkanBaseMemoryManager::BeginSingleTimeCommands(vulkanInstance, commandPool);
 
@@ -222,7 +222,7 @@ namespace Invision
 		barrier.subresourceRange.baseMipLevel = 0;
 		barrier.subresourceRange.levelCount = mipLevels;
 		barrier.subresourceRange.baseArrayLayer = 0;
-		barrier.subresourceRange.layerCount = 1;
+		barrier.subresourceRange.layerCount = layerCount;
 	
 		VkPipelineStageFlags sourceStage;
 		VkPipelineStageFlags destinationStage;
