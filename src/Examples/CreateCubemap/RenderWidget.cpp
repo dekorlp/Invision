@@ -28,6 +28,7 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 		// Draw Cubemap
 		BindPipeline(cubemapPipeline).
 		BindVertexBuffer({ cubemapVBuffer }, 0, 1).
+		BindDescriptorSets(uniformCubemapBuffer, cubemapPipeline).
 		Draw(32, 1, 0, 0).
 
 
@@ -64,5 +65,6 @@ void RenderWidget::UpdateUniformBuffer(float width, float height)
 	}
 	ubo.proj = Invision::Matrix(1.0f) * Invision::Matrix::Perspective(45.0, width / height, 0.1f, 100.0f); // perspective projection
 	uniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0, 0);
+	uniformCubemapBuffer->UpdateUniform(&ubo, sizeof(ubo), 0, 0);
 }
 
