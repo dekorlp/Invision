@@ -512,6 +512,11 @@ AddConsoleProject(
 		srcroot .. "Examples/CreateCubemap/**.cpp"
 	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, true)
 	
+AddConsoleProject(
+	"DeferredShadowDemo", srcroot .. "Examples/", {
+		srcroot .. "Examples/DeferredShadowDemo/**.h",
+		srcroot .. "Examples/DeferredShadowDemo/**.cpp"
+	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, true)
 
 
 
