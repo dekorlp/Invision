@@ -386,21 +386,20 @@ private:
 		mGBuffer.gPipeline->CreatePipeline(mGBuffer.gRenderPass);
 
 
-		mSBuffer.sPipeline = graphicsInstance->CreatePipeline();
+		planePipeline = graphicsInstance->CreatePipeline();
 		auto vertShaderCode1 = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadowDemo/Shader/DeferredShadow/plane.vert.spv"));
 		auto fragShaderCode1 = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadowDemo/Shader/DeferredShadow/plane.frag.spv"));
-		mSBuffer.sPipeline->AddUniformBuffer(planeUniformBuffer);
-		mSBuffer.sPipeline->AddShader(vertShaderCode1, Invision::SHADER_STAGE_VERTEX_BIT);
-		mSBuffer.sPipeline->AddShader(fragShaderCode1, Invision::SHADER_STAGE_FRAGMENT_BIT);
-		mSBuffer.sPipeline->AddVertexBuffer(PlaneVertexBuffer);
-		mSBuffer.sPipeline->CreatePipeline(mGBuffer.gRenderPass);
+		planePipeline->AddUniformBuffer(planeUniformBuffer);
+		planePipeline->AddShader(vertShaderCode1, Invision::SHADER_STAGE_VERTEX_BIT);
+		planePipeline->AddShader(fragShaderCode1, Invision::SHADER_STAGE_FRAGMENT_BIT);
+		planePipeline->AddVertexBuffer(PlaneVertexBuffer);
+		planePipeline->CreatePipeline(mGBuffer.gRenderPass);
 
 		// Deferred Shadow Shading
 		mSBuffer.sRenderPass = graphicsInstance->CreateRenderPass();
 		mSBuffer.sDepthAttachment = graphicsInstance->CreateColorAttachment(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE, Invision::FORMAT_R16G16B16A16_SFLOAT);
 		mSBuffer.sRenderPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, mSBuffer.sDepthAttachment);
 		mSBuffer.sRenderPass->CreateRenderPass();
-
 		mSBuffer.sFramebuffer = graphicsInstance->CreateFramebuffer(mSBuffer.sRenderPass, FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE);
 		mSBuffer.sCommandbuffer = graphicsInstance->CreateCommandBuffer(mSBuffer.sFramebuffer);
 
@@ -457,6 +456,7 @@ private:
 	std::shared_ptr <Invision::IUniformBuffer> planeUniformBuffer;
 	std::shared_ptr <Invision::IIndexBuffer> indexBuffer;
 	std::shared_ptr <Invision::IPipeline> pipeline;
+	std::shared_ptr <Invision::IPipeline> planePipeline;
 	std::shared_ptr <Invision::IFramebuffer> framebuffer;
 	std::shared_ptr <Invision::ICommandBuffer> commandBuffer;
 	std::shared_ptr <Invision::IRenderer> renderer;
