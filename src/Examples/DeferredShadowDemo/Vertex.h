@@ -19,6 +19,14 @@ struct Vertex {
 	}
 };
 
+struct PosVertex {
+	Invision::Vector3 position;
+	bool operator==(const Vertex& other) const {
+
+		return position == other.position;
+	}
+};
+
 /*// custom hash can be a standalone function object:
 template <class T> struct CustomHashVektor3;
 template<> struct CustomHashVektor3<Invision::Vector3>

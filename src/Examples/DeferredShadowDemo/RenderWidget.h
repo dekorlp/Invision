@@ -65,6 +65,15 @@ struct GBuffer
 	std::shared_ptr <Invision::ITexture> depthAttachment;
 };
 
+struct ShadowBuffer
+{
+	std::shared_ptr <Invision::IPipeline> sPipeline;
+	std::shared_ptr <Invision::IRenderPass> sRenderPass;
+	std::shared_ptr <Invision::IFramebuffer> sFramebuffer;
+	std::shared_ptr <Invision::ICommandBuffer> sCommandbuffer;
+	std::shared_ptr <Invision::ITexture> sDepthAttachment;
+};
+
 #define FRAMEBUFFER_SIZE 2048
 
 class RenderWidget : public QWidget
@@ -303,8 +312,12 @@ private:
 		//renderPass = graphicsInstance->CreateRenderPass(); //graphicsEngine->CreateRenderPass();
 		vertexBuffer = graphicsInstance->CreateVertexBuffer();
 		uniformBuffer = graphicsInstance->CreateUniformBuffer();
+		planeUniformBuffer = graphicsInstance->CreateUniformBuffer();
 		indexBuffer = graphicsInstance->CreateIndexBuffer();
 	
+		PlaneVertexBuffer = graphicsInstance->CreateVertexBuffer();
+		PlaneIndexBuffer = graphicsInstance->CreateIndexBuffer();
+
 
 		unsigned char* pixelsVikingRoom = readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadowDemo/Textures/viking_room.png"), width, height, channels);
 		texture = graphicsInstance->CreateTexture(pixelsVikingRoom, width, height, Invision::FORMAT_R8G8B8A8_SRGB, true);
@@ -339,7 +352,8 @@ private:
 		std::vector<Invision::Vector2> texCoords;
 
 		LoadModel(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadowDemo/Models/viking_room.obj"), vertices, indices);
-		
+		LoadModel(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadowDemo/Models/Plane.obj"), planeVertices, planeIndices);
+
 		vertexBuffer->CreateVertexBinding(0, sizeof(vertices[0]) * vertices.size(), vertices.data(), sizeof(Vertex), Invision::VERTEX_INPUT_RATE_VERTEX)
 			->CreateAttribute(0, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, position))
 		.CreateAttribute(1, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color))
@@ -351,6 +365,18 @@ private:
 			.CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, texture).
 			CreateUniformBuffer();
 
+		planeUniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject))
+			.CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, texture).
+			CreateUniformBuffer();
+
+		PlaneVertexBuffer->CreateVertexBinding(0, sizeof(planeVertices[0]) * planeVertices.size(), planeVertices.data(), sizeof(Vertex), Invision::VERTEX_INPUT_RATE_VERTEX)
+			->CreateAttribute(0, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, position))
+			.CreateAttribute(1, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color))
+			.CreateAttribute(2, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, texCoord))
+			.CreateAttribute(3, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, normal));
+
+		PlaneIndexBuffer->CreateIndexBuffer(sizeof(planeIndices[0]) * planeIndices.size(), planeIndices.data());
+
 		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadowDemo/Shader/DeferredShadow/gbuffer.vert.spv"));
 		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadowDemo/Shader/DeferredShadow/gbuffer.frag.spv"));
 		mGBuffer.gPipeline->AddUniformBuffer(uniformBuffer);
@@ -358,6 +384,26 @@ private:
 		mGBuffer.gPipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
 		mGBuffer.gPipeline->AddVertexBuffer(vertexBuffer);
 		mGBuffer.gPipeline->CreatePipeline(mGBuffer.gRenderPass);
+
+
+		mSBuffer.sPipeline = graphicsInstance->CreatePipeline();
+		auto vertShaderCode1 = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadowDemo/Shader/DeferredShadow/plane.vert.spv"));
+		auto fragShaderCode1 = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadowDemo/Shader/DeferredShadow/plane.frag.spv"));
+		mSBuffer.sPipeline->AddUniformBuffer(planeUniformBuffer);
+		mSBuffer.sPipeline->AddShader(vertShaderCode1, Invision::SHADER_STAGE_VERTEX_BIT);
+		mSBuffer.sPipeline->AddShader(fragShaderCode1, Invision::SHADER_STAGE_FRAGMENT_BIT);
+		mSBuffer.sPipeline->AddVertexBuffer(PlaneVertexBuffer);
+		mSBuffer.sPipeline->CreatePipeline(mGBuffer.gRenderPass);
+
+		// Deferred Shadow Shading
+		mSBuffer.sRenderPass = graphicsInstance->CreateRenderPass();
+		mSBuffer.sDepthAttachment = graphicsInstance->CreateColorAttachment(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE, Invision::FORMAT_R16G16B16A16_SFLOAT);
+		mSBuffer.sRenderPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, mSBuffer.sDepthAttachment);
+		mSBuffer.sRenderPass->CreateRenderPass();
+
+		mSBuffer.sFramebuffer = graphicsInstance->CreateFramebuffer(mSBuffer.sRenderPass, FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE);
+		mSBuffer.sCommandbuffer = graphicsInstance->CreateCommandBuffer(mSBuffer.sFramebuffer);
+
 
 		// Deferred Shading Initialization
 		pipeline = graphicsInstance->CreatePipeline(&Invision::PipelineProperties(Invision::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, Invision::POLYGON_MODE_FILL, Invision::CULL_MODE_FRONT_BIT, Invision::FRONT_FACE_COUNTER_CLOCKWISE, 1.0f));
@@ -404,8 +450,11 @@ private:
 	std::shared_ptr <Invision::IGraphicsInstance> graphicsInstance;
 	std::shared_ptr <Invision::IRenderPass> renderPass;
 	std::shared_ptr <Invision::IVertexBuffer> vertexBuffer;
+	std::shared_ptr <Invision::IVertexBuffer> PlaneVertexBuffer;
+	std::shared_ptr <Invision::IIndexBuffer> PlaneIndexBuffer;
 	std::shared_ptr <Invision::IUniformBuffer> DeferredUniformBuffer;
 	std::shared_ptr <Invision::IUniformBuffer> uniformBuffer;
+	std::shared_ptr <Invision::IUniformBuffer> planeUniformBuffer;
 	std::shared_ptr <Invision::IIndexBuffer> indexBuffer;
 	std::shared_ptr <Invision::IPipeline> pipeline;
 	std::shared_ptr <Invision::IFramebuffer> framebuffer;
@@ -418,9 +467,16 @@ private:
 	std::shared_ptr <Invision::ITexture> debugTexture;
 	
 	GBuffer mGBuffer;
+	ShadowBuffer mSBuffer;
 
+	// Model
 	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;
+
+	// Plane
+	std::vector<Vertex> planeVertices;
+	std::vector<uint32_t> planeIndices;
+
 	// timer for frequency adjusting
 	Invision::StopWatch mTimer;
 	const double dt = 1000 / FIXED_FPS;
