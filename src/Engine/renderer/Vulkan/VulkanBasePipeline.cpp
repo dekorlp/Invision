@@ -288,8 +288,16 @@ namespace Invision
 
 	void VulkanBasePipeline::DestroyPipeline(const SVulkanBase &vulkanInstance)
 	{
-		vkDestroyPipeline(vulkanInstance.logicalDevice, mGraphicsPipeline, nullptr);
-		vkDestroyPipelineLayout(vulkanInstance.logicalDevice, mPipelineLayout, nullptr);
+		if (mGraphicsPipeline != VK_NULL_HANDLE)
+		{
+			vkDestroyPipeline(vulkanInstance.logicalDevice, mGraphicsPipeline, nullptr);
+		}
+
+		if (mPipelineLayout != VK_NULL_HANDLE)
+		{
+			vkDestroyPipelineLayout(vulkanInstance.logicalDevice, mPipelineLayout, nullptr);
+		}
+
 		mShaderStages.clear();
 	}
 }

@@ -79,8 +79,8 @@ namespace Invision
 		std::vector<VkDynamicState> mDynamicStateEnables = {};
 
 		// pipeline
-		VkPipelineLayout mPipelineLayout; // pipelineLayout
-		VkPipeline mGraphicsPipeline; // pipeline
+		VkPipelineLayout mPipelineLayout = VK_NULL_HANDLE; // pipelineLayout
+		VkPipeline mGraphicsPipeline = VK_NULL_HANDLE; // pipeline
 
 		
 	};

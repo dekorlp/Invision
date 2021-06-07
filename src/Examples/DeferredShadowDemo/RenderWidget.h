@@ -402,6 +402,7 @@ private:
 		mSBuffer.sRenderPass->CreateRenderPass();
 		mSBuffer.sFramebuffer = graphicsInstance->CreateFramebuffer(mSBuffer.sRenderPass, FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE);
 		mSBuffer.sCommandbuffer = graphicsInstance->CreateCommandBuffer(mSBuffer.sFramebuffer);
+		mSBuffer.sPipeline = graphicsInstance->CreatePipeline();
 
 
 		// Deferred Shading Initialization
