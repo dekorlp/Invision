@@ -405,7 +405,6 @@ private:
 		// Deferred Shadow Shading
 		mSBuffer.sUniformBuffer = graphicsInstance->CreateUniformBuffer();
 		mSBuffer.sUniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject))
-			.CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, texture)
 			.CreateUniformBuffer();
 
 		

@@ -48,7 +48,7 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 		// Draw Mesh
 		BindPipeline(mSBuffer.sPipeline).
 		BindVertexBuffer({ vertexBuffer }, 0, 1).
-		BindDescriptorSets(uniformBuffer, mSBuffer.sPipeline).
+		BindDescriptorSets(mSBuffer.sUniformBuffer, mSBuffer.sPipeline).
 		BindIndexBuffer(indexBuffer, Invision::INDEX_TYPE_UINT32).
 		DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0).
 
@@ -131,5 +131,14 @@ void RenderWidget::UpdateUniformBuffer(float width, float height)
 	plubo.proj = Invision::Matrix(1.0f) * Invision::Matrix::Perspective(45.0, width / height, 0.1f, 10.0f); // perspective projection
 	uniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0, 0);
 	planeUniformBuffer->UpdateUniform(&plubo, sizeof(plubo), 0, 0);
+
+
+	// depth ubo creation
+	UniformBufferObject depthUniformBuffer;
+	depthUniformBuffer.proj = Invision::Matrix::Perspective(45.0, 1.0f, 1.0f, 96.0f);
+	depthUniformBuffer.view = Invision::Matrix::Camera(Invision::Vector3(1.2f, 1.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 1.0, 0.0));
+	depthUniformBuffer.model = Invision::Matrix(1.0f);
+	mSBuffer.sUniformBuffer->UpdateUniform(&depthUniformBuffer, sizeof(depthUniformBuffer), 0, 0);
+
 }
 
