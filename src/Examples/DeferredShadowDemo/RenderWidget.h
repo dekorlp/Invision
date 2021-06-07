@@ -72,6 +72,7 @@ struct ShadowBuffer
 	std::shared_ptr <Invision::IFramebuffer> sFramebuffer;
 	std::shared_ptr <Invision::ICommandBuffer> sCommandbuffer;
 	std::shared_ptr <Invision::ITexture> sDepthAttachment;
+	std::shared_ptr <Invision::IUniformBuffer> sUniformBuffer;
 };
 
 #define FRAMEBUFFER_SIZE 2048
@@ -282,6 +283,7 @@ private:
 		bool recreateSwapchainIsNecessary = false;
 		recreateSwapchainIsNecessary = renderer->PrepareFrame();
 		renderer->Draw(mGBuffer.gCommandbuffer);
+		renderer->Draw(mSBuffer.sCommandbuffer);
 		renderer->Draw(commandBuffer);
 
 		recreateSwapchainIsNecessary = renderer->SubmitFrame();
@@ -396,6 +398,11 @@ private:
 		planePipeline->CreatePipeline(mGBuffer.gRenderPass);
 
 		// Deferred Shadow Shading
+		mSBuffer.sUniformBuffer = graphicsInstance->CreateUniformBuffer();
+		mSBuffer.sUniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject))
+			.CreateUniformBuffer();
+
+		
 		mSBuffer.sRenderPass = graphicsInstance->CreateRenderPass();
 		mSBuffer.sDepthAttachment = graphicsInstance->CreateColorAttachment(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE, Invision::FORMAT_R16G16B16A16_SFLOAT);
 		mSBuffer.sRenderPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, mSBuffer.sDepthAttachment);
@@ -403,7 +410,13 @@ private:
 		mSBuffer.sFramebuffer = graphicsInstance->CreateFramebuffer(mSBuffer.sRenderPass, FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE);
 		mSBuffer.sCommandbuffer = graphicsInstance->CreateCommandBuffer(mSBuffer.sFramebuffer);
 		mSBuffer.sPipeline = graphicsInstance->CreatePipeline();
-
+		mSBuffer.sPipeline->AddUniformBuffer(mSBuffer.sUniformBuffer);
+		auto vertShaderCode2 = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadowDemo/Shader/DeferredShadow/plane.vert.spv"));
+		auto fragShaderCode2 = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadowDemo/Shader/DeferredShadow/plane.frag.spv"));
+		mSBuffer.sPipeline->AddShader(vertShaderCode1, Invision::SHADER_STAGE_VERTEX_BIT);
+		mSBuffer.sPipeline->AddShader(fragShaderCode1, Invision::SHADER_STAGE_FRAGMENT_BIT);
+		mSBuffer.sPipeline->AddVertexBuffer(vertexBuffer);
+		mSBuffer.sPipeline->CreatePipeline(mSBuffer.sRenderPass);
 
 		// Deferred Shading Initialization
 		pipeline = graphicsInstance->CreatePipeline(&Invision::PipelineProperties(Invision::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, Invision::POLYGON_MODE_FILL, Invision::CULL_MODE_FRONT_BIT, Invision::FRONT_FACE_COUNTER_CLOCKWISE, 1.0f));

@@ -34,6 +34,29 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 		EndRenderPass().
 		EndCommandBuffer();
 
+	// shadow command Buffer
+	mSBuffer.sCommandbuffer->BeginCommandBuffer().
+
+		BeginRenderPass(mSBuffer.sRenderPass, mSBuffer.sFramebuffer, 0, 0, FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE).
+		SetViewport({ 0, 0, (float)FRAMEBUFFER_SIZE, (float)FRAMEBUFFER_SIZE, 0.0, 1.0 }).
+		SetScissor({ 0, 0, (uint32_t)FRAMEBUFFER_SIZE, (uint32_t)FRAMEBUFFER_SIZE }).
+
+		// Draw Mesh
+		BindPipeline(mSBuffer.sPipeline).
+		BindVertexBuffer({ vertexBuffer }, 0, 1).
+		BindDescriptorSets(uniformBuffer, mSBuffer.sPipeline).
+		BindIndexBuffer(indexBuffer, Invision::INDEX_TYPE_UINT32).
+		DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0).
+
+		// Draw Plane
+		//BindPipeline(planePipeline).
+		//BindVertexBuffer({ PlaneVertexBuffer }, 0, 1).
+		//BindDescriptorSets(planeUniformBuffer, planePipeline).
+		//BindIndexBuffer(PlaneIndexBuffer, Invision::INDEX_TYPE_UINT32).
+		//DrawIndexed(static_cast<uint32_t>(planeIndices.size()), 1, 0, 0, 0).
+
+		EndRenderPass().
+		EndCommandBuffer();
 
 	// gBuffer command Buffer
 	mGBuffer.gCommandbuffer->BeginCommandBuffer().
