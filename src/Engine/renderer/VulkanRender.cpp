@@ -57,9 +57,18 @@ namespace Invision
 		}
 		else
 		{
+			if (mSelectedSemaphore == VK_NULL_HANDLE)
+			{
+				mRenderer.AlterSubmitInfoWaitSemaphore(1, mRenderer.GetSemaphoresPresentComplete());
+			}
+			else
+			{
+				VkSemaphore sem = mSelectedSemaphore;
+				mRenderer.AlterSubmitInfoWaitSemaphore(1, &sem);
+			}
 			mSelectedSemaphore = dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(0).GetSemaphore();
 
-			mRenderer.AlterSubmitInfoWaitSemaphore(1, mRenderer.GetSemaphoresPresentComplete());
+			
 			mRenderer.AlterSubmitInfoSignalSemaphore(1, &mSelectedSemaphore);
 
 			// secondary Command Buffer for offscreen rendering
@@ -73,6 +82,8 @@ namespace Invision
 	bool VulkanRenderer::SubmitFrame()
 	{
 		bool recreateSwapchainIsNecessary = false;
+
+		mSelectedSemaphore = VK_NULL_HANDLE;
 
 		VkResult submitFrameResult = mRenderer.QueuePresent(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(), mImageIndex);
 		if (submitFrameResult == VK_ERROR_OUT_OF_DATE_KHR || submitFrameResult == VK_SUBOPTIMAL_KHR) {
