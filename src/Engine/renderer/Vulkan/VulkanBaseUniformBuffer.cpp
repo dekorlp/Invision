@@ -260,7 +260,7 @@ namespace Invision
 		int index = -1;
 		for (unsigned int i = 0; i < mBindings.size(); i++)
 		{
-			if (mBindings.at(i).GetSetIndex() == set && mBindings.at(i).GetBinding() == binding)
+			if (mBindings.at(i).GetSetIndex() == set && mBindings.at(i).GetBinding() == binding && mBindings.at(i).GetDescriptorType() == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER)
 			{
 				index = i;
 				break;

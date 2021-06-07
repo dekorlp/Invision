@@ -291,7 +291,6 @@ private:
 		renderer->Draw(mGBuffer.gCommandbuffer);
 		renderer->Draw(mSBuffer.sCommandbuffer);
 		renderer->Draw(commandBuffer);
-
 		recreateSwapchainIsNecessary = renderer->SubmitFrame();
 
 		if (recreateSwapchainIsNecessary) RecreateSwapChain(this->size().width(), this->size().height());
@@ -397,7 +396,7 @@ private:
 		planePipeline = graphicsInstance->CreatePipeline();
 		auto vertShaderCode1 = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadowDemo/Shader/DeferredShadow/plane.vert.spv"));
 		auto fragShaderCode1 = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadowDemo/Shader/DeferredShadow/plane.frag.spv"));
-		planePipeline->AddUniformBuffer(planeUniformBuffer);
+		planePipeline->AddUniformBuffer(uniformBuffer);
 		planePipeline->AddShader(vertShaderCode1, Invision::SHADER_STAGE_VERTEX_BIT);
 		planePipeline->AddShader(fragShaderCode1, Invision::SHADER_STAGE_FRAGMENT_BIT);
 		planePipeline->AddVertexBuffer(PlaneVertexBuffer);
