@@ -269,6 +269,13 @@ private:
 			uob.option = 3;
 			DeferredUniformBuffer->UpdateUniform(&uob, sizeof(uob), 0, 3);
 		}
+		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_NUM_4, Invision::INVISION_KEY_PRESSED))
+		{
+			// Set Options
+			UniformOptionsBuffer uob;
+			uob.option = 4;
+			DeferredUniformBuffer->UpdateUniform(&uob, sizeof(uob), 0, 3);
+		}
 
 
 		bool spaceCurrentlyPressed = keyboard->GetStateOfKey(Invision::INVISION_KEY_SPACE, Invision::INVISION_KEY_PRESSED);
