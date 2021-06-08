@@ -223,7 +223,7 @@ namespace Invision
 
 			mColorAttachmentCount++;
 		}
-		else // ATTACHMENT_TYPE_DEPTH
+		else if(attachmentType == ATTACHMENT_TYPE_DEPTH)// ATTACHMENT_TYPE_DEPTH
 		{
 			mSubPass[0].AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(),
 				mVulkanInstance->GetVulkanContext(),
@@ -237,7 +237,22 @@ namespace Invision
 				VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
 				{ mAttachmentIndex++, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL });
 			mAttachmentRefTextures.push_back(baseTexture);
-		}		
+		}
+		else //ATTACHMENT_TYPE_DEPTH_STENCIL
+		{
+			mSubPass[0].AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(),
+				mVulkanInstance->GetVulkanContext(),
+				mVulkanInstance->GetDepthRessources().FindDepthFormat(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct()),
+				VK_SAMPLE_COUNT_1_BIT, //mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct().MsaaFlagBits,
+				VK_ATTACHMENT_LOAD_OP_CLEAR,
+				VK_ATTACHMENT_STORE_OP_DONT_CARE,
+				VK_ATTACHMENT_LOAD_OP_DONT_CARE,
+				VK_ATTACHMENT_STORE_OP_DONT_CARE,
+				VK_IMAGE_LAYOUT_UNDEFINED,
+				VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
+				{ mAttachmentIndex++, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL });
+			mAttachmentRefTextures.push_back(baseTexture);
+		}
 	}
 
 	void VulkanRenderPass::CreateRenderPass()

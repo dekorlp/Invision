@@ -261,7 +261,8 @@ namespace Invision
 	enum AttachmentType
 	{
 		ATTACHMENT_TYPE_COLOR,
-		ATTACHMENT_TYPE_DEPTH
+		ATTACHMENT_TYPE_DEPTH,
+		ATTACHMENT_TYPE_DEPTH_STENCIL
 	};
 
 	typedef uint32_t ShaderStageFlag;
