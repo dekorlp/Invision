@@ -111,6 +111,10 @@ namespace Invision
 				{
 					clearValues[i].depthStencil = { 1.0, 0 };
 				}
+				else if (dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetSubpasses()[0].GetAttachmentDescription(i).finalLayout == VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL) // Depth Stencil only Format
+				{
+					clearValues[i].depthStencil = { 1.0, 0 };
+				}
 				else
 				{
 
