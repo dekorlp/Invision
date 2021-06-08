@@ -11,16 +11,15 @@ namespace Invision
 	{
 	public:
 		INVISION_API VulkanBaseBindingDescription();
-		INVISION_API VulkanBaseBindingDescription(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, std::vector<VkVertexInputAttributeDescription> &attributeDescriptions,
-			std::vector<VkVertexInputBindingDescription> &bindingDescriptions, std::vector<void*> &vertexBuffers, uint32_t binding, uint64_t size, const void *source, uint32_t stride, VkVertexInputRate inputRate);
+		INVISION_API VulkanBaseBindingDescription( std::vector<VkVertexInputAttributeDescription> &attributeDescriptions,
+			std::vector<VkVertexInputBindingDescription> &bindingDescriptions, uint32_t binding, uint32_t stride, VkVertexInputRate inputRate);
 		INVISION_API void CreateAttributeDescription(std::vector<VkVertexInputAttributeDescription> &attributeDescriptions, uint32_t binding, uint32_t location, VkFormat format, uint32_t offset);
 		INVISION_API VkVertexInputBindingDescription GetBindingDescription();
 	private:
-		INVISION_API void AllocateDedicatedMemory(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, uint64_t size, const void *source);
-		INVISION_API void AllocateSharedMemory(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, uint64_t size, const void *source);
+		
 
 		VkVertexInputBindingDescription mBindingDescription;
-		void* mVertexBuffer;
+		//void* mVertexBuffer;
 		std::vector<VkVertexInputAttributeDescription> *mAttributeDescriptions;		
 	};
 
@@ -46,6 +45,10 @@ namespace Invision
 		INVISION_API void DestroyVertexBuffers(const SVulkanBase &vulkanInstance);		
 		
 	private:
+		INVISION_API void* AllocateDedicatedMemory(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, uint64_t size, const void *source);
+		INVISION_API void* AllocateSharedMemory(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, uint64_t size, const void *source);
+
+
 		VulkanBaseMemoryManager *mMemoryManager;
 		std::vector<void*> mVertexBuffers; // index is Binding ID
 		std::vector<VkVertexInputAttributeDescription> mAttributeDescriptions;
