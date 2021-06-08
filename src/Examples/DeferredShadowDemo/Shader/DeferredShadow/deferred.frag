@@ -18,6 +18,7 @@ layout(binding = 5) uniform LightUniformBuffer {
 	vec3 lightPos;
 	vec3 lightColor;
 	vec3 viewPos;
+	uniform mat4 lightSpaceMatrix;
 } lub;
 
 float LinearizeDepth(float depth)
@@ -28,7 +29,7 @@ float LinearizeDepth(float depth)
   return (2.0 * n) / (f + n - z * (f - n));	
 }
 
-float ShadowCalculation(vec4 fragPosLightSpace)
+float ShadowCalculation(vec4 fragPosLightSpace, vec3 FragPos, vec3 Normal)
 {
     // perform perspective divide
     vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
@@ -40,7 +41,7 @@ float ShadowCalculation(vec4 fragPosLightSpace)
     float currentDepth = projCoords.z;
     // calculate bias (based on depth map resolution and slope)
     vec3 normal = normalize(Normal);
-    vec3 lightShadowDir = normalize(light.position - FragPos);
+    vec3 lightShadowDir = normalize(lub.lightPos - FragPos);
     float bias = max(0.05 * (1.0 - dot(normal, lightShadowDir)), 0.005);
     // check whether current frag pos is in shadow
     // float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
@@ -131,10 +132,12 @@ void main() {
 			vec3 halfwayDir = normalize(lightDir + viewdir);
 			spec = pow(max(dot(normal, halfwayDir), 0.0), 64.0);
 			vec3 specular = spec * lub.lightColor;
+			
 			// calculate light and shadow
-			vec3 lightning = (ambient + diffuse + specular) * color; 
+			float shadow = ShadowCalculation(lub.lightSpaceMatrix * vec4(FragPos, 1.0), FragPos, normal);
+			vec3 lightning = (ambient + (1.0 - shadow) + (diffuse + specular)) * color; 
 		
-		
+			
 		
 			outColor = vec4(lightning, 1.0);
 			}

@@ -47,6 +47,7 @@ struct UniformLightBuffer {
 	Invision::Vector3 lightPos;
 	Invision::Vector3 lightColor;
 	Invision::Vector3 viewPos;
+	Invision::Matrix lightSpaceMatrix;
 };
 
 struct UniformOptionsBuffer {
@@ -463,13 +464,6 @@ private:
 
 		BuildCommandBuffer(this->size().width(), this->size().height());
 		renderer = graphicsInstance->CreateRenderer();
-
-		// set light
-		UniformLightBuffer light;
-		light.lightColor = { 1.0, 1.0, 1.0 };
-		light.lightPos = { 1.2f, 1.0f, 2.0f };
-		light.viewPos = { 0.0f, 0.0f, 0.0f };
-		DeferredUniformBuffer->UpdateUniform(&light, sizeof(light), 0, 5);
 
 		// Set Options
 		UniformOptionsBuffer uob;

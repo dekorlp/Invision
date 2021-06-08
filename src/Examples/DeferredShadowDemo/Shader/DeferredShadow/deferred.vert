@@ -2,6 +2,7 @@
 #extension GL_ARB_separate_shader_objects : enable
 
 layout(location = 1) out vec2 textureCord;
+layout(location = 2) out mat4 fragPosLightSpace;
 
 layout(binding = 4) uniform LightUniformBuffer {
 	vec3 lightPos;

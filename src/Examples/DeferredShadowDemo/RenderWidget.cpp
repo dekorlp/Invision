@@ -137,8 +137,16 @@ void RenderWidget::UpdateUniformBuffer(float width, float height)
 	UniformBufferObject depthUniformBuffer;
 	depthUniformBuffer.proj = Invision::Matrix::Perspective(45.0, 1.0f, 1.0f, 96.0f);
 	depthUniformBuffer.view = Invision::Matrix::Camera(Invision::Vector3(1.2f, 1.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 1.0, 0.0));
-	depthUniformBuffer.model = Invision::Matrix(1.0f);
+	depthUniformBuffer.model = Invision::Matrix(1.0f)  * Invision::Matrix::Translate(pos) *  Invision::Matrix::Scale(scale);
 	mSBuffer.sUniformBuffer->UpdateUniform(&depthUniformBuffer, sizeof(depthUniformBuffer), 0, 0);
 
+
+	// set light
+	UniformLightBuffer light;
+	light.lightColor = { 1.0, 1.0, 1.0 };
+	light.lightPos = { 1.2f, 1.0f, 2.0f };
+	light.viewPos = { 0.0f, 0.0f, 0.0f };
+	light.lightSpaceMatrix = depthUniformBuffer.proj * depthUniformBuffer.view * depthUniformBuffer.model;
+	DeferredUniformBuffer->UpdateUniform(&light, sizeof(light), 0, 5);
 }
 
