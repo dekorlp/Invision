@@ -16,7 +16,8 @@ namespace Invision
 		VkShaderStageFlags stageFlags,
 		VkDeviceSize bufferSize,
 		VkImageView imageView,
-		VkSampler sampler)
+		VkSampler sampler,
+		VkImageLayout imageLayout)
 	{
 		this->mSetIndex = set;
 		this->mBinding = binding;
@@ -26,7 +27,9 @@ namespace Invision
 		this->mBufferSize = bufferSize;
 
 		this->mImageInfo = {};
-		this->mImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+
+		this->mImageInfo.imageLayout = imageLayout;
+
 		this->mImageInfo.imageView = imageView;
 		this->mImageInfo.sampler = sampler;
 
@@ -111,7 +114,7 @@ namespace Invision
 		VkShaderStageFlags stageFlags,
 		VkDeviceSize bufferSize)
 	{
-		VulkanBaseUniformBinding uniformBinding(set, binding, descriptorType, descriptorCount, stageFlags, bufferSize, VK_NULL_HANDLE, VK_NULL_HANDLE);
+		VulkanBaseUniformBinding uniformBinding(set, binding, descriptorType, descriptorCount, stageFlags, bufferSize, VK_NULL_HANDLE, VK_NULL_HANDLE, VK_IMAGE_LAYOUT_UNDEFINED);
 		mBindings.push_back(uniformBinding);
 
 		if (set > maxSet)
@@ -127,9 +130,10 @@ namespace Invision
 		uint32_t descriptorCount,
 		VkShaderStageFlags stageFlags,
 		VkImageView imageView,
-		VkSampler sampler)
+		VkSampler sampler,
+		VkImageLayout imageLayout)
 	{
-		VulkanBaseUniformBinding uniformBinding(set, binding, descriptorType, descriptorCount, stageFlags, 0, imageView, sampler);
+		VulkanBaseUniformBinding uniformBinding(set, binding, descriptorType, descriptorCount, stageFlags, 0, imageView, sampler, imageLayout);
 		mBindings.push_back(uniformBinding);
 
 		if (set > maxSet)

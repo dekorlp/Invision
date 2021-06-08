@@ -21,6 +21,7 @@ namespace Invision
 
 		mTexture.CreateTextureImage(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), pixels, width, height, mVulkanInstance->GetVulkanContext().mUseDepthRessources, instance->ConvertInvisionFormatToVkFormat(format) , generateMipMaps);
 		mTexture.CreateTextureImageView(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), VK_IMAGE_VIEW_TYPE_2D, instance->ConvertInvisionFormatToVkFormat(format), 1);
+		mImageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 	}
 
 	void VulkanTexture::CreateTexture(unsigned char* pixels,  int width, int height, GfxFormat format, bool generateMipMaps)
@@ -28,22 +29,33 @@ namespace Invision
 
 		mTexture.CreateTextureImage(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), pixels, width, height, mVulkanInstance->GetVulkanContext().mUseDepthRessources, mVulkanInstance->ConvertInvisionFormatToVkFormat(format), generateMipMaps);
 		mTexture.CreateTextureImageView(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), VK_IMAGE_VIEW_TYPE_2D, mVulkanInstance->ConvertInvisionFormatToVkFormat(format), 1);
+		mImageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 	}
 
 	void VulkanTexture::CreateTextureCubemap(unsigned char* posx, unsigned char* negx, unsigned char* posy, unsigned char* negy, unsigned char* posz, unsigned char* negz, int width, int height, GfxFormat format, bool generateMipMaps)
 	{
 		mTexture.CreateTextureCubemap(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), posx, negx, posy, negy, posz, negz, width, height, mVulkanInstance->GetVulkanContext().mUseDepthRessources, mVulkanInstance->ConvertInvisionFormatToVkFormat(format), generateMipMaps);
 		mTexture.CreateTextureImageView(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), VK_IMAGE_VIEW_TYPE_CUBE, mVulkanInstance->ConvertInvisionFormatToVkFormat(format), VK_REMAINING_ARRAY_LAYERS);
+		mImageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 	}
 
 	void VulkanTexture::CreateColorAttachment(int width, int height, GfxFormat format)
 	{
 		mTexture.CreateColorRessources(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), mVulkanInstance->GetVulkanContext(), width, height, VK_SAMPLE_COUNT_1_BIT, mVulkanInstance->ConvertInvisionFormatToVkFormat(format), VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, VK_IMAGE_ASPECT_COLOR_BIT);
+		mImageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 	}
 
-	void VulkanTexture::CreateDepthAttachment(int width, int height)
+	void VulkanTexture::CreateDepthAttachment(int width, int height, bool isDepthStencil)
 	{
 		mTexture.CreateDepthRessources(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), mVulkanInstance->GetVulkanContext(), width, height, VK_SAMPLE_COUNT_1_BIT, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, VK_IMAGE_ASPECT_DEPTH_BIT);
+		if (!isDepthStencil)
+		{
+			mImageLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+		}
+		else
+		{
+			mImageLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
+		}
 	}
 
 	void VulkanTexture::CreateTextureImageView(GfxFormat format)
@@ -140,6 +152,11 @@ namespace Invision
 	void VulkanTexture::SetBaseTexture(VulkanBaseTexture baseTexure)
 	{
 		mTexture = baseTexure;
+	}
+
+	VkImageLayout VulkanTexture::GetImageLayout()
+	{
+		return mImageLayout;
 	}
 
 	VulkanTexture::~VulkanTexture()

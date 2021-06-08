@@ -246,10 +246,10 @@ namespace Invision
 
 	}
 
-	std::shared_ptr<ITexture> VulkanInstance::CreateDepthAttachment(int width, int height)
+	std::shared_ptr<ITexture> VulkanInstance::CreateDepthAttachment(int width, int height, bool isDepthStencil)
 	{
 		std::shared_ptr<ITexture> depthAttachment = std::make_shared<VulkanTexture>(this);
-		depthAttachment->CreateDepthAttachment(width, height);
+		depthAttachment->CreateDepthAttachment(width, height, isDepthStencil);
 		return depthAttachment;
 	}
 

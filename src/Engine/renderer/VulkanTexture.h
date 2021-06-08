@@ -23,11 +23,12 @@ namespace Invision
 		INVISION_API void CreateTexture(unsigned char* pixels, int width, int height, GfxFormat format, bool generateMipMaps);
 		INVISION_API void CreateTextureCubemap(unsigned char* posx, unsigned char* negx, unsigned char* posy, unsigned char* negy, unsigned char* posz, unsigned char* negz, int width, int height, GfxFormat format, bool generateMipMaps);
 		INVISION_API void CreateColorAttachment(int width, int height, GfxFormat format) override;
-		INVISION_API void CreateDepthAttachment(int width, int height) override;
+		INVISION_API void CreateDepthAttachment(int width, int height, bool isDepthStencil = false) override;
 		INVISION_API void CreateTextureImageView(GfxFormat format);
 		INVISION_API void CreateTextureSampler(SamplerFilterMode minFilter, SamplerFilterMode magFilter, SamplerAddressMode addressU, SamplerAddressMode addressV, SamplerAddressMode addressW, float MipLodBias = 0.0f, float minLod = 0.0f);
 
 		INVISION_API VulkanBaseTexture GetBaseTexture();
+		INVISION_API VkImageLayout GetImageLayout();
 		INVISION_API void SetBaseTexture(VulkanBaseTexture baseTexure);
 
 		~VulkanTexture();
@@ -36,6 +37,7 @@ namespace Invision
 	private:
 		Invision::VulkanInstance *mVulkanInstance;
 		Invision::VulkanBaseTexture mTexture;
+		VkImageLayout mImageLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 	};
 
 }

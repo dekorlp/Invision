@@ -30,7 +30,8 @@ namespace Invision
 				VkShaderStageFlags stageFlags,
 				VkDeviceSize bufferSize,
 				VkImageView imageView,
-				VkSampler sampler);
+				VkSampler sampler,
+				VkImageLayout imageLayout);
 
 			INVISION_API uint32_t GetBinding();
 			INVISION_API VkDescriptorType GetDescriptorType();
@@ -87,7 +88,8 @@ namespace Invision
 			uint32_t descriptorCount,
 			VkShaderStageFlags stageFlags,
 			VkImageView imageView,
-			VkSampler sampler);
+			VkSampler sampler,
+			VkImageLayout imageLayout);
 
 		INVISION_API void CreateUniformBuffer(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, VulkanBaseMemoryManager& memoryManager);
 		INVISION_API void DestroyUniformBuffer(const SVulkanBase &vulkanInstance, VulkanBaseMemoryManager& memoryManager);

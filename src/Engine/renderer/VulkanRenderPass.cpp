@@ -217,7 +217,7 @@ namespace Invision
 				VK_ATTACHMENT_LOAD_OP_DONT_CARE,
 				VK_ATTACHMENT_STORE_OP_DONT_CARE,
 				VK_IMAGE_LAYOUT_UNDEFINED,
-				VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL
+				dynamic_pointer_cast<VulkanTexture>(attachment)->GetImageLayout() //VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL
 				, { mAttachmentIndex++, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL });
 			mAttachmentRefTextures.push_back(baseTexture);
 
@@ -234,7 +234,7 @@ namespace Invision
 				VK_ATTACHMENT_LOAD_OP_DONT_CARE,
 				VK_ATTACHMENT_STORE_OP_DONT_CARE,
 				VK_IMAGE_LAYOUT_UNDEFINED,
-				VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
+				dynamic_pointer_cast<VulkanTexture>(attachment)->GetImageLayout(), //VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL
 				{ mAttachmentIndex++, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL });
 			mAttachmentRefTextures.push_back(baseTexture);
 		}
@@ -249,7 +249,7 @@ namespace Invision
 				VK_ATTACHMENT_LOAD_OP_DONT_CARE,
 				VK_ATTACHMENT_STORE_OP_DONT_CARE,
 				VK_IMAGE_LAYOUT_UNDEFINED,
-				VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
+				dynamic_pointer_cast<VulkanTexture>(attachment)->GetImageLayout(),  //VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL,
 				{ mAttachmentIndex++, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL });
 			mAttachmentRefTextures.push_back(baseTexture);
 		}
