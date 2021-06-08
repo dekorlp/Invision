@@ -421,9 +421,7 @@ private:
 		mSBuffer.sPipeline = graphicsInstance->CreatePipeline();
 		mSBuffer.sPipeline->AddUniformBuffer(mSBuffer.sUniformBuffer);
 		auto vertShaderCode2 = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadowDemo/Shader/DeferredShadow/shadow.vert.spv"));
-		auto fragShaderCode2 = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadowDemo/Shader/DeferredShadow/shadow.frag.spv"));
 		mSBuffer.sPipeline->AddShader(vertShaderCode2, Invision::SHADER_STAGE_VERTEX_BIT);
-		mSBuffer.sPipeline->AddShader(fragShaderCode2, Invision::SHADER_STAGE_FRAGMENT_BIT);
 		mSBuffer.sPipeline->AddVertexBuffer(vertexBuffer);
 		mSBuffer.sPipeline->CreatePipeline(mSBuffer.sRenderPass);
 
