@@ -159,6 +159,36 @@ namespace Invision
 		mRenderPass.CreateRenderPass(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
 	}
 
+	void VulkanRenderPass::CreateDepthOnlyRenderPass(std::shared_ptr<ITexture>& attachment)
+	{
+		if (mSubPass.size() == 0)
+		{
+			VulkanBaseSubPass basePass;
+			mSubPass.push_back(basePass);
+
+			mRenderPass.AddSubpassDependency(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), VK_SUBPASS_EXTERNAL, 0, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT,
+				VK_ACCESS_SHADER_READ_BIT, VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT, VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT, VK_DEPENDENCY_BY_REGION_BIT);
+			mRenderPass.AddSubpassDependency(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), 0, VK_SUBPASS_EXTERNAL, VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT,
+				VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, VK_ACCESS_SHADER_READ_BIT, VK_DEPENDENCY_BY_REGION_BIT);
+		}
+
+		VulkanBaseTexture *baseTexture = new VulkanBaseTexture(dynamic_pointer_cast<VulkanTexture>(attachment)->GetBaseTexture());
+
+		// ATTACHMENT_TYPE_DEPTH_STENCIL
+		mSubPass[0].AddAttachment(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(),
+			mVulkanInstance->GetVulkanContext(),
+			mVulkanInstance->GetDepthRessources().FindDepthFormat(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct()),
+			VK_SAMPLE_COUNT_1_BIT, //mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct().MsaaFlagBits,
+			VK_ATTACHMENT_LOAD_OP_CLEAR,
+			VK_ATTACHMENT_STORE_OP_DONT_CARE,
+			VK_ATTACHMENT_LOAD_OP_DONT_CARE,
+			VK_ATTACHMENT_STORE_OP_DONT_CARE,
+			VK_IMAGE_LAYOUT_UNDEFINED,
+			VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
+			{ mAttachmentIndex++, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL });
+		mAttachmentRefTextures.push_back(baseTexture);
+	}
+
 	void VulkanRenderPass::AddAttachment(AttachmentType attachmentType, std::shared_ptr<ITexture>& attachment)
 	{
 		// !!! Actually there is only one Subpass supported !!!

@@ -408,14 +408,12 @@ private:
 			.CreateUniformBuffer();
 
 		
-		mSBuffer.sRenderPass = graphicsInstance->CreateRenderPass();
+		
 		//mSBuffer.sDepthAttachment = graphicsInstance->CreateColorAttachment(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE, Invision::FORMAT_R16G16B16A16_SFLOAT);
-		mSBuffer.positionsAttachment = graphicsInstance->CreateColorAttachment(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE, Invision::FORMAT_R16G16B16A16_SFLOAT);
+		mSBuffer.positionsAttachment = graphicsInstance->CreateDepthAttachment(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE);
 
 		mSBuffer.positionsAttachment->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_NEAREST, Invision::SAMPLER_FILTER_MODE_NEAREST, Invision::SAMPLER_ADDRESS_MODE_CLAMP, Invision::SAMPLER_ADDRESS_MODE_CLAMP, Invision::SAMPLER_ADDRESS_MODE_CLAMP);
-
-
-		mSBuffer.sRenderPass->AddAttachment(Invision::ATTACHMENT_TYPE_COLOR, mSBuffer.positionsAttachment); // world Space Positions
+		mSBuffer.sRenderPass = graphicsInstance->CreateDepthOnlyRenderPass(mSBuffer.positionsAttachment);
 
 		mSBuffer.sRenderPass->CreateRenderPass();
 		mSBuffer.sFramebuffer = graphicsInstance->CreateFramebuffer(mSBuffer.sRenderPass, FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE);

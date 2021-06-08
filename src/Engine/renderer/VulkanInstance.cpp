@@ -179,6 +179,14 @@ namespace Invision
 		return  std::make_shared<VulkanRenderPass>(this);
 	}
 
+	std::shared_ptr<IRenderPass> VulkanInstance::CreateDepthOnlyRenderPass(std::shared_ptr<ITexture>& attachment)
+	{
+		std::shared_ptr< VulkanRenderPass> renderPass = std::make_shared<VulkanRenderPass>(this);
+		dynamic_pointer_cast<VulkanRenderPass>(renderPass)->CreateDepthOnlyRenderPass(attachment);
+
+		return  renderPass;
+	}
+
 	std::shared_ptr<IVertexBuffer> VulkanInstance::CreateVertexBuffer()
 	{
 		return  std::make_shared<VulkanVertexBuffer>(this);
