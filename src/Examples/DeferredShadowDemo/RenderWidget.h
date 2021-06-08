@@ -73,12 +73,6 @@ struct ShadowBuffer
 	std::shared_ptr <Invision::ICommandBuffer> sCommandbuffer;
 	std::shared_ptr <Invision::ITexture> sDepthAttachment;
 	std::shared_ptr <Invision::IUniformBuffer> sUniformBuffer;
-
-	// For Debugging
-	std::shared_ptr <Invision::ITexture> positionsAttachment;
-	std::shared_ptr <Invision::ITexture> albedoAttachment;
-	std::shared_ptr <Invision::ITexture> normalAttachment;
-	std::shared_ptr <Invision::ITexture> depthAttachment;
 };
 
 #define FRAMEBUFFER_SIZE 2048
@@ -253,28 +247,42 @@ private:
 			// Set Options
 			UniformOptionsBuffer uob;
 			uob.option = 1;
-			DeferredUniformBuffer->UpdateUniform(&uob, sizeof(uob), 0, 3);
+			DeferredUniformBuffer->UpdateUniform(&uob, sizeof(uob), 0, 4);
 		}
 		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_NUM_2, Invision::INVISION_KEY_PRESSED))
 		{
 			// Set Options
 			UniformOptionsBuffer uob;
 			uob.option = 2;
-			DeferredUniformBuffer->UpdateUniform(&uob, sizeof(uob), 0, 3);
+			DeferredUniformBuffer->UpdateUniform(&uob, sizeof(uob), 0, 4);
 		}
 		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_NUM_3, Invision::INVISION_KEY_PRESSED))
 		{
 			// Set Options
 			UniformOptionsBuffer uob;
 			uob.option = 3;
-			DeferredUniformBuffer->UpdateUniform(&uob, sizeof(uob), 0, 3);
+			DeferredUniformBuffer->UpdateUniform(&uob, sizeof(uob), 0, 4);
 		}
 		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_NUM_4, Invision::INVISION_KEY_PRESSED))
 		{
 			// Set Options
 			UniformOptionsBuffer uob;
 			uob.option = 4;
-			DeferredUniformBuffer->UpdateUniform(&uob, sizeof(uob), 0, 3);
+			DeferredUniformBuffer->UpdateUniform(&uob, sizeof(uob), 0, 4);
+		}
+		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_NUM_5, Invision::INVISION_KEY_PRESSED))
+		{
+			// Set Options
+			UniformOptionsBuffer uob;
+			uob.option = 5;
+			DeferredUniformBuffer->UpdateUniform(&uob, sizeof(uob), 0, 4);
+		}
+		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_NUM_6, Invision::INVISION_KEY_PRESSED))
+		{
+			// Set Options
+			UniformOptionsBuffer uob;
+			uob.option = 6;
+			DeferredUniformBuffer->UpdateUniform(&uob, sizeof(uob), 0, 4);
 		}
 
 
@@ -417,10 +425,10 @@ private:
 		
 		
 		//mSBuffer.sDepthAttachment = graphicsInstance->CreateColorAttachment(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE, Invision::FORMAT_R16G16B16A16_SFLOAT);
-		mSBuffer.positionsAttachment = graphicsInstance->CreateDepthAttachment(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE);
+		mSBuffer.sDepthAttachment = graphicsInstance->CreateDepthAttachment(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE);
 
-		mSBuffer.positionsAttachment->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_NEAREST, Invision::SAMPLER_FILTER_MODE_NEAREST, Invision::SAMPLER_ADDRESS_MODE_CLAMP, Invision::SAMPLER_ADDRESS_MODE_CLAMP, Invision::SAMPLER_ADDRESS_MODE_CLAMP);
-		mSBuffer.sRenderPass = graphicsInstance->CreateDepthOnlyRenderPass(mSBuffer.positionsAttachment);
+		mSBuffer.sDepthAttachment->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_NEAREST, Invision::SAMPLER_FILTER_MODE_NEAREST, Invision::SAMPLER_ADDRESS_MODE_CLAMP, Invision::SAMPLER_ADDRESS_MODE_CLAMP, Invision::SAMPLER_ADDRESS_MODE_CLAMP);
+		mSBuffer.sRenderPass = graphicsInstance->CreateDepthOnlyRenderPass(mSBuffer.sDepthAttachment);
 
 		mSBuffer.sRenderPass->CreateRenderPass();
 		mSBuffer.sFramebuffer = graphicsInstance->CreateFramebuffer(mSBuffer.sRenderPass, FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE);
@@ -436,7 +444,12 @@ private:
 		pipeline = graphicsInstance->CreatePipeline(&Invision::PipelineProperties(Invision::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, Invision::POLYGON_MODE_FILL, Invision::CULL_MODE_FRONT_BIT, Invision::FRONT_FACE_COUNTER_CLOCKWISE, 1.0f));
 
 		DeferredUniformBuffer = graphicsInstance->CreateUniformBuffer();
-		DeferredUniformBuffer->CreateImageBinding(0, 0, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, mGBuffer.albedoAttachment).CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, mGBuffer.normalAttachment).CreateImageBinding(0, 2, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, mGBuffer.positionsAttachment).CreateUniformBinding(0, 3, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, sizeof(UniformOptionsBuffer)).CreateUniformBinding(0, 4, 1, Invision::SHADER_STAGE_VERTEX_BIT | Invision::SHADER_STAGE_FRAGMENT_BIT, sizeof(UniformLightBuffer)).CreateUniformBuffer();
+		DeferredUniformBuffer->CreateImageBinding(0, 0, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, mGBuffer.albedoAttachment)
+			.CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, mGBuffer.normalAttachment)
+			.CreateImageBinding(0, 2, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, mGBuffer.positionsAttachment)
+			.CreateImageBinding(0, 3, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, mSBuffer.sDepthAttachment)
+			.CreateUniformBinding(0, 4, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, sizeof(UniformOptionsBuffer))
+			.CreateUniformBinding(0, 5, 1, Invision::SHADER_STAGE_VERTEX_BIT | Invision::SHADER_STAGE_FRAGMENT_BIT, sizeof(UniformLightBuffer)).CreateUniformBuffer();
 
 		auto deferredVertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadowDemo/Shader/DeferredShadow/deferred.vert.spv"));
 		auto deferredFragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadowDemo/Shader/DeferredShadow/deferred.frag.spv"));
@@ -456,12 +469,12 @@ private:
 		light.lightColor = { 1.0, 1.0, 1.0 };
 		light.lightPos = { 1.2f, 1.0f, 2.0f };
 		light.viewPos = { 0.0f, 0.0f, 0.0f };
-		DeferredUniformBuffer->UpdateUniform(&light, sizeof(light), 0, 4);
+		DeferredUniformBuffer->UpdateUniform(&light, sizeof(light), 0, 5);
 
 		// Set Options
 		UniformOptionsBuffer uob;
 		uob.option = 1;
-		DeferredUniformBuffer->UpdateUniform(&uob, sizeof(uob), 0, 3);
+		DeferredUniformBuffer->UpdateUniform(&uob, sizeof(uob), 0, 4);
 
 		mIsInit = true;
 
