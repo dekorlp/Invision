@@ -15,7 +15,7 @@ void RenderWidget::RecreateSwapChain(const int width, const int height)
 
 	// Reset SBuffer (Shadowbuffer)
 	mSBuffer.sCommandbuffer.reset();
-	mSBuffer.sCommandbuffer = graphicsInstance->CreateCommandBuffer(mGBuffer.gFramebuffer);
+	mSBuffer.sCommandbuffer = graphicsInstance->CreateCommandBuffer(mSBuffer.sFramebuffer);
 
 	BuildCommandBuffer(width, height);
 }
