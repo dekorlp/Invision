@@ -187,6 +187,11 @@ namespace Invision
 		return  renderPass;
 	}
 
+	std::shared_ptr<IVertexBindingDescription> VulkanInstance::CreateVertexBindingDescription()
+	{
+		return  std::make_shared<VulkanVertexBindingDescription>();
+	}
+
 	std::shared_ptr<IVertexBuffer> VulkanInstance::CreateVertexBuffer()
 	{
 		return  std::make_shared<VulkanVertexBuffer>(this);

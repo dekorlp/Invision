@@ -13,7 +13,8 @@ namespace Invision
 	{
 	public:
 		INVISION_API VulkanAttributeDescription() = delete;
-		INVISION_API VulkanAttributeDescription(VulkanInstance* instance, VulkanBaseVertexBuffer &baseVertexBuffer, VulkanBaseBindingDescription& baseBindingDesc, uint32_t location, GfxFormat format, uint32_t offset);
+		//INVISION_API VulkanAttributeDescription(VulkanInstance* instance, VulkanBaseVertexBuffer &baseVertexBuffer, VulkanBaseBindingDescription& baseBindingDesc, uint32_t location, GfxFormat format, uint32_t offset);
+		INVISION_API VulkanAttributeDescription(VulkanInstance* instance, VulkanBaseVertexBinding &baseBindingDescriptions, VulkanBaseBindingDescription& baseBindingDesc, uint32_t location, GfxFormat format, uint32_t offset);
 
 	private:
 		Invision::VulkanInstance *mVulkanInstance;
@@ -23,15 +24,28 @@ namespace Invision
 	{
 	public:
 
-		INVISION_API VulkanBindingDescription() = delete;
+		INVISION_API VulkanBindingDescription();
 		INVISION_API VulkanBindingDescription(VulkanInstance* instance, VulkanBaseVertexBuffer &baseVertexBuffer, uint32_t binding, uint64_t size, const void *source, uint32_t stride, VertexInputRate vertexInputRate);
+		INVISION_API VulkanBindingDescription(VulkanBaseVertexBinding &vertexBinding, uint32_t binding, uint32_t stride, VertexInputRate vertexInputRate);
 		INVISION_API IBindingDescription& CreateAttribute(uint32_t location, GfxFormat format, uint32_t offset);
 
 	private:
 		Invision::VulkanInstance *mVulkanInstance;
 		VulkanBaseVertexBuffer *mBaseVertexBuffer;
+		VulkanBaseVertexBinding *mBaseBindingDescription;
 		VulkanBaseBindingDescription mBaseBindingDesc;
 		std::vector<VulkanAttributeDescription> mAttributeDesc;
+	};
+
+	class VulkanVertexBindingDescription : public IVertexBindingDescription
+	{
+	public:
+		INVISION_API VulkanVertexBindingDescription() = default;
+		//INVISION_API virtual IVertexBuffer& CreateVertexBuffer() = 0;
+		INVISION_API std::shared_ptr < IBindingDescription> CreateVertexBinding(uint32_t binding, uint32_t stride, VertexInputRate vertexInputRate) override;
+
+	private:
+		VulkanBaseVertexBinding mVertexBinding;
 	};
 
 	class VulkanVertexBuffer : public IVertexBuffer

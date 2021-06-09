@@ -11,6 +11,11 @@ namespace Invision
 	{
 	}
 
+	IBindingDescription::IBindingDescription()
+	{
+
+	}
+
 	IBindingDescription::IBindingDescription(IGraphicsInstance* instance) : mInstance(instance)
 	{
 

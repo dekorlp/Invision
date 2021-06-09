@@ -31,6 +31,21 @@ namespace Invision
 			VkVertexInputAttributeDescription mAttributeDescription;
 	};
 
+	// Vertex Description
+	class VulkanBaseVertexBinding
+	{
+	public:
+		INVISION_API VulkanBaseVertexBinding();
+		INVISION_API VulkanBaseBindingDescription& CreateBinding(uint32_t binding, uint32_t stride, VkVertexInputRate inputRate);
+		INVISION_API std::vector<VkVertexInputAttributeDescription>& GetAttributeDescriptions();
+		INVISION_API std::vector<VkVertexInputBindingDescription>& GetBindingDescriptions();
+	private:
+		std::vector<VkVertexInputAttributeDescription> mAttributeDescriptions;
+		std::vector<VkVertexInputBindingDescription> mBindingDescriptions; // index is Binding ID
+
+		std::vector< VulkanBaseBindingDescription> mBaseBindingDescriptions;
+	};
+
 	// Binding Description
 	class  VulkanBaseVertexBuffer
 	{

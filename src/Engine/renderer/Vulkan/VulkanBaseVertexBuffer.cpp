@@ -78,6 +78,29 @@ namespace Invision
 		mVertexBuffers.clear();
 	}
 
+	VulkanBaseVertexBinding::VulkanBaseVertexBinding()
+	{
+
+	}
+
+	VulkanBaseBindingDescription& VulkanBaseVertexBinding::CreateBinding(uint32_t binding, uint32_t stride, VkVertexInputRate inputRate)
+	{
+		VulkanBaseBindingDescription description(mAttributeDescriptions, mBindingDescriptions, binding, stride, inputRate);
+		mBaseBindingDescriptions.push_back(description);
+
+		return mBaseBindingDescriptions.at(mBaseBindingDescriptions.size() - 1);
+	}
+
+	std::vector<VkVertexInputAttributeDescription>& VulkanBaseVertexBinding::GetAttributeDescriptions()
+	{
+		return mAttributeDescriptions;
+	}
+
+	std::vector<VkVertexInputBindingDescription>& VulkanBaseVertexBinding::GetBindingDescriptions()
+	{
+		return mBindingDescriptions;
+	}
+
 
 	VulkanBaseBindingDescription::VulkanBaseBindingDescription()
 	{
