@@ -274,11 +274,6 @@ private:
 			.CreateAttribute(1, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color))
 			.CreateAttribute(2, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, texCoord));
 
-		//vertexBuffer->CreateVertexBinding(0, sizeof(vertices[0]) * vertices.size(), vertices.data(), sizeof(Vertex), Invision::VERTEX_INPUT_RATE_VERTEX)
-		//	->CreateAttribute(0, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, position))
-		//.CreateAttribute(1, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color))
-		//.CreateAttribute(2, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, texCoord));
-
 		vertexBuffer->CreateBuffer(vertices.data(), sizeof(vertices[0]) * vertices.size(), 0, bindingDescr);
 
 		indexBuffer->CreateIndexBuffer(sizeof(indices[0]) * indices.size(), indices.data());

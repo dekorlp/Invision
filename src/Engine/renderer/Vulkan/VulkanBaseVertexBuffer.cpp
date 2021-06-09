@@ -34,38 +34,10 @@ namespace Invision
 		return vertexBuffer;
 	}
 
-	VulkanBaseBindingDescription& VulkanBaseVertexBuffer::CreateBinding(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, uint32_t binding, uint64_t size, const void *source, uint32_t stride, VkVertexInputRate inputRate)
-	{
-		mMemoryManager = &memoryManager;
-		VulkanBaseBindingDescription description(mAttributeDescriptions, mBindingDescriptions, binding, stride, inputRate);
-		mBaseBindingDescriptions.push_back(description);
-
-		//if (inputRate == VK_VERTEX_INPUT_RATE_VERTEX)
-		//{
-		mVertexBuffers.push_back(AllocateDedicatedMemory(vulkanInstance, commandPool, memoryManager, size, source));
-		//}
-		//else // inputRate == VK_VERTEX_INPUT_RATE_INSTANCE
-		//{
-			//AllocateSharedMemory(vulkanInstance, commandPool, memoryManager, size, source);
-		//}
-
-
-		return mBaseBindingDescriptions.at(mBaseBindingDescriptions.size() - 1);
-	}
 
 	void VulkanBaseVertexBuffer::CreateBuffer(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, uint32_t binding, uint64_t size, const void *source)
 	{
 		mVertexBuffers.push_back(AllocateDedicatedMemory(vulkanInstance, commandPool, memoryManager, size, source));
-	}
-
-	std::vector<VkVertexInputAttributeDescription>& VulkanBaseVertexBuffer::GetAttributeDescriptions()
-	{
-		return mAttributeDescriptions;
-	}
-
-	std::vector<VkVertexInputBindingDescription>& VulkanBaseVertexBuffer::GetBindingDescriptions()
-	{
-		return mBindingDescriptions;
 	}
 
 	std::vector<void*>& VulkanBaseVertexBuffer::GetBuffers()

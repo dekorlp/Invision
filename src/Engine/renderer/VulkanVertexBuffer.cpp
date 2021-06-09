@@ -12,12 +12,6 @@ namespace Invision
 
 		return *this;
 	}
-	
-
-	//VulkanAttributeDescription::VulkanAttributeDescription(VulkanInstance* instance, VulkanBaseVertexBuffer &baseVertexBuffer, VulkanBaseBindingDescription& baseBindingDesc, uint32_t location, GfxFormat format, uint32_t offset) : IAttributeDescription(instance)
-	//{
-	//	baseBindingDesc.CreateAttributeDescription(baseVertexBuffer.GetAttributeDescriptions(), baseBindingDesc.GetBindingDescription().binding, location, instance->ConvertInvisionFormatToVkFormat(format), offset);
-	//}
 
 	VulkanAttributeDescription::VulkanAttributeDescription(VulkanInstance* instance, VulkanBaseVertexBinding &baseBindingDescriptions, VulkanBaseBindingDescription& baseBindingDesc, uint32_t location, GfxFormat format, uint32_t offset) : IAttributeDescription(instance)
 	{
@@ -36,13 +30,6 @@ namespace Invision
 		return mBaseVertexBuffer;
 	}
 
-	std::shared_ptr < IBindingDescription> VulkanVertexBuffer::CreateVertexBinding(uint32_t binding, uint64_t size, const void *source, uint32_t stride, VertexInputRate vertexInputRate)
-	{
-		std::shared_ptr<VulkanBindingDescription> desc = std::make_shared<VulkanBindingDescription>(mVulkanInstance, mBaseVertexBuffer, binding, size, source, stride, vertexInputRate);
-		
-		return desc;
-	}
-
 	void VulkanVertexBuffer::CreateBuffer(const void *source, uint64_t size, uint32_t binding, std::shared_ptr<IVertexBindingDescription> bindingDescription)
 	{
 		mBaseVertexBuffer.CreateBuffer(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), binding, size, source);
@@ -54,8 +41,6 @@ namespace Invision
 	}
 	
 
-
-	//INVISION_API virtual IVertexBuffer& CreateVertexBuffer() = 0;
 	std::shared_ptr < IBindingDescription> VulkanVertexBindingDescription::CreateVertexBinding(uint32_t binding, uint32_t stride, VertexInputRate vertexInputRate)
 	{
 		std::shared_ptr<VulkanBindingDescription> desc = std::make_shared<VulkanBindingDescription>(mVertexBinding, binding, stride, vertexInputRate);
@@ -73,26 +58,6 @@ namespace Invision
 
 	}
 
-	VulkanBindingDescription::VulkanBindingDescription(VulkanInstance* instance, VulkanBaseVertexBuffer &baseVertexBuffer, uint32_t binding, uint64_t size, const void *source, uint32_t stride, VertexInputRate vertexInputRate) : IBindingDescription(instance)
-	{
-		mVulkanInstance = instance;
-		VkVertexInputRate inputRate;
-
-		if (vertexInputRate == VERTEX_INPUT_RATE_VERTEX)
-		{
-			inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-		}
-		else if (vertexInputRate == VERTEX_INPUT_RATE_INSTANCE)
-		{
-			inputRate = VK_VERTEX_INPUT_RATE_INSTANCE;
-		}
-		else
-		{
-			throw InvisionBaseRendererException("Unknown VertexInputRate passed to Function CreateVertexInput");
-		}
-		mBaseBindingDesc = baseVertexBuffer.CreateBinding(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), binding, size, source, stride, inputRate);
-		mBaseVertexBuffer = &baseVertexBuffer;
-	}
 
 	VulkanBindingDescription::VulkanBindingDescription(VulkanBaseVertexBinding &vertexBinding, uint32_t binding, uint32_t stride, VertexInputRate vertexInputRate)
 	{
