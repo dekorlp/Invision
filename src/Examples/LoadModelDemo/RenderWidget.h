@@ -284,7 +284,7 @@ private:
 		pipeline->AddUniformBuffer(uniformBuffer);
 		pipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
 		pipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
-		pipeline->AddVertexBuffer(bindingDescr);
+		pipeline->AddVertexDescription(bindingDescr);
 		pipeline->CreatePipeline(renderPass);
 
 		//framebuffer = graphicsInstance->CreateFramebuffer(renderPass, graphicsInstance->GetSizeSwapchainImages());

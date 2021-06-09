@@ -359,7 +359,7 @@ private:
 		mGBuffer.gPipeline->AddUniformBuffer(uniformBuffer);
 		mGBuffer.gPipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
 		mGBuffer.gPipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
-		mGBuffer.gPipeline->AddVertexBuffer(bindingDescr);
+		mGBuffer.gPipeline->AddVertexDescription(bindingDescr);
 		mGBuffer.gPipeline->CreatePipeline(mGBuffer.gRenderPass);
 
 		// Deferred Shading Initialization

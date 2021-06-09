@@ -18,7 +18,7 @@ namespace Invision
 	class  VulkanBasePipeline
 	{
 	public:
-		void INVISION_API AddVertexBuffer(VulkanBaseVertexBinding& vertexBinding);
+		void INVISION_API AddVertexDescription(VulkanBaseVertexBinding& vertexBinding);
 		void INVISION_API AddShader(VulkanBaseShader shader);
 		void INVISION_API SetRenderProperties(VkPrimitiveTopology primitiveTopology, VkPolygonMode polygonMode, VkCullModeFlags cullModeFlags, VkFrontFace frontFace, float lineWidth);
 		void INVISION_API ClearUniformsBuffer();

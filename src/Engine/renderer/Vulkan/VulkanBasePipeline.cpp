@@ -71,7 +71,7 @@ namespace Invision
 		mDescriptorSetLayout.push_back(uniformBuffer.GetSets()[set].mDescriptorSetLayout);
 	}
 
-	void VulkanBasePipeline::AddVertexBuffer(VulkanBaseVertexBinding& vertexBinding)
+	void VulkanBasePipeline::AddVertexDescription(VulkanBaseVertexBinding& vertexBinding)
 	{
 		// Insert Attribute Descriptions
 		for (unsigned int i = 0; i < vertexBinding.GetAttributeDescriptions().size(); i++)

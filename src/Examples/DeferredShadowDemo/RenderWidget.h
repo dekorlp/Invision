@@ -404,7 +404,7 @@ private:
 		mGBuffer.gPipeline->AddUniformBuffer(uniformBuffer);
 		mGBuffer.gPipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
 		mGBuffer.gPipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
-		mGBuffer.gPipeline->AddVertexBuffer(bindingDescr);
+		mGBuffer.gPipeline->AddVertexDescription(bindingDescr);
 		mGBuffer.gPipeline->CreatePipeline(mGBuffer.gRenderPass);
 
 
@@ -414,7 +414,7 @@ private:
 		planePipeline->AddUniformBuffer(uniformBuffer);
 		planePipeline->AddShader(vertShaderCode1, Invision::SHADER_STAGE_VERTEX_BIT);
 		planePipeline->AddShader(fragShaderCode1, Invision::SHADER_STAGE_FRAGMENT_BIT);
-		planePipeline->AddVertexBuffer(bindingDescr);
+		planePipeline->AddVertexDescription(bindingDescr);
 		planePipeline->CreatePipeline(mGBuffer.gRenderPass);
 
 		// Deferred Shadow Shading
@@ -437,7 +437,7 @@ private:
 		mSBuffer.sPipeline->AddUniformBuffer(mSBuffer.sUniformBuffer);
 		auto vertShaderCode2 = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadowDemo/Shader/DeferredShadow/shadow.vert.spv"));
 		mSBuffer.sPipeline->AddShader(vertShaderCode2, Invision::SHADER_STAGE_VERTEX_BIT);
-		mSBuffer.sPipeline->AddVertexBuffer(bindingDescr);
+		mSBuffer.sPipeline->AddVertexDescription(bindingDescr);
 		mSBuffer.sPipeline->CreatePipeline(mSBuffer.sRenderPass);
 
 		// Deferred Shading Initialization
