@@ -276,11 +276,14 @@ private:
 
 		LoadModel(std::string(INVISION_BASE_DIR).append("/src/Examples/CreateCubemap/Models/viking_room.obj"), vertices, indices);
 
-		vertexBuffer->CreateVertexBinding(0, sizeof(vertices[0]) * vertices.size(), vertices.data(), sizeof(Vertex), Invision::VERTEX_INPUT_RATE_VERTEX)
+		std::shared_ptr<Invision::IVertexBindingDescription> bindingDescr = graphicsInstance->CreateVertexBindingDescription();
+		bindingDescr->CreateVertexBinding(0, sizeof(Vertex), Invision::VERTEX_INPUT_RATE_VERTEX)
 			->CreateAttribute(0, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, position))
 			.CreateAttribute(1, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color))
 			.CreateAttribute(2, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, texCoord))
 			.CreateAttribute(3, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, normal));
+
+		vertexBuffer->CreateBuffer(vertices.data(), sizeof(vertices[0]) * vertices.size(), 0, bindingDescr);
 
 		indexBuffer->CreateIndexBuffer(sizeof(indices[0]) * indices.size(), indices.data());
 		uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject))
@@ -292,7 +295,7 @@ private:
 		pipeline->AddUniformBuffer(uniformBuffer);
 		pipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
 		pipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
-		pipeline->AddVertexBuffer(vertexBuffer);
+		pipeline->AddVertexBuffer(bindingDescr);
 		pipeline->CreatePipeline(renderPass);
 
 		// cubemap Creation
@@ -312,15 +315,18 @@ private:
 		uniformCubemapBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject))
 			.CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, textureCubemap).CreateUniformBuffer();
 
-		cubemapVBuffer->CreateVertexBinding(0, sizeof(CubemapVertices[0]) * CubemapVertices.size(), CubemapVertices.data(), sizeof(CubemapVertex), Invision::VERTEX_INPUT_RATE_VERTEX)
+		std::shared_ptr<Invision::IVertexBindingDescription> bindingDescrVBuffer = graphicsInstance->CreateVertexBindingDescription();
+		bindingDescrVBuffer->CreateVertexBinding(0, sizeof(CubemapVertex), Invision::VERTEX_INPUT_RATE_VERTEX)
 			->CreateAttribute(0, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(CubemapVertex, position));
+
+		cubemapVBuffer->CreateBuffer(CubemapVertices.data(), sizeof(CubemapVertices[0]) * CubemapVertices.size(), 0, bindingDescrVBuffer);
 
 		auto cubemapVertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/CreateCubemap/Shader/CreateCubemap/cubemap.vert.spv"));
 		auto cubemapFragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/CreateCubemap/Shader/CreateCubemap/cubemap.frag.spv"));
 		cubemapPipeline->AddUniformBuffer(uniformCubemapBuffer);
 		cubemapPipeline->AddShader(cubemapVertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
 		cubemapPipeline->AddShader(cubemapFragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
-		cubemapPipeline->AddVertexBuffer(cubemapVBuffer);
+		cubemapPipeline->AddVertexBuffer(bindingDescrVBuffer);
 		cubemapPipeline->CreatePipeline(renderPass);
 
 		//framebuffer = graphicsInstance->CreateFramebuffer(renderPass, graphicsInstance->GetSizeSwapchainImages());
