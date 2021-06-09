@@ -298,16 +298,22 @@ private:
 
 		LoadModel(std::string(INVISION_BASE_DIR).append("/src/Examples/DrawInstanced/Models/viking_room.obj"), vertices, indices);
 		
-		vertexBuffer->CreateVertexBinding(0, sizeof(vertices[0]) * vertices.size(), vertices.data(), sizeof(Vertex), Invision::VERTEX_INPUT_RATE_VERTEX)
+		std::shared_ptr<Invision::IVertexBindingDescription> verBindingDescr = graphicsInstance->CreateVertexBindingDescription();
+		verBindingDescr->CreateVertexBinding(0, sizeof(Vertex), Invision::VERTEX_INPUT_RATE_VERTEX)
 			->CreateAttribute(0, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, position))
-		.CreateAttribute(1, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color))
-		.CreateAttribute(2, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, texCoord))
-		.CreateAttribute(3, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, normal));
+			.CreateAttribute(1, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color))
+			.CreateAttribute(2, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, texCoord))
+			.CreateAttribute(3, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, normal));
 
-		instanceBuffer->CreateVertexBinding(1, sizeof(instanceData[0]) * instanceData.size(), instanceData.data(), sizeof(InstanceData), Invision::VERTEX_INPUT_RATE_INSTANCE)
+		std::shared_ptr<Invision::IVertexBindingDescription> instBindingDescr = graphicsInstance->CreateVertexBindingDescription();
+		instBindingDescr->CreateVertexBinding(1, sizeof(InstanceData), Invision::VERTEX_INPUT_RATE_INSTANCE)
 			->CreateAttribute(4, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(InstanceData, pos))
 			.CreateAttribute(5, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(InstanceData, rot))
 			.CreateAttribute(6, Invision::FORMAT_R32_SFLOAT, offsetof(InstanceData, scale));
+
+		vertexBuffer->CreateBuffer(vertices.data(), sizeof(vertices[0]) * vertices.size(), 0, verBindingDescr);
+
+		instanceBuffer->CreateBuffer(instanceData.data(), sizeof(instanceData[0]) * instanceData.size(), 1, instBindingDescr);
 
 		indexBuffer->CreateIndexBuffer(sizeof(indices[0]) * indices.size(), indices.data());
 		uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject))
@@ -319,8 +325,8 @@ private:
 		pipeline->AddUniformBuffer(uniformBuffer);
 		pipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
 		pipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
-		pipeline->AddVertexBuffer(vertexBuffer);
-		pipeline->AddVertexBuffer(instanceBuffer);
+		pipeline->AddVertexBuffer(verBindingDescr);
+		pipeline->AddVertexBuffer(instBindingDescr);
 		pipeline->CreatePipeline(renderPass);
 
 		//framebuffer = graphicsInstance->CreateFramebuffer(renderPass, graphicsInstance->GetSizeSwapchainImages());
