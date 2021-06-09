@@ -53,11 +53,11 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 		DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0).
 
 		// Draw Plane
-		//BindPipeline(planePipeline).
-		//BindVertexBuffer({ PlaneVertexBuffer }, 0, 1).
-		//BindDescriptorSets(planeUniformBuffer, planePipeline).
-		//BindIndexBuffer(PlaneIndexBuffer, Invision::INDEX_TYPE_UINT32).
-		//DrawIndexed(static_cast<uint32_t>(planeIndices.size()), 1, 0, 0, 0).
+		BindPipeline(mSBuffer.sPipeline).
+		BindVertexBuffer({ PlaneVertexBuffer }, 0, 1).
+		BindDescriptorSets(planeUniformBuffer, mSBuffer.sPipeline).
+		BindIndexBuffer(PlaneIndexBuffer, Invision::INDEX_TYPE_UINT32).
+		DrawIndexed(static_cast<uint32_t>(planeIndices.size()), 1, 0, 0, 0).
 
 		EndRenderPass().
 		EndCommandBuffer();
