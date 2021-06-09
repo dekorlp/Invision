@@ -168,7 +168,7 @@ namespace Invision
 			for (int i = 0; i < mSets.size(); i++)
 			{
 				vkDestroyDescriptorSetLayout(vulkanInstance.logicalDevice, mSets[i].mDescriptorSetLayout, nullptr);
-				mSets[i].mDescriptorPool.DestroyDescriptorPool(vulkanInstance);
+				//mSets[i].mDescriptorPool.DestroyDescriptorPool(vulkanInstance);
 			}
 		}
 
@@ -178,7 +178,6 @@ namespace Invision
 		for (int i = 0; i < mSets.size(); i++)
 		{
 			std::vector<VkDescriptorSetLayoutBinding> uboLayoutBindings;
-			std::vector<VkDescriptorPoolSize> poolElements;
 
 			for (unsigned int j = 0; j < mBindings.size(); j++)
 			{
@@ -192,10 +191,7 @@ namespace Invision
 					uboLayoutBinding.pImmutableSamplers = nullptr;
 					uboLayoutBindings.push_back(uboLayoutBinding);
 
-					VkDescriptorPoolSize poolSize = {};
-					poolSize.type = mBindings.at(j).GetDescriptorType();
-					poolSize.descriptorCount = static_cast<uint32_t>(vulkanContext.swapChainImages.size());
-					poolElements.push_back(poolSize);
+				
 				}
 			}
 
@@ -208,8 +204,6 @@ namespace Invision
 			if (vkCreateDescriptorSetLayout(vulkanInstance.logicalDevice, &layoutInfo, nullptr, &mSets[i].mDescriptorSetLayout) != VK_SUCCESS) {
 				throw std::runtime_error("failed to create descriptor set layout!");
 			}
-
-			mSets[i].mDescriptorPool.CreateDescriptorPool(vulkanInstance, vulkanContext, poolElements);
 		}
 
 		
@@ -290,6 +284,19 @@ namespace Invision
 	{
 		for (unsigned int i = 0; i < mSets.size(); i++)
 		{
+			mSets[i].mDescriptorPool.DestroyDescriptorPool(vulkanInstance);
+
+			std::vector<VkDescriptorPoolSize> poolElements;
+
+			for (unsigned int j = 0; j < mBindings.size(); j++)
+			{
+				VkDescriptorPoolSize poolSize = {};
+				poolSize.type = mBindings.at(j).GetDescriptorType();
+				poolSize.descriptorCount = static_cast<uint32_t>(vulkanContext.swapChainImages.size());
+				poolElements.push_back(poolSize);
+			}
+			mSets[i].mDescriptorPool.CreateDescriptorPool(vulkanInstance, vulkanContext, poolElements);
+
 
 			VkDescriptorSetAllocateInfo allocInfo = {};
 			allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
