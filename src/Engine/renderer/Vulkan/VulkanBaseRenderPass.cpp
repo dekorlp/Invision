@@ -117,6 +117,7 @@ namespace Invision
 		dependency.srcAccessMask = srcAccessFlags;
 		dependency.dstStageMask = dstStageFlags;
 		dependency.dstAccessMask = dstAccessFlags;
+		dependency.dependencyFlags = dependencyFlags;
 
 		mDependencies.push_back(dependency);
 	}
