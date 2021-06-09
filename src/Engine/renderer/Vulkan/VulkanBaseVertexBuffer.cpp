@@ -53,6 +53,11 @@ namespace Invision
 		return mBaseBindingDescriptions.at(mBaseBindingDescriptions.size() - 1);
 	}
 
+	void VulkanBaseVertexBuffer::CreateBuffer(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, uint32_t binding, uint64_t size, const void *source)
+	{
+		mVertexBuffers.push_back(AllocateDedicatedMemory(vulkanInstance, commandPool, memoryManager, size, source));
+	}
+
 	std::vector<VkVertexInputAttributeDescription>& VulkanBaseVertexBuffer::GetAttributeDescriptions()
 	{
 		return mAttributeDescriptions;
