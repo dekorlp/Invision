@@ -377,11 +377,14 @@ private:
 		LoadModel(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadowDemo/Models/viking_room.obj"), vertices, indices);
 		LoadModel(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadowDemo/Models/Plane.obj"), planeVertices, planeIndices);
 
-		vertexBuffer->CreateVertexBinding(0, sizeof(vertices[0]) * vertices.size(), vertices.data(), sizeof(Vertex), Invision::VERTEX_INPUT_RATE_VERTEX)
+		std::shared_ptr<Invision::IVertexBindingDescription> bindingDescr = graphicsInstance->CreateVertexBindingDescription();
+		bindingDescr->CreateVertexBinding(0, sizeof(Vertex), Invision::VERTEX_INPUT_RATE_VERTEX)
 			->CreateAttribute(0, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, position))
-		.CreateAttribute(1, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color))
-		.CreateAttribute(2, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, texCoord))
-		.CreateAttribute(3, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, normal));
+			.CreateAttribute(1, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color))
+			.CreateAttribute(2, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, texCoord))
+			.CreateAttribute(3, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, normal));
+
+		vertexBuffer->CreateBuffer(vertices.data(), sizeof(vertices[0]) * vertices.size(), 0, bindingDescr);
 
 		indexBuffer->CreateIndexBuffer(sizeof(indices[0]) * indices.size(), indices.data());
 		uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject))
@@ -392,11 +395,7 @@ private:
 			.CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, texture).
 			CreateUniformBuffer();
 
-		PlaneVertexBuffer->CreateVertexBinding(0, sizeof(planeVertices[0]) * planeVertices.size(), planeVertices.data(), sizeof(Vertex), Invision::VERTEX_INPUT_RATE_VERTEX)
-			->CreateAttribute(0, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, position))
-			.CreateAttribute(1, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color))
-			.CreateAttribute(2, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, texCoord))
-			.CreateAttribute(3, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, normal));
+		PlaneVertexBuffer->CreateBuffer(planeVertices.data(), sizeof(planeVertices[0]) * planeVertices.size(), 0, bindingDescr);
 
 		PlaneIndexBuffer->CreateIndexBuffer(sizeof(planeIndices[0]) * planeIndices.size(), planeIndices.data());
 
@@ -405,7 +404,7 @@ private:
 		mGBuffer.gPipeline->AddUniformBuffer(uniformBuffer);
 		mGBuffer.gPipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
 		mGBuffer.gPipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
-		mGBuffer.gPipeline->AddVertexBuffer(vertexBuffer);
+		mGBuffer.gPipeline->AddVertexBuffer(bindingDescr);
 		mGBuffer.gPipeline->CreatePipeline(mGBuffer.gRenderPass);
 
 
@@ -415,7 +414,7 @@ private:
 		planePipeline->AddUniformBuffer(uniformBuffer);
 		planePipeline->AddShader(vertShaderCode1, Invision::SHADER_STAGE_VERTEX_BIT);
 		planePipeline->AddShader(fragShaderCode1, Invision::SHADER_STAGE_FRAGMENT_BIT);
-		planePipeline->AddVertexBuffer(PlaneVertexBuffer);
+		planePipeline->AddVertexBuffer(bindingDescr);
 		planePipeline->CreatePipeline(mGBuffer.gRenderPass);
 
 		// Deferred Shadow Shading
@@ -438,7 +437,7 @@ private:
 		mSBuffer.sPipeline->AddUniformBuffer(mSBuffer.sUniformBuffer);
 		auto vertShaderCode2 = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadowDemo/Shader/DeferredShadow/shadow.vert.spv"));
 		mSBuffer.sPipeline->AddShader(vertShaderCode2, Invision::SHADER_STAGE_VERTEX_BIT);
-		mSBuffer.sPipeline->AddVertexBuffer(vertexBuffer);
+		mSBuffer.sPipeline->AddVertexBuffer(bindingDescr);
 		mSBuffer.sPipeline->CreatePipeline(mSBuffer.sRenderPass);
 
 		// Deferred Shading Initialization
