@@ -64,8 +64,6 @@ namespace Invision
 
 		VulkanBaseMemoryManager *mMemoryManager;
 		std::vector<void*> mVertexBuffers; // index is Binding ID
-
-		std::vector< VulkanBaseBindingDescription> mBaseBindingDescriptions;
 	};
 }
 #endif // VULKAN_BASE_VERTEX_BUFFER_H
