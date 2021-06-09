@@ -93,7 +93,7 @@ void RenderWidget::UpdateUniformBuffer(float width, float height)
 {
 	UniformBufferObject ubo = {};
 	UniformBufferObject plubo = {};
-	
+	UniformBufferObject depthUniformBuffer;
 	
 	
 	float x = radius * sin(theta) * cos(phi);
@@ -117,6 +117,12 @@ void RenderWidget::UpdateUniformBuffer(float width, float height)
 		plubo.model = Invision::Matrix(1.0f) * Invision::Matrix::RotateX(90) * Invision::Matrix::Translate(posPlane) *  Invision::Matrix::Scale(scale);
 		//ubo.model = Invision::Matrix(1.0f) * Invision::Matrix::RotateZ(angle) *  Invision::Matrix::Translate(pos) *  Invision::Matrix::Scale(scale);
 		plubo.view = Invision::Matrix(1.0f) *  Invision::Matrix::Camera(Invision::Vector3(x, y, z), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(upX, upY, upZ));
+
+		//shadow Uniform:
+		depthUniformBuffer.proj = Invision::Matrix::Perspective(45.0, 1.0f, 1.0f, 96.0f);
+		depthUniformBuffer.view = Invision::Matrix::Camera(Invision::Vector3(1.2f, -2.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 1.0, 0.0));
+		depthUniformBuffer.model = Invision::Matrix(1.0f)  * Invision::Matrix::Translate(pos) *  Invision::Matrix::Scale(scale);
+		mSBuffer.sUniformBuffer->UpdateUniform(&depthUniformBuffer, sizeof(depthUniformBuffer), 0, 0);
 	}
 	else
 	{
@@ -126,6 +132,12 @@ void RenderWidget::UpdateUniformBuffer(float width, float height)
 
 		plubo.model = Invision::Matrix::RotateZ(angle + dt * 90.0) * Invision::Matrix::RotateX(90) * Invision::Matrix::Translate(posPlane) *  Invision::Matrix::Scale(scale);
 		plubo.view = Invision::Matrix(1.0f) *  Invision::Matrix::Camera(Invision::Vector3(2.0f, 2.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 0.0f, 1.0f));
+
+		//shadow Uniform:
+		depthUniformBuffer.proj = Invision::Matrix::Perspective(45.0, 1.0f, 1.0f, 96.0f);
+		depthUniformBuffer.view = Invision::Matrix::Camera(Invision::Vector3(1.2f, -2.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 1.0, 0.0));
+		depthUniformBuffer.model = Invision::Matrix(1.0f) * Invision::Matrix::RotateZ(angle + dt * 90.0) * Invision::Matrix::RotateX(90) * Invision::Matrix::Translate(pos) *  Invision::Matrix::Scale(scale);
+		mSBuffer.sUniformBuffer->UpdateUniform(&depthUniformBuffer, sizeof(depthUniformBuffer), 0, 0);
 	}
 	ubo.proj = Invision::Matrix(1.0f) * Invision::Matrix::Perspective(45.0, width / height, 0.1f, 10.0f); // perspective projection
 	plubo.proj = Invision::Matrix(1.0f) * Invision::Matrix::Perspective(45.0, width / height, 0.1f, 10.0f); // perspective projection
@@ -133,18 +145,14 @@ void RenderWidget::UpdateUniformBuffer(float width, float height)
 	planeUniformBuffer->UpdateUniform(&plubo, sizeof(plubo), 0, 0);
 
 
-	// depth ubo creation
-	UniformBufferObject depthUniformBuffer;
-	depthUniformBuffer.proj = Invision::Matrix::Perspective(45.0, 1.0f, 1.0f, 96.0f);
-	depthUniformBuffer.view = Invision::Matrix::Camera(Invision::Vector3(1.2f, 1.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 1.0, 0.0));
-	depthUniformBuffer.model = Invision::Matrix(1.0f)  * Invision::Matrix::Translate(pos) *  Invision::Matrix::Scale(scale);
-	mSBuffer.sUniformBuffer->UpdateUniform(&depthUniformBuffer, sizeof(depthUniformBuffer), 0, 0);
+	
+	
 
 
 	// set light
 	UniformLightBuffer light;
 	light.lightColor = { 1.0, 1.0, 1.0 };
-	light.lightPos = { 1.2f, 1.0f, 2.0f };
+	light.lightPos = { 1.2f, -2.0f, 2.0f };
 	light.viewPos = { 0.0f, 0.0f, 0.0f };
 	light.lightSpaceMatrix = depthUniformBuffer.proj * depthUniformBuffer.view * depthUniformBuffer.model;
 	DeferredUniformBuffer->UpdateUniform(&light, sizeof(light), 0, 5);
