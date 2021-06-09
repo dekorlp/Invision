@@ -186,10 +186,12 @@ private:
 		indexBuffer = graphicsInstance->CreateIndexBuffer();
 		pipeline = graphicsInstance->CreatePipeline();
 
-
-		vertexBuffer->CreateVertexBinding(0, sizeof(vertices2[0]) * vertices2.size(), vertices2.data(), sizeof(Vertex2), Invision::VERTEX_INPUT_RATE_VERTEX)
+		std::shared_ptr<Invision::IVertexBindingDescription> verBindingDescr = graphicsInstance->CreateVertexBindingDescription();
+		verBindingDescr->CreateVertexBinding(0, sizeof(Vertex2), Invision::VERTEX_INPUT_RATE_VERTEX)
 			->CreateAttribute(0, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex2, position))
 			.CreateAttribute(1, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex2, color));
+
+		vertexBuffer->CreateBuffer(vertices2.data(), sizeof(vertices2[0]) * vertices2.size(), 0, verBindingDescr);
 
 		indexBuffer->CreateIndexBuffer(sizeof(indices2[0]) * indices2.size(), indices2.data());
 
@@ -200,7 +202,7 @@ private:
 		pipeline->AddUniformBuffer(uniformBuffer);
 		pipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
 		pipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
-		pipeline->AddVertexBuffer(vertexBuffer);
+		pipeline->AddVertexBuffer(verBindingDescr);
 		pipeline->CreatePipeline(renderPass);
 		//framebuffer = graphicsInstance->CreateFramebuffer(renderPass, graphicsInstance->GetSizeSwapchainImages());
 
