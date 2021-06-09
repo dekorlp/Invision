@@ -28,7 +28,7 @@ namespace Invision
 		INVISION_API void AddUniformBuffer(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer);
 		INVISION_API void AddUniformBuffer(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer, uint32_t set);
 
-		INVISION_API void AddVertexBuffer(std::shared_ptr<Invision::IVertexBuffer> vertexBuffer);
+		INVISION_API void AddVertexBuffer(std::shared_ptr<Invision::IVertexBindingDescription> vertexBindingDescription);
 
 		INVISION_API void BindPushConstant(std::shared_ptr <Invision::IPushConstant> pushConstant);
 

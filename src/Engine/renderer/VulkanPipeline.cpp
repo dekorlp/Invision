@@ -75,9 +75,10 @@ namespace Invision
 	}
 
 
-	void VulkanPipeline::AddVertexBuffer(std::shared_ptr<Invision::IVertexBuffer> vertexBuffer)
+	void VulkanPipeline::AddVertexBuffer(std::shared_ptr<Invision::IVertexBindingDescription> vertexBindingDescription)
 	{
-		mPipeline.AddVertexBuffer(dynamic_pointer_cast<VulkanVertexBuffer>(vertexBuffer)->GetBaseVertexBuffer());
+		
+		mPipeline.AddVertexBuffer(dynamic_pointer_cast<VulkanVertexBindingDescription>(vertexBindingDescription)->GetBaseDescription());
 	}
 
 	void VulkanPipeline::BindPushConstant(std::shared_ptr <Invision::IPushConstant> pushConstant)

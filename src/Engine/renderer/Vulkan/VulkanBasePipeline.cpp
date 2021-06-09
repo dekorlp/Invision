@@ -71,18 +71,18 @@ namespace Invision
 		mDescriptorSetLayout.push_back(uniformBuffer.GetSets()[set].mDescriptorSetLayout);
 	}
 
-	void VulkanBasePipeline::AddVertexBuffer(VulkanBaseVertexBuffer& vertexBuffer)
+	void VulkanBasePipeline::AddVertexBuffer(VulkanBaseVertexBinding& vertexBinding)
 	{
 		// Insert Attribute Descriptions
-		for (unsigned int i = 0; i < vertexBuffer.GetAttributeDescriptions().size(); i++)
+		for (unsigned int i = 0; i < vertexBinding.GetAttributeDescriptions().size(); i++)
 		{
-			mVertexInputAttributeDescriptions.push_back(vertexBuffer.GetAttributeDescriptions()[i]);
+			mVertexInputAttributeDescriptions.push_back(vertexBinding.GetAttributeDescriptions()[i]);
 		}
 
 		// Insert Binding Descriptions
-		for (unsigned int i = 0; i < vertexBuffer.GetBindingDescriptions().size(); i++)
+		for (unsigned int i = 0; i < vertexBinding.GetBindingDescriptions().size(); i++)
 		{
-			mVertexInputBindingDescriptions.push_back(vertexBuffer.GetBindingDescriptions()[i]);
+			mVertexInputBindingDescriptions.push_back(vertexBinding.GetBindingDescriptions()[i]);
 		}
 	}
 

@@ -58,6 +58,11 @@ namespace Invision
 		return desc;
 	}
 
+	VulkanBaseVertexBinding  VulkanVertexBindingDescription::GetBaseDescription()
+	{
+		return mVertexBinding;
+	}
+
 	VulkanBindingDescription::VulkanBindingDescription()
 	{
 

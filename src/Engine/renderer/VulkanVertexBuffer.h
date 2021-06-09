@@ -44,6 +44,8 @@ namespace Invision
 		//INVISION_API virtual IVertexBuffer& CreateVertexBuffer() = 0;
 		INVISION_API std::shared_ptr < IBindingDescription> CreateVertexBinding(uint32_t binding, uint32_t stride, VertexInputRate vertexInputRate) override;
 
+		INVISION_API VulkanBaseVertexBinding  GetBaseDescription();
+
 	private:
 		VulkanBaseVertexBinding mVertexBinding;
 	};
