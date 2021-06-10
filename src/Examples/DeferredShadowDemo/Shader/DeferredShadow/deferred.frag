@@ -135,7 +135,7 @@ void main() {
 			
 			// calculate light and shadow
 			float shadow = ShadowCalculation(lub.lightSpaceMatrix * vec4(FragPos, 1.0), FragPos, normal);
-			vec3 lightning = (ambient + (1.0 - shadow) + (diffuse + specular)) * color; 
+			vec3 lightning = (ambient + (1.0 - 0.99 * shadow) + (diffuse + specular)) * color; 
 		
 			
 		
