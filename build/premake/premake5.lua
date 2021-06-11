@@ -518,6 +518,12 @@ AddConsoleProject(
 		srcroot .. "Examples/DeferredShadowDemo/**.cpp"
 	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, true)
 
+AddConsoleProject(
+	"AlphaBlending", srcroot .. "Examples/", {
+		srcroot .. "Examples/AlphaBlending/**.h",
+		srcroot .. "Examples/AlphaBlending/**.cpp"
+	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, true)
+
 
 
 
