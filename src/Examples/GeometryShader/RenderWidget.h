@@ -254,6 +254,7 @@ private:
 		//renderPass = graphicsInstance->CreateRenderPass(); //graphicsEngine->CreateRenderPass();
 		vertexBuffer = graphicsInstance->CreateVertexBuffer();
 		uniformBuffer = graphicsInstance->CreateUniformBuffer();
+		geomUniformBuffer = graphicsInstance->CreateUniformBuffer();
 		indexBuffer = graphicsInstance->CreateIndexBuffer();
 		pipeline = graphicsInstance->CreatePipeline();
 		//texture = graphicsInstance->CreateTexture();
@@ -272,12 +273,14 @@ private:
 		bindingDescr->CreateVertexBinding(0, sizeof(Vertex), Invision::VERTEX_INPUT_RATE_VERTEX)
 			->CreateAttribute(0, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, position))
 			.CreateAttribute(1, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, color))
-			.CreateAttribute(2, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, texCoord));
+			.CreateAttribute(2, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, texCoord))
+			.CreateAttribute(3, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, normal));
 
 		vertexBuffer->CreateBuffer(vertices.data(), sizeof(vertices[0]) * vertices.size(), 0, bindingDescr);
 
 		indexBuffer->CreateIndexBuffer(sizeof(indices[0]) * indices.size(), indices.data());
 		uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject)).CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, texture).CreateUniformBuffer();
+		geomUniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT | Invision::SHADER_STAGE_GEOMETRY_BIT, sizeof(UniformBufferObject)).CreateUniformBuffer();
 
 		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/GeometryShader/Shader/GeometryShader/vert.spv"));
 		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/GeometryShader/Shader/GeometryShader/frag.spv"));
@@ -287,7 +290,17 @@ private:
 		pipeline->AddVertexDescription(bindingDescr);
 		pipeline->CreatePipeline(renderPass);
 
-		//framebuffer = graphicsInstance->CreateFramebuffer(renderPass, graphicsInstance->GetSizeSwapchainImages());
+		// create geomtry Shader Pipeline
+		auto vertShaderNormalCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/GeometryShader/Shader/GeometryShader/normal.vert.spv"));
+		auto geomShaderNormalCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/GeometryShader/Shader/GeometryShader/normal.geom.spv"));
+		auto fragShaderNormalCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/GeometryShader/Shader/GeometryShader/normal.frag.spv"));
+		geomPipeline = graphicsInstance->CreatePipeline(&Invision::PipelineProperties(Invision::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, Invision::POLYGON_MODE_FILL, Invision::CULL_MODE_FRONT_BIT, Invision::FRONT_FACE_COUNTER_CLOCKWISE, 1.0f));
+		geomPipeline->AddUniformBuffer(geomUniformBuffer);
+		geomPipeline->AddShader(vertShaderNormalCode, Invision::SHADER_STAGE_VERTEX_BIT);
+		geomPipeline->AddShader(geomShaderNormalCode, Invision::SHADER_STAGE_GEOMETRY_BIT);
+		geomPipeline->AddShader(fragShaderNormalCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
+		geomPipeline->AddVertexDescription(bindingDescr);
+		geomPipeline->CreatePipeline(renderPass);
 
 		BuildCommandBuffer(this->size().width(), this->size().height());
 		renderer = graphicsInstance->CreateRenderer();
@@ -308,8 +321,10 @@ private:
 	std::shared_ptr <Invision::IRenderPass> renderPass;
 	std::shared_ptr <Invision::IVertexBuffer> vertexBuffer;
 	std::shared_ptr <Invision::IUniformBuffer> uniformBuffer;
+	std::shared_ptr <Invision::IUniformBuffer> geomUniformBuffer;
 	std::shared_ptr <Invision::IIndexBuffer> indexBuffer;
 	std::shared_ptr <Invision::IPipeline> pipeline;
+	std::shared_ptr <Invision::IPipeline> geomPipeline;
 	std::shared_ptr <Invision::IFramebuffer> framebuffer;
 	std::shared_ptr <Invision::ICommandBuffer> commandBuffer;
 	std::shared_ptr <Invision::IRenderer> renderer;

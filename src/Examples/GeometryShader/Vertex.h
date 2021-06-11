@@ -11,6 +11,7 @@ struct Vertex {
 	Invision::Vector3 position;
 	Invision::Vector3 color;
 	Invision::Vector2 texCoord;
+	Invision::Vector3 normal;
 
 	bool operator==(const Vertex& other) const {
 

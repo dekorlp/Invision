@@ -150,6 +150,24 @@ namespace Invision
 			deviceFeatures.sampleRateShading = VK_TRUE;
 		}
 
+		if (vulkanInstance.physicalDeviceStruct.deviceFeatures.geometryShader == VK_TRUE)
+		{
+			deviceFeatures.geometryShader = VK_TRUE;
+		}
+		else
+		{
+			throw VulkanBaseException("Geometry Shader are not supported by graphics device.");
+		}
+
+		if (vulkanInstance.physicalDeviceStruct.deviceFeatures.tessellationShader == VK_TRUE)
+		{
+			deviceFeatures.tessellationShader = VK_TRUE;
+		}
+		else
+		{
+			throw VulkanBaseException("Tesselation Shader are not supported by graphics device.");
+		}
+
 		VkDeviceCreateInfo createInfo = CreateDeviceCreateInfo(vulkanInstance, queueCreateInfos, deviceFeatures);
 
 		VkResult result = vkCreateDevice(vulkanInstance.physicalDeviceStruct.physicalDevice, &createInfo, nullptr, &(vulkanInstance.logicalDevice));

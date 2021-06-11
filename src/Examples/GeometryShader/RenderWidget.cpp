@@ -30,8 +30,13 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 		BindVertexBuffer({ vertexBuffer }, 0, 1).
 		BindDescriptorSets(uniformBuffer, pipeline).
 		BindIndexBuffer(indexBuffer, Invision::INDEX_TYPE_UINT32).
-		//Draw(static_cast<uint32_t>(vertices.size()), 1, 0, 0).
 		DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0).
+
+		BindPipeline(geomPipeline).
+		BindDescriptorSets(geomUniformBuffer, geomPipeline).
+		DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0).
+
+
 		EndRenderPass().
 		EndCommandBuffer();
 }
@@ -65,5 +70,6 @@ void RenderWidget::UpdateUniformBuffer(float width, float height)
 	}
 	ubo.proj = Invision::Matrix(1.0f) * Invision::Matrix::Perspective(45.0, width / height, 0.1f, 10.0f); // perspective projection
 	uniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0, 0);
+	geomUniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0, 0);
 }
 
