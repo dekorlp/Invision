@@ -45,8 +45,14 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 		BindVertexBuffer({ vertexBuffer }, 0, 1).
 		BindDescriptorSets(uniformBuffer, mGBuffer.gPipeline).
 		BindIndexBuffer(indexBuffer, Invision::INDEX_TYPE_UINT32).
-		//Draw(static_cast<uint32_t>(vertices.size()), 1, 0, 0).
 		DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0).
+
+		BindPipeline(pipelineGrass).
+		BindDescriptorSets({ uniformBufferGrass }, pipelineGrass).
+		BindVertexBuffer({ vertexBufferGrass }, 0, 1).
+		BindIndexBuffer(indexBufferGrass, Invision::INDEX_TYPE_UINT32).
+		DrawIndexed(static_cast<uint32_t>(indicesGrass.size()), 1, 0, 0, 0).
+
 		EndRenderPass().
 		EndCommandBuffer();
 }
@@ -58,7 +64,7 @@ void RenderWidget::UpdateUniformBuffer(float width, float height)
 	
 	
 	float x = radius * sin(theta) * cos(phi);
-	float y = radius * sin(theta) * sin(phi);
+	float y = (radius * sin(theta) * sin(phi));
 	float z = radius * cos(theta);
 
 	float dtheta = PI / 2.f;
@@ -68,7 +74,7 @@ void RenderWidget::UpdateUniformBuffer(float width, float height)
 
 	if (switchFixedCamera == false)
 	{
-		ubo.model = Invision::Matrix(1.0f) * Invision::Matrix::Translate(pos) *  Invision::Matrix::Scale(scale);
+		ubo.model = Invision::Matrix(1.0f) * Invision::Matrix::Translate(pos - Invision::Vector3(0.0f, 0.0f, 1.0f)) *  Invision::Matrix::Scale(scale);
 		//ubo.model = Invision::Matrix(1.0f) * Invision::Matrix::RotateZ(angle) *  Invision::Matrix::Translate(pos) *  Invision::Matrix::Scale(scale);
 		ubo.view = Invision::Matrix(1.0f) *  Invision::Matrix::Camera(Invision::Vector3(x, y, z), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(upX, upY, upZ));
 	}
@@ -80,5 +86,12 @@ void RenderWidget::UpdateUniformBuffer(float width, float height)
 	}
 	ubo.proj = Invision::Matrix(1.0f) * Invision::Matrix::Perspective(45.0, width / height, 0.1f, 10.0f); // perspective projection
 	uniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0, 0);
+
+	UniformBufferObject uboGrass;
+	uboGrass.model = Invision::Matrix::RotateX(90.0) *  Invision::Matrix::RotateY(90.0) * Invision::Matrix::Translate(Invision::Vector3(0.0f, 0.1f, 0.0f) );
+	uboGrass.view = Invision::Matrix(1.0f) *  Invision::Matrix::Camera(Invision::Vector3(x, y, z), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(upX, upY, upZ));
+	uboGrass.proj = Invision::Matrix(1.0f) * Invision::Matrix::Perspective(45.0, width / height, 0.1f, 10.0f); // perspective projection
+	uniformBufferGrass->UpdateUniform(&uboGrass, sizeof(uboGrass), 0, 0);
+
 }
 

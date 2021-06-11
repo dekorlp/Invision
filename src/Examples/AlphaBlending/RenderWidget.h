@@ -304,12 +304,21 @@ private:
 		vertexBuffer = graphicsInstance->CreateVertexBuffer();
 		uniformBuffer = graphicsInstance->CreateUniformBuffer();
 		indexBuffer = graphicsInstance->CreateIndexBuffer();
+
+		uniformBufferGrass = graphicsInstance->CreateUniformBuffer();
+		vertexBufferGrass = graphicsInstance->CreateVertexBuffer();
+		indexBufferGrass = graphicsInstance->CreateIndexBuffer();
 	
 
-		unsigned char* pixelsVikingRoom = readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/AlphaBlending/Textures/brick_wall_001_diffuse_1k.png"), width, height, channels);
-		texture = graphicsInstance->CreateTexture(pixelsVikingRoom, width, height, Invision::FORMAT_R8G8B8A8_SRGB, true);
-		freeImage(pixelsVikingRoom);
-		texture->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_NEAREST, Invision::SAMPLER_FILTER_MODE_NEAREST, Invision::SAMPLER_ADDRESS_MODE_CLAMP, Invision::SAMPLER_ADDRESS_MODE_CLAMP, Invision::SAMPLER_ADDRESS_MODE_CLAMP);
+		unsigned char* pixelsGrass = readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/AlphaBlending/Textures/kisspng-texture-mapping-drawing-lawn-tall-grass-texture-alpha-5ab1d0d27d3617.9249521415216027705129.png"), width, height, channels);
+		textureGrass = graphicsInstance->CreateTexture(pixelsGrass, width, height, Invision::FORMAT_R8G8B8A8_SRGB, true);
+		freeImage(pixelsGrass);
+		textureGrass->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_NEAREST, Invision::SAMPLER_FILTER_MODE_NEAREST, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT);
+
+		unsigned char* pixelsWall = readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/AlphaBlending/Textures/brick_wall_001_diffuse_1k.png"), width, height, channels);
+		textureBrick = graphicsInstance->CreateTexture(pixelsWall, width, height, Invision::FORMAT_R8G8B8A8_SRGB, true);
+		freeImage(pixelsWall);
+		textureBrick->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_NEAREST, Invision::SAMPLER_FILTER_MODE_NEAREST, Invision::SAMPLER_ADDRESS_MODE_CLAMP, Invision::SAMPLER_ADDRESS_MODE_CLAMP, Invision::SAMPLER_ADDRESS_MODE_CLAMP);
 
 		// gPass Initialization
 		mGBuffer.gPipeline = graphicsInstance->CreatePipeline();
@@ -318,7 +327,7 @@ private:
 		mGBuffer.albedoAttachment = graphicsInstance->CreateColorAttachment(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE, Invision::FORMAT_R16G16B16A16_SFLOAT);
 		mGBuffer.normalAttachment = graphicsInstance->CreateColorAttachment(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE, Invision::FORMAT_R16G16B16A16_SFLOAT);
 		mGBuffer.depthAttachment = graphicsInstance->CreateDepthAttachment(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE);
-		6
+
 		// gPass Sampler Settings
 		mGBuffer.positionsAttachment->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_NEAREST, Invision::SAMPLER_FILTER_MODE_NEAREST, Invision::SAMPLER_ADDRESS_MODE_CLAMP, Invision::SAMPLER_ADDRESS_MODE_CLAMP, Invision::SAMPLER_ADDRESS_MODE_CLAMP);
 		mGBuffer.albedoAttachment->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_NEAREST, Invision::SAMPLER_FILTER_MODE_NEAREST, Invision::SAMPLER_ADDRESS_MODE_CLAMP, Invision::SAMPLER_ADDRESS_MODE_CLAMP, Invision::SAMPLER_ADDRESS_MODE_CLAMP);
@@ -339,6 +348,7 @@ private:
 		std::vector<Invision::Vector2> texCoords;
 
 		LoadModel(std::string(INVISION_BASE_DIR).append("/src/Examples/AlphaBlending/Models/cube.obj"), vertices, indices);
+		LoadModel(std::string(INVISION_BASE_DIR).append("/src/Examples/AlphaBlending/Models/plane.obj"), verticesGrass, indicesGrass);
 		
 		std::shared_ptr<Invision::IVertexBindingDescription> bindingDescr = graphicsInstance->CreateVertexBindingDescription();
 		bindingDescr->CreateVertexBinding(0, sizeof(Vertex), Invision::VERTEX_INPUT_RATE_VERTEX)
@@ -348,10 +358,17 @@ private:
 			.CreateAttribute(3, Invision::FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, normal));
 
 		vertexBuffer->CreateBuffer(vertices.data(), sizeof(vertices[0]) * vertices.size(), 0, bindingDescr);
+		vertexBufferGrass->CreateBuffer(verticesGrass.data(), sizeof(verticesGrass[0]) * verticesGrass.size(), 0, bindingDescr);
 
 		indexBuffer->CreateIndexBuffer(sizeof(indices[0]) * indices.size(), indices.data());
+		indexBufferGrass->CreateIndexBuffer(sizeof(indicesGrass[0]) * indicesGrass.size(), indicesGrass.data());
+
 		uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject))
-			.CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, texture).
+			.CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, textureBrick).
+			CreateUniformBuffer();
+
+		uniformBufferGrass->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject))
+			.CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, textureGrass).
 			CreateUniformBuffer();
 
 		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/AlphaBlending/Shader/AlphaBlending/gbuffer.vert.spv"));
@@ -361,6 +378,14 @@ private:
 		mGBuffer.gPipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
 		mGBuffer.gPipeline->AddVertexDescription(bindingDescr);
 		mGBuffer.gPipeline->CreatePipeline(mGBuffer.gRenderPass);
+
+		pipelineGrass = graphicsInstance->CreatePipeline();
+		pipelineGrass->AddUniformBuffer(uniformBufferGrass);
+		pipelineGrass->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
+		pipelineGrass->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
+		pipelineGrass->AddVertexDescription(bindingDescr);
+		pipelineGrass->CreatePipeline(mGBuffer.gRenderPass);
+
 
 		// Deferred Shading Initialization
 		pipeline = graphicsInstance->CreatePipeline(&Invision::PipelineProperties(Invision::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, Invision::POLYGON_MODE_FILL, Invision::CULL_MODE_FRONT_BIT, Invision::FRONT_FACE_COUNTER_CLOCKWISE, 1.0f));
@@ -406,15 +431,21 @@ private:
 	std::shared_ptr <Invision::IGraphicsEngine> graphicsEngine;
 	std::shared_ptr <Invision::IGraphicsInstance> graphicsInstance;
 	std::shared_ptr <Invision::IRenderPass> renderPass;
-	std::shared_ptr <Invision::IVertexBuffer> vertexBuffer;
+	
 	std::shared_ptr <Invision::IUniformBuffer> DeferredUniformBuffer;
 	std::shared_ptr <Invision::IUniformBuffer> uniformBuffer;
+	std::shared_ptr <Invision::IUniformBuffer> uniformBufferGrass;
+	std::shared_ptr <Invision::IVertexBuffer> vertexBuffer;
 	std::shared_ptr <Invision::IIndexBuffer> indexBuffer;
 	std::shared_ptr <Invision::IPipeline> pipeline;
 	std::shared_ptr <Invision::IFramebuffer> framebuffer;
 	std::shared_ptr <Invision::ICommandBuffer> commandBuffer;
 	std::shared_ptr <Invision::IRenderer> renderer;
-	std::shared_ptr <Invision::ITexture> texture;
+	std::shared_ptr <Invision::ITexture> textureBrick;
+	std::shared_ptr <Invision::ITexture> textureGrass;
+	std::shared_ptr <Invision::IVertexBuffer> vertexBufferGrass;
+	std::shared_ptr <Invision::IIndexBuffer> indexBufferGrass;
+	std::shared_ptr <Invision::IPipeline> pipelineGrass;
 
 	std::shared_ptr<Invision::IKeyboard> keyboard;
 
@@ -424,6 +455,9 @@ private:
 
 	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;
+
+	std::vector<Vertex> verticesGrass;
+	std::vector<uint32_t> indicesGrass;
 	// timer for frequency adjusting
 	Invision::StopWatch mTimer;
 	const double dt = 1000 / FIXED_FPS;
