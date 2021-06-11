@@ -388,7 +388,7 @@ private:
 		pipelineGrass->SetColorBlendFunction();
 		pipelineGrass->SetDepthWrite(false);
 		pipelineGrass->AddVertexDescription(bindingDescr);
-		pipelineGrass->CreatePipeline(mGBuffer.gRenderPass);
+		pipelineGrass->CreatePipeline(renderPass);
 
 
 		// Deferred Shading Initialization

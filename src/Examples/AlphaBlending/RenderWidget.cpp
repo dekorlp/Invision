@@ -25,10 +25,12 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 	// main command Buffer
 	commandBuffer->BeginCommandBuffer().
 
-		// whole Scene
+		
 		SetViewport({ 0, 0, (float)width, (float)height, 0.0, 1.0 }).
 		SetScissor({ 0, 0, (uint32_t)width, (uint32_t)height }).
 		BeginRenderPass(renderPass, framebuffer, 0, 0, (uint32_t)width, (uint32_t)height).
+
+		// whole Scene
 		BindDescriptorSets(DeferredUniformBuffer, pipeline).
 		BindPipeline(pipeline).
 		Draw(3, 1, 0, 0).
@@ -93,7 +95,7 @@ void RenderWidget::UpdateUniformBuffer(float width, float height)
 	uniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0, 0);
 
 	UniformBufferObject uboGrass;
-	uboGrass.model = Invision::Matrix::RotateY(90.0) * Invision::Matrix::RotateZ(90.0) * Invision::Matrix::Translate(Invision::Vector3(-3.0f, 0.0f, 1.0f) );
+	uboGrass.model = Invision::Matrix::RotateY(90.0) * Invision::Matrix::RotateZ(90.0) * Invision::Matrix::Translate(Invision::Vector3(0.0f, 0.0f, 0.0f)) ;
 	uboGrass.view = Invision::Matrix(1.0f) *  Invision::Matrix::Camera(Invision::Vector3(x, y, z), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(upX, upY, upZ));
 	uboGrass.proj = Invision::Matrix(1.0f) * Invision::Matrix::Perspective(45.0, width / height, 0.1f, 10.0f); // perspective projection
 	uniformBufferGrass->UpdateUniform(&uboGrass, sizeof(uboGrass), 0, 0);
