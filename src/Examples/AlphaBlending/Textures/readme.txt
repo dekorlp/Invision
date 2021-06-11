@@ -15,3 +15,9 @@ Filename: kisspng-texture-mapping-drawing-lawn-tall-grass-texture-alpha-5ab1d0d2
 Creator: Uojraw
 License: Free to use
 Link: https://www.subpng.com/png-nj27a9/
+
+Name: brick_wall_001
+Filename: brick_wall_001_diffuse_1k.png
+Creator: Rob Tuytel & Dimitrios Savva
+License: CC0
+Link: https://texturehaven.com/tex/?c=bricks&t=brick_wall_001

@@ -306,10 +306,10 @@ private:
 		indexBuffer = graphicsInstance->CreateIndexBuffer();
 	
 
-		unsigned char* pixelsVikingRoom = readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/DeferredShadingDemo/Textures/viking_room.png"), width, height, channels);
+		unsigned char* pixelsVikingRoom = readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/AlphaBlending/Textures/brick_wall_001_diffuse_1k.png"), width, height, channels);
 		texture = graphicsInstance->CreateTexture(pixelsVikingRoom, width, height, Invision::FORMAT_R8G8B8A8_SRGB, true);
 		freeImage(pixelsVikingRoom);
-		texture->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT);
+		texture->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_NEAREST, Invision::SAMPLER_FILTER_MODE_NEAREST, Invision::SAMPLER_ADDRESS_MODE_CLAMP, Invision::SAMPLER_ADDRESS_MODE_CLAMP, Invision::SAMPLER_ADDRESS_MODE_CLAMP);
 
 		// gPass Initialization
 		mGBuffer.gPipeline = graphicsInstance->CreatePipeline();
@@ -318,7 +318,7 @@ private:
 		mGBuffer.albedoAttachment = graphicsInstance->CreateColorAttachment(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE, Invision::FORMAT_R16G16B16A16_SFLOAT);
 		mGBuffer.normalAttachment = graphicsInstance->CreateColorAttachment(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE, Invision::FORMAT_R16G16B16A16_SFLOAT);
 		mGBuffer.depthAttachment = graphicsInstance->CreateDepthAttachment(FRAMEBUFFER_SIZE, FRAMEBUFFER_SIZE);
-
+		6
 		// gPass Sampler Settings
 		mGBuffer.positionsAttachment->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_NEAREST, Invision::SAMPLER_FILTER_MODE_NEAREST, Invision::SAMPLER_ADDRESS_MODE_CLAMP, Invision::SAMPLER_ADDRESS_MODE_CLAMP, Invision::SAMPLER_ADDRESS_MODE_CLAMP);
 		mGBuffer.albedoAttachment->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_NEAREST, Invision::SAMPLER_FILTER_MODE_NEAREST, Invision::SAMPLER_ADDRESS_MODE_CLAMP, Invision::SAMPLER_ADDRESS_MODE_CLAMP, Invision::SAMPLER_ADDRESS_MODE_CLAMP);
@@ -338,7 +338,7 @@ private:
 		std::vector<Invision::Vector3> positions;
 		std::vector<Invision::Vector2> texCoords;
 
-		LoadModel(std::string(INVISION_BASE_DIR).append("/src/Examples/AlphaBlending/Models/viking_room.obj"), vertices, indices);
+		LoadModel(std::string(INVISION_BASE_DIR).append("/src/Examples/AlphaBlending/Models/cube.obj"), vertices, indices);
 		
 		std::shared_ptr<Invision::IVertexBindingDescription> bindingDescr = graphicsInstance->CreateVertexBindingDescription();
 		bindingDescr->CreateVertexBinding(0, sizeof(Vertex), Invision::VERTEX_INPUT_RATE_VERTEX)
