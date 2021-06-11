@@ -55,13 +55,13 @@ namespace Invision
 	void VulkanBasePipeline::SetColorBlendFunction(VkBool32 blendEnable, VkBlendFactor srcColorBlendFactor, VkBlendFactor dstColorBlendFactor, VkBlendOp colorBlendOp, VkBlendFactor srcAlphaBlendFactor, VkBlendFactor dstAlphaBlendFactor, VkBlendOp alphaBlendOp)
 	{
 		VkPipelineColorBlendAttachmentState pipelineColorBlendAttachmentState;
-		pipelineColorBlendAttachmentState.blendEnable = VK_TRUE;
-		pipelineColorBlendAttachmentState.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
-		pipelineColorBlendAttachmentState.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
-		pipelineColorBlendAttachmentState.colorBlendOp = VK_BLEND_OP_ADD;
-		pipelineColorBlendAttachmentState.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
-		pipelineColorBlendAttachmentState.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-		pipelineColorBlendAttachmentState.alphaBlendOp = VK_BLEND_OP_ADD;
+		pipelineColorBlendAttachmentState.blendEnable = blendEnable;
+		pipelineColorBlendAttachmentState.srcColorBlendFactor = srcColorBlendFactor;
+		pipelineColorBlendAttachmentState.dstColorBlendFactor = dstColorBlendFactor;
+		pipelineColorBlendAttachmentState.colorBlendOp = colorBlendOp;
+		pipelineColorBlendAttachmentState.srcAlphaBlendFactor = srcAlphaBlendFactor;
+		pipelineColorBlendAttachmentState.dstAlphaBlendFactor = dstAlphaBlendFactor;
+		pipelineColorBlendAttachmentState.alphaBlendOp = alphaBlendOp;
 		pipelineColorBlendAttachmentState.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
 
 		mColorBlendAttachments.insert(std::pair<unsigned int, VkPipelineColorBlendAttachmentState>(0, pipelineColorBlendAttachmentState));
