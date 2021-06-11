@@ -22,6 +22,8 @@ namespace Invision
 		void INVISION_API AddShader(VulkanBaseShader shader);
 		void INVISION_API SetRenderProperties(VkPrimitiveTopology primitiveTopology, VkPolygonMode polygonMode, VkCullModeFlags cullModeFlags, VkFrontFace frontFace, float lineWidth);
 		void INVISION_API SetColorBlendFunction();
+		void INVISION_API SetDepthTest(bool enable);
+		void INVISION_API SetDepthWrite(bool enable);
 		void INVISION_API ClearUniformsBuffer();
 		void INVISION_API AddUniformBuffer(VulkanBaseUniformBuffer& uniformBuffer);
 		void INVISION_API AddUniformBuffer(VulkanBaseUniformBuffer& uniformBuffer, uint32_t set);
@@ -57,6 +59,10 @@ namespace Invision
 		VkCullModeFlags mCullModeFlags;
 		VkFrontFace mFrontFace;
 		float mLineWidth;
+
+		// Depth Testing Options
+		bool mDepthTest = VK_TRUE;
+		bool mDepthWrite = VK_TRUE;
 
 		// BlendAttachment Options
 		std::map<unsigned int, VkPipelineColorBlendAttachmentState> mColorBlendAttachments;

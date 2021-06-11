@@ -386,12 +386,14 @@ private:
 		pipelineGrass->AddShader(vertShaderCodeGrass, Invision::SHADER_STAGE_VERTEX_BIT);
 		pipelineGrass->AddShader(fragShaderCodeGrass, Invision::SHADER_STAGE_FRAGMENT_BIT);
 		pipelineGrass->SetColorBlendFunction();
+		pipelineGrass->SetDepthWrite(false);
 		pipelineGrass->AddVertexDescription(bindingDescr);
 		pipelineGrass->CreatePipeline(mGBuffer.gRenderPass);
 
 
 		// Deferred Shading Initialization
 		pipeline = graphicsInstance->CreatePipeline(&Invision::PipelineProperties(Invision::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, Invision::POLYGON_MODE_FILL, Invision::CULL_MODE_FRONT_BIT, Invision::FRONT_FACE_COUNTER_CLOCKWISE, 1.0f));
+		pipeline->SetDepthWrite(false);
 
 		DeferredUniformBuffer = graphicsInstance->CreateUniformBuffer();
 		DeferredUniformBuffer->CreateImageBinding(0, 0, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, mGBuffer.albedoAttachment).CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, mGBuffer.normalAttachment).CreateImageBinding(0, 2, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, mGBuffer.positionsAttachment).CreateUniformBinding(0, 3, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, sizeof(UniformOptionsBuffer)).CreateUniformBinding(0, 4, 1, Invision::SHADER_STAGE_VERTEX_BIT | Invision::SHADER_STAGE_FRAGMENT_BIT, sizeof(UniformLightBuffer)).CreateUniformBuffer();

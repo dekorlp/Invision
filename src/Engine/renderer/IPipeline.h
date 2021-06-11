@@ -35,6 +35,8 @@ namespace Invision
 
 		INVISION_API virtual void AddShader(const std::vector<char>& code, ShaderStage stage) = 0;
 		INVISION_API virtual void SetColorBlendFunction() = 0;
+		INVISION_API virtual void SetDepthTest(bool enable) = 0;
+		INVISION_API virtual void SetDepthWrite(bool enable) = 0;
 		INVISION_API virtual void ClearUniformBuffer() = 0;
 		INVISION_API virtual void AddUniformBuffer(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer) = 0;
 		INVISION_API virtual void AddUniformBuffer(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer, uint32_t set) = 0;

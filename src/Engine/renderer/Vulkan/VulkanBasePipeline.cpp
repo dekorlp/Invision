@@ -67,6 +67,18 @@ namespace Invision
 		mColorBlendAttachments.insert(std::pair<unsigned int, VkPipelineColorBlendAttachmentState>(0, pipelineColorBlendAttachmentState));
 	}
 
+	void VulkanBasePipeline::SetDepthTest(bool enable)
+	{
+		mDepthTest = enable;
+	}
+
+	void VulkanBasePipeline::SetDepthWrite(bool enable)
+	{
+		mDepthWrite = enable;
+	}
+
+
+	
 	void VulkanBasePipeline::ClearUniformsBuffer()
 	{
 		mDescriptorSetLayout.clear();
@@ -181,8 +193,8 @@ namespace Invision
 	void VulkanBasePipeline::UpdateDepthStencilConfiguration( )
 	{
 		mDepthStencil.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
-		mDepthStencil.depthTestEnable = VK_TRUE;
-		mDepthStencil.depthWriteEnable = VK_TRUE;
+		mDepthStencil.depthTestEnable = mDepthTest;
+		mDepthStencil.depthWriteEnable = mDepthWrite;
 		mDepthStencil.depthCompareOp = VK_COMPARE_OP_LESS_OR_EQUAL; // VK_COMPARE_OP_LESS
 		mDepthStencil.depthBoundsTestEnable = VK_FALSE;
 		mDepthStencil.minDepthBounds = 0.0f; // Optional

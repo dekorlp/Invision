@@ -64,6 +64,16 @@ namespace Invision
 		mPipeline.SetColorBlendFunction();
 	}
 
+	void VulkanPipeline::SetDepthTest(bool enable)
+	{
+		mPipeline.SetDepthTest(enable);
+	}
+
+	void VulkanPipeline::SetDepthWrite(bool enable)
+	{
+		mPipeline.SetDepthWrite(enable);
+	}
+
 	void VulkanPipeline::ClearUniformBuffer()
 	{
 		mPipeline.ClearUniformsBuffer();
