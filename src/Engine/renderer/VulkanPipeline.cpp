@@ -59,9 +59,17 @@ namespace Invision
 		mShaders.push_back(VulkanBaseShader(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), code, vkShaderStage));
 	}
 
-	void VulkanPipeline::SetColorBlendFunction()
+	void VulkanPipeline::SetColorBlendFunction(bool blendEnable, BlendFactor srcColorBlendFactor, BlendFactor dstColorBlendFactor, BlendOp colorBlendOp, BlendFactor srcAlphaBlendFactor, BlendFactor dstAlphaBlendFactor, BlendOp alphaBlendOp)
 	{
-		mPipeline.SetColorBlendFunction();
+		VkBlendFactor vksrcColorBlendFactor = TranslateBlendFactor(srcColorBlendFactor);
+		VkBlendFactor vkdstColorBlendFactor = TranslateBlendFactor(dstColorBlendFactor);
+		VkBlendOp vkcolorBlendOp = TranslateBlendOp(colorBlendOp);
+		VkBlendFactor vksrcAlphaBlendFactor = TranslateBlendFactor(srcAlphaBlendFactor);
+		VkBlendFactor vkdstAlphaBlendFactor = TranslateBlendFactor(dstAlphaBlendFactor);
+		VkBlendOp vkalphaBlendOp = TranslateBlendOp(alphaBlendOp);
+
+
+		mPipeline.SetColorBlendFunction(blendEnable, vksrcColorBlendFactor, vkdstColorBlendFactor, vkcolorBlendOp, vksrcAlphaBlendFactor, vkdstAlphaBlendFactor, vkalphaBlendOp);
 	}
 
 	void VulkanPipeline::SetDepthTest(bool enable)
@@ -220,6 +228,91 @@ namespace Invision
 			mShaders[i].Destroy(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
 		}
 
+	}
+
+	VkBlendFactor VulkanPipeline::TranslateBlendFactor(BlendFactor blendfactor)
+	{
+		VkBlendFactor factor;
+
+		switch (blendfactor)
+		{
+		case BLEND_FACTOR_ZERO:
+			factor = VK_BLEND_FACTOR_ZERO;
+			break;
+		case BLEND_FACTOR_ONE:
+			factor = VK_BLEND_FACTOR_ONE;
+			break;
+		case BLEND_FACTOR_SRC_COLOR:
+			factor = VK_BLEND_FACTOR_SRC_COLOR;
+			break;
+		case BLEND_FACTOR_ONE_MINUS_SRC_COLOR:
+			factor = VK_BLEND_FACTOR_ONE_MINUS_SRC_COLOR;
+			break;
+		case BLEND_FACTOR_DST_COLOR:
+			factor = VK_BLEND_FACTOR_DST_COLOR;
+			break;
+		case BLEND_FACTOR_ONE_MINUS_DST_COLOR:
+			factor = VK_BLEND_FACTOR_ONE_MINUS_DST_COLOR;
+			break;
+		case BLEND_FACTOR_SRC_ALPHA:
+			factor = VK_BLEND_FACTOR_SRC_ALPHA;
+			break;
+		case BLEND_FACTOR_ONE_MINUS_SRC_ALPHA:
+			factor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+			break;
+		case BLEND_FACTOR_DST_ALPHA:
+			factor = VK_BLEND_FACTOR_DST_ALPHA;
+			break;
+		case BLEND_FACTOR_ONE_MINUS_DST_ALPHA:
+			factor = VK_BLEND_FACTOR_ONE_MINUS_DST_ALPHA;
+			break;
+		case BLEND_FACTOR_SRC_ALPHA_SATURATE:
+			factor = VK_BLEND_FACTOR_SRC_ALPHA_SATURATE;
+			break;
+		case BLEND_FACTOR_SRC1_COLOR:
+			factor = VK_BLEND_FACTOR_SRC1_COLOR;
+			break;
+		case BLEND_FACTOR_ONE_MINUS_SRC1_COLOR:
+			factor = VK_BLEND_FACTOR_ONE_MINUS_SRC1_COLOR;
+			break;
+		case BLEND_FACTOR_SRC1_ALPHA:
+			factor = VK_BLEND_FACTOR_SRC1_ALPHA;
+			break;
+		case BLEND_FACTOR_ONE_MINUS_SRC1_ALPHA:
+			factor = VK_BLEND_FACTOR_ONE_MINUS_SRC1_ALPHA;
+			break;
+		default:
+			throw InvisionBaseRendererException("Unknown BlendFactor passed to Pipeline");
+		}
+
+		return factor;
+	}
+
+	VkBlendOp VulkanPipeline::TranslateBlendOp(BlendOp blendOp)
+	{
+		VkBlendOp vkblendOp;
+		switch (blendOp)
+		{
+		case BLEND_OP_ADD:
+			vkblendOp = VK_BLEND_OP_ADD;
+			break;
+		case BLEND_OP_SUBTRACT:
+			vkblendOp = VK_BLEND_OP_SUBTRACT;
+			break;
+		case BLEND_OP_REVERSE_SUBTRACT:
+			vkblendOp = VK_BLEND_OP_REVERSE_SUBTRACT;
+			break;
+		case BLEND_OP_MIN:
+			vkblendOp = VK_BLEND_OP_MIN;
+			break;
+		case BLEND_OP_MAX:
+			vkblendOp = VK_BLEND_OP_MAX;
+			break;
+		default:
+			throw InvisionBaseRendererException("Unknown BlendOp passed to Pipeline");
+		}
+
+		return vkblendOp;
 	}
 
 	VulkanBasePipeline VulkanPipeline::GetPipeline()

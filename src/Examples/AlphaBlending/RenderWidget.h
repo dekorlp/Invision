@@ -385,7 +385,7 @@ private:
 		pipelineGrass->AddUniformBuffer(uniformBufferGrass);
 		pipelineGrass->AddShader(vertShaderCodeGrass, Invision::SHADER_STAGE_VERTEX_BIT);
 		pipelineGrass->AddShader(fragShaderCodeGrass, Invision::SHADER_STAGE_FRAGMENT_BIT);
-		pipelineGrass->SetColorBlendFunction();
+		pipelineGrass->SetColorBlendFunction(true, Invision::BLEND_FACTOR_SRC_ALPHA, Invision::BLEND_FACTOR_ONE_MINUS_SRC_ALPHA, Invision::BLEND_OP_ADD, Invision::BLEND_FACTOR_ONE, Invision::BLEND_FACTOR_ZERO, Invision::BLEND_OP_ADD);
 		pipelineGrass->SetDepthWrite(false);
 		pipelineGrass->AddVertexDescription(bindingDescr);
 		pipelineGrass->CreatePipeline(renderPass);

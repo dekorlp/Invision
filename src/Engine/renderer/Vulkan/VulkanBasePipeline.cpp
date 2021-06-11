@@ -52,7 +52,7 @@ namespace Invision
 		mLineWidth = lineWidth;
 	}
 
-	void VulkanBasePipeline::SetColorBlendFunction()
+	void VulkanBasePipeline::SetColorBlendFunction(VkBool32 blendEnable, VkBlendFactor srcColorBlendFactor, VkBlendFactor dstColorBlendFactor, VkBlendOp colorBlendOp, VkBlendFactor srcAlphaBlendFactor, VkBlendFactor dstAlphaBlendFactor, VkBlendOp alphaBlendOp)
 	{
 		VkPipelineColorBlendAttachmentState pipelineColorBlendAttachmentState;
 		pipelineColorBlendAttachmentState.blendEnable = VK_TRUE;

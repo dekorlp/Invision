@@ -23,7 +23,7 @@ namespace Invision
 		INVISION_API VulkanPipeline(VulkanInstance* instance, PipelineProperties* pipelineProperties);
 
 		INVISION_API void AddShader(const std::vector<char>& code, ShaderStage stage);
-		INVISION_API void SetColorBlendFunction();
+		INVISION_API void SetColorBlendFunction(bool blendEnable, BlendFactor srcColorBlendFactor, BlendFactor dstColorBlendFactor, BlendOp colorBlendOp, BlendFactor srcAlphaBlendFactor, BlendFactor dstAlphaBlendFactor, BlendOp alphaBlendOp);
 
 		INVISION_API void SetDepthTest(bool enable);
 		INVISION_API void SetDepthWrite(bool enable);
@@ -44,6 +44,10 @@ namespace Invision
 
 
 	private:
+		VkBlendFactor TranslateBlendFactor(BlendFactor blendfactor);
+		VkBlendOp TranslateBlendOp(BlendOp blendOp);
+
+
 		Invision::VulkanInstance *mVulkanInstance;
 
 		std::vector< Invision::VulkanBaseShader> mShaders;
