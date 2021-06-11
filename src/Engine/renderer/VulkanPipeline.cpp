@@ -72,9 +72,9 @@ namespace Invision
 		mPipeline.SetColorBlendFunction(blendEnable, vksrcColorBlendFactor, vkdstColorBlendFactor, vkcolorBlendOp, vksrcAlphaBlendFactor, vkdstAlphaBlendFactor, vkalphaBlendOp);
 	}
 
-	void VulkanPipeline::SetDepthTest(bool enable)
+	void VulkanPipeline::SetDepthTest(bool enable, CompareOp compareOp)
 	{
-		mPipeline.SetDepthTest(enable);
+		mPipeline.SetDepthTest(enable, TranslateCompareOp(compareOp));
 	}
 
 	void VulkanPipeline::SetDepthWrite(bool enable)
@@ -313,6 +313,42 @@ namespace Invision
 		}
 
 		return vkblendOp;
+	}
+
+	VkCompareOp VulkanPipeline::TranslateCompareOp(CompareOp)
+	{
+		VkCompareOp vkCompareOp;
+		switch (vkCompareOp)
+		{
+		case COMPARE_OP_NEVER:
+			vkCompareOp = VK_COMPARE_OP_NEVER;
+			break;
+		case COMPARE_OP_LESS:
+			vkCompareOp = VK_COMPARE_OP_LESS;
+			break;
+		case COMPARE_OP_EQUAL:
+			vkCompareOp = VK_COMPARE_OP_EQUAL;
+			break;
+		case COMPARE_OP_LESS_OR_EQUAL:
+			vkCompareOp = VK_COMPARE_OP_LESS_OR_EQUAL;
+			break;
+		case COMPARE_OP_GREATER:
+			vkCompareOp = VK_COMPARE_OP_GREATER;
+			break;
+		case COMPARE_OP_NOT_EQUAL:
+			vkCompareOp = VK_COMPARE_OP_NOT_EQUAL;
+			break;
+		case COMPARE_OP_GREATER_OR_EQUAL:
+			vkCompareOp = VK_COMPARE_OP_GREATER_OR_EQUAL;
+			break;
+		case COMPARE_OP_ALWAYS:
+			vkCompareOp = VK_COMPARE_OP_ALWAYS;
+			break;
+		default:
+			throw InvisionBaseRendererException("Unknown BlendOp passed to Pipeline");
+		}
+
+		return vkCompareOp;
 	}
 
 	VulkanBasePipeline VulkanPipeline::GetPipeline()
