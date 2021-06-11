@@ -23,6 +23,7 @@ namespace Invision
 		INVISION_API VulkanPipeline(VulkanInstance* instance, PipelineProperties* pipelineProperties);
 
 		INVISION_API void AddShader(const std::vector<char>& code, ShaderStage stage);
+		INVISION_API void SetColorBlendFunction();
 
 		INVISION_API void ClearUniformBuffer();
 		INVISION_API void AddUniformBuffer(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer);

@@ -385,8 +385,9 @@ private:
 		pipelineGrass->AddUniformBuffer(uniformBufferGrass);
 		pipelineGrass->AddShader(vertShaderCodeGrass, Invision::SHADER_STAGE_VERTEX_BIT);
 		pipelineGrass->AddShader(fragShaderCodeGrass, Invision::SHADER_STAGE_FRAGMENT_BIT);
+		pipelineGrass->SetColorBlendFunction();
 		pipelineGrass->AddVertexDescription(bindingDescr);
-		pipelineGrass->CreatePipeline(renderPass);
+		pipelineGrass->CreatePipeline(mGBuffer.gRenderPass);
 
 
 		// Deferred Shading Initialization

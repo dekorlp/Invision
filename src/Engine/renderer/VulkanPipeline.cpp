@@ -59,6 +59,11 @@ namespace Invision
 		mShaders.push_back(VulkanBaseShader(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), code, vkShaderStage));
 	}
 
+	void VulkanPipeline::SetColorBlendFunction()
+	{
+		mPipeline.SetColorBlendFunction();
+	}
+
 	void VulkanPipeline::ClearUniformBuffer()
 	{
 		mPipeline.ClearUniformsBuffer();

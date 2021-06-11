@@ -52,6 +52,21 @@ namespace Invision
 		mLineWidth = lineWidth;
 	}
 
+	void VulkanBasePipeline::SetColorBlendFunction()
+	{
+		VkPipelineColorBlendAttachmentState pipelineColorBlendAttachmentState;
+		pipelineColorBlendAttachmentState.blendEnable = VK_TRUE;
+		pipelineColorBlendAttachmentState.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
+		pipelineColorBlendAttachmentState.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+		pipelineColorBlendAttachmentState.colorBlendOp = VK_BLEND_OP_ADD;
+		pipelineColorBlendAttachmentState.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+		pipelineColorBlendAttachmentState.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+		pipelineColorBlendAttachmentState.alphaBlendOp = VK_BLEND_OP_ADD;
+		pipelineColorBlendAttachmentState.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+
+		mColorBlendAttachments.insert(std::pair<unsigned int, VkPipelineColorBlendAttachmentState>(0, pipelineColorBlendAttachmentState));
+	}
+
 	void VulkanBasePipeline::ClearUniformsBuffer()
 	{
 		mDescriptorSetLayout.clear();
@@ -186,7 +201,15 @@ namespace Invision
 		
 		for (unsigned int i = 0; i < colorAttachmentCount; i++)
 		{
-			mColorBlendAttachmentStates.push_back(mColorBlendAttachmentState);
+			if (mColorBlendAttachments.find(i) == mColorBlendAttachments.end())
+			{
+				mColorBlendAttachmentStates.push_back(mColorBlendAttachmentState);
+			}
+			else
+			{
+				mColorBlendAttachmentStates.push_back(mColorBlendAttachments.at(i));
+			}
+			
 		}
 
 		mColorBlendAttachment.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
