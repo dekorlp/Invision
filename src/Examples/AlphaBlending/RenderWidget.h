@@ -379,10 +379,12 @@ private:
 		mGBuffer.gPipeline->AddVertexDescription(bindingDescr);
 		mGBuffer.gPipeline->CreatePipeline(mGBuffer.gRenderPass);
 
+		auto vertShaderCodeGrass = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/AlphaBlending/Shader/AlphaBlending/grass.vert.spv"));
+		auto fragShaderCodeGrass = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/AlphaBlending/Shader/AlphaBlending/grass.frag.spv"));
 		pipelineGrass = graphicsInstance->CreatePipeline();
 		pipelineGrass->AddUniformBuffer(uniformBufferGrass);
-		pipelineGrass->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
-		pipelineGrass->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
+		pipelineGrass->AddShader(vertShaderCodeGrass, Invision::SHADER_STAGE_VERTEX_BIT);
+		pipelineGrass->AddShader(fragShaderCodeGrass, Invision::SHADER_STAGE_FRAGMENT_BIT);
 		pipelineGrass->AddVertexDescription(bindingDescr);
 		pipelineGrass->CreatePipeline(mGBuffer.gRenderPass);
 
