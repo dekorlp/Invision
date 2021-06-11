@@ -315,10 +315,10 @@ namespace Invision
 		return vkblendOp;
 	}
 
-	VkCompareOp VulkanPipeline::TranslateCompareOp(CompareOp)
+	VkCompareOp VulkanPipeline::TranslateCompareOp(CompareOp compareOp)
 	{
 		VkCompareOp vkCompareOp;
-		switch (vkCompareOp)
+		switch (compareOp)
 		{
 		case COMPARE_OP_NEVER:
 			vkCompareOp = VK_COMPARE_OP_NEVER;

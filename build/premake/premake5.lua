@@ -524,6 +524,11 @@ AddConsoleProject(
 		srcroot .. "Examples/AlphaBlending/**.cpp"
 	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, true)
 
+AddConsoleProject(
+	"GeometryShader", srcroot .. "Examples/", {
+		srcroot .. "Examples/GeometryShader/**.h",
+		srcroot .. "Examples/GeometryShader/**.cpp"
+	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, true)
 
 
 

@@ -46,7 +46,7 @@ namespace Invision
 	private:
 		VkBlendFactor TranslateBlendFactor(BlendFactor blendfactor);
 		VkBlendOp TranslateBlendOp(BlendOp blendOp);
-		VkCompareOp TranslateCompareOp(CompareOp);
+		VkCompareOp TranslateCompareOp(CompareOp compareOp);
 
 
 		Invision::VulkanInstance *mVulkanInstance;
