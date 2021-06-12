@@ -15,7 +15,7 @@ layout(location = 0) in vec3 normal[];
 
 
 
-const float MAGNITUDE = 0.4;
+const float MAGNITUDE = 0.1;
 
 void GenerateLine(int index)
 {
