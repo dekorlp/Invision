@@ -78,7 +78,7 @@ void RenderWidget::UpdateUniformBuffer(float width, float height)
 	
 
 	TesselationControlObject teso;
-	teso.tessLevel = 3;
+	teso.tessLevel = tesselationLevel;
 	uniformBuffer->UpdateUniform(&teso, sizeof(teso), 0, 1);
 }
 

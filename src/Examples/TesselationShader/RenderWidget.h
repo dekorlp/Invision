@@ -211,6 +211,16 @@ private:
 		{
 			theta += 0.001f *dt;
 		}
+		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_NUM_1, Invision::INVISION_KEY_PRESSED))
+		{
+			tesselationLevel += 0.005f *dt;
+		}
+
+		if (keyboard->GetStateOfKey(Invision::INVISION_KEY_NUM_2, Invision::INVISION_KEY_PRESSED))
+		{
+			tesselationLevel -= 0.005f *dt;
+		}
+
 		bool spaceCurrentlyPressed = keyboard->GetStateOfKey(Invision::INVISION_KEY_SPACE, Invision::INVISION_KEY_PRESSED);
 
 		if (!spacePressed && spaceCurrentlyPressed) {
@@ -359,6 +369,8 @@ private:
 	float radius = 3.0f;
 
 	float scale = 1;
+
+	float tesselationLevel = 3.0;
 
 
 };
