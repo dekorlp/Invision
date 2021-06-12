@@ -257,12 +257,12 @@ private:
 		indexBuffer = graphicsInstance->CreateIndexBuffer();
 		//texture = graphicsInstance->CreateTexture();
 
-		unsigned char* pixels = readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/GeometryShader/Textures/viking_room.png"), width, height, channels);
+		unsigned char* pixels = readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/TesselationShader/Textures/viking_room.png"), width, height, channels);
 
 		std::vector<Invision::Vector3> positions;
 		std::vector<Invision::Vector2> texCoords;
 
-		LoadModel(std::string(INVISION_BASE_DIR).append("/src/Examples/GeometryShader/Models/viking_room.obj"), vertices, indices);
+		LoadModel(std::string(INVISION_BASE_DIR).append("/src/Examples/TesselationShader/Models/viking_room.obj"), vertices, indices);
 		texture = graphicsInstance->CreateTexture(pixels, width, height, Invision::FORMAT_R8G8B8A8_SRGB, true);
 		freeImage(pixels);
 		texture->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT);
@@ -280,8 +280,8 @@ private:
 		uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject)).CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, texture).CreateUniformBuffer();
 		tesselUniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT | Invision::SHADER_STAGE_GEOMETRY_BIT, sizeof(UniformBufferObject)).CreateUniformBuffer();
 
-		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/GeometryShader/Shader/GeometryShader/vert.spv"));
-		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/GeometryShader/Shader/GeometryShader/frag.spv"));
+		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/TesselationShader/Shader/TesselationShader/vert.spv"));
+		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/TesselationShader/Shader/TesselationShader/frag.spv"));
 		pipeline = graphicsInstance->CreatePipeline(&Invision::PipelineProperties(Invision::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, Invision::POLYGON_MODE_LINE, Invision::CULL_MODE_BACK_BIT, Invision::FRONT_FACE_COUNTER_CLOCKWISE, 1.0f));
 		pipeline->AddUniformBuffer(uniformBuffer);
 		pipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
@@ -290,8 +290,6 @@ private:
 		pipeline->CreatePipeline(renderPass);
 
 		// create geomtry Shader Pipeline
-		auto vertShaderNormalCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/GeometryShader/Shader/GeometryShader/normal.vert.spv"));
-		auto fragShaderNormalCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/GeometryShader/Shader/GeometryShader/normal.frag.spv"));
 		tesselPipeline = graphicsInstance->CreatePipeline(&Invision::PipelineProperties(Invision::PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST, Invision::POLYGON_MODE_LINE, Invision::CULL_MODE_BACK_BIT, Invision::FRONT_FACE_COUNTER_CLOCKWISE, 1.0f));
 		tesselPipeline->AddUniformBuffer(uniformBuffer);
 		tesselPipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
