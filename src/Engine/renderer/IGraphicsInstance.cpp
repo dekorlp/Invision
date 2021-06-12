@@ -12,7 +12,7 @@ namespace Invision
 	{
 	}
 	
-	IGraphicsInstance::IGraphicsInstance(IGraphicsEngine* engine, CanvasDimensions* canvas, bool activateDepthTest, MSAAMode msaaMode) :
+	IGraphicsInstance::IGraphicsInstance(IGraphicsEngine* engine, CanvasDimensions* canvas, MSAAMode msaaMode) :
 		mEngine(engine)
 	{
 		

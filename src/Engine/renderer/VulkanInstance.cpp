@@ -24,7 +24,7 @@ namespace Invision
 
 	}*/
 
-	VulkanInstance::VulkanInstance(VulkanEngine* engine, CanvasDimensions dimensions, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, bool activateDepthTest, MSAAMode msaaMode)
+	VulkanInstance::VulkanInstance(VulkanEngine* engine, CanvasDimensions dimensions, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, MSAAMode msaaMode)
 		: IGraphicsInstance(engine)
 	{
 		mVulkanEngine = engine;
@@ -37,11 +37,10 @@ namespace Invision
 		// Create Default RenderPass / FrameBuffer / CommandBuffer
 		mMainRenderPass = CreateRenderPass();
 		std::vector<Invision::VulkanBaseTexture> frameBufferAttachments;
+		
 		// Create Depth Ressources
-		if (activateDepthTest)
-		{
-			UpdateDepthTexture();
-		}
+		UpdateDepthTexture();
+
 
 		// Create Color Ressources for Multisampling
 		if (engine->GetVulkanBaseStruct().UseMSAA)
@@ -74,10 +73,8 @@ namespace Invision
 			UpdateMSAATexture();
 		}
 
-		if (mUseDepthTest)
-		{
-			UpdateDepthTexture();
-		}
+		
+		UpdateDepthTexture();
 
 		mMainFramebuffer.reset();
 		mMainFramebuffer = std::make_shared<VulkanFramebuffer>(this, renderPass, true);
@@ -149,8 +146,6 @@ namespace Invision
 
 
 		mDepthRessources.CreateDepthRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext, mVulkanContext.swapChainExtent.width, mVulkanContext.swapChainExtent.height, mVulkanEngine->GetVulkanBaseStruct().MsaaFlagBits, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, VK_IMAGE_ASPECT_DEPTH_BIT);
-		mUseDepthTest = true;
-		mVulkanContext.mUseDepthRessources = true;
 
 	}
 
@@ -285,10 +280,8 @@ namespace Invision
 			mColorRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
 		}
 
-		if (mUseDepthTest)
-		{
-			mDepthRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
-		}
+		mDepthRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
+
 		Invision::DestroyPresentationSystem(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext);
 		Invision::DestroySurface(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext);
 	}

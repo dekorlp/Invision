@@ -255,7 +255,7 @@ private:
 		Invision::CanvasDimensions dim = { HWND(nativeWindowHandler), this->size().width(), this->size().height() };
 		//graphicsEngine = std::make_shared<Invision::VulkanEngine>(dim);
 
-		graphicsInstance = graphicsEngine->CreateInstance(dim, renderPass, framebuffer, commandBuffer, true);
+		graphicsInstance = graphicsEngine->CreateInstance(dim, renderPass, framebuffer, commandBuffer);
 
 		//renderPass = graphicsInstance->CreateRenderPass(); //graphicsEngine->CreateRenderPass();
 		vertexBuffer = graphicsInstance->CreateVertexBuffer();

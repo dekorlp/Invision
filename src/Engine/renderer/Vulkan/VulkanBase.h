@@ -31,7 +31,6 @@ namespace Invision
 		VkFormat swapChainImageFormat;
 		VkExtent2D swapChainExtent;
 		std::vector<VkImageView> swapChainImageViews;
-		bool mUseDepthRessources = false;
 
 		SVulkanContext() : 
 			surface(VK_NULL_HANDLE),

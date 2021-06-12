@@ -18,7 +18,7 @@ namespace Invision
 
 		INVISION_API VulkanInstance() = delete;
 
-		INVISION_API VulkanInstance(VulkanEngine* engine, CanvasDimensions dimensions, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, bool activateDepthTest, MSAAMode msaaMode);
+		INVISION_API VulkanInstance(VulkanEngine* engine, CanvasDimensions dimensions, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, MSAAMode msaaMode);
 		INVISION_API Invision::SVulkanContext& GetVulkanContext();
 		INVISION_API void ResetPresentation(CanvasDimensions canvas, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer) override;
 
@@ -63,8 +63,6 @@ namespace Invision
 		void UpdateDepthTexture();
 		void UpdateMSAATexture();
 		void ActivateMSAA(MSAAMode msaa);
-
-		bool mUseDepthTest = false;
 	};
 
 }

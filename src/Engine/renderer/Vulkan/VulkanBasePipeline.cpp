@@ -273,7 +273,7 @@ namespace Invision
 		return mPipelineLayout;
 	}
 
-	void VulkanBasePipeline::CreatePipeline(const SVulkanBase &vulkanInstance, VulkanBaseRenderPass &renderPass, uint32_t subpassIndex, bool useDepthRessource, unsigned int colorAttachmentCount, VkSampleCountFlagBits numSamples, float minDepthBound, float maxDepthBound, VkPipelineCache pipelineCache)
+	void VulkanBasePipeline::CreatePipeline(const SVulkanBase &vulkanInstance, VulkanBaseRenderPass &renderPass, uint32_t subpassIndex, unsigned int colorAttachmentCount, VkSampleCountFlagBits numSamples, float minDepthBound, float maxDepthBound, VkPipelineCache pipelineCache)
 	{
 		UpdateVertexInputConfiguration();
 		UpdateInputAssemblyConfiguration(mPrimitiveTopology);
@@ -289,7 +289,7 @@ namespace Invision
 			UpdateMultisamplingConfiguration(numSamples);
 		}
 
-		if(useDepthRessource) UpdateDepthStencilConfiguration();
+		UpdateDepthStencilConfiguration();
 		UpdateColorBlendingAttachmentConfiguration(colorAttachmentCount);
 		UpdateDynamicStatesConfiguration();
 		UpdatePipelineLayoutConfiguration();
@@ -309,15 +309,8 @@ namespace Invision
 		pipelineInfo.pMultisampleState = &mMultisampling;
 		pipelineInfo.pColorBlendState = &mColorBlendAttachment;
 		pipelineInfo.pDynamicState = &mDynamicState;
-		
-		if (useDepthRessource)
-		{
-			pipelineInfo.pDepthStencilState = &mDepthStencil;
-		}
-		else
-		{
-			pipelineInfo.pDepthStencilState = nullptr;
-		}
+		pipelineInfo.pDepthStencilState = &mDepthStencil;
+
 
 		if (mTesselationPatchListSet)
 		{

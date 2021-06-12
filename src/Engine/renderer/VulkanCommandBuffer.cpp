@@ -84,18 +84,10 @@ namespace Invision
 
 		if (dynamic_pointer_cast<VulkanRenderPass>(renderPass)->IsMainRenderPass())
 		{
-
-			if (mVulkanInstance->GetVulkanContext().mUseDepthRessources == true)
-			{
-				clearValues.resize(2);
-				clearValues[0].color = { mBackground[0], mBackground[1], mBackground[2], mBackground[3] };
-				clearValues[1].depthStencil = { 1.0, 0 };
-			}
-			else
-			{
-				clearValues.resize(1);
-				clearValues[0].color = { mBackground[0], mBackground[1], mBackground[2], mBackground[3] };
-			}
+			clearValues.resize(2);
+			clearValues[0].color = { mBackground[0], mBackground[1], mBackground[2], mBackground[3] };
+			clearValues[1].depthStencil = { 1.0, 0 };
+	
 		}
 		else
 		{

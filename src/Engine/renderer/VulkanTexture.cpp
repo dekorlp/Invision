@@ -19,7 +19,7 @@ namespace Invision
 	{
 		mVulkanInstance = instance;
 
-		mTexture.CreateTextureImage(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), pixels, width, height, mVulkanInstance->GetVulkanContext().mUseDepthRessources, instance->ConvertInvisionFormatToVkFormat(format) , generateMipMaps);
+		mTexture.CreateTextureImage(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), pixels, width, height, instance->ConvertInvisionFormatToVkFormat(format), generateMipMaps);
 		mTexture.CreateTextureImageView(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), VK_IMAGE_VIEW_TYPE_2D, instance->ConvertInvisionFormatToVkFormat(format), 1);
 		mImageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 	}
@@ -27,14 +27,14 @@ namespace Invision
 	void VulkanTexture::CreateTexture(unsigned char* pixels,  int width, int height, GfxFormat format, bool generateMipMaps)
 	{
 
-		mTexture.CreateTextureImage(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), pixels, width, height, mVulkanInstance->GetVulkanContext().mUseDepthRessources, mVulkanInstance->ConvertInvisionFormatToVkFormat(format), generateMipMaps);
+		mTexture.CreateTextureImage(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), pixels, width, height, mVulkanInstance->ConvertInvisionFormatToVkFormat(format), generateMipMaps);
 		mTexture.CreateTextureImageView(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), VK_IMAGE_VIEW_TYPE_2D, mVulkanInstance->ConvertInvisionFormatToVkFormat(format), 1);
 		mImageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 	}
 
 	void VulkanTexture::CreateTextureCubemap(unsigned char* posx, unsigned char* negx, unsigned char* posy, unsigned char* negy, unsigned char* posz, unsigned char* negz, int width, int height, GfxFormat format, bool generateMipMaps)
 	{
-		mTexture.CreateTextureCubemap(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), posx, negx, posy, negy, posz, negz, width, height, mVulkanInstance->GetVulkanContext().mUseDepthRessources, mVulkanInstance->ConvertInvisionFormatToVkFormat(format), generateMipMaps);
+		mTexture.CreateTextureCubemap(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), posx, negx, posy, negy, posz, negz, width, height, mVulkanInstance->ConvertInvisionFormatToVkFormat(format), generateMipMaps);
 		mTexture.CreateTextureImageView(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), VK_IMAGE_VIEW_TYPE_CUBE, mVulkanInstance->ConvertInvisionFormatToVkFormat(format), VK_REMAINING_ARRAY_LAYERS);
 		mImageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 	}

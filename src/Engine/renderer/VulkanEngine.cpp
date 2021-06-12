@@ -64,9 +64,9 @@ namespace Invision
 		mMemoryManager.Init(mBaseStruct, 2147483648); // Allocate 2GB
 	}
 
-	std::shared_ptr<IGraphicsInstance> VulkanEngine::CreateInstance(CanvasDimensions canvas, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, bool activateDepthTest, MSAAMode msaaMode)
+	std::shared_ptr<IGraphicsInstance> VulkanEngine::CreateInstance(CanvasDimensions canvas, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, MSAAMode msaaMode)
 	{
-		return  std::make_shared<VulkanInstance>(this, canvas, renderPass, framebuffer, commandBuffer, activateDepthTest, msaaMode);
+		return  std::make_shared<VulkanInstance>(this, canvas, renderPass, framebuffer, commandBuffer, msaaMode);
 	}
 
 	Invision::SVulkanBase& VulkanEngine::GetVulkanBaseStruct()
