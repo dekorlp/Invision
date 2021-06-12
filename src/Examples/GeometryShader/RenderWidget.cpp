@@ -30,14 +30,17 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 		BindVertexBuffer({ vertexBuffer }, 0, 1).
 		BindDescriptorSets(uniformBuffer, pipeline).
 		BindIndexBuffer(indexBuffer, Invision::INDEX_TYPE_UINT32).
-		DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0).
-
-		BindPipeline(geomPipeline).
-		BindDescriptorSets(geomUniformBuffer, geomPipeline).
-		DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0).
+		DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
 
 
-		EndRenderPass().
+		if (showNormals)
+		{
+			commandBuffer->BindPipeline(geomPipeline);
+			commandBuffer->BindDescriptorSets(geomUniformBuffer, geomPipeline);
+			commandBuffer->DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
+		}
+
+		commandBuffer->EndRenderPass().
 		EndCommandBuffer();
 }
 

@@ -212,6 +212,15 @@ private:
 			switchFixedCamera = !switchFixedCamera;
 		}
 		spacePressed = spaceCurrentlyPressed;
+
+		bool button1PressedCurrentlyPressed = keyboard->GetStateOfKey(Invision::INVISION_KEY_NUM_1, Invision::INVISION_KEY_PRESSED);
+
+		if (!button1Pressed && button1PressedCurrentlyPressed) {
+			showNormals = !showNormals;
+			graphicsInstance->ResetPresentation({ HWND(winId()), this->size().width(), this->size().height() }, renderPass, framebuffer, commandBuffer);
+			BuildCommandBuffer(this->size().width(), this->size().height());
+		}
+		button1Pressed = button1PressedCurrentlyPressed;
 		
 
 		angle += 0.05f * dt;
@@ -340,7 +349,9 @@ private:
 	double accumulatedTime = 0.0;
 
 	bool spacePressed;
+	bool button1Pressed;
 	bool switchFixedCamera = false;
+	bool showNormals = true;
 
 	float angle = 0;
 	Invision::Vector3 pos;
