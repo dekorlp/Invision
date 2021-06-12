@@ -530,6 +530,12 @@ AddConsoleProject(
 		srcroot .. "Examples/GeometryShader/**.cpp"
 	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, true)
 
+AddConsoleProject(
+	"TesselationShader", srcroot .. "Examples/", {
+		srcroot .. "Examples/TesselationShader/**.h",
+		srcroot .. "Examples/TesselationShader/**.cpp"
+	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, true)
+
 
 
 -----------------------------------------------------------------------------------------------------
