@@ -152,7 +152,15 @@ namespace Invision
 			break;
 
 		default:
-			throw InvisionBaseRendererException("Unknown Primitive Topology passed to Pipeline");
+			if(mPipelineProperties->mPrimitiveTopology >=101 && mPipelineProperties->mPrimitiveTopology <= 132)
+			{
+				mPipeline.SetTesselationPatchControlPoints(mPipelineProperties->mPrimitiveTopology - 100);
+				vkPrimitiveTopology = VK_PRIMITIVE_TOPOLOGY_PATCH_LIST;
+			}
+			else
+			{
+				throw InvisionBaseRendererException("Unknown Primitive Topology passed to Pipeline");
+			}
 		}
 
 		switch (mPipelineProperties->mPolygonMode)

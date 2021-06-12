@@ -168,6 +168,15 @@ namespace Invision
 			throw VulkanBaseException("Tesselation Shader are not supported by graphics device.");
 		}
 
+		if (vulkanInstance.physicalDeviceStruct.deviceFeatures.fillModeNonSolid == VK_TRUE)
+		{
+			deviceFeatures.fillModeNonSolid = VK_TRUE;
+		}
+		else
+		{
+			throw VulkanBaseException("Solid Fill Mode is not supported by graphics device.");
+		}
+
 		VkDeviceCreateInfo createInfo = CreateDeviceCreateInfo(vulkanInstance, queueCreateInfos, deviceFeatures);
 
 		VkResult result = vkCreateDevice(vulkanInstance.physicalDeviceStruct.physicalDevice, &createInfo, nullptr, &(vulkanInstance.logicalDevice));

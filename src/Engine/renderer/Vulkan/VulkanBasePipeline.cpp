@@ -78,7 +78,13 @@ namespace Invision
 		mDepthWrite = enable;
 	}
 
-
+	void VulkanBasePipeline::SetTesselationPatchControlPoints(uint32_t tesselationPatchControlPoints)
+	{
+		mPipelineTesselationCreateInfo = {};
+		mPipelineTesselationCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_TESSELLATION_STATE_CREATE_INFO;
+		mPipelineTesselationCreateInfo.patchControlPoints = tesselationPatchControlPoints;
+		mTesselationPatchListSet = true;
+	}
 	
 	void VulkanBasePipeline::ClearUniformsBuffer()
 	{
@@ -303,6 +309,7 @@ namespace Invision
 		pipelineInfo.pMultisampleState = &mMultisampling;
 		pipelineInfo.pColorBlendState = &mColorBlendAttachment;
 		pipelineInfo.pDynamicState = &mDynamicState;
+		
 		if (useDepthRessource)
 		{
 			pipelineInfo.pDepthStencilState = &mDepthStencil;
@@ -311,6 +318,12 @@ namespace Invision
 		{
 			pipelineInfo.pDepthStencilState = nullptr;
 		}
+
+		if (mTesselationPatchListSet)
+		{
+			pipelineInfo.pTessellationState = &mPipelineTesselationCreateInfo;
+		}
+
 		pipelineInfo.layout = mPipelineLayout;
 		pipelineInfo.renderPass = renderPass.GetRenderPass();
 		pipelineInfo.subpass = subpassIndex;

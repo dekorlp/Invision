@@ -24,6 +24,7 @@ namespace Invision
 		void INVISION_API SetColorBlendFunction(VkBool32 blendEnable = VK_FALSE, VkBlendFactor srcColorBlendFactor = VK_BLEND_FACTOR_ZERO, VkBlendFactor dstColorBlendFactor = VK_BLEND_FACTOR_ZERO, VkBlendOp colorBlendOp = VK_BLEND_OP_ADD, VkBlendFactor srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO, VkBlendFactor dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO, VkBlendOp alphaBlendOp = VK_BLEND_OP_ADD);
 		void INVISION_API SetDepthTest(bool enable, VkCompareOp compareOp);
 		void INVISION_API SetDepthWrite(bool enable);
+		void INVISION_API SetTesselationPatchControlPoints(uint32_t tesselationPatchControlPoints);
 		void INVISION_API ClearUniformsBuffer();
 		void INVISION_API AddUniformBuffer(VulkanBaseUniformBuffer& uniformBuffer);
 		void INVISION_API AddUniformBuffer(VulkanBaseUniformBuffer& uniformBuffer, uint32_t set);
@@ -64,6 +65,10 @@ namespace Invision
 		bool mDepthTest = VK_TRUE;
 		bool mDepthWrite = VK_TRUE;
 		VkCompareOp mCompareOp = VK_COMPARE_OP_LESS_OR_EQUAL;
+
+		// Tesselation Configuration
+		bool mTesselationPatchListSet = false;
+		VkPipelineTessellationStateCreateInfo mPipelineTesselationCreateInfo;
 
 		// BlendAttachment Options
 		std::map<unsigned int, VkPipelineColorBlendAttachmentState> mColorBlendAttachments;
