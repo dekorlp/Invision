@@ -43,6 +43,11 @@ struct UniformBufferObject {
 	Invision::Matrix proj;
 };
 
+struct TesselationControlObject
+{
+	float tessLevel;
+};
+
 class RenderWidget : public QWidget
 {
 	Q_OBJECT;
@@ -253,7 +258,6 @@ private:
 		//renderPass = graphicsInstance->CreateRenderPass(); //graphicsEngine->CreateRenderPass();
 		vertexBuffer = graphicsInstance->CreateVertexBuffer();
 		uniformBuffer = graphicsInstance->CreateUniformBuffer();
-		tesselUniformBuffer = graphicsInstance->CreateUniformBuffer();
 		indexBuffer = graphicsInstance->CreateIndexBuffer();
 		//texture = graphicsInstance->CreateTexture();
 
@@ -277,14 +281,23 @@ private:
 		vertexBuffer->CreateBuffer(vertices.data(), sizeof(vertices[0]) * vertices.size(), 0, bindingDescr);
 
 		indexBuffer->CreateIndexBuffer(sizeof(indices[0]) * indices.size(), indices.data());
-		uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject)).CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, texture).CreateUniformBuffer();
-		tesselUniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT | Invision::SHADER_STAGE_GEOMETRY_BIT, sizeof(UniformBufferObject)).CreateUniformBuffer();
+		uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT | Invision::SHADER_STAGE_TESSELLATION_EVALUATION_BIT, sizeof(UniformBufferObject))
+			.CreateUniformBinding(0, 1, 1, Invision::SHADER_STAGE_TESSELLATION_CONTROL_BIT, sizeof(TesselationControlObject))
+			.CreateImageBinding(0, 2, 1, Invision::SHADER_STAGE_FRAGMENT_BIT , texture).CreateUniformBuffer();
 
 		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/TesselationShader/Shader/TesselationShader/vert.spv"));
+		auto tescPassThroughShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/TesselationShader/Shader/TesselationShader/passthrough.tesc.spv"));
+		auto tesePassThroughShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/TesselationShader/Shader/TesselationShader/passthrough.tese.spv"));
 		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/TesselationShader/Shader/TesselationShader/frag.spv"));
-		pipeline = graphicsInstance->CreatePipeline(&Invision::PipelineProperties(Invision::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, Invision::POLYGON_MODE_LINE, Invision::CULL_MODE_BACK_BIT, Invision::FRONT_FACE_COUNTER_CLOCKWISE, 1.0f));
+
+		auto tescTrianglesShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/TesselationShader/Shader/TesselationShader/pntriangles.tesc.spv"));
+		auto teseTrianglesShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/TesselationShader/Shader/TesselationShader/pntriangles.tese.spv"));
+
+		pipeline = graphicsInstance->CreatePipeline(&Invision::PipelineProperties(Invision::PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST, Invision::POLYGON_MODE_LINE, Invision::CULL_MODE_BACK_BIT, Invision::FRONT_FACE_COUNTER_CLOCKWISE, 1.0f));
 		pipeline->AddUniformBuffer(uniformBuffer);
 		pipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
+		pipeline->AddShader(tescPassThroughShaderCode, Invision::SHADER_STAGE_TESSELLATION_CONTROL_BIT);
+		pipeline->AddShader(tesePassThroughShaderCode, Invision::SHADER_STAGE_TESSELLATION_EVALUATION_BIT);
 		pipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
 		pipeline->AddVertexDescription(bindingDescr);
 		pipeline->CreatePipeline(renderPass);
@@ -293,6 +306,8 @@ private:
 		tesselPipeline = graphicsInstance->CreatePipeline(&Invision::PipelineProperties(Invision::PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST, Invision::POLYGON_MODE_LINE, Invision::CULL_MODE_BACK_BIT, Invision::FRONT_FACE_COUNTER_CLOCKWISE, 1.0f));
 		tesselPipeline->AddUniformBuffer(uniformBuffer);
 		tesselPipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
+		tesselPipeline->AddShader(tescTrianglesShaderCode, Invision::SHADER_STAGE_TESSELLATION_CONTROL_BIT);
+		tesselPipeline->AddShader(teseTrianglesShaderCode, Invision::SHADER_STAGE_TESSELLATION_EVALUATION_BIT);
 		tesselPipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
 		tesselPipeline->AddVertexDescription(bindingDescr);
 		tesselPipeline->CreatePipeline(renderPass);
@@ -316,7 +331,6 @@ private:
 	std::shared_ptr <Invision::IRenderPass> renderPass;
 	std::shared_ptr <Invision::IVertexBuffer> vertexBuffer;
 	std::shared_ptr <Invision::IUniformBuffer> uniformBuffer;
-	std::shared_ptr <Invision::IUniformBuffer> tesselUniformBuffer;
 	std::shared_ptr <Invision::IIndexBuffer> indexBuffer;
 	std::shared_ptr <Invision::IPipeline> pipeline;
 	std::shared_ptr <Invision::IPipeline> tesselPipeline;

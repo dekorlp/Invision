@@ -75,6 +75,10 @@ void RenderWidget::UpdateUniformBuffer(float width, float height)
 	}
 	ubo.proj = Invision::Matrix(1.0f) * Invision::Matrix::Perspective(45.0, width / height, 0.1f, 10.0f); // perspective projection
 	uniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0, 0);
-	tesselUniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0, 0);
+	
+
+	TesselationControlObject teso;
+	teso.tessLevel = 3;
+	uniformBuffer->UpdateUniform(&teso, sizeof(teso), 0, 1);
 }
 
