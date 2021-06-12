@@ -23,15 +23,26 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 {
 	//commandBuffer = graphicsInstance->CreateCommandBuffer(framebuffer);
 	commandBuffer->BeginCommandBuffer().
-		SetViewport({ 0, 0, (float)width, (float)height, 0.0, 1.0 }).
-		SetScissor({ 0, 0, (uint32_t)width, (uint32_t)height }).
 		BeginRenderPass(renderPass, framebuffer, 0, 0, width, height).
+		SetViewport({ 0, 0, (float)width / 2, (float)height, 0.0, 1.0 }).
+		SetScissor({ 0, 0, (uint32_t)width, (uint32_t)height }).
+		
 		BindPipeline(pipeline).
 		BindVertexBuffer({ vertexBuffer }, 0, 1).
 		BindDescriptorSets(uniformBuffer, pipeline).
 		BindIndexBuffer(indexBuffer, Invision::INDEX_TYPE_UINT32).
 		DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
 
+
+		
+
+		commandBuffer->SetViewport({ (float)width / 2, 0, (float)width / 2, (float)height, 0.0, 1.0 });
+
+		commandBuffer->BindPipeline(pipeline).
+			BindVertexBuffer({ vertexBuffer }, 0, 1).
+			BindDescriptorSets(uniformBuffer, pipeline).
+			BindIndexBuffer(indexBuffer, Invision::INDEX_TYPE_UINT32).
+			DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
 
 		if (showNormals)
 		{
