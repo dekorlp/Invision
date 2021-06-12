@@ -217,7 +217,8 @@ private:
 
 		if (!button1Pressed && button1PressedCurrentlyPressed) {
 			showNormals = !showNormals;
-			graphicsInstance->ResetPresentation({ HWND(winId()), this->size().width(), this->size().height() }, renderPass, framebuffer, commandBuffer);
+			commandBuffer.reset();
+			commandBuffer = graphicsInstance->CreateCommandBuffer(framebuffer);
 			BuildCommandBuffer(this->size().width(), this->size().height());
 		}
 		button1Pressed = button1PressedCurrentlyPressed;
