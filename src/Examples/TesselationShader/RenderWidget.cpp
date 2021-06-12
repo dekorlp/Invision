@@ -38,18 +38,9 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 
 		commandBuffer->SetViewport({ (float)width / 2, 0, (float)width / 2, (float)height, 0.0, 1.0 });
 
-		commandBuffer->BindPipeline(pipeline).
-			BindVertexBuffer({ vertexBuffer }, 0, 1).
-			BindDescriptorSets(uniformBuffer, pipeline).
-			BindIndexBuffer(indexBuffer, Invision::INDEX_TYPE_UINT32).
-			DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
-
-		if (showNormals)
-		{
-			commandBuffer->BindPipeline(geomPipeline);
-			commandBuffer->BindDescriptorSets(geomUniformBuffer, geomPipeline);
-			commandBuffer->DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
-		}
+		commandBuffer->BindPipeline(tesselPipeline);
+		commandBuffer->BindDescriptorSets(tesselUniformBuffer, tesselPipeline);
+		commandBuffer->DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
 
 		commandBuffer->EndRenderPass().
 		EndCommandBuffer();
@@ -84,6 +75,6 @@ void RenderWidget::UpdateUniformBuffer(float width, float height)
 	}
 	ubo.proj = Invision::Matrix(1.0f) * Invision::Matrix::Perspective(45.0, width / height, 0.1f, 10.0f); // perspective projection
 	uniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0, 0);
-	geomUniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0, 0);
+	tesselUniformBuffer->UpdateUniform(&ubo, sizeof(ubo), 0, 0);
 }
 

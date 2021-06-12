@@ -213,17 +213,6 @@ private:
 		}
 		spacePressed = spaceCurrentlyPressed;
 
-		bool button1PressedCurrentlyPressed = keyboard->GetStateOfKey(Invision::INVISION_KEY_NUM_1, Invision::INVISION_KEY_PRESSED);
-
-		if (!button1Pressed && button1PressedCurrentlyPressed) {
-			showNormals = !showNormals;
-			commandBuffer.reset();
-			commandBuffer = graphicsInstance->CreateCommandBuffer(framebuffer);
-			BuildCommandBuffer(this->size().width(), this->size().height());
-		}
-		button1Pressed = button1PressedCurrentlyPressed;
-		
-
 		angle += 0.05f * dt;
 	}
 
@@ -264,9 +253,8 @@ private:
 		//renderPass = graphicsInstance->CreateRenderPass(); //graphicsEngine->CreateRenderPass();
 		vertexBuffer = graphicsInstance->CreateVertexBuffer();
 		uniformBuffer = graphicsInstance->CreateUniformBuffer();
-		geomUniformBuffer = graphicsInstance->CreateUniformBuffer();
+		tesselUniformBuffer = graphicsInstance->CreateUniformBuffer();
 		indexBuffer = graphicsInstance->CreateIndexBuffer();
-		pipeline = graphicsInstance->CreatePipeline();
 		//texture = graphicsInstance->CreateTexture();
 
 		unsigned char* pixels = readPNG(std::string(INVISION_BASE_DIR).append("/src/Examples/GeometryShader/Textures/viking_room.png"), width, height, channels);
@@ -290,10 +278,11 @@ private:
 
 		indexBuffer->CreateIndexBuffer(sizeof(indices[0]) * indices.size(), indices.data());
 		uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject)).CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, texture).CreateUniformBuffer();
-		geomUniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT | Invision::SHADER_STAGE_GEOMETRY_BIT, sizeof(UniformBufferObject)).CreateUniformBuffer();
+		tesselUniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT | Invision::SHADER_STAGE_GEOMETRY_BIT, sizeof(UniformBufferObject)).CreateUniformBuffer();
 
 		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/GeometryShader/Shader/GeometryShader/vert.spv"));
 		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/GeometryShader/Shader/GeometryShader/frag.spv"));
+		pipeline = graphicsInstance->CreatePipeline(&Invision::PipelineProperties(Invision::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, Invision::POLYGON_MODE_LINE, Invision::CULL_MODE_NONE, Invision::FRONT_FACE_COUNTER_CLOCKWISE, 1.0f));
 		pipeline->AddUniformBuffer(uniformBuffer);
 		pipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
 		pipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
@@ -304,13 +293,13 @@ private:
 		auto vertShaderNormalCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/GeometryShader/Shader/GeometryShader/normal.vert.spv"));
 		auto geomShaderNormalCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/GeometryShader/Shader/GeometryShader/normal.geom.spv"));
 		auto fragShaderNormalCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/GeometryShader/Shader/GeometryShader/normal.frag.spv"));
-		geomPipeline = graphicsInstance->CreatePipeline(&Invision::PipelineProperties(Invision::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, Invision::POLYGON_MODE_FILL, Invision::CULL_MODE_FRONT_BIT, Invision::FRONT_FACE_COUNTER_CLOCKWISE, 1.0f));
-		geomPipeline->AddUniformBuffer(geomUniformBuffer);
-		geomPipeline->AddShader(vertShaderNormalCode, Invision::SHADER_STAGE_VERTEX_BIT);
-		geomPipeline->AddShader(geomShaderNormalCode, Invision::SHADER_STAGE_GEOMETRY_BIT);
-		geomPipeline->AddShader(fragShaderNormalCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
-		geomPipeline->AddVertexDescription(bindingDescr);
-		geomPipeline->CreatePipeline(renderPass);
+		tesselPipeline = graphicsInstance->CreatePipeline(&Invision::PipelineProperties(Invision::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, Invision::POLYGON_MODE_FILL, Invision::CULL_MODE_FRONT_BIT, Invision::FRONT_FACE_COUNTER_CLOCKWISE, 1.0f));
+		tesselPipeline->AddUniformBuffer(tesselUniformBuffer);
+		tesselPipeline->AddShader(vertShaderNormalCode, Invision::SHADER_STAGE_VERTEX_BIT);
+		tesselPipeline->AddShader(geomShaderNormalCode, Invision::SHADER_STAGE_GEOMETRY_BIT);
+		tesselPipeline->AddShader(fragShaderNormalCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
+		tesselPipeline->AddVertexDescription(bindingDescr);
+		tesselPipeline->CreatePipeline(renderPass);
 
 		BuildCommandBuffer(this->size().width(), this->size().height());
 		renderer = graphicsInstance->CreateRenderer();
@@ -331,10 +320,10 @@ private:
 	std::shared_ptr <Invision::IRenderPass> renderPass;
 	std::shared_ptr <Invision::IVertexBuffer> vertexBuffer;
 	std::shared_ptr <Invision::IUniformBuffer> uniformBuffer;
-	std::shared_ptr <Invision::IUniformBuffer> geomUniformBuffer;
+	std::shared_ptr <Invision::IUniformBuffer> tesselUniformBuffer;
 	std::shared_ptr <Invision::IIndexBuffer> indexBuffer;
 	std::shared_ptr <Invision::IPipeline> pipeline;
-	std::shared_ptr <Invision::IPipeline> geomPipeline;
+	std::shared_ptr <Invision::IPipeline> tesselPipeline;
 	std::shared_ptr <Invision::IFramebuffer> framebuffer;
 	std::shared_ptr <Invision::ICommandBuffer> commandBuffer;
 	std::shared_ptr <Invision::IRenderer> renderer;
@@ -350,9 +339,7 @@ private:
 	double accumulatedTime = 0.0;
 
 	bool spacePressed;
-	bool button1Pressed;
 	bool switchFixedCamera = false;
-	bool showNormals = true;
 
 	float angle = 0;
 	Invision::Vector3 pos;
