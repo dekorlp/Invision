@@ -39,7 +39,7 @@ void RenderWidget::BuildCommandBuffer(float width, float height)
 		commandBuffer->SetViewport({ (float)width / 2, 0, (float)width / 2, (float)height, 0.0, 1.0 });
 
 		commandBuffer->BindPipeline(tesselPipeline);
-		commandBuffer->BindDescriptorSets(tesselUniformBuffer, tesselPipeline);
+		commandBuffer->BindDescriptorSets(uniformBuffer, tesselPipeline);
 		commandBuffer->DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
 
 		commandBuffer->EndRenderPass().

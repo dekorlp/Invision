@@ -282,7 +282,7 @@ private:
 
 		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/GeometryShader/Shader/GeometryShader/vert.spv"));
 		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/GeometryShader/Shader/GeometryShader/frag.spv"));
-		pipeline = graphicsInstance->CreatePipeline(&Invision::PipelineProperties(Invision::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, Invision::POLYGON_MODE_LINE, Invision::CULL_MODE_NONE, Invision::FRONT_FACE_COUNTER_CLOCKWISE, 1.0f));
+		pipeline = graphicsInstance->CreatePipeline(&Invision::PipelineProperties(Invision::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, Invision::POLYGON_MODE_LINE, Invision::CULL_MODE_BACK_BIT, Invision::FRONT_FACE_COUNTER_CLOCKWISE, 1.0f));
 		pipeline->AddUniformBuffer(uniformBuffer);
 		pipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
 		pipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
@@ -291,13 +291,11 @@ private:
 
 		// create geomtry Shader Pipeline
 		auto vertShaderNormalCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/GeometryShader/Shader/GeometryShader/normal.vert.spv"));
-		auto geomShaderNormalCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/GeometryShader/Shader/GeometryShader/normal.geom.spv"));
 		auto fragShaderNormalCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/GeometryShader/Shader/GeometryShader/normal.frag.spv"));
-		tesselPipeline = graphicsInstance->CreatePipeline(&Invision::PipelineProperties(Invision::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, Invision::POLYGON_MODE_FILL, Invision::CULL_MODE_FRONT_BIT, Invision::FRONT_FACE_COUNTER_CLOCKWISE, 1.0f));
-		tesselPipeline->AddUniformBuffer(tesselUniformBuffer);
-		tesselPipeline->AddShader(vertShaderNormalCode, Invision::SHADER_STAGE_VERTEX_BIT);
-		tesselPipeline->AddShader(geomShaderNormalCode, Invision::SHADER_STAGE_GEOMETRY_BIT);
-		tesselPipeline->AddShader(fragShaderNormalCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
+		tesselPipeline = graphicsInstance->CreatePipeline(&Invision::PipelineProperties(Invision::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, Invision::POLYGON_MODE_FILL, Invision::CULL_MODE_BACK_BIT, Invision::FRONT_FACE_COUNTER_CLOCKWISE, 1.0f));
+		tesselPipeline->AddUniformBuffer(uniformBuffer);
+		tesselPipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
+		tesselPipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
 		tesselPipeline->AddVertexDescription(bindingDescr);
 		tesselPipeline->CreatePipeline(renderPass);
 
