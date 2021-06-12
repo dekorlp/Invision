@@ -292,7 +292,7 @@ private:
 		// create geomtry Shader Pipeline
 		auto vertShaderNormalCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/GeometryShader/Shader/GeometryShader/normal.vert.spv"));
 		auto fragShaderNormalCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/GeometryShader/Shader/GeometryShader/normal.frag.spv"));
-		tesselPipeline = graphicsInstance->CreatePipeline(&Invision::PipelineProperties(Invision::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, Invision::POLYGON_MODE_FILL, Invision::CULL_MODE_BACK_BIT, Invision::FRONT_FACE_COUNTER_CLOCKWISE, 1.0f));
+		tesselPipeline = graphicsInstance->CreatePipeline(&Invision::PipelineProperties(Invision::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, Invision::POLYGON_MODE_LINE, Invision::CULL_MODE_BACK_BIT, Invision::FRONT_FACE_COUNTER_CLOCKWISE, 1.0f));
 		tesselPipeline->AddUniformBuffer(uniformBuffer);
 		tesselPipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
 		tesselPipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
