@@ -16,14 +16,26 @@ namespace Invision
 	{
 		mVulkanInstance = instance;
 		//mPipelineProperties ;
-		mPipelineProperties = std::make_shared<PipelineProperties>();		
+		std::shared_ptr<PipelineProperties> pipelineProperties = std::make_shared<PipelineProperties>();
+
+		SetPrimitiveTopology(pipelineProperties->mPrimitiveTopology);
+		SetPolygonMode(pipelineProperties->mPolygonMode);
+		SetCullMode(pipelineProperties->mCullMode);
+		SetFrontFace(pipelineProperties->mFrontFaceMode);
+		SetLineWidth(pipelineProperties->mLineWidth);
 	}
 
 	VulkanPipeline::VulkanPipeline(VulkanInstance* instance, PipelineProperties* pipelineProperties) :
 		IPipeline(instance, pipelineProperties)
 	{
 		mVulkanInstance = instance;
-		mPipelineProperties = std::make_shared<PipelineProperties>(*pipelineProperties);
+		std::shared_ptr<PipelineProperties> lPipelineProperties = std::make_shared<PipelineProperties>(*pipelineProperties);
+
+		SetPrimitiveTopology(lPipelineProperties->mPrimitiveTopology);
+		SetPolygonMode(lPipelineProperties->mPolygonMode);
+		SetCullMode(lPipelineProperties->mCullMode);
+		SetFrontFace(lPipelineProperties->mFrontFaceMode);
+		SetLineWidth(lPipelineProperties->mLineWidth);
 	}
 
 	void VulkanPipeline::AddShader(const std::vector<char>& code, ShaderStage stage)
@@ -82,43 +94,11 @@ namespace Invision
 		mPipeline.SetDepthWrite(enable);
 	}
 
-	void VulkanPipeline::ClearUniformBuffer()
+	void VulkanPipeline::SetPrimitiveTopology(PrimitiveTopology primitiveTopology)
 	{
-		mPipeline.ClearUniformsBuffer();
-	}
-
-	void VulkanPipeline::AddUniformBuffer(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer)
-	{
-		mPipeline.AddUniformBuffer(dynamic_pointer_cast<VulkanUniformBuffer>(uniformBuffer)->GetBuffer());
-	}
-
-	void VulkanPipeline::AddUniformBuffer(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer, uint32_t set)
-	{
-		mPipeline.AddUniformBuffer(dynamic_pointer_cast<VulkanUniformBuffer>(uniformBuffer)->GetBuffer(), set);
-	}
-
-
-	void VulkanPipeline::AddVertexDescription(std::shared_ptr<Invision::IVertexBindingDescription> vertexBindingDescription)
-	{
-		
-		mPipeline.AddVertexDescription(dynamic_pointer_cast<VulkanVertexBindingDescription>(vertexBindingDescription)->GetBaseDescription());
-	}
-
-	void VulkanPipeline::BindPushConstant(std::shared_ptr <Invision::IPushConstant> pushConstant)
-	{
-		mPipeline.BindPushConstant(dynamic_pointer_cast<VulkanPushConstant>(pushConstant)->GetBasePushConstant());
-	}
-
-	void VulkanPipeline::CreatePipeline(std::shared_ptr<Invision::IRenderPass> renderPass)
-	{
-		// translate Render PipelineProperties
 		VkPrimitiveTopology vkPrimitiveTopology;
-		VkPolygonMode vkPolygonMode;
-		VkCullModeFlags vkCullMode = 0;
-		VkFrontFace vkFrontface;
-		
 
-		switch (mPipelineProperties->mPrimitiveTopology)
+		switch (primitiveTopology)
 		{
 		case PRIMITIVE_TOPOLOGY_POINT_LIST:
 			vkPrimitiveTopology = VK_PRIMITIVE_TOPOLOGY_POINT_LIST;
@@ -152,9 +132,9 @@ namespace Invision
 			break;
 
 		default:
-			if(mPipelineProperties->mPrimitiveTopology >=101 && mPipelineProperties->mPrimitiveTopology <= 132)
+			if (primitiveTopology >= 101 && primitiveTopology <= 132)
 			{
-				mPipeline.SetTesselationPatchControlPoints(mPipelineProperties->mPrimitiveTopology - 100);
+				mPipeline.SetTesselationPatchControlPoints(primitiveTopology - 100);
 				vkPrimitiveTopology = VK_PRIMITIVE_TOPOLOGY_PATCH_LIST;
 			}
 			else
@@ -163,7 +143,14 @@ namespace Invision
 			}
 		}
 
-		switch (mPipelineProperties->mPolygonMode)
+		mPipeline.SetRenderPropertyPrimitiveTopology(vkPrimitiveTopology);
+	}
+
+	void VulkanPipeline::SetPolygonMode(PolygonMode polygonMode)
+	{
+		VkPolygonMode vkPolygonMode;
+
+		switch (polygonMode)
 		{
 		case POLYGON_MODE_FILL:
 			vkPolygonMode = VK_POLYGON_MODE_FILL;
@@ -178,27 +165,41 @@ namespace Invision
 			throw InvisionBaseRendererException("Unknown Polygon Mode passed to Pipeline");
 		}
 
-		if (mPipelineProperties->mCullMode & CULL_MODE_NONE)
+		mPipeline.SetRenderPropertyPolygonMode(vkPolygonMode);
+
+	}
+
+	void VulkanPipeline::SetCullMode(CullModeBits cullModeFlags)
+	{
+		VkCullModeFlags vkCullMode = 0;
+
+		if (cullModeFlags & CULL_MODE_NONE)
 		{
 			vkCullMode = vkCullMode | VK_CULL_MODE_NONE;
 		}
 
-		if (mPipelineProperties->mCullMode & CULL_MODE_FRONT_BIT)
+		if (cullModeFlags & CULL_MODE_FRONT_BIT)
 		{
 			vkCullMode = vkCullMode | VK_CULL_MODE_FRONT_BIT;
 		}
 
-		if (mPipelineProperties->mCullMode & CULL_MODE_BACK_BIT)
+		if (cullModeFlags & CULL_MODE_BACK_BIT)
 		{
 			vkCullMode = vkCullMode | VK_CULL_MODE_BACK_BIT;
 		}
 
-		if (mPipelineProperties->mCullMode & CULL_MODE_FRONT_AND_BACK)
+		if (cullModeFlags & CULL_MODE_FRONT_AND_BACK)
 		{
 			vkCullMode = vkCullMode | VK_CULL_MODE_FRONT_AND_BACK;
 		}
 
-		switch (mPipelineProperties->mFrontFaceMode)
+		mPipeline.SetRenderPropertyCullMode(vkCullMode);
+	}
+
+	void VulkanPipeline::SetFrontFace(FrontFaceMode frontFace)
+	{
+		VkFrontFace vkFrontface;
+		switch (frontFace)
 		{
 		case FRONT_FACE_COUNTER_CLOCKWISE:
 			vkFrontface = VK_FRONT_FACE_COUNTER_CLOCKWISE;
@@ -210,8 +211,43 @@ namespace Invision
 			throw InvisionBaseRendererException("Unknown Front Face Mode passed to Pipeline");
 		}
 
-		///////////////////////////////////////////////////
+		mPipeline.SetRenderPropertyFrontFace(vkFrontface);
+	}
 
+	void VulkanPipeline::SetLineWidth(float lineWidth)
+	{
+		mPipeline.SetRenderPropertyLineWidth(lineWidth);
+	}
+
+	void VulkanPipeline::ClearUniformBuffer()
+	{
+		mPipeline.ClearUniformsBuffer();
+	}
+
+	void VulkanPipeline::AddUniformBuffer(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer)
+	{
+		mPipeline.AddUniformBuffer(dynamic_pointer_cast<VulkanUniformBuffer>(uniformBuffer)->GetBuffer());
+	}
+
+	void VulkanPipeline::AddUniformBuffer(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer, uint32_t set)
+	{
+		mPipeline.AddUniformBuffer(dynamic_pointer_cast<VulkanUniformBuffer>(uniformBuffer)->GetBuffer(), set);
+	}
+
+
+	void VulkanPipeline::AddVertexDescription(std::shared_ptr<Invision::IVertexBindingDescription> vertexBindingDescription)
+	{
+		
+		mPipeline.AddVertexDescription(dynamic_pointer_cast<VulkanVertexBindingDescription>(vertexBindingDescription)->GetBaseDescription());
+	}
+
+	void VulkanPipeline::BindPushConstant(std::shared_ptr <Invision::IPushConstant> pushConstant)
+	{
+		mPipeline.BindPushConstant(dynamic_pointer_cast<VulkanPushConstant>(pushConstant)->GetBasePushConstant());
+	}
+
+	void VulkanPipeline::CreatePipeline(std::shared_ptr<Invision::IRenderPass> renderPass)
+	{
 		for (int i = 0; i < mShaders.size(); i++)
 		{
 			mPipeline.AddShader(mShaders[i]);
@@ -229,7 +265,7 @@ namespace Invision
 		}
 
 
-		mPipeline.SetRenderProperties(vkPrimitiveTopology, vkPolygonMode, vkCullMode, vkFrontface, mPipelineProperties->mLineWidth);
+		
 		mPipeline.CreatePipeline(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), 0, renderPass->GetCountOfColorAttachments(), usedMultisampleState);
 		for(int i = 0; i < mShaders.size(); i++)
 		{

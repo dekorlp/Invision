@@ -28,6 +28,12 @@ namespace Invision
 		INVISION_API void SetDepthTest(bool enable, CompareOp compareOp);
 		INVISION_API void SetDepthWrite(bool enable);
 
+		INVISION_API void SetPrimitiveTopology(PrimitiveTopology primitiveTopology);
+		INVISION_API void SetPolygonMode(PolygonMode polygonMode);
+		INVISION_API void SetCullMode(CullModeBits cullModeFlags);
+		INVISION_API void SetFrontFace(FrontFaceMode frontFace);
+		INVISION_API void SetLineWidth(float lineWidth);
+
 		INVISION_API void ClearUniformBuffer();
 		INVISION_API void AddUniformBuffer(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer);
 		INVISION_API void AddUniformBuffer(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer, uint32_t set);
@@ -53,9 +59,6 @@ namespace Invision
 
 		std::vector< Invision::VulkanBaseShader> mShaders;
 		Invision::VulkanBasePipeline mPipeline;
-
-		std::shared_ptr<PipelineProperties> mPipelineProperties = nullptr;
-
 	};
 
 }

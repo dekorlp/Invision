@@ -52,6 +52,31 @@ namespace Invision
 		mLineWidth = lineWidth;
 	}
 
+	void VulkanBasePipeline::SetRenderPropertyPrimitiveTopology(VkPrimitiveTopology primitiveTopology)
+	{
+		mPrimitiveTopology = primitiveTopology;
+	}
+
+	void VulkanBasePipeline::SetRenderPropertyPolygonMode(VkPolygonMode polygonMode)
+	{
+		mPolygonMode = polygonMode;
+	}
+
+	void VulkanBasePipeline::SetRenderPropertyCullMode(VkCullModeFlags cullModeFlags)
+	{
+		mCullModeFlags = cullModeFlags;
+	}
+
+	void VulkanBasePipeline::SetRenderPropertyFrontFace(VkFrontFace frontFace)
+	{
+		mFrontFace = frontFace;
+	}
+
+	void VulkanBasePipeline::SetRenderPropertyLineWidth(float lineWidth)
+	{
+		mLineWidth = lineWidth;
+	}
+
 	void VulkanBasePipeline::SetColorBlendFunction(VkBool32 blendEnable, VkBlendFactor srcColorBlendFactor, VkBlendFactor dstColorBlendFactor, VkBlendOp colorBlendOp, VkBlendFactor srcAlphaBlendFactor, VkBlendFactor dstAlphaBlendFactor, VkBlendOp alphaBlendOp)
 	{
 		VkPipelineColorBlendAttachmentState pipelineColorBlendAttachmentState;

@@ -17,8 +17,8 @@ namespace Invision
 	enum ShaderStage;
 
 	enum PrimitiveTopology;
-	enum PolygoneMode;
-	enum CullMode;
+	enum PolygonMode;
+	typedef uint32_t CullModeBits;
 	enum FrontFaceMode;
 	enum BlendFactor;
 	enum BlendOp;
@@ -40,6 +40,13 @@ namespace Invision
 		INVISION_API virtual void SetColorBlendFunction(bool blendEnable, BlendFactor srcColorBlendFactor = (BlendFactor)0, BlendFactor dstColorBlendFactor = BlendFactor(0), BlendOp colorBlendOp = BlendOp(0), BlendFactor srcAlphaBlendFactor = BlendFactor(0), BlendFactor dstAlphaBlendFactor = BlendFactor(0), BlendOp alphaBlendOp = BlendOp(0)) = 0;
 		INVISION_API virtual void SetDepthTest(bool enable, CompareOp compareOp = (CompareOp)1) = 0;
 		INVISION_API virtual void SetDepthWrite(bool enable) = 0;
+
+		INVISION_API virtual void SetPrimitiveTopology(PrimitiveTopology primitiveTopology) = 0;
+		INVISION_API virtual void SetPolygonMode(PolygonMode polygonMode) = 0;
+		INVISION_API virtual void SetCullMode(CullModeBits cullModeFlags) = 0;
+		INVISION_API virtual void SetFrontFace(FrontFaceMode frontFace) = 0;
+		INVISION_API virtual void SetLineWidth(float lineWidth) = 0;
+
 		INVISION_API virtual void ClearUniformBuffer() = 0;
 		INVISION_API virtual void AddUniformBuffer(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer) = 0;
 		INVISION_API virtual void AddUniformBuffer(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer, uint32_t set) = 0;
