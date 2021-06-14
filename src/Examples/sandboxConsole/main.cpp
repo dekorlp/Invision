@@ -486,7 +486,7 @@ class DoubleLinkedList
 				ptr = ptr->next;
 			}
 			mBack = ptr2;
-			mCountElements = x.mCountElements();
+			mCountElements = x.mCountElements;
 
 		}
 
@@ -589,7 +589,6 @@ class DoubleLinkedList
 		void remove(void* node)
 		{
 			LinkedListNode<T> *selected = (LinkedListNode<T> *)node;
-
 			// at front
 			if (selected->previous == nullptr)
 			{
@@ -611,7 +610,7 @@ class DoubleLinkedList
 				selected->previous->next = selected->next;
 				delete selected;
 			}
-		
+
 			mCountElements--;
 		}
 
@@ -652,7 +651,8 @@ class DoubleLinkedList
 		
 };
 
-
+#include <iostream>
+#include <list>
 
 int main()
 {
@@ -704,17 +704,47 @@ int main()
 
 
 	DoubleLinkedList<Person> dList;
-	void* p1 = dList.pushBack(PersSave);
-	void* p2 = dList.pushBack(Pers1);
-	void* p3 = dList.pushFront(Pers2);
-	dList.remove(p1);
+	void* p0 = dList.pushBack(PersSave);
+	void* p1 = dList.pushBack(Pers1);
+	void* p2 = dList.pushBack(Pers2);
+	void* p3 = dList.pushBack(Pers3);
+	void* p4 = dList.pushFront(Pers4);
+	void* p5 = dList.pushFront(Pers5);
+	void* p7 = dList.pushBack(Pers7);
 
+	// Einfuege Test
 	DoubleLinkedList<Person>::Iterator it;
 	for (it = dList.begin(); it != dList.end(); ++it)
 	{
 		std::cout << it->name << std::endl;
 	}
+	std::cout << std::endl << std::endl;
+	dList.remove(p1);
+	dList.remove(p3);
+	dList.remove(p5);
+	dList.remove(p7);
+	dList.remove(p2);
+	dList.remove(p0);
 
-	
+	// Lösch Test
+	for (it = dList.begin(); it != dList.end(); ++it)
+	{
+		std::cout << it->name << std::endl;
+	}
+
+	//return 0;
+
+
+
+	int myints[] = { 17,89,7,14 };
+	std::list<int> mylist(myints, myints + 4);
+
+	mylist.remove(8);
+
+	std::cout << "mylist contains:";
+	for (std::list<int>::iterator it = mylist.begin(); it != mylist.end(); ++it)
+		std::cout << ' ' << *it;
+	std::cout << '\n';
+
 	return 0;
 }
