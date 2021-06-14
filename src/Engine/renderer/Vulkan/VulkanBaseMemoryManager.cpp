@@ -94,6 +94,76 @@ namespace Invision
 		VkDeviceSize countOfPages = ((size / pageSize) + 1);
 		unsigned int iterator = 0;
 
+		void *selectedPage = nullptr;
+		
+		void* currPosition = memory.mStartPosition;
+		while (currPosition != nullptr)
+		{
+
+			void* currPos = currPosition;
+
+			// Get free Pages
+			while (currPos != nullptr)
+			{
+
+				if (((VulkanBaseBuffer*)(currPos))->mInUse == true)
+				{
+					selectedPage = nullptr;
+					currPosition = MemoryBlock::GetPoolHeader(currPos)->next;
+					break;
+				}
+
+				if (iterator == countOfPages && ((VulkanBaseBuffer*)(currPos))->mInUse == false)
+				{
+					selectedPage = ((VulkanBaseBuffer*)(currPos));
+					break;
+				}
+
+				iterator++;
+				currPos = MemoryBlock::GetPoolHeader(currPos)->next;
+			}
+
+			if (selectedPage != nullptr)
+			{
+				break;
+			}
+
+		}
+
+		void* currPos = (void*)selectedPage;
+		iterator = 0;
+		while (currPos != nullptr)
+		{
+			if (iterator == 0)
+			{
+				((VulkanBaseBuffer*)(selectedPage))->mInUse = true;
+				((VulkanBaseBuffer*)(selectedPage))->mSize = size;
+				((VulkanBaseBuffer*)(selectedPage))->mAllocatedPages = countOfPages;
+				((VulkanBaseBuffer*)(selectedPage))->mMemType = memType;
+				((VulkanBaseBuffer*)(selectedPage))->mBufferOffset = 0;
+			}
+			else
+			{
+				((VulkanBaseBuffer*)(currPos))->mInUse = true;
+				((VulkanBaseBuffer*)(currPos))->mSize = size;
+				((VulkanBaseBuffer*)(currPos))->mSize = memType;
+			}
+
+			if (iterator == countOfPages)
+			{
+				break;
+			}
+
+			iterator++;
+			currPos = MemoryBlock::GetPoolHeader(currPos)->next;
+		}
+
+		return selectedPage;
+		
+		/*uint32_t pageSize = static_cast<uint32_t>(vulkanInstance.physicalDeviceStruct.deviceProperties.limits.bufferImageGranularity * 10);
+		VkDeviceSize countOfPages = ((size / pageSize) + 1);
+		unsigned int iterator = 0;
+
 		//
 		VulkanBaseBuffer *selectedPage = nullptr;
 
@@ -149,7 +219,7 @@ namespace Invision
 			currPos = MemoryBlock::GetPoolHeader(currPos)->next;
 		};
 
-		return selectedPage;
+		return selectedPage;*/
 	}
 
 	void VulkanBaseMemoryManager::CopyBufferToBuffer(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, void* src, void* dest)
@@ -207,8 +277,37 @@ namespace Invision
 
 	void VulkanBaseMemoryManager::Unbind(const SVulkanBase &vulkanInstance, void* memory)
 	{
+		// free buffer
+		if (((VulkanBaseBuffer*)(memory))->mBuffer != VK_NULL_HANDLE)
+		{
+			vkDestroyBuffer(vulkanInstance.logicalDevice, ((VulkanBaseBuffer*)(memory))->mBuffer, nullptr);
+			((VulkanBaseBuffer*)(memory))->mBuffer = VK_NULL_HANDLE;
+		}
+
+		//((VulkanBaseBuffer*)(memory))->mInUse = false;
+		VkDeviceSize countOfPages = ((VulkanBaseBuffer*)(memory))->mAllocatedPages;
+
+		unsigned int iterator = 0;
+		void* currPos = memory;
+		while (currPos != nullptr)
+		{
+			
+
+			if (iterator <= countOfPages)
+			{
+				((VulkanBaseBuffer*)(currPos))->mInUse = false;
+			}
+			else
+			{
+				break;
+			}
+			currPos = MemoryBlock::GetPoolHeader(currPos)->next;
+			iterator++;
+		}
+
+
 		// free allocated pages
-		VkDeviceSize countOfPages = 0;
+		/*VkDeviceSize countOfPages = 0;
 
 		((VulkanBaseBuffer*)(memory))->mInUse = false;
 		countOfPages = ((VulkanBaseBuffer*)(memory))->mAllocatedPages;
@@ -236,7 +335,7 @@ namespace Invision
 		{
 			vkDestroyBuffer(vulkanInstance.logicalDevice, ((VulkanBaseBuffer*)(memory))->mBuffer, nullptr);
 			((VulkanBaseBuffer*)(memory))->mBuffer = VK_NULL_HANDLE;
-		}
+		}*/
 	}
 
 	void VulkanBaseMemoryManager::CopyDataToBuffer(const SVulkanBase &vulkanInstance, void* memory, const void* data)
