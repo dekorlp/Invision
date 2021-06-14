@@ -63,7 +63,7 @@ namespace Invision
 
 	void* VulkanBaseMemoryManager::BindToSharedMemory(const SVulkanBase &vulkanInstance, VkDeviceSize size, VkBufferUsageFlags usage, VkSharingMode sharingMode)
 	{
-		void* selectedPage = BindBufferToMemory(vulkanInstance, mSharedMemory, size, usage, sharingMode, MEMORY_TYPE_SHARED);
+		void* selectedPage = BindBufferToMemory(vulkanInstance, mSharedMemory, size, MEMORY_TYPE_SHARED);
 
 		CreateBuffer(vulkanInstance, ((VulkanBaseBuffer*)(selectedPage))->mBuffer, mSharedMemory.mMemory, size, usage, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, sharingMode, ((VulkanBaseBuffer*)(selectedPage))->mOffset);
 	
@@ -72,7 +72,7 @@ namespace Invision
 
 	void* VulkanBaseMemoryManager::BindToDedicatedMemory(const SVulkanBase &vulkanInstance, VkDeviceSize size, VkBufferUsageFlags usage, VkSharingMode sharingMode)
 	{
-		void* selectedPage = BindBufferToMemory(vulkanInstance, mLocalMemory, size, usage, sharingMode, MEMORY_TYPE_DEDICATED);
+		void* selectedPage = BindBufferToMemory(vulkanInstance, mLocalMemory, size, MEMORY_TYPE_DEDICATED);
 
 
 		CreateBuffer(vulkanInstance, ((VulkanBaseBuffer*)(selectedPage))->mBuffer, mLocalMemory.mMemory, size, usage, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, sharingMode, ((VulkanBaseBuffer*)(selectedPage))->mOffset);
@@ -85,70 +85,6 @@ namespace Invision
 		void* selectedPage = BindBufferToMemory(vulkanInstance, mLocalMemory, size, MEMORY_TYPE_DEDICATED);
 
 		vkBindImageMemory(vulkanInstance.logicalDevice, image, mLocalMemory.mMemory, ((VulkanBaseBuffer*)(selectedPage))->mOffset);
-		return selectedPage;
-	}
-
-	void* VulkanBaseMemoryManager::BindBufferToMemory(const SVulkanBase &vulkanInstance, VulkanBaseMemory &memory, VkDeviceSize size, VkBufferUsageFlags usage, VkSharingMode sharingMode, MemoryType memType)
-	{
-		uint32_t pageSize = static_cast<uint32_t>(vulkanInstance.physicalDeviceStruct.deviceProperties.limits.bufferImageGranularity * 10);
-		VkDeviceSize countOfPages = ((size / pageSize) + 1);
-		unsigned int iterator = 0;
-
-		//
-		VulkanBaseBuffer *selectedPage = nullptr;
-
-		// find space in allocation table
-		void* currPos = memory.mStartPosition;
-		while (currPos != nullptr)
-		{
-			if (iterator <= countOfPages)
-			{
-				//VulkanBaseBuffer2* buffer = reinterpret_cast<VulkanBaseBuffer2*>(currPos);
-				if (((VulkanBaseBuffer*)(currPos))->mInUse == false)
-				{
-					if (selectedPage == nullptr)
-					{
-
-						((VulkanBaseBuffer*)(currPos))->mInUse = true;
-						((VulkanBaseBuffer*)(currPos))->mSize = size;
-						((VulkanBaseBuffer*)(currPos))->mAllocatedPages = countOfPages - 1;
-						((VulkanBaseBuffer*)(currPos))->mMemType = memType;
-						((VulkanBaseBuffer*)(currPos))->mBufferOffset = 0;
-						selectedPage = ((VulkanBaseBuffer*)(currPos));
-
-					}
-					else
-					{
-						((VulkanBaseBuffer*)(currPos))->mInUse = true;
-						((VulkanBaseBuffer*)(currPos))->mSize = size;
-						((VulkanBaseBuffer*)(currPos))->mSize = memType;
-
-					}
-
-					iterator++;
-				}
-				else
-				{
-					if (selectedPage != nullptr)
-					{
-						selectedPage->mAllocatedPages = 0;
-						selectedPage->mInUse = false;
-						selectedPage = nullptr;
-						iterator = 0;
-					}
-				}
-
-				if (iterator == countOfPages)
-				{
-					break;
-				}
-
-
-			}
-
-			currPos = MemoryBlock::GetPoolHeader(currPos)->next;
-		};
-
 		return selectedPage;
 	}
 
