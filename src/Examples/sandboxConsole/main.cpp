@@ -512,12 +512,15 @@ int main()
 		std::cout << it->name << std::endl;
 	}
 	std::cout << std::endl << std::endl;
-	dList.remove(p1);
-	dList.remove(p3);
-	dList.remove(p5);
-	dList.remove(p7);
-	dList.remove(p2);
-	dList.remove(p0);
+	//dList.remove(p1);
+	//dList.remove(p3);
+	//dList.remove(p5);
+	//dList.remove(p7);
+	//dList.remove(p2);
+	//dList.remove(p0);
+
+	bool em = dList.isEmpty();
+	unsigned int s = dList.size();
 
 	// Lösch Test
 	for (it = dList.begin(); it != dList.end(); ++it)

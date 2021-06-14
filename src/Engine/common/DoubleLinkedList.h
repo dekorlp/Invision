@@ -17,14 +17,14 @@ namespace Invision
 	{
 	public:
 
-		INVISION_API DoubleLinkedList()
+		DoubleLinkedList()
 		{
 			mFront = nullptr;
 			mBack = nullptr;
 			mCountElements = 0;
 		}
 
-		INVISION_API DoubleLinkedList(DoubleLinkedList<T>& x)
+		DoubleLinkedList(DoubleLinkedList<T>& x)
 		{
 			LinkedListNode<T>* ptr = x.getFront();
 			if (x.size() == 0) {
@@ -52,6 +52,11 @@ namespace Invision
 
 		~DoubleLinkedList()
 		{
+			clear();
+		}
+
+		void clear()
+		{
 			LinkedListNode<T> *ptr = mFront;
 			while (ptr != nullptr)
 			{
@@ -59,6 +64,9 @@ namespace Invision
 				delete ptr;
 				ptr = ptr2;
 			}
+			mCountElements = 0;
+			mFront = nullptr;
+			mBack = nullptr;
 		}
 
 		void* pushBack(T data)
@@ -124,7 +132,7 @@ namespace Invision
 			return node;
 		}
 
-		INVISION_API bool isEmpty()
+		bool isEmpty()
 		{
 			if (mFront == nullptr && mBack == nullptr)
 			{
@@ -136,12 +144,12 @@ namespace Invision
 			}
 		}
 
-		INVISION_API LinkedListNode<T>* getFront()
+		LinkedListNode<T>* getFront()
 		{
 			return mFront;
 		}
 
-		INVISION_API LinkedListNode<T>* getBack()
+		LinkedListNode<T>* getBack()
 		{
 			return mBack;
 		}
@@ -174,7 +182,7 @@ namespace Invision
 			mCountElements--;
 		}
 
-		INVISION_API std::size_t size()
+		std::size_t size()
 		{
 			return mCountElements;
 		}
@@ -182,24 +190,24 @@ namespace Invision
 		class Iterator {
 			LinkedListNode<T> *ptr;
 		public:
-			INVISION_API Iterator() { ptr = nullptr; }
-			INVISION_API Iterator(LinkedListNode<T>* p) { ptr = p; }
-			INVISION_API LinkedListNode<T>* get_ptr() { return ptr; }
-			INVISION_API T* operator*() const { ptr->mData; }
-			INVISION_API void operator=(Iterator iter) { ptr = iter.get_ptr(); }
-			INVISION_API bool operator==(Iterator iter) { return ptr == iter.get_ptr(); }
-			INVISION_API void operator++() { if (ptr != nullptr) ptr = ptr->next; }
-			INVISION_API void operator--() { if (ptr != nullptr) ptr = ptr->previous; }
-			INVISION_API bool operator!=(Iterator iter) { return ptr != iter.get_ptr(); }
-			INVISION_API T*  operator->() const { return(&ptr->mData); };
+			Iterator() { ptr = nullptr; }
+			Iterator(LinkedListNode<T>* p) { ptr = p; }
+			LinkedListNode<T>* get_ptr() { return ptr; }
+			T* operator*() const { ptr->mData; }
+			void operator=(Iterator iter) { ptr = iter.get_ptr(); }
+			bool operator==(Iterator iter) { return ptr == iter.get_ptr(); }
+			void operator++() { if (ptr != nullptr) ptr = ptr->next; }
+			void operator--() { if (ptr != nullptr) ptr = ptr->previous; }
+			bool operator!=(Iterator iter) { return ptr != iter.get_ptr(); }
+			T*  operator->() const { return(&ptr->mData); };
 		};
 
-		INVISION_API Iterator begin()
+		Iterator begin()
 		{
 			return Iterator(mFront);
 		}
 
-		INVISION_API Iterator end()
+		Iterator end()
 		{
 			return Iterator(nullptr);
 		}
