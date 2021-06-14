@@ -460,14 +460,53 @@ class DoubleLinkedList
 		{
 			mFront = nullptr;
 			mBack = nullptr;
+			mCountElements = 0;
+		}
+
+		DoubleLinkedList(DoubleLinkedList<T>& x)
+		{
+			LinkedListNode<T>* ptr = x.getFront();
+			if (x.size() == 0) {
+				mFront = mBack = nullptr;
+				return;
+			}
+			LinkedListNode<T>* ptr2 = new LinkedListNode<T>;
+			ptr2->mData = ptr->mData;
+			ptr2->previous = ptr2->next = nullptr;
+			mFront = ptr2;
+			ptr = ptr->next;
+			while (ptr!=nullptr)
+			{
+				LinkedListNode<T>* temp = new LinkedListNode<T>;
+				temp->mData = ptr->mData;
+				temp->next = nullptr;
+				temp->previous = ptr2;
+				ptr2->next = temp;
+				ptr2 = temp;
+				ptr = ptr->next;
+			}
+			mBack = ptr2;
+			mCountElements = x.mCountElements();
+
+		}
+
+		~DoubleLinkedList()
+		{
+			LinkedListNode<T> *ptr = mFront;
+			while (ptr!=nullptr)
+			{
+				LinkedListNode<T> *ptr2 = ptr->next;
+				delete ptr;
+				ptr = ptr2;
+			}
 		}
 
 		void* pushBack(T data)
 		{
+			LinkedListNode<T> *node = new LinkedListNode<T>;
+
 			if (isEmpty())
 			{
-				LinkedListNode<T> *node = new LinkedListNode<T>;
-
 				mFront = node;
 				mBack = node;
 
@@ -476,15 +515,9 @@ class DoubleLinkedList
 				node->previous = nullptr;
 				node->next = nullptr;
 				node->mData = data;
-
-				return node;
 			}
 			else
 			{
-				
-
-				LinkedListNode<T> *node = new LinkedListNode<T>;
-
 				LinkedListNode<T> *prev = mBack;
 				prev->next = node;
 				mBack = node;
@@ -493,16 +526,19 @@ class DoubleLinkedList
 				//node->next = mBack;
 				node->next = nullptr;
 				node->mData = data;
-
-				return node;
 			}
+
+			mCountElements++;
+			return node;
 		}
 
 		void* pushFront(T data)
 		{
+			LinkedListNode<T> *node = new LinkedListNode<T>;
+
 			if (isEmpty())
 			{
-				LinkedListNode<T> *node = new LinkedListNode<T>;
+				
 
 				mFront = node;
 				mBack = node;
@@ -512,25 +548,20 @@ class DoubleLinkedList
 				node->previous = nullptr;
 				node->next = nullptr;
 				node->mData = data;
-
-				return node;
 			}
 			else
 			{
-				LinkedListNode<T> *nex = mFront;
-
-				LinkedListNode<T> *node = new LinkedListNode<T>;
-
-				node->next = nex;
-				nex->previous = node;
+				node->next = mFront;
+				mFront->previous = node;
 				mFront = node;
 
 				//node->previous = mFront;
 				node->previous = nullptr;
 				node->mData = data;
-
-				return node;
 			}
+
+			mCountElements++;
+			return node;
 		}
 
 		bool isEmpty()
@@ -545,6 +576,16 @@ class DoubleLinkedList
 			}
 		}
 
+		LinkedListNode<T>* getFront()
+		{
+			return mFront;
+		}
+
+		LinkedListNode<T>* getBack()
+		{
+			return mBack;
+		}
+
 		void remove(void* node)
 		{
 			LinkedListNode<T> *selected = (LinkedListNode<T> *)node;
@@ -555,7 +596,6 @@ class DoubleLinkedList
 				mFront = selected->next;
 				selected->next->previous = nullptr;
 				delete selected;
-				int test = 0;
 			}
 			// at back
 			else if (selected->next == nullptr)
@@ -563,7 +603,6 @@ class DoubleLinkedList
 				mBack = selected->previous;
 				selected->previous->next = nullptr;
 				delete selected;
-				int test = 0;
 			}
 			// is between
 			else
@@ -571,14 +610,45 @@ class DoubleLinkedList
 				selected->next->previous = selected->previous;
 				selected->previous->next = selected->next;
 				delete selected;
-				int test = 0;
 			}
-			
+		
+			mCountElements--;
+		}
+
+		std::size_t size()
+		{
+			return mCountElements;
+		}
+
+		class Iterator {
+			LinkedListNode<T> *ptr;
+		public:
+			Iterator() { ptr = nullptr; }
+			Iterator(LinkedListNode<T>* p) { ptr = p; }
+			LinkedListNode<T>* get_ptr() { return ptr; }
+			T* operator*() const { ptr->mData; }
+			void operator=(Iterator iter) { ptr = iter.get_ptr(); }
+			bool operator==(Iterator iter) { return ptr == iter.get_ptr(); }
+			void operator++() { if (ptr != nullptr) ptr = ptr->next; }
+			void operator--() { if (ptr != nullptr) ptr = ptr->previous; }
+			bool operator!=(Iterator iter) { return ptr != iter.get_ptr(); }
+			T*  operator->() const { return(&ptr->mData); };
+		};
+		
+		Iterator begin()
+		{
+			return Iterator(mFront);
+		}
+
+		Iterator end()
+		{
+			return Iterator(nullptr);
 		}
 
 	private:
 		LinkedListNode<T>* mFront;
 		LinkedListNode<T>* mBack;
+		std::size_t mCountElements;
 		
 };
 
@@ -632,13 +702,19 @@ int main()
 	Pers8.name = "Thorsten";
 
 
+
 	DoubleLinkedList<Person> dList;
 	void* p1 = dList.pushBack(PersSave);
 	void* p2 = dList.pushBack(Pers1);
 	void* p3 = dList.pushFront(Pers2);
 	dList.remove(p1);
-	// remove at front
-	
 
+	DoubleLinkedList<Person>::Iterator it;
+	for (it = dList.begin(); it != dList.end(); ++it)
+	{
+		std::cout << it->name << std::endl;
+	}
+
+	
 	return 0;
 }
