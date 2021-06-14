@@ -192,16 +192,16 @@ void testPoolAllocator()
 }
 */
 
+
+
 struct Person
 {
 	float Gewicht;
 	int Alter;
 	std::string name;
-	char* address;
-	Person* ptr;
 };
 
-void testPoolAllocatorStruct()
+/*void testPoolAllocatorStruct()
 {
 	Invision::Log log("../../../logs/PoolAllocationLog.txt");
 	Invision::Log::SetLogger(&log);
@@ -310,7 +310,7 @@ void testPoolAllocatorStruct()
 	(*Pol1) = &Pers6;
 
 	alloc.Destroy();
-}
+}*/
 
 
 
@@ -443,38 +443,202 @@ void testMatrix3()
 
 }
 
+template <class T>
+struct LinkedListNode
+{
+	LinkedListNode<T>* previous;
+	LinkedListNode<T>* next;
+	T mData;
+};
+
+template <class T>
+class DoubleLinkedList
+{
+	public:
+
+		DoubleLinkedList()
+		{
+			mFront = nullptr;
+			mBack = nullptr;
+		}
+
+		void* pushBack(T data)
+		{
+			if (isEmpty())
+			{
+				LinkedListNode<T> *node = new LinkedListNode<T>;
+
+				mFront = node;
+				mBack = node;
+
+				//node->previous = mFront;
+				//node->next = mBack;
+				node->previous = nullptr;
+				node->next = nullptr;
+				node->mData = data;
+
+				return node;
+			}
+			else
+			{
+				
+
+				LinkedListNode<T> *node = new LinkedListNode<T>;
+
+				LinkedListNode<T> *prev = mBack;
+				prev->next = node;
+				mBack = node;
+
+				node->previous = prev;
+				//node->next = mBack;
+				node->next = nullptr;
+				node->mData = data;
+
+				return node;
+			}
+		}
+
+		void* pushFront(T data)
+		{
+			if (isEmpty())
+			{
+				LinkedListNode<T> *node = new LinkedListNode<T>;
+
+				mFront = node;
+				mBack = node;
+
+				//node->previous = mFront;
+				//node->next = mBack;
+				node->previous = nullptr;
+				node->next = nullptr;
+				node->mData = data;
+
+				return node;
+			}
+			else
+			{
+				LinkedListNode<T> *nex = mFront;
+
+				LinkedListNode<T> *node = new LinkedListNode<T>;
+
+				node->next = nex;
+				nex->previous = node;
+				mFront = node;
+
+				//node->previous = mFront;
+				node->previous = nullptr;
+				node->mData = data;
+
+				return node;
+			}
+		}
+
+		bool isEmpty()
+		{
+			if (mFront == nullptr && mBack == nullptr)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		void remove(void* node)
+		{
+			LinkedListNode<T> *selected = (LinkedListNode<T> *)node;
+
+			// at front
+			if (selected->previous == nullptr)
+			{
+				mFront = selected->next;
+				selected->next->previous = nullptr;
+				delete selected;
+				int test = 0;
+			}
+			// at back
+			else if (selected->next == nullptr)
+			{
+				mBack = selected->previous;
+				selected->previous->next = nullptr;
+				delete selected;
+				int test = 0;
+			}
+			// is between
+			else
+			{
+				selected->next->previous = selected->previous;
+				selected->previous->next = selected->next;
+				delete selected;
+				int test = 0;
+			}
+			
+		}
+
+	private:
+		LinkedListNode<T>* mFront;
+		LinkedListNode<T>* mBack;
+		
+};
+
+
 
 int main()
 {
-	//CPUID cpuid(0x80000004);
+	Person PersSave;
+	PersSave.Alter = 23;
+	PersSave.Gewicht = 68;
+	PersSave.name = "Marie";
 
-	//std::string vendor;
-	//vendor += std::string((const char *)&cpuid.EBX(), 4);
-	//vendor += std::string((const char *)&cpuid.EDX(), 4);
-	//vendor += std::string((const char *)&cpuid.ECX(), 4);
+	Person Pers1;
+	Pers1.Alter = 22;
+	Pers1.Gewicht = 180;
+	Pers1.name = "Hans";
 
-	//cout << "CPU vendor = " << vendor << endl;
+	Person Pers2;
+	Pers2.Alter = 45;
+	Pers2.Gewicht = 185;
+	Pers2.name = "Dieter";
+
+	Person Pers3;
+	Pers3.Alter = 58;
+	Pers3.Gewicht = 200;
+	Pers3.name = "Werner";
+
+	Person Pers4;
+	Pers4.Alter = 16;
+	Pers4.Gewicht = 48;
+	Pers4.name = "Sven";
+
+	Person Pers5;
+	Pers5.Alter = 13;
+	Pers5.Gewicht = 35;
+	Pers5.name = "Peter";
+
+	Person Pers6;
+	Pers6.Alter = 68;
+	Pers6.Gewicht = 94;
+	Pers6.name = "Gundula";
+
+	Person Pers7;
+	Pers7.Alter = 27;
+	Pers7.Gewicht = 52;
+	Pers7.name = "Dennis";
+
+	Person Pers8;
+	Pers8.Alter = 25;
+	Pers8.Gewicht = 92;
+	Pers8.name = "Thorsten";
 
 
-	//testVector();
-	//testAllocators();
-	//testLog();
-
-	//testAllocatorBlockStack();
-	//testAllocatorBlockPool();
-	//testCPUInfo();
-	//testLinearAllocator();
-	//testStackAllocator();
-	//testPoolAllocator();
-	testPoolAllocatorStruct();
-	//testVector();
-	//testMatrix();
-	//testCast();
-	//testKeyboardHandling();
+	DoubleLinkedList<Person> dList;
+	void* p1 = dList.pushBack(PersSave);
+	void* p2 = dList.pushBack(Pers1);
+	void* p3 = dList.pushFront(Pers2);
+	dList.remove(p1);
+	// remove at front
 	
-	testMatrix2();
-	testMatrix3();
-	//testMatrix4();
-	
+
 	return 0;
 }
