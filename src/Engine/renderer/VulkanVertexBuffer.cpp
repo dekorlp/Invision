@@ -37,7 +37,7 @@ namespace Invision
 
 	VulkanVertexBuffer::~VulkanVertexBuffer()
 	{
-		mBaseVertexBuffer.DestroyVertexBuffers(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
+		mBaseVertexBuffer.DestroyVertexBuffers(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetMemoryManager());
 	}
 	
 

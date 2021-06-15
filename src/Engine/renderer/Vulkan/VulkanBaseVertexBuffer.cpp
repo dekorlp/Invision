@@ -53,12 +53,12 @@ namespace Invision
 		return mVertexBuffers;
 	}
 
-	void VulkanBaseVertexBuffer::DestroyVertexBuffers(const SVulkanBase &vulkanInstance)
+	void VulkanBaseVertexBuffer::DestroyVertexBuffers(const SVulkanBase &vulkanInstance, VulkanBaseMemoryManager& memoryManager)
 	{
 		for (int  i = 0; i < mVertexBuffers.size(); i++)
 		{
 
-			mMemoryManager->Unbind(vulkanInstance, mVertexBuffers[i]);
+			memoryManager.Unbind(vulkanInstance, mVertexBuffers[i]);
 		}
 		mVertexBuffers.clear();
 	}

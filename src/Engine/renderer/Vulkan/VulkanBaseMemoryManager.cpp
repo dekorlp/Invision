@@ -127,11 +127,6 @@ namespace Invision
 		alloc.mMemType = memType;
 		alloc.size = size;
 
-		if (size > 10000000)
-		{
-			int test = 0;
-		}
-
 		return memory.mAllocations.pushBack(alloc);
 	}
 
@@ -191,41 +186,47 @@ namespace Invision
 	void VulkanBaseMemoryManager::Unbind(const SVulkanBase &vulkanInstance, void* memory)
 	{
 
-		if (((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.mBuffer != VK_NULL_HANDLE)
+		/*if (((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.mBuffer != VK_NULL_HANDLE)
 		{
 			vkDestroyBuffer(vulkanInstance.logicalDevice, ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.mBuffer, nullptr);
 			((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.mBuffer = VK_NULL_HANDLE;
 		}
 
 		uint32_t pageSize = static_cast<uint32_t>(vulkanInstance.physicalDeviceStruct.deviceProperties.limits.bufferImageGranularity * PAGESIZE);
-		VkDeviceSize countOfPages = ((((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.size / pageSize));
+		VkDeviceSize countOfPages = ((((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.size / pageSize));*/
+
 
 		if (((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.mMemType == MEMORY_TYPE_DEDICATED)
 		{
-			for (unsigned int i = ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex; i < mLocalChunk.mPages.size(); i++)
-			{
+			//  ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex
+			unsigned int sz = mLocalChunk.mPages.size();
+			//for (unsigned int i = 0; i < mLocalChunk.mPages.size(); i++)
+			//{
 				//mLocalChunk.mPages[i].mInUse = false;
 
 				//if (i == countOfPages)
 				//{
 				//	break;
 				//}
-			}
+			//}
 
 			//mLocalChunk.mAllocations.remove(memory);
 
 		}
 		else
 		{
-			for (unsigned int i = ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex; i < mLocalChunk.mPages.size(); i++)
-			{
+			//  mLocalChunk.mPages
+			// ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex
+			unsigned int sz = mSharedChunk.mPages.size();
+			//for (unsigned int i = 0; i < mSharedChunk.mPages.size(); i++)
+			//{
 				//mSharedChunk.mPages[i].mInUse = false;
 
 				//if (i == countOfPages)
 				//{
 				//	break;
 				//}
-			}
+			//}
 
 			//mSharedChunk.mAllocations.remove(memory);
 		}

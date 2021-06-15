@@ -55,14 +55,12 @@ namespace Invision
 		INVISION_API std::vector<void*> &GetBuffers();
 		INVISION_API void CreateBuffer(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, uint32_t binding, uint64_t size, const void *source);
 
-		INVISION_API void DestroyVertexBuffers(const SVulkanBase &vulkanInstance);		
+		INVISION_API void DestroyVertexBuffers(const SVulkanBase &vulkanInstance, VulkanBaseMemoryManager& memoryManager);
 		
 	private:
 		INVISION_API void* AllocateDedicatedMemory(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, uint64_t size, const void *source);
 		INVISION_API void* AllocateSharedMemory(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, uint64_t size, const void *source);
 
-
-		VulkanBaseMemoryManager *mMemoryManager;
 		std::vector<void*> mVertexBuffers; // index is Binding ID
 	};
 }
