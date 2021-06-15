@@ -444,7 +444,7 @@ namespace Invision
 
 
 		void* dataUnused;
-		vkMapMemory(vulkanInstance.logicalDevice, deviceMemory, allocPage.size, allocPage.pageIndex * vulkanInstance.physicalDeviceStruct.deviceProperties.limits.bufferImageGranularity * PAGESIZE, 0, &dataUnused);
+		vkMapMemory(vulkanInstance.logicalDevice, deviceMemory, allocPage.pageIndex * vulkanInstance.physicalDeviceStruct.deviceProperties.limits.bufferImageGranularity * PAGESIZE, allocPage.size, 0, &dataUnused);
 		memcpy(dataUnused, data, allocPage.size);
 		vkUnmapMemory(vulkanInstance.logicalDevice, deviceMemory);
 	}
