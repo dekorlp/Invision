@@ -161,6 +161,8 @@ namespace Invision
 			if (selected->previous == nullptr && selected->next == nullptr)
 			{
 				delete selected;
+				mFront = nullptr;
+				mBack = nullptr;
 			}
 			else
 			{
