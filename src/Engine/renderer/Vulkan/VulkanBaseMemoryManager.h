@@ -36,6 +36,7 @@ namespace Invision
 		std::vector<VulkanPage> mPages;
 		DoubleLinkedList<VulkanAllocation> mAllocations;
 		VkDeviceMemory mMemory;
+		uint32_t pageSize;
 	};
 
 #define PAGESIZE 10

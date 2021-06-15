@@ -24,6 +24,8 @@ namespace Invision
 			mLocalChunk.mPages.push_back(page);
 		}
 
+		mLocalChunk.pageSize = pageSize;
+		mLocalChunk.mMemType = MEMORY_TYPE_DEDICATED;
 		AllocateMemory(vulkanInstance, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, size, mLocalChunk.mMemory);
 
 
@@ -38,6 +40,8 @@ namespace Invision
 			mSharedChunk.mPages.push_back(page);
 		}
 
+		mSharedChunk.pageSize = pageSize;
+		mSharedChunk.mMemType = MEMORY_TYPE_SHARED;
 		AllocateMemory(vulkanInstance, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, size, mSharedChunk.mMemory);
 	}
 	
@@ -46,8 +50,9 @@ namespace Invision
 	{
 		void* selectedPage = BindBufferToMemory(vulkanInstance, mSharedChunk, size, MEMORY_TYPE_SHARED);
 
+		uint32_t pageSize = (((Invision::LinkedListNode<VulkanAllocation>*)(selectedPage))->mData.mMemType == MEMORY_TYPE_DEDICATED) ? mLocalChunk.pageSize : mSharedChunk.pageSize;
 	
-		CreateBuffer(vulkanInstance, ((Invision::LinkedListNode<VulkanAllocation>*)(selectedPage))->mData.mBuffer, mSharedChunk.mMemory, size, usage, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, sharingMode, ((Invision::LinkedListNode<VulkanAllocation>*)(selectedPage))->mData.pageIndex * (vulkanInstance.physicalDeviceStruct.deviceProperties.limits.bufferImageGranularity * PAGESIZE));
+		CreateBuffer(vulkanInstance, ((Invision::LinkedListNode<VulkanAllocation>*)(selectedPage))->mData.mBuffer, mSharedChunk.mMemory, size, usage, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, sharingMode, ((Invision::LinkedListNode<VulkanAllocation>*)(selectedPage))->mData.pageIndex * pageSize);
 	
 		return selectedPage;
 	}
@@ -56,10 +61,11 @@ namespace Invision
 	{
 		void* selectedPage = BindBufferToMemory(vulkanInstance, mLocalChunk, size, MEMORY_TYPE_DEDICATED);
 
+		uint32_t pageSize = (((Invision::LinkedListNode<VulkanAllocation>*)(selectedPage))->mData.mMemType == MEMORY_TYPE_DEDICATED) ? mLocalChunk.pageSize : mSharedChunk.pageSize;
 
 		CreateBuffer(vulkanInstance, ((Invision::LinkedListNode<VulkanAllocation>*)(selectedPage))->mData.mBuffer,
 			mLocalChunk.mMemory, size, usage, 
-			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, sharingMode, ((Invision::LinkedListNode<VulkanAllocation>*)(selectedPage))->mData.pageIndex * (vulkanInstance.physicalDeviceStruct.deviceProperties.limits.bufferImageGranularity * PAGESIZE));
+			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, sharingMode, ((Invision::LinkedListNode<VulkanAllocation>*)(selectedPage))->mData.pageIndex * pageSize);
 
 		return selectedPage;
 	}
@@ -69,14 +75,16 @@ namespace Invision
 		void* selectedPage = BindBufferToMemory(vulkanInstance, mLocalChunk, size, MEMORY_TYPE_DEDICATED);
 
 		VulkanAllocation allocPage = ((Invision::LinkedListNode<VulkanAllocation>*)(BindBufferToMemory(vulkanInstance, mLocalChunk, size, MEMORY_TYPE_DEDICATED)))->mData;
+		uint32_t pageSize = (allocPage.mMemType == MEMORY_TYPE_DEDICATED) ? mLocalChunk.pageSize : mSharedChunk.pageSize;
 
-		vkBindImageMemory(vulkanInstance.logicalDevice, image, mLocalChunk.mMemory, allocPage.pageIndex * (vulkanInstance.physicalDeviceStruct.deviceProperties.limits.bufferImageGranularity * PAGESIZE));
+		vkBindImageMemory(vulkanInstance.logicalDevice, image, mLocalChunk.mMemory, allocPage.pageIndex * pageSize);
 		return selectedPage;
 	}
 
 	void* VulkanBaseMemoryManager::BindBufferToMemory(const SVulkanBase &vulkanInstance, VulkanChunk &memory, VkDeviceSize size, MemoryType memType)
 	{
-		uint32_t pageSize = static_cast<uint32_t>(vulkanInstance.physicalDeviceStruct.deviceProperties.limits.bufferImageGranularity * PAGESIZE);
+		uint32_t pageSize = (memType == MEMORY_TYPE_DEDICATED) ? mLocalChunk.pageSize : mSharedChunk.pageSize;
+
 		VkDeviceSize countOfPages = ((size / pageSize) + 1);
 
 		unsigned int indexOfPage = 0;
@@ -192,7 +200,7 @@ namespace Invision
 			((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.mBuffer = VK_NULL_HANDLE;
 		}
 
-		uint32_t pageSize = static_cast<uint32_t>(vulkanInstance.physicalDeviceStruct.deviceProperties.limits.bufferImageGranularity * PAGESIZE);
+		uint32_t pageSize = (((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.mMemType == MEMORY_TYPE_DEDICATED) ? mLocalChunk.pageSize : mSharedChunk.pageSize;
 		VkDeviceSize countOfPages = ((((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.size / pageSize));
 
 
@@ -231,6 +239,8 @@ namespace Invision
 
 	void VulkanBaseMemoryManager::CopyDataToBuffer(const SVulkanBase &vulkanInstance, void* memory, const void* data)
 	{
+		uint32_t pageSize = (((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.mMemType == MEMORY_TYPE_DEDICATED) ? mLocalChunk.pageSize : mSharedChunk.pageSize;
+
 		VkDeviceMemory deviceMemory = VK_NULL_HANDLE;
 
 		VulkanAllocation allocPage = ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData;
@@ -248,7 +258,7 @@ namespace Invision
 
 
 		void* dataUnused;
-		vkMapMemory(vulkanInstance.logicalDevice, deviceMemory, allocPage.pageIndex * vulkanInstance.physicalDeviceStruct.deviceProperties.limits.bufferImageGranularity * PAGESIZE, allocPage.size, 0, &dataUnused);
+		vkMapMemory(vulkanInstance.logicalDevice, deviceMemory, allocPage.pageIndex * pageSize, allocPage.size, 0, &dataUnused);
 		memcpy(dataUnused, data, allocPage.size);
 		vkUnmapMemory(vulkanInstance.logicalDevice, deviceMemory);
 	}
