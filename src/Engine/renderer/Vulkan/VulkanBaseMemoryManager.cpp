@@ -117,11 +117,8 @@ namespace Invision
 			}
 		}
 
-		
-
 		for (unsigned int i = indexOfPage; i < memory.mPages.size(); i++)
 		{
-			
 			if (i - indexOfPage == countOfPages)
 			{
 				break;
@@ -137,8 +134,6 @@ namespace Invision
 		alloc.offset = indexOfPage * pageSize;
 		alloc.mMemType = memType;
 		alloc.size = size;
-
-		std::cout << "Allocation - " << " PageIndex: " << alloc.pageIndex << " Offset: " << alloc.offset << " Size: " << alloc.size << " End Address: " << alloc.offset + size << std::endl;
 
 		return memory.mAllocations.pushBack(alloc);
 	}
@@ -225,10 +220,8 @@ namespace Invision
 			mLocalChunk.mAllocations.remove(memory);
 
 		}
-		else
+		else // MEMORY_TYPE_SHARED
 		{
-			//  mLocalChunk.mPages
-			
 			for (unsigned int i = ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex; i < endIt; i++)
 			{
 				if (i >= mSharedChunk.mPages.size())
@@ -259,9 +252,6 @@ namespace Invision
 		{
 			deviceMemory = mSharedChunk.mMemory;
 		}
-
-		
-
 
 		void* dataUnused;
 		vkMapMemory(vulkanInstance.logicalDevice, deviceMemory, allocPage.pageIndex * pageSize, allocPage.size, 0, &dataUnused);
