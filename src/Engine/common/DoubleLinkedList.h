@@ -97,7 +97,7 @@ namespace Invision
 			}
 
 			mCountElements++;
-			return node;
+			return (void*)node;
 		}
 
 		void* pushFront(T data)
@@ -185,6 +185,13 @@ namespace Invision
 		std::size_t size()
 		{
 			return mCountElements;
+		}
+
+		T get(void* pointer)
+		{
+			//LinkedListNode<T> *selected = (LinkedListNode<T> *)pointer;
+
+			return ((LinkedListNode<T> *)pointer)->mData;
 		}
 
 		class Iterator {

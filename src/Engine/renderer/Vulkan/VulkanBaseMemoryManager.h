@@ -4,6 +4,7 @@
 #include "vulkan\vulkan.h"
 #include "lowlevel\allocator\MemoryBlock.h"
 #include "lowlevel\allocator\PoolAllocator.h"
+#include "common/DoubleLinkedList.h"
 #include "VulkanBaseCommandPool.h"
 
 namespace Invision
@@ -18,6 +19,8 @@ namespace Invision
 	struct VulkanBaseMemory
 	{
 		VkDeviceMemory mMemory;
+
+		// TODO delete unused
 		PoolAllocator mMappedMemory;
 		void* mStartPosition;
 	};
@@ -32,6 +35,30 @@ namespace Invision
 		VkDeviceSize mAllocatedPages;
 		bool mInUse = false;
 	};
+
+	struct VulkanAllocation
+	{
+		unsigned int pageIndex;
+		VkDeviceSize size;
+		VkBuffer mBuffer;
+		VkDeviceSize mBufferOffset;
+		MemoryType mMemType;
+	};
+
+	struct VulkanPage
+	{
+		bool mInUse = false;
+	};
+
+	struct VulkanChunk
+	{
+		MemoryType mMemType;
+		std::vector<VulkanPage> mPages;
+		DoubleLinkedList<VulkanAllocation> mAllocations;
+		VkDeviceMemory mMemory;
+	};
+
+#define PAGESIZE 10
 
 	class  VulkanBaseMemoryManager
 	{
@@ -52,12 +79,12 @@ namespace Invision
 
 		VkBuffer GetBuffer(void* handle)
 		{
-			return ((VulkanBaseBuffer*)(handle))->mBuffer;
+			return ((Invision::LinkedListNode<VulkanAllocation>*)(handle))->mData.mBuffer;
 		}
 
 		VkDeviceSize GetOffset(void* handle)
 		{
-			return ((VulkanBaseBuffer*)(handle))->mBufferOffset;
+			return ((Invision::LinkedListNode<VulkanAllocation>*)(handle))->mData.mBufferOffset;
 		}
 
 	private:
@@ -66,7 +93,11 @@ namespace Invision
 		void AllocateMemory(const SVulkanBase &vulkanInstance, VkMemoryPropertyFlags properties, size_t size, VkDeviceMemory &memory);
 		void CreateBuffer(const SVulkanBase &vulkanInstance, VkBuffer& buffer, VkDeviceMemory& memory, VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkSharingMode sharingMode, VkDeviceSize memoryOffset);
 
-		void* BindBufferToMemory(const SVulkanBase &vulkanInstance, VulkanBaseMemory &memory, VkDeviceSize size, MemoryType memType);
+		//void* BindBufferToMemory(const SVulkanBase &vulkanInstance, VulkanBaseMemory &memory, VkDeviceSize size, MemoryType memType);
+		void* BindBufferToMemory(const SVulkanBase &vulkanInstance, VulkanChunk &memory, VkDeviceSize size, MemoryType memType);
+
+		VulkanChunk mLocalChunk;
+		VulkanChunk mSharedChunk;
 
 		VulkanBaseMemory mLocalMemory;
 		VulkanBaseMemory mSharedMemory;

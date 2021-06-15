@@ -17,9 +17,17 @@ namespace Invision
 
 	void* VulkanBaseVertexBuffer::AllocateDedicatedMemory(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, uint64_t size, const void *source)
 	{
+		
+
 		void* stagingBuffer = memoryManager.BindToSharedMemory(vulkanInstance, size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_SHARING_MODE_EXCLUSIVE);
+
+		VulkanAllocation alloc = ((Invision::LinkedListNode<VulkanAllocation>*)(stagingBuffer))->mData;
+
 		memoryManager.CopyDataToBuffer(vulkanInstance, stagingBuffer, source);
 		void* vertexBuffer = memoryManager.BindToDedicatedMemory(vulkanInstance, size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_SHARING_MODE_EXCLUSIVE);
+
+		VulkanAllocation allocvrt = ((Invision::LinkedListNode<VulkanAllocation>*)(vertexBuffer))->mData;
+
 		memoryManager.CopyBufferToBuffer(vulkanInstance, commandPool, stagingBuffer, vertexBuffer);
 		memoryManager.Unbind(vulkanInstance, stagingBuffer);
 

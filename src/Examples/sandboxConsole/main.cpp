@@ -494,7 +494,7 @@ int main()
 	Pers8.Gewicht = 92;
 	Pers8.name = "Thorsten";
 
-
+	//void* PolPol = (void*)alloc.Allocate();
 
 	Invision::DoubleLinkedList<Person> dList;
 	void* p0 = dList.pushBack(PersSave);
@@ -503,9 +503,15 @@ int main()
 	void* p3 = dList.pushBack(Pers3);
 	void* p4 = dList.pushFront(Pers4);
 	void* p5 = dList.pushFront(Pers5);
-	void* p7 = dList.pushBack(Pers7);
+	void* p7 = (void*)dList.pushBack(Pers7);
 
-	// Einfuege Test
+	Person p = dList.get(p7);
+
+	//Invision::LinkedListNode<Person>* p = (Invision::LinkedListNode<Person>*)(p7);
+
+	//Person* pers = reinterpret_cast<Person*>(p7);
+
+	/*// Einfuege Test
 	Invision::DoubleLinkedList<Person>::Iterator it;
 	for (it = dList.begin(); it != dList.end(); ++it)
 	{
@@ -526,21 +532,9 @@ int main()
 	for (it = dList.begin(); it != dList.end(); ++it)
 	{
 		std::cout << it->name << std::endl;
-	}
+	}*/
 
 	//return 0;
-
-
-
-	int myints[] = { 17,89,7,14 };
-	std::list<int> mylist(myints, myints + 4);
-
-	mylist.remove(8);
-
-	std::cout << "mylist contains:";
-	for (std::list<int>::iterator it = mylist.begin(); it != mylist.end(); ++it)
-		std::cout << ' ' << *it;
-	std::cout << '\n';
 
 	return 0;
 }
