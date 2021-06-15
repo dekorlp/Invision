@@ -79,31 +79,33 @@ namespace Invision
 		uint32_t pageSize = static_cast<uint32_t>(vulkanInstance.physicalDeviceStruct.deviceProperties.limits.bufferImageGranularity * PAGESIZE);
 		VkDeviceSize countOfPages = ((size / pageSize) + 1);
 
-		unsigned int it = 0;
 		unsigned int indexOfPage = 0;
+		bool found;
+		unsigned int iterator = 0;
+
 		for (unsigned int i = 0; i < memory.mPages.size(); i++)
 		{
 			if (memory.mPages[i].mInUse == false)
 			{
-				it++;
-				if (it == 0)
+				//page is unused
+				found = true;
+				if (iterator == 0)
 				{
 					indexOfPage = i;
 				}
-				else
-				{
-					indexOfPage = 0;
-				}
 
-
-				if (it == countOfPages)
+				if (iterator == countOfPages)
 				{
 					break;
 				}
+
+				iterator++;
 			}
 			else
 			{
-				it = 0;
+				found = false;
+				iterator == 0;
+				// page is in use
 			}
 		}
 
