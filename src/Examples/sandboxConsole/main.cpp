@@ -444,97 +444,195 @@ void testMatrix3()
 }
 
 #include <common/DoubleLinkedList.h>
-#include <iostream>
-#include <list>
+
+enum MemoryType
+{
+	MEMORY_TYPE_DEDICATED = 0x01,
+	MEMORY_TYPE_SHARED = 0x02
+};
+
+struct VulkanAllocation
+{
+	unsigned int pageIndex;
+	uint32_t size;
+	MemoryType mMemType;
+
+	// debug
+	uint32_t offset;
+};
+
+struct VulkanPage
+{
+	bool mInUse = false;
+};
+
+struct VulkanChunk
+{
+	MemoryType mMemType;
+	std::vector<VulkanPage> mPages;
+	Invision::DoubleLinkedList<VulkanAllocation> mAllocations;
+	//VkDeviceMemory mMemory;
+	uint32_t pageSize;
+};
+
+#define PAGESIZE 10
+
+class  VulkanBaseMemoryManager
+{
+public:
+	VulkanBaseMemoryManager()
+	{
+
+	}
+
+	void Init(size_t size)
+	{
+		// Allocate dedicated Memory
+		uint32_t pageSize = static_cast<uint32_t>(PAGESIZE);
+
+		for (unsigned int i = 0; i < ((size / pageSize) + 1); i++)
+		{
+			VulkanPage page;
+			page.mInUse = false;
+
+			mLocalChunk.mPages.push_back(page);
+		}
+
+		mLocalChunk.pageSize = pageSize;
+		mLocalChunk.mMemType = MEMORY_TYPE_DEDICATED;
+	}
+
+	void Destroy()
+	{
+
+	}
+
+	void* BindBufferToMemory(uint32_t size, MemoryType memType)
+	{
+		uint32_t pageSize = (memType == MEMORY_TYPE_DEDICATED) ? mLocalChunk.pageSize : 0;
+
+		uint32_t countOfPages = ((size / pageSize) + 1);
+
+		unsigned int indexOfPage = 0;
+		bool found;
+		unsigned int iterator = 0;
+
+		for (unsigned int i = 0; i < this->mLocalChunk.mPages.size(); i++)
+		{
+			if (iterator == countOfPages)
+			{
+				break;
+			}
+
+			if (this->mLocalChunk.mPages[i].mInUse == false)
+			{
+				//page is unused
+				found = true;
+				if (iterator == 0)
+				{
+					indexOfPage = i;
+				}
+
+			
+
+				iterator++;
+			}
+			else
+			{
+				found = false;
+				iterator = 0;
+				// page is in use
+			}
+		}
+
+
+
+		for (unsigned int i = indexOfPage; i < this->mLocalChunk.mPages.size(); i++)
+		{
+			if (i - indexOfPage == countOfPages)
+			{
+				break;
+			}
+
+			this->mLocalChunk.mPages[i].mInUse = true;
+			
+		}
+
+		VulkanAllocation alloc;
+		alloc.pageIndex = indexOfPage;
+		alloc.offset = indexOfPage * pageSize;
+		alloc.mMemType = memType;
+		alloc.size = size;
+
+		std::cout << "Allocation - " << " PageIndex: " << alloc.pageIndex << " Offset: " << alloc.offset << " Size: " << alloc.size << " End Address: " << alloc.offset + size << std::endl;
+
+		return this->mLocalChunk.mAllocations.pushBack(alloc);
+	}
+
+	void Unbind(void* memory)
+	{
+		uint32_t pageSize = (((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.mMemType == MEMORY_TYPE_DEDICATED) ? mLocalChunk.pageSize : 0;
+		uint32_t countOfPages = ((((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.size / pageSize) + 1);
+
+
+		if (((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.mMemType == MEMORY_TYPE_DEDICATED)
+		{
+			uint32_t endIt = ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex + countOfPages;
+
+			for (unsigned int i = ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex; i < endIt; i++)
+			{
+				if (i >= mLocalChunk.mPages.size())
+				{
+					throw std::out_of_range("Page Index is out of Range!");
+				}
+
+				mLocalChunk.mPages[i].mInUse = false;
+			}
+
+			//for (unsigned int i = endIt - 1; i >= ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex; i--)
+			//{
+			//	if (i >= mLocalChunk.mPages.size())
+			//	{
+			//		throw std::out_of_range("Page Index is out of Range!");
+			//	}
+
+			//	mLocalChunk.mPages[i].mInUse = false;
+			//}
+
+			/*for (unsigned int i = ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex; i < endIt; i++)
+			{
+				if (i >= mLocalChunk.mPages.size())
+				{
+					throw std::out_of_range("Page Index is out of Range!");
+				}
+
+				mLocalChunk.mPages[i].mInUse = false;
+			}*/
+
+			mLocalChunk.mAllocations.remove(memory);
+
+		}
+		else
+		{
+			// shared not implemented
+		}
+	}
+
+private:
+
+	VulkanChunk mLocalChunk;
+
+};
 
 int main()
 {
-	Person PersSave;
-	PersSave.Alter = 23;
-	PersSave.Gewicht = 68;
-	PersSave.name = "Marie";
-
-	Person Pers1;
-	Pers1.Alter = 22;
-	Pers1.Gewicht = 180;
-	Pers1.name = "Hans";
-
-	Person Pers2;
-	Pers2.Alter = 45;
-	Pers2.Gewicht = 185;
-	Pers2.name = "Dieter";
-
-	Person Pers3;
-	Pers3.Alter = 58;
-	Pers3.Gewicht = 200;
-	Pers3.name = "Werner";
-
-	Person Pers4;
-	Pers4.Alter = 16;
-	Pers4.Gewicht = 48;
-	Pers4.name = "Sven";
-
-	Person Pers5;
-	Pers5.Alter = 13;
-	Pers5.Gewicht = 35;
-	Pers5.name = "Peter";
-
-	Person Pers6;
-	Pers6.Alter = 68;
-	Pers6.Gewicht = 94;
-	Pers6.name = "Gundula";
-
-	Person Pers7;
-	Pers7.Alter = 27;
-	Pers7.Gewicht = 52;
-	Pers7.name = "Dennis";
-
-	Person Pers8;
-	Pers8.Alter = 25;
-	Pers8.Gewicht = 92;
-	Pers8.name = "Thorsten";
-
-	//void* PolPol = (void*)alloc.Allocate();
-
-	Invision::DoubleLinkedList<Person> dList;
-	void* p0 = dList.pushBack(PersSave);
-	void* p1 = dList.pushBack(Pers1);
-	void* p2 = dList.pushBack(Pers2);
-	void* p3 = dList.pushBack(Pers3);
-	void* p4 = dList.pushFront(Pers4);
-	void* p5 = dList.pushFront(Pers5);
-	void* p7 = (void*)dList.pushBack(Pers7);
-
-	Person p = dList.get(p7);
-
-	//Invision::LinkedListNode<Person>* p = (Invision::LinkedListNode<Person>*)(p7);
-
-	//Person* pers = reinterpret_cast<Person*>(p7);
-
-	/*// Einfuege Test
-	Invision::DoubleLinkedList<Person>::Iterator it;
-	for (it = dList.begin(); it != dList.end(); ++it)
-	{
-		std::cout << it->name << std::endl;
-	}
-	std::cout << std::endl << std::endl;
-	//dList.remove(p1);
-	//dList.remove(p3);
-	//dList.remove(p5);
-	//dList.remove(p7);
-	//dList.remove(p2);
-	//dList.remove(p0);
-
-	bool em = dList.isEmpty();
-	unsigned int s = dList.size();
-
-	// Lösch Test
-	for (it = dList.begin(); it != dList.end(); ++it)
-	{
-		std::cout << it->name << std::endl;
-	}*/
-
-	//return 0;
+	VulkanBaseMemoryManager memManager;
+	memManager.Init(1024);
+	void* p1 = memManager.BindBufferToMemory(20, MEMORY_TYPE_DEDICATED);
+	void* p2 = memManager.BindBufferToMemory(40, MEMORY_TYPE_DEDICATED);
+	void* p3 = memManager.BindBufferToMemory(40, MEMORY_TYPE_DEDICATED);
+	memManager.Unbind(p2);
+	void* p4 = memManager.BindBufferToMemory(40, MEMORY_TYPE_DEDICATED);
 
 	return 0;
 }

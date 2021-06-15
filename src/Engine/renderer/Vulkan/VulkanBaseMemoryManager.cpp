@@ -93,6 +93,11 @@ namespace Invision
 
 		for (unsigned int i = 0; i < memory.mPages.size(); i++)
 		{
+			if (iterator == countOfPages)
+			{
+				break;
+			}
+
 			if (memory.mPages[i].mInUse == false)
 			{
 				//page is unused
@@ -100,11 +105,6 @@ namespace Invision
 				if (iterator == 0)
 				{
 					indexOfPage = i;
-				}
-
-				if (iterator == countOfPages)
-				{
-					break;
 				}
 
 				iterator++;
@@ -119,7 +119,7 @@ namespace Invision
 
 		
 
-		for (unsigned int i = indexOfPage; i < memory.mPages.size(); i++)
+		for (unsigned int i = indexOfPage; i < indexOfPage + memory.mPages.size(); i++)
 		{
 			memory.mPages[i].mInUse = true;
 			if (i - indexOfPage == countOfPages)
@@ -206,10 +206,11 @@ namespace Invision
 		uint32_t pageSize = (((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.mMemType == MEMORY_TYPE_DEDICATED) ? mLocalChunk.pageSize : mSharedChunk.pageSize;
 		VkDeviceSize countOfPages = ((((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.size / pageSize) + 1);
 
+		uint32_t endIt = ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex + countOfPages;
 
 		if (((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.mMemType == MEMORY_TYPE_DEDICATED)
 		{
-			for (unsigned int i = ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex; i < countOfPages; i++)
+			for (unsigned int i = ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex; i < endIt; i++)
 			{
 				if (i >= mLocalChunk.mPages.size())
 				{
@@ -226,7 +227,7 @@ namespace Invision
 		{
 			//  mLocalChunk.mPages
 			
-			for (unsigned int i = ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex; i < countOfPages; i++)
+			for (unsigned int i = ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex; i < endIt; i++)
 			{
 				if (i >= mSharedChunk.mPages.size())
 				{
