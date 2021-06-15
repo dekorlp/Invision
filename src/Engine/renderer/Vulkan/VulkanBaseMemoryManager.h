@@ -16,26 +16,6 @@ namespace Invision
 		MEMORY_TYPE_SHARED = 0x02
 	};
 
-	struct VulkanBaseMemory
-	{
-		VkDeviceMemory mMemory;
-
-		// TODO delete unused
-		PoolAllocator mMappedMemory;
-		void* mStartPosition;
-	};
-
-	struct VulkanBaseBuffer
-	{
-		VkDeviceSize mSize;
-		VkDeviceSize mOffset;
-		VkDeviceSize mBufferOffset;
-		VkBuffer mBuffer;
-		MemoryType mMemType;
-		VkDeviceSize mAllocatedPages;
-		bool mInUse = false;
-	};
-
 	struct VulkanAllocation
 	{
 		unsigned int pageIndex;
@@ -98,9 +78,6 @@ namespace Invision
 
 		VulkanChunk mLocalChunk;
 		VulkanChunk mSharedChunk;
-
-		VulkanBaseMemory mLocalMemory;
-		VulkanBaseMemory mSharedMemory;
 	};
 }
 
