@@ -18,8 +18,8 @@ namespace Invision
 
 	struct VulkanAllocation
 	{
-		unsigned int pageIndex;
-		VkDeviceSize size;
+		unsigned int mPageIndex;
+		VkDeviceSize mSize;
 		VkBuffer mBuffer;
 		VkDeviceSize mBufferOffset;
 		MemoryType mMemType;
@@ -36,7 +36,7 @@ namespace Invision
 		std::vector<VulkanPage> mPages;
 		DoubleLinkedList<VulkanAllocation> mAllocations;
 		VkDeviceMemory mMemory;
-		uint32_t pageSize;
+		uint32_t mPageSize;
 		size_t mTotalAllocatedSize;
 		size_t mAllocatedSize;
 	};
