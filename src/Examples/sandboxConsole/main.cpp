@@ -192,16 +192,16 @@ void testPoolAllocator()
 }
 */
 
+
+
 struct Person
 {
 	float Gewicht;
 	int Alter;
 	std::string name;
-	char* address;
-	Person* ptr;
 };
 
-void testPoolAllocatorStruct()
+/*void testPoolAllocatorStruct()
 {
 	Invision::Log log("../../../logs/PoolAllocationLog.txt");
 	Invision::Log::SetLogger(&log);
@@ -310,7 +310,7 @@ void testPoolAllocatorStruct()
 	(*Pol1) = &Pers6;
 
 	alloc.Destroy();
-}
+}*/
 
 
 
@@ -443,38 +443,104 @@ void testMatrix3()
 
 }
 
+#include <common/DoubleLinkedList.h>
+#include <iostream>
+#include <list>
 
 int main()
 {
-	//CPUID cpuid(0x80000004);
+	Person PersSave;
+	PersSave.Alter = 23;
+	PersSave.Gewicht = 68;
+	PersSave.name = "Marie";
 
-	//std::string vendor;
-	//vendor += std::string((const char *)&cpuid.EBX(), 4);
-	//vendor += std::string((const char *)&cpuid.EDX(), 4);
-	//vendor += std::string((const char *)&cpuid.ECX(), 4);
+	Person Pers1;
+	Pers1.Alter = 22;
+	Pers1.Gewicht = 180;
+	Pers1.name = "Hans";
 
-	//cout << "CPU vendor = " << vendor << endl;
+	Person Pers2;
+	Pers2.Alter = 45;
+	Pers2.Gewicht = 185;
+	Pers2.name = "Dieter";
+
+	Person Pers3;
+	Pers3.Alter = 58;
+	Pers3.Gewicht = 200;
+	Pers3.name = "Werner";
+
+	Person Pers4;
+	Pers4.Alter = 16;
+	Pers4.Gewicht = 48;
+	Pers4.name = "Sven";
+
+	Person Pers5;
+	Pers5.Alter = 13;
+	Pers5.Gewicht = 35;
+	Pers5.name = "Peter";
+
+	Person Pers6;
+	Pers6.Alter = 68;
+	Pers6.Gewicht = 94;
+	Pers6.name = "Gundula";
+
+	Person Pers7;
+	Pers7.Alter = 27;
+	Pers7.Gewicht = 52;
+	Pers7.name = "Dennis";
+
+	Person Pers8;
+	Pers8.Alter = 25;
+	Pers8.Gewicht = 92;
+	Pers8.name = "Thorsten";
 
 
-	//testVector();
-	//testAllocators();
-	//testLog();
 
-	//testAllocatorBlockStack();
-	//testAllocatorBlockPool();
-	//testCPUInfo();
-	//testLinearAllocator();
-	//testStackAllocator();
-	//testPoolAllocator();
-	testPoolAllocatorStruct();
-	//testVector();
-	//testMatrix();
-	//testCast();
-	//testKeyboardHandling();
-	
-	testMatrix2();
-	testMatrix3();
-	//testMatrix4();
-	
+	Invision::DoubleLinkedList<Person> dList;
+	void* p0 = dList.pushBack(PersSave);
+	void* p1 = dList.pushBack(Pers1);
+	void* p2 = dList.pushBack(Pers2);
+	void* p3 = dList.pushBack(Pers3);
+	void* p4 = dList.pushFront(Pers4);
+	void* p5 = dList.pushFront(Pers5);
+	void* p7 = dList.pushBack(Pers7);
+
+	// Einfuege Test
+	Invision::DoubleLinkedList<Person>::Iterator it;
+	for (it = dList.begin(); it != dList.end(); ++it)
+	{
+		std::cout << it->name << std::endl;
+	}
+	std::cout << std::endl << std::endl;
+	//dList.remove(p1);
+	//dList.remove(p3);
+	//dList.remove(p5);
+	//dList.remove(p7);
+	//dList.remove(p2);
+	//dList.remove(p0);
+
+	bool em = dList.isEmpty();
+	unsigned int s = dList.size();
+
+	// Lösch Test
+	for (it = dList.begin(); it != dList.end(); ++it)
+	{
+		std::cout << it->name << std::endl;
+	}
+
+	//return 0;
+
+
+
+	int myints[] = { 17,89,7,14 };
+	std::list<int> mylist(myints, myints + 4);
+
+	mylist.remove(8);
+
+	std::cout << "mylist contains:";
+	for (std::list<int>::iterator it = mylist.begin(); it != mylist.end(); ++it)
+		std::cout << ' ' << *it;
+	std::cout << '\n';
+
 	return 0;
 }
