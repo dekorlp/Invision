@@ -23,9 +23,6 @@ namespace Invision
 		VkBuffer mBuffer;
 		VkDeviceSize mBufferOffset;
 		MemoryType mMemType;
-
-		// debug
-		uint32_t offset;
 	};
 
 	struct VulkanPage
@@ -40,6 +37,8 @@ namespace Invision
 		DoubleLinkedList<VulkanAllocation> mAllocations;
 		VkDeviceMemory mMemory;
 		uint32_t pageSize;
+		size_t mTotalAllocatedSize;
+		size_t mAllocatedSize;
 	};
 
 #define PAGESIZE 10

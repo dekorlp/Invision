@@ -26,11 +26,13 @@ namespace Invision
 
 		mLocalChunk.pageSize = pageSize;
 		mLocalChunk.mMemType = MEMORY_TYPE_DEDICATED;
+		mLocalChunk.mTotalAllocatedSize = size;
+		mLocalChunk.mAllocatedSize = 0;
 		AllocateMemory(vulkanInstance, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, size, mLocalChunk.mMemory);
 
 
 		// Allocate shared Memory
-		uint32_t sizeShared = 512 * 1024 * 1024;
+		size_t sizeShared = 512 * 1024 * 1024;
 
 		for (unsigned int i = 0; i < ((sizeShared / pageSize) + 1); i++)
 		{
@@ -42,6 +44,8 @@ namespace Invision
 
 		mSharedChunk.pageSize = pageSize;
 		mSharedChunk.mMemType = MEMORY_TYPE_SHARED;
+		mSharedChunk.mTotalAllocatedSize = sizeShared;
+		mSharedChunk.mAllocatedSize = 0;
 		AllocateMemory(vulkanInstance, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, size, mSharedChunk.mMemory);
 	}
 	
@@ -84,8 +88,9 @@ namespace Invision
 	void* VulkanBaseMemoryManager::BindBufferToMemory(const SVulkanBase &vulkanInstance, VulkanChunk &memory, VkDeviceSize size, MemoryType memType)
 	{
 		uint32_t pageSize = (memType == MEMORY_TYPE_DEDICATED) ? mLocalChunk.pageSize : mSharedChunk.pageSize;
-
 		VkDeviceSize countOfPages = ((size / pageSize) + 1);
+		(memType == MEMORY_TYPE_DEDICATED) ? mLocalChunk.mAllocatedSize += countOfPages * pageSize : mSharedChunk.mAllocatedSize += countOfPages * pageSize;
+
 
 		unsigned int indexOfPage = 0;
 		bool found;
@@ -131,7 +136,6 @@ namespace Invision
 		alloc.mBuffer = VK_NULL_HANDLE;
 		alloc.mBufferOffset = 0;
 		alloc.pageIndex = indexOfPage;
-		alloc.offset = indexOfPage * pageSize;
 		alloc.mMemType = memType;
 		alloc.size = size;
 
@@ -203,7 +207,9 @@ namespace Invision
 		uint32_t pageSize = (((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.mMemType == MEMORY_TYPE_DEDICATED) ? mLocalChunk.pageSize : mSharedChunk.pageSize;
 		VkDeviceSize countOfPages = ((((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.size / pageSize) + 1);
 
-		uint32_t endIt = ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex + countOfPages;
+		(((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.mMemType == MEMORY_TYPE_DEDICATED) ? mLocalChunk.mAllocatedSize -= countOfPages * pageSize : mSharedChunk.mAllocatedSize -= countOfPages * pageSize;
+
+		VkDeviceSize endIt = ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex + countOfPages;
 
 		if (((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.mMemType == MEMORY_TYPE_DEDICATED)
 		{
