@@ -74,7 +74,7 @@ namespace Invision
 	{
 		void* selectedPage = BindBufferToMemory(vulkanInstance, mLocalChunk, size, MEMORY_TYPE_DEDICATED);
 
-		VulkanAllocation allocPage = ((Invision::LinkedListNode<VulkanAllocation>*)(BindBufferToMemory(vulkanInstance, mLocalChunk, size, MEMORY_TYPE_DEDICATED)))->mData;
+		VulkanAllocation allocPage = ((Invision::LinkedListNode<VulkanAllocation>*)(selectedPage))->mData;
 		uint32_t pageSize = (allocPage.mMemType == MEMORY_TYPE_DEDICATED) ? mLocalChunk.pageSize : mSharedChunk.pageSize;
 
 		vkBindImageMemory(vulkanInstance.logicalDevice, image, mLocalChunk.mMemory, allocPage.pageIndex * pageSize);
