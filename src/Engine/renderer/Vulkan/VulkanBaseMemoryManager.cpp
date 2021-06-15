@@ -104,7 +104,7 @@ namespace Invision
 			else
 			{
 				found = false;
-				iterator == 0;
+				iterator = 0;
 				// page is in use
 			}
 		}
@@ -192,15 +192,43 @@ namespace Invision
 			((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.mBuffer = VK_NULL_HANDLE;
 		}
 
+		uint32_t pageSize = static_cast<uint32_t>(vulkanInstance.physicalDeviceStruct.deviceProperties.limits.bufferImageGranularity * PAGESIZE);
+		VkDeviceSize countOfPages = ((((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.size / pageSize) + 1);
 
 		if (((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.mMemType == MEMORY_TYPE_DEDICATED)
 		{
 			mLocalChunk.mAllocations.remove(memory);
+
+			for (int i = ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex; i < mLocalChunk.mPages.size(); i++)
+			{
+				mLocalChunk.mPages[i].mInUse = false;
+
+				if (i == countOfPages)
+				{
+					break;
+				}
+			}
+
 		}
 		else
 		{
 			mSharedChunk.mAllocations.remove(memory);
+
+			int i1 = ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex;
+			int isize = mLocalChunk.mPages.size();
+
+			for (int i = ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex; i < mLocalChunk.mPages.size(); i++)
+			{
+				mSharedChunk.mPages[i].mInUse = false;
+
+				if (i == countOfPages)
+				{
+					break;
+				}
+			}
 		}
+
+		
 
 		/*// free buffer
 		if (((VulkanBaseBuffer*)(memory))->mBuffer != VK_NULL_HANDLE)
