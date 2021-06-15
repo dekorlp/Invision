@@ -157,26 +157,35 @@ namespace Invision
 		void remove(void* node)
 		{
 			LinkedListNode<T> *selected = (LinkedListNode<T> *)node;
-			// at front
-			if (selected->previous == nullptr)
+
+			if (selected->previous == nullptr && selected->next == nullptr)
 			{
-				mFront = selected->next;
-				selected->next->previous = nullptr;
 				delete selected;
 			}
-			// at back
-			else if (selected->next == nullptr)
-			{
-				mBack = selected->previous;
-				selected->previous->next = nullptr;
-				delete selected;
-			}
-			// is between
 			else
 			{
-				selected->next->previous = selected->previous;
-				selected->previous->next = selected->next;
-				delete selected;
+
+				// at front
+				if (selected->previous == nullptr)
+				{
+					mFront = selected->next;
+					selected->next->previous = nullptr;
+					delete selected;
+				}
+				// at back
+				else if (selected->next == nullptr)
+				{
+					mBack = selected->previous;
+					selected->previous->next = nullptr;
+					delete selected;
+				}
+				// is between
+				else
+				{
+					selected->next->previous = selected->previous;
+					selected->previous->next = selected->next;
+					delete selected;
+				}
 			}
 
 			mCountElements--;

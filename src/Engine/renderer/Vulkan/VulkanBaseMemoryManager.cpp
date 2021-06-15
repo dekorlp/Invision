@@ -185,6 +185,23 @@ namespace Invision
 
 	void VulkanBaseMemoryManager::Unbind(const SVulkanBase &vulkanInstance, void* memory)
 	{
+
+		if (((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.mBuffer != VK_NULL_HANDLE)
+		{
+			vkDestroyBuffer(vulkanInstance.logicalDevice, ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.mBuffer, nullptr);
+			((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.mBuffer = VK_NULL_HANDLE;
+		}
+
+
+		if (((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.mMemType == MEMORY_TYPE_DEDICATED)
+		{
+			mLocalChunk.mAllocations.remove(memory);
+		}
+		else
+		{
+			mSharedChunk.mAllocations.remove(memory);
+		}
+
 		/*// free buffer
 		if (((VulkanBaseBuffer*)(memory))->mBuffer != VK_NULL_HANDLE)
 		{
