@@ -119,13 +119,15 @@ namespace Invision
 
 		
 
-		for (unsigned int i = indexOfPage; i < indexOfPage + memory.mPages.size(); i++)
+		for (unsigned int i = indexOfPage; i < memory.mPages.size(); i++)
 		{
-			memory.mPages[i].mInUse = true;
+			
 			if (i - indexOfPage == countOfPages)
 			{
 				break;
 			}
+
+			memory.mPages[i].mInUse = true;
 		}
 
 		VulkanAllocation alloc;
