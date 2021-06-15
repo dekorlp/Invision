@@ -23,6 +23,9 @@ namespace Invision
 		VkBuffer mBuffer;
 		VkDeviceSize mBufferOffset;
 		MemoryType mMemType;
+
+		// debug
+		uint32_t offset;
 	};
 
 	struct VulkanPage

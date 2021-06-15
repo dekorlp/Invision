@@ -132,8 +132,11 @@ namespace Invision
 		alloc.mBuffer = VK_NULL_HANDLE;
 		alloc.mBufferOffset = 0;
 		alloc.pageIndex = indexOfPage;
+		alloc.offset = indexOfPage * pageSize;
 		alloc.mMemType = memType;
 		alloc.size = size;
+
+		std::cout << "Allocation - " << " PageIndex: " << alloc.pageIndex << " Offset: " << alloc.offset << " Size: " << alloc.size << " End Address: " << alloc.offset + size << std::endl;
 
 		return memory.mAllocations.pushBack(alloc);
 	}
@@ -206,14 +209,14 @@ namespace Invision
 
 		if (((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.mMemType == MEMORY_TYPE_DEDICATED)
 		{
-			for (unsigned int i = ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex; i < mLocalChunk.mPages.size(); i++)
+			for (unsigned int i = ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex; i < countOfPages; i++)
 			{
-				mLocalChunk.mPages[i].mInUse = false;
-
-				if (i == countOfPages)
+				if (i >= mLocalChunk.mPages.size())
 				{
-					break;
+					throw std::out_of_range("Page Index is out of Range!");
 				}
+
+				mLocalChunk.mPages[i].mInUse = false;
 			}
 
 			mLocalChunk.mAllocations.remove(memory);
@@ -223,14 +226,14 @@ namespace Invision
 		{
 			//  mLocalChunk.mPages
 			
-			for (unsigned int i = ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex; i < mSharedChunk.mPages.size(); i++)
+			for (unsigned int i = ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex; i < countOfPages; i++)
 			{
-				mSharedChunk.mPages[i].mInUse = false;
-
-				if (i == countOfPages)
+				if (i >= mSharedChunk.mPages.size())
 				{
-					break;
+					throw std::out_of_range("Page Index is out of Range!");
 				}
+
+				mSharedChunk.mPages[i].mInUse = false;
 			}
 
 			mSharedChunk.mAllocations.remove(memory);
