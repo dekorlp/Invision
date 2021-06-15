@@ -589,26 +589,6 @@ public:
 				mLocalChunk.mPages[i].mInUse = false;
 			}
 
-			//for (unsigned int i = endIt - 1; i >= ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex; i--)
-			//{
-			//	if (i >= mLocalChunk.mPages.size())
-			//	{
-			//		throw std::out_of_range("Page Index is out of Range!");
-			//	}
-
-			//	mLocalChunk.mPages[i].mInUse = false;
-			//}
-
-			/*for (unsigned int i = ((Invision::LinkedListNode<VulkanAllocation>*)(memory))->mData.pageIndex; i < endIt; i++)
-			{
-				if (i >= mLocalChunk.mPages.size())
-				{
-					throw std::out_of_range("Page Index is out of Range!");
-				}
-
-				mLocalChunk.mPages[i].mInUse = false;
-			}*/
-
 			mLocalChunk.mAllocations.remove(memory);
 
 		}
