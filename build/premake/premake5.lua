@@ -549,6 +549,11 @@ AddConsoleProject(
 		srcroot .. "Examples/practical1/**.cpp"
 	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, false, false)
 	
+AddConsoleProject(
+	"InvisionHL", srcroot .. "InvisionHL/", {
+		srcroot .. "InvisionHL/**.h",
+		srcroot .. "InvisionHL/**.cpp"
+	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, true)
 	
 	
 	
