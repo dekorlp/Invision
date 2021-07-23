@@ -19,14 +19,14 @@ namespace Invision {
 		this->filename = filename;
 		struct stat info;
 
-		const char* dirPath = "../../../Logs";
+		/*const char* dirPath = "../../../Logs";
 
 		// create dir Logs if there is no Logs directory
 #ifdef _WIN32
 		if (stat(dirPath, &info) != 0) _mkdir("../../../Logs");
 #else
 		if (stat(dirPath, &info) != 0) mkdir("../../../Logs");
-#endif
+#endif*/
 
 		// create log and replace new content
 		stream.open(filename, std::ios::out | std::ios::trunc);
