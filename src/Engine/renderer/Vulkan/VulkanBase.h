@@ -39,6 +39,10 @@ namespace Invision
 
 		}
 
+		// MSAA
+		bool UseMSAA = false;
+		VkSampleCountFlagBits MsaaFlagBits = VK_SAMPLE_COUNT_1_BIT;
+
 		// Queue Family Indices
 		int presentFamily = -1;
 
@@ -92,10 +96,6 @@ namespace Invision
 		VkQueue graphicsQueue;
 		VkQueue computeQueue;
 		VkQueue transferQueue;
-
-		// MSAA
-		bool UseMSAA = false;
-		VkSampleCountFlagBits MsaaFlagBits = VK_SAMPLE_COUNT_1_BIT;
 		
 		SVulkanBase() : logicalDevice(VK_NULL_HANDLE), graphicsQueue(VK_NULL_HANDLE)
 		{

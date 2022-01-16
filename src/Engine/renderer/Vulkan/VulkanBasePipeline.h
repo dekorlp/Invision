@@ -56,7 +56,7 @@ namespace Invision
 		VkPipeline INVISION_API GetPipeline();
 		VkPipelineLayout INVISION_API GetPipelineLayout();
 
-		void INVISION_API CreatePipeline(const SVulkanBase &vulkanInstance, VulkanBaseRenderPass &renderPass, uint32_t subpassIndex, unsigned int colorAttachmentCount, VkSampleCountFlagBits numSamples = VK_SAMPLE_COUNT_1_BIT, float minDepthBound = 0.0f, float maxDepthBound = 1.0f, VkPipelineCache pipelineCache = VK_NULL_HANDLE);
+		void INVISION_API CreatePipeline(const SVulkanBase &vulkanInstance, const SVulkanContext& vulkanContext, VulkanBaseRenderPass &renderPass, uint32_t subpassIndex, unsigned int colorAttachmentCount, VkSampleCountFlagBits numSamples = VK_SAMPLE_COUNT_1_BIT, float minDepthBound = 0.0f, float maxDepthBound = 1.0f, VkPipelineCache pipelineCache = VK_NULL_HANDLE);
 		void INVISION_API DestroyPipeline(const SVulkanBase &vulkanInstance);
 		
 	private:

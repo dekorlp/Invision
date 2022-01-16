@@ -43,7 +43,7 @@ namespace Invision
 
 
 		// Create Color Ressources for Multisampling
-		if (engine->GetVulkanBaseStruct().UseMSAA)
+		if (mVulkanContext.UseMSAA)
 		{
 			UpdateMSAATexture();
 			dynamic_pointer_cast<VulkanRenderPass>(mMainRenderPass)->CreateMainRenderPass(mDepthRessources, mColorRessources); // create main renderpass
@@ -68,7 +68,7 @@ namespace Invision
 		Invision::DestroyPresentationSystem(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext);
 		Invision::CreatePresentationSystem(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext, canvas.width, canvas.height);
 
-		if (mVulkanEngine->GetVulkanBaseStruct().UseMSAA == true)
+		if (mVulkanContext.UseMSAA == true)
 		{
 			UpdateMSAATexture();
 		}
@@ -94,45 +94,45 @@ namespace Invision
 			switch (msaa)
 			{
 			case MSAAMODE_OFF:
-				mVulkanEngine->GetVulkanBaseStruct().UseMSAA = false;
+				mVulkanContext.UseMSAA = false;
 				break;
 			case MSAAMODE_SAMPLE_COUNT_1:
-				mVulkanEngine->GetVulkanBaseStruct().UseMSAA = true;
-				mVulkanEngine->GetVulkanBaseStruct().MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_1_BIT);
+				mVulkanContext.UseMSAA = true;
+				mVulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_1_BIT);
 				break;
 			case MSAAMODE_SAMPLE_COUNT_2:
-				mVulkanEngine->GetVulkanBaseStruct().UseMSAA = true;
-				mVulkanEngine->GetVulkanBaseStruct().MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_2_BIT);
+				mVulkanContext.UseMSAA = true;
+				mVulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_2_BIT);
 				break;
 			case MSAAMODE_SAMPLE_COUNT_4:
-				mVulkanEngine->GetVulkanBaseStruct().UseMSAA = true;
-				mVulkanEngine->GetVulkanBaseStruct().MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_4_BIT);
+				mVulkanContext.UseMSAA = true;
+				mVulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_4_BIT);
 				break;
 			case MSAAMODE_SAMPLE_COUNT_8:
-				mVulkanEngine->GetVulkanBaseStruct().UseMSAA = true;
-				mVulkanEngine->GetVulkanBaseStruct().MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_8_BIT);
+				mVulkanContext.UseMSAA = true;
+				mVulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_8_BIT);
 				break;
 			case MSAAMODE_SAMPLE_COUNT_16:
-				mVulkanEngine->GetVulkanBaseStruct().UseMSAA = true;
-				mVulkanEngine->GetVulkanBaseStruct().MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_16_BIT);
+				mVulkanContext.UseMSAA = true;
+				mVulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_16_BIT);
 				break;
 			case MSAAMODE_SAMPLE_COUNT_32:
-				mVulkanEngine->GetVulkanBaseStruct().UseMSAA = true;
-				mVulkanEngine->GetVulkanBaseStruct().MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_32_BIT);
+				mVulkanContext.UseMSAA = true;
+				mVulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_32_BIT);
 				break;
 			case MSAAMODE_SAMPLE_COUNT_64:
-				mVulkanEngine->GetVulkanBaseStruct().UseMSAA = true;
-				mVulkanEngine->GetVulkanBaseStruct().MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_64_BIT);
+				mVulkanContext.UseMSAA = true;
+				mVulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_64_BIT);
 				break;
 			case MSAAMODE_SAMPLE_COUNT_BEST:
-				mVulkanEngine->GetVulkanBaseStruct().UseMSAA = true;
-				mVulkanEngine->GetVulkanBaseStruct().MsaaFlagBits = Invision::GetMaxUsableSampleCount(mVulkanEngine->GetVulkanBaseStruct());
+				mVulkanContext.UseMSAA = true;
+				mVulkanContext.MsaaFlagBits = Invision::GetMaxUsableSampleCount(mVulkanEngine->GetVulkanBaseStruct());
 				break;
 			}
 		}
 		else
 		{
-			mVulkanEngine->GetVulkanBaseStruct().UseMSAA = false;
+			mVulkanContext.UseMSAA = false;
 		}
 
 	}
@@ -145,7 +145,7 @@ namespace Invision
 		}
 
 
-		mDepthRessources.CreateDepthRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext, mVulkanContext.swapChainExtent.width, mVulkanContext.swapChainExtent.height, mVulkanEngine->GetVulkanBaseStruct().MsaaFlagBits, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, VK_IMAGE_ASPECT_DEPTH_BIT);
+		mDepthRessources.CreateDepthRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext, mVulkanContext.swapChainExtent.width, mVulkanContext.swapChainExtent.height, mVulkanContext.MsaaFlagBits, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, VK_IMAGE_ASPECT_DEPTH_BIT);
 
 	}
 
@@ -156,7 +156,7 @@ namespace Invision
 			mColorRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
 		}
 
-		mColorRessources.CreateColorRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext, mVulkanContext.swapChainExtent.width, mVulkanContext.swapChainExtent.height, mVulkanEngine->GetVulkanBaseStruct().MsaaFlagBits, mVulkanContext.swapChainImageFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT | VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, VK_IMAGE_ASPECT_COLOR_BIT);
+		mColorRessources.CreateColorRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext, mVulkanContext.swapChainExtent.width, mVulkanContext.swapChainExtent.height, mVulkanContext.MsaaFlagBits, mVulkanContext.swapChainImageFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT | VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, VK_IMAGE_ASPECT_COLOR_BIT);
 	}
 
 	SVulkanContext& VulkanInstance::GetVulkanContext()
@@ -275,7 +275,7 @@ namespace Invision
 
 	VulkanInstance::~VulkanInstance()
 	{
-		if (mVulkanEngine->GetVulkanBaseStruct().UseMSAA == true)
+		if (mVulkanContext.UseMSAA == true)
 		{
 			mColorRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
 		}

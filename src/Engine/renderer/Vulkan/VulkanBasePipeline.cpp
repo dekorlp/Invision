@@ -298,14 +298,14 @@ namespace Invision
 		return mPipelineLayout;
 	}
 
-	void VulkanBasePipeline::CreatePipeline(const SVulkanBase &vulkanInstance, VulkanBaseRenderPass &renderPass, uint32_t subpassIndex, unsigned int colorAttachmentCount, VkSampleCountFlagBits numSamples, float minDepthBound, float maxDepthBound, VkPipelineCache pipelineCache)
+	void VulkanBasePipeline::CreatePipeline(const SVulkanBase &vulkanInstance, const SVulkanContext& vulkanContext, VulkanBaseRenderPass &renderPass, uint32_t subpassIndex, unsigned int colorAttachmentCount, VkSampleCountFlagBits numSamples, float minDepthBound, float maxDepthBound, VkPipelineCache pipelineCache)
 	{
 		UpdateVertexInputConfiguration();
 		UpdateInputAssemblyConfiguration(mPrimitiveTopology);
 		UpdateViewPortConfiguration(vulkanInstance);
 		UpdateRasterizerConfiguration(mPolygonMode, mLineWidth, mCullModeFlags, mFrontFace);
 
-		if (vulkanInstance.UseMSAA)
+		if (vulkanContext.UseMSAA)
 		{
 			UpdateMultisamplingConfiguration(numSamples, VK_TRUE, .2f);
 		}

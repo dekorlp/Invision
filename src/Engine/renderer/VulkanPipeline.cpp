@@ -257,7 +257,7 @@ namespace Invision
 		VkSampleCountFlagBits usedMultisampleState;
 		if (renderPass->IsMainRenderPass())
 		{
-			usedMultisampleState = mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct().MsaaFlagBits;
+			usedMultisampleState = mVulkanInstance->GetVulkanContext().MsaaFlagBits;
 		}
 		else
 		{
@@ -266,7 +266,7 @@ namespace Invision
 
 
 		
-		mPipeline.CreatePipeline(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), 0, renderPass->GetCountOfColorAttachments(), usedMultisampleState);
+		mPipeline.CreatePipeline(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(),  dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), 0, renderPass->GetCountOfColorAttachments(), usedMultisampleState);
 		for(int i = 0; i < mShaders.size(); i++)
 		{
 			mShaders[i].Destroy(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
