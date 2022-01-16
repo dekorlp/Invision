@@ -30,7 +30,7 @@ namespace Invision
 		VkSubmitInfo mSubmitInfo {};
 		
 	public:
-		INVISION_API void CreateSyncObjects(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext);
+		INVISION_API void CreateSyncObjects(SVulkanContext &vulkanContext);
 		INVISION_API void AlterSubmitInfo(const uint32_t waitSemaphoreCount, const VkSemaphore* pWaitSemaphores, const VkPipelineStageFlags* pWaitDstStageMask, uint32_t commandBufferCount, const VkCommandBuffer* pCommandBuffers, uint32_t signalSemaphoreCount, const VkSemaphore* pSignalSemaphores);
 		INVISION_API void AlterSubmitInfo(uint32_t commandBufferCount, const VkCommandBuffer* pCommandBuffers);
 		INVISION_API void AlterSubmitInfoSignalSemaphore(uint32_t signalSemaphoreCount, const VkSemaphore* pSignalSemaphores);
@@ -39,11 +39,11 @@ namespace Invision
 		INVISION_API VkSemaphore* GetSemaphoresPresentComplete();
 		INVISION_API VkSemaphore* GetSemaphoresRenderComplete();
 
-		INVISION_API VkResult AquireNextImage(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, unsigned int& imageIndex);
-		INVISION_API void DrawFrame(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseCommandBuffer& commandBuffer);
+		INVISION_API VkResult AquireNextImage(SVulkanContext &vulkanContext, unsigned int& imageIndex);
+		INVISION_API void DrawFrame(SVulkanContext& vulkanContext, VulkanBaseCommandBuffer& commandBuffer);
 		INVISION_API VkResult QueuePresent(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, unsigned int imageIndex);
 
-		INVISION_API void DestroySemaphores(SVulkanBase &vulkanInstance);
+		INVISION_API void DestroySemaphores(SVulkanContext& vulkanContext);
 	};
 }
 #endif // VULKAN_BASE_RENDERER_H

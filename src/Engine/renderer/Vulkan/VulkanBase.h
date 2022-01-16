@@ -21,37 +21,6 @@ namespace Invision
 		}
 	};
 
-	struct SVulkanContext
-	{
-		VkQueue presentQueue;
-		// Presentation Subsystem
-		VkSurfaceKHR surface;
-		VkSwapchainKHR swapChain;
-		std::vector<VkImage> swapChainImages;
-		VkFormat swapChainImageFormat;
-		VkExtent2D swapChainExtent;
-		std::vector<VkImageView> swapChainImageViews;
-
-		SVulkanContext() : 
-			surface(VK_NULL_HANDLE),
-			presentQueue(VK_NULL_HANDLE), swapChain(VK_NULL_HANDLE)
-		{
-
-		}
-
-		// MSAA
-		bool UseMSAA = false;
-		VkSampleCountFlagBits MsaaFlagBits = VK_SAMPLE_COUNT_1_BIT;
-
-		// Queue Family Indices
-		int presentFamily = -1;
-
-		bool PresentFamilyIsSet()
-		{
-			return presentFamily >= 0;
-		}
-	};
-
 	struct SQueueFamilyIndices {
 		int graphicsFamily = -1;
 		int computeFamily = -1;
@@ -79,6 +48,46 @@ namespace Invision
 		}
 	};
 
+	struct SVulkanContext
+	{
+		VkQueue presentQueue;
+		// Presentation Subsystem
+		VkSurfaceKHR surface;
+		VkSwapchainKHR swapChain;
+		std::vector<VkImage> swapChainImages;
+		VkFormat swapChainImageFormat;
+		VkExtent2D swapChainExtent;
+		std::vector<VkImageView> swapChainImageViews;
+
+		SVulkanContext() : 
+			surface(VK_NULL_HANDLE),
+			presentQueue(VK_NULL_HANDLE), swapChain(VK_NULL_HANDLE)
+		{
+
+		}
+
+		// MSAA
+		bool UseMSAA = false;
+		VkSampleCountFlagBits MsaaFlagBits = VK_SAMPLE_COUNT_1_BIT;
+
+
+		VkDevice logicalDevice;
+
+		SQueueFamilyIndices indices;
+
+		VkQueue graphicsQueue;
+		VkQueue computeQueue;
+		VkQueue transferQueue;
+
+		// Queue Family Indices
+		int presentFamily = -1;
+
+		bool PresentFamilyIsSet()
+		{
+			return presentFamily >= 0;
+		}
+	};
+
 	struct SVulkanBase
 	{
 		// Instance Subsystem
@@ -89,15 +98,9 @@ namespace Invision
 		// Device Subsystem
 		//VkPhysicalDevice physicalDevice;
 		SVulkanBasePhysicalDevice physicalDeviceStruct;
-		VkDevice logicalDevice;
-
-		SQueueFamilyIndices indices;
-
-		VkQueue graphicsQueue;
-		VkQueue computeQueue;
-		VkQueue transferQueue;
 		
-		SVulkanBase() : logicalDevice(VK_NULL_HANDLE), graphicsQueue(VK_NULL_HANDLE)
+		
+		SVulkanBase()
 		{
 
 		}
@@ -122,7 +125,7 @@ namespace Invision
 	SwapChainSupportDetails QuerySwapChainSupport(const VkPhysicalDevice& device, const VkSurfaceKHR surface);
 	uint32_t FindMemoryType(const VkPhysicalDevice& device, uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
-	VkImageView CreateImageView(SVulkanBase &vulkanInstance, VkImage image, VkImageViewType viewType, VkFormat format, VkImageAspectFlags aspectFlags, uint32_t mipLevel, uint32_t layerCount);
+	VkImageView CreateImageView(SVulkanContext& vulkanContext, VkImage image, VkImageViewType viewType, VkFormat format, VkImageAspectFlags aspectFlags, uint32_t mipLevel, uint32_t layerCount);
 
 	// check MSAA
 	VkSampleCountFlagBits GetMaxUsableSampleCount(SVulkanBase& vulkanInstance);

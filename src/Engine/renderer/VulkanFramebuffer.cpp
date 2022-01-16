@@ -24,7 +24,7 @@ namespace Invision
 			attachments.push_back((*dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetAttachmentTextures()[j]).GetImageView());
 		}
 
-		mFramebuffers[0].CreateFramebuffer(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetRenderPass(), attachments, width, height);
+		mFramebuffers[0].CreateFramebuffer(mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetRenderPass(), attachments, width, height);
 	}
 
 	VulkanFramebuffer::VulkanFramebuffer(VulkanInstance* instance, std::shared_ptr<Invision::IRenderPass> renderPass, bool isMainFrameBuffer)
@@ -80,7 +80,7 @@ namespace Invision
 
 
 
-			mFramebuffers[i].CreateFramebuffer(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(),  dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetRenderPass(), attachments, mVulkanInstance->GetVulkanContext().swapChainExtent.width, mVulkanInstance->GetVulkanContext().swapChainExtent.height);
+			mFramebuffers[i].CreateFramebuffer( mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<Invision::VulkanRenderPass>(renderPass)->GetRenderPass(), attachments, mVulkanInstance->GetVulkanContext().swapChainExtent.width, mVulkanInstance->GetVulkanContext().swapChainExtent.height);
 		}
 	}
 
@@ -98,7 +98,7 @@ namespace Invision
 	{
 		for (int i = 0; i < mFramebuffers.size(); i++)
 		{
-			mFramebuffers[i].DestroyFramebuffer(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
+			mFramebuffers[i].DestroyFramebuffer(mVulkanInstance->GetVulkanContext());
 		}
 	}
 

@@ -12,15 +12,15 @@ namespace Invision
 	{
 	}
 
-	VulkanBaseIndexBuffer& VulkanBaseIndexBuffer::CreateIndexBuffer(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, VkDeviceSize size,  const void* source)
+	VulkanBaseIndexBuffer& VulkanBaseIndexBuffer::CreateIndexBuffer(const SVulkanContext &vulkanContext, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, VkDeviceSize size,  const void* source)
 	{
 		mMemoryManager = &memoryManager;
 
-		void* shared = memoryManager.BindToSharedMemory(vulkanInstance, size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_SHARING_MODE_EXCLUSIVE);
-		memoryManager.CopyDataToBuffer(vulkanInstance, shared, source);
-		mDedicatedIndexBuffer = memoryManager.BindToDedicatedMemory(vulkanInstance, size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT, VK_SHARING_MODE_EXCLUSIVE);
-		memoryManager.CopyBufferToBuffer(vulkanInstance, commandPool, shared, mDedicatedIndexBuffer);
-		memoryManager.Unbind(vulkanInstance, shared);
+		void* shared = memoryManager.BindToSharedMemory(vulkanContext, size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_SHARING_MODE_EXCLUSIVE);
+		memoryManager.CopyDataToBuffer(vulkanContext, shared, source);
+		mDedicatedIndexBuffer = memoryManager.BindToDedicatedMemory(vulkanContext, size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT, VK_SHARING_MODE_EXCLUSIVE);
+		memoryManager.CopyBufferToBuffer(vulkanContext, commandPool, shared, mDedicatedIndexBuffer);
+		memoryManager.Unbind(vulkanContext, shared);
 
 		return *this;
 	}
@@ -36,8 +36,8 @@ namespace Invision
 		return mMemoryManager->GetOffset(mDedicatedIndexBuffer);
 	}
 
-	void VulkanBaseIndexBuffer::DestroyIndexBuffer(const SVulkanBase &vulkanInstance)
+	void VulkanBaseIndexBuffer::DestroyIndexBuffer(const SVulkanContext &vulkanContext)
 	{
-		mMemoryManager->Unbind(vulkanInstance, mDedicatedIndexBuffer);
+		mMemoryManager->Unbind(vulkanContext, mDedicatedIndexBuffer);
 	}
 }

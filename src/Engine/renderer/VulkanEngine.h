@@ -8,8 +8,6 @@
 #include "renderer\Vulkan\VulkanBaseInstance.h"
 #include "renderer\Vulkan\VulkanBaseDevice.h"
 #include "renderer\Vulkan\VulkanBasePresentation.h"
-#include "renderer\Vulkan\VulkanBaseCommandPool.h"
-#include "renderer\Vulkan\VulkanBaseMemoryManager.h"
 #include "Vulkan/Vulkan.h"
 
 namespace Invision
@@ -32,8 +30,6 @@ namespace Invision
 	private:
 		Invision::VulkanBaseInstance mVulkanInstance;
 		Invision::SVulkanBase mBaseStruct;
-		Invision::VulkanBaseCommandPool mCommandPool;
-		Invision::VulkanBaseMemoryManager mMemoryManager;
 
 		PhysicalDeviceProperties ConvertPhysicalDeviceParameters(SVulkanBasePhysicalDevice physicalDeviceStruct);
 
@@ -45,12 +41,13 @@ namespace Invision
 		INVISION_API void Init(unsigned int index);
 		
 		INVISION_API Invision::SVulkanBase& GetVulkanBaseStruct();
-		INVISION_API Invision::VulkanBaseCommandPool GetCommandPool();
+		
 		
 		INVISION_API std::shared_ptr<IGraphicsInstance> CreateInstance(CanvasDimensions canvas, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, MSAAMode msaaMode) override;
 
 		INVISION_API std::vector< PhysicalDeviceProperties> GetPhysicalDevices();
-		INVISION_API Invision::VulkanBaseMemoryManager& GetMemoryManager();
+
+	
 
 		INVISION_API ~VulkanEngine();
 

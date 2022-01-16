@@ -89,7 +89,7 @@ namespace Invision
 
 
 
-		mRenderPass.CreateRenderPass(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
+		mRenderPass.CreateRenderPass(mVulkanInstance->GetVulkanContext());
 	}
 
 	void VulkanRenderPass::CreateMainRenderPass(VulkanBaseTexture& depthTexture)
@@ -142,7 +142,7 @@ namespace Invision
 
 
 
-		mRenderPass.CreateRenderPass(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
+		mRenderPass.CreateRenderPass(mVulkanInstance->GetVulkanContext());
 	}
 
 	void VulkanRenderPass::CreateDepthOnlyRenderPass(std::shared_ptr<ITexture>& attachment)
@@ -244,7 +244,7 @@ namespace Invision
 	void VulkanRenderPass::CreateRenderPass()
 	{
 		mRenderPass.AddSubpass(mSubPass[0]);
-		mRenderPass.CreateRenderPass(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
+		mRenderPass.CreateRenderPass(mVulkanInstance->GetVulkanContext());
 	}
 
 	VulkanBaseRenderPass VulkanRenderPass::GetRenderPass()
@@ -274,7 +274,7 @@ namespace Invision
 
 	VulkanRenderPass::~VulkanRenderPass()
 	{
-		mRenderPass.DestroyRenderPass(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
+		mRenderPass.DestroyRenderPass(mVulkanInstance->GetVulkanContext());
 		if (!mIsMainRenderpass) // these are attachmentes -> they are allocated with new
 		{
 			for (int i= 0; i < mAttachmentRefTextures.size(); i++)

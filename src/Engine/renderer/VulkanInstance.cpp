@@ -31,8 +31,15 @@ namespace Invision
 
 		ActivateMSAA(msaaMode);
 		
+		
+		Invision::VulkanBaseDevice().CreateLogicalDevice(engine->GetVulkanBaseStruct(), mVulkanContext);
+		mCommandPool.CreateCommandPool(mVulkanContext);
+		mMemoryManager.Init(engine->GetVulkanBaseStruct(), mVulkanContext, 2147483648); // Allocate 2GB
+
 		Invision::CreateSurface(engine->GetVulkanBaseStruct(), mVulkanContext, dimensions.hwnd);
 		Invision::CreatePresentationSystem(engine->GetVulkanBaseStruct(), mVulkanContext, dimensions.width, dimensions.height);
+
+		
 
 		// Create Default RenderPass / FrameBuffer / CommandBuffer
 		mMainRenderPass = CreateRenderPass();
@@ -65,7 +72,7 @@ namespace Invision
 
 	void VulkanInstance::ResetPresentation(CanvasDimensions canvas, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer )
 	{
-		Invision::DestroyPresentationSystem(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext);
+		Invision::DestroyPresentationSystem(mVulkanContext);
 		Invision::CreatePresentationSystem(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext, canvas.width, canvas.height);
 
 		if (mVulkanContext.UseMSAA == true)
@@ -141,11 +148,11 @@ namespace Invision
 	{
 		if (mDepthRessources.GetImageView() != VK_NULL_HANDLE)
 		{
-			mDepthRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
+			mDepthRessources.DestroyTexture(mVulkanContext);
 		}
 
 
-		mDepthRessources.CreateDepthRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext, mVulkanContext.swapChainExtent.width, mVulkanContext.swapChainExtent.height, mVulkanContext.MsaaFlagBits, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, VK_IMAGE_ASPECT_DEPTH_BIT);
+		mDepthRessources.CreateDepthRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext, mCommandPool, mMemoryManager, mVulkanContext.swapChainExtent.width, mVulkanContext.swapChainExtent.height, mVulkanContext.MsaaFlagBits, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, VK_IMAGE_ASPECT_DEPTH_BIT);
 
 	}
 
@@ -153,10 +160,10 @@ namespace Invision
 	{
 		if (mColorRessources.GetImageView() != VK_NULL_HANDLE)
 		{
-			mColorRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
+			mColorRessources.DestroyTexture(mVulkanContext);
 		}
 
-		mColorRessources.CreateColorRessources(mVulkanEngine->GetVulkanBaseStruct(), mVulkanEngine->GetCommandPool(), mVulkanEngine->GetMemoryManager(), mVulkanContext, mVulkanContext.swapChainExtent.width, mVulkanContext.swapChainExtent.height, mVulkanContext.MsaaFlagBits, mVulkanContext.swapChainImageFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT | VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, VK_IMAGE_ASPECT_COLOR_BIT);
+		mColorRessources.CreateColorRessources(mVulkanContext, mCommandPool, mMemoryManager, mVulkanContext.swapChainExtent.width, mVulkanContext.swapChainExtent.height, mVulkanContext.MsaaFlagBits, mVulkanContext.swapChainImageFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT | VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, VK_IMAGE_ASPECT_COLOR_BIT);
 	}
 
 	SVulkanContext& VulkanInstance::GetVulkanContext()
@@ -277,13 +284,29 @@ namespace Invision
 	{
 		if (mVulkanContext.UseMSAA == true)
 		{
-			mColorRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
+			mColorRessources.DestroyTexture(mVulkanContext);
 		}
 
-		mDepthRessources.DestroyTexture(mVulkanEngine->GetVulkanBaseStruct());
+		mDepthRessources.DestroyTexture(mVulkanContext);
 
-		Invision::DestroyPresentationSystem(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext);
+		Invision::DestroyPresentationSystem(mVulkanContext);
 		Invision::DestroySurface(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext);
+
+		mMemoryManager.Destroy(mVulkanContext);
+		mCommandPool.DestroyCommandPool(mVulkanContext);
+		//Invision::DestroyPresentationSystem(vulkInstance, vulkanContext);
+		Invision::DestroyVulkanDevice(mVulkanContext);
+	}
+
+	VulkanBaseMemoryManager& VulkanInstance::GetMemoryManager()
+	{
+		return mMemoryManager;
+	}
+
+
+	Invision::VulkanBaseCommandPool VulkanInstance::GetCommandPool()
+	{
+		return mCommandPool;
 	}
 
 	VkFormat VulkanInstance::ConvertInvisionFormatToVkFormat(GfxFormat format)

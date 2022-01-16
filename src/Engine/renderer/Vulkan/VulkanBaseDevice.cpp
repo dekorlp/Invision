@@ -8,14 +8,14 @@
 namespace Invision
 {
 
-	void CreateVulkanDevice(SVulkanBase &vulkanInstance)
+	void CreateVulkanDevice(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext)
 	{
-		VulkanBaseDevice().GetDevices(vulkanInstance);
+		VulkanBaseDevice().GetDevices(vulkanInstance, vulkanContext);
 	}
 
-	void DestroyVulkanDevice(SVulkanBase &vulkanInstance)
+	void DestroyVulkanDevice(SVulkanContext &vulkanContext)
 	{
-		vkDestroyDevice(vulkanInstance.logicalDevice, nullptr);
+		vkDestroyDevice(vulkanContext.logicalDevice, nullptr);
 	}
 
 
@@ -24,10 +24,10 @@ namespace Invision
 		
 	}
 
-	void VulkanBaseDevice::GetDevices(SVulkanBase &vulkanInstance)
+	void VulkanBaseDevice::GetDevices(SVulkanBase &vulkanInstance, SVulkanContext& vulkanContext)
 	{
 		PickPhysicalDevice(vulkanInstance);
-		CreateLogicalDevice(vulkanInstance);
+		CreateLogicalDevice(vulkanInstance, vulkanContext);
 	}
 
 	void VulkanBaseDevice::PickPhysicalDevice(SVulkanBase &vulkanInstance)
@@ -137,10 +137,10 @@ namespace Invision
 
 
 
-	void VulkanBaseDevice::CreateLogicalDevice(SVulkanBase& vulkanInstance)
+	void VulkanBaseDevice::CreateLogicalDevice(SVulkanBase& vulkanInstance, SVulkanContext& context)
 	{
-		vulkanInstance.indices = FindQueueFamilies(vulkanInstance.physicalDeviceStruct.physicalDevice, VK_QUEUE_GRAPHICS_BIT);  //VK_QUEUE_TRANSFER_BIT | VK_QUEUE_COMPUTE_BIT
-		std::set<int> uniqueQueueFamilies = { vulkanInstance.indices.graphicsFamily, vulkanInstance.indices.computeFamily, vulkanInstance.indices.transferFamily };
+		context.indices = FindQueueFamilies(vulkanInstance.physicalDeviceStruct.physicalDevice, VK_QUEUE_GRAPHICS_BIT);  //VK_QUEUE_TRANSFER_BIT | VK_QUEUE_COMPUTE_BIT
+		std::set<int> uniqueQueueFamilies = { context.indices.graphicsFamily, context.indices.computeFamily, context.indices.transferFamily };
 		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos = CreateQueueCreateInfos(uniqueQueueFamilies);
 		VkPhysicalDeviceFeatures deviceFeatures = {};
 		deviceFeatures.samplerAnisotropy = VK_TRUE;
@@ -179,12 +179,12 @@ namespace Invision
 
 		VkDeviceCreateInfo createInfo = CreateDeviceCreateInfo(vulkanInstance, queueCreateInfos, deviceFeatures);
 
-		VkResult result = vkCreateDevice(vulkanInstance.physicalDeviceStruct.physicalDevice, &createInfo, nullptr, &(vulkanInstance.logicalDevice));
+		VkResult result = vkCreateDevice(vulkanInstance.physicalDeviceStruct.physicalDevice, &createInfo, nullptr, &(context.logicalDevice));
 		if (result != VK_SUCCESS) {
 			throw VulkanBaseException(result, "Unable to create a logical device");
 		}
 
-		vkGetDeviceQueue(vulkanInstance.logicalDevice, vulkanInstance.indices.graphicsFamily, 0, &vulkanInstance.graphicsQueue);
+		vkGetDeviceQueue(context.logicalDevice, context.indices.graphicsFamily, 0, &context.graphicsQueue);
 		//vkGetDeviceQueue(vulkanInstance.logicalDevice, indices.computeFamily, 0, &vulkanInstance.computeQueue);
 		//vkGetDeviceQueue(vulkanInstance.logicalDevice, indices.transferFamily, 0, &vulkanInstance.transferQueue);
 	}

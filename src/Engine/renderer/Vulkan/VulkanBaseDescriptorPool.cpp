@@ -8,7 +8,7 @@
 namespace Invision
 {
 
-	void VulkanBaseDescriptorPool::CreateDescriptorPool(const SVulkanBase &vulkanInstance,  const SVulkanContext &vulkanContext, std::vector<VkDescriptorPoolSize> poolSizeElements)
+	void VulkanBaseDescriptorPool::CreateDescriptorPool(const SVulkanContext &vulkanContext, std::vector<VkDescriptorPoolSize> poolSizeElements)
 	{
 		//VkDescriptorPoolSize poolSize = {};
 		//poolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
@@ -20,14 +20,14 @@ namespace Invision
 		poolInfo.pPoolSizes = poolSizeElements.data();
 		poolInfo.maxSets = static_cast<uint32_t>(vulkanContext.swapChainImages.size());
 
-		if (vkCreateDescriptorPool(vulkanInstance.logicalDevice, &poolInfo, nullptr, &mDescriptorPool) != VK_SUCCESS) {
+		if (vkCreateDescriptorPool(vulkanContext.logicalDevice, &poolInfo, nullptr, &mDescriptorPool) != VK_SUCCESS) {
 			throw std::runtime_error("failed to create descriptor pool!");
 		}
 	}
 
-	void VulkanBaseDescriptorPool::DestroyDescriptorPool(const SVulkanBase &vulkanInstance)
+	void VulkanBaseDescriptorPool::DestroyDescriptorPool(const SVulkanContext &vulkanContext)
 	{
-		vkDestroyDescriptorPool(vulkanInstance.logicalDevice, mDescriptorPool, nullptr);
+		vkDestroyDescriptorPool(vulkanContext.logicalDevice, mDescriptorPool, nullptr);
 	}
 
 	VkDescriptorPool VulkanBaseDescriptorPool::GetDescriptorPool()

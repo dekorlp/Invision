@@ -67,8 +67,8 @@ namespace Invision
 			throw InvisionBaseRendererException("Unknown ShaderStageFlag passed to Function CreateUniformBinding");
 
 		}
-
-		mShaders.push_back(VulkanBaseShader(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), code, vkShaderStage));
+		
+		mShaders.push_back(VulkanBaseShader(mVulkanInstance->GetVulkanContext(), code, vkShaderStage));
 	}
 
 	void VulkanPipeline::SetColorBlendFunction(bool blendEnable, BlendFactor srcColorBlendFactor, BlendFactor dstColorBlendFactor, BlendOp colorBlendOp, BlendFactor srcAlphaBlendFactor, BlendFactor dstAlphaBlendFactor, BlendOp alphaBlendOp)
@@ -266,10 +266,10 @@ namespace Invision
 
 
 		
-		mPipeline.CreatePipeline(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(),  dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), 0, renderPass->GetCountOfColorAttachments(), usedMultisampleState);
+		mPipeline.CreatePipeline(mVulkanInstance->GetVulkanContext(),  dynamic_pointer_cast<VulkanRenderPass>(renderPass)->GetRenderPass(), 0, renderPass->GetCountOfColorAttachments(), usedMultisampleState);
 		for(int i = 0; i < mShaders.size(); i++)
 		{
-			mShaders[i].Destroy(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
+			mShaders[i].Destroy(mVulkanInstance->GetVulkanContext());
 		}
 
 	}
@@ -402,7 +402,7 @@ namespace Invision
 
 	VulkanPipeline::~VulkanPipeline()
 	{
-		mPipeline.DestroyPipeline(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
+		mPipeline.DestroyPipeline(mVulkanInstance->GetVulkanContext());
 	}
 
 }

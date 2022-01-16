@@ -5,6 +5,8 @@
 #include "IGraphicsInstance.h"
 #include "renderer\Vulkan\VulkanBase.h"
 #include "renderer\Vulkan\VulkanBaseTexture.h"
+#include "renderer\Vulkan\VulkanBaseCommandPool.h"
+#include "renderer\Vulkan\VulkanBaseMemoryManager.h"
 
 namespace Invision
 {
@@ -47,10 +49,17 @@ namespace Invision
 		// Helper Methods
 		VkFormat ConvertInvisionFormatToVkFormat(GfxFormat format);
 
+		INVISION_API Invision::VulkanBaseCommandPool GetCommandPool();
+		INVISION_API Invision::VulkanBaseMemoryManager& GetMemoryManager();
+
 		INVISION_API ~VulkanInstance();
 
 	private:
 		VulkanEngine* mVulkanEngine;
+
+		Invision::VulkanBaseCommandPool mCommandPool;
+		Invision::VulkanBaseMemoryManager mMemoryManager;
+
 		Invision::SVulkanContext mVulkanContext;
 		Invision::VulkanBaseTexture mDepthRessources;
 		Invision::VulkanBaseTexture mColorRessources;

@@ -44,24 +44,12 @@ namespace Invision
 	{
 		Invision::VulkanBaseDevice().PickPhysicalDevice(mBaseStruct);
 		mDeviceProperties = ConvertPhysicalDeviceParameters(mBaseStruct.physicalDeviceStruct);
-
-		Invision::VulkanBaseDevice().CreateLogicalDevice(mBaseStruct);
-
-		mCommandPool.CreateCommandPool(mBaseStruct);
-
-		mMemoryManager.Init(mBaseStruct, 2147483648); // Allocate 2GB
 	}
 
 	void VulkanEngine::Init(unsigned int index)
 	{
 		Invision::VulkanBaseDevice().PickPhysicalDevice(mBaseStruct, index);
 		mDeviceProperties = ConvertPhysicalDeviceParameters(mBaseStruct.physicalDeviceStruct);
-
-		Invision::VulkanBaseDevice().CreateLogicalDevice(mBaseStruct);
-
-		mCommandPool.CreateCommandPool(mBaseStruct);
-
-		mMemoryManager.Init(mBaseStruct, 2147483648); // Allocate 2GB
 	}
 
 	std::shared_ptr<IGraphicsInstance> VulkanEngine::CreateInstance(CanvasDimensions canvas, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer, MSAAMode msaaMode)
@@ -72,11 +60,6 @@ namespace Invision
 	Invision::SVulkanBase& VulkanEngine::GetVulkanBaseStruct()
 	{
 		return mBaseStruct;
-	}
-
-	Invision::VulkanBaseCommandPool VulkanEngine::GetCommandPool()
-	{
-		return mCommandPool;
 	}
 
 	PhysicalDeviceProperties VulkanEngine::ConvertPhysicalDeviceParameters(SVulkanBasePhysicalDevice physicalDeviceStruct)
@@ -168,17 +151,12 @@ namespace Invision
 		return physicalDevices;
 	}
 
-	VulkanBaseMemoryManager& VulkanEngine::GetMemoryManager()
-	{
-		return mMemoryManager;
-	}
-
 	VulkanEngine::~VulkanEngine()
 	{
-		mMemoryManager.Destroy(mBaseStruct);
-		mCommandPool.DestroyCommandPool(mBaseStruct);
+		//mMemoryManager.Destroy(mBaseStruct);
+		//mCommandPool.DestroyCommandPool(mBaseStruct);
 		//Invision::DestroyPresentationSystem(vulkInstance, vulkanContext);
-		Invision::DestroyVulkanDevice(mBaseStruct);
+		//Invision::DestroyVulkanDevice(mBaseStruct);
 		//Invision::DestroySurface(vulkInstance, vulkanContext);
 		mVulkanInstance.Destroy();
 	}

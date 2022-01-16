@@ -32,12 +32,12 @@ namespace Invision
 
 	void VulkanVertexBuffer::CreateBuffer(const void *source, uint64_t size, uint32_t binding, std::shared_ptr<IVertexBindingDescription> bindingDescription)
 	{
-		mBaseVertexBuffer.CreateBuffer(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetCommandPool(), mVulkanInstance->GetCoreEngine()->GetMemoryManager(), binding, size, source);
+		mBaseVertexBuffer.CreateBuffer(mVulkanInstance->GetVulkanContext(), mVulkanInstance->GetCommandPool(), mVulkanInstance->GetMemoryManager(), binding, size, source);
 	}
 
 	VulkanVertexBuffer::~VulkanVertexBuffer()
 	{
-		mBaseVertexBuffer.DestroyVertexBuffers(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetCoreEngine()->GetMemoryManager());
+		mBaseVertexBuffer.DestroyVertexBuffers(mVulkanInstance->GetVulkanContext(), mVulkanInstance->GetMemoryManager());
 	}
 	
 

@@ -8,10 +8,10 @@ namespace Invision
 	class INVISION_API VulkanBaseShader
 	{
 	public:
-		VulkanBaseShader(const SVulkanBase& vulkanInstance, const std::vector<char>& code, VkShaderStageFlagBits stage);
+		VulkanBaseShader(const SVulkanContext& vulkanContext, const std::vector<char>& code, VkShaderStageFlagBits stage);
 		VkShaderModule GetShaderModule();
 		VkShaderStageFlagBits GetShaderStageFlatBits();
-		void Destroy(const SVulkanBase& vulkanInstance);
+		void Destroy(const SVulkanContext& vulkanContext);
 	private:
 		VkShaderModule mShaderModule;
 		VkShaderStageFlagBits mShaderStage;

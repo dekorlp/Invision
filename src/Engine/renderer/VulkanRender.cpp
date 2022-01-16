@@ -17,7 +17,7 @@ namespace Invision
 		: IRenderer(instance)
 	{
 		mVulkanInstance = instance;
-		mRenderer.CreateSyncObjects(instance->GetCoreEngine()->GetVulkanBaseStruct(), instance->GetVulkanContext());
+		mRenderer.CreateSyncObjects(instance->GetVulkanContext());
 	}
 
 	bool VulkanRenderer::PrepareFrame()
@@ -25,7 +25,7 @@ namespace Invision
 		bool recreateSwapchainIsNecessary = false;
 
 		//VkResult nextImageResult = commandBuffer.AquireNextImage(vulkInstance);
-		VkResult nextImageResult = mRenderer.AquireNextImage(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(), mImageIndex);
+		VkResult nextImageResult = mRenderer.AquireNextImage(mVulkanInstance->GetVulkanContext(), mImageIndex);
 		if (nextImageResult == VK_ERROR_OUT_OF_DATE_KHR) {
 			recreateSwapchainIsNecessary = true;
 			//RecreateSwapChain(m_Size.GetWidth(), m_Size.GetHeight());
@@ -53,7 +53,7 @@ namespace Invision
 			mRenderer.AlterSubmitInfoSignalSemaphore(1, mRenderer.GetSemaphoresRenderComplete());
 			// main Command Buffer
 			mRenderer.AlterSubmitInfo(1, dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(mImageIndex).GetCommandBuffer());
-			mRenderer.DrawFrame(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(mImageIndex));
+			mRenderer.DrawFrame(mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(mImageIndex));
 		}
 		else
 		{
@@ -73,7 +73,7 @@ namespace Invision
 
 			// secondary Command Buffer for offscreen rendering
 			mRenderer.AlterSubmitInfo(1, dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(0).GetCommandBuffer());
-			mRenderer.DrawFrame(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(0));	
+			mRenderer.DrawFrame(mVulkanInstance->GetVulkanContext(), dynamic_pointer_cast<VulkanCommandBuffer>(commandBuffer)->GetCommandBuffer(0));	
 		}
 
 		
@@ -99,6 +99,6 @@ namespace Invision
 
 	VulkanRenderer::~VulkanRenderer()
 	{
-		mRenderer.DestroySemaphores(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct());
+		mRenderer.DestroySemaphores(mVulkanInstance->GetVulkanContext());
 	}
 }

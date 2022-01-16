@@ -9,18 +9,18 @@ namespace Invision
 		VK_KHR_SWAPCHAIN_EXTENSION_NAME
 	};
 
-	INVISION_API void CreateVulkanDevice(SVulkanBase &vulkanInstance);
-	INVISION_API void DestroyVulkanDevice(SVulkanBase &vulkanInstance);
+	INVISION_API void CreateVulkanDevice(SVulkanBase &vulkanInstance, SVulkanContext& vulkanContext);
+	INVISION_API void DestroyVulkanDevice(SVulkanContext &vulkanContext);
 
 	class INVISION_API VulkanBaseDevice
 	{
 	public:
 		VulkanBaseDevice();
-		void GetDevices(SVulkanBase &vulkanInstance);
+		void GetDevices(SVulkanBase& vulkanInstance, SVulkanContext& vulkanContext);
 
 		void PickPhysicalDevice(SVulkanBase &vulkanInstance);
 		void PickPhysicalDevice(SVulkanBase &vulkanInstance, unsigned int index);
-		void CreateLogicalDevice(SVulkanBase& logicalDevice);
+		void CreateLogicalDevice(SVulkanBase& vulkanInstance, SVulkanContext& context);
 
 		void PickDeviceInformations(SVulkanBase &vulkanInstance, VkPhysicalDevice physicalDevice);
 

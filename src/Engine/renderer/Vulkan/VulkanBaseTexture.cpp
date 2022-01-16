@@ -8,7 +8,7 @@
 
 namespace Invision
 {
-	void VulkanBaseTexture::CreateTextureImage(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, unsigned char* pixels, int width, int height, VkFormat format, bool generateMipMaps)
+	void VulkanBaseTexture::CreateTextureImage(const SVulkanBase& vulkanInstance, const SVulkanContext &vulkanContext, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, unsigned char* pixels, int width, int height, VkFormat format, bool generateMipMaps)
 	{
 		mFormat = format;
 		int imageSize = width * height * 4; //4 four channels for RGBA -> Color Formats of RGB are motly not supported by modern GPU Devices
@@ -25,18 +25,18 @@ namespace Invision
 			mMipLevels = 1;
 		}
 
-		CreateImage(vulkanInstance, memoryManager, width, height, false, mMipLevels, 1, VK_SAMPLE_COUNT_1_BIT, format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+		CreateImage(vulkanContext, memoryManager, width, height, false, mMipLevels, 1, VK_SAMPLE_COUNT_1_BIT, format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
-		void* pStagingBuffer = memoryManager.BindToSharedMemory(vulkanInstance, imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_SHARING_MODE_EXCLUSIVE);
-		memoryManager.CopyDataToBuffer(vulkanInstance, pStagingBuffer, pixels);
-		TransitionImageLayout(vulkanInstance, commandPool, format, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, mMipLevels, 0, 1);
-		memoryManager.CopyBufferToImage(vulkanInstance, commandPool, pStagingBuffer, mImage, 0, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
-		memoryManager.Unbind(vulkanInstance, pStagingBuffer);
+		void* pStagingBuffer = memoryManager.BindToSharedMemory(vulkanContext, imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_SHARING_MODE_EXCLUSIVE);
+		memoryManager.CopyDataToBuffer(vulkanContext, pStagingBuffer, pixels);
+		TransitionImageLayout(vulkanContext, commandPool, format, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, mMipLevels, 0, 1);
+		memoryManager.CopyBufferToImage(vulkanContext, commandPool, pStagingBuffer, mImage, 0, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
+		memoryManager.Unbind(vulkanContext, pStagingBuffer);
 
-		GenerateMipmaps(vulkanInstance, commandPool, format, width, height, mMipLevels, 0);
+		GenerateMipmaps(vulkanInstance, vulkanContext, commandPool, format, width, height, mMipLevels, 0);
 	}
 
-	void VulkanBaseTexture::CreateTextureCubemap(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, unsigned char* posx, unsigned char* negx, unsigned char* posy, unsigned char* negy, unsigned char* posz, unsigned char* negz, int width, int height, VkFormat format, bool generateMipMaps )
+	void VulkanBaseTexture::CreateTextureCubemap(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, unsigned char* posx, unsigned char* negx, unsigned char* posy, unsigned char* negy, unsigned char* posz, unsigned char* negz, int width, int height, VkFormat format, bool generateMipMaps )
 	{
 		std::vector<unsigned char*> cubemap_images = {
 			posx, negx, posy, negy, posz, negz
@@ -58,43 +58,43 @@ namespace Invision
 			mMipLevels = 1;
 		}
 
-		CreateImage(vulkanInstance, memoryManager, width, height, true, mMipLevels, 1, VK_SAMPLE_COUNT_1_BIT, format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+		CreateImage(vulkanContext, memoryManager, width, height, true, mMipLevels, 1, VK_SAMPLE_COUNT_1_BIT, format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
 		for (unsigned int i = 0; i < 6; i++)
 		{
-			void* pStagingBuffer = memoryManager.BindToSharedMemory(vulkanInstance, imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_SHARING_MODE_EXCLUSIVE);
-			memoryManager.CopyDataToBuffer(vulkanInstance, pStagingBuffer, cubemap_images[i]);
-			TransitionImageLayout(vulkanInstance, commandPool, format, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, mMipLevels, i, 1);
-			memoryManager.CopyBufferToImage(vulkanInstance, commandPool, pStagingBuffer, mImage, i, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
-			memoryManager.Unbind(vulkanInstance, pStagingBuffer);
-			GenerateMipmaps(vulkanInstance, commandPool, format, width, height, mMipLevels, i);
+			void* pStagingBuffer = memoryManager.BindToSharedMemory(vulkanContext, imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_SHARING_MODE_EXCLUSIVE);
+			memoryManager.CopyDataToBuffer(vulkanContext, pStagingBuffer, cubemap_images[i]);
+			TransitionImageLayout(vulkanContext, commandPool, format, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, mMipLevels, i, 1);
+			memoryManager.CopyBufferToImage(vulkanContext, commandPool, pStagingBuffer, mImage, i, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
+			memoryManager.Unbind(vulkanContext, pStagingBuffer);
+			GenerateMipmaps(vulkanInstance, vulkanContext, commandPool, format, width, height, mMipLevels, i);
 		}
 
 	
 
 	}
 
-	void VulkanBaseTexture::CreateColorRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext, int width, int height, VkSampleCountFlagBits sampleCountFlags, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags memoryPropertyFlags, VkImageAspectFlags aspectFlags)
+	void VulkanBaseTexture::CreateColorRessources(SVulkanContext &vulkanContext, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, int width, int height, VkSampleCountFlagBits sampleCountFlags, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags memoryPropertyFlags, VkImageAspectFlags aspectFlags)
 	{
 		mMemoryManager = &memoryManager;
 		mFormat = format;
 		//VkFormat colorFormat = vulkanContext.swapChainImageFormat;
 
-		mpImage = CreateImage(vulkanInstance, memoryManager, width, height, false, 1, 1, sampleCountFlags, format, tiling, usage, memoryPropertyFlags, mImage);
-		mTextureImageView = CreateImageView(vulkanInstance, mImage, VK_IMAGE_VIEW_TYPE_2D, format, aspectFlags, 1, 1);
+		mpImage = CreateImage(vulkanContext, memoryManager, width, height, false, 1, 1, sampleCountFlags, format, tiling, usage, memoryPropertyFlags, mImage);
+		mTextureImageView = CreateImageView(vulkanContext, mImage, VK_IMAGE_VIEW_TYPE_2D, format, aspectFlags, 1, 1);
 	}
 
-	void VulkanBaseTexture::CreateDepthRessources(SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, SVulkanContext &vulkanContext, int width, int height, VkSampleCountFlagBits sampleCountFlags, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags memoryPropertyFlags, VkImageAspectFlags aspectFlags)
+	void VulkanBaseTexture::CreateDepthRessources(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, int width, int height, VkSampleCountFlagBits sampleCountFlags, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags memoryPropertyFlags, VkImageAspectFlags aspectFlags)
 	{
 		mMemoryManager = &memoryManager;
 		VkFormat depthFormat = FindDepthFormat(vulkanInstance);
 		mFormat = depthFormat;
-		mpImage = CreateImage(vulkanInstance, memoryManager, width, height, false, 1, 1, sampleCountFlags, depthFormat, tiling, usage, memoryPropertyFlags, mImage);
-		mTextureImageView = CreateImageView(vulkanInstance, mImage, VK_IMAGE_VIEW_TYPE_2D, depthFormat, aspectFlags, 1, 1);
+		mpImage = CreateImage(vulkanContext, memoryManager, width, height, false, 1, 1, sampleCountFlags, depthFormat, tiling, usage, memoryPropertyFlags, mImage);
+		mTextureImageView = CreateImageView(vulkanContext, mImage, VK_IMAGE_VIEW_TYPE_2D, depthFormat, aspectFlags, 1, 1);
 	}
 
 
-	void VulkanBaseTexture::CreateImage(const SVulkanBase &vulkanInstance, VulkanBaseMemoryManager& memoryManager, int width, int height, bool isCubemap, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits numSamples, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage,  VkMemoryPropertyFlags properties)
+	void VulkanBaseTexture::CreateImage(const SVulkanContext &vulkanContext, VulkanBaseMemoryManager& memoryManager, int width, int height, bool isCubemap, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits numSamples, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage,  VkMemoryPropertyFlags properties)
 	{
 		VkImageCreateInfo imageInfo{};
 		imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
@@ -112,12 +112,12 @@ namespace Invision
 		imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 		imageInfo.flags = isCubemap ? VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT : 0u;
 
-		if (vkCreateImage(vulkanInstance.logicalDevice, &imageInfo, nullptr, &mImage) != VK_SUCCESS) {
+		if (vkCreateImage(vulkanContext.logicalDevice, &imageInfo, nullptr, &mImage) != VK_SUCCESS) {
 			throw VulkanBaseException("failed to create image!");
 		}
 
 		VkMemoryRequirements memRequirements;
-		vkGetImageMemoryRequirements(vulkanInstance.logicalDevice, mImage, &memRequirements);
+		vkGetImageMemoryRequirements(vulkanContext.logicalDevice, mImage, &memRequirements);
 
 		/*VkMemoryRequirements memRequirements;
 		vkGetImageMemoryRequirements(vulkanInstance.logicalDevice, mImage, &memRequirements);
@@ -132,12 +132,12 @@ namespace Invision
 
 		vkBindImageMemory(vulkanInstance.logicalDevice, mImage, mImageMemory, 0);*/
 
-		mpImage = mMemoryManager->BindImageToDedicatedMemory(vulkanInstance, mImage, memRequirements.size);
+		mpImage = mMemoryManager->BindImageToDedicatedMemory(vulkanContext, mImage, memRequirements.size);
 
 
 	}
 
-	void* VulkanBaseTexture::CreateImage(const SVulkanBase &vulkanInstance, VulkanBaseMemoryManager& memoryManager, int width, int height, bool isCubemap, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits numSamples, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image)
+	void* VulkanBaseTexture::CreateImage(const SVulkanContext &vulkanContext, VulkanBaseMemoryManager& memoryManager, int width, int height, bool isCubemap, uint32_t mipLevels, uint32_t arrayLayers, VkSampleCountFlagBits numSamples, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image)
 	{
 		VkImageCreateInfo imageInfo{};
 		imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
@@ -155,12 +155,12 @@ namespace Invision
 		imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 		imageInfo.flags = isCubemap ? VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT : 0u;
 
-		if (vkCreateImage(vulkanInstance.logicalDevice, &imageInfo, nullptr, &image) != VK_SUCCESS) {
+		if (vkCreateImage(vulkanContext.logicalDevice, &imageInfo, nullptr, &image) != VK_SUCCESS) {
 			throw VulkanBaseException("failed to create image!");
 		}
 
 		VkMemoryRequirements memRequirements;
-		vkGetImageMemoryRequirements(vulkanInstance.logicalDevice, image, &memRequirements);
+		vkGetImageMemoryRequirements(vulkanContext.logicalDevice, image, &memRequirements);
 
 		/*VkMemoryAllocateInfo allocInfo{};
 		allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
@@ -172,16 +172,16 @@ namespace Invision
 
 		vkBindImageMemory(vulkanInstance.logicalDevice, image, imageMemory, 0);*/
 
-		return memoryManager.BindImageToDedicatedMemory(vulkanInstance, image, memRequirements.size);
+		return memoryManager.BindImageToDedicatedMemory(vulkanContext, image, memRequirements.size);
 
 	}
 
-	void VulkanBaseTexture::CreateTextureImageView( SVulkanBase &vulkanInstance, VkImageViewType viewType, VkFormat format, uint32_t layerCount)
+	void VulkanBaseTexture::CreateTextureImageView( SVulkanContext &vulkanContext, VkImageViewType viewType, VkFormat format, uint32_t layerCount)
 	{
-		mTextureImageView = CreateImageView(vulkanInstance, mImage, viewType, format, VK_IMAGE_ASPECT_COLOR_BIT, mMipLevels, layerCount);
+		mTextureImageView = CreateImageView(vulkanContext, mImage, viewType, format, VK_IMAGE_ASPECT_COLOR_BIT, mMipLevels, layerCount);
 	}
 
-	void VulkanBaseTexture::CreateTextureSampler(SVulkanBase &vulkanInstance, VkFilter minFilter, VkFilter magFilter, VkSamplerAddressMode addressU, VkSamplerAddressMode addressV, VkSamplerAddressMode addressW, float MipLodBias, float minLod)
+	void VulkanBaseTexture::CreateTextureSampler(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VkFilter minFilter, VkFilter magFilter, VkSamplerAddressMode addressU, VkSamplerAddressMode addressV, VkSamplerAddressMode addressW, float MipLodBias, float minLod)
 	{
 		
 
@@ -203,14 +203,14 @@ namespace Invision
 		samplerInfo.minLod = minLod;
 		samplerInfo.maxLod = static_cast<float>(mMipLevels);
 
-		if (vkCreateSampler(vulkanInstance.logicalDevice, &samplerInfo, nullptr, &mTextureSampler) != VK_SUCCESS) {
+		if (vkCreateSampler(vulkanContext.logicalDevice, &samplerInfo, nullptr, &mTextureSampler) != VK_SUCCESS) {
 			throw std::runtime_error("failed to create texture sampler!");
 		}
 	}
 
-	void VulkanBaseTexture::TransitionImageLayout(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout, uint32_t mipLevels, uint32_t baseArrayLayer, uint32_t layerCount)
+	void VulkanBaseTexture::TransitionImageLayout(const SVulkanContext &vulkanContext, VulkanBaseCommandPool commandPool, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout, uint32_t mipLevels, uint32_t baseArrayLayer, uint32_t layerCount)
 	{
-		VkCommandBuffer commandBuffer = VulkanBaseMemoryManager::BeginSingleTimeCommands(vulkanInstance, commandPool);
+		VkCommandBuffer commandBuffer = VulkanBaseMemoryManager::BeginSingleTimeCommands(vulkanContext, commandPool);
 
 		VkImageMemoryBarrier barrier{};
 		barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
@@ -263,10 +263,10 @@ namespace Invision
 		);
 
 
-		VulkanBaseMemoryManager::EndSingleTimeCommands(vulkanInstance, commandPool, commandBuffer);
+		VulkanBaseMemoryManager::EndSingleTimeCommands(vulkanContext, commandPool, commandBuffer);
 	}
 
-	void VulkanBaseTexture::GenerateMipmaps(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VkFormat imageFormat, int width, int height, uint32_t mipLevels, uint32_t baseArrayLayer)
+	void VulkanBaseTexture::GenerateMipmaps(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, VulkanBaseCommandPool commandPool, VkFormat imageFormat, int width, int height, uint32_t mipLevels, uint32_t baseArrayLayer)
 	{
 
 		// Check if image format supports linear blitting
@@ -277,7 +277,7 @@ namespace Invision
 			throw VulkanBaseException("texture image format does not support linear blitting!");
 		}
 
-		VkCommandBuffer commandBuffer = VulkanBaseMemoryManager::BeginSingleTimeCommands(vulkanInstance, commandPool);
+		VkCommandBuffer commandBuffer = VulkanBaseMemoryManager::BeginSingleTimeCommands(vulkanContext, commandPool);
 
 		VkImageMemoryBarrier barrier{};
 		barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
@@ -354,7 +354,7 @@ namespace Invision
 
 
 
-		VulkanBaseMemoryManager::EndSingleTimeCommands(vulkanInstance, commandPool, commandBuffer);
+		VulkanBaseMemoryManager::EndSingleTimeCommands(vulkanContext, commandPool, commandBuffer);
 
 	}
 
@@ -408,16 +408,16 @@ namespace Invision
 	}
 
 
-	void VulkanBaseTexture::DestroyTexture(const SVulkanBase &vulkanInstance)
+	void VulkanBaseTexture::DestroyTexture(const SVulkanContext &vulkanContext)
 	{
 		if (mTextureSampler != VK_NULL_HANDLE)
 		{
-			vkDestroySampler(vulkanInstance.logicalDevice, mTextureSampler, nullptr);
+			vkDestroySampler(vulkanContext.logicalDevice, mTextureSampler, nullptr);
 		}
 
-		vkDestroyImageView(vulkanInstance.logicalDevice, mTextureImageView, nullptr);
-		vkDestroyImage(vulkanInstance.logicalDevice, mImage, nullptr);
-		mMemoryManager->Unbind(vulkanInstance, mpImage);
+		vkDestroyImageView(vulkanContext.logicalDevice, mTextureImageView, nullptr);
+		vkDestroyImage(vulkanContext.logicalDevice, mImage, nullptr);
+		mMemoryManager->Unbind(vulkanContext, mpImage);
 		//vkFreeMemory(vulkanInstance.logicalDevice, mImageMemory, nullptr);
 	}
 

@@ -29,8 +29,8 @@ namespace Invision
 
 	public:
 		INVISION_API VulkanBaseCommandBuffer();
-		INVISION_API VulkanBaseCommandBuffer(SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool, unsigned int countOfBuffers);
-		INVISION_API VulkanBaseCommandBuffer& CreateCommandBuffer(SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool, unsigned int countOfBuffers);
+		INVISION_API VulkanBaseCommandBuffer(SVulkanContext& vulkanContext, VulkanBaseCommandPool &commandPool, unsigned int countOfBuffers);
+		INVISION_API VulkanBaseCommandBuffer& CreateCommandBuffer(SVulkanContext& vulkanContext, VulkanBaseCommandPool &commandPool, unsigned int countOfBuffers);
 		INVISION_API VulkanBaseCommandBuffer& BeginCommandBuffer();
 		INVISION_API VulkanBaseCommandBuffer& SetViewport(VkViewport& viewport);
 		INVISION_API VulkanBaseCommandBuffer& SetScissor(VkRect2D& rect);
@@ -45,7 +45,7 @@ namespace Invision
 		INVISION_API VulkanBaseCommandBuffer& DrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex = 0, uint32_t vertexOffset = 0, uint32_t firstInstance = 0);
 		INVISION_API VulkanBaseCommandBuffer& EndRenderPass();
 		INVISION_API VulkanBaseCommandBuffer& EndCommandBuffer();
-		INVISION_API void DestroyCommandBuffer(SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool);
+		INVISION_API void DestroyCommandBuffer(SVulkanContext& vulkanContext, VulkanBaseCommandPool &commandPool);
 
 		INVISION_API const VkCommandBuffer* GetCommandBuffer();
 		INVISION_API VkSemaphore GetSemaphore();

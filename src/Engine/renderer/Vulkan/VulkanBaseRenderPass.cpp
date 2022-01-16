@@ -51,7 +51,7 @@ namespace Invision
 		return mAttachmentDescriptions[index];
 	}
 
-	void VulkanBaseRenderPass::CreateRenderPass(const SVulkanBase &vulkanInstance)
+	void VulkanBaseRenderPass::CreateRenderPass(const SVulkanContext &vulkanContext)
 	{
 		/*if (subPasses.mSubpass.size() == 0) {
 			throw InvisionBaseRendererException("Subpass Descriptions are empty!");
@@ -68,7 +68,7 @@ namespace Invision
 		renderPassInfo.dependencyCount = static_cast<unsigned int>(mDependencies.size());
 		renderPassInfo.pDependencies = mDependencies.data();
 
-		if (vkCreateRenderPass(vulkanInstance.logicalDevice, &renderPassInfo, nullptr, &mRenderPass) != VK_SUCCESS) {
+		if (vkCreateRenderPass(vulkanContext.logicalDevice, &renderPassInfo, nullptr, &mRenderPass) != VK_SUCCESS) {
 			throw InvisionBaseRendererException("failed to create render pass!");
 		}
 	}
@@ -127,11 +127,11 @@ namespace Invision
 		return mRenderPass;
 	}
 
-	void VulkanBaseRenderPass::DestroyRenderPass(const SVulkanBase &vulkanInstance)
+	void VulkanBaseRenderPass::DestroyRenderPass(const SVulkanContext &vulkanContext)
 	{
 		if (mRenderPass != VK_NULL_HANDLE)
 		{
-			vkDestroyRenderPass(vulkanInstance.logicalDevice, mRenderPass, nullptr);
+			vkDestroyRenderPass(vulkanContext.logicalDevice, mRenderPass, nullptr);
 		}
 		mAttachmentDescriptions.clear();
 

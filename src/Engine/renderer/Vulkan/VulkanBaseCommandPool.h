@@ -12,8 +12,8 @@ namespace Invision
 		VkCommandPool mCommandPool;
 
 	public:
-		void INVISION_API CreateCommandPool(SVulkanBase &vulkanInstance);
-		void INVISION_API DestroyCommandPool(SVulkanBase &vulkanInstance);
+		void INVISION_API CreateCommandPool(SVulkanContext &vulkanContext);
+		void INVISION_API DestroyCommandPool(SVulkanContext & vulkanContext);
 
 		VkCommandPool INVISION_API GetCommandPool();
 

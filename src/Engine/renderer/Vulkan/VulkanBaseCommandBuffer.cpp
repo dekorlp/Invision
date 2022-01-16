@@ -24,20 +24,20 @@ namespace Invision
 		mIsVertexBufferBinded = false;
 	}
 
-	VulkanBaseCommandBuffer::VulkanBaseCommandBuffer(SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool, unsigned int countOfBuffers)
+	VulkanBaseCommandBuffer::VulkanBaseCommandBuffer(SVulkanContext &vulkanContext, VulkanBaseCommandPool &commandPool, unsigned int countOfBuffers)
 	{
-		this->CreateCommandBuffer(vulkanInstance, commandPool, countOfBuffers);
+		this->CreateCommandBuffer(vulkanContext, commandPool, countOfBuffers);
 		mIsCommandBufferRecording = false;
 		mIsRenderPassStarted = false;
 	}
 
-	VulkanBaseCommandBuffer& VulkanBaseCommandBuffer::CreateCommandBuffer(SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool, unsigned int countOfBuffers)
+	VulkanBaseCommandBuffer& VulkanBaseCommandBuffer::CreateCommandBuffer(SVulkanContext &vulkanContext, VulkanBaseCommandPool &commandPool, unsigned int countOfBuffers)
 	{
 		// Create Command Buffer Semaphore
 		VkSemaphoreCreateInfo semaphoreCreateInfo = {};
 		semaphoreCreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 
-		if (vkCreateSemaphore(vulkanInstance.logicalDevice, &semaphoreCreateInfo, nullptr, &mCommandBufferSemaphore) != VK_SUCCESS)
+		if (vkCreateSemaphore(vulkanContext.logicalDevice, &semaphoreCreateInfo, nullptr, &mCommandBufferSemaphore) != VK_SUCCESS)
 		{
 			throw VulkanBaseException("failed to create Command Buffer Semaphore!");
 		}
@@ -49,7 +49,7 @@ namespace Invision
 		allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 		allocInfo.commandBufferCount = 1;
 
-		if (vkAllocateCommandBuffers(vulkanInstance.logicalDevice, &allocInfo, &mCommandBuffer) != VK_SUCCESS)
+		if (vkAllocateCommandBuffers(vulkanContext.logicalDevice, &allocInfo, &mCommandBuffer) != VK_SUCCESS)
 		{
 			throw VulkanBaseException("failed to create command buffers!");
 		}
@@ -369,9 +369,9 @@ namespace Invision
 		return &mCommandBuffer;
 	}
 
-	void VulkanBaseCommandBuffer::DestroyCommandBuffer(SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool)
+	void VulkanBaseCommandBuffer::DestroyCommandBuffer(SVulkanContext &vulkanContext, VulkanBaseCommandPool &commandPool)
 	{
-		vkFreeCommandBuffers(vulkanInstance.logicalDevice, commandPool.GetCommandPool(), 1, &mCommandBuffer);
-		vkDestroySemaphore(vulkanInstance.logicalDevice, mCommandBufferSemaphore, nullptr);
+		vkFreeCommandBuffers(vulkanContext.logicalDevice, commandPool.GetCommandPool(), 1, &mCommandBuffer);
+		vkDestroySemaphore(vulkanContext.logicalDevice, mCommandBufferSemaphore, nullptr);
 	}
 }

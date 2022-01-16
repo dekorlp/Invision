@@ -7,24 +7,24 @@
 
 namespace Invision
 {
-	void VulkanBaseCommandPool::CreateCommandPool(SVulkanBase &vulkanInstance)
+	void VulkanBaseCommandPool::CreateCommandPool(SVulkanContext &vulkanContext)
 	{
 		//SQueueFamilyIndices queueFamilyIndices = Invision::FindQueueFamilies(vulkanInstance.physicalDeviceStruct.physicalDevice, VK_QUEUE_GRAPHICS_BIT);
 
 		VkCommandPoolCreateInfo poolInfo = {};
 		poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-		poolInfo.queueFamilyIndex = vulkanInstance.indices.graphicsFamily;
+		poolInfo.queueFamilyIndex = vulkanContext.indices.graphicsFamily;
 		poolInfo.flags = 0;
 
-		if (vkCreateCommandPool(vulkanInstance.logicalDevice, &poolInfo, nullptr, &mCommandPool) != VK_SUCCESS)
+		if (vkCreateCommandPool(vulkanContext.logicalDevice, &poolInfo, nullptr, &mCommandPool) != VK_SUCCESS)
 		{
 			throw VulkanBaseException("failed to create Command pool!");
 		}
 	}
 
-	void VulkanBaseCommandPool::DestroyCommandPool(SVulkanBase &vulkanInstance)
+	void VulkanBaseCommandPool::DestroyCommandPool(SVulkanContext &vulkanContext)
 	{
-		vkDestroyCommandPool(vulkanInstance.logicalDevice, mCommandPool, nullptr);
+		vkDestroyCommandPool(vulkanContext.logicalDevice, mCommandPool, nullptr);
 	}
 
 	VkCommandPool VulkanBaseCommandPool::GetCommandPool()

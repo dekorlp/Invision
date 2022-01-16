@@ -11,11 +11,11 @@ namespace Invision
 	{
 	public:
 		INVISION_API VulkanBaseIndexBuffer();
-		INVISION_API VulkanBaseIndexBuffer& CreateIndexBuffer(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, VkDeviceSize size, const void* source);
+		INVISION_API VulkanBaseIndexBuffer& CreateIndexBuffer(const SVulkanContext& vulkanContext, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, VkDeviceSize size, const void* source);
 		INVISION_API VkBuffer GetBuffer();
 		INVISION_API VkDeviceSize GetOffset();
 
-		INVISION_API void DestroyIndexBuffer(const SVulkanBase &vulkanInstance);
+		INVISION_API void DestroyIndexBuffer(const SVulkanContext& vulkanContext);
 
 
 	private:

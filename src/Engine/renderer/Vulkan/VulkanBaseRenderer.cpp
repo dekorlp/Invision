@@ -11,7 +11,7 @@
 
 namespace Invision
 {
-	void VulkanBaseRenderer::CreateSyncObjects(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext)
+	void VulkanBaseRenderer::CreateSyncObjects(SVulkanContext &vulkanContext)
 	{
 		// Fence Info Struct
 		VkFenceCreateInfo fenceInfo = {};
@@ -23,9 +23,9 @@ namespace Invision
 		semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 
 		// Create Fence and Semaphores
-		if (vkCreateSemaphore(vulkanInstance.logicalDevice, &semaphoreInfo, nullptr, &mSemaphores.presentComplete) != VK_SUCCESS ||
-			vkCreateSemaphore(vulkanInstance.logicalDevice, &semaphoreInfo, nullptr, &mSemaphores.renderComplete) != VK_SUCCESS ||
-			vkCreateFence(vulkanInstance.logicalDevice, &fenceInfo, nullptr, &mRenderFence) != VK_SUCCESS) {
+		if (vkCreateSemaphore(vulkanContext.logicalDevice, &semaphoreInfo, nullptr, &mSemaphores.presentComplete) != VK_SUCCESS ||
+			vkCreateSemaphore(vulkanContext.logicalDevice, &semaphoreInfo, nullptr, &mSemaphores.renderComplete) != VK_SUCCESS ||
+			vkCreateFence(vulkanContext.logicalDevice, &fenceInfo, nullptr, &mRenderFence) != VK_SUCCESS) {
 
 			throw VulkanBaseException("failed to create synchronization objects for a frame!");
 		}
@@ -68,7 +68,7 @@ namespace Invision
 		mSubmitInfo.pWaitSemaphores = pWaitSemaphores;
 	}
 
-	VkResult VulkanBaseRenderer::AquireNextImage(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, unsigned int& imageIndex)
+	VkResult VulkanBaseRenderer::AquireNextImage(SVulkanContext &vulkanContext, unsigned int& imageIndex)
 	{
 
 		/*VkResult fenceRes;
@@ -82,14 +82,14 @@ namespace Invision
 
 		vkResetFences(vulkanInstance.logicalDevice, 1, &mRenderFence);*/
 
-		VkResult result = vkAcquireNextImageKHR(vulkanInstance.logicalDevice, vulkanContext.swapChain, UINT64_MAX, mSemaphores.presentComplete, VK_NULL_HANDLE, &imageIndex);
+		VkResult result = vkAcquireNextImageKHR(vulkanContext.logicalDevice, vulkanContext.swapChain, UINT64_MAX, mSemaphores.presentComplete, VK_NULL_HANDLE, &imageIndex);
 
 		return result;
 	}
 
-	void VulkanBaseRenderer::DrawFrame(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseCommandBuffer& commandBuffer)
+	void VulkanBaseRenderer::DrawFrame(SVulkanContext &vulkanContext, VulkanBaseCommandBuffer& commandBuffer)
 	{
-		if (vkQueueSubmit(vulkanInstance.graphicsQueue, 1, &mSubmitInfo, VK_NULL_HANDLE) != VK_SUCCESS) {
+		if (vkQueueSubmit(vulkanContext.graphicsQueue, 1, &mSubmitInfo, VK_NULL_HANDLE) != VK_SUCCESS) {
 			throw VulkanBaseException("failed to submit draw command buffer!");
 		}
 	}
@@ -129,10 +129,10 @@ namespace Invision
 		return &mSemaphores.renderComplete;
 	}
 
-	void VulkanBaseRenderer::DestroySemaphores(SVulkanBase &vulkanInstance)
+	void VulkanBaseRenderer::DestroySemaphores(SVulkanContext &vulkanContext)
 	{
-		vkDestroySemaphore(vulkanInstance.logicalDevice, mSemaphores.presentComplete, nullptr);
-		vkDestroySemaphore(vulkanInstance.logicalDevice, mSemaphores.renderComplete, nullptr);
-		vkDestroyFence(vulkanInstance.logicalDevice, mRenderFence, nullptr);
+		vkDestroySemaphore(vulkanContext.logicalDevice, mSemaphores.presentComplete, nullptr);
+		vkDestroySemaphore(vulkanContext.logicalDevice, mSemaphores.renderComplete, nullptr);
+		vkDestroyFence(vulkanContext.logicalDevice, mRenderFence, nullptr);
 	}
 }

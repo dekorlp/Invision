@@ -8,7 +8,7 @@
 
 namespace Invision
 {
-	void VulkanBaseFramebuffer::CreateFramebuffer(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, VulkanBaseRenderPass &renderPass, std::vector< VkImageView>& attachments, int width, int height)
+	void VulkanBaseFramebuffer::CreateFramebuffer(SVulkanContext &vulkanContext, VulkanBaseRenderPass &renderPass, std::vector< VkImageView>& attachments, int width, int height)
 	{
 
 		//for (unsigned int i = 0; i < 3; i++)
@@ -29,18 +29,18 @@ namespace Invision
 			framebufferInfo.height = height;
 			framebufferInfo.layers = 1;
 
-			if (vkCreateFramebuffer(vulkanInstance.logicalDevice, &framebufferInfo, nullptr, &mFramebuffer) != VK_SUCCESS)
+			if (vkCreateFramebuffer(vulkanContext.logicalDevice, &framebufferInfo, nullptr, &mFramebuffer) != VK_SUCCESS)
 			{
 				throw VulkanBaseException("failed to create framebuffer!");
 			}
 		//}
 	}
 
-	void VulkanBaseFramebuffer::DestroyFramebuffer(SVulkanBase &vulkanInstance)
+	void VulkanBaseFramebuffer::DestroyFramebuffer(SVulkanContext &vulkanContext)
 	{
 		//for (unsigned int i = 0; i < mFramebuffer.size(); i++)
 		//{
-			vkDestroyFramebuffer(vulkanInstance.logicalDevice, mFramebuffer, nullptr);
+			vkDestroyFramebuffer(vulkanContext.logicalDevice, mFramebuffer, nullptr);
 		//}
 		//mFramebuffer.clear();
 	}

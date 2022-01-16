@@ -47,18 +47,18 @@ namespace Invision
 	{
 	public:
 		VulkanBaseMemoryManager();
-		void Init(const SVulkanBase &vulkanInstance, size_t size);
-		void Destroy(const SVulkanBase &vulkanInstance);
-		void* BindToSharedMemory(const SVulkanBase &vulkanInstance, VkDeviceSize size, VkBufferUsageFlags usage, VkSharingMode sharingMode);
-		void* BindToDedicatedMemory(const SVulkanBase &vulkanInstance, VkDeviceSize size, VkBufferUsageFlags usage, VkSharingMode sharingMode);
-		void* BindImageToDedicatedMemory(const SVulkanBase &vulkanInstance, VkImage &image, VkDeviceSize size);
-		void Unbind(const SVulkanBase &vulkanInstance, void* memory);
-		void CopyDataToBuffer(const SVulkanBase &vulkanInstance, void* memory, const void* data);
-		void CopyBufferToBuffer(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, void* src, void* dest);
-		void CopyBufferToImage(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool commandPool, void* src, VkImage& image, uint32_t baseArrayLayer, uint32_t width, uint32_t height);
+		void Init(const SVulkanBase &vulkanInstance, const SVulkanContext& vulkanContext, size_t size);
+		void Destroy(const SVulkanContext& vulkanContext);
+		void* BindToSharedMemory(const SVulkanContext& vulkanContext, VkDeviceSize size, VkBufferUsageFlags usage, VkSharingMode sharingMode);
+		void* BindToDedicatedMemory(const SVulkanContext& vulkanContext, VkDeviceSize size, VkBufferUsageFlags usage, VkSharingMode sharingMode);
+		void* BindImageToDedicatedMemory(const SVulkanContext& vulkanContext, VkImage &image, VkDeviceSize size);
+		void Unbind(const SVulkanContext& vulkanContext, void* memory);
+		void CopyDataToBuffer(const SVulkanContext& vulkanContext, void* memory, const void* data);
+		void CopyBufferToBuffer(const SVulkanContext& vulkanContext, VulkanBaseCommandPool commandPool, void* src, void* dest);
+		void CopyBufferToImage(const SVulkanContext& vulkanContext, VulkanBaseCommandPool commandPool, void* src, VkImage& image, uint32_t baseArrayLayer, uint32_t width, uint32_t height);
 
-		static VkCommandBuffer BeginSingleTimeCommands(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool);
-		static void EndSingleTimeCommands(const SVulkanBase &vulkanInstance, VulkanBaseCommandPool &commandPool, VkCommandBuffer &commandBuffer);
+		static VkCommandBuffer BeginSingleTimeCommands(const SVulkanContext& vulkanContext, VulkanBaseCommandPool &commandPool);
+		static void EndSingleTimeCommands(const SVulkanContext& vulkanContext, VulkanBaseCommandPool &commandPool, VkCommandBuffer &commandBuffer);
 
 		VkBuffer GetBuffer(void* handle)
 		{
@@ -73,11 +73,11 @@ namespace Invision
 	private:
 
 		uint32_t findMemoryType(const VkPhysicalDevice& device, VkMemoryPropertyFlags properties);
-		void AllocateMemory(const SVulkanBase &vulkanInstance, VkMemoryPropertyFlags properties, size_t size, VkDeviceMemory &memory);
-		void CreateBuffer(const SVulkanBase &vulkanInstance, VkBuffer& buffer, VkDeviceMemory& memory, VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkSharingMode sharingMode, VkDeviceSize memoryOffset);
+		void AllocateMemory(const SVulkanBase& vulkanInstance, const SVulkanContext& vulkanContext, VkMemoryPropertyFlags properties, size_t size, VkDeviceMemory &memory);
+		void CreateBuffer(const SVulkanContext& vulkanContext, VkBuffer& buffer, VkDeviceMemory& memory, VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkSharingMode sharingMode, VkDeviceSize memoryOffset);
 
 		//void* BindBufferToMemory(const SVulkanBase &vulkanInstance, VulkanBaseMemory &memory, VkDeviceSize size, MemoryType memType);
-		void* BindBufferToMemory(const SVulkanBase &vulkanInstance, VulkanChunk &memory, VkDeviceSize size, MemoryType memType);
+		void* BindBufferToMemory(VulkanChunk &memory, VkDeviceSize size, MemoryType memType);
 
 		VulkanChunk mLocalChunk;
 		VulkanChunk mSharedChunk;

@@ -47,18 +47,18 @@ required to support other windowing systems.
 	void CreatePresentationSystem(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, unsigned int width, unsigned int height)
 	{
 		SQueueFamilyIndices indices = FindPresentQueueFamiliy(vulkanInstance.physicalDeviceStruct.physicalDevice, vulkanContext, vulkanContext.surface);
-		vkGetDeviceQueue(vulkanInstance.logicalDevice, vulkanContext.presentFamily, 0, &vulkanContext.presentQueue);
+		vkGetDeviceQueue(vulkanContext.logicalDevice, vulkanContext.presentFamily, 0, &vulkanContext.presentQueue);
 
 		VulkanBasePresentation().CreatePresentation(vulkanInstance, vulkanContext, width, height);
 	}
 
-	void DestroyPresentationSystem(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext)
+	void DestroyPresentationSystem(SVulkanContext &vulkanContext)
 	{
 		for (auto imageView : vulkanContext.swapChainImageViews) {
-			vkDestroyImageView(vulkanInstance.logicalDevice, imageView, nullptr);
+			vkDestroyImageView(vulkanContext.logicalDevice, imageView, nullptr);
 		}
 
-		vkDestroySwapchainKHR(vulkanInstance.logicalDevice, vulkanContext.swapChain, nullptr);
+		vkDestroySwapchainKHR(vulkanContext.logicalDevice, vulkanContext.swapChain, nullptr);
 		vulkanContext.swapChainImages.clear();
 		vulkanContext.swapChainImageViews.clear();
 	}
@@ -103,7 +103,7 @@ required to support other windowing systems.
 	void VulkanBasePresentation::CreatePresentation(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, unsigned int width, unsigned int height)
 	{
 		CreateSwapChain(vulkanInstance, vulkanContext, width, height);
-		CreateImageViews(vulkanInstance, vulkanContext);
+		CreateImageViews(vulkanContext);
 	}
 
 	bool VulkanBasePresentation::IsDeviceSurfaceSuitable(SVulkanBasePhysicalDevice vulkanPhysicalDevice, VkSurfaceKHR surface)
@@ -163,24 +163,24 @@ required to support other windowing systems.
 		createInfo.clipped = VK_TRUE;
 		createInfo.oldSwapchain = VK_NULL_HANDLE;
 
-		if (vkCreateSwapchainKHR(vulkanInstance.logicalDevice, &createInfo, nullptr, &vulkanContext.swapChain) != VK_SUCCESS) {
+		if (vkCreateSwapchainKHR(vulkanContext.logicalDevice, &createInfo, nullptr, &vulkanContext.swapChain) != VK_SUCCESS) {
 			throw InvisionBaseRendererException("failed to create swap chain!");
 		}
 
-		vkGetSwapchainImagesKHR(vulkanInstance.logicalDevice, vulkanContext.swapChain, &imageCount, nullptr);
+		vkGetSwapchainImagesKHR(vulkanContext.logicalDevice, vulkanContext.swapChain, &imageCount, nullptr);
 		vulkanContext.swapChainImages.resize(imageCount);
-		vkGetSwapchainImagesKHR(vulkanInstance.logicalDevice, vulkanContext.swapChain, &imageCount, vulkanContext.swapChainImages.data());
+		vkGetSwapchainImagesKHR(vulkanContext.logicalDevice, vulkanContext.swapChain, &imageCount, vulkanContext.swapChainImages.data());
 
 		vulkanContext.swapChainImageFormat = surfaceFormat.format;
 		vulkanContext.swapChainExtent = extent;
 	}
 
-	void VulkanBasePresentation::CreateImageViews(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext)
+	void VulkanBasePresentation::CreateImageViews( SVulkanContext &vulkanContext)
 	{
 		vulkanContext.swapChainImageViews.resize(vulkanContext.swapChainImages.size());
 
 		for (uint32_t i = 0; i < vulkanContext.swapChainImages.size(); i++) {
-			vulkanContext.swapChainImageViews[i] = CreateImageView(vulkanInstance, vulkanContext.swapChainImages[i], VK_IMAGE_VIEW_TYPE_2D, vulkanContext.swapChainImageFormat, VK_IMAGE_ASPECT_COLOR_BIT, 1, 1);
+			vulkanContext.swapChainImageViews[i] = CreateImageView(vulkanContext, vulkanContext.swapChainImages[i], VK_IMAGE_VIEW_TYPE_2D, vulkanContext.swapChainImageFormat, VK_IMAGE_ASPECT_COLOR_BIT, 1, 1);
 		}
 
 		/*vulkanContext.swapChainImageViews.resize(vulkanContext.swapChainImages.size());

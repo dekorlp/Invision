@@ -13,13 +13,13 @@
 namespace Invision
 {
 
-	VkPipelineCache CreatePipelineCache(const SVulkanBase &vulkanInstance)
+	VkPipelineCache CreatePipelineCache(const SVulkanContext &vulkanContext)
 	{
 		VkPipelineCache cache;
 
 		VkPipelineCacheCreateInfo pipelineCacheCreateInfo = {};
 		pipelineCacheCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;
-		if (vkCreatePipelineCache(vulkanInstance.logicalDevice, &pipelineCacheCreateInfo, nullptr, &cache) != VK_SUCCESS)
+		if (vkCreatePipelineCache(vulkanContext.logicalDevice, &pipelineCacheCreateInfo, nullptr, &cache) != VK_SUCCESS)
 		{
 			throw VulkanBaseException("failed to create pipeline cache!");
 		}
@@ -27,9 +27,9 @@ namespace Invision
 		return cache;
 	}
 
-	void DestroyPipelineCache(const SVulkanBase &vulkanInstance, VkPipelineCache cache)
+	void DestroyPipelineCache(const SVulkanContext &vulkanContext, VkPipelineCache cache)
 	{
-		vkDestroyPipelineCache(vulkanInstance.logicalDevice, cache, nullptr);
+		vkDestroyPipelineCache(vulkanContext.logicalDevice, cache, nullptr);
 	}
 
 	void VulkanBasePipeline::AddShader(VulkanBaseShader shader)
@@ -173,7 +173,7 @@ namespace Invision
 		mInputAssembly.primitiveRestartEnable = VK_FALSE;
 	}
 
-	void VulkanBasePipeline::UpdateViewPortConfiguration(const SVulkanBase &vulkanInstance)
+	void VulkanBasePipeline::UpdateViewPortConfiguration()
 	{
 		
 		//mViewport.x = ViewportX; // default: 0.0f;
@@ -298,11 +298,11 @@ namespace Invision
 		return mPipelineLayout;
 	}
 
-	void VulkanBasePipeline::CreatePipeline(const SVulkanBase &vulkanInstance, const SVulkanContext& vulkanContext, VulkanBaseRenderPass &renderPass, uint32_t subpassIndex, unsigned int colorAttachmentCount, VkSampleCountFlagBits numSamples, float minDepthBound, float maxDepthBound, VkPipelineCache pipelineCache)
+	void VulkanBasePipeline::CreatePipeline(const SVulkanContext& vulkanContext, VulkanBaseRenderPass &renderPass, uint32_t subpassIndex, unsigned int colorAttachmentCount, VkSampleCountFlagBits numSamples, float minDepthBound, float maxDepthBound, VkPipelineCache pipelineCache)
 	{
 		UpdateVertexInputConfiguration();
 		UpdateInputAssemblyConfiguration(mPrimitiveTopology);
-		UpdateViewPortConfiguration(vulkanInstance);
+		UpdateViewPortConfiguration();
 		UpdateRasterizerConfiguration(mPolygonMode, mLineWidth, mCullModeFlags, mFrontFace);
 
 		if (vulkanContext.UseMSAA)
@@ -319,7 +319,7 @@ namespace Invision
 		UpdateDynamicStatesConfiguration();
 		UpdatePipelineLayoutConfiguration();
 		
-		if (vkCreatePipelineLayout(vulkanInstance.logicalDevice, &mPipelineLayoutInfo, nullptr, &mPipelineLayout) != VK_SUCCESS) {
+		if (vkCreatePipelineLayout(vulkanContext.logicalDevice, &mPipelineLayoutInfo, nullptr, &mPipelineLayout) != VK_SUCCESS) {
 			throw InvisionBaseRendererException("failed to create pipeline layout!");
 		}
 
@@ -348,21 +348,21 @@ namespace Invision
 		pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
 		pipelineInfo.basePipelineIndex = -1; // Optional
 
-		if (vkCreateGraphicsPipelines(vulkanInstance.logicalDevice, pipelineCache, 1, &pipelineInfo, nullptr, &mGraphicsPipeline) != VK_SUCCESS) {
+		if (vkCreateGraphicsPipelines(vulkanContext.logicalDevice, pipelineCache, 1, &pipelineInfo, nullptr, &mGraphicsPipeline) != VK_SUCCESS) {
 			throw InvisionBaseRendererException("failed to create graphics pipeline!");
 		}
 	}
 
-	void VulkanBasePipeline::DestroyPipeline(const SVulkanBase &vulkanInstance)
+	void VulkanBasePipeline::DestroyPipeline(const SVulkanContext &vulkanContext)
 	{
 		if (mGraphicsPipeline != VK_NULL_HANDLE)
 		{
-			vkDestroyPipeline(vulkanInstance.logicalDevice, mGraphicsPipeline, nullptr);
+			vkDestroyPipeline(vulkanContext.logicalDevice, mGraphicsPipeline, nullptr);
 		}
 
 		if (mPipelineLayout != VK_NULL_HANDLE)
 		{
-			vkDestroyPipelineLayout(vulkanInstance.logicalDevice, mPipelineLayout, nullptr);
+			vkDestroyPipelineLayout(vulkanContext.logicalDevice, mPipelineLayout, nullptr);
 		}
 
 		mShaderStages.clear();

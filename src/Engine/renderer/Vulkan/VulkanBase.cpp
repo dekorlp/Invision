@@ -222,7 +222,7 @@ namespace Invision
 		throw std::runtime_error("failed to find suitable memory type!");
 	}
 
-	VkImageView CreateImageView(SVulkanBase &vulkanInstance, VkImage image, VkImageViewType viewType, VkFormat format, VkImageAspectFlags aspectFlags, uint32_t mipLevel, uint32_t layerCount)
+	VkImageView CreateImageView(SVulkanContext &vulkanContext, VkImage image, VkImageViewType viewType, VkFormat format, VkImageAspectFlags aspectFlags, uint32_t mipLevel, uint32_t layerCount)
 	{
 		VkImageViewCreateInfo viewInfo{};
 		viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
@@ -236,7 +236,7 @@ namespace Invision
 		viewInfo.subresourceRange.layerCount = layerCount;
 
 		VkImageView imageView;
-		if (vkCreateImageView(vulkanInstance.logicalDevice, &viewInfo, nullptr, &imageView) != VK_SUCCESS) {
+		if (vkCreateImageView(vulkanContext.logicalDevice, &viewInfo, nullptr, &imageView) != VK_SUCCESS) {
 			throw std::runtime_error("failed to create texture image view!");
 		}
 
