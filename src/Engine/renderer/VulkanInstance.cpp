@@ -282,6 +282,9 @@ namespace Invision
 
 	VulkanInstance::~VulkanInstance()
 	{
+		Invision::DestroyPresentationSystem(mVulkanContext);
+		Invision::DestroySurface(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext);
+		
 		if (mVulkanContext.UseMSAA == true)
 		{
 			mColorRessources.DestroyTexture(mVulkanContext);
@@ -289,12 +292,12 @@ namespace Invision
 
 		mDepthRessources.DestroyTexture(mVulkanContext);
 
-		Invision::DestroyPresentationSystem(mVulkanContext);
-		Invision::DestroySurface(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext);
-
+		mMainFramebuffer.reset();
+		mMainRenderPass.reset();
+		mMainCommandBuffer.reset();		
+		
 		mMemoryManager.Destroy(mVulkanContext);
 		mCommandPool.DestroyCommandPool(mVulkanContext);
-		//Invision::DestroyPresentationSystem(vulkInstance, vulkanContext);
 		Invision::DestroyVulkanDevice(mVulkanContext);
 	}
 
