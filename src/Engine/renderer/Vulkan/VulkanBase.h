@@ -25,17 +25,17 @@ namespace Invision
 		int graphicsFamily = -1;
 		int computeFamily = -1;
 		int transferFamily = -1;
-		//int presentFamily = -1;
+		int presentFamily = -1;
 
 		bool GraphicsFamilyIsSet()
 		{
 			return graphicsFamily >= 0;
 		}
 
-		/*bool PresentFamilyIsSet()
+		bool PresentFamilyIsSet()
 		{
 			return presentFamily >= 0;
-		}*/
+		}
 
 		bool TransferFamilyIsSet()
 		{
@@ -78,14 +78,6 @@ namespace Invision
 		VkQueue graphicsQueue;
 		VkQueue computeQueue;
 		VkQueue transferQueue;
-
-		// Queue Family Indices
-		int presentFamily = -1;
-
-		bool PresentFamilyIsSet()
-		{
-			return presentFamily >= 0;
-		}
 	};
 
 	struct SVulkanBase

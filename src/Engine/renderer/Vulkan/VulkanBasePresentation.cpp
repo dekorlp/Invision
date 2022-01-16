@@ -47,7 +47,7 @@ required to support other windowing systems.
 	void CreatePresentationSystem(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, unsigned int width, unsigned int height)
 	{
 		SQueueFamilyIndices indices = FindPresentQueueFamiliy(vulkanInstance.physicalDeviceStruct.physicalDevice, vulkanContext, vulkanContext.surface);
-		vkGetDeviceQueue(vulkanContext.logicalDevice, vulkanContext.presentFamily, 0, &vulkanContext.presentQueue);
+		vkGetDeviceQueue(vulkanContext.logicalDevice, vulkanContext.indices.presentFamily, 0, &vulkanContext.presentQueue);
 
 		VulkanBasePresentation().CreatePresentation(vulkanInstance, vulkanContext, width, height);
 	}
@@ -144,9 +144,9 @@ required to support other windowing systems.
 		createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
 		SQueueFamilyIndices indices = FindQueueFamilies(vulkanInstance.physicalDeviceStruct.physicalDevice, vulkanContext, vulkanContext.surface);
-		uint32_t queueFamilyIndices[] = { (uint32_t)indices.graphicsFamily, (uint32_t)vulkanContext.presentFamily };
+		uint32_t queueFamilyIndices[] = { (uint32_t)indices.graphicsFamily, (uint32_t)vulkanContext.indices.presentFamily };
 
-		if (indices.graphicsFamily != vulkanContext.presentFamily) {
+		if (indices.graphicsFamily != vulkanContext.indices.presentFamily) {
 			createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
 			createInfo.queueFamilyIndexCount = 2;
 			createInfo.pQueueFamilyIndices = queueFamilyIndices;

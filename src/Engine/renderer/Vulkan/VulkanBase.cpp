@@ -107,9 +107,9 @@ namespace Invision
 				throw Invision::VulkanBaseException(result, "Error while attempting to check if a surface supports presentation:");
 			}
 			if (queueFamily.queueCount > 0 && presentSupport && VK_QUEUE_GRAPHICS_BIT) {
-				vulkanContext.presentFamily = i;
+				vulkanContext.indices.presentFamily = i;
 			}
-			if (vulkanContext.PresentFamilyIsSet()) {
+			if (vulkanContext.indices.PresentFamilyIsSet()) {
 				break;
 			}
 			++i;
@@ -137,9 +137,9 @@ namespace Invision
 				throw Invision::VulkanBaseException(result, "Error while attempting to check if a surface supports presentation:");
 			}
 			if (queueFamily.queueCount > 0 && presentSupport) {
-				vulkanContext.presentFamily = i;
+				vulkanContext.indices.presentFamily = i;
 			}
-			if (indices.GraphicsFamilyIsSet() && vulkanContext.PresentFamilyIsSet()) {
+			if (indices.GraphicsFamilyIsSet() && vulkanContext.indices.PresentFamilyIsSet()) {
 				break;
 			}
 			++i;
