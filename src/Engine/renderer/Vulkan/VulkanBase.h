@@ -106,17 +106,8 @@ namespace Invision
 		std::vector<VkPresentModeKHR> presentModes;
 	};
 
-
 	// global functions
-	SQueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
-	SQueueFamilyIndices FindQueueFamilies(const VkPhysicalDevice& device, SVulkanContext& vulkanContext, const VkSurfaceKHR surface);
-
-	SQueueFamilyIndices FindQueueFamilies(const VkPhysicalDevice& device, VkQueueFlags queueFlags);
-	SQueueFamilyIndices FindPresentQueueFamiliy(const VkPhysicalDevice& device, SVulkanContext& vulkanContext, const VkSurfaceKHR surface);
-
 	SwapChainSupportDetails QuerySwapChainSupport(const VkPhysicalDevice& device, const VkSurfaceKHR surface);
-	uint32_t FindMemoryType(const VkPhysicalDevice& device, uint32_t typeFilter, VkMemoryPropertyFlags properties);
-
 	VkImageView CreateImageView(SVulkanContext& vulkanContext, VkImage image, VkImageViewType viewType, VkFormat format, VkImageAspectFlags aspectFlags, uint32_t mipLevel, uint32_t layerCount);
 }
 #endif // VULKAN_BASE_H

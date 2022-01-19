@@ -30,14 +30,18 @@ namespace Invision
 		mVulkanEngine = engine;
 
 		ActivateMSAA(msaaMode);
-		
-		
-		mLogicalDevice.CreateLogicalDevice(engine->GetVulkanBaseStruct(), mVulkanContext);
+
+
+		if (mLogicalDevice.CreateLogicalDevice(engine->GetVulkanBaseStruct(), mVulkanContext) == false)
+		{
+			throw InvisionBaseRendererException("Logical Device could not been created");
+		}
+
 		mCommandPool.CreateCommandPool(mVulkanContext);
 		mMemoryManager.Init(engine->GetVulkanBaseStruct(), mVulkanContext, 2147483648); // Allocate 2GB
 
-		Invision::CreateSurface(engine->GetVulkanBaseStruct(), mVulkanContext, dimensions.hwnd);
-		Invision::CreatePresentationSystem(engine->GetVulkanBaseStruct(), mVulkanContext, dimensions.width, dimensions.height);
+		mLogicalDevice.CreateSurface(engine->GetVulkanBaseStruct(), mVulkanContext, dimensions.hwnd);
+		mPresentation.CreatePresentation(engine->GetVulkanBaseStruct(), mVulkanContext, dimensions.width, dimensions.height);
 
 		
 
@@ -72,8 +76,8 @@ namespace Invision
 
 	void VulkanInstance::ResetPresentation(CanvasDimensions canvas, std::shared_ptr <Invision::IRenderPass>& renderPass, std::shared_ptr <Invision::IFramebuffer>& framebuffer, std::shared_ptr <Invision::ICommandBuffer>& commandBuffer )
 	{
-		Invision::DestroyPresentationSystem(mVulkanContext);
-		Invision::CreatePresentationSystem(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext, canvas.width, canvas.height);
+		mPresentation.DestroyPresentation(mVulkanContext);
+		mPresentation.CreatePresentation(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext, canvas.width, canvas.height);
 
 		if (mVulkanContext.UseMSAA == true)
 		{
@@ -282,8 +286,8 @@ namespace Invision
 
 	VulkanInstance::~VulkanInstance()
 	{
-		Invision::DestroyPresentationSystem(mVulkanContext);
-		Invision::DestroySurface(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext);
+		mPresentation.DestroyPresentation(mVulkanContext);
+		mLogicalDevice.DestroySurface(mVulkanEngine->GetVulkanBaseStruct(), mVulkanContext);
 		
 		if (mVulkanContext.UseMSAA == true)
 		{

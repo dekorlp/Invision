@@ -99,13 +99,13 @@ namespace Invision
 	bool VulkanBasePhysicalDevice::IsDeviceSuitable(VkPhysicalDevice physicalDevice)
 	{
 
-		SQueueFamilyIndices indices = FindQueueFamilies(physicalDevice);
+		//SQueueFamilyIndices indices = FindQueueFamilies(physicalDevice);
 		bool extensionsSupported = CheckDeviceExtensionSupport(physicalDevice);
 
 		VkPhysicalDeviceFeatures supportedFeatures;
 		vkGetPhysicalDeviceFeatures(physicalDevice, &supportedFeatures);
 
-		return indices.GraphicsFamilyIsSet() & extensionsSupported && supportedFeatures.samplerAnisotropy;
+		return extensionsSupported && supportedFeatures.samplerAnisotropy;
 	}
 
 	bool VulkanBasePhysicalDevice::CheckDeviceExtensionSupport(const VkPhysicalDevice& device) const

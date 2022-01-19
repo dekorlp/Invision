@@ -1,14 +1,5 @@
 #include "precompiled.h"
 
-
-#ifdef _WIN32
-#define VK_USE_PLATFORM_WIN32_KHR
-#else
-#error The code in VulkanCanvas::CreateWindowSurface only supports Win32. Changes are \
-required to support other windowing systems.
-#endif
-
-
 #include "VulkanBase.h"
 #include "VulkanBaseException.h"
 
@@ -16,39 +7,8 @@ required to support other windowing systems.
 
 namespace Invision
 {
-	void CreateSurface(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, HWND hwnd)
+	/*void CreatePresentationSystem(SVulkanBase& vulkanInstance, SVulkanContext& vulkanContext, unsigned int width, unsigned int height)
 	{
-
-#ifdef _WIN32
-		VkWin32SurfaceCreateInfoKHR sci = {};
-		sci.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
-		sci.hwnd = hwnd;
-		sci.hinstance = GetModuleHandle(NULL);
-
-
-		VkResult err = vkCreateWin32SurfaceKHR(vulkanInstance.instance, &sci, nullptr, &vulkanContext.surface);
-		if (err != VK_SUCCESS) {
-			throw VulkanBaseException(err, "Cannot create a Win32 Vulkan surface:");
-		}
-
-		VulkanBasePresentation().IsDeviceSurfaceSuitable(vulkanInstance.physicalDeviceStruct, vulkanContext.surface);
-
-#else
-#error The code in VulkanCanvas::CreateWindowSurface only supports Win32. Changes are \
-required to support other windowing systems.
-#endif
-	}
-
-	void DestroySurface(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext)
-	{
-		vkDestroySurfaceKHR(vulkanInstance.instance, vulkanContext.surface, nullptr);
-	}
-
-	void CreatePresentationSystem(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, unsigned int width, unsigned int height)
-	{
-		SQueueFamilyIndices indices = FindPresentQueueFamiliy(vulkanInstance.physicalDeviceStruct.physicalDevice, vulkanContext, vulkanContext.surface);
-		vkGetDeviceQueue(vulkanContext.logicalDevice, vulkanContext.indices.presentFamily, 0, &vulkanContext.presentQueue);
-
 		VulkanBasePresentation().CreatePresentation(vulkanInstance, vulkanContext, width, height);
 	}
 
@@ -61,7 +21,7 @@ required to support other windowing systems.
 		vkDestroySwapchainKHR(vulkanContext.logicalDevice, vulkanContext.swapChain, nullptr);
 		vulkanContext.swapChainImages.clear();
 		vulkanContext.swapChainImageViews.clear();
-	}
+	}*/
 
 	VkSurfaceFormatKHR VulkanBasePresentation::ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
 	{
@@ -106,20 +66,6 @@ required to support other windowing systems.
 		CreateImageViews(vulkanContext);
 	}
 
-	bool VulkanBasePresentation::IsDeviceSurfaceSuitable(SVulkanBasePhysicalDevice vulkanPhysicalDevice, VkSurfaceKHR surface)
-	{
-
-		//SQueueFamilyIndices indices = FindQueueFamilies(physicalDevice, surface);
-		//bool extensionsSupported = CheckDeviceExtensionSupport(physicalDevice);
-
-		bool swapChainAdequate = false;
-		if (vulkanPhysicalDevice.extensionSupported) {
-			SwapChainSupportDetails swapChainSupport = QuerySwapChainSupport(vulkanPhysicalDevice.physicalDevice, surface);
-			swapChainAdequate = !swapChainSupport.formats.empty() && !swapChainSupport.presentModes.empty();
-		}
-		return swapChainAdequate;
-	}
-
 	void VulkanBasePresentation::CreateSwapChain(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext, unsigned int width, unsigned int height)
 	{
 		SwapChainSupportDetails swapChainSupport = QuerySwapChainSupport(vulkanInstance.physicalDeviceStruct.physicalDevice, vulkanContext.surface);
@@ -143,10 +89,10 @@ required to support other windowing systems.
 		createInfo.imageArrayLayers = 1;
 		createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
-		SQueueFamilyIndices indices = FindQueueFamilies(vulkanInstance.physicalDeviceStruct.physicalDevice, vulkanContext, vulkanContext.surface);
-		uint32_t queueFamilyIndices[] = { (uint32_t)indices.graphicsFamily, (uint32_t)vulkanContext.indices.presentFamily };
+		//SQueueFamilyIndices indices =   FindQueueFamilies(vulkanInstance.physicalDeviceStruct.physicalDevice, vulkanContext, vulkanContext.surface);
+		uint32_t queueFamilyIndices[] = { (uint32_t)vulkanContext.indices.graphicsFamily, (uint32_t)vulkanContext.indices.presentFamily };
 
-		if (indices.graphicsFamily != vulkanContext.indices.presentFamily) {
+		if (vulkanContext.indices.graphicsFamily != vulkanContext.indices.presentFamily) {
 			createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
 			createInfo.queueFamilyIndexCount = 2;
 			createInfo.pQueueFamilyIndices = queueFamilyIndices;
@@ -204,5 +150,16 @@ required to support other windowing systems.
 				throw InvisionBaseRendererException("failed to create image views!");
 			}
 		}*/
+	}
+
+	void VulkanBasePresentation::DestroyPresentation(SVulkanContext& vulkanContext)
+	{
+		for (auto imageView : vulkanContext.swapChainImageViews) {
+			vkDestroyImageView(vulkanContext.logicalDevice, imageView, nullptr);
+		}
+
+		vkDestroySwapchainKHR(vulkanContext.logicalDevice, vulkanContext.swapChain, nullptr);
+		vulkanContext.swapChainImages.clear();
+		vulkanContext.swapChainImageViews.clear();
 	}
 }

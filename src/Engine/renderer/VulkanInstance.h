@@ -59,6 +59,7 @@ namespace Invision
 		VulkanEngine* mVulkanEngine;
 
 		Invision::VulkanBaseDevice mLogicalDevice;
+		Invision::VulkanBasePresentation mPresentation;
 		Invision::VulkanBaseCommandPool mCommandPool;
 		Invision::VulkanBaseMemoryManager mMemoryManager;
 
