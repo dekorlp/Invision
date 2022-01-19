@@ -94,7 +94,7 @@ namespace Invision
 
 		if (queueFamilyIndices[0] != queueFamilyIndices[1]) {
 			createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
-			createInfo.queueFamilyIndexCount = queueFamilyIndices.size();
+			createInfo.queueFamilyIndexCount = static_cast<uint32_t>(queueFamilyIndices.size());
 			createInfo.pQueueFamilyIndices = queueFamilyIndices.data();
 		}
 		else {
