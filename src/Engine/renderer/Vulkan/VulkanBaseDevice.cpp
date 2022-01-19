@@ -26,93 +26,9 @@ namespace Invision
 
 	void VulkanBaseDevice::GetDevices(SVulkanBase &vulkanInstance, SVulkanContext& vulkanContext)
 	{
-		PickPhysicalDevice(vulkanInstance);
+		//PickPhysicalDevice(vulkanInstance);
 		CreateLogicalDevice(vulkanInstance, vulkanContext);
 	}
-
-	void VulkanBaseDevice::PickPhysicalDevice(SVulkanBase &vulkanInstance)
-	{
-		//VkPhysicalDevice physDevice;
-
-		if (!vulkanInstance.instance) {
-			throw InvisionBaseRendererException("Programming Error:\n"
-				"Attempted to get a Vulkan physical device before the Vulkan instance was created.");
-		}
-		uint32_t deviceCount = 0;
-		vkEnumeratePhysicalDevices(vulkanInstance.instance, &deviceCount, nullptr);
-		if (deviceCount == 0) {
-			throw InvisionBaseRendererException("Failed to find a GPU with Vulkan support.");
-		}
-		std::vector<VkPhysicalDevice> devices(deviceCount);
-		vkEnumeratePhysicalDevices(vulkanInstance.instance, &deviceCount, devices.data());
-		int index = 0;
-		for (const auto& device : devices) {
-			if (IsDeviceSuitable(device)) {
-				vulkanInstance.physicalDeviceStruct.physicalDevice = device;
-				break;
-			}
-			index++;
-		}
-		vulkanInstance.physicalDeviceStruct.index = index;
-
-		if (vulkanInstance.physicalDeviceStruct.physicalDevice == VK_NULL_HANDLE) {
-			throw InvisionBaseRendererException("No physical GPU could be found with the required extensions support.");
-		}
-
-		//Pick Device Informations
-		PickDeviceInformations(vulkanInstance, vulkanInstance.physicalDeviceStruct.physicalDevice);
-		
-	}
-
-	void VulkanBaseDevice::PickPhysicalDevice(SVulkanBase &vulkanInstance, unsigned int index)
-	{
-		if (!vulkanInstance.instance) {
-			throw InvisionBaseRendererException("Programming Error:\n"
-				"Attempted to get a Vulkan physical device before the Vulkan instance was created.");
-		}
-		uint32_t deviceCount = 0;
-		vkEnumeratePhysicalDevices(vulkanInstance.instance, &deviceCount, nullptr);
-		if (deviceCount == 0) {
-			throw InvisionBaseRendererException("Failed to find a GPU with Vulkan support.");
-		}
-		std::vector<VkPhysicalDevice> devices(deviceCount);
-		vkEnumeratePhysicalDevices(vulkanInstance.instance, &deviceCount, devices.data());
-		int i = 0;
-		bool deviceFound = false;
-		for (const auto& device : devices) {
-			if (index == i)
-			{
-				vulkanInstance.physicalDeviceStruct.physicalDevice = device;
-				deviceFound = true;
-				break;
-			}
-			i++;
-		}
-
-		if (deviceFound == false)
-		{
-			throw InvisionBaseRendererException("No physical GPU could be found with the required index support.");
-		}
-		vulkanInstance.physicalDeviceStruct.index = index;
-
-		if (vulkanInstance.physicalDeviceStruct.physicalDevice == VK_NULL_HANDLE) {
-			throw InvisionBaseRendererException("No physical GPU could be found with the required extensions support.");
-		}
-
-		//Pick Device Informations
-		PickDeviceInformations(vulkanInstance, vulkanInstance.physicalDeviceStruct.physicalDevice);
-	}
-
-	void VulkanBaseDevice::PickDeviceInformations(SVulkanBase &vulkanInstance, VkPhysicalDevice physicalDevice)
-	{
-		bool extensionsSupported = CheckDeviceExtensionSupport(physicalDevice);
-		
-		vkGetPhysicalDeviceProperties(physicalDevice, &(vulkanInstance.physicalDeviceStruct.deviceProperties));
-		vkGetPhysicalDeviceFeatures(physicalDevice, &vulkanInstance.physicalDeviceStruct.deviceFeatures);
-		vkGetPhysicalDeviceMemoryProperties(physicalDevice, &vulkanInstance.physicalDeviceStruct.memoryProperties);
-
-	}
-
 
 	VkDeviceCreateInfo VulkanBaseDevice::CreateDeviceCreateInfo(SVulkanBase &vulkanInstance,
 		const std::vector<VkDeviceQueueCreateInfo>& queueCreateInfos,
@@ -123,8 +39,8 @@ namespace Invision
 		createInfo.pQueueCreateInfos = queueCreateInfos.data();
 		createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
 		createInfo.pEnabledFeatures = &deviceFeatures;
-		createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
-		createInfo.ppEnabledExtensionNames = deviceExtensions.data();
+		createInfo.enabledExtensionCount = static_cast<uint32_t>(vulkanInstance.deviceExtensions.size());
+		createInfo.ppEnabledExtensionNames = vulkanInstance.deviceExtensions.data();
 		if (vulkanInstance.enableValidationLayers) {
 			createInfo.enabledLayerCount = static_cast<uint32_t>(vulkanInstance.validationLayers.size());
 			createInfo.ppEnabledLayerNames = vulkanInstance.validationLayers.data();
@@ -189,7 +105,7 @@ namespace Invision
 		//vkGetDeviceQueue(vulkanInstance.logicalDevice, indices.transferFamily, 0, &vulkanInstance.transferQueue);
 	}
 
-	bool VulkanBaseDevice::IsDeviceSuitable(VkPhysicalDevice physicalDevice)
+	/*bool VulkanBaseDevice::IsDeviceSuitable(VkPhysicalDevice physicalDevice)
 	{
 
 		SQueueFamilyIndices indices = FindQueueFamilies(physicalDevice);
@@ -223,7 +139,7 @@ namespace Invision
 		}
 
 		return requiredExtensions.empty();
-	}
+	}*/
 
 	VkDeviceQueueCreateInfo VulkanBaseDevice::CreateDeviceQueueCreateInfo(int queueFamily) const noexcept
 	{

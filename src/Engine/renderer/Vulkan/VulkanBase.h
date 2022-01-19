@@ -86,7 +86,7 @@ namespace Invision
 		VkInstance instance;
 		bool enableValidationLayers;
 		std::vector<const char*> validationLayers;
-
+		std::vector<const char*> deviceExtensions;
 		// Device Subsystem
 		//VkPhysicalDevice physicalDevice;
 		SVulkanBasePhysicalDevice physicalDeviceStruct;

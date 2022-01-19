@@ -42,13 +42,16 @@ namespace Invision
 
 	void VulkanEngine::Init()
 	{
-		Invision::VulkanBaseDevice().PickPhysicalDevice(mBaseStruct);
+		mPhysicalDevice.PickPhysicalDevice(mBaseStruct);
+		mPhysicalDevice.PickDeviceInformations(mBaseStruct, mBaseStruct.physicalDeviceStruct.physicalDevice);
 		mDeviceProperties = ConvertPhysicalDeviceParameters(mBaseStruct.physicalDeviceStruct);
+		//Invision::VulkanBaseDevice().PickPhysicalDevice(mBaseStruct);
 	}
 
 	void VulkanEngine::Init(unsigned int index)
 	{
-		Invision::VulkanBaseDevice().PickPhysicalDevice(mBaseStruct, index);
+		mPhysicalDevice.PickPhysicalDevice(mBaseStruct, index);
+		mPhysicalDevice.PickDeviceInformations(mBaseStruct, mBaseStruct.physicalDeviceStruct.physicalDevice);
 		mDeviceProperties = ConvertPhysicalDeviceParameters(mBaseStruct.physicalDeviceStruct);
 	}
 

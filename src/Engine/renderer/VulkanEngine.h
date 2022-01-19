@@ -6,6 +6,7 @@
 #include "renderer\Vulkan\VulkanBase.h"
 #include "renderer\Vulkan\VulkanBaseException.h"
 #include "renderer\Vulkan\VulkanBaseInstance.h"
+#include "renderer\Vulkan\VulkanBasePhysicalDevice.h"
 #include "renderer\Vulkan\VulkanBaseDevice.h"
 #include "renderer\Vulkan\VulkanBasePresentation.h"
 #include "Vulkan/Vulkan.h"
@@ -30,6 +31,7 @@ namespace Invision
 	private:
 		Invision::VulkanBaseInstance mVulkanInstance;
 		Invision::SVulkanBase mBaseStruct;
+		Invision::VulkanBasePhysicalDevice mPhysicalDevice;
 
 		PhysicalDeviceProperties ConvertPhysicalDeviceParameters(SVulkanBasePhysicalDevice physicalDeviceStruct);
 
