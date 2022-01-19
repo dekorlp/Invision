@@ -31,8 +31,9 @@ namespace Invision
 		
 	}
 
-	void VulkanBaseDevice::CreateSurface(SVulkanBase& vulkanInstance, SVulkanContext& vulkanContext, HWND hwnd)
+	bool VulkanBaseDevice::CreateSurface(SVulkanBase& vulkanInstance, SVulkanContext& vulkanContext, HWND hwnd)
 	{
+		bool surfaceQueueWithGfxAvailable = false;
 
 #ifdef _WIN32
 		VkWin32SurfaceCreateInfoKHR sci = {};
@@ -49,14 +50,27 @@ namespace Invision
 		IsDeviceSurfaceSuitable(vulkanInstance.physicalDeviceStruct, vulkanContext.surface);
 
 		// Create Present Queue
-		SQueueFamilyIndices indices = FindPresentQueueFamiliy(vulkanInstance.physicalDeviceStruct.physicalDevice, vulkanContext, vulkanContext.surface);
-		vkGetDeviceQueue(vulkanContext.logicalDevice, vulkanContext.indices.presentFamily, 0, &vulkanContext.presentQueue);
+		for (unsigned int i = 0; i < vulkanContext.queueFamilies.size(); i++)
+		{
+			VkBool32 presentSupport;
+			VkResult result = vkGetPhysicalDeviceSurfaceSupportKHR(vulkanInstance.physicalDeviceStruct.physicalDevice, i, vulkanContext.surface, &presentSupport);
+			if (presentSupport)
+			{
+				vulkanContext.queueFamilies[i].SetPresentQueueFlag(presentSupport);
+			}
 
-		//SQueueFamilyIndices indices = FindQueueFamilies(vulkanInstance.physicalDeviceStruct.physicalDevice, vulkanContext, vulkanContext.surface);
+			if (presentSupport && vulkanContext.queueFamilies[i].GraphicsFamilyIsSet())
+			{
+				vkGetDeviceQueue(vulkanContext.logicalDevice, i, 0, &vulkanContext.presentQueue);
+				surfaceQueueWithGfxAvailable = true;
+			}
+		}
 #else
 #error The code in VulkanCanvas::CreateWindowSurface only supports Win32. Changes are \
 required to support other windowing systems.
 #endif
+
+		return surfaceQueueWithGfxAvailable;
 	}
 
 	bool VulkanBaseDevice::IsDeviceSurfaceSuitable(SVulkanBasePhysicalDevice vulkanPhysicalDevice, VkSurfaceKHR surface)
@@ -103,15 +117,15 @@ required to support other windowing systems.
 
 	bool VulkanBaseDevice::CreateLogicalDevice(SVulkanBase& vulkanInstance, SVulkanContext& context)
 	{
-		context.indices = FindQueueFamilies(vulkanInstance.physicalDeviceStruct.physicalDevice, VK_QUEUE_GRAPHICS_BIT);  //VK_QUEUE_TRANSFER_BIT | VK_QUEUE_COMPUTE_BIT
+		//context.indices = FindQueueFamilies(vulkanInstance.physicalDeviceStruct.physicalDevice, VK_QUEUE_GRAPHICS_BIT);  //VK_QUEUE_TRANSFER_BIT | VK_QUEUE_COMPUTE_BIT
 
-		if (context.indices.graphicsFamily == -1)
+		if (!QueryQueueFamilies(vulkanInstance.physicalDeviceStruct.physicalDevice, context))
 		{
 			return false;
 		}
 
-		std::set<int> uniqueQueueFamilies = { context.indices.graphicsFamily, context.indices.computeFamily, context.indices.transferFamily };
-		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos = CreateQueueCreateInfos(uniqueQueueFamilies);
+		//std::set<int> uniqueQueueFamilies = { context.indices.graphicsFamily, context.indices.computeFamily, context.indices.transferFamily };
+		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos = CreateQueueCreateInfos(context.queueFamilies);
 		VkPhysicalDeviceFeatures deviceFeatures = {};
 		deviceFeatures.samplerAnisotropy = VK_TRUE;
 
@@ -154,9 +168,29 @@ required to support other windowing systems.
 			throw VulkanBaseException(result, "Unable to create a logical device");
 		}
 
-		vkGetDeviceQueue(context.logicalDevice, context.indices.graphicsFamily, 0, &context.graphicsQueue);
-		//vkGetDeviceQueue(vulkanInstance.logicalDevice, indices.computeFamily, 0, &vulkanInstance.computeQueue);
-		//vkGetDeviceQueue(vulkanInstance.logicalDevice, indices.transferFamily, 0, &vulkanInstance.transferQueue);
+		//CreateDeviceQueues
+		for (unsigned int i = 0; i < context.queueFamilies.size(); i++)
+		{
+			if (context.queueFamilies[i].GraphicsFamilyIsSet())
+			{
+				vkGetDeviceQueue(context.logicalDevice, i, 0, &context.graphicsQueue);
+				break;
+			}
+
+			if (context.queueFamilies[i].TransferFamilyIsSet())
+			{
+				vkGetDeviceQueue(context.logicalDevice, i, 0, &context.transferQueue);
+				break;
+			}
+
+			if (context.queueFamilies[i].ComputeFamilyIsSet())
+			{
+				vkGetDeviceQueue(context.logicalDevice, i, 0, &context.computeQueue);
+				break;
+			}
+		}
+
+		return true;
 	}
 
 	void VulkanBaseDevice::DestroyVulkanDevice(SVulkanContext& vulkanContext)
@@ -176,184 +210,45 @@ required to support other windowing systems.
 	}
 
 	std::vector<VkDeviceQueueCreateInfo> VulkanBaseDevice::CreateQueueCreateInfos(
-		const std::set<int>& uniqueQueueFamilies) const noexcept
+		std::vector<QueueFamily> queueFamilies) const noexcept
 	{
 		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
 
-		for (int queueFamily : uniqueQueueFamilies) {
-			if (queueFamily != -1)
+		for (unsigned int i = 0; i < queueFamilies.size(); i++) {
+		
+			
+			if (queueFamilies[i].GraphicsFamilyIsSet() && queueFamilies[i].TransferFamilyIsSet() && queueFamilies[i].ComputeFamilyIsSet())
 			{
-				VkDeviceQueueCreateInfo queueCreateInfo = CreateDeviceQueueCreateInfo(queueFamily);
+				VkDeviceQueueCreateInfo queueCreateInfo = CreateDeviceQueueCreateInfo(i);
 				queueCreateInfos.push_back(queueCreateInfo);
 			}
 		}
 		return queueCreateInfos;
 	}
 
-	SQueueFamilyIndices VulkanBaseDevice::FindPresentQueueFamiliy(const VkPhysicalDevice& device, SVulkanContext& vulkanContext, const VkSurfaceKHR surface)
+	bool VulkanBaseDevice::QueryQueueFamilies(const VkPhysicalDevice& device, SVulkanContext& vulkanContext)
 	{
-		SQueueFamilyIndices indices;
+		bool graphicsFamilyIsSupported = false;
+		//SQueueFamilyIndices indices;
 		uint32_t queueFamilyCount = 0;
 		vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
 		std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
 		vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
 
-		int i = 0;
-		for (const auto& queueFamily : queueFamilies) {
-			VkBool32 presentSupport = false;
-			VkResult result = vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentSupport);
-			if (result != VK_SUCCESS) {
-				throw Invision::VulkanBaseException(result, "Error while attempting to check if a surface supports presentation:");
-			}
-			if (queueFamily.queueCount > 0 && presentSupport && VK_QUEUE_GRAPHICS_BIT) {
-				vulkanContext.indices.presentFamily = i;
-			}
-			if (vulkanContext.indices.PresentFamilyIsSet()) {
-				break;
-			}
-			++i;
-		}
-		return indices;
-
-	}
-
-	SQueueFamilyIndices VulkanBaseDevice::FindQueueFamilies(const VkPhysicalDevice& device, SVulkanContext& vulkanContext, const VkSurfaceKHR surface)
-	{
-		SQueueFamilyIndices indices;
-		uint32_t queueFamilyCount = 0;
-		vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
-		std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
-		vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
-
-		int i = 0;
-		for (const auto& queueFamily : queueFamilies) {
-			if (queueFamily.queueCount > 0 && queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
-				indices.graphicsFamily = i;
-			}
-			VkBool32 presentSupport = false;
-			VkResult result = vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentSupport);
-			if (result != VK_SUCCESS) {
-				throw Invision::VulkanBaseException(result, "Error while attempting to check if a surface supports presentation:");
-			}
-			if (queueFamily.queueCount > 0 && presentSupport) {
-				vulkanContext.indices.presentFamily = i;
-			}
-			if (indices.GraphicsFamilyIsSet() && vulkanContext.indices.PresentFamilyIsSet()) {
-				break;
-			}
-			++i;
-		}
-		return indices;
-	}
-
-	SQueueFamilyIndices VulkanBaseDevice::FindQueueFamilies(const VkPhysicalDevice& device, VkQueueFlags queueFlags)
-	{
-		SQueueFamilyIndices indices;
-		uint32_t queueFamilyCount = 0;
-		vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
-		std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
-		vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
-
-		for (unsigned int i = 0; i < static_cast<uint32_t>(queueFamilies.size()); i++)
+		for (const auto& queueFamily : queueFamilies)
 		{
-			if (queueFlags & VK_QUEUE_GRAPHICS_BIT)
-			{
-				if ((queueFamilies[i].queueCount > 0) && (queueFamilies[i].queueFlags & queueFlags) && !indices.GraphicsFamilyIsSet())
-				{
+			QueueFamily family;
 
-					indices.graphicsFamily = i;
-				}
-			}
-			if (queueFlags & VK_QUEUE_COMPUTE_BIT)
-			{
-				if ((queueFamilies[i].queueCount > 0) && (queueFamilies[i].queueFlags & queueFlags) && ((queueFamilies[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) == 0) && !indices.ComputeFamilyIsSet())
-				{
-					indices.computeFamily = i;
-				}
-			}
+			family.SetFamilyFlags(queueFamily.queueFlags);
+			family.SetQueueCount(queueFamily.queueCount);
+			vulkanContext.queueFamilies.push_back(family);
 
-			if (queueFlags & VK_QUEUE_TRANSFER_BIT)
+			if (family.GraphicsFamilyIsSet())
 			{
-				if ((queueFamilies[i].queueCount > 0) && (queueFamilies[i].queueFlags & queueFlags) && ((queueFamilies[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) == 0) && ((queueFamilies[i].queueFlags & VK_QUEUE_COMPUTE_BIT) == 0) && !indices.TransferFamilyIsSet())
-				{
-					indices.transferFamily = i;
-				}
-
-			}
-
-			if ((indices.GraphicsFamilyIsSet() || !(queueFlags & VK_QUEUE_GRAPHICS_BIT))
-				&& (indices.TransferFamilyIsSet() || !(queueFlags & VK_QUEUE_TRANSFER_BIT))
-				&& (indices.ComputeFamilyIsSet()) || !(queueFlags & VK_QUEUE_COMPUTE_BIT))
-			{
-				break;
+				graphicsFamilyIsSupported = true;
 			}
 		}
 
-		if (!indices.GraphicsFamilyIsSet() || !indices.TransferFamilyIsSet() || !indices.TransferFamilyIsSet())
-		{
-			for (unsigned int i = 0; i < static_cast<uint32_t>(queueFamilies.size()); i++)
-			{
-				if (queueFamilies[i].queueFlags & queueFlags)
-				{
-					if (!indices.GraphicsFamilyIsSet() && (queueFlags & VK_QUEUE_GRAPHICS_BIT) && !indices.GraphicsFamilyIsSet())
-					{
-						indices.graphicsFamily = i;
-					}
-
-					if (!indices.TransferFamilyIsSet() && (queueFlags & VK_QUEUE_TRANSFER_BIT) && indices.TransferFamilyIsSet())
-					{
-						indices.transferFamily = i;
-					}
-
-					if (!indices.ComputeFamilyIsSet() && (queueFlags & VK_QUEUE_COMPUTE_BIT) && !indices.ComputeFamilyIsSet())
-					{
-						indices.computeFamily = i;
-					}
-
-				}
-
-				if ((indices.GraphicsFamilyIsSet() || !(queueFlags & VK_QUEUE_GRAPHICS_BIT))
-					&& (indices.TransferFamilyIsSet() || !(queueFlags & VK_QUEUE_TRANSFER_BIT))
-					&& (indices.ComputeFamilyIsSet()) || !(queueFlags & VK_QUEUE_COMPUTE_BIT))
-				{
-					break;
-				}
-			}
-		}
-
-		if (!(indices.GraphicsFamilyIsSet()) && (queueFlags & VK_QUEUE_GRAPHICS_BIT)
-			|| !(indices.TransferFamilyIsSet()) && (queueFlags & VK_QUEUE_TRANSFER_BIT)
-			|| !(indices.ComputeFamilyIsSet()) && (queueFlags & VK_QUEUE_COMPUTE_BIT))
-		{
-			throw Invision::VulkanBaseException("Could not find a matching Queue Family index");
-		}
-
-		return indices;
+		return graphicsFamilyIsSupported;
 	}
-
-	SQueueFamilyIndices VulkanBaseDevice::FindQueueFamilies(VkPhysicalDevice device) {
-		SQueueFamilyIndices indices;
-
-		uint32_t queueFamilyCount = 0;
-		vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
-
-		std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
-		vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
-
-		int i = 0;
-		for (const auto& queueFamily : queueFamilies) {
-			if (queueFamily.queueCount > 0 && (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) == 0) {
-				indices.graphicsFamily = i;
-			}
-
-			if (indices.GraphicsFamilyIsSet()) {
-				break;
-			}
-
-			i++;
-		}
-
-		return indices;
-	}
-
 }

@@ -40,7 +40,12 @@ namespace Invision
 		mCommandPool.CreateCommandPool(mVulkanContext);
 		mMemoryManager.Init(engine->GetVulkanBaseStruct(), mVulkanContext, 2147483648); // Allocate 2GB
 
-		mLogicalDevice.CreateSurface(engine->GetVulkanBaseStruct(), mVulkanContext, dimensions.hwnd);
+		if (mLogicalDevice.CreateSurface(engine->GetVulkanBaseStruct(), mVulkanContext, dimensions.hwnd) == false)
+		{
+			throw InvisionBaseRendererException("Surface could not been created");
+		}
+
+
 		mPresentation.CreatePresentation(engine->GetVulkanBaseStruct(), mVulkanContext, dimensions.width, dimensions.height);
 
 		

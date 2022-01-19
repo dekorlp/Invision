@@ -62,4 +62,120 @@ namespace Invision
 
 		return imageView;
 	}
+
+	std::vector<uint32_t> SVulkanContext::GetQueueFamilyIndices(bool graphicsQueueSupporte, bool transferQueueSupported, bool computeFamilySupported, bool presentFamilySupported)
+	{
+		std::vector<uint32_t> queueFamilyIndices;
+
+		for (unsigned int i = 0; i < queueFamilies.size(); i++)
+		{
+			bool specificationChecked = false;
+			if (graphicsQueueSupporte == true)
+			{
+				if (queueFamilies[i].GraphicsFamilyIsSet() == graphicsQueueSupporte)
+				{
+					specificationChecked = true;
+				}
+				else
+				{
+					continue;
+				}
+			}
+
+			if (transferQueueSupported == true)
+			{
+				if (queueFamilies[i].TransferFamilyIsSet() == transferQueueSupported)
+				{
+					specificationChecked = true;
+				}
+				else
+				{
+					continue;
+				}
+			}
+
+			if (computeFamilySupported == true)
+			{
+				if (queueFamilies[i].ComputeFamilyIsSet() == computeFamilySupported)
+				{
+					specificationChecked = true;
+				}
+				else
+				{
+					continue;
+				}
+			}
+
+			if (presentFamilySupported == true)
+			{
+				if (queueFamilies[i].PresentFamilyIsSet() == presentFamilySupported)
+				{
+					specificationChecked = true;
+				}
+				else
+				{
+					continue;
+				}
+			}
+
+			if (specificationChecked)
+			{
+				queueFamilyIndices.push_back(i);
+			}
+		}
+
+		return queueFamilyIndices;
+	}
+
+	std::vector<uint32_t> SVulkanContext::GetUniqueQueueFamilyIndices(bool graphicsQueueSupporte, bool transferQueueSupported, bool computeFamilySupported, bool presentFamilySupported)
+	{
+		std::vector<uint32_t> queueFamilyIndices;
+
+
+		for (unsigned int i = 0; i < queueFamilies.size(); i++)
+		{
+
+			if (graphicsQueueSupporte == true)
+			{
+				if (queueFamilies[i].GraphicsFamilyIsSet() == graphicsQueueSupporte)
+				{
+					graphicsQueueSupporte = false;
+					queueFamilyIndices.push_back(i);
+					continue;
+				}
+			}
+
+			if (transferQueueSupported == true)
+			{
+				if (queueFamilies[i].TransferFamilyIsSet() == transferQueueSupported)
+				{
+					transferQueueSupported = false;
+					queueFamilyIndices.push_back(i);
+					continue;
+				}
+			}
+
+			if (computeFamilySupported == true)
+			{
+				if (queueFamilies[i].ComputeFamilyIsSet() == computeFamilySupported)
+				{
+					computeFamilySupported = false;
+					queueFamilyIndices.push_back(i);
+					continue;
+				}
+			}
+
+			if (presentFamilySupported == true)
+			{
+				if (queueFamilies[i].PresentFamilyIsSet() == presentFamilySupported)
+				{
+					presentFamilySupported = false;
+					queueFamilyIndices.push_back(i);
+					continue;
+				}
+			}
+		}
+
+		return queueFamilyIndices;
+	}
 }

@@ -5,6 +5,7 @@
 
 namespace Invision
 {
+	struct QueueFamily;
 	
 	class INVISION_API VulkanBaseDevice
 	{
@@ -13,7 +14,7 @@ namespace Invision
 		bool CreateLogicalDevice(SVulkanBase& vulkanInstance, SVulkanContext& context);
 		void DestroyVulkanDevice(SVulkanContext& vulkanContext);
 
-		void CreateSurface(SVulkanBase& vulkanInstance, SVulkanContext& vulkanContext, HWND hwnd);
+		bool CreateSurface(SVulkanBase& vulkanInstance, SVulkanContext& vulkanContext, HWND hwnd);
 		void DestroySurface(SVulkanBase& vulkanInstance, SVulkanContext& vulkanContext);
 
 	private:
@@ -21,7 +22,7 @@ namespace Invision
 		
 		VkDeviceQueueCreateInfo CreateDeviceQueueCreateInfo(int queueFamily) const noexcept;
 		std::vector<VkDeviceQueueCreateInfo> CreateQueueCreateInfos(
-			const std::set<int>& uniqueQueueFamilies) const noexcept;
+			std::vector<QueueFamily> queueFamilies) const noexcept;
 
 		VkDeviceCreateInfo VulkanBaseDevice::CreateDeviceCreateInfo(SVulkanBase &vulkanInstance,
 			const std::vector<VkDeviceQueueCreateInfo>& queueCreateInfos,
@@ -30,11 +31,7 @@ namespace Invision
 
 		bool IsDeviceSurfaceSuitable(SVulkanBasePhysicalDevice vulkanPhysicalDevice, VkSurfaceKHR surface);
 
-		SQueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
-		SQueueFamilyIndices FindQueueFamilies(const VkPhysicalDevice& device, SVulkanContext& vulkanContext, const VkSurfaceKHR surface);
-
-		SQueueFamilyIndices FindQueueFamilies(const VkPhysicalDevice& device, VkQueueFlags queueFlags);
-		SQueueFamilyIndices FindPresentQueueFamiliy(const VkPhysicalDevice& device, SVulkanContext& vulkanContext, const VkSurfaceKHR surface);
+		bool QueryQueueFamilies(const VkPhysicalDevice& device, SVulkanContext& vulkanContext);
 	};
 
 //#define CreateDevice(x) VulkanDevice().GetDevices(x)

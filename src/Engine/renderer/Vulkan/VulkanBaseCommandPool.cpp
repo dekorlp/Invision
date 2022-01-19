@@ -13,7 +13,7 @@ namespace Invision
 
 		VkCommandPoolCreateInfo poolInfo = {};
 		poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-		poolInfo.queueFamilyIndex = vulkanContext.indices.graphicsFamily;
+		poolInfo.queueFamilyIndex = vulkanContext.GetQueueFamilyIndices(true, false, false, false)[0];
 		poolInfo.flags = 0;
 
 		if (vkCreateCommandPool(vulkanContext.logicalDevice, &poolInfo, nullptr, &mCommandPool) != VK_SUCCESS)

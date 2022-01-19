@@ -90,12 +90,12 @@ namespace Invision
 		createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
 		//SQueueFamilyIndices indices =   FindQueueFamilies(vulkanInstance.physicalDeviceStruct.physicalDevice, vulkanContext, vulkanContext.surface);
-		uint32_t queueFamilyIndices[] = { (uint32_t)vulkanContext.indices.graphicsFamily, (uint32_t)vulkanContext.indices.presentFamily };
+		std::vector<uint32_t> queueFamilyIndices = vulkanContext.GetUniqueQueueFamilyIndices(true, false, false, true);  //{ (uint32_t)vulkanContext.indices.graphicsFamily, (uint32_t)vulkanContext.indices.presentFamily };
 
-		if (vulkanContext.indices.graphicsFamily != vulkanContext.indices.presentFamily) {
+		if (queueFamilyIndices[0] != queueFamilyIndices[1]) {
 			createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
-			createInfo.queueFamilyIndexCount = 2;
-			createInfo.pQueueFamilyIndices = queueFamilyIndices;
+			createInfo.queueFamilyIndexCount = queueFamilyIndices.size();
+			createInfo.pQueueFamilyIndices = queueFamilyIndices.data();
 		}
 		else {
 			createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;

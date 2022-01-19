@@ -21,36 +21,80 @@ namespace Invision
 		}
 	};
 
-	struct SQueueFamilyIndices {
-		int graphicsFamily = -1;
-		int computeFamily = -1;
-		int transferFamily = -1;
-		int presentFamily = -1;
-
+	struct QueueFamily
+	{
+	public:
 		bool GraphicsFamilyIsSet()
 		{
-			return graphicsFamily >= 0;
+			return graphicsFamilySupported;
 		}
 
 		bool PresentFamilyIsSet()
 		{
-			return presentFamily >= 0;
+			return presentFamilySupported;
 		}
 
 		bool TransferFamilyIsSet()
 		{
-			return transferFamily >= 0;
+			return transferFamilySupported;
 		}
 
 		bool ComputeFamilyIsSet()
 		{
-			return computeFamily >= 0;
+			return computeFamilySupported;
 		}
+
+		void SetFamilyFlags(VkQueueFlags flags)
+		{
+			if (flags & VK_QUEUE_GRAPHICS_BIT)
+			{
+				graphicsFamilySupported = true;
+			}
+
+			if (flags & VK_QUEUE_TRANSFER_BIT)
+			{
+				transferFamilySupported = true;
+			}
+
+			if (flags & VK_QUEUE_COMPUTE_BIT)
+			{
+				computeFamilySupported = true;
+			}
+		}
+
+		void SetPresentQueueFlag( const VkBool32 presentSupport)
+		{
+			if (presentSupport == VK_TRUE)
+			{
+				presentFamilySupported = true;
+			}			
+		}
+
+		void SetQueueCount(unsigned int count)
+		{
+			queueCount = count;
+		}
+
+
+	private:
+		bool graphicsFamilySupported = false;
+		bool computeFamilySupported = false;
+		bool transferFamilySupported = false;
+		bool presentFamilySupported = false;
+		unsigned int queueCount = 0;
+
+		VkQueue graphicsQueue;
+		VkQueue computeQueue;
+		VkQueue transferQueue;
+		VkQueue presentQueue;
 	};
 
 	struct SVulkanContext
 	{
-		VkQueue presentQueue;
+		std::vector<uint32_t> GetUniqueQueueFamilyIndices(bool graphicsQueueSupporte, bool transferQueueSupported = false, bool computeFamilySupported = false, bool presentFamilySupported = false);
+		std::vector<uint32_t> GetQueueFamilyIndices(bool graphicsQueueSupporte, bool transferQueueSupported = false, bool computeFamilySupported = false, bool presentFamilySupported = false);
+
+
 		// Presentation Subsystem
 		VkSurfaceKHR surface;
 		VkSwapchainKHR swapChain;
@@ -61,7 +105,7 @@ namespace Invision
 
 		SVulkanContext() : 
 			surface(VK_NULL_HANDLE),
-			presentQueue(VK_NULL_HANDLE), swapChain(VK_NULL_HANDLE)
+			 swapChain(VK_NULL_HANDLE)
 		{
 
 		}
@@ -73,11 +117,13 @@ namespace Invision
 
 		VkDevice logicalDevice;
 
-		SQueueFamilyIndices indices;
+		//SQueueFamilyIndices indices;
+		std::vector<QueueFamily> queueFamilies;
 
 		VkQueue graphicsQueue;
 		VkQueue computeQueue;
 		VkQueue transferQueue;
+		VkQueue presentQueue;
 	};
 
 	struct SVulkanBase
