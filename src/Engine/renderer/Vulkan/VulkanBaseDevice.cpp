@@ -174,19 +174,16 @@ required to support other windowing systems.
 			if (context.queueFamilies[i].GraphicsFamilyIsSet())
 			{
 				vkGetDeviceQueue(context.logicalDevice, i, 0, &context.graphicsQueue);
-				break;
 			}
 
 			if (context.queueFamilies[i].TransferFamilyIsSet())
 			{
 				vkGetDeviceQueue(context.logicalDevice, i, 0, &context.transferQueue);
-				break;
 			}
 
 			if (context.queueFamilies[i].ComputeFamilyIsSet())
 			{
 				vkGetDeviceQueue(context.logicalDevice, i, 0, &context.computeQueue);
-				break;
 			}
 		}
 
