@@ -32,6 +32,7 @@ namespace Invision
 		bool IsDeviceSurfaceSuitable(SVulkanBasePhysicalDevice vulkanPhysicalDevice, VkSurfaceKHR surface);
 
 		bool QueryQueueFamilies(const VkPhysicalDevice& device, SVulkanContext& vulkanContext);
+		void CreateDeviceQueues(SVulkanContext& context);
 	};
 
 //#define CreateDevice(x) VulkanDevice().GetDevices(x)

@@ -339,9 +339,9 @@ namespace Invision
 		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 		submitInfo.commandBufferCount = 1;
 		submitInfo.pCommandBuffers = &commandBuffer;
-
-		vkQueueSubmit(vulkanContext.graphicsQueue, 1, &submitInfo, VK_NULL_HANDLE);
-		vkQueueWaitIdle(vulkanContext.graphicsQueue);
+	
+		vkQueueSubmit(vulkanContext.queueFamilies[0].GetQueue(), 1, &submitInfo, VK_NULL_HANDLE);
+		vkQueueWaitIdle(vulkanContext.queueFamilies[0].GetQueue());
 
 		vkFreeCommandBuffers(vulkanContext.logicalDevice, commandPool.GetCommandPool(), 1, &commandBuffer);
 	}

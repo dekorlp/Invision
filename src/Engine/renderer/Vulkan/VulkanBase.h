@@ -75,6 +75,25 @@ namespace Invision
 			queueCount = count;
 		}
 
+		void SetQueue(VkQueue& queue)
+		{
+			mQueue = queue;
+		}
+
+		void SetPresentQueue(VkQueue& queue)
+		{
+			mPresentQueue = queue;
+		}
+
+		VkQueue GetQueue() const
+		{
+			return mQueue;
+		}
+
+		VkQueue GetPresentQueue() const
+		{
+			return mPresentQueue;
+		}
 
 	private:
 		bool graphicsFamilySupported = false;
@@ -83,10 +102,8 @@ namespace Invision
 		bool presentFamilySupported = false;
 		unsigned int queueCount = 0;
 
-		VkQueue graphicsQueue;
-		VkQueue computeQueue;
-		VkQueue transferQueue;
-		VkQueue presentQueue;
+		VkQueue mQueue;
+		VkQueue mPresentQueue;
 	};
 
 	struct SVulkanContext
@@ -120,10 +137,10 @@ namespace Invision
 		//SQueueFamilyIndices indices;
 		std::vector<QueueFamily> queueFamilies;
 
-		VkQueue graphicsQueue;
-		VkQueue computeQueue;
-		VkQueue transferQueue;
-		VkQueue presentQueue;
+		//VkQueue graphicsQueue;
+		//VkQueue computeQueue;
+		//VkQueue transferQueue;
+		//VkQueue presentQueue;
 	};
 
 	struct SVulkanBase

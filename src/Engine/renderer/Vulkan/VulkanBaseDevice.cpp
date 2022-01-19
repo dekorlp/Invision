@@ -61,7 +61,9 @@ namespace Invision
 
 			if (presentSupport && vulkanContext.queueFamilies[i].GraphicsFamilyIsSet())
 			{
-				vkGetDeviceQueue(vulkanContext.logicalDevice, i, 0, &vulkanContext.presentQueue);
+				VkQueue queue;
+				vkGetDeviceQueue(vulkanContext.logicalDevice, i, 0, &queue);
+				vulkanContext.queueFamilies[i].SetPresentQueue(queue);
 				surfaceQueueWithGfxAvailable = true;
 			}
 		}
@@ -168,8 +170,24 @@ required to support other windowing systems.
 			throw VulkanBaseException(result, "Unable to create a logical device");
 		}
 
-		//CreateDeviceQueues
+		CreateDeviceQueues(context);
+
+		
+
+		return true;
+	}
+
+	void VulkanBaseDevice::CreateDeviceQueues(SVulkanContext& context)
+	{
 		for (unsigned int i = 0; i < context.queueFamilies.size(); i++)
+		{
+			VkQueue queue;
+			vkGetDeviceQueue(context.logicalDevice, i, 0, &queue);
+			context.queueFamilies[i].SetQueue(queue);
+		}
+
+		//CreateDeviceQueues
+		/*for (unsigned int i = 0; i < context.queueFamilies.size(); i++)
 		{
 			if (context.queueFamilies[i].GraphicsFamilyIsSet())
 			{
@@ -185,9 +203,7 @@ required to support other windowing systems.
 			{
 				vkGetDeviceQueue(context.logicalDevice, i, 0, &context.computeQueue);
 			}
-		}
-
-		return true;
+		}*/
 	}
 
 	void VulkanBaseDevice::DestroyVulkanDevice(SVulkanContext& vulkanContext)

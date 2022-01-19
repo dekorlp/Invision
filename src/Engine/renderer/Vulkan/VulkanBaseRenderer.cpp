@@ -89,7 +89,7 @@ namespace Invision
 
 	void VulkanBaseRenderer::DrawFrame(SVulkanContext &vulkanContext, VulkanBaseCommandBuffer& commandBuffer)
 	{
-		if (vkQueueSubmit(vulkanContext.graphicsQueue, 1, &mSubmitInfo, VK_NULL_HANDLE) != VK_SUCCESS) {
+		if (vkQueueSubmit(vulkanContext.queueFamilies[0].GetQueue(), 1, &mSubmitInfo, VK_NULL_HANDLE) != VK_SUCCESS) {
 			throw VulkanBaseException("failed to submit draw command buffer!");
 		}
 	}
@@ -112,9 +112,9 @@ namespace Invision
 			presentInfo.pWaitSemaphores = &mSemaphores.renderComplete;
 			presentInfo.waitSemaphoreCount = 1;
 		}
-		VkResult result = vkQueuePresentKHR(vulkanContext.presentQueue, &presentInfo);
+		VkResult result = vkQueuePresentKHR(vulkanContext.queueFamilies[0].GetPresentQueue(), &presentInfo);
 
-		vkQueueWaitIdle(vulkanContext.presentQueue);
+		vkQueueWaitIdle(vulkanContext.queueFamilies[0].GetPresentQueue());
 
 		return result;
 	}
