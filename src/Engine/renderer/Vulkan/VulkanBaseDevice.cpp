@@ -217,11 +217,11 @@ required to support other windowing systems.
 		for (unsigned int i = 0; i < queueFamilies.size(); i++) {
 		
 			
-			if (queueFamilies[i].GraphicsFamilyIsSet() && queueFamilies[i].TransferFamilyIsSet() && queueFamilies[i].ComputeFamilyIsSet())
-			{
+			//if (queueFamilies[i].GraphicsFamilyIsSet() && queueFamilies[i].TransferFamilyIsSet() && queueFamilies[i].ComputeFamilyIsSet())
+			//{
 				VkDeviceQueueCreateInfo queueCreateInfo = CreateDeviceQueueCreateInfo(i);
 				queueCreateInfos.push_back(queueCreateInfo);
-			}
+			//}
 		}
 		return queueCreateInfos;
 	}
