@@ -4,6 +4,7 @@
 
 #include "IGraphicsInstance.h"
 #include "renderer\Vulkan\VulkanBase.h"
+#include "renderer\Vulkan\VulkanBaseDevice.h"
 #include "renderer\Vulkan\VulkanBaseTexture.h"
 #include "renderer\Vulkan\VulkanBaseCommandPool.h"
 #include "renderer\Vulkan\VulkanBaseMemoryManager.h"
@@ -57,6 +58,7 @@ namespace Invision
 	private:
 		VulkanEngine* mVulkanEngine;
 
+		Invision::VulkanBaseDevice mLogicalDevice;
 		Invision::VulkanBaseCommandPool mCommandPool;
 		Invision::VulkanBaseMemoryManager mMemoryManager;
 
@@ -72,6 +74,10 @@ namespace Invision
 		void UpdateDepthTexture();
 		void UpdateMSAATexture();
 		void ActivateMSAA(MSAAMode msaa);
+
+		// check MSAA
+		VkSampleCountFlagBits GetMaxUsableSampleCount(SVulkanBase& vulkanInstance);
+		VkSampleCountFlagBits IsMSAASampleSupported(SVulkanBase& vulkanInstance, VkSampleCountFlagBits flags);
 	};
 
 }

@@ -8,26 +8,17 @@
 namespace Invision
 {
 
-	void CreateVulkanDevice(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext)
-	{
-		VulkanBaseDevice().GetDevices(vulkanInstance, vulkanContext);
-	}
+	//void VulkanBaseDevice::CreateVulkanDevice(SVulkanBase &vulkanInstance, SVulkanContext &vulkanContext)
+	//{
+	//	GetDevices(vulkanInstance, vulkanContext);
+	//}
 
-	void DestroyVulkanDevice(SVulkanContext &vulkanContext)
-	{
-		vkDestroyDevice(vulkanContext.logicalDevice, nullptr);
-	}
+	
 
 
 	VulkanBaseDevice::VulkanBaseDevice()
 	{
 		
-	}
-
-	void VulkanBaseDevice::GetDevices(SVulkanBase &vulkanInstance, SVulkanContext& vulkanContext)
-	{
-		//PickPhysicalDevice(vulkanInstance);
-		CreateLogicalDevice(vulkanInstance, vulkanContext);
 	}
 
 	VkDeviceCreateInfo VulkanBaseDevice::CreateDeviceCreateInfo(SVulkanBase &vulkanInstance,
@@ -105,41 +96,10 @@ namespace Invision
 		//vkGetDeviceQueue(vulkanInstance.logicalDevice, indices.transferFamily, 0, &vulkanInstance.transferQueue);
 	}
 
-	/*bool VulkanBaseDevice::IsDeviceSuitable(VkPhysicalDevice physicalDevice)
+	void VulkanBaseDevice::DestroyVulkanDevice(SVulkanContext& vulkanContext)
 	{
-
-		SQueueFamilyIndices indices = FindQueueFamilies(physicalDevice);
-		bool extensionsSupported = CheckDeviceExtensionSupport(physicalDevice);
-
-		VkPhysicalDeviceFeatures supportedFeatures;
-		vkGetPhysicalDeviceFeatures(physicalDevice, &supportedFeatures);
-
-		return indices.GraphicsFamilyIsSet() & extensionsSupported && supportedFeatures.samplerAnisotropy;
+		vkDestroyDevice(vulkanContext.logicalDevice, nullptr);
 	}
-
-
-	
-
-
-	bool VulkanBaseDevice::CheckDeviceExtensionSupport(const VkPhysicalDevice& device) const
-	{
-		uint32_t extensionCount;
-		VkResult result = vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
-		if (result != VK_SUCCESS) {
-			throw Invision::VulkanBaseException(result, "Cannot retrieve count of properties for a physical device:");
-		}
-		std::vector<VkExtensionProperties> availableExtensions(extensionCount);
-		result = vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, availableExtensions.data());
-		if (result != VK_SUCCESS) {
-			throw Invision::VulkanBaseException(result, "Cannot retrieve properties for a physical device:");
-		}
-		std::set<std::string> requiredExtensions(deviceExtensions.begin(), deviceExtensions.end());
-		for (const auto& extension : availableExtensions) {
-			requiredExtensions.erase(extension.extensionName);
-		}
-
-		return requiredExtensions.empty();
-	}*/
 
 	VkDeviceQueueCreateInfo VulkanBaseDevice::CreateDeviceQueueCreateInfo(int queueFamily) const noexcept
 	{

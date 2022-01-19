@@ -118,9 +118,5 @@ namespace Invision
 	uint32_t FindMemoryType(const VkPhysicalDevice& device, uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
 	VkImageView CreateImageView(SVulkanContext& vulkanContext, VkImage image, VkImageViewType viewType, VkFormat format, VkImageAspectFlags aspectFlags, uint32_t mipLevel, uint32_t layerCount);
-
-	// check MSAA
-	VkSampleCountFlagBits GetMaxUsableSampleCount(SVulkanBase& vulkanInstance);
-	VkSampleCountFlagBits IsMSAASampleSupported(SVulkanBase& vulkanInstance, VkSampleCountFlagBits flags);
 }
 #endif // VULKAN_BASE_H

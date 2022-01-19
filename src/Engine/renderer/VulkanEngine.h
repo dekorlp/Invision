@@ -7,7 +7,6 @@
 #include "renderer\Vulkan\VulkanBaseException.h"
 #include "renderer\Vulkan\VulkanBaseInstance.h"
 #include "renderer\Vulkan\VulkanBasePhysicalDevice.h"
-#include "renderer\Vulkan\VulkanBaseDevice.h"
 #include "renderer\Vulkan\VulkanBasePresentation.h"
 #include "Vulkan/Vulkan.h"
 

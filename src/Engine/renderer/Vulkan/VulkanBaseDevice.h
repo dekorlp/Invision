@@ -5,15 +5,13 @@
 
 namespace Invision
 {
-	INVISION_API void CreateVulkanDevice(SVulkanBase &vulkanInstance, SVulkanContext& vulkanContext);
-	INVISION_API void DestroyVulkanDevice(SVulkanContext &vulkanContext);
-
+	
 	class INVISION_API VulkanBaseDevice
 	{
 	public:
 		VulkanBaseDevice();
-		void GetDevices(SVulkanBase& vulkanInstance, SVulkanContext& vulkanContext);
 		void CreateLogicalDevice(SVulkanBase& vulkanInstance, SVulkanContext& context);
+		void DestroyVulkanDevice(SVulkanContext& vulkanContext);
 
 	private:
 

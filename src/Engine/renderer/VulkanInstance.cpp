@@ -32,7 +32,7 @@ namespace Invision
 		ActivateMSAA(msaaMode);
 		
 		
-		Invision::VulkanBaseDevice().CreateLogicalDevice(engine->GetVulkanBaseStruct(), mVulkanContext);
+		mLogicalDevice.CreateLogicalDevice(engine->GetVulkanBaseStruct(), mVulkanContext);
 		mCommandPool.CreateCommandPool(mVulkanContext);
 		mMemoryManager.Init(engine->GetVulkanBaseStruct(), mVulkanContext, 2147483648); // Allocate 2GB
 
@@ -105,35 +105,35 @@ namespace Invision
 				break;
 			case MSAAMODE_SAMPLE_COUNT_1:
 				mVulkanContext.UseMSAA = true;
-				mVulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_1_BIT);
+				mVulkanContext.MsaaFlagBits = IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_1_BIT);
 				break;
 			case MSAAMODE_SAMPLE_COUNT_2:
 				mVulkanContext.UseMSAA = true;
-				mVulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_2_BIT);
+				mVulkanContext.MsaaFlagBits = IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_2_BIT);
 				break;
 			case MSAAMODE_SAMPLE_COUNT_4:
 				mVulkanContext.UseMSAA = true;
-				mVulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_4_BIT);
+				mVulkanContext.MsaaFlagBits = IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_4_BIT);
 				break;
 			case MSAAMODE_SAMPLE_COUNT_8:
 				mVulkanContext.UseMSAA = true;
-				mVulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_8_BIT);
+				mVulkanContext.MsaaFlagBits = IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_8_BIT);
 				break;
 			case MSAAMODE_SAMPLE_COUNT_16:
 				mVulkanContext.UseMSAA = true;
-				mVulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_16_BIT);
+				mVulkanContext.MsaaFlagBits = IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_16_BIT);
 				break;
 			case MSAAMODE_SAMPLE_COUNT_32:
 				mVulkanContext.UseMSAA = true;
-				mVulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_32_BIT);
+				mVulkanContext.MsaaFlagBits = IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_32_BIT);
 				break;
 			case MSAAMODE_SAMPLE_COUNT_64:
 				mVulkanContext.UseMSAA = true;
-				mVulkanContext.MsaaFlagBits = Invision::IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_64_BIT);
+				mVulkanContext.MsaaFlagBits = IsMSAASampleSupported(mVulkanEngine->GetVulkanBaseStruct(), VK_SAMPLE_COUNT_64_BIT);
 				break;
 			case MSAAMODE_SAMPLE_COUNT_BEST:
 				mVulkanContext.UseMSAA = true;
-				mVulkanContext.MsaaFlagBits = Invision::GetMaxUsableSampleCount(mVulkanEngine->GetVulkanBaseStruct());
+				mVulkanContext.MsaaFlagBits = GetMaxUsableSampleCount(mVulkanEngine->GetVulkanBaseStruct());
 				break;
 			}
 		}
@@ -298,7 +298,7 @@ namespace Invision
 		
 		mMemoryManager.Destroy(mVulkanContext);
 		mCommandPool.DestroyCommandPool(mVulkanContext);
-		Invision::DestroyVulkanDevice(mVulkanContext);
+		mLogicalDevice.DestroyVulkanDevice(mVulkanContext);
 	}
 
 	VulkanBaseMemoryManager& VulkanInstance::GetMemoryManager()
@@ -469,6 +469,34 @@ namespace Invision
 
 
 		return vkformat;
+	}
+
+	VkSampleCountFlagBits VulkanInstance::GetMaxUsableSampleCount(SVulkanBase& vulkanInstance)
+	{
+
+
+		VkSampleCountFlags counts = vulkanInstance.physicalDeviceStruct.deviceProperties.limits.framebufferColorSampleCounts & vulkanInstance.physicalDeviceStruct.deviceProperties.limits.framebufferDepthSampleCounts;
+		if (counts & VK_SAMPLE_COUNT_64_BIT) { return VK_SAMPLE_COUNT_64_BIT; }
+		if (counts & VK_SAMPLE_COUNT_32_BIT) { return VK_SAMPLE_COUNT_32_BIT; }
+		if (counts & VK_SAMPLE_COUNT_16_BIT) { return VK_SAMPLE_COUNT_16_BIT; }
+		if (counts & VK_SAMPLE_COUNT_8_BIT) { return VK_SAMPLE_COUNT_8_BIT; }
+		if (counts & VK_SAMPLE_COUNT_4_BIT) { return VK_SAMPLE_COUNT_4_BIT; }
+		if (counts & VK_SAMPLE_COUNT_2_BIT) { return VK_SAMPLE_COUNT_2_BIT; }
+
+		return VK_SAMPLE_COUNT_1_BIT;
+	}
+
+	VkSampleCountFlagBits VulkanInstance::IsMSAASampleSupported(SVulkanBase& vulkanInstance, VkSampleCountFlagBits flags)
+	{
+		VkSampleCountFlags counts = vulkanInstance.physicalDeviceStruct.deviceProperties.limits.framebufferColorSampleCounts & vulkanInstance.physicalDeviceStruct.deviceProperties.limits.framebufferDepthSampleCounts;
+		if (!(counts & flags))
+		{
+			return GetMaxUsableSampleCount(vulkanInstance);
+		}
+		else
+		{
+			return flags;
+		}
 	}
 
 }
