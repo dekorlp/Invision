@@ -393,7 +393,7 @@ project "Invision"
 	
 	includedirs {
 		srcroot .. "Engine/",
-		srcroot .. "Engine/Common/"
+		srcroot .. "Engine/common/"
 	}
 	
 	filter "system:Windows"	
