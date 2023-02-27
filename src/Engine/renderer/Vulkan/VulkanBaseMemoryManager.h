@@ -2,8 +2,8 @@
 #define VULKAN_BASE_MEMORY_MANAGER_H
 
 #include "vulkan\vulkan.h"
-#include "lowlevel\allocator\MemoryBlock.h"
-#include "lowlevel\allocator\PoolAllocator.h"
+#include "allocator\MemoryBlock.h"
+#include "allocator\PoolAllocator.h"
 #include "common/DoubleLinkedList.h"
 #include "VulkanBaseCommandPool.h"
 

@@ -1,6 +1,6 @@
 #ifndef GRAPHICS_FACTORY_H
 #define GRAPHICS_FACTORY_H
-#include "VulkanEngine.h"
+#include "Common/VulkanEngine.h"
 //#include "DirectXEngine.h"
 
 namespace Invision

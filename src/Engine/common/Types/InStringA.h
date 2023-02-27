@@ -14,7 +14,7 @@
 #define INSTRINGA_H
 
 #include "InBaseString.h"
-#include "CRC.h"
+#include "common/Network/CRC.h"
 namespace Invision
 {
 	class InStringA

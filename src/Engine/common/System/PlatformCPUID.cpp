@@ -1,6 +1,6 @@
 #include "precompiled.h"
 #include "PlatformCPUID.h"
-#include "platform\CpuId.h"
+#include "System\CpuId.h"
 namespace Invision {
 	PlatformCPU::PlatformCPU()
 	{
