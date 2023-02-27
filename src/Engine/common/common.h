@@ -16,9 +16,9 @@
 #include "BaseTypes.h"
 #include "WinPlatformInformation.h"
 #include "WinLocale.h"
-#include "DateTime.h"
-#include "TimeSpan.h"
-#include "StopWatch.h"
+#include "Types/DateTime.h"
+#include "Types/TimeSpan.h"
+#include "Types/StopWatch.h"
 #include "Log.h"
 
 #endif //COMMON_H

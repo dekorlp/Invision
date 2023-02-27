@@ -12,7 +12,7 @@
 #include "AdditionalFunctions.h"
 #include "InCommon.h"
 #include "renderer/GraphicsFactory.h"
-#include "common/StopWatch.h"
+#include "common/Types/StopWatch.h"
 
 #include "math\Vector2.h"
 #include "math\Vector3.h"
