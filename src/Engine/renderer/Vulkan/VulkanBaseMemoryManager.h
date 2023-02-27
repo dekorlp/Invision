@@ -4,7 +4,7 @@
 #include "vulkan\vulkan.h"
 #include "allocator\MemoryBlock.h"
 #include "allocator\PoolAllocator.h"
-#include "common/DoubleLinkedList.h"
+#include "common/Types/DoubleLinkedList.h"
 #include "VulkanBaseCommandPool.h"
 
 namespace Invision
