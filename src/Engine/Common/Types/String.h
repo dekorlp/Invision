@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:	  InStringA
-// Purpose:	  offers a string component for ANSI Char
+// Name:	  InStringW
+// Purpose:	  offers a string component for UNICODE Char
 // Author:	  Dennis Koehler
 // Created:	  2015-09-27
 // Copyright: Copyright (c) 2014, Nano Game Foundation
@@ -10,37 +10,39 @@
 //			  All rights reserved.
 /////////////////////////////////////////////////////////////////////////////
 
-#ifndef INSTRINGA_H
-#define INSTRINGA_H
 
-#include "InBaseString.h"
+#ifndef STRING_H
+#define STRING_H
+#include "BaseString.h"
 #include "common/Network/CRC.h"
+#include <map>
+#include <Common/BaseTypes.h>
+
 namespace Invision
 {
-	class InStringA
+	class String
 	{
 	private:
-		/*static std::map<size_t, InBaseString<const tChar*, tChar>> mBaseTable;
-		InBaseString<const tChar*, tChar> *rBaseString;*/
+		static std::map<size_t, BaseString<const tChar*, tChar>> mBaseTable;
+			BaseString<const tChar*, tChar> *rBaseString;
 	public:
 
-		/*INVISION_API InStringA();
-		INVISION_API InStringA(const tChar* text);
-		INVISION_API InStringA(InBaseString<const tChar*, tChar> is);
+		INVISION_API String(const tChar* text);
+		INVISION_API String(BaseString<const tChar*, tChar> is);
 		INVISION_API const tChar* toString();
 		INVISION_API bool operator == (const tChar* rValue);
-		INVISION_API bool operator == (InStringA rValue);
+		INVISION_API bool operator == (String rValue);
 		INVISION_API size_t Length();
-		INVISION_API InStringA substring(size_t pos, size_t len);
+		INVISION_API String substring(size_t pos, size_t len);
 		INVISION_API const char& At(size_t index);
 		INVISION_API const char& operator[](size_t index);
-		INVISION_API InStringA trim();
-		INVISION_API InStringA trim(tChar chars[], size_t arrSize);
-		INVISION_API std::vector<InStringA> Split(tChar chars[], size_t arrSize);
+		INVISION_API String trim();
+		INVISION_API String trim(tChar chars[], size_t arrSize);
+		INVISION_API std::vector<String> Split(tChar chars[], size_t arrSize);
 		INVISION_API bool contains(const tChar* value);
-		INVISION_API InStringA replace(const tChar* oldValue, const tChar* newValue);
-		INVISION_API InStringA remove(size_t startIndex);
-		INVISION_API InStringA remove(size_t startIndex, size_t count);
+		INVISION_API String replace(const tChar* oldValue, const tChar* newValue);
+		INVISION_API String remove(size_t startIndex);
+		INVISION_API String remove(size_t startIndex, size_t count);
 		INVISION_API size_t indexOf(tChar value);
 		INVISION_API size_t indexOf(tChar value, size_t startIndex);
 		INVISION_API size_t indexOf(const tChar* value);
@@ -51,13 +53,19 @@ namespace Invision
 		INVISION_API size_t LastIndexOf(const tChar* value, size_t startIndex);
 		INVISION_API bool endsWith(const tChar* value);
 		INVISION_API bool startsWith(const tChar* value);
-		INVISION_API InStringA padLeft(size_t totalWidth);
-		INVISION_API InStringA padLeft(size_t totalWidth, tChar paddingChar);
-		INVISION_API InStringA padRight(size_t totalWidth);
-		INVISION_API InStringA padRight(size_t totalWidth, tChar paddingChar);*/
-		//INVISION_API InStringA insert(size_t startIndex, const tChar* value);
-		//INVISION_API InStringA toUpper();
-		//INVISION_API InStringA toLower();
+		INVISION_API String padLeft(size_t totalWidth);
+		INVISION_API String padLeft(size_t totalWidth, tChar paddingChar);
+		INVISION_API String padRight(size_t totalWidth);
+		INVISION_API String padRight(size_t totalWidth, tChar paddingChar);
+		INVISION_API String insert(size_t startIndex, const tChar* value);
+		INVISION_API String toUpper();
+		INVISION_API String toLower();
 	};
+
+	std::ostream& operator<<(std::ostream& out, String str)
+	{
+		out << str.toString(); // for example
+		return out;
+	}
 }
-#endif //INSTRINGA_H
+#endif //STRING_H

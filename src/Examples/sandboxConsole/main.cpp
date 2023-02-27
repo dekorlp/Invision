@@ -3,6 +3,8 @@
 
 #include "input/WindowsKeyboard.h"
 #include "input/IKeyboard.h"
+#include <Engine/Common/Types/String.h>
+#include <iostream>
 
 //#include <iostream>
 //#include <string>
@@ -26,17 +28,21 @@ void testCPUInfo()
 
 void testVector(){
 
-	Invision::Vector4 vec4();
+	//Invision::Vector4 vec4();
 	
-	Invision::Vector3 vektor1(1.0f, 4.0f, 2.0f);
+	//Invision::Vector3 vektor1(1.0f, 4.0f, 2.0f);
 
-	Invision::Vector3 vec1(1, 4, 2);
+	//Invision::Vector3 vec1(1, 4, 2);
 	//Vector3 vec2(4, 3, 1);
-	Invision::Vector3 vec2(2, 4, 2);
+	//Invision::Vector3 vec2(2, 4, 2);
 	//Vector3 res = vec1 + vec2;
-	//Vector3 res = vec2 - vec1;
-	Invision::Vector3 res = vec2 + vec1;
-	bool b = vec1 == vec2;
+	//7Vector3 res = vec2 - vec1;
+	//Invision::Vector3 res = vec2 + vec1;
+	//bool b = vec1 == vec2;
+
+	Invision::String test = "Hallo Welt";
+
+	printf( test.toString() );
 }
 
 /*void testLog()
@@ -444,6 +450,7 @@ void testMatrix3()
 }
 
 #include <common/DoubleLinkedList.h>
+#include <Engine/Common/Types/WString.h>
 
 enum MemoryType
 {
@@ -606,13 +613,22 @@ private:
 
 int main()
 {
-	VulkanBaseMemoryManager memManager;
+	/*VulkanBaseMemoryManager memManager;
 	memManager.Init(1024);
 	void* p1 = memManager.BindBufferToMemory(20, MEMORY_TYPE_DEDICATED);
 	void* p2 = memManager.BindBufferToMemory(40, MEMORY_TYPE_DEDICATED);
 	void* p3 = memManager.BindBufferToMemory(40, MEMORY_TYPE_DEDICATED);
 	memManager.Unbind(p2);
-	void* p4 = memManager.BindBufferToMemory(40, MEMORY_TYPE_DEDICATED);
+	void* p4 = memManager.BindBufferToMemory(40, MEMORY_TYPE_DEDICATED);*/
+
+	Invision::WString halloWeltW = L"Hallo Welt";
+
+	std::wcout << halloWeltW << std::endl;
+
+	Invision::String halloWelt = "Hallo Welt";
+
+	std::cout << halloWelt << std::endl;
+
 
 	return 0;
 }
