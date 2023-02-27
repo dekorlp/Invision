@@ -14,8 +14,8 @@
 #define COMMON_H
 
 #include "BaseTypes.h"
-#include "WinPlatformInformation.h"
-#include "WinLocale.h"
+#include "System/WinPlatformInformation.h"
+#include "System/WinLocale.h"
 #include "Types/DateTime.h"
 #include "Types/TimeSpan.h"
 #include "Types/StopWatch.h"
