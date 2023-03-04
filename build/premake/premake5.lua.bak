@@ -161,7 +161,23 @@ function AddImageLibraries(libpath)
 	includedirs
 	{
 		libpath .. "stb/",
+		libpath .. "FreeType2/include"
 	}
+	
+	filter "platforms:x86"
+		libdirs
+		{
+			libpath .. "FreeType2/lib/win32/" -- x32 bit variant
+		}
+		links { "vulkan-1.lib" }
+		
+	filter "platforms:x64"
+		libdirs
+		{
+			libpath .. "FreeType2/lib/win64/" -- x64 bit variant
+		}
+		links { "vulkan-1.lib" }
+	
 end
 
 function AddTinyObjLibrary(libpath)
@@ -393,7 +409,7 @@ project "Invision"
 	
 	includedirs {
 		srcroot .. "Engine/",
-		srcroot .. "Engine/common/"
+		srcroot .. "Engine/Common/"
 	}
 	
 	filter "system:Windows"	
@@ -458,6 +474,13 @@ AddConsoleProject(
 	"TextureDemo", srcroot .. "Examples/", {
 		srcroot .. "Examples/TextureDemo/**.h",
 		srcroot .. "Examples/TextureDemo/**.cpp"
+	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, false)
+	
+	--function AddWindowedProject(name, files, includes, links, defines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
+AddConsoleProject(
+	"FontDemo", srcroot .. "Examples/", {
+		srcroot .. "Examples/FontDemo/**.h",
+		srcroot .. "Examples/FontDemo/**.cpp"
 	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, false)
 
 --function AddWindowedProject(name, files, includes, links, defines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
