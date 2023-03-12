@@ -69,9 +69,37 @@ namespace Invision
 			memoryManager.Unbind(vulkanContext, pStagingBuffer);
 			GenerateMipmaps(vulkanInstance, vulkanContext, commandPool, format, width, height, mMipLevels, i);
 		}
+	}
 
-	
+	void VulkanBaseTexture::CreateTextureArray(const SVulkanBase& vulkanInstance, const SVulkanContext& vulkanContext, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, std::vector<unsigned char*> textureArray, int width, int height, VkFormat format, bool generateMipMaps)
+	{
 
+		mFormat = format;
+		int imageSize = width * height * 4; //4 four channels for RGBA -> Color Formats of RGB are motly not supported by modern GPU Devices
+
+		mMemoryManager = &memoryManager;
+
+		// mip map Generation
+		if (generateMipMaps)
+		{
+			mMipLevels = static_cast<uint32_t>(std::floor(std::log2(std::max(width, height)))) + 1;
+		}
+		else
+		{
+			mMipLevels = 1;
+		}
+
+		CreateImage(vulkanContext, memoryManager, width, height, false, mMipLevels, 1, VK_SAMPLE_COUNT_1_BIT, format, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+
+		for (unsigned int i = 0; i < textureArray.size(); i++)
+		{
+			void* pStagingBuffer = memoryManager.BindToSharedMemory(vulkanContext, imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_SHARING_MODE_EXCLUSIVE);
+			memoryManager.CopyDataToBuffer(vulkanContext, pStagingBuffer, textureArray[i]);
+			TransitionImageLayout(vulkanContext, commandPool, format, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, mMipLevels, i, 1);
+			memoryManager.CopyBufferToImage(vulkanContext, commandPool, pStagingBuffer, mImage, i, static_cast<uint32_t>(width), static_cast<uint32_t>(height));
+			memoryManager.Unbind(vulkanContext, pStagingBuffer);
+			GenerateMipmaps(vulkanInstance, vulkanContext, commandPool, format, width, height, mMipLevels, i);
+		}
 	}
 
 	void VulkanBaseTexture::CreateColorRessources(SVulkanContext &vulkanContext, VulkanBaseCommandPool commandPool, VulkanBaseMemoryManager& memoryManager, int width, int height, VkSampleCountFlagBits sampleCountFlags, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags memoryPropertyFlags, VkImageAspectFlags aspectFlags)

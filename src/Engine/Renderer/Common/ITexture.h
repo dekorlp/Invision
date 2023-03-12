@@ -21,6 +21,7 @@ namespace Invision
 
 		INVISION_API virtual void CreateTexture(unsigned char* pixels, int width, int height, GfxFormat format, bool generateMipMaps = false) = 0;
 		INVISION_API virtual void CreateTextureCubemap(unsigned char* posx, unsigned char* negx, unsigned char* posy, unsigned char* negy, unsigned char* posz, unsigned char* negz, int width, int height, GfxFormat format, bool generateMipMaps) = 0;
+		INVISION_API virtual void CreateTextureArray(std::vector<unsigned char*> textureArray, int width, int height, GfxFormat format, bool generateMipMaps) = 0;
 
 		INVISION_API virtual void CreateColorAttachment(int width, int height, GfxFormat format) = 0;
 		INVISION_API virtual void CreateDepthAttachment(int width, int height, bool isDepthStencil = false) = 0;

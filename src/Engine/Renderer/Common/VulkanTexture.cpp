@@ -39,6 +39,13 @@ namespace Invision
 		mImageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 	}
 
+	void VulkanTexture::CreateTextureArray(std::vector<unsigned char*> textureArray, int width, int height, GfxFormat format, bool generateMipMaps)
+	{
+		mTexture.CreateTextureArray(mVulkanInstance->GetCoreEngine()->GetVulkanBaseStruct(), mVulkanInstance->GetVulkanContext(), mVulkanInstance->GetCommandPool(), mVulkanInstance->GetMemoryManager(), textureArray, width, height, mVulkanInstance->ConvertInvisionFormatToVkFormat(format), generateMipMaps);
+		mTexture.CreateTextureImageView(mVulkanInstance->GetVulkanContext(), VK_IMAGE_VIEW_TYPE_2D_ARRAY, mVulkanInstance->ConvertInvisionFormatToVkFormat(format), VK_REMAINING_ARRAY_LAYERS);
+		mImageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+	}
+
 	void VulkanTexture::CreateColorAttachment(int width, int height, GfxFormat format)
 	{
 		mTexture.CreateColorRessources(mVulkanInstance->GetVulkanContext(), mVulkanInstance->GetCommandPool(), mVulkanInstance->GetMemoryManager(), width, height, VK_SAMPLE_COUNT_1_BIT, mVulkanInstance->ConvertInvisionFormatToVkFormat(format), VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, VK_IMAGE_ASPECT_COLOR_BIT);

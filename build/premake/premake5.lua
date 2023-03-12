@@ -180,6 +180,27 @@ function AddImageLibraries(libpath)
 	
 end
 
+function AddFontLibrary(libpath)
+	includedirs
+	{
+		libpath .. "FreeType2/include"
+	}
+	
+	filter "platforms:x86"
+		libdirs
+		{
+			libpath .. "FreeType2/lib/win32/" -- x32 bit variant
+		}
+		links { "freetype.lib" }
+		
+	filter "platforms:x64"
+		libdirs
+		{
+			libpath .. "FreeType2/lib/win64/" -- x64 bit variant
+		}
+		links { "freetype.lib" }
+end
+
 function AddTinyObjLibrary(libpath)
 	includedirs
 	{
@@ -422,6 +443,7 @@ project "Invision"
 	
 	--AddBoostLibrary(libpath)
 	AddVulkanLibrary(libpath)
+	AddFontLibrary(libpath)
 	
 	filter "configurations:Debug"
 		defines { "DEBUG" }

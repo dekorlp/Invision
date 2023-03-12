@@ -17,6 +17,7 @@
 #include "math\Vector2.h"
 #include "math\Vector3.h"
 #include "math\Matrix.h"
+#include "Renderer/Font/FontManager.h"
 
 struct Vertex {
 	Invision::Vector2 position;
@@ -188,8 +189,15 @@ private:
 		pipeline = graphicsInstance->CreatePipeline();
 		//texture = graphicsInstance->CreateTexture();
 
+		Invision::FontManager fontManager;
+		fontManager.RegisterFont("Arial", std::string(INVISION_BASE_DIR).append("/src/Examples/FontDemo/arial.ttf"));
+		Invision::Character test = fontManager.test();
+
 		unsigned char* font = GenerateFontSet(12, width, height);
-		texture = graphicsInstance->CreateTexture(font, width, height, Invision::FORMAT_R8G8B8A8_SRGB, false);
+		std::vector<unsigned char*> texArray;
+		texArray.push_back(font);
+		texture = graphicsInstance->CreateTexture();
+		texture->CreateTextureArray(texArray, width, height, Invision::FORMAT_R8G8B8A8_SRGB, false);
 		texture->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT);
 		
 
@@ -206,8 +214,8 @@ private:
 
 		uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject)).CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, texture).CreateUniformBuffer();
 
-		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/TextureDemo/Shader/DrawTexture/vert.spv"));
-		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/TextureDemo/Shader/DrawTexture/frag.spv"));
+		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/FontDemo/Shader/DrawFont/vert.spv"));
+		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/FontDemo/Shader/DrawFont/frag.spv"));
 		pipeline->AddUniformBuffer(uniformBuffer);
 		pipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
 		pipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
