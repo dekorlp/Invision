@@ -14,14 +14,11 @@ namespace Invision
 {
 	namespace VulkanDebug
 	{
-		static std::ofstream* g_ofstr = nullptr;
-
 		static void debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
 			VkDebugUtilsMessageTypeFlagsEXT messageType,
 			const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)
 		{
-			if (g_ofstr == nullptr) g_ofstr = static_cast<std::ofstream*>(pUserData);
-			*g_ofstr << "validation layer: " << pCallbackData->pMessage << std::endl;
+			*static_cast<VulkanBaseInstance*>(pUserData)->getDebugOffstr() << "validation layer: " << pCallbackData->pMessage << std::endl;
 		}
 	}
 

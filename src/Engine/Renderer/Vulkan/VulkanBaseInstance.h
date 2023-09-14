@@ -12,7 +12,7 @@ namespace Invision
 		INVISION_API void SetDebugMessanger(std::ofstream* ofstr, void(*debugFunc)(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
 			VkDebugUtilsMessageTypeFlagsEXT messageType,
 			const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData) = nullptr);
-
+		INVISION_API std::ofstream* getDebugOffstr();
 		INVISION_API void Destroy();
 	private:
 		INVISION_API void CreateInstance(const char* appName, const char* engineName, const uint32_t appVersion, const uint32_t engineVersion, const std::vector<const char*> &extensions);
