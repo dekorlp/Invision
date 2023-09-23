@@ -4,6 +4,7 @@
 #include <string>
 #include <map>
 #include "Math/Vector2.h"
+#include "Math/Vector3.h"
 #include "Math/Matrix.h"
 
 #include "ft2build.h"
@@ -22,6 +23,14 @@ namespace Invision
 		Invision::Matrix proj;
 	};
 
+
+	struct Vertex {
+		Invision::Vector2 position;
+		Invision::Vector3 color;
+		Invision::Vector2 texCoord;
+	};
+
+
 	struct Character
 	{
 		private:
@@ -29,12 +38,15 @@ namespace Invision
 			Vector2 mSize;
 			Vector2 mBearing;
 			unsigned int mAdvance;
-			std::shared_ptr <Invision::IUniformBuffer> uniformBuffer;
+			std::shared_ptr <Invision::IUniformBuffer> mUniformBuffer;
+			std::shared_ptr <Invision::ITexture> mTexture;
 		public:
-			INVISION_API void SetCharacters(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer, Vector2 width, Vector2 bearing, unsigned int advance, std::shared_ptr <Invision::IRenderPass> renderPass);
+			INVISION_API void SetCharacters(std::shared_ptr <Invision::IUniformBuffer> uniformBuffer, std::shared_ptr <Invision::IPipeline> pipeline, Vector2 width, Vector2 bearing, unsigned int advance, std::shared_ptr <Invision::IRenderPass> renderPass, std::shared_ptr <Invision::ITexture>);
 			INVISION_API Vector2 GetSize();
 			INVISION_API Vector2 GetBearing();
 			INVISION_API unsigned int GetAdvance();
+			INVISION_API std::shared_ptr <Invision::IPipeline> getPipeline();
+			INVISION_API std::shared_ptr <Invision::IUniformBuffer> getUniformBuffer();
 	};
 
 	class Font
@@ -43,9 +55,9 @@ namespace Invision
 			std::string mFontName;
 			std::string mFontPath;
 			std::map<char, Character> mCharacters;
-			
+
 		public:
-			INVISION_API Font* Generatefont(std::string font, std::string path, std::shared_ptr <Invision::IGraphicsInstance> graphicsInstance, std::shared_ptr <Invision::IRenderPass> renderPass);
+			INVISION_API Font* Generatefont(std::string font, std::string path, std::shared_ptr <Invision::IGraphicsInstance> graphicsInstance, std::shared_ptr <Invision::IRenderPass> renderPass, std::vector<char> vertexShader, std::vector<char> fragmentShader);
 			INVISION_API Character GetCharacter(char character);
 	};
 
@@ -54,9 +66,9 @@ namespace Invision
 	private:
 		std::map<std::string, Font*> mFonts;
 	public:
-		FontManager(){}
-		FontManager(std::shared_ptr <Invision::IGraphicsInstance> graphicsInstance, std::shared_ptr <Invision::IRenderPass> renderPass);
-		INVISION_API void RegisterFont(std::string font, std::string path);
+		INVISION_API FontManager(){}
+		INVISION_API FontManager(std::shared_ptr <Invision::IGraphicsInstance> graphicsInstance, std::shared_ptr <Invision::IRenderPass> renderPass);
+		INVISION_API void RegisterFont(std::string font, std::string path, std::vector<char> vertexShader, std::vector<char> fragmentShader);
 		INVISION_API Character GetCharacter(char character);
 		INVISION_API void UnregisterFont(std::string font);
 		std::shared_ptr <Invision::IGraphicsInstance> *mGraphicsInstance;

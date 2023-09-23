@@ -25,17 +25,6 @@ struct Vertex {
 	Invision::Vector2 texCoord;
 };
 
-//const std::vector<Vertex> vertices = {
-//	{{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f}},
-//	{{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f}},
-//	{{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f}},
-//	{{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}}
-//};
-
-//const std::vector<uint32_t> indices = {
-//	0, 1, 2, 2, 3, 0
-//};
-
 struct UniformBufferObject {
 	Invision::Matrix model;
 	Invision::Matrix view;
@@ -64,7 +53,6 @@ public:
 	}
 
 	void RecreateSwapChain(const int width, const int height);
-	void UpdateUniformBuffer(float width, float height);
 
 	void Render()
 	{
@@ -153,7 +141,6 @@ private:
 
 		bool recreateSwapchainIsNecessary = false;
 		recreateSwapchainIsNecessary = renderer->PrepareFrame();
-		UpdateUniformBuffer(this->size().width(), this->size().height());
 
 		renderer->Draw(commandBuffer);
 
@@ -167,51 +154,21 @@ private:
 
 	void Init()
 	{
-	
-
-
 		auto nativeWindowHandler = winId();
 			
-
 		Invision::CanvasDimensions dim = { HWND(nativeWindowHandler), this->size().width(), this->size().height() };
-		//graphicsEngine = std::make_shared<Invision::VulkanEngine>(dim);
 		
 		graphicsInstance = graphicsEngine->CreateInstance(dim, renderPass, framebuffer, commandBuffer);
-
-		//renderPass = graphicsInstance->CreateRenderPass(); //graphicsEngine->CreateRenderPass();
 		vertexBuffer = graphicsInstance->CreateVertexBuffer();
-		uniformBuffer = graphicsInstance->CreateUniformBuffer();
-		indexBuffer = graphicsInstance->CreateIndexBuffer();
-		pipeline = graphicsInstance->CreatePipeline();
-		//texture = graphicsInstance->CreateTexture();
 
-		
-		mFontManager.RegisterFont("Arial", std::string(INVISION_BASE_DIR).append("/src/Examples/FontDemo/arial.ttf"));
+		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/FontDemo/Shader/DrawTexture/vert.spv"));
+		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/FontDemo/Shader/DrawTexture/frag.spv"));
 
-	/*	unsigned char* font = GenerateFontSet(12, width, height);
-		std::vector<unsigned char*> texArray;
-		texArray.push_back(font);*/
-
-		
-
-		//BuildCommandBuffer(this->size().width(), this->size().height());
-
-		//commandBuffer->BeginCommandBuffer().
-		//	SetViewport({ 0, 0, (float)width, (float)height, 0.0, 1.0 }).
-		//	SetScissor({ 0, 0, (uint32_t)width, (uint32_t)height }).
-		//	BeginRenderPass(renderPass, framebuffer, 0, 0, width, height).
-		//	BindPipeline(pipeline).
-		//	BindVertexBuffer({ vertexBuffer }, 0, 1).
-		//	BindDescriptorSets(uniformBuffer, pipeline).
-		//	BindIndexBuffer(indexBuffer, Invision::INDEX_TYPE_UINT32).
-		//	//Draw(static_cast<uint32_t>(vertices.size()), 1, 0, 0).
-		//	DrawIndexed(static_cast<uint32_t>(indices.size()), 1, 0, 0, 0).
-		//	EndRenderPass().
-		//	EndCommandBuffer();
+		mFontManager = new Invision::FontManager(graphicsInstance, renderPass);
+		mFontManager->RegisterFont("Arial", std::string(INVISION_BASE_DIR).append("/src/Examples/FontDemo/arial.ttf"), vertShaderCode, fragShaderCode);
 		
 		BuildCommandBuffer(this->size().width(), this->size().height());
 		renderer = graphicsInstance->CreateRenderer();
-
 
 		mIsInit = true;
 
@@ -225,19 +182,13 @@ private:
 		commandBuffer->SetScissor({ 0, 0, (uint32_t)width, (uint32_t)height });
 		commandBuffer->BeginRenderPass(renderPass, framebuffer, 0, 0, width, height);
 
-		DrawText("H", 25.0f, 25.0f, 1.0f);
+		DrawText("A", 25.0f, 25.0f, 1.0f);
 		commandBuffer->EndRenderPass();
 		commandBuffer->EndCommandBuffer();
 	}
 
 	void DrawText(std::string text, float x, float y, float scale)
 	{
-		Invision::Vector2 dimensions(24, 30); //mFontManager.GetCharacter('a').GetSize();
-
-		
-		/*std::vector<unsigned char*> textureAtlas = mFontManager.GetTextureArray();*/
-		
-
 		std::shared_ptr<Invision::IVertexBindingDescription> bindingDescr = graphicsInstance->CreateVertexBindingDescription();
 		bindingDescr->CreateVertexBinding(0, sizeof(Vertex), Invision::VERTEX_INPUT_RATE_VERTEX)
 			->CreateAttribute(0, Invision::FORMAT_R32G32_SFLOAT, offsetof(Vertex, position))
@@ -246,49 +197,49 @@ private:
 
 		
 
-		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/FontDemo/Shader/DrawTexture/vert.spv"));
-		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/FontDemo/Shader/DrawTexture/frag.spv"));
+		auto vertShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/FontDemo/Shader/DrawFont/vert.spv"));
+		auto fragShaderCode = readFile(std::string(INVISION_BASE_DIR).append("/src/Examples/FontDemo/Shader/DrawFont/frag.spv"));
 
 		std::string::const_iterator c;
 		for (c = text.begin(); c != text.end(); c++)
 		{
-			Invision::Character ch = mFontManager.GetCharacter(*c);
-
-			texture = graphicsInstance->CreateTexture();
-			//texture->CreateTexture(textureAtlas[0], ch.GetSize().getX(), ch.GetSize().getY(), Invision::FORMAT_R8G8B8A8_SRGB, false);
-			texture->CreateTextureSampler(Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_FILTER_MODE_LINEAR, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT, Invision::SAMPLER_ADDRESS_MODE_REPEAT);
-
-			uniformBuffer->CreateUniformBinding(0, 0, 1, Invision::SHADER_STAGE_VERTEX_BIT, sizeof(UniformBufferObject)).CreateImageBinding(0, 1, 1, Invision::SHADER_STAGE_FRAGMENT_BIT, texture).CreateUniformBuffer();
-
-			float xpos = x + ch.GetBearing().getX() * scale;
-			float ypos = y - (ch.GetSize().getY() - ch.GetBearing().getY()) * scale;
+			Invision::Character ch = mFontManager->GetCharacter(*c);
+			float xpos = 0;
+			float ypos = 0;
 
 			float w = ch.GetSize().getX() * scale;
 			float h= ch.GetSize().getY() * scale;
 
 			const std::vector<Vertex> vertices = {
-			{ { xpos, ypos + h }, { 1.0f, 0.0f, 0.0f }, { 0.0f, 0.0f } },
-			{ {xpos, ypos}, {0.0f, 1.0f, 0.0f}, {0.0f, 1.0f} },
-			{ {xpos + w, ypos}, {0.0f, 0.0f, 1.0f}, {1.0f, 1.0f} },
-
-			{ {xpos, ypos + h}, {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f} },
-			{ {xpos + w, ypos}, {0.0f, 1.0f, 0.0f}, {1.0f, 1.0f} },
-			{ {xpos + w, ypos + h}, {0.0f, 0.0f, 1.0f}, {1.0f, 0.0f} }
-			};
+			{{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f}},
+			{{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f}},
+			{{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f}},
+			{{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f}},
+			{{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}},
+			{ {-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f}}};
 
 			vertexBuffer->CreateBuffer(vertices.data(), sizeof(vertices[0]) * vertices.size(), 0, bindingDescr);
 
-			pipeline->AddUniformBuffer(uniformBuffer);
-			pipeline->AddShader(vertShaderCode, Invision::SHADER_STAGE_VERTEX_BIT);
-			pipeline->AddShader(fragShaderCode, Invision::SHADER_STAGE_FRAGMENT_BIT);
-			pipeline->AddVertexDescription(bindingDescr);
-			pipeline->CreatePipeline(renderPass);
-
-		
-			commandBuffer->BindPipeline(pipeline);
+			commandBuffer->BindPipeline(ch.getPipeline());
 			commandBuffer->BindVertexBuffer({ vertexBuffer }, 0, 1);
-			commandBuffer->BindDescriptorSets(uniformBuffer, pipeline);
+			commandBuffer->BindDescriptorSets(ch.getUniformBuffer(), ch.getPipeline());
+
 			commandBuffer->Draw(static_cast<uint32_t>(vertices.size()), 1, 0, 0);
+
+			UniformBufferObject ubo = {};
+			ubo.model = Invision::Matrix(1.0f) ;
+		
+
+			//Orthographic:
+			ubo.proj = Invision::Matrix::Orthographic(-5.0f, 5.0f, 5.0f, -5.0f, 0.1f, 10.0f);
+
+			// perspective
+			//ubo.view = Invision::Matrix::Camera(Invision::Vector3(2.0f, 2.0f, 2.0f), Invision::Vector3(0.0f, 0.0f, 0.0f), Invision::Vector3(0.0f, 0.0f, 1.0f));
+			//ubo.proj = Invision::Matrix::Perspective(45.0, this->size().width() / this->size().height(), 0.1f, 10.0f);
+
+			ch.getUniformBuffer()->UpdateUniform(&ubo, sizeof(ubo), 0, 0);
+
+
 		}
 	}
 
@@ -302,17 +253,13 @@ private:
 	std::shared_ptr <Invision::IGraphicsInstance> graphicsInstance;
 	std::shared_ptr <Invision::IRenderPass> renderPass;
 	std::shared_ptr <Invision::IVertexBuffer> vertexBuffer;
-	std::shared_ptr <Invision::IUniformBuffer> uniformBuffer;
-	std::shared_ptr <Invision::IIndexBuffer> indexBuffer;
-	std::shared_ptr <Invision::IPipeline> pipeline;
 	std::shared_ptr <Invision::IFramebuffer> framebuffer;
 	std::shared_ptr <Invision::ICommandBuffer> commandBuffer;
 	std::shared_ptr <Invision::IRenderer> renderer;
-	std::shared_ptr <Invision::ITexture> texture;
 
 	// timer for frequency adjusting
 	Invision::StopWatch mTimer;
-	Invision::FontManager mFontManager;
+	Invision::FontManager *mFontManager;
 };
 
 #endif RENDER_WIDGET_H

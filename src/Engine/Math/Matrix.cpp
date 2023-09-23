@@ -650,18 +650,17 @@ namespace Invision {
 	Matrix Matrix::Orthographic(const float &left, const float &right, const float &bottom, const float &top, const float &nearf, const float &farf)
 	{
 #ifdef ROWMAJOR
-		return{ 2.0f / (right - left), 0.0f, 0.0f, 0.0f,
-				0.0f, 2.0f / (bottom - top), 0.0f, 0.0f,
-				0.0f, 0.0f, 2.0f / (nearf - farf), 0.0f,
-				-(right + left) / (right - left), -(bottom + top) / (bottom - top), nearf / (nearf - farf), 1.0f
-		};
-#else
 		return{ 2.0f / (right - left), 0.0f, 0.0f, -(right + left) / (right - left),
-				0.0f, 2.0f / (top - bottom), 0.0f, -(top + bottom) / (top - bottom),
-				0.0f, 0.0f, -2.0f / (farf - nearf),-(farf + nearf) / (farf - nearf) ,
+				0.0f, 2.0f / (bottom - top), 0.0f,  -(bottom + top) / (bottom - top),
+				0.0f, 0.0f, 1.0f / (nearf - farf), nearf / (nearf - farf),
 				0.0f, 0.0f, 0.0f, 1.0f
 		};
-		
+#else
+		return{ 2.0f / (right - left), 0.0f, 0.0f, 0.0f,
+				0.0f, 2.0f / (bottom - top), 0.0f, 0.0f,
+				0.0f, 0.0f, 1.0f / (nearf - farf), 0.0f,
+				-(right + left) / (right - left), -(bottom + top) / (bottom - top), nearf / (nearf - farf), 1.0f
+		};
 #endif
 	}
 
