@@ -215,4 +215,19 @@ namespace Invision
 
 		return this;
 	}
+
+	Font::~Font()
+	{
+		mCharacters.clear();
+	}
+
+	FontManager::~FontManager()
+	{
+		for (std::map<std::string, Font*>::iterator i = mFonts.begin(); i != mFonts.end(); ++i)
+		{
+			Font* font = i->second;
+			font->~Font();
+			
+		}
+	}
 }

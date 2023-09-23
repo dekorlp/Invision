@@ -59,6 +59,7 @@ namespace Invision
 		public:
 			INVISION_API Font* Generatefont(std::string font, std::string path, std::shared_ptr <Invision::IGraphicsInstance> graphicsInstance, std::shared_ptr <Invision::IRenderPass> renderPass, std::vector<char> vertexShader, std::vector<char> fragmentShader);
 			INVISION_API Character GetCharacter(char character);
+			INVISION_API ~Font();
 	};
 
 	class FontManager
@@ -73,6 +74,7 @@ namespace Invision
 		INVISION_API void UnregisterFont(std::string font);
 		std::shared_ptr <Invision::IGraphicsInstance> *mGraphicsInstance;
 		std::shared_ptr <Invision::IRenderPass> *mRenderPass;
+		INVISION_API ~FontManager();
 	};
 }
 #endif // FONT_MANAGER_H

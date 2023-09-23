@@ -45,7 +45,10 @@ public:
 		graphicsEngine = engine;
 	}
 
-	virtual ~RenderWidget() = default;
+	virtual ~RenderWidget()
+	{
+		mFontManager->~FontManager();
+	}
 
 	virtual QPaintEngine* paintEngine() const override
 	{
