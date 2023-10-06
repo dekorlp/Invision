@@ -13,7 +13,7 @@
 
 #include "Engine/InCommon.h"
 #include "Engine/renderer/GraphicsFactory.h"
-#include "Engine/common/StopWatch.h"
+#include "Engine/common/Types/StopWatch.h"
 #include "Engine/input/IKeyboard.h"
 #include "Engine/input/WindowsKeyboard.h"
 

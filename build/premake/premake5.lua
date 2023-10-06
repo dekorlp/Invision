@@ -161,7 +161,44 @@ function AddImageLibraries(libpath)
 	includedirs
 	{
 		libpath .. "stb/",
+		libpath .. "FreeType2/include"
 	}
+	
+	filter "platforms:x86"
+		libdirs
+		{
+			libpath .. "FreeType2/lib/win32/" -- x32 bit variant
+		}
+		links { "freetype.lib" }
+		
+	filter "platforms:x64"
+		libdirs
+		{
+			libpath .. "FreeType2/lib/win64/" -- x64 bit variant
+		}
+		links { "freetype.lib" }
+	
+end
+
+function AddFontLibrary(libpath)
+	includedirs
+	{
+		libpath .. "FreeType2/include"
+	}
+	
+	filter "platforms:x86"
+		libdirs
+		{
+			libpath .. "FreeType2/lib/win32/" -- x32 bit variant
+		}
+		links { "freetype.lib" }
+		
+	filter "platforms:x64"
+		libdirs
+		{
+			libpath .. "FreeType2/lib/win64/" -- x64 bit variant
+		}
+		links { "freetype.lib" }
 end
 
 function AddTinyObjLibrary(libpath)
@@ -375,19 +412,17 @@ project "Invision"
 		--cppdialect "C++17"
 	
 	pchheader "precompiled.h"
-	pchsource (srcroot .. "Engine/common/precompiled.cpp")
+	pchsource (srcroot .. "Engine/Common/precompiled.cpp")
 	
 	files {
-		srcroot .. "Engine/common/**.h",
-		srcroot .. "Engine/common/**.cpp",
-		srcroot .. "Engine/lowlevel/**.h",
-		srcroot .. "Engine/lowlevel/**.cpp",
-		srcroot .. "Engine/math/**.h",
-		srcroot .. "Engine/math/**.cpp",
-		srcroot .. "Engine/renderer/**.h",
-		srcroot .. "Engine/renderer/**.cpp",
-		srcroot .. "Engine/input/**.h",
-		srcroot .. "Engine/input/**.cpp",
+		srcroot .. "Engine/Common/**.h",
+		srcroot .. "Engine/Common/**.cpp",
+		srcroot .. "Engine/Math/**.h",
+		srcroot .. "Engine/Math/**.cpp",
+		srcroot .. "Engine/Renderer/**.h",
+		srcroot .. "Engine/Renderer/**.cpp",
+		srcroot .. "Engine/Input/**.h",
+		srcroot .. "Engine/Input/**.cpp",
 		srcroot .. "Engine/InCommon.h",
 		srcroot .. "Engine/InMath.h",
 		srcroot .. "Engine/Invision.h"
@@ -395,7 +430,7 @@ project "Invision"
 	
 	includedirs {
 		srcroot .. "Engine/",
-		srcroot .. "Engine/common/"
+		srcroot .. "Engine/Common/"
 	}
 	
 	filter "system:Windows"	
@@ -408,6 +443,7 @@ project "Invision"
 	
 	--AddBoostLibrary(libpath)
 	AddVulkanLibrary(libpath)
+	AddFontLibrary(libpath)
 	
 	filter "configurations:Debug"
 		defines { "DEBUG" }
@@ -460,6 +496,13 @@ AddConsoleProject(
 	"TextureDemo", srcroot .. "Examples/", {
 		srcroot .. "Examples/TextureDemo/**.h",
 		srcroot .. "Examples/TextureDemo/**.cpp"
+	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, false)
+	
+	--function AddWindowedProject(name, files, includes, links, defines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
+AddConsoleProject(
+	"FontDemo", srcroot .. "Examples/", {
+		srcroot .. "Examples/FontDemo/**.h",
+		srcroot .. "Examples/FontDemo/**.cpp"
 	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, false)
 
 --function AddWindowedProject(name, files, includes, links, defines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine)
