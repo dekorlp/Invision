@@ -4,10 +4,10 @@
 class Game : public IGame
 {
 	public:
-		void init(GameContext& context) {
+		void init(WindowContext&windowContext, GameContext& gameContext) {
 			// init game
-			context.setWindowName(L"Sandbox App");
-			context.setWindowSize(800, 600);
+			windowContext.setWindowName(L"Sandbox App");
+			windowContext.setWindowSize(800, 600);
 		}
 		void update() {
 			// update game

@@ -1,3 +1,4 @@
+#include "IGame.h"
 #include "OSWindow.h"
 
 #if defined(_WIN32)
@@ -32,6 +33,7 @@ LRESULT CALLBACK OSWindow::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 WPARAM OSWindow::createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     LPSTR lpCmdLine, int nCmdShow, IGame* game)
 {
+    WindowContext* windowContext = new WindowContext();
     GameContext* gameContext = new GameContext();
 
     WNDCLASSEX wc;
@@ -68,8 +70,8 @@ WPARAM OSWindow::createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         CW_USEDEFAULT, CW_USEDEFAULT, 640, 360,
         NULL, NULL, hInstance, this);
 
-    gameContext->setHWND(hwnd);
-    game->init(*gameContext);
+    windowContext->setHWND(hwnd);
+    game->init(*windowContext , *gameContext);
 
 
     if (hwnd == NULL)
@@ -93,6 +95,25 @@ WPARAM OSWindow::createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     return Msg.wParam;
 }
 
+void OSWindow::setHWND(HWND hwnd)
+{
+    mHwnd = hwnd;
+}
+
+HWND OSWindow::getHWND()
+{
+    return mHwnd;
+}
+
+void OSWindow::setWindowName(wchar_t* windowname)
+{
+    SetWindowTextW(mHwnd, windowname);
+}
+
+void OSWindow::setWindowSize(int width, int height)
+{
+    SetWindowPos(mHwnd, HWND_TOP, 0, 0, width, height, SWP_NOMOVE);
+}
 
 #elif defined(__linux__)
 

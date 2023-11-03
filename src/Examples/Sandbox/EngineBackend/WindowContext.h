@@ -11,8 +11,17 @@ public:
 		
 	}
 
+	void setWindowName(wchar_t* windowname);
+	wchar_t* getWindowName();
+
+	void setWindowSize(int width, int height);
+	int getWindowWidth();
+	int getWindowHeight();
+
 private:
-	HWND mHwnd;
+	wchar_t* mWindowname;
+	int mWindowWidth;
+	int mWindowHeight;
 };
 
 #endif // WINDOW_CONTEXT_H

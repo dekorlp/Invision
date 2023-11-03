@@ -3,12 +3,18 @@
 
 #if defined(_WIN32)
 #include <windows.h>
-#include "IGame.h"
+
+class IGame;
 
 class OSWindow
 {
 private:
     wchar_t* mClassName;
+
+protected:
+    HWND mHwnd;
+    void setWindowName(wchar_t* windowname);
+    void setWindowSize(int width, int height);
 
 public:
     OSWindow()
@@ -19,6 +25,9 @@ public:
     static LRESULT CALLBACK OSWindow::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	WPARAM createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		LPSTR lpCmdLine, int nCmdShow, IGame* game);
+
+    void setHWND(HWND hwnd);
+    HWND getHWND();
 
     void Tesfunc() {
         int msgboxID = MessageBox(

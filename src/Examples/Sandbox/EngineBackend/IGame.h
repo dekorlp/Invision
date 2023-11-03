@@ -2,11 +2,12 @@
 #define IGAME_H
 
 #include "GameContext.h"
+#include "WindowContext.h"
 
 class IGame
 {
 	public:
-		virtual void init(GameContext& gameContext) = 0;
+		virtual void init(WindowContext &windowContext, GameContext& gameContext) = 0;
 		virtual void update() = 0;
 		virtual void render() = 0;
 		virtual void destroy() = 0;
