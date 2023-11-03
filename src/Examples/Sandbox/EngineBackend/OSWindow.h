@@ -16,15 +16,7 @@ protected:
     void setWindowName(wchar_t* windowname);
     void setWindowSize(int width, int height);
 
-public:
-    OSWindow()
-    {
-        mClassName = L"myWindowClass";
-    }
-
     static LRESULT CALLBACK OSWindow::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	WPARAM createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-		LPSTR lpCmdLine, int nCmdShow, IGame* game);
 
     void setHWND(HWND hwnd);
     HWND getHWND();
@@ -37,6 +29,16 @@ public:
             MB_ICONWARNING | MB_CANCELTRYCONTINUE | MB_DEFBUTTON2
         );
     }	
+
+public:
+
+    OSWindow()
+    {
+        mClassName = L"myWindowClass";
+    }
+
+    WPARAM createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+        LPSTR lpCmdLine, int nCmdShow, IGame* game);
 };
 
 #elif defined(__linux__)

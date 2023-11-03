@@ -6,10 +6,7 @@
 class WindowContext : public OSWindow
 {
 public:
-	WindowContext() : OSWindow()
-	{
-		
-	}
+	WindowContext() : OSWindow() {};
 
 	void setWindowName(wchar_t* windowname);
 	wchar_t* getWindowName();
