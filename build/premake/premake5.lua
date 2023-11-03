@@ -579,6 +579,12 @@ AddConsoleProject(
 		srcroot .. "Examples/TesselationShader/**.cpp"
 	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, true)
 
+AddWindowedProject(
+	"Sandbox", srcroot .. "Examples/", {
+		srcroot .. "Examples/Sandbox/**.h",
+		srcroot .. "Examples/Sandbox/**.cpp"
+	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, false, true, true, true, true)
+
 
 
 -----------------------------------------------------------------------------------------------------
@@ -596,7 +602,7 @@ AddConsoleProject(
 	"InvisionHL", srcroot .. "InvisionHL/", {
 		srcroot .. "InvisionHL/**.h",
 		srcroot .. "InvisionHL/**.cpp"
-	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, true)
+	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, false, true, true, true, true)
 	
 	
 	
