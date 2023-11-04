@@ -1,21 +1,19 @@
-#include "IGame.h"
-#include "OSWindow.h"
+#include "OsWinWindow.h"
 
 #if defined(_WIN32)
 
-LRESULT CALLBACK OSWindow::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK OSWinWindow::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    OSWindow* myWnd;
-    myWnd = (OSWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+    OSWinWindow* myWnd;
+    myWnd = (OSWinWindow*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
     switch (msg)
     {
     case WM_CREATE:
     {
-        //CREATESTRUCT* pcs = (CREATESTRUCT*)lParam;
-        //OSWindow* myWnd = (OSWindow*)pcs->lpCreateParams;
-        //SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)myWnd);
-        myWnd->Tesfunc();
+        CREATESTRUCT* pcs = (CREATESTRUCT*)lParam;
+        OSWinWindow* myWnd = (OSWinWindow*)pcs->lpCreateParams;
+        SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)myWnd);
         break;
     }
     case WM_CLOSE:
@@ -30,11 +28,9 @@ LRESULT CALLBACK OSWindow::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
     return 0;
 }
 
-WPARAM OSWindow::createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-    LPSTR lpCmdLine, int nCmdShow, IGame* game)
+WPARAM OSWinWindow::createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+    LPSTR lpCmdLine, int nCmdShow)
 {
-    WindowContext* windowContext = new WindowContext();
-    GameContext* gameContext = new GameContext();
 
     WNDCLASSEX wc;
     HWND hwnd;
@@ -70,9 +66,6 @@ WPARAM OSWindow::createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         CW_USEDEFAULT, CW_USEDEFAULT, 640, 360,
         NULL, NULL, hInstance, this);
 
-    windowContext->setHWND(hwnd);
-    game->init(*windowContext , *gameContext);
-
 
     if (hwnd == NULL)
     {
@@ -91,28 +84,17 @@ WPARAM OSWindow::createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         DispatchMessage(&Msg);
     }
 
-    delete gameContext;
     return Msg.wParam;
 }
 
-void OSWindow::setHWND(HWND hwnd)
+void OSWinWindow::setHWND(HWND hwnd)
 {
     mHwnd = hwnd;
 }
 
-HWND OSWindow::getHWND()
+HWND OSWinWindow::getHWND()
 {
     return mHwnd;
-}
-
-void OSWindow::setWindowName(wchar_t* windowname)
-{
-    SetWindowTextW(mHwnd, windowname);
-}
-
-void OSWindow::setWindowSize(int width, int height)
-{
-    SetWindowPos(mHwnd, HWND_TOP, 0, 0, width, height, SWP_NOMOVE);
 }
 
 #elif defined(__linux__)

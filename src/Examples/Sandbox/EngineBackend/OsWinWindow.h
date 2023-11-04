@@ -1,22 +1,17 @@
-#ifndef OS_WINDOW_H
-#define OS_WINDOW_H
+#ifndef OS_WINWINDOW_H
+#define OS_WINWINDOW_H
 
 #if defined(_WIN32)
+#include "IWindow.h"
 #include <windows.h>
 
-class IGame;
-
-class OSWindow
+class OSWinWindow : public IWindow
 {
 private:
     wchar_t* mClassName;
-
-protected:
     HWND mHwnd;
-    void setWindowName(wchar_t* windowname);
-    void setWindowSize(int width, int height);
 
-    static LRESULT CALLBACK OSWindow::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+    static LRESULT CALLBACK OSWinWindow::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
     void setHWND(HWND hwnd);
     HWND getHWND();
@@ -28,17 +23,23 @@ protected:
             (LPCWSTR)L"Account Details",
             MB_ICONWARNING | MB_CANCELTRYCONTINUE | MB_DEFBUTTON2
         );
-    }	
+    }
 
 public:
 
-    OSWindow()
+    OSWinWindow()
     {
         mClassName = L"myWindowClass";
     }
 
     WPARAM createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-        LPSTR lpCmdLine, int nCmdShow, IGame* game);
+        LPSTR lpCmdLine, int nCmdShow);
+
+    void resize()
+    {
+
+
+    }
 };
 
 #elif defined(__linux__)
