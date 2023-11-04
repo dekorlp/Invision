@@ -7,6 +7,7 @@ class IWindow
 {
 protected:
 	virtual EWindowStatus getWindowStatus() = 0;
+	virtual void setWindowTitle(const char* title) = 0;
 };
 
 #endif // I_WINDOW_H

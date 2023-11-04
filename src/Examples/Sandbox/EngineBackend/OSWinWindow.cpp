@@ -16,7 +16,6 @@ LRESULT CALLBACK OSWinWindow::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
         CREATESTRUCT* pcs = (CREATESTRUCT*)lParam;
         OSWinWindow* myWnd = (OSWinWindow*)pcs->lpCreateParams;
         SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)myWnd);
-        myWnd->mEngineCore->Create();
         break;
     }
     case WM_SIZE:
@@ -79,6 +78,8 @@ WPARAM OSWinWindow::createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         CW_USEDEFAULT, CW_USEDEFAULT, 640, 360,
         NULL, NULL, hInstance, this);
     mHwnd = hwnd;
+
+    mEngineCore->Create();
 
     if (hwnd == NULL)
     {
@@ -146,7 +147,11 @@ WPARAM OSWinWindow::createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
                 }
 
         return windowStatus;
+    }
 
+    void OSWinWindow::setWindowTitle(const char* title)
+    {
+        SetWindowTextA(mHwnd, title);
     }
 
 #elif defined(__linux__)

@@ -11,3 +11,8 @@ EWindowStatus Window::getWindowStatus()
 {
     return OSWinWindow::getWindowStatus();
 }
+
+void Window::setWindowTitle(const char* title)
+{
+    OSWinWindow::setWindowTitle(title);
+}

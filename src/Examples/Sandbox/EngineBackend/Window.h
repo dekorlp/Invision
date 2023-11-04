@@ -10,6 +10,7 @@ public:
     Window();
 
     EWindowStatus getWindowStatus();
+    void setWindowTitle(const char* title);
 
     WPARAM createWindow() = delete;
 };

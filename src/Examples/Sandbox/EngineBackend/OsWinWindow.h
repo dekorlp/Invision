@@ -24,6 +24,7 @@ public:
 
 protected:
     virtual EWindowStatus getWindowStatus();
+    virtual void setWindowTitle(const char* title);
 };
 
 #elif defined(__linux__)

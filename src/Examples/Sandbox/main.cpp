@@ -6,6 +6,7 @@ class Game : public Engine
 		void init() {
 			// init game
 			EWindowStatus status = getWindow()->getWindowStatus();
+			getWindow()->setWindowTitle("Hallo Welt");
 			int test = 0;
 		}
 		void update() {
