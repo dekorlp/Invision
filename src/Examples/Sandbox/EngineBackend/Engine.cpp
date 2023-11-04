@@ -16,3 +16,9 @@ WPARAM Engine::InitWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 Window* Engine::getWindow() {
     return dynamic_cast<Window*>(mWindow);
 }
+
+Engine::~Engine()
+{
+    delete mWindow;
+	delete mEngineCore;
+}

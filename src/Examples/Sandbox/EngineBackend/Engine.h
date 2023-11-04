@@ -30,7 +30,7 @@ public:
     WPARAM InitWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow);
     Window* getWindow();
 
-    
+    ~Engine();
 };
 
 #endif // ENGINE_H
