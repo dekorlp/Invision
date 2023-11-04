@@ -2,7 +2,6 @@
 #define WINDOW_H
 
 class OSWinWindow;
-class IWindow;
 
 class Window : public OSWinWindow
 {
