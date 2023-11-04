@@ -2,7 +2,6 @@
 #define ENGINE_H
 
 #if defined(_WIN32)
-#include "OSWinWindow.h"
 #include "EngineCore.h"
 #include <windows.h>
 
@@ -21,17 +20,17 @@ _In_ PSTR szCmdLine, _In_ int iCmdShow) { \
 
 class Engine
 {
-private:
-    IWindow *mWindow;
-    EngineCore* engineCore;
-
+private:    
+    EngineCore* mEngineCore;
 public:
-    WPARAM InitWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-        LPSTR lpCmdLine, int nCmdShow)
+    Engine()
     {
-        mWindow = new OSWinWindow();
-        engineCore = new EngineCore();
-        return dynamic_cast<OSWinWindow*>(mWindow)->createWindow(hInstance, hPrevInstance, lpCmdLine, nCmdShow, engineCore);
+        mEngineCore = new EngineCore();
+    }
+
+    WPARAM InitWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+        LPSTR lpCmdLine, int nCmdShow) {
+        return mEngineCore->InitWindow(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
     }
 
     virtual void init() = 0;
