@@ -25,21 +25,10 @@ private:
     EngineCore* mEngineCore;
     IWindow* mWindow;
 public:
-    Engine()
-    {
-        mWindow = new Window();
-        mEngineCore = new EngineCore(this);
-    }
+    Engine();
 
-    WPARAM InitWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-        LPSTR lpCmdLine, int nCmdShow) {
-       
-        return dynamic_cast<OSWinWindow*>(mWindow)->createWindow(hInstance, hPrevInstance, lpCmdLine, nCmdShow, mEngineCore);
-    }
-
-    Window *getWindow() {
-		return dynamic_cast<Window*>(mWindow);
-	}
+    WPARAM InitWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow);
+    Window* getWindow();
 
     
 };

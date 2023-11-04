@@ -7,15 +7,9 @@ class IWindow;
 class Window : public OSWinWindow
 {
 public:
-    Window() : OSWinWindow() {
+    Window();
 
-    }
-
-    bool isWindowActive()
-    {
-        return OSWinWindow::isWindowActive();
-    }
-
+    bool isWindowActive();
     WPARAM createWindow() = delete;
 };
 

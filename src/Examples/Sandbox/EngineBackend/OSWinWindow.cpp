@@ -116,6 +116,19 @@ WPARAM OSWinWindow::createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     return msg.wParam;
 }
 
+
+    OSWinWindow::OSWinWindow()
+    {
+        mClassName = L"myWindowClass";
+        mEngineCore = NULL;
+    }
+
+    bool OSWinWindow::isWindowActive()
+    {
+        return IsWindowVisible(mHwnd);
+
+    }
+
 #elif defined(__linux__)
 
 #endif
