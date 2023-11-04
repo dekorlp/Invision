@@ -1,3 +1,4 @@
+#include "EngineCore.h"
 #include "OsWinWindow.h"
 
 #if defined(_WIN32)
@@ -14,12 +15,24 @@ LRESULT CALLBACK OSWinWindow::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
         CREATESTRUCT* pcs = (CREATESTRUCT*)lParam;
         OSWinWindow* myWnd = (OSWinWindow*)pcs->lpCreateParams;
         SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)myWnd);
+        myWnd->mEngineCore->Create();
         break;
     }
-    case WM_CLOSE:
-        DestroyWindow(hwnd);
+    case WM_SIZE:
+    {
+        RECT rect;
+        if (GetWindowRect(hwnd, &rect))
+        {
+            myWnd->mEngineCore->Resize(rect.right - rect.left, rect.bottom - rect.top);
+        }
+       
         break;
-    case WM_DESTROY:
+    }
+
+    case WM_QUIT:
+	case WM_DESTROY:
+    case WM_CLOSE:
+        myWnd->mEngineCore->Shutdown();
         PostQuitMessage(0);
         break;
     default:
@@ -29,12 +42,11 @@ LRESULT CALLBACK OSWinWindow::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 }
 
 WPARAM OSWinWindow::createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-    LPSTR lpCmdLine, int nCmdShow)
+    LPSTR lpCmdLine, int nCmdShow, EngineCore *core)
 {
-
+    mEngineCore = core;
     WNDCLASSEX wc;
     HWND hwnd;
-    MSG Msg;
 
     //Step 1: Registering the Window Class
     wc.cbSize = sizeof(WNDCLASSEX);
@@ -65,7 +77,7 @@ WPARAM OSWinWindow::createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, CW_USEDEFAULT, 640, 360,
         NULL, NULL, hInstance, this);
-
+    mHwnd = hwnd;
 
     if (hwnd == NULL)
     {
@@ -77,24 +89,31 @@ WPARAM OSWinWindow::createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     ShowWindow(hwnd, nCmdShow);
     UpdateWindow(hwnd);
 
-    // Step 3: The Message Loop
-    while (GetMessage(&Msg, NULL, 0, 0) > 0)
+    MSG msg;
+    bool done = false;
+
+    while (!done)
     {
-        TranslateMessage(&Msg);
-        DispatchMessage(&Msg);
+        if (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+        {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+
+            if (msg.message == WM_QUIT)
+			{
+				done = true;
+			}
+        }
+		else
+		{
+            mEngineCore->Render();
+		}
+        
     }
 
-    return Msg.wParam;
-}
+    DestroyWindow(hwnd);
 
-void OSWinWindow::setHWND(HWND hwnd)
-{
-    mHwnd = hwnd;
-}
-
-HWND OSWinWindow::getHWND()
-{
-    return mHwnd;
+    return msg.wParam;
 }
 
 #elif defined(__linux__)

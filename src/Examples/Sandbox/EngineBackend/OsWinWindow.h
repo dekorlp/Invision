@@ -5,16 +5,16 @@
 #include "IWindow.h"
 #include <windows.h>
 
+class EngineCore;
+
 class OSWinWindow : public IWindow
 {
 private:
     wchar_t* mClassName;
+    EngineCore* mEngineCore;
     HWND mHwnd;
 
     static LRESULT CALLBACK OSWinWindow::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-    void setHWND(HWND hwnd);
-    HWND getHWND();
 
     void Tesfunc() {
         int msgboxID = MessageBox(
@@ -30,10 +30,11 @@ public:
     OSWinWindow()
     {
         mClassName = L"myWindowClass";
+        mEngineCore = NULL;
     }
 
     WPARAM createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-        LPSTR lpCmdLine, int nCmdShow);
+        LPSTR lpCmdLine, int nCmdShow, EngineCore* core);
 
     void resize()
     {
