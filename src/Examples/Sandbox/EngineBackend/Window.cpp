@@ -1,3 +1,4 @@
+#include "EWindowStatus.h"
 #include "OsWinWindow.h"
 #include "IWindow.h"
 #include "Window.h"
@@ -6,7 +7,7 @@ Window::Window() : OSWinWindow() {
 
 }
 
-bool Window::isWindowActive()
+EWindowStatus Window::getWindowStatus()
 {
-    return OSWinWindow::isWindowActive();
+    return OSWinWindow::getWindowStatus();
 }

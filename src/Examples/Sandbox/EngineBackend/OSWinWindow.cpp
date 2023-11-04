@@ -1,3 +1,4 @@
+#include "EWindowStatus.h"
 #include "EngineCore.h"
 #include "OsWinWindow.h"
 
@@ -121,11 +122,30 @@ WPARAM OSWinWindow::createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     {
         mClassName = L"myWindowClass";
         mEngineCore = NULL;
+        mHwnd = NULL;
     }
 
-    bool OSWinWindow::isWindowActive()
+    EWindowStatus OSWinWindow::getWindowStatus()
     {
-        return IsWindowVisible(mHwnd);
+        EWindowStatus windowStatus;
+
+        if (!IsWindowVisible(mHwnd))
+            windowStatus = EWindowStatus::HIDDEN;
+        else
+            if (IsIconic(mHwnd))
+                windowStatus = EWindowStatus::MINIMIZED;
+            else
+                if (IsZoomed(mHwnd))
+                    windowStatus = EWindowStatus::MAXIMIZED;
+                else
+                {
+                    // not hidden, minimized or zoomed, so we are a normal visible window
+                    // last ShowWindow flag could have been SW_RESTORE, SW_SHOW, SW_SHOWNA, etc
+                    // no way to tell
+                    windowStatus = EWindowStatus::SHOWED;
+                }
+
+        return windowStatus;
 
     }
 

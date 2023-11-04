@@ -1,10 +1,12 @@
 #ifndef I_WINDOW_H
 #define I_WINDOW_H
 
+enum EWindowStatus;
+
 class IWindow 
 {
 protected:
-	virtual bool isWindowActive() = 0;
+	virtual EWindowStatus getWindowStatus() = 0;
 };
 
 #endif // I_WINDOW_H

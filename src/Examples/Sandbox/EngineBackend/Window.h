@@ -1,6 +1,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+enum EWindowStatus;
 class OSWinWindow;
 
 class Window : public OSWinWindow
@@ -8,7 +9,8 @@ class Window : public OSWinWindow
 public:
     Window();
 
-    bool isWindowActive();
+    EWindowStatus getWindowStatus();
+
     WPARAM createWindow() = delete;
 };
 

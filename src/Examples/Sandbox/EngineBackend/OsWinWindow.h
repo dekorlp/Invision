@@ -6,6 +6,7 @@
 #include <windows.h>
 
 class EngineCore;
+enum EWIndowStatus;
 
 class OSWinWindow : public IWindow
 {
@@ -22,8 +23,7 @@ public:
         LPSTR lpCmdLine, int nCmdShow, EngineCore* core);
 
 protected:
-
-    virtual bool isWindowActive();
+    virtual EWindowStatus getWindowStatus();
 };
 
 #elif defined(__linux__)
