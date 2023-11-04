@@ -4,7 +4,7 @@
 class IWindow 
 {
 protected:
-	virtual void resize() = 0;
+	virtual bool isWindowActive() = 0;
 };
 
 #endif // I_WINDOW_H

@@ -4,6 +4,7 @@
 #if defined(_WIN32)
 #include "EngineCore.h"
 #include <windows.h>
+#include "Window.h"
 
 #define INVISION_MAIN(IEngineParam) int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, \
 _In_ PSTR szCmdLine, _In_ int iCmdShow) { \
@@ -22,6 +23,7 @@ class Engine
 {
 private:    
     EngineCore* mEngineCore;
+    IWindow* mWindow;
 public:
     Engine()
     {
@@ -30,8 +32,13 @@ public:
 
     WPARAM InitWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         LPSTR lpCmdLine, int nCmdShow) {
-        return mEngineCore->InitWindow(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
+        mWindow = new OSWinWindow();
+        return dynamic_cast<OSWinWindow*>(mWindow)->createWindow(hInstance, hPrevInstance, lpCmdLine, nCmdShow, mEngineCore);
     }
+
+    Window *getWindow() {
+		return dynamic_cast<Window*>(mWindow);
+	}
 
     virtual void init() = 0;
     virtual void render() = 0;

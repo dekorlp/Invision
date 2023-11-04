@@ -6,14 +6,9 @@
 class EngineCore
 {
 private:
-	IWindow* mWindow;
 
 public:
-	WPARAM InitWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-		LPSTR lpCmdLine, int nCmdShow) {
-		mWindow = new OSWinWindow();
-		return dynamic_cast<OSWinWindow*>(mWindow)->createWindow(hInstance, hPrevInstance, lpCmdLine, nCmdShow, this);
-	}
+	
 
 	void Create() {
 		int test = 0;

@@ -36,9 +36,11 @@ public:
     WPARAM createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         LPSTR lpCmdLine, int nCmdShow, EngineCore* core);
 
-    void resize()
-    {
+protected:
 
+    virtual bool isWindowActive()
+    {
+        return IsWindowVisible(mHwnd);
 
     }
 };
