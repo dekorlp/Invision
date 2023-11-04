@@ -9,6 +9,7 @@ class Game : public Engine
 		}
 		void update() {
 			// update game
+				
 		}
 		void render() {
 			// render game

@@ -19,7 +19,7 @@ _In_ PSTR szCmdLine, _In_ int iCmdShow) { \
 #elif defined(__APPLE__)
 #endif
 
-class Engine
+class Engine : public IEngine
 {
 private:    
     EngineCore* mEngineCore;
@@ -27,12 +27,13 @@ private:
 public:
     Engine()
     {
-        mEngineCore = new EngineCore();
+        mWindow = new Window();
+        mEngineCore = new EngineCore(this);
     }
 
     WPARAM InitWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         LPSTR lpCmdLine, int nCmdShow) {
-        mWindow = new OSWinWindow();
+       
         return dynamic_cast<OSWinWindow*>(mWindow)->createWindow(hInstance, hPrevInstance, lpCmdLine, nCmdShow, mEngineCore);
     }
 
@@ -40,10 +41,7 @@ public:
 		return dynamic_cast<Window*>(mWindow);
 	}
 
-    virtual void init() = 0;
-    virtual void render() = 0;
-    virtual void update() = 0;
-    virtual void destroy() = 0;
+    
 };
 
 #endif // ENGINE_H

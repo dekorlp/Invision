@@ -4,13 +4,19 @@
 class OSWinWindow;
 class IWindow;
 
-class Window : protected OSWinWindow
+class Window : public OSWinWindow
 {
 public:
-    bool isWindowActive() override
+    Window() : OSWinWindow() {
+
+    }
+
+    bool isWindowActive()
     {
         return OSWinWindow::isWindowActive();
     }
+
+    WPARAM createWindow() = delete;
 };
 
 #endif WINDOW_H
