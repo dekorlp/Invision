@@ -42,7 +42,7 @@ LRESULT CALLBACK OSWinWindow::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 }
 
 WPARAM OSWinWindow::createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-    LPSTR lpCmdLine, int nCmdShow, EngineCore *core)
+    LPSTR lpCmdLine, int nCmdShow, EngineCore *core, int width, int height, wchar_t* windowname)
 {
     mEngineCore = core;
     WNDCLASSEX wc;
@@ -73,13 +73,13 @@ WPARAM OSWinWindow::createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     hwnd = CreateWindowEx(
         WS_EX_CLIENTEDGE,
         this->mClassName,
-        L"AppName",
+        windowname,
         WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, CW_USEDEFAULT, 640, 360,
+        CW_USEDEFAULT, CW_USEDEFAULT, width, height,
         NULL, NULL, hInstance, this);
     mHwnd = hwnd;
 
-    mEngineCore->Create();
+    mEngineCore->Create(mHwnd, width, height);
 
     if (hwnd == NULL)
     {
@@ -108,9 +108,16 @@ WPARAM OSWinWindow::createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         }
 		else
 		{
-            mEngineCore->Render();
+            RECT rect;
+            if (GetWindowRect(hwnd, &rect))
+            {
+                mEngineCore->Render(rect.right - rect.left, rect.bottom - rect.top);
+            }
+            else
+            {
+                mEngineCore->Render(0, 0);
+            }
 		}
-        
     }
 
     DestroyWindow(hwnd);

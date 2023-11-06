@@ -26,8 +26,12 @@ private:
     IWindow* mWindow;
 public:
     Engine();
-
+#if defined(_WIN32)
     WPARAM InitWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow);
+#elif defined(__linux__)
+
+#endif
+
     Window* getWindow();
 
     ~Engine();

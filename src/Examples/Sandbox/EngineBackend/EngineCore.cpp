@@ -5,12 +5,15 @@ EngineCore::EngineCore(IEngine* engineInstance)
 	mEngine = engineInstance;
 }
 
-void EngineCore::Create() {
+#if defined(_WIN32)
+void EngineCore::Create(HWND hwnd, unsigned int width, unsigned int height) {
 	int test = 0;
 	mEngine->init();
 }
+#elif defined(__linux__)
 
-void EngineCore::Render() {
+#endif
+void EngineCore::Render(unsigned int width, unsigned int height) {
 	int test = 0;
 	mEngine->render();
 	mEngine->update();

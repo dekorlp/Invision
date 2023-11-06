@@ -20,7 +20,7 @@ private:
 public:
     OSWinWindow();
     WPARAM createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-        LPSTR lpCmdLine, int nCmdShow, EngineCore* core);
+        LPSTR lpCmdLine, int nCmdShow, EngineCore* core, int width, int height, wchar_t* windowname);
 
 protected:
     virtual EWindowStatus getWindowStatus();
