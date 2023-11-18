@@ -9,6 +9,13 @@ class IVertex;
 
 class Vertex2D : IVertex
 {
+	public :
+	Vertex2D();
+	Vertex2D(Invision::Vector2 position, Invision::Vector3 color);
+	~Vertex2D();
+
+	Invision::Vector2 getPosition();
+	Invision::Vector3 getColor();
 protected:
 
 private:

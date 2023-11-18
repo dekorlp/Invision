@@ -9,7 +9,13 @@ class IVertex;
 class Vertex3D : IVertex
 {
 protected:
+public:
+	Vertex3D();
+	Vertex3D(Invision::Vector3 position, Invision::Vector3 color);
+	~Vertex3D();
 
+	Invision::Vector3 getPosition();
+	Invision::Vector3 getColor();
 private:
 	Invision::Vector3 position;
 	Invision::Vector3 color;
