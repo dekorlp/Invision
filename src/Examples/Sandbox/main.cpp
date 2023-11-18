@@ -21,12 +21,18 @@ class Game : public Engine
 			{{0.5f, 0.5f, -0.5f}, {0.0f, 0.0f, 1.0f}},
 			{{-0.5f, 0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}} };
 
+			const std::vector<uint32_t> indices = {
+			0, 1, 2, 2, 3, 0,
+			4, 5, 6, 6, 7, 4
+					};
 
-			Mesh* mesh = new Mesh(vertizes);
+			Mesh *mesh = new Mesh(vertizes, indices);
 
 			IVertex *vert =  mesh->GetVertex(3);
+			uint32_t index = mesh->GetIndex(3);
 
 			int test = 0;
+			delete mesh;
 			
 		}
 		void update() {
