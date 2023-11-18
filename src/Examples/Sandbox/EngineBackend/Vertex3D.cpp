@@ -1,4 +1,3 @@
-#include "IVertex.h"
 #include "EVertexType.h"
 #include "Vertex3D.h"
 
@@ -11,6 +10,7 @@ Vertex3D::Vertex3D()
 
 Vertex3D::Vertex3D(Invision::Vector3 position, Invision::Vector3 color)
 {
+	setVertexType(EVertexType::VERTEX3D);
 	this->position = position;
 	this->color = color;
 }

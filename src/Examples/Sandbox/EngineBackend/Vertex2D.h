@@ -4,11 +4,11 @@
 #include "InCommon.h"
 #include "math\Vector2.h"
 #include "math\Vector3.h"
+#include "IVertex.h"
 
-class IVertex;
 enum EVertexType;
 
-class Vertex2D : IVertex
+class Vertex2D : public IVertex
 {
 	public :
 	Vertex2D();

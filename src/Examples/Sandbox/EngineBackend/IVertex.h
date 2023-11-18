@@ -11,7 +11,6 @@ enum EVertexType;
 class IVertex
 {
 protected:
-	virtual Invision::Vector3 getColor() = 0;
 	virtual EVertexType getVertexType();
 	virtual void setVertexType(EVertexType vertexType);
 

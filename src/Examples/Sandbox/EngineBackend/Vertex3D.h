@@ -3,11 +3,11 @@
 
 #include "InCommon.h"
 #include "math\Vector3.h"
+#include "IVertex.h"
 
-class IVertex;
 enum EVertexType;
 
-class Vertex3D : IVertex
+class Vertex3D : public IVertex
 {
 protected:
 public:

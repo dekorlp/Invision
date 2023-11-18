@@ -1,4 +1,3 @@
-#include "IVertex.h"
 #include "EVertexType.h"
 #include "Vertex2D.h"
 
@@ -11,6 +10,7 @@ Vertex2D::Vertex2D()
 
 Vertex2D::Vertex2D(Invision::Vector2 position, Invision::Vector3 color)
 {
+	setVertexType(EVertexType::VERTEX2D);
 	this->position = position;
 	this->color = color;
 }
