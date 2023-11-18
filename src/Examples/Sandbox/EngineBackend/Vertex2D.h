@@ -10,7 +10,7 @@ enum EVertexType;
 
 class Vertex2D : public IVertex
 {
-	public :
+public:
 	Vertex2D();
 	Vertex2D(Invision::Vector2 position, Invision::Vector3 color);
 	~Vertex2D();

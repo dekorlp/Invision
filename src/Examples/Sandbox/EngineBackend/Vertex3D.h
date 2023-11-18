@@ -9,7 +9,6 @@ enum EVertexType;
 
 class Vertex3D : public IVertex
 {
-protected:
 public:
 	Vertex3D();
 	Vertex3D(Invision::Vector3 position, Invision::Vector3 color);
@@ -17,6 +16,8 @@ public:
 
 	Invision::Vector3 getPosition();
 	Invision::Vector3 getColor();
+protected:
+
 private:
 	Invision::Vector3 position;
 	Invision::Vector3 color;
