@@ -5,6 +5,7 @@
 #include "math\Vector3.h"
 
 class IVertex;
+enum EVertexType;
 
 class Vertex3D : IVertex
 {
