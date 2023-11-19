@@ -31,6 +31,9 @@ public:
 	IVertex* GetVertex(unsigned int index);
 	uint32_t GetIndex(unsigned int index);
 
+	std::vector<IVertex*> GetVertizes();
+	std::vector<uint32_t> GetIndices();
+
 	~Mesh();
 protected:
 private:

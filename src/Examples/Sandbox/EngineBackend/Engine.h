@@ -19,6 +19,8 @@ _In_ PSTR szCmdLine, _In_ int iCmdShow) { \
 #elif defined(__APPLE__)
 #endif
 
+class Mesh;
+
 class Engine : public IEngine
 {
 private:    
@@ -33,7 +35,7 @@ public:
 #endif
 
     Window* getWindow();
-
+    void AddMesh(Mesh* mesh);
     ~Engine();
 };
 

@@ -1,3 +1,4 @@
+#include "Mesh.h"
 #include "IEngine.h"
 #include "Engine.h"
 
@@ -19,6 +20,11 @@ WPARAM Engine::InitWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 Window* Engine::getWindow() {
     return dynamic_cast<Window*>(mWindow);
+}
+
+void Engine::AddMesh(Mesh* mesh)
+{
+    mEngineCore->AddMesh(mesh);
 }
 
 Engine::~Engine()

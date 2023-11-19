@@ -95,6 +95,16 @@ uint32_t Mesh::GetIndex(unsigned int index)
 	return mIndices.at(index);
 }
 
+std::vector<IVertex*> Mesh::GetVertizes()
+{
+	return mVertizes;
+}
+
+std::vector<uint32_t> Mesh::GetIndices()
+{
+	return mIndices;
+}
+
 Mesh::~Mesh()
 {
 	for (int i = 0; i < mVertizes.size(); i++)

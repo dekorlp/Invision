@@ -1,3 +1,4 @@
+#include "Mesh.h"
 #include "EngineCore.h"
 
 EngineCore::EngineCore(IEngine* engineInstance)
@@ -27,4 +28,9 @@ void EngineCore::Resize(unsigned int width, unsigned int height) {
 void EngineCore::Shutdown() {
 	int test = 0;
 	mEngine->destroy();
+}
+
+void EngineCore::AddMesh(Mesh* mesh) 
+{
+	mMeshes.push_back(mesh);
 }

@@ -31,6 +31,7 @@ class Game : public Engine
 			IVertex *vert =  mesh->GetVertex(3);
 			uint32_t index = mesh->GetIndex(3);
 
+			AddMesh(mesh);
 			int test = 0;
 			delete mesh;
 			
