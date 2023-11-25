@@ -5,6 +5,8 @@
 
 #include "OSWinWindow.h"
 
+#include "InCommon.h"
+#include "renderer/GraphicsFactory.h"
 #include "IEngine.h"
 
 class Mesh;
@@ -14,8 +16,15 @@ class EngineCore
 private:
 	IEngine* mEngine = nullptr;
 	std::vector<Mesh*> mMeshes;
+
+	std::shared_ptr <Invision::IGraphicsEngine> *mGraphicsEngine;
+	std::shared_ptr <Invision::IGraphicsInstance> mGraphicsInstance;
+	std::shared_ptr <Invision::IRenderPass> mRenderPass;
+	std::shared_ptr <Invision::IFramebuffer> mFramebuffer;
+	std::shared_ptr <Invision::ICommandBuffer> mCommandBuffer;
+	std::shared_ptr <Invision::IRenderer> mRenderer;
 public:
-	EngineCore(IEngine* engineInstance);
+	EngineCore(IEngine* engineInstance, std::shared_ptr <Invision::IGraphicsEngine>* graphicsEngine);
 #if defined(_WIN32)
 	void Create(HWND hwnd, unsigned int width, unsigned int height);
 #elif defined(__linux__)

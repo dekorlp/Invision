@@ -1,6 +1,5 @@
 #ifndef ENGINE_H
 #define ENGINE_H
-
 #if defined(_WIN32)
 #include "EngineCore.h"
 #include <windows.h>
@@ -19,6 +18,9 @@ _In_ PSTR szCmdLine, _In_ int iCmdShow) { \
 #elif defined(__APPLE__)
 #endif
 
+#include "InCommon.h"
+#include "renderer/GraphicsFactory.h"
+
 class Mesh;
 
 class Engine : public IEngine
@@ -26,6 +28,8 @@ class Engine : public IEngine
 private:    
     EngineCore* mEngineCore;
     IWindow* mWindow;
+
+    std::shared_ptr <Invision::IGraphicsEngine> mGraphicsEngine;
 public:
     Engine();
 #if defined(_WIN32)

@@ -2,6 +2,8 @@
 #define MESH_H
 
 #include <vector>
+#include "InCommon.h"
+#include "renderer/GraphicsFactory.h"
 
 class IVertex;
 class Vertex2D;
@@ -39,6 +41,11 @@ protected:
 private:
 	std::vector<IVertex*> mVertizes;
 	std::vector<uint32_t> mIndices;
+
+	std::shared_ptr <Invision::IVertexBuffer> vertexBuffer;
+	std::shared_ptr <Invision::IUniformBuffer> uniformBuffer;
+	std::shared_ptr <Invision::IIndexBuffer> indexBuffer;
+	std::shared_ptr <Invision::IPipeline> pipeline;
 };
 
 #endif // MESH_H

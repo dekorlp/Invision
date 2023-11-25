@@ -4,8 +4,44 @@
 
 Engine::Engine()
 {
-    mWindow = new Window();
-    mEngineCore = new EngineCore(this);
+	try
+	{
+		Invision::Log log;
+		log.Open(std::string(INVISION_BASE_DIR).append("/logs/logQTDemo.txt"));
+		Invision::Log::SetLogger(&log);
+
+		mWindow = new Window();
+
+#ifdef NDEBUG
+		mGraphicsEngine = Invision::create_engine(Invision::EngineType::Vulkan);
+#else
+		mGraphicsEngine = Invision::Create_engine(Invision::EngineType::Vulkan, log.GetOutputStream());
+#endif
+		mGraphicsEngine->Init();
+
+		mEngineCore = new EngineCore(this, &mGraphicsEngine);
+
+	}
+	catch (std::runtime_error& err) {
+		std::stringstream ss;
+		ss << "Error encountered trying to create the Vulkan canvas:\n";
+		ss << err.what();
+		INVISION_LOG_ERROR(ss.str());
+	}
+	catch (Invision::InvisionException& iEx)
+	{
+		std::stringstream ss;
+		ss << "Error encountered trying to create the Vulkan canvas:\n";
+		ss << iEx.what();
+		INVISION_LOG_ERROR(ss.str());
+	}
+	catch (Invision::InvisionBaseRendererException& iEx)
+	{
+		std::stringstream ss;
+		ss << "Vulkan Error encountered trying to create the Vulkan canvas:\n";
+		ss << iEx.what();
+		INVISION_LOG_ERROR(ss.str());
+	}
 }
 
 #if defined(_WIN32)
