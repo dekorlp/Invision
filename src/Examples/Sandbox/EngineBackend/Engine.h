@@ -28,6 +28,7 @@ class Engine : public IEngine
 private:    
     EngineCore* mEngineCore;
     IWindow* mWindow;
+    Invision::Log log;
 
     std::shared_ptr <Invision::IGraphicsEngine> mGraphicsEngine;
 public:

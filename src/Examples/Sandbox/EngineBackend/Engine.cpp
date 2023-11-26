@@ -6,7 +6,6 @@ Engine::Engine()
 {
 	try
 	{
-		Invision::Log log;
 		log.Open(std::string(INVISION_BASE_DIR).append("/logs/logQTDemo.txt"));
 		Invision::Log::SetLogger(&log);
 

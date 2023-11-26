@@ -237,5 +237,28 @@ namespace Invision
 			mSource = source;
 		}
 	};
+
+	class InvisionNotEnoughDeviceOrHostMemory : public InvisionBaseException
+	{
+	public:
+		InvisionNotEnoughDeviceOrHostMemory();
+		InvisionNotEnoughDeviceOrHostMemory(const char* message)
+		{
+			mMessage = message;
+		}
+
+		InvisionNotEnoughDeviceOrHostMemory(const char* message, const char* helpLink)
+		{
+			mMessage = message;
+			mHelpLink = helpLink;
+		}
+
+		InvisionNotEnoughDeviceOrHostMemory(const char* message, const char* helpLink, const char* source)
+		{
+			mMessage = message;
+			mHelpLink = helpLink;
+			mSource = source;
+		}
+	};
 }
 #endif // EXCEPTION_H

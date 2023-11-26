@@ -12,8 +12,18 @@ void EngineCore::Create(HWND hwnd, unsigned int width, unsigned int height) {
 	int test = 0;
 	mEngine->init();
 	Invision::CanvasDimensions dim = { hwnd, width, height };
-	mGraphicsInstance = (*mGraphicsEngine)->CreateInstance(dim, mRenderPass, mFramebuffer, mCommandBuffer);
 
+	try
+	{
+		mGraphicsInstance = (*mGraphicsEngine)->CreateInstance(dim, mRenderPass, mFramebuffer, mCommandBuffer);
+	}
+	catch (Invision::InvisionNotEnoughDeviceOrHostMemory iEx)
+	{
+		std::stringstream ss;
+		ss << iEx.what();
+		ss << "\n";
+		INVISION_LOG_INFO(ss.str());
+	}
 }
 #elif defined(__linux__)
 

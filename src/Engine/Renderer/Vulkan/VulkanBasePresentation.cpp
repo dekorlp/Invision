@@ -92,7 +92,7 @@ namespace Invision
 		//SQueueFamilyIndices indices =   FindQueueFamilies(vulkanInstance.physicalDeviceStruct.physicalDevice, vulkanContext, vulkanContext.surface);
 		std::vector<uint32_t> queueFamilyIndices = vulkanContext.GetUniqueQueueFamilyIndices(true, false, false, true);  //{ (uint32_t)vulkanContext.indices.graphicsFamily, (uint32_t)vulkanContext.indices.presentFamily };
 
-		if (queueFamilyIndices[0] != queueFamilyIndices[1]) {
+		if (queueFamilyIndices.size() > 1 && queueFamilyIndices[0] != queueFamilyIndices[1]) {
 			createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
 			createInfo.queueFamilyIndexCount = static_cast<uint32_t>(queueFamilyIndices.size());
 			createInfo.pQueueFamilyIndices = queueFamilyIndices.data();

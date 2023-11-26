@@ -273,13 +273,24 @@ namespace Invision
 
 	void VulkanBaseMemoryManager::AllocateMemory(const SVulkanBase &vulkanInstance, const SVulkanContext &vulkanContext, VkMemoryPropertyFlags properties, size_t size, VkDeviceMemory &memory)
 	{
-		VkMemoryAllocateInfo allocInfo{};
-		allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-		allocInfo.allocationSize = size;
-		allocInfo.memoryTypeIndex = findMemoryType(vulkanInstance.physicalDeviceStruct.physicalDevice, properties); // Device Memory = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT | shared Memory = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
-		if (vkAllocateMemory(vulkanContext.logicalDevice, &allocInfo, nullptr, &memory) != VK_SUCCESS) {
-			throw VulkanBaseException("failed to allocate image memory!");
-		}
+		bool memorySizeIsNotSupported = false;
+		do
+		{
+			VkMemoryAllocateInfo allocInfo{};
+			allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+			allocInfo.allocationSize = size;
+			allocInfo.memoryTypeIndex = findMemoryType(vulkanInstance.physicalDeviceStruct.physicalDevice, properties); // Device Memory = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT | shared Memory = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
+			if (vkAllocateMemory(vulkanContext.logicalDevice, &allocInfo, nullptr, &memory) != VK_SUCCESS) {
+				size = size / 2;
+				memorySizeIsNotSupported = true;
+				throw InvisionNotEnoughDeviceOrHostMemory("Host or Device memory size is too low, try lower allocation Value.");
+			}
+			else
+			{
+				memorySizeIsNotSupported = false;
+			}
+
+		} while (memorySizeIsNotSupported == true);
 	}
 
 	uint32_t VulkanBaseMemoryManager::findMemoryType(const VkPhysicalDevice& device, VkMemoryPropertyFlags properties) {
