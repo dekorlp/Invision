@@ -16,6 +16,8 @@ class EngineCore
 private:
 	IEngine* mEngine = nullptr;
 	std::vector<Mesh*> mMeshes;
+	HWND mHwnd = nullptr;
+	bool mIsInit = false;
 
 	std::shared_ptr <Invision::IGraphicsEngine> *mGraphicsEngine;
 	std::shared_ptr <Invision::IGraphicsInstance> mGraphicsInstance;
@@ -32,6 +34,8 @@ public:
 #endif
 	void Render(unsigned int width, unsigned int height);
 	void Resize(unsigned int width, unsigned int height);
+	void BuildCommandBuffer(unsigned int width, unsigned int height);
+	void RecreateSwapchain(unsigned int width, unsigned int height);
 	void Shutdown();
 	void AddMesh(Mesh* mesh);
 

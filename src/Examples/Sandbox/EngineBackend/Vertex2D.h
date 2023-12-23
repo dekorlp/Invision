@@ -10,6 +10,10 @@ enum EVertexType;
 
 class Vertex2D : public IVertex
 {
+private:
+	Invision::Vector2 position;
+	Invision::Vector3 color;
+
 public:
 	Vertex2D();
 	Vertex2D(Invision::Vector2 position, Invision::Vector3 color);
@@ -17,11 +21,14 @@ public:
 
 	Invision::Vector2 getPosition();
 	Invision::Vector3 getColor();
+	static size_t getPositionOffset() {
+		return offsetOf(&Vertex2D::position); 
+	}
+	static size_t getColorOffset() {
+		return offsetOf(&Vertex2D::color);
+	}
 protected:
 
-private:
-	Invision::Vector2 position;
-	Invision::Vector3 color;
 
 };
 

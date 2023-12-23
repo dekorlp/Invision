@@ -47,7 +47,7 @@ Engine::Engine()
 WPARAM Engine::InitWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     LPSTR lpCmdLine, int nCmdShow) {
 
-    return dynamic_cast<OSWinWindow*>(mWindow)->createWindow(hInstance, hPrevInstance, lpCmdLine, nCmdShow, mEngineCore, 640, 360, L"Demo App");
+    return dynamic_cast<OSWinWindow*>(mWindow)->createWindow(hInstance, hPrevInstance, lpCmdLine, nCmdShow, mEngineCore, 1920, 1080, L"Demo App");
 }
 #elif defined(__linux__)
 

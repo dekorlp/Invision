@@ -297,8 +297,8 @@ namespace Invision
 	typedef struct CanvasDimensions
 	{
 		HWND hwnd;
-		int width;
-		int height;
+		unsigned int width;
+		unsigned int height;
 
 	} CanvasDimensions;
 

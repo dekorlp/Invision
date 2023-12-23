@@ -2,6 +2,7 @@
 #define E_VERTEX_TYPE_H
 enum EVertexType
 {
+	UNDEFINED = -1,
 	VERTEX2D = 0,
 	VERTEX3D = 1
 };

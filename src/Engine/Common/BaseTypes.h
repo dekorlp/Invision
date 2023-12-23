@@ -42,4 +42,10 @@ typedef char aChar; // ANSI Character
 typedef wchar_t wChar; // WIDE Character
 typedef aChar tChar; // 
 
+
+template<typename T, typename U> constexpr size_t offsetOf(U T::* member)
+{
+	return (char*)&((T*)nullptr->*member) - (char*)nullptr;
+}
+
 #endif // BASETYPES_H

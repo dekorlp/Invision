@@ -3,7 +3,7 @@
 void RenderWidget::RecreateSwapChain(const int width, const int height)
 {
 	// setup swapchain
-	graphicsInstance->ResetPresentation({ HWND(winId()), width, height }, renderPass, framebuffer, commandBuffer);
+	graphicsInstance->ResetPresentation({ HWND(winId()), (unsigned int)width, (unsigned int)height }, renderPass, framebuffer, commandBuffer);
 
 	// setup framebuffer
 	//framebuffer.reset();

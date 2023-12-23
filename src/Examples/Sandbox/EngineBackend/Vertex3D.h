@@ -5,6 +5,7 @@
 #include "math\Vector3.h"
 #include "IVertex.h"
 
+
 enum EVertexType;
 
 class Vertex3D : public IVertex
@@ -16,6 +17,12 @@ public:
 
 	Invision::Vector3 getPosition();
 	Invision::Vector3 getColor();
+	static size_t getPositionOffset() {
+		return offsetOf(&Vertex3D::position);
+	}
+	static size_t getColorOffset() {
+		return offsetOf(&Vertex3D::color);
+	}
 protected:
 
 private:

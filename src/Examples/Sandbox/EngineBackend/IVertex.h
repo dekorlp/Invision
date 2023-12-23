@@ -10,7 +10,7 @@ enum EVertexType;
 
 class IVertex
 {
-protected:
+public:
 	virtual EVertexType getVertexType();
 	virtual void setVertexType(EVertexType vertexType);
 

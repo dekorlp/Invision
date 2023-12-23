@@ -21,6 +21,8 @@ public:
     OSWinWindow();
     WPARAM createWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         LPSTR lpCmdLine, int nCmdShow, EngineCore* core, int width, int height, wchar_t* windowname);
+    void GetWindowSize(unsigned int& width, unsigned int& height);
+    void GetWindowClientSize(unsigned int &width, unsigned int &height);
 
 protected:
     virtual EWindowStatus getWindowStatus();
