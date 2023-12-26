@@ -3,7 +3,6 @@
 
 #include "InCommon.h"
 #include "math\Vector3.h"
-#include "IVertex.h"
 
 
 enum EVertexType;

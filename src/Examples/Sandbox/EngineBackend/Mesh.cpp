@@ -1,4 +1,3 @@
-#include "IVertex.h"
 #include "Vertex2D.h"
 #include "Vertex3D.h"
 #include "Mesh.h"
