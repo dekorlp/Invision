@@ -31,8 +31,9 @@
         case WM_QUIT:
 	    case WM_DESTROY:
         case WM_CLOSE:
-            myWnd->mEngineCore->Shutdown();
+          
             PostQuitMessage(0);
+            myWnd->mEngineCore->Shutdown();
             break;
         default:
             return DefWindowProc(hwnd, msg, wParam, lParam);

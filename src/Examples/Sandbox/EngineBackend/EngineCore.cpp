@@ -1,4 +1,6 @@
+#include "IMesh.h"
 #include "Mesh.h"
+#include "Shape.h"
 #include "EngineCore.h"
 
 EngineCore::EngineCore(IEngine* engineInstance, std::shared_ptr <Invision::IGraphicsEngine> *graphicsEngine)
@@ -9,7 +11,6 @@ EngineCore::EngineCore(IEngine* engineInstance, std::shared_ptr <Invision::IGrap
 
 #if defined(_WIN32)
 void EngineCore::Create(HWND hwnd, unsigned int width, unsigned int height) {
-	int test = 0;
 	mEngine->init();
 	Invision::CanvasDimensions dim = { hwnd, width, height };
 	mHwnd = hwnd;
@@ -53,11 +54,25 @@ void EngineCore::BuildCommandBuffer(unsigned int width, unsigned int height)
 		if (mMeshes[i]->HasIndexBuffer())
 		{
 			mCommandBuffer->BindIndexBuffer(mMeshes[i]->GetIndexBuffer(), Invision::INDEX_TYPE_UINT32);
-			mCommandBuffer->DrawIndexed(static_cast<uint32_t>(mMeshes[i]->GetIndices().size()), 1, 0, 0, 0);
+			if (typeid(mMeshes[i]) == typeid(Mesh))
+			{
+				mCommandBuffer->DrawIndexed(static_cast<uint32_t>(dynamic_cast<Mesh*>(mMeshes[i])->GetIndices().size()), 1, 0, 0, 0);
+			}
+			else
+			{
+				mCommandBuffer->DrawIndexed(static_cast<uint32_t>(dynamic_cast<Shape*>(mMeshes[i])->GetIndices().size()), 1, 0, 0, 0);
+			}
 		}
 		else
 		{
-			mCommandBuffer->Draw(static_cast<uint32_t>(mMeshes[i]->GetVertices().size()), 1, 0, 0);
+			if (typeid(mMeshes[i]) == typeid(Mesh))
+			{
+				mCommandBuffer->Draw(static_cast<uint32_t>(dynamic_cast<Mesh*>(mMeshes[i])->GetVertexCount()), 1, 0, 0);
+			}
+			else
+			{
+				mCommandBuffer->Draw(static_cast<uint32_t>(dynamic_cast<Shape*>(mMeshes[i])->GetVertexCount()), 1, 0, 0);
+			}
 		}
 
 		
@@ -102,11 +117,10 @@ void EngineCore::Resize(unsigned int width, unsigned int height) {
 }
 
 void EngineCore::Shutdown() {
-	int test = 0;
 	mEngine->destroy();
 }
 
-void EngineCore::AddMesh(Mesh* mesh) 
+void EngineCore::AddMesh(IMesh* mesh) 
 {
 	mMeshes.push_back(mesh);
 }

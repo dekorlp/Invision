@@ -28,3 +28,13 @@ Invision::Vector3 Vertex2D::getColor()
 {
 	return color;
 }
+
+EVertexType Vertex2D::getVertexType()
+{
+	return mVertexType;
+}
+
+void Vertex2D::setVertexType(EVertexType vertexType)
+{
+	mVertexType = vertexType;
+}

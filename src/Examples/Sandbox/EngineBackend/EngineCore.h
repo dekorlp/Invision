@@ -9,13 +9,13 @@
 #include "renderer/GraphicsFactory.h"
 #include "IEngine.h"
 
-class Mesh;
+class IMesh;
 
 class EngineCore
 {
 private:
 	IEngine* mEngine = nullptr;
-	std::vector<Mesh*> mMeshes;
+	std::vector<IMesh*> mMeshes;
 	HWND mHwnd = nullptr;
 	bool mIsInit = false;
 
@@ -37,7 +37,7 @@ public:
 	void BuildCommandBuffer(unsigned int width, unsigned int height);
 	void RecreateSwapchain(unsigned int width, unsigned int height);
 	void Shutdown();
-	void AddMesh(Mesh* mesh);
+	void AddMesh(IMesh* mesh);
 
 };
 

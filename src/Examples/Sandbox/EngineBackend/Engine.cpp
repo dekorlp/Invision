@@ -1,3 +1,4 @@
+#include "IMesh.h"
 #include "Mesh.h"
 #include "IEngine.h"
 #include "Engine.h"
@@ -57,7 +58,7 @@ Window* Engine::getWindow() {
     return dynamic_cast<Window*>(mWindow);
 }
 
-void Engine::AddMesh(Mesh* mesh)
+void Engine::AddMesh(IMesh* mesh)
 {
     mEngineCore->AddMesh(mesh);
 }

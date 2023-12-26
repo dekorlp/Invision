@@ -8,11 +8,12 @@
 
 enum EVertexType;
 
-class Vertex2D : public IVertex
+class Vertex2D
 {
 private:
 	Invision::Vector2 position;
 	Invision::Vector3 color;
+	EVertexType mVertexType;
 
 public:
 	Vertex2D();
@@ -27,6 +28,9 @@ public:
 	static size_t getColorOffset() {
 		return offsetOf(&Vertex2D::color);
 	}
+
+	EVertexType getVertexType();
+	void setVertexType(EVertexType vertexType);
 protected:
 
 

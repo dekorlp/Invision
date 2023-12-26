@@ -2,7 +2,8 @@
 #include "EngineBackend/Engine.h"
 #include "EngineBackend/Vertex3D.h"
 #include "EngineBackend/Vertex2D.h"
-#include "EngineBackend/Mesh.h"
+#include "EngineBackend/Shape.h"
+#include "EngineBackend/IMesh.h"
 
 class Game : public Engine
 {
@@ -18,39 +19,35 @@ class Game : public Engine
 			{{ 0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
 			{{ -0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}} };
 
+
 			const std::vector<uint32_t> indices = {
 				0, 1, 2, 0
 			};
 
-			 mesh = new Mesh(vertices, indices);
+			mesh = new Shape(vertices, indices);
 
-			IVertex *vert =  mesh->GetVertex(3);
-			uint32_t index = mesh->GetIndex(3);
+			Vertex2D vert =  dynamic_cast<Shape*>(mesh)->GetVertex(3);
+			uint32_t index = dynamic_cast<Shape*>(mesh)->GetIndex(3);
 
 			AddMesh(mesh);
-			int test = 0;
 			
 		}
 		void update() {
 			// update game
 			EWindowStatus status = getWindow()->getWindowStatus();
-			int test = 0;
 		}
 		void render() {
 			// render game
 			EWindowStatus status = getWindow()->getWindowStatus();
-			int test = 0;
 		}
 		void destroy() {
 			// destroy game
 			EWindowStatus status = getWindow()->getWindowStatus();
-			delete mesh;
-			int test = 0;
 		}
 
 
 private:
-	Mesh* mesh;
+	IMesh* mesh;
 };
 
 

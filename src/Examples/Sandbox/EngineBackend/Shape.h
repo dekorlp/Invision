@@ -1,5 +1,5 @@
-#ifndef MESH_H
-#define MESH_H
+#ifndef SHAPE_H
+#define SHAPE_H
 #include "EVertexType.h"
 #include <vector>
 #include <iostream>
@@ -9,28 +9,26 @@
 #include "IMesh.h"
 
 class Vertex2D;
-class Vertex3D;
 
-struct UniformBufferObject {
+struct UniformBufferObject2 {
 	Invision::Matrix model;
 	Invision::Matrix view;
 	Invision::Matrix proj;
 };
 
-class Mesh : public IMesh
+class Shape : public IMesh
 {
 public:
-	Mesh();
+	Shape();
+	Shape(Vertex2D vertex);
+	Shape(Vertex2D vertex, uint32_t index);
+	Shape(std::vector<Vertex2D> vertices);
+	Shape(std::vector<Vertex2D> vertices, std::vector<uint32_t> indices);
 
-	Mesh(Vertex3D vertex);
-	Mesh(Vertex3D vertex, uint32_t index);
-	Mesh(std::vector<Vertex3D> vertices);
-	Mesh(std::vector<Vertex3D> vertices, std::vector<uint32_t> indices);
-
-	Vertex3D GetVertex(unsigned int index);
+	Vertex2D GetVertex(unsigned int index);
 	uint32_t GetIndex(unsigned int index);
 
-	std::vector<Vertex3D> GetVertices();
+	std::vector<Vertex2D> GetVertices();
 	std::vector<uint32_t> GetIndices();
 
 	std::shared_ptr <Invision::IVertexBuffer> GetVertexBuffer();
@@ -38,18 +36,18 @@ public:
 	std::shared_ptr <Invision::IIndexBuffer> GetIndexBuffer();
 	std::shared_ptr <Invision::IPipeline> GetPipeline();
 
-	void Initialize(const std::shared_ptr <Invision::IGraphicsInstance> &graphicsInstance, std::shared_ptr<Invision::IRenderPass>& renderPass);
+	void Initialize(const std::shared_ptr <Invision::IGraphicsInstance>& graphicsInstance, std::shared_ptr<Invision::IRenderPass>& renderPass);
 
 	bool HasIndexBuffer();
 	EVertexType GetVertexType();
 	size_t GetVertexCount();
 
-	~Mesh();
+	~Shape();
 private:
 	std::vector<char> readFile(const std::string& filename);
 protected:
 private:
-	std::vector<Vertex3D> mVertices;
+	std::vector<Vertex2D> mVertices;
 	std::vector<uint32_t> mIndices;
 	EVertexType mVertexType;
 	bool mHasIndixBuffer;
@@ -61,4 +59,4 @@ private:
 	std::shared_ptr <Invision::IPipeline> mPipeline;
 };
 
-#endif // MESH_H
+#endif // SHAPE_H

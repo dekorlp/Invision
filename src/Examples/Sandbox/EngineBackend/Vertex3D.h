@@ -8,7 +8,7 @@
 
 enum EVertexType;
 
-class Vertex3D : public IVertex
+class Vertex3D
 {
 public:
 	Vertex3D();
@@ -23,11 +23,15 @@ public:
 	static size_t getColorOffset() {
 		return offsetOf(&Vertex3D::color);
 	}
+
+	EVertexType getVertexType();
+	void setVertexType(EVertexType vertexType);
 protected:
 
 private:
 	Invision::Vector3 position;
 	Invision::Vector3 color;
+	EVertexType mVertexType;
 };
 
 #endif // I_VERTEX3D_H
