@@ -6,7 +6,7 @@
 #include "InCommon.h"
 #include "renderer/GraphicsFactory.h"
 #include <Math/Matrix.h>
-#include "IMesh.h"
+#include "IRenderable.h"
 
 class Vertex2D;
 
@@ -16,7 +16,7 @@ struct UniformBufferObject2 {
 	Invision::Matrix proj;
 };
 
-class Shape : public IMesh
+class Shape : public IRenderable
 {
 public:
 	Shape();

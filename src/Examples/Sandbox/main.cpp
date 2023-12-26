@@ -3,7 +3,7 @@
 #include "EngineBackend/Vertex3D.h"
 #include "EngineBackend/Vertex2D.h"
 #include "EngineBackend/Shape.h"
-#include "EngineBackend/IMesh.h"
+#include "EngineBackend/IRenderable.h"
 
 class Game : public Engine
 {
@@ -47,7 +47,7 @@ class Game : public Engine
 
 
 private:
-	IMesh* mesh;
+	IRenderable* mesh;
 };
 
 

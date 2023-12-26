@@ -1,9 +1,9 @@
-#ifndef I_MESH_H
-#define I_MESH_H
+#ifndef I_RENDERABLE_H
+#define I_RENDERABLE_H
 #include "InCommon.h"
 #include "renderer/GraphicsFactory.h"
 
-class IMesh
+class IRenderable
 {
 public:
 	virtual void Initialize(const std::shared_ptr <Invision::IGraphicsInstance>& graphicsInstance, std::shared_ptr<Invision::IRenderPass>& renderPass) = 0;
@@ -21,4 +21,4 @@ private:
 	
 };
 
-#endif // I_MESH_H
+#endif // I_RENDERABLE_H

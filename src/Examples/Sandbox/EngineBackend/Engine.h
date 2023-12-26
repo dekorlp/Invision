@@ -21,7 +21,7 @@ _In_ PSTR szCmdLine, _In_ int iCmdShow) { \
 #include "InCommon.h"
 #include "renderer/GraphicsFactory.h"
 
-class IMesh;
+class IRenderable;
 
 class Engine : public IEngine
 {
@@ -40,7 +40,7 @@ public:
 #endif
 
     Window* getWindow();
-    void AddMesh(IMesh* mesh);
+    void AddMesh(IRenderable* mesh);
     ~Engine();
 };
 

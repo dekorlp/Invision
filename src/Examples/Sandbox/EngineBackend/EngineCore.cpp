@@ -1,4 +1,4 @@
-#include "IMesh.h"
+#include "IRenderable.h"
 #include "Mesh.h"
 #include "Shape.h"
 #include "EngineCore.h"
@@ -120,7 +120,7 @@ void EngineCore::Shutdown() {
 	mEngine->destroy();
 }
 
-void EngineCore::AddMesh(IMesh* mesh) 
+void EngineCore::AddMesh(IRenderable* mesh)
 {
 	mMeshes.push_back(mesh);
 }
