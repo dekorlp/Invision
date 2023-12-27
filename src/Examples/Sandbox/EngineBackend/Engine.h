@@ -40,7 +40,7 @@ public:
 #endif
 
     Window* getWindow();
-    void AddMesh(IRenderable* mesh);
+    void AddRenderable(IRenderable* mesh);
     ~Engine();
 };
 

@@ -15,7 +15,7 @@ class EngineCore
 {
 private:
 	IEngine* mEngine = nullptr;
-	std::vector<IRenderable*> mMeshes;
+	std::vector<IRenderable*> mRenderables;
 	HWND mHwnd = nullptr;
 	bool mIsInit = false;
 
@@ -37,7 +37,7 @@ public:
 	void BuildCommandBuffer(unsigned int width, unsigned int height);
 	void RecreateSwapchain(unsigned int width, unsigned int height);
 	void Shutdown();
-	void AddMesh(IRenderable* mesh);
+	void AddRenderable(IRenderable* mesh);
 
 };
 

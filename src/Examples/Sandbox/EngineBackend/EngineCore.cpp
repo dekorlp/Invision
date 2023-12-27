@@ -19,9 +19,9 @@ void EngineCore::Create(HWND hwnd, unsigned int width, unsigned int height) {
 	{
 		mGraphicsInstance = (*mGraphicsEngine)->CreateInstance(dim, mRenderPass, mFramebuffer, mCommandBuffer);
 
-		for(unsigned int i = 0; i < mMeshes.size(); i++)
+		for(unsigned int i = 0; i < mRenderables.size(); i++)
 		{
-			mMeshes[i]->Initialize(mGraphicsInstance, mRenderPass);
+			mRenderables[i]->Initialize(mGraphicsInstance, mRenderPass);
 		}
 
 		this->BuildCommandBuffer(width, height);
@@ -46,32 +46,32 @@ void EngineCore::BuildCommandBuffer(unsigned int width, unsigned int height)
 	mCommandBuffer->SetViewport({ 0, 0, (float)width, (float)height, 0.0, 1.0 });
 	mCommandBuffer->SetScissor({ 0, 0, (uint32_t)width, (uint32_t)height });
 	mCommandBuffer->BeginRenderPass(mRenderPass, mFramebuffer, 0, 0, width, height);
-	for (unsigned int i = 0; i < mMeshes.size(); i++)
+	for (unsigned int i = 0; i < mRenderables.size(); i++)
 	{
-		mCommandBuffer->BindPipeline(mMeshes[i]->GetPipeline());
-		mCommandBuffer->BindVertexBuffer({ mMeshes[i]->GetVertexBuffer() }, 0, 1);
-		mCommandBuffer->BindDescriptorSets(mMeshes[i]->GetUniformBuffer(), mMeshes[i]->GetPipeline());
-		if (mMeshes[i]->HasIndexBuffer())
+		mCommandBuffer->BindPipeline(mRenderables[i]->GetPipeline());
+		mCommandBuffer->BindVertexBuffer({ mRenderables[i]->GetVertexBuffer() }, 0, 1);
+		mCommandBuffer->BindDescriptorSets(mRenderables[i]->GetUniformBuffer(), mRenderables[i]->GetPipeline());
+		if (mRenderables[i]->HasIndexBuffer())
 		{
-			mCommandBuffer->BindIndexBuffer(mMeshes[i]->GetIndexBuffer(), Invision::INDEX_TYPE_UINT32);
-			if (typeid(mMeshes[i]) == typeid(Mesh))
+			mCommandBuffer->BindIndexBuffer(mRenderables[i]->GetIndexBuffer(), Invision::INDEX_TYPE_UINT32);
+			if (typeid(mRenderables[i]) == typeid(Mesh))
 			{
-				mCommandBuffer->DrawIndexed(static_cast<uint32_t>(dynamic_cast<Mesh*>(mMeshes[i])->GetIndices().size()), 1, 0, 0, 0);
+				mCommandBuffer->DrawIndexed(static_cast<uint32_t>(dynamic_cast<Mesh*>(mRenderables[i])->GetIndices().size()), 1, 0, 0, 0);
 			}
 			else
 			{
-				mCommandBuffer->DrawIndexed(static_cast<uint32_t>(dynamic_cast<Shape*>(mMeshes[i])->GetIndices().size()), 1, 0, 0, 0);
+				mCommandBuffer->DrawIndexed(static_cast<uint32_t>(dynamic_cast<Shape*>(mRenderables[i])->GetIndices().size()), 1, 0, 0, 0);
 			}
 		}
 		else
 		{
-			if (typeid(mMeshes[i]) == typeid(Mesh))
+			if (typeid(mRenderables[i]) == typeid(Mesh))
 			{
-				mCommandBuffer->Draw(static_cast<uint32_t>(dynamic_cast<Mesh*>(mMeshes[i])->GetVertexCount()), 1, 0, 0);
+				mCommandBuffer->Draw(static_cast<uint32_t>(dynamic_cast<Mesh*>(mRenderables[i])->GetVertexCount()), 1, 0, 0);
 			}
 			else
 			{
-				mCommandBuffer->Draw(static_cast<uint32_t>(dynamic_cast<Shape*>(mMeshes[i])->GetVertexCount()), 1, 0, 0);
+				mCommandBuffer->Draw(static_cast<uint32_t>(dynamic_cast<Shape*>(mRenderables[i])->GetVertexCount()), 1, 0, 0);
 			}
 		}
 
@@ -120,7 +120,7 @@ void EngineCore::Shutdown() {
 	mEngine->destroy();
 }
 
-void EngineCore::AddMesh(IRenderable* mesh)
+void EngineCore::AddRenderable(IRenderable* mesh)
 {
-	mMeshes.push_back(mesh);
+	mRenderables.push_back(mesh);
 }

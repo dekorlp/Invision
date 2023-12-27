@@ -29,7 +29,7 @@ class Game : public Engine
 			Vertex2D vert =  dynamic_cast<Shape*>(mesh)->GetVertex(3);
 			uint32_t index = dynamic_cast<Shape*>(mesh)->GetIndex(3);
 
-			AddMesh(mesh);
+			AddRenderable(mesh);
 			
 		}
 		void update() {

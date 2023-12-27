@@ -57,9 +57,9 @@ Window* Engine::getWindow() {
     return dynamic_cast<Window*>(mWindow);
 }
 
-void Engine::AddMesh(IRenderable* mesh)
+void Engine::AddRenderable(IRenderable* mesh)
 {
-    mEngineCore->AddMesh(mesh);
+    mEngineCore->AddRenderable(mesh);
 }
 
 Engine::~Engine()
