@@ -123,6 +123,58 @@ function AddWXWidgetDynamicLibrary(libpath)
 
 end
 
+function AddSDL3Library(libpath)
+	-- there is only a x64 edition
+	
+	includedirs{
+		libpath .. "SDL3/include"
+	}
+
+	filter "system:Windows"
+	
+	filter "configurations:Debug"
+		links { "SDL3.lib" }
+		--links { "SDL3_image.lib" }
+		--links { "SDL3_mixer.lib" }
+		--links { "SDL3_net.lib" } 
+		--links { "SDL3_rtf.lib" }
+		--links { "SDL3_shadercross.lib" }
+		--links { "SDL3_ttf.lib" }
+	filter "configurations:Release"
+		links { "SDL3.lib" }
+		--links { "SDL3_image.lib" }
+		--links { "SDL3_mixer.lib" }
+		--links { "SDL3_net.lib" } 
+		--links { "SDL3_rtf.lib" }
+		--links { "SDL3_shadercross.lib" }
+		--links { "SDL3_ttf.lib" }
+	filter "platforms:x86"
+		libdirs
+		{
+			libpath .. "SDL3/lib/"
+		}
+		
+		includedirs
+		{
+			libpath .. "SDL3/lib/"
+		}
+		
+	
+	filter "platforms:x64"
+		libdirs
+		{
+			libpath .. "SDL3/lib/"
+		}
+		
+		
+		includedirs
+		{
+			libpath .. "SDL3/lib/"
+		}
+	
+	filter {}
+end
+
 function AddVulkanLibrary(libpath)
 	includedirs{
 		libpath .. "vulkan/include/"
@@ -227,7 +279,7 @@ function AddQtLibrary(qtPathX64, qtPathX86, usedModules, genMocsPath)
 	filter {}
 end
 
-function AddWindowedProject(name, projectDir, argFiles, argIncludes, argLinks, argDefines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine, useImageLibs, useTinyObjLoader)
+function AddWindowedProject(name, projectDir, argFiles, argIncludes, argLinks, argDefines, useBoost, useSDL3, useQt, useVulkan, useInvisionEgine, useImageLibs, useTinyObjLoader)
 	project (name)
 		kind "WindowedApp"
 		entrypoint "WinMainCRTStartup"
@@ -246,9 +298,9 @@ function AddWindowedProject(name, projectDir, argFiles, argIncludes, argLinks, a
 		links { argLinks }
 		
 		defines { argDefines }
-		if (usewxWidget == true)
+		if (useSDL3 == true)
 		then
-			AddWXWidgetStaticLibrary(libpath)
+			AddSDL3Library(libpath)
 		end
 
 		if(useBoost == true)
@@ -306,7 +358,7 @@ function AddWindowedProject(name, projectDir, argFiles, argIncludes, argLinks, a
 			end
 end
 
-function AddConsoleProject(name, projectDir, argFiles, argIncludes, argLinks, argDefines, useBoost, usewxWidget, useQt, useVulkan, useInvisionEgine, useImageLibs, useTinyObjLoader)
+function AddConsoleProject(name, projectDir, argFiles, argIncludes, argLinks, argDefines, useBoost, useSDL3, useQt, useVulkan, useInvisionEgine, useImageLibs, useTinyObjLoader)
 	project (name)
 		kind "ConsoleApp"		
 		language "C++"
@@ -323,9 +375,9 @@ function AddConsoleProject(name, projectDir, argFiles, argIncludes, argLinks, ar
 		links { argLinks }
 		
 		defines { argDefines }
-		if (usewxWidget == true)
+		if (useSDL3 == true)
 		then
-			AddWXWidgetStaticLibrary(libpath)
+			AddSDL3Library(libpath)
 		end
 
 		if(useBoost == true)
@@ -578,6 +630,12 @@ AddConsoleProject(
 		srcroot .. "Examples/TesselationShader/**.h",
 		srcroot .. "Examples/TesselationShader/**.cpp"
 	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, false, true, true, true, true, true)
+
+AddConsoleProject(
+	"SandboxEditor", srcroot .. "Examples/", {
+		srcroot .. "Examples/SandboxEditor/**.h",
+		srcroot .. "Examples/SandboxEditor/**.cpp"
+	}, {srcroot, srcroot .. "/Engine/"}, { "Invision" }, {"INVISION_BASE_DIR=" .. invision_root }, true, true, false, true, true, true, true)
 
 
 
