@@ -1,5 +1,5 @@
-#ifndef INVISION
-#define INVISION
+#ifndef INVISION_H
+#define INVISION_H
 
 
 class Invision
@@ -15,7 +15,7 @@ public:
 	void Run();
 };
 
-#endif
+#endif //INVISION_H
 
 #ifdef _WIN32
 #define INVISION_MAIN(InvisionGameClass) \
