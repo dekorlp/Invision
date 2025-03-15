@@ -1,10 +1,10 @@
+#include "SDLWindowService.h"
+
+#include <SDL3/SDL_init.h>
+#include <SDL3/SDL_log.h>
 
 
-#include <functional>
-#include "Window.h"
-#include "stdio.h"
-
-int Window::InitWindow(const char* title, int width, int height)
+int SDLWindowService::InitWindow(const char* title, int width, int height)
 {
     SDL_Init(SDL_INIT_VIDEO);              // Initialize SDL3
 
@@ -15,7 +15,7 @@ int Window::InitWindow(const char* title, int width, int height)
         height,                               // height, in pixels
         SDL_WINDOW_VULKAN                  // flags - see below
     );
-    
+
     // Check that the window was successfully created
     if (window == nullptr) {
         // In the case that the window could not be made...
@@ -23,29 +23,10 @@ int Window::InitWindow(const char* title, int width, int height)
         return 1;
     }
 
+    return 0;
 }
 
-void Window::InitEventLoop(std::function<void(SDL_Event)> func_ptr)
-{
-    while (!done) {
-        SDL_Event event;
-
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_EVENT_QUIT) {
-                func_ptr(event);
-                done = true;
-            }
-            else
-            {
-                func_ptr(event);
-            }
-        }
-
-        // Do game logic, present a frame, etc.
-    }
-}
-
-void* Window::getHandle()
+void* SDLWindowService::getHandle()
 {
     void* hwnd = nullptr;
 
@@ -67,7 +48,7 @@ void* Window::getHandle()
     return hwnd;
 }
 
-int Window::Destroy()
+int SDLWindowService::Destroy()
 {
     SDL_DestroyWindow(window);
 
