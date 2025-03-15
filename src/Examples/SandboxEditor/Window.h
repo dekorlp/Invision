@@ -13,7 +13,7 @@ public:
 	
 
 	int InitWindow(const char* title, int width, int height);
-	void InitEventLoop();
+	void InitEventLoop(std::function<void(SDL_Event)> func_ptr);
 	void* getHandle();
 	int Destroy();
 };

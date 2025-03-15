@@ -1,3 +1,6 @@
+
+
+#include <functional>
 #include "Window.h"
 #include "stdio.h"
 
@@ -14,7 +17,7 @@ int Window::InitWindow(const char* title, int width, int height)
     );
     
     // Check that the window was successfully created
-    if (window == NULL) {
+    if (window == nullptr) {
         // In the case that the window could not be made...
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Could not create window: %s\n", SDL_GetError());
         return 1;
@@ -22,15 +25,19 @@ int Window::InitWindow(const char* title, int width, int height)
 
 }
 
-void Window::InitEventLoop()
+void Window::InitEventLoop(std::function<void(SDL_Event)> func_ptr)
 {
     while (!done) {
         SDL_Event event;
 
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_EVENT_QUIT) {
+                func_ptr(event);
                 done = true;
-
+            }
+            else
+            {
+                func_ptr(event);
             }
         }
 
@@ -40,7 +47,7 @@ void Window::InitEventLoop()
 
 void* Window::getHandle()
 {
-    void* hwnd = NULL;
+    void* hwnd = nullptr;
 
 #if defined(SDL_PLATFORM_WIN32)
     hwnd = SDL_GetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_WIN32_HWND_POINTER, NULL);
