@@ -1,5 +1,8 @@
 #include "RenderService.h"
 
+#include "ConfigService/ConfigService.h"
+#include "ConfigService/StringValue.h"
+
 RenderService::RenderService(ServiceLocator& loc): Service(loc)
 {
 }
@@ -13,5 +16,5 @@ void RenderService::Render()
 
 void RenderService::HalloWelt()
 {
-	std::cout << "Hallo Welt" << std::endl;
+	std::cout << "WindowTitle: " <<  serviceLocator.GetService<ConfigService>()->GetConfig<StringValue>("windowTitle")->get()<< std::endl;
 }

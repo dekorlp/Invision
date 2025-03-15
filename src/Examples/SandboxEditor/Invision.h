@@ -3,6 +3,7 @@
 
 #include "RenderService.h"
 #include "ServiceLocator.h"
+#include "ConfigService/ConfigService.h"
 #include "SDL3/SDL.h"
 
 
@@ -11,6 +12,7 @@ class Invision
 private:
 	void eventTriggered(SDL_Event event);
 	ServiceLocator serviceLocator;
+	ConfigService *configService;
 	RenderService *renderService;
 public:
 	virtual void Initialize() = 0;
