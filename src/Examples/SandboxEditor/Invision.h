@@ -4,7 +4,6 @@
 #include "ConfigService/ConfigService.h"
 #include "EventService/IEventService.h"
 #include "RenderService/RenderService.h"
-#include "SDL3/SDL.h"
 #include "ServiceLocator/ServiceLocator.h"
 #include "WindowService/IWindowService.h"
 
@@ -12,7 +11,6 @@
 class Invision
 {
 private:
-	void eventTriggered(SDL_Event event);
 	ServiceLocator serviceLocator;
 	ConfigService * configService = nullptr;
 	RenderService * renderService = nullptr;

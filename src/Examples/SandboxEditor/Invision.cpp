@@ -1,24 +1,8 @@
-#include <SDL3/SDL.h>
 #include "Invision.h"
-
 #include "ConfigService/IntValue.h"
 #include "ConfigService/StringValue.h"
 #include "EventService/SDLEventService.h"
 #include "WindowService/SDLWindowService.h"
-
-void Invision::eventTriggered(SDL_Event event)
-{
-    switch (event.type)
-    {
-    case SDL_EVENT_QUIT:
-        break;
-    case SDL_EVENT_WINDOW_MINIMIZED:
-        break;
-    case SDL_EVENT_KEY_UP:
-        int test2 = 0;
-        break;
-    }
-}
 
 void Invision::Run()
 {
