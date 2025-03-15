@@ -1,6 +1,6 @@
 ﻿#ifndef IWINDOW_SERVICE_H
 #define IWINDOW_SERVICE_H
-#include "Examples/SandboxEditor/Service.h"
+#include "Examples/SandboxEditor/ServiceLocator/Service.h"
 
 class IWindowService : public Service
 {

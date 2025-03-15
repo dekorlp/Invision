@@ -6,7 +6,7 @@
 #include <unordered_map>
 
 #include "ConfigValue.h"
-#include "Examples/SandboxEditor/Service.h"
+#include "Examples/SandboxEditor/ServiceLocator/Service.h"
 
 class ConfigService : public Service
 {

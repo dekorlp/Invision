@@ -1,9 +1,6 @@
 #ifndef RENDER_SERVICE_H
 #define RENDER_SERVICE_H
-#include <iostream>
-
-#include "Service.h"
-#include "ServiceLocator.h"
+#include "Examples/SandboxEditor/ServiceLocator/Service.h"
 
 class RenderService : public Service
 {

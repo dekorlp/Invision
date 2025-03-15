@@ -1,6 +1,6 @@
 ﻿#ifndef IEVENT_SERVICE_H
 #define IEVENT_SERVICE_H
-#include "Examples/SandboxEditor/Service.h"
+#include "Examples/SandboxEditor/ServiceLocator/Service.h"
 
 class IEventService : public Service
 {

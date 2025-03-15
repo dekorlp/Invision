@@ -3,7 +3,7 @@
 #include <SDL3/SDL_video.h>
 
 #include "IWindowService.h"
-#include "Examples/SandboxEditor/Service.h"
+#include "Examples/SandboxEditor/ServiceLocator/ServiceLocator.h"
 
 class SDLWindowService : public IWindowService
 {

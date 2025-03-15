@@ -1,7 +1,10 @@
 #include "RenderService.h"
 
-#include "ConfigService/ConfigService.h"
-#include "ConfigService/StringValue.h"
+#include <iostream>
+
+#include "Examples/SandboxEditor/ConfigService/ConfigService.h"
+#include "Examples/SandboxEditor/ConfigService/StringValue.h"
+#include "Examples/SandboxEditor/ServiceLocator/ServiceLocator.h"
 
 RenderService::RenderService(ServiceLocator& loc): Service(loc)
 {

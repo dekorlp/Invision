@@ -1,11 +1,11 @@
 #ifndef INVISION_H
 #define INVISION_H
 
-#include "RenderService.h"
-#include "ServiceLocator.h"
 #include "ConfigService/ConfigService.h"
 #include "EventService/IEventService.h"
+#include "RenderService/RenderService.h"
 #include "SDL3/SDL.h"
+#include "ServiceLocator/ServiceLocator.h"
 #include "WindowService/IWindowService.h"
 
 
