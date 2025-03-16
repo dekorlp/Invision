@@ -12,6 +12,9 @@ void Invision::Run()
     configService->SetConfig("windowWidth", std::make_shared<IntValue>(640));
     configService->SetConfig("windowHeight", std::make_shared<IntValue>(480));
 
+    entitySerice = new EntityService(serviceLocator);
+    serviceLocator.RegisterSystem(entitySerice);
+
     windowService = new SDLWindowService(serviceLocator);
     serviceLocator.RegisterSystem(windowService);
     windowService->InitWindow(

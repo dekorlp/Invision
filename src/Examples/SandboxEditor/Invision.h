@@ -2,6 +2,7 @@
 #define INVISION_H
 
 #include "ConfigService/ConfigService.h"
+#include "EntityService/EntityService.h"
 #include "EventService/IEventService.h"
 #include "RenderService/RenderService.h"
 #include "ServiceLocator/ServiceLocator.h"
@@ -12,6 +13,7 @@ class Invision
 {
 private:
 	ServiceLocator serviceLocator;
+	EntityService* entitySerice = nullptr;
 	ConfigService * configService = nullptr;
 	RenderService * renderService = nullptr;
 	IWindowService* windowService = nullptr;
