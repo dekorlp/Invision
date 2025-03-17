@@ -8,12 +8,19 @@
 #include "ServiceLocator/ServiceLocator.h"
 #include "WindowService/IWindowService.h"
 
+struct Position {
+	float x, y;
+};
+
+struct Velocity {
+	float vx, vy;
+};
 
 class Invision
 {
 private:
 	ServiceLocator serviceLocator;
-	EntityService* entitySerice = nullptr;
+	EntityService* entityService = nullptr;
 	ConfigService * configService = nullptr;
 	RenderService * renderService = nullptr;
 	IWindowService* windowService = nullptr;
