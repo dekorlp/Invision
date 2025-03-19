@@ -2,6 +2,7 @@
 #include "ConfigService/IntValue.h"
 #include "ConfigService/StringValue.h"
 #include "EventService/SDLEventService.h"
+#include "RenderService/VulkanRenderService.h"
 #include "WindowService/SDLWindowService.h"
 
 void Invision::Run()
@@ -42,7 +43,7 @@ void Invision::Run()
     );
     void* handle = windowService->getHandle();
 
-    renderService = new RenderService(serviceLocator);
+    renderService = new VulkanRenderService(serviceLocator);
     serviceLocator.RegisterSystem(renderService);
     renderService->Render();
 

@@ -4,7 +4,7 @@
 #include "ConfigService/ConfigService.h"
 #include "EntityService/EntityService.h"
 #include "EventService/IEventService.h"
-#include "RenderService/IRenderService.h"
+#include "RenderService/RenderService.h"
 #include "ServiceLocator/ServiceLocator.h"
 #include "WindowService/IWindowService.h"
 
@@ -22,7 +22,7 @@ private:
 	ServiceLocator serviceLocator;
 	EntityService* entityService = nullptr;
 	ConfigService * configService = nullptr;
-	IRenderService * renderService = nullptr;
+	RenderService * renderService = nullptr;
 	IWindowService* windowService = nullptr;
 	IEventService* eventService = nullptr;
 public:
